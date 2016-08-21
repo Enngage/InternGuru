@@ -9,8 +9,6 @@ namespace Entity
     public class ApplicationUser : IdentityUser
     {
         // no need for custom DB properties now
-
-
         #region Methods
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

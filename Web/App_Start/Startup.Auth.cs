@@ -14,11 +14,21 @@ using Common.Loc.Ninject;
 using Common.Config;
 using Ninject.Web.Common.OwinHost;
 using Entity;
+using Microsoft.Owin.Security.DataProtection;
 
 namespace Web
 {
     public partial class Startup
     {
+        /// <summary>
+        /// Data protectien needs to be here because of DI
+        /// Source: http://stackoverflow.com/questions/30474214/no-iusertokenprovider-is-registered-when-using-dependency-injection
+        /// </summary>
+        public static IDataProtectionProvider DataProtectionProvider { get; private set; }
+        public static IDataProtectionProvider GetDataProtectionProvider()
+        {
+            return DataProtectionProvider;
+        }
 
         /// <summary>
         /// Initializes application. Keep the method call order
@@ -38,9 +48,11 @@ namespace Web
             ConfigureAuth(app);
         }
 
-
         private void ConfigureAuth(IAppBuilder app)
         {
+            // assign data protection for DI
+            DataProtectionProvider = app.GetDataProtectionProvider();
+
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             // Configure the sign in cookie

@@ -8,11 +8,11 @@ namespace Core.Context
 {
     public interface IAppContext : IDisposable
     {
-        IDbSet<Company> GetCompanies();
-        IDbSet<ApplicationUser> GetUsers();
-        IDbSet<Internship> GetInternships();
-        IDbSet<Category> GetCategories();
-        IDbSet<Log> GetLogs();
+        IDbSet<Company> Companies { get; }
+        IDbSet<ApplicationUser> Users { get; }
+        IDbSet<Internship> Internships { get; }
+        IDbSet<Category> Categories { get; }
+        IDbSet<Log> Logs { get; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
         DbEntityEntry Entry(object entity);

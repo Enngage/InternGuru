@@ -7,6 +7,21 @@ namespace Common.Config
     public static class AppConfig
     {
 
+        #region E-mail
+
+        /// <summary>
+        /// From e-mail address
+        /// </summary>
+        public static string FromEmailAddress
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["FromEmailAddress"];
+            }
+        }
+
+        #endregion
+
         #region Site
 
         /// <summary>
@@ -60,7 +75,6 @@ namespace Common.Config
         #endregion
 
         #region Google
-
 
         /// <summary>
         /// Represents Google client ID 

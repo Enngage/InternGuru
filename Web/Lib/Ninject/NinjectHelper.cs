@@ -2,10 +2,12 @@
 using Common.Loc.Ninject;
 using Core.Context;
 using Core.Services;
+using EmailProvider;
 using Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.DataProtection;
 using Ninject;
 using Ninject.Web.Common;
 using System;
@@ -70,9 +72,14 @@ namespace Web.Lib.Ninject
             kernel.Bind<ApplicationSignInManager>().ToSelf();
             kernel.Bind<IAuthenticationManager>().ToMethod(x => HttpContext.Current.GetOwinContext().Authentication);
 
+            // IDataProtection for e-mail confirmation
+            kernel.Bind<IDataProtectionProvider>().ToMethod(m => Startup.GetDataProtectionProvider()).InRequestScope();
+
             // Services - they need to be in RequestScope, otherwise they may throw infinite recursion exceptions in services
             kernel.Bind<ICacheService>().To<CacheService>().InRequestScope();
             kernel.Bind<ILogService>().To<LogService>().InRequestScope();
+            kernel.Bind<IEmailProvider>().To<GoogleEmailProvider>().InRequestScope();
+            kernel.Bind<IEmail>().To<Email>().InRequestScope();
 
             return kernel;
         }

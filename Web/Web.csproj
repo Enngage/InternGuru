@@ -232,8 +232,6 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
@@ -243,6 +241,8 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <Content Include="Views\Account\ConfirmEmailSent.cshtml" />
+    <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cache\Cache.csproj">
@@ -256,6 +256,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{1b8d32c9-e5ca-4b44-84c1-680598a37ab2}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmailProvider\EmailProvider.csproj">
+      <Project>{4464d180-77b3-42fb-8d07-14165f74f6cb}</Project>
+      <Name>EmailProvider</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>

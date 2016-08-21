@@ -4,14 +4,22 @@ using Ninject;
 using Core.Services;
 using System;
 using System.Threading.Tasks;
+using UI.Abstract;
+using Core.Context;
+using UI.Builders.Master;
+using UI.Builders.Master.Views;
 
 namespace Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+
+        public HomeController(IAppContext appContext, MasterBuilder masterBuilder) : base (appContext, masterBuilder) { }
+
         public ActionResult Index()
         {
-            return View();
+            var model = new MasterView();
+            return View(model);
         }
 
         public async Task<ActionResult> About()

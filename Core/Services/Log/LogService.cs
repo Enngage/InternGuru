@@ -18,7 +18,7 @@ namespace Core.Services
 
         public Task InsertAsync(Log obj)
         {
-            this.AppContext.GetLogs().Add(obj);
+            this.AppContext.Logs.Add(obj);
 
             return this.SaveChangesAsync();
         }
@@ -26,24 +26,24 @@ namespace Core.Services
         public Task DeleteAsync(int id)
         {
             // get log
-            var log = this.AppContext.GetLogs().Find(id);
+            var log = this.AppContext.Logs.Find(id);
 
             if (log != null)
             {
                 // delete log
-                this.AppContext.GetLogs().Remove(log);
+                this.AppContext.Logs.Remove(log);
 
                 // save changes
                 return this.AppContext.SaveChangesAsync();
             }
 
-            return null;
+            return Task.FromResult(0);
         }
 
         public Task UpdateAsync(Log obj)
         {
             // get log
-            var log = this.AppContext.GetLogs().Find(obj.ID);
+            var log = this.AppContext.Logs.Find(obj.ID);
 
             if (obj == null)
             {
@@ -59,12 +59,12 @@ namespace Core.Services
 
         public IQueryable<Log> GetAll()
         {
-            return this.AppContext.GetLogs();
+            return this.AppContext.Logs;
         }
 
         public Task<Log> Get(int id)
         {
-            return this.AppContext.GetLogs().FirstOrDefaultAsync(m => m.ID == id);
+            return this.AppContext.Logs.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public Task LogExceptionAsync(Exception ex)
@@ -84,6 +84,7 @@ namespace Core.Services
                 Created = DateTime.Now,
                 Stacktrace = ex.StackTrace,
             };
+
             return this.InsertAsync(log);
         }
     }

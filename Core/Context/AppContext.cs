@@ -2,47 +2,17 @@
 using Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
-using System.Threading.Tasks;
 
 namespace Core.Context
 {
     public class AppContext : IdentityDbContext<ApplicationUser>, IAppContext
     {
-        #region Entity registration
+        #region Entity registration + IAppContext members
 
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<Internship> Internships { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Log> Logs { get; set; }
-
-        #endregion
-
-        #region IAppContext members
-
-        public IDbSet<Company> GetCompanies()
-        {
-            return Companies;
-        }
-
-        public IDbSet<ApplicationUser> GetUsers()
-        {
-            return this.Users;
-        }
-
-        public IDbSet<Internship> GetInternships()
-        {
-            return Internships;
-        }
-
-        public IDbSet<Category> GetCategories()
-        {
-            return Categories;
-        }
-
-        public IDbSet<Log> GetLogs()
-        {
-            return Logs;
-        }
+        public IDbSet<Company> Companies { get; set; }
+        public IDbSet<Internship> Internships { get; set; }
+        public IDbSet<Category> Categories { get; set; }
+        public IDbSet<Log> Logs { get; set; }
 
         #endregion
 
@@ -73,17 +43,6 @@ namespace Core.Context
                 var defaultConfig = new AppContextConfig();
                 this.Configuration.AutoDetectChangesEnabled = defaultConfig.AutoDetectChanges;
             }
-
-            //if (HttpContext.Current != null)
-            //{
-            //    if (HttpContext.Current.User != null)
-            //    {
-            //        if (HttpContext.Current.User.Identity.IsAuthenticated != false)
-            //        {
-            //            currentIdentity = HttpContext.Current.User.Identity;
-            //        }
-            //    }
-            //}
         }
 
         #endregion
