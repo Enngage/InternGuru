@@ -1,0 +1,4 @@
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\UI.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\UI.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\obj\Debug\UI.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\obj\Debug\UI.pdb

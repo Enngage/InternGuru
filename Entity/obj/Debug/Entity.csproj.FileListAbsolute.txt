@@ -1,0 +1,14 @@
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Entity.dll.config
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Entity.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Entity.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\EntityFramework.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\EntityFramework.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache
