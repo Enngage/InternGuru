@@ -1,0 +1,105 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-menu-main {
+        margin-top: 0;
+        border: none;
+        box-shadow: none;
+        transition: box-shadow 0.5s ease, padding 0.5s ease;
+
+        a, div.item {
+            color: $menu-link-color;
+            font-size: $menu-link-size;
+            background: none;
+        }
+
+        a.active, div.item.active{
+            color: $secondary-color;
+        }
+
+        a:hover {
+            color: $menu-link-hover-color;
+        }
+
+        .header a {
+            color: black;
+        }
+
+        .w-menu-chart-popup {
+            min-width: 600px;
+        }
+
+        .popup a {
+            margin-top: 6px;
+            font-size: $menu-link-popup-size;
+        }
+
+        .w-menu-right-item {
+            padding-right: 0;
+        }
+
+        .results a {
+            font-size: $menu-link-popup-size;
+        }
+
+        .input {
+            width: 180px;
+        }
+    }
+
+    .w-menu-main.fixed {
+        background-color: #FFFFFF;
+        border-bottom: 1px solid #DDD;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    }
+
+
+    .w-menu-mobile-header {
+        margin-top: 0;
+        border: none;
+        border-radius: 0;
+    }
+
+    .w-menu-mobile-wrapper {
+        width: 100%;
+    }
+
+    .w-menu-mobile-wrapper .ui.vertical.menu {
+        display: none;
+        margin: 0;
+        border: none;
+        border-radius: 0;
+
+        .item:last-of-type{
+            margin-bottom: 13px; /* fix margin*/
+        }
+    }
+
+    .w-menu-sticky-left{
+        position: fixed;
+        top: 130px;
+        margin: 0;
+
+        .item{
+            border-radius: 0;
+            font-size: 30px;
+            padding: 8px 6px;
+        }
+
+
+        .icon{
+            animation-duration: 1s;
+            animation-fill-mode: both;
+            animation-name: sumomeShareSlideInLeft;
+        }
+
+        .w-menu-sticky-left-facebook{
+            background-color: #3b5998;
+            color: white;
+        }
+
+         .w-menu-sticky-left-facebook:hover{
+            background-color: #334c81;
+        }
+    }
+}

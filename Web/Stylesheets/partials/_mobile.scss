@@ -1,0 +1,28 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+
+     .w-mobile-block {
+        @media (max-width: 767px) {
+            display: block;
+        }
+    }
+
+    .w-mobile-hide {
+        @media (max-width: 767px) {
+            display: none;
+        }
+    }
+
+    .w-mobile-show {
+        display: none;
+
+        @media (max-width: 767px) {
+            display: block;
+        }
+    }
+
+    .shitty{
+        color:red;
+    }
+}

@@ -1,0 +1,135 @@
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower() ?? "";
+    var action = ViewContext.RouteData.Values["action"].ToString().ToLower() ?? "";
+}
+
+<div class="w-computer-show">
+    <div class="ui fixed borderless main menu w-menu-main">
+        <div class="ui container">
+            <div class="header item">
+                @*<img alt="Logo" class="logo" src="@ImageHelper.GetImageUrl("content/images/general/logos/profile.png")">*@
+                <a href="@Url.Action("Index", "Home")">@Common.Config.AppConfig.SiteName</a>
+            </div>
+            @if (controller.Equals("forum"))
+            {
+                <a href="@Url.Action("Index", "Forum")" class="item active">Forum</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "Forum")" class="item">Forum</a>
+            }
+            @if (controller.Equals("browse") || controller.Equals("channel"))
+            {
+                <a href="@Url.Action("Index", "Browse")" class="item active">Channels</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "Browse")" class="item">Channels</a>
+            }
+            @if (controller.Equals("videos"))
+            {
+                <a href="@Url.Action("Index", "Videos")" class="item active">Videos</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "Videos")" class="item">Videos</a>
+            }
+            <a class="_ChartItem item">
+                Charts
+                <i class="dropdown icon"></i>
+            </a>
+            <div class="item">
+                @using (Html.BeginForm("Index", "Browse", new { category = "" }, FormMethod.Get))
+                {
+                    <div class="ui category search item _SearchChannelGlobal">
+                        <div class="ui icon action input">
+                            <input name="Search" class="prompt w-override-border-radius" placeholder="Find channel ..." type="text">
+                            <button type="submit" class="ui icon button primary">
+                                <i class="search icon">
+                                </i>
+                            </button>
+                        </div>
+                        <div class="results"></div>
+                    </div>
+                }
+            </div>
+            <div class="_ChartMenuPopup ui popup transition w-menu-chart-popup">
+                <div class="ui three column padded divided grid">
+                    <div class="column">
+                        <h4 class="ui header">Subscriber charts</h4>
+                        <div class="ui link list">
+                            <a class="item" href="@Url.Action("Index", "Chart")">Top growing</a>
+                            <a class="item" href="@Url.Action("MostSubscribers", "Chart")">Most subscribers</a>
+                            <a class="item" href="@Url.Action("SubscribersPerVideo", "Chart")">Subscribers per 1 video</a>
+                            <a class="item" href="@Url.Action("MostNewSubscribers", "Chart")">Most gained subscribers</a>
+                            <a class="item" href="@Url.Action("MostUnsubscribed", "Chart")">Most unsubscribes</a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h4 class="ui header">View charts</h4>
+                        <div class="ui link list">
+                            <a class="item" href="@Url.Action("MostViews", "Chart")">Most views</a>
+                            <a class="item" href="@Url.Action("GrowingViews", "Chart")"> Most watched recently</a>
+                            <a class="item" href="@Url.Action("ViewsPerSubscriber", "Chart")">Views per 1 subscriber</a>
+                            <a class="item" href="@Url.Action("ViewsPerVideo", "Chart")">Views pers 1 video</a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h4 class="ui header">Video charts</h4>
+                        <div class="ui link list">
+                            <a class="item" href="@Url.Action("MostVideos", "Chart")">Most videos</a>
+                            <a class="item" href="@Url.Action("MostNewVideos", "Chart")">Most new videos</a>
+                            <a class="item" href="@Url.Action("HighestRatedChannels", "Chart")">Highest rated channels</a>
+                            <a class="item" href="@Url.Action("MostLikedChannels", "Chart")">Most liked channels</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right menu">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-tablet-show">
+    <div class="ui fixed borderless main menu w-menu-main">
+        <div class="ui container">
+            <div class="header item">
+                @*<img alt="Logo" class="logo" src="@ImageHelper.GetImageUrl("content/images/general/logos/profile.png")">*@
+                <a href="@Url.Action("Index", "Home")">@Common.Config.AppConfig.SiteName</a>
+            </div>
+            <a href="@Url.Action("Index", "Forum")" class="item">Forum</a>
+            <a href="@Url.Action("Index", "Browse")" class="item">Channels</a>
+            <a href="@Url.Action("Index", "Videos")" class="item">Videos</a>
+            <a href="@Url.Action("Index", "Chart")" class="item">Charts</a>
+
+            <div class="right menu">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-mobile-show w-menu-mobile-wrapper _MobileMenu">
+    <div class="ui borderless menu navbar page grid fluid w-menu-mobile-header">
+        <a href="@Url.Action("Index", "Home")" class="brand item">
+            @Common.Config.AppConfig.SiteName
+        </a>
+        <div class="right menu">
+            <a class="item _MobileMenuToggle" href="#">
+                <div>
+                    <i class="list layout icon"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="ui vertical menu fluid w-menu-mobile">
+        @Html.ActionLink("Channels", "Index", "Browse", null, new { @class = "item" })
+        @Html.ActionLink("Videos", "Index", "Videos", null, new { @class = "item" })
+        @Html.ActionLink("Charts", "Index", "Chart", null, new { @class = "item" })
+        @Html.ActionLink("Forum", "Index", "Forum", new { }, new { @class = "item" })
+        @Html.ActionLink("Blog", "Index", "Blog", new { }, new { @class = "item" })
+        @Html.Partial("_LoginPartialMobile")
+    </div>
+</div>

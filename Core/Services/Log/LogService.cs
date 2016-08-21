@@ -87,6 +87,23 @@ namespace Core.Services
 
             return this.InsertAsync(log);
         }
+
+        public void LogException(Exception ex, string url = null, string userName = null)
+        {
+            string innerException = ex.InnerException == null ? String.Empty : ex.InnerException.ToString();
+            var log = new Log()
+            {
+                ApplicationUserName = userName,
+                Url = url,
+                ExceptionMessage = ex.Message,
+                InnerException = innerException,
+                Created = DateTime.Now,
+                Stacktrace = ex.StackTrace,
+            };
+
+            this.AppContext.Logs.Add(log);
+            this.SaveChanges();
+        }
     }
 
     #endregion

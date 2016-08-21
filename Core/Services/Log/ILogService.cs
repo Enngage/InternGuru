@@ -12,6 +12,7 @@ namespace Core.Services
         IQueryable<Log> GetAll();
         Task InsertAsync(Log obj);
         Task UpdateAsync(Log obj);
+        void LogException(Exception ex, string url = null, string userName = null);
         Task LogExceptionAsync(Exception ex);
         Task LogExceptionAsync(Exception ex, string url = null, string userName = null);
     }

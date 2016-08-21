@@ -50,6 +50,7 @@
     <Compile Include="Environment\EnvironmentEnum.cs" />
     <Compile Include="Loc\KernelProvider.cs" />
     <Compile Include="Loc\KernelType.cs" />
+    <Compile Include="Project\Version.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

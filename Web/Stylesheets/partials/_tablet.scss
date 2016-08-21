@@ -1,0 +1,23 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-tablet-hide {
+        @media (max-width: 991px) and (min-width: 768px) {
+            display: none;
+        }
+    }
+
+    .w-tablet-show {
+        display: none;
+
+        @media (max-width: 991px) and (min-width: 768px) {
+            display: block;
+        }
+    }
+
+     .w-tablet-block {
+        @media (max-width: 991px) and (min-width: 768px) {
+            display: block;
+        }
+    }
+}

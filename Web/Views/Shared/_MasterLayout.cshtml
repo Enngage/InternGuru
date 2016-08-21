@@ -1,0 +1,50 @@
+﻿@using Common.Config;
+@using UI.Extensions;
+@model UI.Builders.Master.Views.MasterView
+
+@{ 
+    var title = String.IsNullOrEmpty(ViewBag.Title) ? Common.Config.AppConfig.SiteName : ViewBag.Title + " | " + AppConfig.SiteName;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    @* Title + charset *@
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@title</title>
+
+    @* Metadata *@
+    @Html.Partial("Social/_MetadataSnippets")
+
+    @* CSS *@
+    @Html.RequireCSS("/Semantic/dist/semantic.min", 100)
+    @Html.RequireCSS("/Stylesheets/main.min", 100)
+    @Html.EmitRequiredCSS()
+</head>
+<body id="w-body-wrapper">
+    @* Navigation *@
+    @Html.Partial("_TopMenu")
+
+    @* Main body *@
+    @RenderBody()
+
+    @* Footer *@
+    @Html.Partial("_Footer")
+
+    @* Facebook *@
+    @Html.Partial("Social/_FacebookAPI")
+
+    @* Google analytics *@
+    @Html.Partial("Social/_GoogleAnalytics")
+
+    @* Priority needs to be highest for scripts on master page so that they are included first *@
+    @Html.RequireScript("/scripts/addons/respond.min", 100)
+    @Html.RequireScript("/scripts/requireConfig", 100)
+    @Html.RequireScript("/scripts/require", 100, "data-main=\"main\"")
+
+    @* Render all scripts register using "RequireScript" extension method *@
+    @Html.EmitRequiredScripts()
+</body>
+</html>

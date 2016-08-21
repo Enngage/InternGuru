@@ -1,0 +1,42 @@
+/*******************************
+        Global Overrides
+*******************************/
+
+.ui.button{
+	font-weight: normal!important;
+}
+
+.ui.input input::-moz-placeholder{
+     color: #a3a3a3!important;
+}
+
+.ui.input input::-webkit-input-placeholder {
+    color: #a3a3a3!important;
+}
+
+.ui.input input:-ms-input-placeholder {
+     color: #a3a3a3!important;
+}
+
+.ui.input input:-moz-placeholder {
+     color: #a3a3a3!important;
+}
+
+
+h1{
+    font-size: 25px;
+    font-weight: normal;
+    letter-spacing: 1px;
+    line-height: 1.1;
+}
+
+h2, h3, h4, h5, h6, h7{
+    font-weight: normal;
+    letter-spacing: 1px;
+    line-height: 1.1;
+}
+
+
+
+
+

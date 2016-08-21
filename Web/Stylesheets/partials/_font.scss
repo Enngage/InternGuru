@@ -1,0 +1,51 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-font-size-base{
+        font-size: $font-size-base;
+    }
+
+    .w-font-size-small{
+        font-size: $font-size-small;
+    }
+
+    .w-font-size-large{
+        font-size: $font-size-large;
+    }
+
+    .w-font-size-extra-large{
+        font-size: $font-size-extra-large;
+    }
+
+    .w-font-size-huge{
+        font-size: $font-size-huge;
+    }
+
+    .w-font-size-footer-social-icons{
+        font-size: 50px;
+    }
+
+    .w-font-positive{
+        color: $color-positive;
+    }
+
+    .w-font-negative{
+        color: $color-negative;
+    }
+
+    .w-font-lighten{
+        color: lighten( $color-base, 10% )
+    }
+
+    .w-font-primary{
+        color: $primary-color;
+    }
+
+    .w-font-secondary{
+        color: $secondary-color;
+    }
+
+    .w-font-underline{
+        text-decoration: underline;
+    }
+}

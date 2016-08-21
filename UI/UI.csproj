@@ -88,10 +88,14 @@
   <ItemGroup>
     <Compile Include="Abstract\BuilderAbstract.cs" />
     <Compile Include="Abstract\BaseController.cs" />
-    <Compile Include="Builders\Master\Account\AccountBuilder.cs" />
+    <Compile Include="Builders\Account\AccountBuilder.cs" />
+    <Compile Include="Builders\Account\Models\AccountViewModels.cs" />
     <Compile Include="Builders\Master\MasterBuilder.cs" />
     <Compile Include="Builders\Master\Models\MasterModel.cs" />
+    <Compile Include="Builders\Master\Views\LockoutView.cs" />
+    <Compile Include="Builders\Master\Views\ErrorView.cs" />
     <Compile Include="Builders\Master\Views\MasterView.cs" />
+    <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="ModelState\IModelState.cs" />
     <Compile Include="ModelState\ModelStateWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

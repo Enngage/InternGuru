@@ -1,0 +1,85 @@
+﻿@import "_base";
+
+/* needs to be outside of #override because it is used in modal*/
+.w-body-dont-break {
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+#w-body-wrapper {
+    margin-top: 0px; /* Has to be set to at least 1px otherwise the fixed class will be applied after page load.. Currently set to 0 so that menu is fixed from pageload*/
+    letter-spacing: 0.5px;
+    line-height: 24px;
+
+    /* Change margin top on tablet and computer so that content is visible */
+    @media (min-width: 991px) {
+        margin-top: 74px; /* Height of the top menu on computer screen */
+    }
+
+    @media (max-width: 991px) and (min-width: 768px) {
+        margin-top: 40px; /* Height of the top menu on tablet screen */
+    }
+
+    .w-body-clear {
+        clear: both;
+    }
+
+    .w-body-fluid-height {
+        height: 100%;
+    }
+
+    .w-body-float-left {
+        float: left;
+    }
+
+    .w-body-float-right {
+        float: right;
+    }
+
+    .w-body-hide {
+        display: none;
+    }
+
+    .w-body-width-400 {
+        width: 400px;
+    }
+
+    .w-body-dark {
+        background-color: $color-body-dark;
+    }
+
+    .w-body-text-left {
+        text-align: left;
+    }
+
+    .w-body-text-right {
+        text-align: right;
+    }
+
+     .w-body-text-center {
+        text-align: center;
+    }
+
+    .w-body-fluid-width{
+        width: 100%;
+    }
+
+    .w-body-z-index-1{
+        z-index: 1;
+    }
+
+    .w-body-display-block{
+        display: block;
+    }
+}

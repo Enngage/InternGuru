@@ -28,8 +28,10 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\roslyn\VBCSCompiler
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Web.dll.config
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Web.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Cache.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Common.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Core.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\EmailProvider.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Entity.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\EntityFramework.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\EntityFramework.SqlServer.dll
@@ -64,8 +66,10 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\System.Web.WebPages
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\System.Web.WebPages.Razor.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\UI.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\WebActivatorEx.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Cache.pdb
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Common.pdb
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Core.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\EmailProvider.pdb
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Entity.pdb
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\UI.pdb
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
@@ -100,7 +104,3 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Microsoft.Owin.Secu
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.pdb
-C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Cache.dll
-C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Cache.pdb
-C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\EmailProvider.dll
-C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\EmailProvider.pdb

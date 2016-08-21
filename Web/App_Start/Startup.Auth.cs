@@ -5,7 +5,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using Web.Models;
 using Common.Loc;
 using Microsoft.Owin.Security.Facebook;
 using Web.Lib.Ninject;

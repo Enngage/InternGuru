@@ -1,0 +1,27 @@
+/*******************************
+         Site Settings
+*******************************/
+
+/*-------------------
+    Brand Colors
+--------------------*/
+
+@primaryColor        : #2874a6; 
+@secondaryColor      : #FF5733;
+
+@lightPrimaryColor   : saturate(lighten(@primaryColor, 5), 10, relative);
+@lightSecondaryColor : @saturate(lighten(@secondaryColor, 5), 10, relative);;
+
+
+/*-------------------
+       Links
+--------------------*/
+
+@linkColor           : @primaryColor; 
+
+/*-------------------
+        Page
+--------------------*/
+
+@textColor           : #353535;
+
