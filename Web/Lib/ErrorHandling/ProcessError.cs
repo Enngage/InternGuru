@@ -8,7 +8,10 @@ using UI.Builders.Master.Views;
 
 namespace Web.Lib.ErrorHandling
 {
-    // http://www.codeproject.com/Articles/850062/Exception-handling-in-ASP-NET-MVC-methods-explaine
+    /// <summary>
+    /// Fires whenever an exception occurs and logs it 
+    /// More info: http://www.codeproject.com/Articles/850062/Exception-handling-in-ASP-NET-MVC-methods-explaine
+    /// </summary>
     public class ProcessError : HandleErrorAttribute
     {
         public override void OnException(ExceptionContext filterContext)

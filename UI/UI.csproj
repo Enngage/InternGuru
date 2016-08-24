@@ -89,7 +89,9 @@
     <Compile Include="Abstract\BuilderAbstract.cs" />
     <Compile Include="Abstract\BaseController.cs" />
     <Compile Include="Builders\Account\AccountBuilder.cs" />
+    <Compile Include="Builders\Account\Forms\RegisterForm.cs" />
     <Compile Include="Builders\Account\Models\AccountViewModels.cs" />
+    <Compile Include="Builders\Account\Models\RegisterViewModel.cs" />
     <Compile Include="Builders\Master\MasterBuilder.cs" />
     <Compile Include="Builders\Master\Models\MasterModel.cs" />
     <Compile Include="Builders\Master\Views\LockoutView.cs" />

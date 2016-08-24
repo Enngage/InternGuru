@@ -34,57 +34,6 @@
             {
                 <a href="@Url.Action("Index", "Videos")" class="item">Videos</a>
             }
-            <a class="_ChartItem item">
-                Charts
-                <i class="dropdown icon"></i>
-            </a>
-            <div class="item">
-                @using (Html.BeginForm("Index", "Browse", new { category = "" }, FormMethod.Get))
-                {
-                    <div class="ui category search item _SearchChannelGlobal">
-                        <div class="ui icon action input">
-                            <input name="Search" class="prompt w-override-border-radius" placeholder="Find channel ..." type="text">
-                            <button type="submit" class="ui icon button primary">
-                                <i class="search icon">
-                                </i>
-                            </button>
-                        </div>
-                        <div class="results"></div>
-                    </div>
-                }
-            </div>
-            <div class="_ChartMenuPopup ui popup transition w-menu-chart-popup">
-                <div class="ui three column padded divided grid">
-                    <div class="column">
-                        <h4 class="ui header">Subscriber charts</h4>
-                        <div class="ui link list">
-                            <a class="item" href="@Url.Action("Index", "Chart")">Top growing</a>
-                            <a class="item" href="@Url.Action("MostSubscribers", "Chart")">Most subscribers</a>
-                            <a class="item" href="@Url.Action("SubscribersPerVideo", "Chart")">Subscribers per 1 video</a>
-                            <a class="item" href="@Url.Action("MostNewSubscribers", "Chart")">Most gained subscribers</a>
-                            <a class="item" href="@Url.Action("MostUnsubscribed", "Chart")">Most unsubscribes</a>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <h4 class="ui header">View charts</h4>
-                        <div class="ui link list">
-                            <a class="item" href="@Url.Action("MostViews", "Chart")">Most views</a>
-                            <a class="item" href="@Url.Action("GrowingViews", "Chart")"> Most watched recently</a>
-                            <a class="item" href="@Url.Action("ViewsPerSubscriber", "Chart")">Views per 1 subscriber</a>
-                            <a class="item" href="@Url.Action("ViewsPerVideo", "Chart")">Views pers 1 video</a>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <h4 class="ui header">Video charts</h4>
-                        <div class="ui link list">
-                            <a class="item" href="@Url.Action("MostVideos", "Chart")">Most videos</a>
-                            <a class="item" href="@Url.Action("MostNewVideos", "Chart")">Most new videos</a>
-                            <a class="item" href="@Url.Action("HighestRatedChannels", "Chart")">Highest rated channels</a>
-                            <a class="item" href="@Url.Action("MostLikedChannels", "Chart")">Most liked channels</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="right menu">
                 @Html.Partial("_LoginPartial")
             </div>

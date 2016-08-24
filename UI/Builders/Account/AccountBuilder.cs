@@ -3,6 +3,7 @@ using Core.Context;
 using Cache;
 using System.Text;
 using Common.Config;
+using UI.Builders.Account.Models;
 
 namespace UI.Builders.Account
 {
@@ -21,6 +22,18 @@ namespace UI.Builders.Account
             ICacheService cacheService
             ) : base(appContext, cacheService)
         {
+        }
+
+        #endregion
+
+        #region Actions
+
+        public RegisterViewModel BuildRegisterView()
+        {
+            return new RegisterViewModel()
+            {
+                RegisterForm = new Forms.RegisterForm()
+            };
         }
 
         #endregion

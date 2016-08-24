@@ -15,6 +15,9 @@ using System.Web;
 
 namespace Web.Lib.Ninject
 {
+    /// <summary>
+    /// Helpers class that is used to initialize Kernel and map classes
+    /// </summary>
     public static class NinjectHelper
     {
         public static IKernel GetKernel(NinjectKernelType kernelType)

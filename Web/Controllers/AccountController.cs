@@ -10,6 +10,7 @@ using Core.Context;
 using UI.Builders.Master;
 using UI.Builders.Account;
 using UI.Builders.Account.Models;
+using UI.Builders.Account.Forms;
 
 namespace Web.Controllers
 {
@@ -85,7 +86,9 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var model = this.accountBuilder.BuildRegisterView();
+
+            return View(model);
         }
 
         [AllowAnonymous]
@@ -94,17 +97,19 @@ namespace Web.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterForm form)
         {
+            var model = accountBuilder.BuildRegisterView();
+            model.RegisterForm.Email = form.Email;
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await userManager.CreateAsync(user, model.Password);
+                // User name = e-mail
+                var user = new ApplicationUser { UserName = form.Email, Email = form.Email };
+                var result = await userManager.CreateAsync(user, form.Password);
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, isPersistent:true, rememberBrowser:true);

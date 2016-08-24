@@ -1,3 +1,52 @@
-﻿
+﻿@using Common.Config;
+@using Common.Project;
 
-Footer
+<div class="ui inverted vertical footer segment ">
+    <div class="ui center aligned container">
+        <div class="ui stackable inverted grid w-margin-top-10">
+            <div class="four wide column">
+                <h4 class="ui inverted header">Sections</h4>
+                <div class="ui inverted link list">
+                    <a href="@Url.Action("Index", "Users")" class="item">Users</a>
+                    <a href="@Url.Action("Index", "Forum")" class="item">Forum</a>
+                    <a href="@Url.Action("Index", "Browse")" class="item">Channels</a>
+                    <a href="@Url.Action("Index", "Chart")" class="item">Charts</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header">Tools</h4>
+                <div class="ui inverted link list">
+                    <a href="@Url.Action("Index", "Feed")" class="item">RSS Feed</a>
+                    <a href="@Url.Action("Index", "Compare")" class="item">Compare channels</a>
+                    <a href="@Url.Action("Feedback", "Home")" class="item">Feedback</a>
+                </div>
+            </div>
+            <div class="eight wide column">
+                <h4 class="ui inverted header">Like us on Facebook</h4>
+                <p class="w-font-size-footer-social-icons">
+                    <a href="@Common.Config.AppConfig.FacebookAppUrl" target="_blank">
+                        <i class="facebook square icon"></i>
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="ui inverted section divider w-margin-none w-margin-top-30"></div>
+
+        <div class="ui horizontal inverted small divided link list">
+            @*<a class="item" href="@Url.Action("Index", "Faq")">FAQ</a>*@
+            <a class="item" href="@Url.Action("About", "Home")">About</a>
+            <a class="item" href="@Url.Action("Contact", "Home")">Contact Us</a>
+            <a class="item" href="@Url.Action("PrivacyPolicy", "Home")">Privacy Policy</a>
+            <div class="item">
+                © @DateTime.Now.Year @String.Format("{0}", AppConfig.SiteName)
+            </div>
+            <div class="item">
+                <span class="w-font-size-small"><span>v</span>@VersionInfo.Version.ToString()</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
