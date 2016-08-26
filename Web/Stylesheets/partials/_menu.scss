@@ -22,7 +22,7 @@
         }
 
         .header a {
-            color: black;
+            color: #FFF;
         }
 
         .w-menu-chart-popup {
@@ -36,6 +36,7 @@
 
         .w-menu-right-item {
             padding-right: 0;
+            font-size: $font-size-base;
         }
 
         .results a {
@@ -48,7 +49,7 @@
     }
 
     .w-menu-main.fixed {
-        background-color: #FFFFFF;
+        background-color: $navigation-background-color;
         border-bottom: 1px solid #DDD;
         box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
     }

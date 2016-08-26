@@ -1,21 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using UI.Builders.Master.Views;
 
 namespace UI.Builders.Account.Models
 {
-    public class ExternalLoginConfirmationViewModel
+    public class ExternalLoginConfirmationViewModel : MasterView
     {
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
-    public class ExternalLoginListViewModel
+    public class ExternalLoginListViewModel : MasterView
     {
         public string ReturnUrl { get; set; }
     }
 
-    public class SendCodeViewModel
+    public class SendCodeViewModel : MasterView
     {
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
@@ -23,7 +24,7 @@ namespace UI.Builders.Account.Models
         public bool RememberMe { get; set; }
     }
 
-    public class VerifyCodeViewModel
+    public class VerifyCodeViewModel : MasterView
     {
         [Required]
         public string Provider { get; set; }
@@ -39,14 +40,14 @@ namespace UI.Builders.Account.Models
         public bool RememberMe { get; set; }
     }
 
-    public class ForgotViewModel
+    public class ForgotViewModel : MasterView
     {
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
-    public class LoginViewModel
+    public class LoginViewModel : MasterView
     {
         [Required]
         [Display(Name = "Email")]
@@ -64,7 +65,7 @@ namespace UI.Builders.Account.Models
 
    
 
-    public class ResetPasswordViewModel
+    public class ResetPasswordViewModel : MasterView
     {
         [Required]
         [EmailAddress]
@@ -85,7 +86,7 @@ namespace UI.Builders.Account.Models
         public string Code { get; set; }
     }
 
-    public class ForgotPasswordViewModel
+    public class ForgotPasswordViewModel : MasterView
     {
         [Required]
         [EmailAddress]

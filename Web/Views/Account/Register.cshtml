@@ -2,13 +2,17 @@
 @{
     ViewBag.Title = "Registrace";
     ViewBag.Description = "Zaregistruj se a získej přístup ke všem nabídkám stáží (internship)";
-    Layout = "~/Views/Shared/_PageBody.cshtml";
+    Layout = "~/Views/Shared/_PageBodyPadded.cshtml";
 }
 
 <div class="ui middle aligned center aligned sixteen column grid">
     <div class="row">
-        <div class="five wide computer ten wide tablet sixteen wide mobile column">
+        <div class="three wide computer ten wide tablet sixteen wide mobile column">
             <h1>@ViewBag.Title</h1>
+
+            <div class="w-margin-top-30">
+                @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Models.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </div>
 
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, null))
             {
@@ -16,14 +20,18 @@
 
                 if (!ViewData.ModelState.IsValid)
                 {
-                    <div class="ui negative message w-body-text-left">
+                    <div class="ui negative message w-body-text-left w-margin-top-30">
                         <p>
                             @Html.ValidationSummary(false)
                         </p>
                     </div>
                 }
 
-                <div class="ui form">
+                <div class="w-margin-top-30">
+                    Nebo se zaregistruj ručně
+                </div>
+
+                <div class="ui form w-margin-top-30">
                     @{
                         var email = Model?.RegisterForm != null ? Model.RegisterForm.Email : "";
                     }
@@ -51,6 +59,11 @@
                     <input type="submit" class="ui submit button primary" value="Registrovat" />
                 </div>
                         }
+
+            <div class="w-margin-top-30 w-font-size-small">
+                Už más účet? @Html.ActionLink("Přihlas se", "Login", "Account")
+            </div>
+
         </div>
     </div>
 </div>

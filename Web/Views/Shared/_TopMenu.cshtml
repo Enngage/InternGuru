@@ -12,27 +12,27 @@
             </div>
             @if (controller.Equals("forum"))
             {
-                <a href="@Url.Action("Index", "Forum")" class="item active">Forum</a>
+                <a href="@Url.Action("Index", "Forum")" class="item active">Nabídka stáží</a>
             }
             else
             {
-                <a href="@Url.Action("Index", "Forum")" class="item">Forum</a>
+                <a href="@Url.Action("Index", "Forum")" class="item">Nabídka stáží</a>
             }
             @if (controller.Equals("browse") || controller.Equals("channel"))
             {
-                <a href="@Url.Action("Index", "Browse")" class="item active">Channels</a>
+                <a href="@Url.Action("Index", "Browse")" class="item active">Firmy</a>
             }
             else
             {
-                <a href="@Url.Action("Index", "Browse")" class="item">Channels</a>
+                <a href="@Url.Action("Index", "Browse")" class="item">Firmy</a>
             }
             @if (controller.Equals("videos"))
             {
-                <a href="@Url.Action("Index", "Videos")" class="item active">Videos</a>
+                <a href="@Url.Action("Index", "Videos")" class="item active">Proč jít na stáž?</a>
             }
             else
             {
-                <a href="@Url.Action("Index", "Videos")" class="item">Videos</a>
+                <a href="@Url.Action("Index", "Videos")" class="item">Proč jít na stáž?</a>
             }
             <div class="right menu">
                 @Html.Partial("_LoginPartial")

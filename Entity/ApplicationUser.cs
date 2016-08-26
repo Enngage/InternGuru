@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -8,7 +9,22 @@ namespace Entity
 
     public class ApplicationUser : IdentityUser
     {
-        // no need for custom DB properties now
+        #region DB Properties
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        [NotMapped]
+        public virtual string FullName
+        {
+            get
+            {
+                return string.Format("{0} {1}", FirstName, LastName);
+            }
+        }
+
+        #endregion
+
         #region Methods
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

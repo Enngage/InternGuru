@@ -25,6 +25,9 @@
 #w-body-wrapper .w-margin-top-30 {
   margin-top: 30px; }
 
+#w-body-wrapper .w-margin-top-20 {
+  margin-top: 20px; }
+
 #w-body-wrapper .w-margin-top-70 {
   margin-top: 70px; }
 
@@ -37,29 +40,30 @@
   box-shadow: none;
   transition: box-shadow 0.5s ease, padding 0.5s ease; }
   #w-body-wrapper .w-menu-main a, #w-body-wrapper .w-menu-main div.item {
-    color: #7a7a7a;
+    color: #e2e2e2;
     font-size: 17px;
     background: none; }
   #w-body-wrapper .w-menu-main a.active, #w-body-wrapper .w-menu-main div.item.active {
     color: #FF5733; }
   #w-body-wrapper .w-menu-main a:hover {
-    color: #000000; }
+    color: #FFFFFF; }
   #w-body-wrapper .w-menu-main .header a {
-    color: black; }
+    color: #FFF; }
   #w-body-wrapper .w-menu-main .w-menu-chart-popup {
     min-width: 600px; }
   #w-body-wrapper .w-menu-main .popup a {
     margin-top: 6px;
     font-size: 14px; }
   #w-body-wrapper .w-menu-main .w-menu-right-item {
-    padding-right: 0; }
+    padding-right: 0;
+    font-size: 14px; }
   #w-body-wrapper .w-menu-main .results a {
     font-size: 14px; }
   #w-body-wrapper .w-menu-main .input {
     width: 180px; }
 
 #w-body-wrapper .w-menu-main.fixed {
-  background-color: #FFFFFF;
+  background-color: #232d32;
   border-bottom: 1px solid #DDD;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); }
 
@@ -128,6 +132,8 @@
     #w-body-wrapper {
       margin-top: 58px;
       /* Height of the top menu on tablet screen */ } }
+  #w-body-wrapper .w-body-padded {
+    padding: 65px 0; }
   #w-body-wrapper .w-body-clear {
     clear: both; }
   #w-body-wrapper .w-body-fluid-height {
@@ -303,4 +309,7 @@
 
 #w-body-wrapper .pagination .PagedList-skipToPrevious {
   display: none; }
+
+#w-body-wrapper w-footer {
+  background-color: #232d32; }
 

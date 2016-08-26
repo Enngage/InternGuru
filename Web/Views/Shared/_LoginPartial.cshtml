@@ -3,7 +3,7 @@
 @if (Request.IsAuthenticated)
 {
     <a class="item w-menu-right-item" href="@Url.Action("Index", "MyProfile")">
-        <div class="ui button primary">
+        <div class="ui button secondary">
             @User.Identity.GetUserName()
         </div>
     </a>
@@ -11,9 +11,9 @@
 else
 {
     <a class="item w-menu-right-item" href="@Url.Action("Register", "Account")">
-        <div class="ui primary button">Registrovat</div>
+        <div class="ui secondary button">Registrovat</div>
     </a>
     <a class="item w-menu-right-item" href="@Url.Action("Login", "Account")">
-        <div class="ui button">Přihlásit</div>
+        Přihlásit
     </a>
 }

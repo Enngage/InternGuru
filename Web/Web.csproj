@@ -1882,6 +1882,8 @@
     <Content Include="Semantic\dist\themes\github\assets\fonts\octicons.ttf" />
     <Content Include="Semantic\dist\themes\github\assets\fonts\octicons.woff" />
     <Content Include="Views\Shared\_PageBody.cshtml" />
+    <Content Include="Views\Shared\_PageBodyPadded.cshtml" />
+    <Content Include="Stylesheets\partials\_footer.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

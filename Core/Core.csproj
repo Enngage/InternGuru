@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201608201326457_Logs.Designer.cs">
       <DependentUpon>201608201326457_Logs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608261654498_UserNameProperties.cs" />
+    <Compile Include="Migrations\201608261654498_UserNameProperties.Designer.cs">
+      <DependentUpon>201608261654498_UserNameProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IService.cs" />
@@ -104,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608201326457_Logs.resx">
       <DependentUpon>201608201326457_Logs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608261654498_UserNameProperties.resx">
+      <DependentUpon>201608261654498_UserNameProperties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

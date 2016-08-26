@@ -22,3 +22,4 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.csproj.
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\bin\Debug\Cache.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\bin\Debug\Cache.pdb
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.Logs.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.UserNameProperties.resources
