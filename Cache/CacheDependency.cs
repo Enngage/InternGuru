@@ -9,12 +9,18 @@ namespace Cache
 
         #region Variables
 
+        /// <summary>
+        /// Static dictionary where all cache items are stored
+        /// </summary>
         private static Dictionary<String, ICacheSetup> cacheSetupList = new Dictionary<String, ICacheSetup>();
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Dictionary where all cache items are stored
+        /// </summary>
         public static Dictionary<String, ICacheSetup> CacheSetupList
         {
             get

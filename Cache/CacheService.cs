@@ -32,7 +32,7 @@ namespace Cache
 
         #endregion
 
-        #region Get cache setup
+        #region Cache setup
 
         public ICacheSetup GetSetup<T>(string key, int cacheMinutes)
         {
@@ -40,45 +40,9 @@ namespace Cache
         }
 
 
-        public ICacheSetup GetSetup<T>(string key, int cacheMinutes, string objectID)
-        {
-            return new CacheSetup<T>(key, cacheMinutes, objectID);
-        }
-
-        public ICacheSetup GetSetup<T>(string key, int cacheMinutes, List<String> dependencies)
+        public ICacheSetup GetSetup<T>(string key, int cacheMinutes, IList<String> dependencies)
         {
             return new CacheSetup<T>(key, cacheMinutes, dependencies);
-        }
-
-        public ICacheSetup GetSetup<T>(string key, int cacheMinutes, string objectID, List<String> dependencies = null)
-        {
-            return new CacheSetup<T>(key, cacheMinutes, objectID, dependencies);
-        }
-
-        /// <summary>
-        /// Gets and/or sets the result of given method to cache
-        /// </summary>
-        /// <param name="source">Source of calling (ideally: "{controller}.{action}" </param>
-        /// <param name="objectID">Further identification of object</param>
-        /// <param name="pageNumber">page number</param>
-        /// <param name="pageSize">page size</param>
-        /// <param name="sort">sort</param>
-        public ICacheSetup GetSetup<T>(string source, int cacheMinutes, string objectID, int pageNumber, int pageSize, string sort, List<String> dependencies = null)
-        {
-            return new CacheSetup<T>(source, cacheMinutes, objectID, pageNumber, pageSize, sort, dependencies);
-        }
-
-        /// <summary>
-        /// Gets and/or sets the result of given method to cache
-        /// </summary>
-        /// <param name="source">Source of calling (ideally: "{controller}.{action}" </param>
-        /// <param name="objectID">Further identification of object</param>
-        /// <param name="pageNumber">page number</param>
-        /// <param name="pageSize">page size</param>
-        /// <param name="sort">sort</param>
-        public ICacheSetup GetSetup<T>(string source, int cacheMinutes, int pageNumber, int pageSize, string sort, List<String> dependencies = null)
-        {
-            return new CacheSetup<T>(source, cacheMinutes, pageNumber, pageSize, sort, dependencies);
         }
 
         #endregion
@@ -273,11 +237,19 @@ namespace Cache
             }
         }
 
+        /// <summary>
+        /// Gets list of all setup lists in cache
+        /// </summary>
+        /// <returns>List of all cache setups</returns>
         public List<ICacheSetup> GetAllSetups()
         {
             return CacheDependency.GetAll();
         }
 
+        /// <summary>
+        /// Touches cache for given key (clears cache setups having key in its dependencies)
+        /// </summary>
+        /// <param name="key">Key to touch</param>
         public void TouchKey(string key)
         {
             CacheDependency.TouchKey(key);

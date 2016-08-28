@@ -8,9 +8,7 @@ namespace Cache
         DateTime? GetUpdated();
         void SetUpdated(DateTime time);
         int GetCacheMinutes();
-        void SetCacheMinutes(int minutes);
         string GetCacheKey();
-        void SetCacheKey(string cacheKey);
         String[] GetDependencies();
     }
 }

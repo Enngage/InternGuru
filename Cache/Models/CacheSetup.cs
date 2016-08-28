@@ -5,120 +5,118 @@ namespace Cache
 {
     internal class CacheSetup<T> : CacheSetupAbstract, ICacheSetup
     {
+        #region Cache properties
+
+        /// <summary>
+        /// List of dependencies
+        /// </summary>
+        public IList<string> Dependencies { get; set; }
+
+        /// <summary>
+        /// Identifies page number of cache item
+        /// </summary>
+        public int PageNumber { get; set; }
+
+        /// <summary>
+        /// Identifies page size
+        /// </summary>
+        public int PageSize { get; set; }
+
+        /// <summary>
+        /// Identifies object ID of item stored in cache
+        /// </summary>
+        public int ObjectID { get; set; }
+
+        /// <summary>
+        /// Identifies sort under which cache item is stored
+        /// </summary>
+        public string Sort { get; set; }
+
+
+        #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes cache configuration
+        /// </summary>
+        /// <param name="key">Name of the cache in memory (Usually method where it is called)</param>
+        /// <param name="cacheMinutes">Indicates how long the item is stored in cache</param>
         public CacheSetup(string key, int cacheMinutes)
         {
-            string cacheKey = ConstructCacheKey(key);
+            if (String.IsNullOrEmpty(key))
+            {
+                throw new ArgumentNullException("key cannot be null");
+            }
 
-            this.cacheKey = cacheKey;
+            // set cache properties
+            this.inputKey = key;
             this.cacheMinutes = cacheMinutes;
-            this.dependencies = new List<String>();
-        }
-
-
-        public CacheSetup(string key, int cacheMinutes, string objectID)
-        {
-            string cacheKey = ConstructCacheKeyUnique(key, objectID);
-
-            this.cacheKey = cacheKey;
-            this.cacheMinutes = cacheMinutes;
-            this.dependencies = new List<String>();
-        }
-
-        public CacheSetup(string source, int cacheMinutes, List<String> dependencies)
-        {
-            string cacheKey = ConstructCacheKey(source);
-
-            this.cacheKey = cacheKey;
-            this.cacheMinutes = cacheMinutes;
-            this.dependencies = dependencies == null ? new List<String>() : dependencies;
-        }
-
-
-        public CacheSetup(string source, int cacheMinutes, string objectID, List<String> dependencies)
-        {
-            string cacheKey = ConstructCacheKey(objectID.ToString(), source);
-
-            this.cacheKey = cacheKey;
-            this.cacheMinutes = cacheMinutes;
-            this.dependencies = dependencies == null ? new List<String>() : dependencies;
-        }
-
-
-        /// <summary>
-        /// Gets and/or sets the result of given method to cache
-        /// </summary>
-        /// <param name="source">Source of calling (ideally: "{controller}.{action}" </param>
-        /// <param name="objectID">Further identification of object</param>
-        /// <param name="pageNumber">page number</param>
-        /// <param name="pageSize">page size</param>
-        /// <param name="sort">sort</param>
-        public CacheSetup(string source, int cacheMinutes, string objectID, int pageNumber, int pageSize, string sort, List<String> dependencies = null)
-        {
-            string cacheKey = ConstructCacheKey(objectID, source, pageNumber, pageSize, sort);
-
-            this.cacheKey = cacheKey;
-            this.cacheMinutes = cacheMinutes;
-            this.dependencies = dependencies == null ? new List<String>() : dependencies;
+            this.dependencies = new List<string>();
         }
 
         /// <summary>
-        /// Gets and/or sets the result of given method to cache
+        /// Initializes cache configuration
         /// </summary>
-        /// <param name="source">Source of calling (ideally: "{controller}.{action}" </param>
-        /// <param name="objectID">Further identification of object</param>
-        /// <param name="pageNumber">page number</param>
-        /// <param name="pageSize">page size</param>
-        /// <param name="sort">sort</param>
-        public CacheSetup(string source, int cacheMinutes, int pageNumber, int pageSize, string sort, List<String> dependencies = null)
+        /// <param name="key">Name of the cache in memory (Usually method where it is called)</param>
+        /// <param name="cacheMinutes">Indicates how long the item is stored in cache</param>
+        /// <param name="dependencies">List of dependencies (when key is touched with, all cache items having the key in cache dependency list will be cleared)</param>
+        public CacheSetup(string key, int cacheMinutes, IList<string> dependencies)
         {
-            string cacheKey = ConstructCacheKey(source, pageNumber, pageSize, sort);
+            if (String.IsNullOrEmpty(key))
+            {
+                throw new ArgumentNullException("key cannot be null");
+            }
 
-            this.cacheKey = cacheKey;
+            // set cache properties
+            this.inputKey = key;
             this.cacheMinutes = cacheMinutes;
-            this.dependencies = dependencies == null ? new List<String>() : dependencies;
+
+            if (dependencies == null)
+            {
+                this.dependencies = new List<string>();
+            }
+            else
+            {
+                this.dependencies = dependencies;
+            }
         }
 
         #endregion
 
-        #region Cache key builders
 
-        private string ConstructCacheKeyUnique(string source, string objectID)
-        {
-            var typeOf = typeof(T);
-            // get unique cache key
-            return typeOf.Name + ".type[various]." + "source[" + source + "]." + "id[" + objectID + "]";
-        }
+        #region Public methods
 
+        /// <summary>
+        /// Gets full name of cache setup based on its properties (key, objectID, pageNumber, sort ...)
+        /// </summary>
+        /// <returns></returns>
+        public string GetCacheKey() {
+            string fullKey = string.Format("key[0]", this.inputKey);
 
-        private string ConstructCacheKey(string source, int pageNumber, int pageSize, string sort = null)
-        {
-            var typeOf = typeof(T);
-            // get unique cache key
-            return typeOf.Name + ".type[pagedList]." + "source[" + source + "]." + "page[" + pageNumber + "]." + "pageSize[" + pageSize + "]." + "sort[" + sort + "]";
-        }
+            fullKey += string.Format(".cacheFor[0]", this.cacheMinutes);
 
-        private string ConstructCacheKey(string objectID, string source, int pageNumber, int pageSize, string sort = null)
-        {
-            var typeOf = typeof(T);
-            // get unique cache key
-            return typeOf.Name + ".type[pagedList]." + "objectID[" + objectID + "]." + "source[" + source + "]." + "page[" + pageNumber + "]." + "pageSize[" + pageSize + "]." + "sort[" + sort + "]";
-        }
+            if (ObjectID > 0)
+            {
+                fullKey += string.Format(".id[0]", this.ObjectID);
+            }
 
-        private string ConstructCacheKey(string objectID, string source)
-        {
-            var typeOf = typeof(T);
-            // get unique cache key
-            return typeOf.Name + ".type[single]." + "objectID[" + objectID + "]." + "source[" + source + "]";
-        }
+            if (PageNumber > 0)
+            {
+                fullKey += string.Format(".page[0]", this.PageNumber);
+            }
 
-        private string ConstructCacheKey(string source)
-        {
-            var typeOf = typeof(T);
-            // get unique cache key
-            return typeOf.Name + ".type[various]" + ".source[" + source + "]"; ;
+            if (PageSize > 0)
+            {
+                fullKey += string.Format(".size[0]", this.PageSize);
+            }
+
+            if (!String.IsNullOrEmpty(this.Sort))
+            {
+                fullKey += string.Format(".sort[0]", this.Sort);
+            }
+
+            return fullKey;
         }
 
         #endregion

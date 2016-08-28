@@ -3,45 +3,51 @@ using System.Collections.Generic;
 
 namespace Cache
 {
-    internal abstract class CacheSetupAbstract : ICacheSetup
+    internal abstract class CacheSetupAbstract
     {
 
         #region Variables
 
+        protected string inputKey;
         protected int cacheMinutes;
-        protected string cacheKey;
-        protected List<String> dependencies;
+        protected IList<String> dependencies;
         protected DateTime? updated;
 
         #endregion
 
         #region Interface methods
 
+        /// <summary>
+        /// Time when cache item was last updated
+        /// </summary>
+        /// <returns>Update date</returns>
         public DateTime? GetUpdated()
         {
             return this.updated;
         }
 
+        /// <summary>
+        /// Sets new updated date of cache item
+        /// </summary>
+        /// <param name="time">New date time</param>
         public void SetUpdated(DateTime time)
         {
             this.updated = time;
         }
+
+        /// <summary>
+        /// Indicates for how lond the item should be stored in cache
+        /// </summary>
+        /// <returns></returns>
         public int GetCacheMinutes()
         {
             return this.cacheMinutes;
         }
-        public void SetCacheMinutes(int minutes)
-        {
-            this.cacheMinutes = minutes;
-        }
-        public string GetCacheKey()
-        {
-            return this.cacheKey;
-        }
-        public void SetCacheKey(string cacheKey)
-        {
-            this.cacheKey = cacheKey;
-        }
+
+        /// <summary>
+        /// Gets all dependencies
+        /// </summary>
+        /// <returns>List of dependencies</returns>
         public String[] GetDependencies()
         {
             var dependencyArray = new String[this.dependencies.Count];
