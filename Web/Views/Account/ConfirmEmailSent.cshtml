@@ -1,8 +1,19 @@
-﻿
-@{
-    ViewBag.Title = "Potvrďte e-mail";
+﻿@{
+    ViewBag.Title = "Registrační e-mail odeslán";
+    Layout = "~/Views/Shared/_PageBodyPadded.cshtml";
 }
 
-<h1>Potvrďte e-mail</h1>
+<div class="ui middle aligned center aligned sixteen column grid">
+    <div class="row">
+        <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+            <h1>
+                @ViewBag.Title
+            </h1>
+            <p>
+               Potvrďte svou registraci kliknutím na odkaz v e-mailu. 
+            </p>
+        </div>
+    </div>
+</div>
 
-<p>E-mail byl odeslán na e-mailovou adresu.</p>
+

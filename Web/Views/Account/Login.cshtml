@@ -1,59 +1,62 @@
-﻿@using UI.Builders.Account.Models;
-@model UI.Builders.Account.Models.LoginViewModel
+﻿@model UI.Builders.Account.Views.LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Přihlášení";
+    ViewBag.Description = "";
+    Layout = "~/Views/Shared/_PageBodyPadded.cshtml";
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+<div class="ui middle aligned center aligned sixteen column grid">
+    <div class="row">
+        <div class="three wide computer ten wide tablet sixteen wide mobile column">
+            <h1>@ViewBag.Title</h1>
+
+            <div class="w-margin-top-30">
+                @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </div>
+
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, null))
             {
                 @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+                if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="ui negative message w-body-text-left w-margin-top-30">
+                        <p>
+                            @Html.ValidationSummary(false)
+                        </p>
                     </div>
+                }
+
+                <div class="w-margin-top-30">
+                    Nebo použij svůj e-mail
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
+
+                <div class="ui form w-margin-top-30">
+                    @{
+                        var email = Model?.LoginForm != null ? Model.LoginForm.Email : "";
+                    }
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <input name="Email" placeholder="E-mail" type="text" value="@email">
+                            <i class="mail outline icon"></i>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <input name="Password" type="password" placeholder="Heslo">
+                            <i class="lock icon"></i>
+                        </div>
                     </div>
+                    <input type="submit" class="ui submit button primary" value="Přihlásit" />
                 </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
+                        }
+
+            <div class="w-margin-top-30 w-font-size-small">
+                Ještě nemáš účet? @Html.ActionLink("Zaregistruj se", "Register", "Account")
+                <div>
+                    @Html.ActionLink("Zapomenuté heslo", "ForgotPassword")
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-

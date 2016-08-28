@@ -251,6 +251,10 @@ h7 {
   line-height: 1.1;
 }
 
+.validation-summary-errors ul {
+  padding-left: 10px;
+}
+
 /*******************************
          Site Overrides
 *******************************/

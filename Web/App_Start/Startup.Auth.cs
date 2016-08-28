@@ -14,6 +14,8 @@ using Common.Config;
 using Ninject.Web.Common.OwinHost;
 using Entity;
 using Microsoft.Owin.Security.DataProtection;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Web
 {
@@ -92,6 +94,7 @@ namespace Web
             fbOptions.AppSecret = AppConfig.FacebookAppSecret;
             fbOptions.Scope.Add("email");
             app.UseFacebookAuthentication(fbOptions);
+
 
             var gOptions = new GoogleOAuth2AuthenticationOptions();
             gOptions.ClientId = AppConfig.GoogleClientID;

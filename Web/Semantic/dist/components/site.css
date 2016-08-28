@@ -182,6 +182,9 @@ h7 {
   letter-spacing: 1px;
   line-height: 1.1;
 }
+.validation-summary-errors ul {
+  padding-left: 10px;
+}
 
 
 /*******************************

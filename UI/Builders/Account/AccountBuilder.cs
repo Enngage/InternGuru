@@ -3,7 +3,7 @@ using Core.Context;
 using Cache;
 using System.Text;
 using Common.Config;
-using UI.Builders.Account.Models;
+using UI.Builders.Account.Views;
 
 namespace UI.Builders.Account
 {
@@ -36,6 +36,38 @@ namespace UI.Builders.Account
             };
         }
 
+        public LoginViewModel BuildLoginView()
+        {
+            return new LoginViewModel()
+            {
+                LoginForm = new Forms.LoginForm()
+            };
+        }
+
+        public ForgotPasswordViewModel BuildForgotPasswordView()
+        {
+            return new ForgotPasswordViewModel()
+            {
+                ForgotForm = new Forms.ForgotPasswordForm()
+            };
+        }
+
+        public ExternalLoginConfirmationViewModel BuildExternalLoginConfirmationView()
+        {
+            return new ExternalLoginConfirmationViewModel()
+            {
+                ConfirmationForm = new Forms.ExternalLoginConfirmationForm()
+            };
+        }
+
+        public ResetPasswordViewModel BuildResetPasswordView()
+        {
+            return new ResetPasswordViewModel()
+            {
+                ResetPasswordForm = new Forms.ResetPasswordForm()
+            };
+        }
+
         #endregion
 
         #region Methods
@@ -47,7 +79,7 @@ namespace UI.Builders.Account
             emailHtml.AppendFormat("<p>Pro resetování hesla použijte následující odkaz:<p>");
             emailHtml.AppendFormat("<p><br /><a href=\"{0}\">{0}</a></p>", callbackUrl);
             emailHtml.AppendFormat("<p><br />Děkujeme,</p>");
-            emailHtml.AppendFormat("<p>Váš {0} tým</p>", AppConfig.SiteName);
+            emailHtml.AppendFormat("<p>{0} tým</p>", AppConfig.SiteName);
 
             return new AccountEmail()
             {
@@ -63,7 +95,7 @@ namespace UI.Builders.Account
             emailHtml.AppendFormat("<p>Pro potvrzení e-mailové adresy použijte následující odkaz:<p>");
             emailHtml.AppendFormat("<p><br /><a href=\"{0}\">{0}</a></p>", callbackUrl);
             emailHtml.AppendFormat("<p><br />Děkujeme,</p>");
-            emailHtml.AppendFormat("<p>Váš {0} tým</p>", AppConfig.SiteName);
+            emailHtml.AppendFormat("<p>{0} tým</p>", AppConfig.SiteName);
 
             return new AccountEmail()
             {

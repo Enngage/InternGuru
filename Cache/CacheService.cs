@@ -86,7 +86,8 @@ namespace Cache
         #region Async GetOrSet
 
         /// <summary>
-        /// Gets and/or sets the result of given method to cache
+        /// Gets and/or sets the result of given method to cache 
+        /// Result is returned as T
         /// </summary>
         /// <param name="Func<T>">Delegated method</param>
         /// <param name="cacheSetup">cacheSetup</param>

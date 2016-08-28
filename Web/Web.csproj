@@ -1884,6 +1884,7 @@
     <Content Include="Views\Shared\_PageBody.cshtml" />
     <Content Include="Views\Shared\_PageBodyPadded.cshtml" />
     <Content Include="Stylesheets\partials\_footer.scss" />
+    <Content Include="Views\Account\ConfirmEmailSent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1892,7 +1893,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Views\Account\ConfirmEmailSent.cshtml" />
     <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
     <Content Include="Views\Shared\Social\_MetadataSnippets.cshtml" />
     <Content Include="Views\Shared\Social\_FacebookAPI.cshtml" />

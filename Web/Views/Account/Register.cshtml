@@ -1,4 +1,4 @@
-﻿@model UI.Builders.Account.Models.RegisterViewModel
+﻿@model UI.Builders.Account.Views.RegisterViewModel
 @{
     ViewBag.Title = "Registrace";
     ViewBag.Description = "Zaregistruj se a získej přístup ke všem nabídkám stáží (internship)";
@@ -11,7 +11,7 @@
             <h1>@ViewBag.Title</h1>
 
             <div class="w-margin-top-30">
-                @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Models.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
             </div>
 
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, null))
@@ -28,7 +28,7 @@
                 }
 
                 <div class="w-margin-top-30">
-                    Nebo se zaregistruj ručně
+                    Nebo se zaregistruj 
                 </div>
 
                 <div class="ui form w-margin-top-30">

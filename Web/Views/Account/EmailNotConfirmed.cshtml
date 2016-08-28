@@ -1,8 +1,17 @@
-﻿
-@{
-    ViewBag.Title = "Potvrďte e-mail";
+﻿@{
+    ViewBag.Title = "Účet neaktivní";
+    Layout = "~/Views/Shared/_PageBodyPadded.cshtml";
 }
 
-<h1>Potvrďte e-mail</h1>
-
-<p>Vas e-mail nebyl dosud potrvrzen.</p>
+<div class="ui middle aligned center aligned sixteen column grid">
+    <div class="row">
+        <div class="six wide computer sixteen wide tablet sixteen wide mobile column">
+            <h1>
+                @ViewBag.Title
+            </h1>
+            <p>
+                Účet s touto e-mailovou adresou není aktivní. Účet je třeba potvrdit kliknutím na odkaz v registračním e-mailu.
+            </p>
+        </div>
+    </div>
+</div>
