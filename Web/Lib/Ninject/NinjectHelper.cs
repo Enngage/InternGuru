@@ -83,6 +83,10 @@ namespace Web.Lib.Ninject
             kernel.Bind<ILogService>().To<LogService>().InRequestScope();
             kernel.Bind<IEmailProvider>().To<GoogleEmailProvider>().InRequestScope();
             kernel.Bind<IEmail>().To<Email>().InRequestScope();
+            kernel.Bind<ICompanyService>().To<CompanyService>().InRequestScope();
+            kernel.Bind<ICompanyCategoryService>().To<CompanyCategoryService>().InRequestScope();
+            kernel.Bind<IInternshipService>().To<InternshipService>().InRequestScope();
+            kernel.Bind<IInternshipCategoryService>().To<InternshipCategoryService>().InRequestScope();
 
             return kernel;
         }

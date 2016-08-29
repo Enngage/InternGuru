@@ -59,7 +59,8 @@
   <ItemGroup>
     <Compile Include="Abstract\EntityAbstract.cs" />
     <Compile Include="ApplicationUser.cs" />
-    <Compile Include="Category.cs" />
+    <Compile Include="CompanyCategory.cs" />
+    <Compile Include="InternshipCategory.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="Internship.cs" />
     <Compile Include="Log.cs" />

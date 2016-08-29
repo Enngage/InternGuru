@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Core.Context;
 using Cache;
+using Entity;
 
 namespace Core.Services
 {
@@ -105,6 +106,38 @@ namespace Core.Services
         public void TouchKey(string key)
         {
             cacheService.TouchKey(key);
+        }
+
+        /// <summary>
+        /// Touches all keys for insert action
+        /// </summary>
+        /// <param name="obj">Object</param>
+        public void TouchInsertKeys(EntityAbstract obj)
+        {
+            cacheService.TouchKey(obj.KeyCreateAny());
+        }
+
+        /// <summary>
+        /// Touches all keys for update actions
+        /// </summary>
+        /// <param name="obj">Object</param>
+        /// <param name="objID">ObjectID</param>
+        public void TouchUpdateKeys(EntityAbstract obj, string objID)
+        {
+            cacheService.TouchKey(obj.KeyUpdateAny());
+            cacheService.TouchKey(obj.KeyUpdate(objID));
+        }
+
+
+        /// <summary>
+        /// Touches all keys for delete actions
+        /// </summary>
+        /// <param name="obj">Object</param>
+        /// <param name="objID">ObjectID</param>
+        public void TouchDeleteKeys(EntityAbstract obj, string objID)
+        {
+            cacheService.TouchKey(obj.KeyDeleteAny());
+            cacheService.TouchKey(obj.KeyDelete(objID));
         }
 
         /// <summary>

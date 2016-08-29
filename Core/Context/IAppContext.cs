@@ -11,7 +11,8 @@ namespace Core.Context
         IDbSet<Company> Companies { get; }
         IDbSet<ApplicationUser> Users { get; }
         IDbSet<Internship> Internships { get; }
-        IDbSet<Category> Categories { get; }
+        IDbSet<InternshipCategory> InternshipCategories { get; }
+        IDbSet<CompanyCategory> CompanyCategories { get; }
         IDbSet<Log> Logs { get; }
         int SaveChanges();
         Task<int> SaveChangesAsync();

@@ -31,7 +31,7 @@ namespace Web.Controllers
 
             await logService.DeleteAsync(1);
 
-            var logToEdit = await logService.Get(2);
+            var logToEdit = await logService.GetAsync(2);
             if (logToEdit != null)
             {
                 logToEdit.InnerException = "ahoj";

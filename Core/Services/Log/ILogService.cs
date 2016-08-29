@@ -8,7 +8,7 @@ namespace Core.Services
     public interface ILogService
     {
         Task DeleteAsync(int id);
-        Task<Log> Get(int id);
+        Task<Log> GetAsync(int id);
         IQueryable<Log> GetAll();
         Task InsertAsync(Log obj);
         Task UpdateAsync(Log obj);

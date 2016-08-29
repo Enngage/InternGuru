@@ -7,8 +7,8 @@ namespace Entity
     {
         public int ID { get; set; }
         
-        [ForeignKey("Category")]
-        public int CategoryID { get; set; }
+        [ForeignKey("InternshipCategory")]
+        public int InternshipCategoryID { get; set; }
 
         [ForeignKey("Company")]
         public int CompanyID { get; set; }
@@ -28,7 +28,7 @@ namespace Entity
 
         #region Virtual
 
-        public Category Category { get; set; }
+        public InternshipCategory InternshipCategory { get; set; }
         public Company Company { get; set; }
 
         #endregion

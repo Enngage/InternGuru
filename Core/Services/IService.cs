@@ -39,7 +39,7 @@ namespace Core.Services
         /// </summary>
         /// <param name="id">ID of the object</param>
         /// <returns>Object from database</returns>
-        Task<T> Get(int id);
+        Task<T> GetAsync(int id);
 
         /// <summary>
         /// Used for refreshing context may bring better performance when bulk inserting etc. 

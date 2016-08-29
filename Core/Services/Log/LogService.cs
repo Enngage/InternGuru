@@ -20,6 +20,9 @@ namespace Core.Services
         {
             this.AppContext.Logs.Add(obj);
 
+            // touch cache keys
+            this.TouchInsertKeys(obj);
+
             return this.SaveChangesAsync();
         }
 
@@ -32,6 +35,9 @@ namespace Core.Services
             {
                 // delete log
                 this.AppContext.Logs.Remove(log);
+
+                // touch cache keys
+                this.TouchDeleteKeys(log, log.ID.ToString());
 
                 // save changes
                 return this.AppContext.SaveChangesAsync();
@@ -53,6 +59,9 @@ namespace Core.Services
             // update log
             this.AppContext.Entry(obj).CurrentValues.SetValues(obj);
 
+            // touch cache keys
+            this.TouchUpdateKeys(log, log.ID.ToString());
+
             // save changes
             return this.AppContext.SaveChangesAsync();
         }
@@ -62,7 +71,7 @@ namespace Core.Services
             return this.AppContext.Logs;
         }
 
-        public Task<Log> Get(int id)
+        public Task<Log> GetAsync(int id)
         {
             return this.AppContext.Logs.FirstOrDefaultAsync(m => m.ID == id);
         }
