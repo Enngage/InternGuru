@@ -1,0 +1,41 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-teaser-image {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 550px;
+        padding-top: 140px;
+        padding-left: 15%;
+        background-image: url("/content/images//teaser.jpg");
+
+        h1 {
+            color: #fff;
+            font-family: "Rozha One",serif;
+            font-size: 70px;
+            font-weight: bold;
+            line-height: 70px;
+            margin: 0 0 17px;
+            text-shadow: 0 0 3px #7a7a7a;
+
+            span{
+                font-size: 45px;
+                display: block;
+            }
+        }
+    }
+
+    .w-teaser-boxes .column {
+        margin-top: -75px;
+        font-size: 16px;      
+    }
+
+    .w-teaser-boxes .column p{
+        color: $color-light;
+    }
+
+    .w-teaser-box-margin-fix{
+        margin-top: 30px; /* make some space because of the "w-teaser-boxes .column" negative margin */
+    }
+}

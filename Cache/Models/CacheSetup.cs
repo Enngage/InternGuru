@@ -8,11 +8,6 @@ namespace Cache
         #region Cache properties
 
         /// <summary>
-        /// List of dependencies
-        /// </summary>
-        public IList<string> Dependencies { get; set; }
-
-        /// <summary>
         /// Identifies page number of cache item
         /// </summary>
         public int PageNumber { get; set; }
@@ -32,7 +27,6 @@ namespace Cache
         /// </summary>
         public string Sort { get; set; }
 
-
         #endregion
 
         #region Constructors
@@ -50,6 +44,7 @@ namespace Cache
             }
 
             // set cache properties
+            this.typeName = typeof(T).Name;
             this.inputKey = key;
             this.cacheMinutes = cacheMinutes;
             this.dependencies = new List<string>();
@@ -69,6 +64,7 @@ namespace Cache
             }
 
             // set cache properties
+            this.typeName = typeof(T).Name;
             this.inputKey = key;
             this.cacheMinutes = cacheMinutes;
 
@@ -84,36 +80,52 @@ namespace Cache
 
         #endregion
 
-
-        #region Public methods
+        #region Cache key
 
         /// <summary>
-        /// Gets full name of cache setup based on its properties (key, objectID, pageNumber, sort ...)
+        /// Cache key used for object identification in memory
         /// </summary>
-        /// <returns></returns>
-        public string GetCacheKey() {
-            string fullKey = string.Format("key[0]", this.inputKey);
+        public string CacheKey
+        {
+            get
+            {
+                return GetCacheKey();
+            }
+        }
 
-            fullKey += string.Format(".cacheFor[0]", this.cacheMinutes);
+        #endregion
+
+        #region Key construction
+
+        /// <summary>
+        /// Gets full name of cache setup based on its properties (key, object type, objectID, pageNumber, sort ...)
+        /// </summary>
+        /// <returns>Cache key</returns>
+        private string GetCacheKey() {
+            string fullKey = string.Format("key[{0}]", this.inputKey);
+
+            fullKey += string.Format(".cacheFor[{0}]", this.cacheMinutes);
+
+            fullKey += string.Format(".class[{0}]", this.TypeName);
 
             if (ObjectID > 0)
             {
-                fullKey += string.Format(".id[0]", this.ObjectID);
+                fullKey += string.Format(".id[{0}]", this.ObjectID);
             }
 
             if (PageNumber > 0)
             {
-                fullKey += string.Format(".page[0]", this.PageNumber);
+                fullKey += string.Format(".page[{0}]", this.PageNumber);
             }
 
             if (PageSize > 0)
             {
-                fullKey += string.Format(".size[0]", this.PageSize);
+                fullKey += string.Format(".size[{0}]", this.PageSize);
             }
 
             if (!String.IsNullOrEmpty(this.Sort))
             {
-                fullKey += string.Format(".sort[0]", this.Sort);
+                fullKey += string.Format(".sort[{0}]", this.Sort);
             }
 
             return fullKey;

@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Entity
 {
     public abstract class EntityAbstract
@@ -11,11 +13,14 @@ namespace Entity
         /// </summary>
         /// <param name="objectID">ObjectID of deleted object (primary key)</param>
         /// <returns>Cache key for deleting an object of current class</returns>
+        public static string KeyDelete<T>(int objectID) where T: class
+        {
+            return ConstructKey(typeof(T), ActionType.Delete, objectID.ToString());
+        }
+
         public string KeyDelete(int objectID)
         {
-            var type = this.GetType();
-
-            return type.Name + ".delete." + objectID;
+            return ConstructKey(this.GetType(), ActionType.Delete, objectID.ToString());
         }
 
         /// <summary>
@@ -23,11 +28,14 @@ namespace Entity
         /// </summary>
         /// <param name="objectID">ObjectID of deleted object (primary key)</param>
         /// <returns>Cache key for deleting an object of current class</returns>
+        public static string KeyDelete<T>(string objectID) where T : class
+        {
+            return ConstructKey(typeof(T), ActionType.Delete, objectID.ToString());
+        }
+
         public string KeyDelete(string objectID)
         {
-            var type = this.GetType();
-
-            return type.Name + ".delete." + objectID;
+            return ConstructKey(this.GetType(), ActionType.Delete, objectID.ToString());
         }
 
         /// <summary>
@@ -35,11 +43,14 @@ namespace Entity
         /// </summary>
         /// <param name="objectID">ObjectID of updated object (primary key)</param>
         /// <returns>Cache key for updating an object of current class</returns>
+        public static string KeyUpdate<T>(int objectID) where T : class
+        {
+            return ConstructKey(typeof(T), ActionType.Update, objectID.ToString());
+        }
+
         public string KeyUpdate(int objectID)
         {
-            var type = this.GetType();
-
-            return type.Name + ".update." + objectID;
+            return ConstructKey(this.GetType(), ActionType.Update, objectID.ToString());
         }
 
 
@@ -48,45 +59,84 @@ namespace Entity
         /// </summary>
         /// <param name="objectID">ObjectID of updated object (primary key)</param>
         /// <returns>Cache key for updating an object of current class</returns>
-        public string KeyUpdate(string objectID)
+        public static string KeyUpdate<T>(string objectID) where T : class
         {
-            var type = this.GetType();
+            return ConstructKey(typeof(T), ActionType.Update, objectID.ToString());
+        }
 
-            return type.Name + ".update." + objectID;
+        public string KeyUpdate(string objectID) 
+        {
+            return ConstructKey(this.GetType(), ActionType.Update, objectID.ToString());
         }
 
         /// <summary>
         /// Gets cache key for update any object action
         /// </summary>
         /// <returns>Cache key for updating any object of given type</returns>
+        public static string KeyUpdateAny<T>() where T : class
+        {
+            return ConstructKey(typeof(T), ActionType.UpdateAny);
+        }
+
         public string KeyUpdateAny()
         {
-            var type = this.GetType();
-
-            return type.Name + ".updateAny";
+            return ConstructKey(this.GetType(), ActionType.UpdateAny);
         }
 
         /// <summary>
         /// Gets cache key for delete any object action
         /// </summary>
         /// <returns>Cache key for deleting any object of given type</returns>
-        public string KeyDeleteAny()
+        public static string KeyDeleteAny<T>() where T : class
         {
-            var type = this.GetType();
-
-            return type.Name + ".deleteAny";
+            return ConstructKey(typeof(T), ActionType.DeleteAny);
         }
 
+        public string KeyDeleteAny()
+        {
+            return ConstructKey(this.GetType(), ActionType.DeleteAny);
+        }
 
         /// <summary>
         /// Gets cache key for creation of any object of given type
         /// </summary>
         /// <returns>Cache key for creating any object of given type</returns>
+        public static string KeyCreateAny<T>() where T : class
+        {
+            return ConstructKey(typeof(T), ActionType.CreateAny);
+        }
+
         public string KeyCreateAny()
         {
-            var type = this.GetType();
+            return ConstructKey(this.GetType(), ActionType.CreateAny);
+        }
 
-            return type.Name + ".createAny";
+        #endregion
+
+        #region Helper methods
+
+        /// <summary>
+        /// Creates key from given action type
+        /// </summary>
+        /// <param name="type">Type of object</param>
+        /// <param name="actionType">Action type</param>
+        /// <returns></returns>
+        private static string ConstructKey(Type type, ActionType actionType)
+        {
+            return string.Format("{0}.{1}", type.FullName, actionType.Value);
+
+        }
+
+        /// <summary>
+        /// Creates key from given action type and object ID 
+        /// </summary>
+        /// <param name="type">Type of object</param>
+        /// <param name="actionType">Action type</param>
+        /// <param name="objectID">ObjectID if necessary</param>
+        /// <returns></returns>
+        private static string ConstructKey(Type type, ActionType actionType, string objectID)
+        {
+            return string.Format("{0}.{1}[{2}]", type.FullName, actionType.Value, objectID);
         }
 
         #endregion

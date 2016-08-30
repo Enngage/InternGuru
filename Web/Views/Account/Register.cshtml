@@ -8,11 +8,8 @@
 <div class="ui middle aligned center aligned sixteen column grid">
     <div class="row">
         <div class="three wide computer ten wide tablet sixteen wide mobile column">
-            <h1>@ViewBag.Title</h1>
 
-            <div class="w-margin-top-30">
-                @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-            </div>
+            <h1>@ViewBag.Title</h1>
 
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, null))
             {
@@ -26,10 +23,6 @@
                         </p>
                     </div>
                 }
-
-                <div class="w-margin-top-30">
-                    Nebo se zaregistruj 
-                </div>
 
                 <div class="ui form w-margin-top-30">
                     @{
@@ -59,6 +52,14 @@
                     <input type="submit" class="ui submit button primary" value="Registrovat" />
                 </div>
                         }
+        
+            <div class="w-margin-top-30">
+                Nebo
+            </div>
+
+            <div class="w-margin-top-30">
+                @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </div>
 
             <div class="w-margin-top-30 w-font-size-small">
                 Už más účet? @Html.ActionLink("Přihlas se", "Login", "Account")

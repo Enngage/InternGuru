@@ -60,6 +60,7 @@
     <Compile Include="Abstract\EntityAbstract.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="CompanyCategory.cs" />
+    <Compile Include="Enums\ActionType.cs" />
     <Compile Include="InternshipCategory.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="Internship.cs" />

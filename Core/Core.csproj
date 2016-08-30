@@ -82,6 +82,10 @@
     <Compile Include="Migrations\201608291810213_InternshipCategoryFix.Designer.cs">
       <DependentUpon>201608291810213_InternshipCategoryFix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608301702044_CompanyAddressFix.cs" />
+    <Compile Include="Migrations\201608301702044_CompanyAddressFix.Designer.cs">
+      <DependentUpon>201608301702044_CompanyAddressFix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
@@ -133,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608291810213_InternshipCategoryFix.resx">
       <DependentUpon>201608291810213_InternshipCategoryFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608301702044_CompanyAddressFix.resx">
+      <DependentUpon>201608301702044_CompanyAddressFix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

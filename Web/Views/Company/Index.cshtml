@@ -1,0 +1,17 @@
+﻿@model UI.Builders.Company.Views.CompanyIndexView
+@{
+    ViewBag.Title = "Přehled firem";
+    ViewBag.Description = "";
+    Layout = "~/Views/Shared/_PageBodyPadded.cshtml";
+}
+
+<h1>
+    @ViewBag.Title
+</h1>
+
+@foreach(var company in Model.Companies)
+{
+    <div>
+        @company.CompanyName
+    </div>
+}

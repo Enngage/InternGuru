@@ -111,7 +111,6 @@ namespace Core.Services
         /// <summary>
         /// Touches all keys for insert action
         /// </summary>
-        /// <param name="obj">Object</param>
         public void TouchInsertKeys(EntityAbstract obj)
         {
             cacheService.TouchKey(obj.KeyCreateAny());
@@ -136,7 +135,7 @@ namespace Core.Services
         /// <param name="objID">ObjectID</param>
         public void TouchDeleteKeys(EntityAbstract obj, string objID)
         {
-            cacheService.TouchKey(obj.KeyDeleteAny());
+            cacheService.TouchKey(obj.KeyCreateAny());
             cacheService.TouchKey(obj.KeyDelete(objID));
         }
 

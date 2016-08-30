@@ -104,3 +104,8 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Microsoft.Owin.Secu
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFramework.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFramework.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFramework.xml

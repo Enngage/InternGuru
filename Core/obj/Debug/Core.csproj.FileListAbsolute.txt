@@ -25,3 +25,4 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrati
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.UserNameProperties.resources
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.Categories_CompanyInfo.resources
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.InternshipCategoryFix.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.CompanyAddressFix.resources

@@ -12,50 +12,66 @@ namespace Cache
         protected int cacheMinutes;
         protected IList<String> dependencies;
         protected DateTime? updated;
+        protected string typeName;
 
         #endregion
 
-        #region Interface methods
+        #region Interface members
+
+        /// <summary>
+        /// Update time when cache item was last updated
+        /// </summary>
+        public void SetUpdated(DateTime updateTime)
+        {
+            this.updated = updateTime;
+        }
+
+        /// <summary>
+        /// Represents type name passed to cache setup
+        /// </summary>
+        public string TypeName
+        {
+            get
+            {
+                return this.typeName;
+            }
+        }
 
         /// <summary>
         /// Time when cache item was last updated
         /// </summary>
-        /// <returns>Update date</returns>
-        public DateTime? GetUpdated()
+        public DateTime? Updated
         {
-            return this.updated;
-        }
-
-        /// <summary>
-        /// Sets new updated date of cache item
-        /// </summary>
-        /// <param name="time">New date time</param>
-        public void SetUpdated(DateTime time)
-        {
-            this.updated = time;
+            get
+            {
+                return this.updated;
+            }
         }
 
         /// <summary>
         /// Indicates for how lond the item should be stored in cache
         /// </summary>
-        /// <returns></returns>
-        public int GetCacheMinutes()
+        public int CacheMinutes
         {
-            return this.cacheMinutes;
+            get
+            {
+                return this.cacheMinutes;
+            }
         }
 
         /// <summary>
-        /// Gets all dependencies
+        /// Dependencies of cache item
         /// </summary>
-        /// <returns>List of dependencies</returns>
-        public String[] GetDependencies()
+        public IList<string> Dependencies
         {
-            var dependencyArray = new String[this.dependencies.Count];
-            for (int i = 0; i < this.dependencies.Count; i++)
+            get
             {
-                dependencyArray[i] = this.dependencies[i];
+                return this.dependencies;
             }
-            return dependencyArray;
+            set
+            {
+                this.dependencies = value;
+            }
         }
 
         #endregion

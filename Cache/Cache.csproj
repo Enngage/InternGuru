@@ -45,7 +45,6 @@
     <Compile Include="CacheDependency.cs" />
     <Compile Include="CacheService.cs" />
     <Compile Include="Interfaces\ICacheService.cs" />
-    <Compile Include="Interfaces\ICacheSetupGeneric.cs" />
     <Compile Include="Interfaces\ICacheSetup.cs" />
     <Compile Include="Models\CacheSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

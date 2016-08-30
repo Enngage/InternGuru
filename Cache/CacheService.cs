@@ -58,10 +58,10 @@ namespace Cache
         /// <returns>Result of the delegated method</returns>
         public async Task<T> GetOrSetAsync<T>(Func<Task<T>> getItemCallback, ICacheSetup cacheSetup) where T : class
         {
-            T item = memoryCache.Get(cacheSetup.GetCacheKey()) as T;
+            T item = memoryCache.Get(cacheSetup.CacheKey) as T;
             if (item == null)
             {
-                var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.GetCacheMinutes()));
+                var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.CacheMinutes));
                 item = await getItemCallback();
 
                 var cacheItemPolicy = new CacheItemPolicy()
@@ -73,7 +73,7 @@ namespace Cache
                 {
                     return null;
                 }
-                memoryCache.Add(cacheSetup.GetCacheKey(), item, cacheItemPolicy);
+                memoryCache.Add(cacheSetup.CacheKey, item, cacheItemPolicy);
             }
             else
             {
@@ -81,9 +81,9 @@ namespace Cache
                 if (!CacheDependency.GetDataFromCache(cacheSetup))
                 {
                     // remove item from cache
-                    memoryCache.Remove(cacheSetup.GetCacheKey());
+                    memoryCache.Remove(cacheSetup.CacheKey);
 
-                    var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.GetCacheMinutes()));
+                    var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.CacheMinutes));
                     item = await getItemCallback();
 
                     if (item == null)
@@ -96,7 +96,7 @@ namespace Cache
                         AbsoluteExpiration = cacheExpires
                     };
 
-                    memoryCache.Add(cacheSetup.GetCacheKey(), item, cacheItemPolicy);
+                    memoryCache.Add(cacheSetup.CacheKey, item, cacheItemPolicy);
                 }
             }
 
@@ -117,10 +117,10 @@ namespace Cache
         /// <returns>Result of the delegated method</returns>
         public T GetOrSet<T>(Func<T> getItemCallback, ICacheSetup cacheSetup) where T : class
         {
-            T item = memoryCache.Get(cacheSetup.GetCacheKey()) as T;
+            T item = memoryCache.Get(cacheSetup.CacheKey) as T;
             if (item == null)
             {
-                var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.GetCacheMinutes()));
+                var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.CacheMinutes));
                 item = getItemCallback();
 
                 if (item == null)
@@ -133,7 +133,7 @@ namespace Cache
                     AbsoluteExpiration = cacheExpires
                 };
 
-                memoryCache.Add(cacheSetup.GetCacheKey(), item, cacheItemPolicy);
+                memoryCache.Add(cacheSetup.CacheKey, item, cacheItemPolicy);
             }
             else
             {
@@ -141,9 +141,9 @@ namespace Cache
                 if (!CacheDependency.GetDataFromCache(cacheSetup))
                 {
                     // remove item from cache
-                    memoryCache.Remove(cacheSetup.GetCacheKey());
+                    memoryCache.Remove(cacheSetup.CacheKey);
 
-                    var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.GetCacheMinutes()));
+                    var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.CacheMinutes));
                     item = getItemCallback();
 
                     if (item == null)
@@ -156,7 +156,7 @@ namespace Cache
                         AbsoluteExpiration = cacheExpires
                     };
 
-                    memoryCache.Add(cacheSetup.GetCacheKey(), item, cacheItemPolicy);
+                    memoryCache.Add(cacheSetup.CacheKey, item, cacheItemPolicy);
                 }
             }
 
@@ -217,7 +217,7 @@ namespace Cache
         /// <returns>True if data should be returned from cache, false otherwise</returns>
         public bool CacheDataIsValid(ICacheSetup cacheSetup)
         {
-            var item = memoryCache.Get(cacheSetup.GetCacheKey());
+            var item = memoryCache.Get(cacheSetup.CacheKey);
             if (item == null)
             {
                 // data are not cached at all - always reload data
@@ -262,7 +262,7 @@ namespace Cache
         /// <returns>True if data should be returned from cache, false otherwise</returns>
         public void Invalidate(ICacheSetup cacheSetup)
         {
-            var item = memoryCache.Get(cacheSetup.GetCacheKey());
+            var item = memoryCache.Get(cacheSetup.CacheKey);
             if (item == null)
             {
                 // nothing to invalidate

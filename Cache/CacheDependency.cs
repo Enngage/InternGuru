@@ -65,7 +65,7 @@ namespace Cache
         /// <returns>True if cache setup depends on given key or false</returns>
         private static bool CacheSetupDependsOnKey(string key, ICacheSetup cacheSetup)
         {
-            return cacheSetup.GetDependencies().Contains(key);
+            return cacheSetup.Dependencies.Contains(key);
         }
 
         /// <summary>
@@ -74,14 +74,14 @@ namespace Cache
         /// <param name="cacheSetup">cacheSetup</param>
         public static void AddCacheSetup(ICacheSetup cacheSetup)
         {
-            if (!cacheSetupList.ContainsKey(cacheSetup.GetCacheKey()))
+            if (!cacheSetupList.ContainsKey(cacheSetup.CacheKey))
             {
                 cacheSetup.SetUpdated(DateTime.Now); 
-                cacheSetupList.Add(cacheSetup.GetCacheKey(), cacheSetup);
+                cacheSetupList.Add(cacheSetup.CacheKey, cacheSetup);
             }
             else
             {
-                cacheSetupList[cacheSetup.GetCacheKey()].SetUpdated(DateTime.Now);
+                cacheSetupList[cacheSetup.CacheKey].SetUpdated(DateTime.Now);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Cache
         /// <returns>True if data should be retrieved from cache, false otherwise</returns>
         public static bool GetDataFromCache(ICacheSetup cacheSetup)
         {
-            if (cacheSetupList.ContainsKey(cacheSetup.GetCacheKey()))
+            if (cacheSetupList.ContainsKey(cacheSetup.CacheKey))
             {
                 return true;
             }

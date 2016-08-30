@@ -187,6 +187,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -197,6 +198,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\teaser.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -1885,10 +1887,11 @@
     <Content Include="Views\Shared\_PageBodyPadded.cshtml" />
     <Content Include="Stylesheets\partials\_footer.scss" />
     <Content Include="Views\Account\ConfirmEmailSent.cshtml" />
+    <Content Include="Stylesheets\partials\_teaser.scss" />
+    <Content Include="Views\Company\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity
@@ -11,7 +12,7 @@ namespace Entity
         public string PublicEmail { get; set; }
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
-        public int Address { get; set; }
+        public string Address { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public float Lat { get; set; }
@@ -27,6 +28,7 @@ namespace Entity
         #region Virtual properties
 
         public CompanyCategory CompanyCategory { get; set; }
+        public virtual ICollection<Internship> Internships { get; set; }
 
         #endregion
     }

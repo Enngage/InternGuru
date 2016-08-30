@@ -34,3 +34,10 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\System.Web.Raz
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\System.Web.WebPages.xml
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\PagedList.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\PagedList.EntityFramework.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\PagedList.Mvc.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\PagedList.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\PagedList.EntityFramework.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\PagedList.EntityFramework.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\PagedList.Mvc.xml

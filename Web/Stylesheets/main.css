@@ -64,7 +64,7 @@
 
 #w-body-wrapper .w-menu-main.fixed {
   background-color: #232d32;
-  border-bottom: 1px solid #DDD;
+  border-bottom: none;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); }
 
 #w-body-wrapper .w-menu-mobile-header {
@@ -126,11 +126,11 @@
   /* Change margin top on tablet and computer so that content is visible */ }
   @media (min-width: 991px) {
     #w-body-wrapper {
-      margin-top: 58px;
+      margin-top: 52px;
       /* Height of the top menu on computer screen */ } }
   @media (max-width: 991px) and (min-width: 768px) {
     #w-body-wrapper {
-      margin-top: 58px;
+      margin-top: 52px;
       /* Height of the top menu on tablet screen */ } }
   #w-body-wrapper .w-body-padded {
     padding: 65px 0; }
@@ -310,6 +310,37 @@
 #w-body-wrapper .pagination .PagedList-skipToPrevious {
   display: none; }
 
-#w-body-wrapper w-footer {
+#w-body-wrapper .w-footer {
   background-color: #232d32; }
+
+#w-body-wrapper .w-teaser-image {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 550px;
+  padding-top: 140px;
+  padding-left: 15%;
+  background-image: url("/content/images//teaser.jpg"); }
+  #w-body-wrapper .w-teaser-image h1 {
+    color: #fff;
+    font-family: "Rozha One",serif;
+    font-size: 70px;
+    font-weight: bold;
+    line-height: 70px;
+    margin: 0 0 17px;
+    text-shadow: 0 0 3px #7a7a7a; }
+    #w-body-wrapper .w-teaser-image h1 span {
+      font-size: 45px;
+      display: block; }
+
+#w-body-wrapper .w-teaser-boxes .column {
+  margin-top: -75px;
+  font-size: 16px; }
+
+#w-body-wrapper .w-teaser-boxes .column p {
+  color: #828282; }
+
+#w-body-wrapper .w-teaser-box-margin-fix {
+  margin-top: 30px;
+  /* make some space because of the "w-teaser-boxes .column" negative margin */ }
 
