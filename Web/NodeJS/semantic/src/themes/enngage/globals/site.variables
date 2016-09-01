@@ -6,7 +6,7 @@
     Brand Colors
 --------------------*/
 
-@primaryColor        : #2874a6; 
+@primaryColor        : #2185d0; 
 @secondaryColor      : #FF5733;
 
 @lightPrimaryColor   : saturate(lighten(@primaryColor, 5), 10, relative);

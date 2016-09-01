@@ -5,22 +5,22 @@
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
-        min-height: 550px;
-        padding-top: 140px;
+        min-height: 398px; /* Height of the teaser image */
+        padding-top: 170px;
         padding-left: 15%;
         background-image: url("/content/images//teaser.jpg");
 
         h1 {
             color: #fff;
             font-family: "Rozha One",serif;
-            font-size: 70px;
+            font-size: 55px;
             font-weight: bold;
             line-height: 70px;
             margin: 0 0 17px;
             text-shadow: 0 0 3px #7a7a7a;
 
             span{
-                font-size: 45px;
+                font-size: 33px;
                 display: block;
             }
         }

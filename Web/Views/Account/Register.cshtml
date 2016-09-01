@@ -5,9 +5,10 @@
     Layout = "~/Views/Shared/_PageBodyPadded.cshtml";
 }
 
-<div class="ui middle aligned center aligned sixteen column grid">
-    <div class="row">
-        <div class="three wide computer ten wide tablet sixteen wide mobile column">
+<div class="ui segment basic">
+    @*Divider needs to be inside a segment*@
+    <div class="ui two column middle aligned relaxed fitted stackable grid">
+        <div class="column">
 
             <h1>@ViewBag.Title</h1>
 
@@ -28,43 +29,41 @@
                     @{
                         var email = Model?.RegisterForm != null ? Model.RegisterForm.Email : "";
                     }
-                    <div class="field">
+                    <div class="ten wide field">
                         <div class="ui left icon input">
                             <input name="Email" placeholder="E-mail" type="text" value="@email">
                             <i class="mail outline icon"></i>
                         </div>
                     </div>
-                    <div class="field">
+                    <div class="ten wide field">
                         <div class="ui left icon input">
                             <input name="Password" type="password" placeholder="Heslo">
                             <i class="lock icon"></i>
                         </div>
                     </div>
-                    <div class="field">
+                    <div class="ten wide field">
                         <div class="ui left icon input">
                             <input name="ConfirmPassword" type="password" placeholder="Potvrzení hesla">
                             <i class="lock icon"></i>
                         </div>
                     </div>
-                    <div class="field">
-
-                    </div>
                     <input type="submit" class="ui submit button primary" value="Registrovat" />
                 </div>
                         }
-        
-            <div class="w-margin-top-30">
-                Nebo
-            </div>
-
-            <div class="w-margin-top-30">
-                @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-            </div>
 
             <div class="w-margin-top-30 w-font-size-small">
                 Už más účet? @Html.ActionLink("Přihlas se", "Login", "Account")
             </div>
 
         </div>
+
+        <div class="ui vertical divider">
+            Nebo
+        </div>
+
+        <div class="center aligned column">
+            @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </div>
+
     </div>
 </div>

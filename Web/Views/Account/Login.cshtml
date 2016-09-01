@@ -5,14 +5,12 @@
     Layout = "~/Views/Shared/_PageBodyPadded.cshtml";
 }
 
-<div class="ui middle aligned center aligned sixteen column grid">
-    <div class="row">
-        <div class="three wide computer ten wide tablet sixteen wide mobile column">
-            <h1>@ViewBag.Title</h1>
+<div class="ui segment basic">
+    @*Divider needs to be inside a segment*@
+    <div class="ui two column middle aligned relaxed fitted stackable grid">
+        <div class="column">
 
-            <div class="w-margin-top-30">
-                @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-            </div>
+            <h1>@ViewBag.Title</h1>
 
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, null))
             {
@@ -26,22 +24,18 @@
                         </p>
                     </div>
                 }
-
-                <div class="w-margin-top-30">
-                    Nebo použij svůj e-mail
-                </div>
-
+  
                 <div class="ui form w-margin-top-30">
                     @{
                         var email = Model?.LoginForm != null ? Model.LoginForm.Email : "";
                     }
-                    <div class="field">
+                    <div class="ten wide field">
                         <div class="ui left icon input">
                             <input name="Email" placeholder="E-mail" type="text" value="@email">
                             <i class="mail outline icon"></i>
                         </div>
                     </div>
-                    <div class="field">
+                    <div class="ten wide field">
                         <div class="ui left icon input">
                             <input name="Password" type="password" placeholder="Heslo">
                             <i class="lock icon"></i>
@@ -57,6 +51,17 @@
                     @Html.ActionLink("Zapomenuté heslo", "ForgotPassword")
                 </div>
             </div>
+
+        </div>
+
+        <div class="ui vertical divider">
+            Nebo
+        </div>
+
+        <div class="center aligned column">
+            @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </div>
     </div>
 </div>
+
+
