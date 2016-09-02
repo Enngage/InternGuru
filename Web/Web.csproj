@@ -187,6 +187,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1883,12 +1884,15 @@
     <Content Include="Semantic\dist\themes\github\assets\fonts\octicons-local.ttf" />
     <Content Include="Semantic\dist\themes\github\assets\fonts\octicons.ttf" />
     <Content Include="Semantic\dist\themes\github\assets\fonts\octicons.woff" />
-    <Content Include="Views\Shared\_PageBody.cshtml" />
-    <Content Include="Views\Shared\_PageBodyPadded.cshtml" />
+    <Content Include="Views\Shared\Body\Dark.cshtml" />
+    <Content Include="Views\Shared\Body\DarkPadded.cshtml" />
     <Content Include="Stylesheets\partials\_footer.scss" />
     <Content Include="Views\Account\ConfirmEmailSent.cshtml" />
     <Content Include="Stylesheets\partials\_teaser.scss" />
     <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Auth\Index.cshtml" />
+    <Content Include="Views\Shared\Body\LightPadded.cshtml" />
+    <Content Include="Views\Shared\Body\Light.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

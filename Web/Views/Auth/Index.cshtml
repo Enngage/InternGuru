@@ -1,0 +1,31 @@
+﻿@using UI.Helpers;
+@model UI.Builders.Master.Views.MasterView
+
+@{
+    ViewBag.Title = "Můj profil";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+
+<div class="ui grid">
+    <div class="sixteen wide mobile six wide tablet four wide computer column">
+        <div class="ui segment padded w-body-text-center">
+
+            <img class="ui avatar tiny image" data-src="http://semantic-ui.com/images/wireframe/square-image.png" src="@ImageHelper.GetTransparentImage()">
+
+            <p class="w-margin-top-10">
+                <strong>Johnny Bravo</strong>
+            </p>
+
+            <p class="w-margin-top-30 w-body-text-left">
+                <a href="#">Upravit profil</a>
+            </p>
+        </div>
+    </div>
+    <div class="sixteen wide mobile ten wide tablet nine wide computer column">
+        b
+    </div>
+    <div class="sixteen wide mobile sixteen wide tablet three wide computer column">
+        c
+    </div>
+</div>

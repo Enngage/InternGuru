@@ -112,6 +112,7 @@
     <Compile Include="Builders\Account\Views\ResetPasswordViewModel.cs" />
     <Compile Include="Builders\Account\Views\LoginViewModel.cs" />
     <Compile Include="Builders\Account\Views\RegisterViewModel.cs" />
+    <Compile Include="Builders\Auth\AuthBuilder.cs" />
     <Compile Include="Builders\Company\CompanyBuilder.cs" />
     <Compile Include="Builders\Company\Models\CompanyModel.cs" />
     <Compile Include="Builders\Company\Views\CompanyIndexView.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Builders\Master\Views\ErrorView.cs" />
     <Compile Include="Builders\Master\Views\MasterView.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="ModelState\IModelState.cs" />
     <Compile Include="ModelState\ModelStateWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,6 +152,7 @@
       <Name>Entity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

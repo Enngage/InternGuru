@@ -2,7 +2,7 @@
 
 @if (Request.IsAuthenticated)
 {
-    <a class="item w-menu-right-item" href="@Url.Action("Index", "MyProfile")">
+    <a class="item w-menu-right-item" href="@Url.Action("Index", "Auth")">
         <div class="ui button secondary">
             @User.Identity.GetUserName()
         </div>
