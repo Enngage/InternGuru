@@ -6,6 +6,9 @@ namespace Common.Loc
     {
         private static IKernel _kernel;
 
+        /// <summary>
+        /// Kernel with mapped classes
+        /// </summary>
         public static IKernel Kernel
         {
             get
@@ -14,6 +17,11 @@ namespace Common.Loc
             }
         }
 
+        /// <summary>
+        /// Sets static kernel with mapped classes. 
+        /// Should be called on application start
+        /// </summary>
+        /// <param name="kernel">kernel to register</param>
         public static void SetKernel(IKernel kernel)
         {
             _kernel = kernel;

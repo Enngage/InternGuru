@@ -11,3 +11,4 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Microsoft.
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache

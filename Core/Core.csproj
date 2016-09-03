@@ -86,6 +86,14 @@
     <Compile Include="Migrations\201608301702044_CompanyAddressFix.Designer.cs">
       <DependentUpon>201608301702044_CompanyAddressFix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609031410126_InternshipRedesign.cs" />
+    <Compile Include="Migrations\201609031410126_InternshipRedesign.Designer.cs">
+      <DependentUpon>201609031410126_InternshipRedesign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609031415257_InternshipRedesign2.cs" />
+    <Compile Include="Migrations\201609031415257_InternshipRedesign2.Designer.cs">
+      <DependentUpon>201609031415257_InternshipRedesign2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
@@ -140,6 +148,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608301702044_CompanyAddressFix.resx">
       <DependentUpon>201608301702044_CompanyAddressFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609031410126_InternshipRedesign.resx">
+      <DependentUpon>201609031410126_InternshipRedesign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609031415257_InternshipRedesign2.resx">
+      <DependentUpon>201609031415257_InternshipRedesign2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

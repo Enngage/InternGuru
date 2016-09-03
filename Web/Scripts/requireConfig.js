@@ -9,6 +9,7 @@ var require = {
     shim: {
         "highcharts": { "deps": ['jquery'] }, // highcharts needs to be loaded after jQuery
         "semantic": { "deps": ['jquery'] }, // semantic needs to be loaded after jQuery
+        "datepicker": { "deps": ['jquery'] }, // datepicker needs to be loaded after jQuery
     },
     paths: {
         "jquery": "addons/jquery-2.1.4.min",
@@ -16,6 +17,7 @@ var require = {
         "ckeditor": "addons/ckeditor/ckeditor", // http://docs.ckeditor.com/#!/guide/dev_installation
         "promise": "addons/es6-promise.min", // https://github.com/jakearchibald/es6-promise#readme
         "semantic": "../Semantic/dist/semantic.min", // https://github.com/jakearchibald/es6-promise#readme
+        "datepicker": "addons/datepicker-master/dist/datepicker.min", // https://github.com/fengyuanchen/datepicker
     },
     packages: [{
         name: "codemirror",

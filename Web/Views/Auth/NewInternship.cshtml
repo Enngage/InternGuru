@@ -1,0 +1,92 @@
+﻿@using UI.Helpers;
+@using UI.Extensions;
+@model UI.Builders.Master.Views.MasterView
+
+@{
+    ViewBag.Title = "Nová nabídka";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+@Html.RequireScript("/scripts/views/auth/newInternship")
+@Html.RequireCSS("/scripts/addons/datepicker-master/dist/datepicker.min")
+
+<div class="ui grid">
+    <div class="centered sixteen wide mobile sixteen wide tablet eight wide computer column">
+
+        <form id="_InternshipForm" class="ui form">
+            <div class="field">
+                <label>Název pozice</label>
+                <input name="Title" placeholder="" type="text">
+            </div>
+            <div class="field">
+                <label>Popis pozice</label>
+                <textarea id="_Description" name="Description"></textarea>
+            </div>
+            <div class="field">
+                <label>Město</label>
+                <input name="City" placeholder="" type="text">
+            </div>
+            <div class="field">
+                <label>Stát</label>
+                <select name="State" class="ui search dropdown _DropdownSearch">
+                    <option value="">Stát</option>
+                    <option value="CZE">Česká republika</option>
+                    <option value="SVK">Slovensko</option>
+                    <option value="GER">Německo</option>
+                    <option value="GB">UK</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Odměna</label>
+                <div id="_IsPaidCheckbox" class="ui checkbox">
+                    <input class="hidden" type="checkbox" tabindex="0">
+                    <label>Stáž je placená</label>
+                </div>
+
+                <div id="_InternshipAmountField" class="field w-margin-top-10 w-body-hide">
+                    <div class="ui right labeled input">
+                        <input name="Amount" placeholder="" type="text">
+                        <div class="ui dropdown label _CurrencyDropdown">
+                            <input name="Currency" type="hidden" value="CZK">
+                            <div class="item text" data-value="CZK">CZK</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item" data-value="CZK">CZK</div>
+                                <div class="item" data-value="USD">USD</div>
+                                <div class="item" data-value="EUR">EUR</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Nástup od</label>
+                <input name="StartDate" class="_Datepicker" type="text" data-toggle="startdate">
+                <div class="_Datepicker" data-toggle="startdate"></div>
+            </div>
+
+            <div class="field">
+                <div class="ui right labeled input">
+                    <input name="Duration" placeholder="" type="text">
+                    <div class="ui dropdown label _DurationDropdown">
+                        <input name="DurationType" type="hidden" value="Weeks">
+                        <div class="item text" data-value="Weeks">Týdnů</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="Days">Dnů</div>
+                            <div class="item" data-value="Weeks">Týdnů</div>
+                            <div class="item" data-value="Months">Měsíců</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="ui button submit primary" type="submit">
+                Přidat nabídku
+            </button>
+            <div class="ui error message"></div>
+        </form>
+
+    </div>
+</div>

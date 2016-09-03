@@ -21,6 +21,16 @@ namespace Web.Controllers
             return View();
         }
 
+        public async Task<ActionResult> RegisterCompany(int? page)
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> NewInternship(int? page)
+        {
+            return View();
+        }
+
         #endregion
     }
 }

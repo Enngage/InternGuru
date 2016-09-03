@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity
@@ -13,17 +14,30 @@ namespace Entity
         [ForeignKey("Company")]
         public int CompanyID { get; set; }
 
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Description { get; set; }
-        public string City { get; set; } 
+        [Required]
+        public string City { get; set; }
+        [Required]
         public string Country { get; set; }
+        [Required]
         public DateTime Created { get; set; }
+        [Required]
         public DateTime Updated { get; set; }
+        [Required]
         public bool IsPaid { get; set; }
+        public double Amount { get; set; }
+        public string Currency { get; set; }
+        [Required]
         public int DurationInMonths { get; set; }
+        [Required]
+        public int DurationInDays { get; set; }
+        [Required]
         public int DurationInWeeks { get; set; }
+        [Required]
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
 
 
         #region Virtual

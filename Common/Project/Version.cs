@@ -6,6 +6,9 @@ namespace Common.Project
     {
         #region Version
 
+        /// <summary>
+        /// Release date
+        /// </summary>
         public static DateTime VersionRelase
         {
             get
@@ -14,6 +17,9 @@ namespace Common.Project
             }
         }
 
+        /// <summary>
+        /// Version
+        /// </summary>
         public static Version Version
         {
             get

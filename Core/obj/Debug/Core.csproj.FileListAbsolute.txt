@@ -26,3 +26,5 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrati
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.Categories_CompanyInfo.resources
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.InternshipCategoryFix.resources
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.CompanyAddressFix.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.InternshipRedesign.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.InternshipRedesign2.resources
