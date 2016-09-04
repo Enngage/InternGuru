@@ -94,6 +94,10 @@
     <Compile Include="Migrations\201609031415257_InternshipRedesign2.Designer.cs">
       <DependentUpon>201609031415257_InternshipRedesign2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609041605298_AmountType.cs" />
+    <Compile Include="Migrations\201609041605298_AmountType.Designer.cs">
+      <DependentUpon>201609041605298_AmountType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
@@ -154,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609031415257_InternshipRedesign2.resx">
       <DependentUpon>201609031415257_InternshipRedesign2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609041605298_AmountType.resx">
+      <DependentUpon>201609041605298_AmountType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

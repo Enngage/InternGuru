@@ -21,12 +21,37 @@ namespace Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> RegisterCompany(int? page)
+        public async Task<ActionResult> RegisterCompany()
         {
             return View();
         }
 
-        public async Task<ActionResult> NewInternship(int? page)
+        public async Task<ActionResult> EditCompany()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> NewInternship()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> EditInternship()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> EditProfile()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> Avatar()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> Conversation()
         {
             return View();
         }

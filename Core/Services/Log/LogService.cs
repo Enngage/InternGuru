@@ -71,6 +71,11 @@ namespace Core.Services
             return this.AppContext.Logs;
         }
 
+        public IQueryable<Log> GetSingle(int id)
+        {
+            return this.AppContext.Logs.Where(m => m.ID == id).Take(1);
+        }
+
         public Task<Log> GetAsync(int id)
         {
             return this.AppContext.Logs.FirstOrDefaultAsync(m => m.ID == id);

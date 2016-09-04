@@ -1,0 +1,79 @@
+﻿@using UI.Helpers;
+@using UI.Extensions;
+@model UI.Builders.Master.Views.MasterView
+
+@{
+    ViewBag.Title = "Konverzace";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+<div class="ui grid">
+    <div class="centered sixteen wide mobile sixteen wide tablet eight wide computer column">
+
+        <h1>
+            Skype technical engineer
+        </h1>
+
+        <form class="ui reply form">
+            <div class="field">
+                <textarea></textarea>
+            </div>
+            <div class="ui blue labeled submit icon button">
+                <i class="icon edit"></i> Odeslat
+            </div>
+        </form>
+
+        <div class="ui divided items">
+
+            <div class="ui segment basic padded w-segment-dark">
+                <div class="item w-body-item-highlighted">
+                    <div class="content">
+                        <div class="description">
+                            <p>
+                                Eppi je e-commerce butik, který se specializuje na šperky a klenoty. Náš tým tvoří několik mladých a nadšených osobností, které se snaží dělat e-commerce tím správným způsobem. Vzhledem k přirozenému růstu našeho podnikání chceme v současné době rozšířit náš tým, abychom mohli zajistit poskytování výjimečných zákaznických služeb všem našim zákazníkům.
+                            </p>
+                        </div>
+                        <div class="extra w-font-size-small">
+                            <i class="calendar icon"></i>
+                            @DateTime.Now.ToShortTimeString() | RichardS | <a href="#">Skype</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui segment basic padded w-segment-light">
+                <div class="item">
+                    <div class="content">
+                        <div class="description">
+                            <p>
+                                Stále se považujeme za start-up tzn. na formality si moc nepotrpíme, ale jsme motivováni na našich výsledcích. S našimi řešeními oslovujeme obce, města, výrobní podniky, majitele administrativních budov. Občas si jdeme s firmou zajezdit na motokárách, zahrát paintball nebo v zimě na hory, ale na prvním místě jsou vždy výsledky.
+                            </p>
+                        </div>
+                        <div class="extra w-font-size-small">
+                            <i class="calendar icon"></i>
+                            @DateTime.Now.ToShortTimeString() | Já
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui segment basic padded w-segment-dark">
+                <div class="item">
+                    <div class="content">
+                        <div class="description">
+                            <p>
+                                Eppi je e-commerce butik, který se specializuje na šperky a klenoty. Náš tým tvoří několik mladých a nadšených osobností, které se snaží dělat e-commerce tím správným způsobem. Vzhledem k přirozenému růstu našeho podnikání chceme v současné době rozšířit náš tým, abychom mohli zajistit poskytování výjimečných zákaznických služeb všem našim zákazníkům.
+                            </p>
+                        </div>
+                        <div class="extra w-font-size-small">
+                            <i class="calendar icon"></i>
+                            @DateTime.Now.ToShortTimeString() | RichardS | <a href="#">Skype</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

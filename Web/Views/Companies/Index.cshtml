@@ -1,0 +1,66 @@
+﻿@model UI.Builders.Company.Views.CompanyIndexView
+@using UI.Helpers;
+@using UI.Extensions;
+@{
+    ViewBag.Title = "Přehled firem nabízejících stáže";
+    ViewBag.Description = "";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+@Html.RequireScript("/scripts/views/company/browse")
+
+<div id="_CompanySegment" class="ui centered grid">
+    <div class="fifteen wide column w-body-text-left">
+        <h1>
+            @ViewBag.Title
+        </h1>
+
+        <div class="ui search">
+            <div class="ui icon input">
+                <input class="prompt" placeholder="Hledat firmu..." type="text">
+                <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
+        </div>
+    </div>
+
+    <div class="sixteen wide mobile eight wide tablet five wide computer column">
+        <a href="#">
+            <img class="ui image fluid" alt="Company name image" data-src="http://semantic-ui.com/images/wireframe/image.png" src="@ImageHelper.GetTransparentImage()" />
+        </a>
+        <div class="w-body-text-left">
+            <a href="@Url.Action("Index", "Company", new { id = 1 })">
+                Kentico
+            </a>
+        </div>
+    </div>
+    <div class="sixteen wide mobile eight wide tablet five wide computer column">
+        <a href="#">
+            <img class="ui image fluid" alt="Company name image" data-src="http://semantic-ui.com/images/wireframe/image.png" src="@ImageHelper.GetTransparentImage()" />
+        </a>
+        <div class="w-body-text-left">
+            <a href="@Url.Action("Index", "Company", new { id = 2 })">
+                Microsoft
+            </a>
+        </div>
+    </div>
+    <div class="sixteen wide mobile eight wide tablet five wide computer column">
+        <a href="@Url.Action("Index", "Company", new { id = 3 })">
+            <img class="ui image fluid" alt="Company name image" data-src="http://semantic-ui.com/images/wireframe/image.png" src="@ImageHelper.GetTransparentImage()" />
+        </a>
+        <div class="w-body-text-left">
+            <a href="#">
+                Skype
+            </a>
+        </div>
+    </div>
+</div>
+
+<div íd="_CompanyLoading" class="ui segment basic w-segment-no-background loading">
+    Nahrávám
+</div>
+
+
+
+
+

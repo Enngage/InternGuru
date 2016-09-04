@@ -40,6 +40,11 @@ namespace Core.Services
             return this.AppContext.Companies.FirstOrDefaultAsync(m => m.ID == id);
         }
 
+        public IQueryable<Company> GetSingle(int id)
+        {
+            return this.AppContext.Companies.Where(m => m.ID == id).Take(1);
+        }
+
         public IQueryable<Company> GetAll()
         {
             return this.AppContext.Companies;

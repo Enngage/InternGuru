@@ -35,6 +35,13 @@ namespace Core.Services
         IQueryable<T> GetAll();
 
         /// <summary>
+        /// Gets query for single object
+        /// </summary>
+        /// <param name="id">ID of the object</param>
+        /// <returns>Query to object</returns>
+        IQueryable<T> GetSingle(int id);
+
+        /// <summary>
         /// Gets single object from database
         /// </summary>
         /// <param name="id">ID of the object</param>

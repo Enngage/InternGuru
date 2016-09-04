@@ -38,7 +38,7 @@ namespace UI.Builders.Company
             int pageSize = 10;
             int pageNumber = (page ?? 1);
 
-            var cacheSetup = CacheService.GetSetup<CompanyModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = CacheService.GetSetup<CompanyBrowseModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 Entity.Company.KeyCreateAny<Entity.Company>(),
@@ -48,7 +48,7 @@ namespace UI.Builders.Company
 
             var companiesQuery = companyService.GetAll()
                 .OrderBy(m => m.CompanyName)
-                .Select(m => new CompanyModel()
+                .Select(m => new CompanyBrowseModel()
                 {
                     City = m.City,
                     CompanyName = m.CompanyName,

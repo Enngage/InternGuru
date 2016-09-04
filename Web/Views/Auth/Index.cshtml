@@ -12,26 +12,27 @@
 <div class="ui grid">
     <div class="sixteen wide mobile six wide tablet three wide computer column">
         <div class="ui segment padded w-body-text-center">
-
-            <img alt="avatar" class="ui avatar tiny image" data-src="http://semantic-ui.com/images/wireframe/square-image.png" src="@ImageHelper.GetTransparentImage()">
+            <a href="@Url.Action("Avatar", "Auth")">
+                <img alt="avatar" class="ui avatar tiny image" data-src="http://semantic-ui.com/images/wireframe/square-image.png" src="@ImageHelper.GetTransparentImage()">
+            </a>
 
             <p class="w-margin-top-10">
                 <strong>Johnny Bravo</strong>
             </p>
+        </div>
 
-            <p class="w-margin-top-30 w-body-text-left">
-                <a href="#">Upravit profil</a>
-            </p>
+        <div class="ui segment vertical w-body-text-center">
+            <a href="@Url.Action("EditProfile", "Auth")">Upravit profil</a>
         </div>
     </div>
-    <div class="sixteen wide mobile ten wide tablet ten wide computer column">
+    <div class="sixteen wide mobile ten wide tablet nine wide computer column">
 
         <div class="ui secondary pointing menu">
             <a class="item active" data-tab="first">
                 Konverzace
             </a>
             <a class="item" data-tab="second">
-                Zprávy
+                Vystavené nabídky
             </a>
             <div class="right menu">
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
@@ -46,15 +47,96 @@
             </div>
         </div>
 
-        <div class="ui tab segment active" data-tab="first"> First </div>
-        <div class="ui tab segment" data-tab="second"> Second </div>
+        <div class="ui tab segment active" data-tab="first">
+            <div class="ui divided items">
+                <div class="item">
+                    <div class="content">
+                        <div class="ui right floated w-font-light w-font-size-small">
+                            <i class="warning red icon"></i> Nová zpráva
+                        </div>
+                        <a class="header" href="@Url.Action("Conversation", "Auth")">
+                            Skype
+                        </a>
+                        <div class="description">
+                            <p>
+                                Eppi je e-commerce butik, který se specializuje na šperky a klenoty. Náš tým tvoří několik mladých a nadšených osobností, které se snaží dělat e-commerce tím správným způsobem. Vzhledem k přirozenému růstu našeho podnikání chceme v současné době rozšířit náš tým, abychom mohli zajistit poskytování výjimečných zákaznických služeb všem našim zákazníkům.
+                            </p>
+                        </div>
+                        <div class="extra w-font-size-small">
+                            <i class="calendar icon"></i>
+                            @DateTime.Now.ToShortTimeString() | RichardS | <a href="#">Skype</a>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="item">
+                    <div class="content">
+                        <div class="ui right floated w-font-light w-font-size-small">
+                            <i class="checkmark green icon"></i> Přečteno
+                        </div>
+                        <a class="header" href="@Url.Action("Conversation", "Auth")">
+                            Microsoft
+                        </a>
+                        <div class="description">
+                            <p>
+                                Stále se považujeme za start-up tzn. na formality si moc nepotrpíme, ale jsme motivováni na našich výsledcích. S našimi řešeními oslovujeme obce, města, výrobní podniky, majitele administrativních budov. Občas si jdeme s firmou zajezdit na motokárách, zahrát paintball nebo v zimě na hory, ale na prvním místě jsou vždy výsledky.
+                            </p>
+                        </div>
+                        <div class="extra w-font-size-small">
+                            <i class="calendar icon"></i>
+                            @DateTime.Now.ToShortTimeString() | JohnG | <a href="#">Microsoft</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui tab segment" data-tab="second">
+
+            <div class="ui info message">
+                <p>
+                    Nemáš žádné vystavené nabídky 
+                </p>
+            </div>
+
+            <div class="ui divided items">
+                <div class="item">
+                    <div class="content">
+                        <div class="ui right floated w-font-light w-font-size-small">
+                            <i class="users icon"></i> 3 zájemců
+                        </div>
+                        <a class="header">
+                            Skype
+                        </a>
+                        <div class="extra w-font-size-small">
+                            <i class="calendar icon"></i>
+                            Vystaveno @DateTime.Now.ToShortTimeString() | <a href="@Url.Action("EditInternship", "Auth")">Upravit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </div>
-    <div class="sixteen wide mobile sixteen wide tablet three wide computer column w-body-text-right">
+    <div class="sixteen wide mobile sixteen wide tablet four wide computer column w-body-text-right">
+
+
+        <div class="ui segment padded">
+            <h4>
+                <strong>Kentico</strong>
+            </h4>
+
             <a class="ui primary button" href="@Url.Action("NewInternship", "Auth")">
-                Přidat nabídku
+                Přidat stáž
             </a>
+
+            <a class="ui primary button w-margin-top-10" href="@Url.Action("EditCompany", "Auth")">
+                Upravit firmu
+            </a>
+        </div>
+
     </div>
 </div>
 

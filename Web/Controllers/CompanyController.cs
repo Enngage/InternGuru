@@ -18,9 +18,19 @@ namespace Web.Controllers
 
         #region Actions
 
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(int? id)
         {
-            var model = await companyBuilder.BuildIndexViewAsync(page);
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = await companyBuilder.BuildDetailView(id ?? 0);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
 
             return View(model);
         }

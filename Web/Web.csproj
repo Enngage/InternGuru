@@ -69,6 +69,14 @@
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject.Web.WebApi, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi.WebHost, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.WebHost.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -181,6 +189,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\CompanyController.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -188,6 +197,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1755,13 +1765,15 @@
     <Content Include="Scripts\addons\jquery-2.1.4.min.js" />
     <Content Include="Scripts\addons\respond.min.js" />
     <Content Include="Scripts\main.js" />
-    <Content Include="Scripts\modules\testModule.js" />
-    <Content Include="Scripts\modules\blogCategoryModule.js" />
+    <Content Include="Scripts\modules\companyModule.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\requireConfig.js" />
     <Content Include="Scripts\views\auth\registerCompany.js" />
     <Content Include="Scripts\views\auth\newInternship.js" />
     <Content Include="Scripts\views\auth\authIndex.js" />
+    <Content Include="Scripts\views\company\detail.js" />
+    <Content Include="Scripts\views\company\browse.js" />
+    <Content Include="Scripts\modules\coreModule.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
     <Content Include="Semantic\dist\components\accordion.css" />
     <Content Include="Semantic\dist\components\accordion.js" />
@@ -1968,12 +1980,22 @@
     <Content Include="Stylesheets\partials\_footer.scss" />
     <Content Include="Views\Account\ConfirmEmailSent.cshtml" />
     <Content Include="Stylesheets\partials\_teaser.scss" />
-    <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Auth\Index.cshtml" />
     <Content Include="Views\Shared\Body\LightPadded.cshtml" />
     <Content Include="Views\Shared\Body\Light.cshtml" />
     <Content Include="Views\Auth\RegisterCompany.cshtml" />
     <Content Include="Views\Auth\NewInternship.cshtml" />
+    <Content Include="Views\Auth\EditProfile.cshtml" />
+    <Content Include="Views\Auth\Avatar.cshtml" />
+    <Content Include="Views\Auth\EditCompany.cshtml" />
+    <Content Include="Views\Auth\EditInternship.cshtml" />
+    <Content Include="Views\Auth\Conversation.cshtml" />
+    <Content Include="Stylesheets\partials\_segment.scss" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Companies\Index.cshtml" />
+    <Content Include="Stylesheets\partials\_company.scss" />
+    <Content Include="Views\GoogleMaps\GoogleMap.cshtml" />
+    <Content Include="Stylesheets\partials\_googleMaps.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

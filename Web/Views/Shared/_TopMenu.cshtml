@@ -10,21 +10,21 @@
                 @*<img alt="Logo" class="logo" src="@ImageHelper.GetImageUrl("content/images/general/logos/profile.png")">*@
                 <a href="@Url.Action("Index", "Home")">@Common.Config.AppConfig.SiteName</a>
             </div>
-            @if (controller.Equals("forum"))
+            @if (controller.Equals("internship"))
             {
-                <a href="@Url.Action("Index", "Forum")" class="item active">Nabídka stáží</a>
+                <a href="@Url.Action("Index", "Internship")" class="item active">Nabídka stáží</a>
             }
             else
             {
-                <a href="@Url.Action("Index", "Forum")" class="item">Nabídka stáží</a>
+                <a href="@Url.Action("Index", "Internship")" class="item">Nabídka stáží</a>
             }
-            @if (controller.Equals("browse") || controller.Equals("channel"))
+            @if (controller.Equals("companies"))
             {
-                <a href="@Url.Action("Index", "Browse")" class="item active">Firmy</a>
+                <a href="@Url.Action("Index", "Companies")" class="item active">Firmy</a>
             }
             else
             {
-                <a href="@Url.Action("Index", "Browse")" class="item">Firmy</a>
+                <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
             }
             @if (controller.Equals("videos"))
             {

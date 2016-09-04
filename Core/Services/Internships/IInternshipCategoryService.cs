@@ -4,12 +4,7 @@ using Entity;
 
 namespace Core.Services
 {
-    public interface IInternshipCategoryService
+    public interface IInternshipCategoryService : IService<InternshipCategory>
     {
-        Task DeleteAsync(int id);
-        IQueryable<InternshipCategory> GetAll();
-        Task<InternshipCategory> GetAsync(int id);
-        Task InsertAsync(InternshipCategory obj);
-        Task UpdateAsync(InternshipCategory obj);
     }
 }

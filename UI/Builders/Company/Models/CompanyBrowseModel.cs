@@ -1,7 +1,7 @@
 ﻿
 namespace UI.Builders.Company.Models
 {
-    public class CompanyModel
+    public class CompanyBrowseModel
     {
         public int ID { get; set; }
         public string CompanyName { get; set; }

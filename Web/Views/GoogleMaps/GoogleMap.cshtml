@@ -1,0 +1,40 @@
+﻿@model UI.Builders.GoogleMaps.Views.GoogleMapView
+@using UI.Helpers;
+@using UI.Extensions;
+@{
+    var apiKey = Common.Config.AppConfig.GoogleApiKey;
+}
+
+@Html.RequireScript(string.Format("//maps.googleapis.com/maps/api/js?key={0}&amp;callback=initMap", apiKey), 1, null, false, true, false)
+
+<script type="text/javascript">
+    function initMap() {
+        // get element where map will be inserted
+        var mapDiv = document.getElementById('_GoogleMap');
+
+        // create location based on lat and lng
+        var latLng = new google.maps.LatLng(@Model.Lat, @Model.Lng);
+
+        // prepare map
+        var map = new google.maps.Map(mapDiv, {
+            center: latLng,
+            zoom: @Model.Zoom,
+        });
+
+        // prepare marker
+        var marker = new google.maps.Marker({
+            position: latLng,
+            title: '@Model.MarkerTitle',
+        });
+
+        // add marker
+        marker.setMap(map);
+    }
+</script>
+
+<div id="_GoogleMap" class="w-googlemaps-wrapper"></div>
+
+
+
+
+

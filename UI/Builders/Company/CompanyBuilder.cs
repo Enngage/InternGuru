@@ -38,7 +38,7 @@ namespace UI.Builders.Company
             int pageSize = 10;
             int pageNumber = (page ?? 1);
 
-            var cacheSetup = CacheService.GetSetup<CompanyModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = CacheService.GetSetup<CompanyBrowseModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 Entity.Company.KeyCreateAny<Entity.Company>(),
@@ -48,7 +48,7 @@ namespace UI.Builders.Company
 
             var companiesQuery = companyService.GetAll()
                 .OrderBy(m => m.CompanyName)
-                .Select(m => new CompanyModel()
+                .Select(m => new CompanyBrowseModel()
                 {
                     City = m.City,
                     CompanyName = m.CompanyName,
@@ -59,13 +59,94 @@ namespace UI.Builders.Company
 
             var companies = await CacheService.GetOrSetAsync(async () => await companiesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
 
-            var tease = CacheService.GetAllSetups();
-
             return new CompanyIndexView()
             {
                 Companies = companies
             };
 
+        }
+
+        public async Task<CompanyDetailView> BuildDetailView(int companyID)
+        {
+            int cacheMinutes = 60;
+
+            var cacheSetup = CacheService.GetSetup<CompanyDetailModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                Entity.Company.KeyUpdate<Entity.Company>(companyID),
+                Entity.Company.KeyDelete<Entity.Company>(companyID),
+            };
+
+            var companyQuery = companyService.GetAll()
+                .Where(m => m.ID == companyID)
+                .Take(1)
+                .Select(m => new CompanyDetailModel()
+                {
+                    Address = m.Address,
+                    CompanyCategoryID = m.CompanyCategoryID,
+                    CompanyCategoryName = m.CompanyCategory.Name,
+                    CompanySize = m.CompanySize,
+                    Facebook = m.Facebook,
+                    Lat = m.Lat,
+                    LinkedIn = m.LinkedIn,
+                    Lng = m.Lng,
+                    LongDescription = m.LongDescription,
+                    PublicEmail = m.PublicEmail,
+                    Twitter = m.Twitter,
+                    Web = m.Web,
+                    YearFounded = m.YearFounded,
+                    City = m.City,
+                    CompanyName = m.CompanyName,
+                    Country = m.Country,
+                    ShortDescription = m.ShortDescription,
+                    ID = m.ID,
+                    Internships = m.Internships
+                        .Select(s => new CompanyDetailInternshipModel()
+                        {
+                            ID = s.ID,
+                            Title = s.Title
+                        })
+                });
+
+            var company = await CacheService.GetOrSetAsync(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
+
+            if (company == null)
+            {
+                return null;
+            }
+
+            return new CompanyDetailView()
+            {
+                Company = company,
+            };
+
+        }
+
+        #endregion
+
+        #region Web API methods
+
+        public async Task<IList<CompanyBrowseModel>> GetMoreCompanies(int? page)
+        {
+            int pageSize = 10;
+
+            // TODO 
+            var list = new List<CompanyBrowseModel>();
+
+            // generate random companies
+            for (int i = 0; i <= pageSize; i++)
+            {
+                list.Add(new CompanyBrowseModel()
+                {
+                    City = "city",
+                    CompanyName = "company_" + i,
+                    Country = "country",
+                    ID = i,
+                    InternshipCount = i * 3 - i * 2
+                });
+            }
+
+            return list;
         }
 
         #endregion

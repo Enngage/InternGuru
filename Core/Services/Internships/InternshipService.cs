@@ -44,6 +44,11 @@ namespace Core.Services
             return this.AppContext.Internships;
         }
 
+        public IQueryable<Internship> GetSingle(int id)
+        {
+            return this.AppContext.Internships.Where(m => m.ID == id).Take(1);
+        }
+
         public Task InsertAsync(Internship obj)
         {
             this.AppContext.Internships.Add(obj);

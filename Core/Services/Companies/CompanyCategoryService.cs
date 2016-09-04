@@ -44,6 +44,11 @@ namespace Core.Services
             return this.AppContext.CompanyCategories;
         }
 
+        public IQueryable<CompanyCategory> GetSingle(int id)
+        {
+            return this.AppContext.CompanyCategories.Where(m => m.ID == id).Take(1);
+        }
+
         public Task InsertAsync(CompanyCategory obj)
         {
             this.AppContext.CompanyCategories.Add(obj);

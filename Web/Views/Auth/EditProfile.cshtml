@@ -1,0 +1,31 @@
+﻿@using UI.Helpers;
+@using UI.Extensions;
+@model UI.Builders.Master.Views.MasterView
+
+@{
+    ViewBag.Title = "Upravit profil";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+<div class="ui grid">
+    <div class="centered sixteen wide mobile sixteen wide tablet five wide computer column">
+
+        <form class="ui form">
+
+            <div class="field">
+                <label>Jméno</label>
+                <input name="FirstName" placeholder="" type="text">
+            </div>
+
+            <div class="field">
+                <label>Příjmení</label>
+                <input name="LastName" placeholder="" type="text">
+            </div>
+
+            <button class="ui button submit primary" type="submit">
+                Uložit
+            </button>
+        </form>
+
+    </div>
+</div>

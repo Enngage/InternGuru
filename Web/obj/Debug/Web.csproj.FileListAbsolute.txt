@@ -109,3 +109,7 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFra
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.xml
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFramework.pdb
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFramework.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Ninject.Web.WebApi.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Ninject.Web.WebApi.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Ninject.Web.WebApi.WebHost.dll
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Ninject.Web.WebApi.WebHost.xml

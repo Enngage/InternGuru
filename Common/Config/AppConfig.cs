@@ -77,6 +77,17 @@ namespace Common.Config
         #region Google
 
         /// <summary>
+        /// Represents Google API KEY
+        /// </summary>
+        public static string GoogleApiKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["GoogleApiKey"];
+            }
+        }
+
+        /// <summary>
         /// Represents Google client ID 
         /// </summary>
         public static string GoogleClientID

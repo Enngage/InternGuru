@@ -3,9 +3,8 @@
 @if (Request.IsAuthenticated)
 {
     <a class="item w-menu-right-item" href="@Url.Action("Index", "Auth")">
-        <div class="ui button secondary">
-            @User.Identity.GetUserName()
-        </div>
+        <img alt="avatar" class="ui avatar image" src="http://semantic-ui.com/images/wireframe/square-image.png">
+        &nbsp;<span>@User.Identity.GetUserName()</span>
     </a>
 }
 else

@@ -38,7 +38,8 @@ namespace UI.Extensions
                 {
                     Path = CSSPath,
                     Priority = priority,
-                    HtmlAttributes = htmlAttributes
+                    HtmlAttributes = htmlAttributes,
+                    UseAsync = false,
                 });
             }
             return null;
@@ -68,15 +69,24 @@ namespace UI.Extensions
         /// <param name="path">Path to JS file without ".js"</param>
         /// <param name="priority">Priority</param>
         /// <param name="htmlAttributes">Html attributes</param>
+        /// <param name="includeVersion">Indicates if version query string will be included</param>
+        /// <param name="useAsync">Indicates if async load will be used</param>
+        /// <param name="includeExtension">Indicates if Extension will be added to script</param>
         /// <returns>Script on the home page</returns>
-        public static string RequireScript(this HtmlHelper html, string path, int priority = 1, string htmlAttributes = null)
+        public static string RequireScript(this HtmlHelper html, string path, int priority = 1, string htmlAttributes = null, bool includeVersion = true, bool useAsync = false, bool includeExtension = true)
         {
             string scriptPath = path;
 
-            scriptPath = String.Format("{0}.js", scriptPath);
+            if (includeExtension)
+            {
+                scriptPath = String.Format("{0}.js", scriptPath);
+            }
 
             // add version hash
-            scriptPath += String.Format("?v={0}", VersionInfo.Version);
+            if (includeVersion)
+            {
+                scriptPath += String.Format("?v={0}", VersionInfo.Version);
+            }
 
             var requiredScripts = HttpContext.Current.Items["RequiredScripts"] as List<ResourceInclude>;
             if (requiredScripts == null) HttpContext.Current.Items["RequiredScripts"] = requiredScripts = new List<ResourceInclude>();
@@ -86,7 +96,8 @@ namespace UI.Extensions
                 {
                     Path = scriptPath,
                     Priority = priority,
-                    HtmlAttributes = htmlAttributes
+                    HtmlAttributes = htmlAttributes,
+                    UseAsync = useAsync,
                 });
             }
             return null;
@@ -103,7 +114,14 @@ namespace UI.Extensions
             StringBuilder sb = new StringBuilder();
             foreach (var item in requiredScripts.OrderByDescending(i => i.Priority))
             {
-                sb.AppendFormat("<script {0} src=\"{1}\" type=\"text/javascript\"></script>\n", item.HtmlAttributes, item.Path);
+                if (item.UseAsync)
+                {
+                    sb.AppendFormat("<script async defer {0} src=\"{1}\"></script>\n", item.HtmlAttributes, item.Path);
+                }
+                else
+                {
+                    sb.AppendFormat("<script {0} src=\"{1}\" type=\"text/javascript\"></script>\n", item.HtmlAttributes, item.Path);
+                }
             }
             return new HtmlString(sb.ToString());
         }
@@ -116,6 +134,7 @@ namespace UI.Extensions
             public string Path { get; set; }
             public int Priority { get; set; }
             public string HtmlAttributes { get; set; }
+            public bool UseAsync { get; set; }
         }
     }
 }

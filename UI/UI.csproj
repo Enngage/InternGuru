@@ -50,6 +50,10 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
       <Private>True</Private>
@@ -65,9 +69,21 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -98,6 +114,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\BaseApiController.cs" />
     <Compile Include="Abstract\BuilderAbstract.cs" />
     <Compile Include="Abstract\BaseController.cs" />
     <Compile Include="Builders\Account\AccountBuilder.cs" />
@@ -114,8 +131,13 @@
     <Compile Include="Builders\Account\Views\RegisterViewModel.cs" />
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
     <Compile Include="Builders\Company\CompanyBuilder.cs" />
-    <Compile Include="Builders\Company\Models\CompanyModel.cs" />
+    <Compile Include="Builders\Company\Models\CompanyDetailInternshipModel.cs" />
+    <Compile Include="Builders\Company\Models\CompanyDetailModel.cs" />
+    <Compile Include="Builders\Company\Models\GetMoreCompaniesModel.cs" />
+    <Compile Include="Builders\Company\Models\CompanyBrowseModel.cs" />
+    <Compile Include="Builders\Company\Views\CompanyDetailView.cs" />
     <Compile Include="Builders\Company\Views\CompanyIndexView.cs" />
+    <Compile Include="Builders\GoogleMaps\Views\GoogleMapView.cs" />
     <Compile Include="Builders\Master\MasterBuilder.cs" />
     <Compile Include="Builders\Master\Models\MasterModel.cs" />
     <Compile Include="Builders\Master\Views\LockoutView.cs" />
@@ -126,9 +148,6 @@
     <Compile Include="ModelState\IModelState.cs" />
     <Compile Include="ModelState\ModelStateWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\PagedList.css" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

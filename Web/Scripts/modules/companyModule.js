@@ -1,23 +1,20 @@
-﻿define(['modules/coreModule', 'jquery', 'promise'], function (CoreModule, $, ExtendedPromise) {
+﻿define(['modules/coreModule', 'jquery', 'promise'], function (Coremodule, $, ExtendedPromise) {
 
-    function BlogCategoryModule() {
+    function CompanyModule() {
     }
 
     var Promise = ExtendedPromise.Promise;
 
-    BlogCategoryModule.prototype.DeleteCategory = function (categoryID) {
+    CompanyModule.prototype.getMoreCompanies = function () {
         return new Promise(function (resolve, reject) {
-            var postUrl = "/api/BlogCategory/DeleteCategory/";
-            var data = "{ 'CategoryID':'" + categoryID + "'}";
-
+            var postUrl = "/api/company/GetMoreCompanies";
             $.ajax({
                 url: postUrl,
-                data: data,
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    resolve(true);
+                    resolve(response);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     reject(Error(xhr.responseText))
@@ -26,5 +23,5 @@
         });
     }
 
-    return BlogCategoryModule;
+    return CompanyModule;
 });

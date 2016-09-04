@@ -1,0 +1,19 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-segment-light{
+        background-color: #ffffff;
+    }
+
+    .w-segment-dark{
+        background-color: #fee3d5;
+    }
+
+    .w-segment-no-background:before{
+        background: none;
+    }
+
+    .w-segment-no-background{
+        background: none;
+    }
+}

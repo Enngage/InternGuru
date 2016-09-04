@@ -7,6 +7,6 @@ namespace UI.Builders.Company.Views
 {
     public class CompanyIndexView : MasterView
     {
-        public IEnumerable<CompanyModel> Companies { get; set; }
+        public IEnumerable<CompanyBrowseModel> Companies { get; set; }
     }
 }

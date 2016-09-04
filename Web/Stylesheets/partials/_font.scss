@@ -33,10 +33,6 @@
         color: $color-negative;
     }
 
-    .w-font-lighten{
-        color: lighten( $color-base, 10% )
-    }
-
     .w-font-primary{
         color: $primary-color;
     }
@@ -47,5 +43,9 @@
 
     .w-font-underline{
         text-decoration: underline;
+    }
+
+    .w-font-light{
+        color: $color-light;
     }
 }
