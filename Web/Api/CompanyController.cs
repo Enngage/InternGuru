@@ -25,7 +25,7 @@ namespace Web.Api.Controllers
         {
             try
             {
-                var companies = await companyBuilder.GetMoreCompanies(1);
+                var companies = await companyBuilder.GetMoreCompaniesAsync(1);
 
                 System.Threading.Thread.Sleep(5000);
 

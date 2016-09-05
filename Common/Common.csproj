@@ -46,8 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AppConfig.cs" />
+    <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Config\SystemConfig.cs" />
     <Compile Include="Environment\EnvironmentEnum.cs" />
+    <Compile Include="Helpers\Culture\CultureModel.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Loc\KernelProvider.cs" />
     <Compile Include="Loc\KernelType.cs" />

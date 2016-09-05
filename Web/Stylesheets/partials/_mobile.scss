@@ -22,7 +22,9 @@
         }
     }
 
-    .shitty{
-        color:red;
+     .w-mobile-left {
+        @media (max-width: 767px) {
+            text-align: left;
+        }
     }
 }

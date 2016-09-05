@@ -25,7 +25,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await companyBuilder.BuildDetailView(id ?? 0);
+            var model = await companyBuilder.BuildDetailViewAsync(id ?? 0);
 
             if (model == null)
             {

@@ -192,8 +192,9 @@
     #w-body-wrapper .w-mobile-show {
       display: block; } }
 
-#w-body-wrapper .shitty {
-  color: red; }
+@media (max-width: 767px) {
+  #w-body-wrapper .w-mobile-left {
+    text-align: left; } }
 
 @media (min-width: 991px) {
   #w-body-wrapper .w-computer-hide {
@@ -392,4 +393,26 @@
   min-height: 300px;
   margin: 0;
   padding: 0; }
+
+#w-body-wrapper .w-internship-category-menu .item.active {
+  border-right: solid 3px #FF5733; }
+
+#w-body-wrapper .w-internship-browse-table tr {
+  cursor: pointer; }
+
+#w-body-wrapper .w-internship-browse-table tr > td:first-of-type {
+  padding-left: 20px; }
+
+#w-body-wrapper .w-internship-browse-table tr > td:last-of-type {
+  padding-right: 20px; }
+
+#w-body-wrapper .w-internship-browse-table tr:hover {
+  cursor: pointer;
+  background-color: #ffffff; }
+
+#w-body-wrapper .w-internship-browse-table td a {
+  font-size: 17px; }
+
+#w-body-wrapper .w-auth-menu .item.active {
+  border-bottom: solid 3px #FF5733; }
 

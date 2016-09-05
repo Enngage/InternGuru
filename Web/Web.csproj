@@ -197,6 +197,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\InternshipsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1765,6 +1766,7 @@
     <Content Include="Scripts\addons\jquery-2.1.4.min.js" />
     <Content Include="Scripts\addons\respond.min.js" />
     <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\modules\internshipModule.js" />
     <Content Include="Scripts\modules\companyModule.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\requireConfig.js" />
@@ -1774,6 +1776,7 @@
     <Content Include="Scripts\views\company\detail.js" />
     <Content Include="Scripts\views\company\browse.js" />
     <Content Include="Scripts\modules\coreModule.js" />
+    <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
     <Content Include="Semantic\dist\components\accordion.css" />
     <Content Include="Semantic\dist\components\accordion.js" />
@@ -1996,6 +1999,9 @@
     <Content Include="Stylesheets\partials\_company.scss" />
     <Content Include="Views\GoogleMaps\GoogleMap.cshtml" />
     <Content Include="Stylesheets\partials\_googleMaps.scss" />
+    <Content Include="Views\Internships\Index.cshtml" />
+    <Content Include="Stylesheets\partials\_internship.scss" />
+    <Content Include="Stylesheets\partials\_auth.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

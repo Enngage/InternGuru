@@ -66,7 +66,7 @@ namespace UI.Builders.Company
 
         }
 
-        public async Task<CompanyDetailView> BuildDetailView(int companyID)
+        public async Task<CompanyDetailView> BuildDetailViewAsync(int companyID)
         {
             int cacheMinutes = 60;
 
@@ -119,14 +119,13 @@ namespace UI.Builders.Company
             {
                 Company = company,
             };
-
         }
 
         #endregion
 
         #region Web API methods
 
-        public async Task<IList<CompanyBrowseModel>> GetMoreCompanies(int? page)
+        public async Task<IList<CompanyBrowseModel>> GetMoreCompaniesAsync(int? page)
         {
             int pageSize = 10;
 

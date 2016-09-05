@@ -138,6 +138,9 @@
     <Compile Include="Builders\Company\Views\CompanyDetailView.cs" />
     <Compile Include="Builders\Company\Views\CompanyIndexView.cs" />
     <Compile Include="Builders\GoogleMaps\Views\GoogleMapView.cs" />
+    <Compile Include="Builders\Internship\InternshipBuilder.cs" />
+    <Compile Include="Builders\Internship\Models\InternshipBrowseModel.cs" />
+    <Compile Include="Builders\Internship\Views\InternshipBrowseView.cs" />
     <Compile Include="Builders\Master\MasterBuilder.cs" />
     <Compile Include="Builders\Master\Models\MasterModel.cs" />
     <Compile Include="Builders\Master\Views\LockoutView.cs" />

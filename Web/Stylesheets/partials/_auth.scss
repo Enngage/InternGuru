@@ -1,0 +1,10 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+
+    .w-auth-menu {
+        .item.active {
+            border-bottom: solid 3px $secondary-color;
+        }
+    }
+}

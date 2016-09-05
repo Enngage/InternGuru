@@ -10,13 +10,13 @@
                 @*<img alt="Logo" class="logo" src="@ImageHelper.GetImageUrl("content/images/general/logos/profile.png")">*@
                 <a href="@Url.Action("Index", "Home")">@Common.Config.AppConfig.SiteName</a>
             </div>
-            @if (controller.Equals("internship"))
+            @if (controller.Equals("internships"))
             {
-                <a href="@Url.Action("Index", "Internship")" class="item active">Nabídka stáží</a>
+                <a href="@Url.Action("Index", "Internships")" class="item active">Nabídka stáží</a>
             }
             else
             {
-                <a href="@Url.Action("Index", "Internship")" class="item">Nabídka stáží</a>
+                <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
             }
             @if (controller.Equals("companies"))
             {
@@ -33,6 +33,14 @@
             else
             {
                 <a href="@Url.Action("Index", "Videos")" class="item">Proč jít na stáž?</a>
+            }
+            @if (controller.Equals("forcompanies"))
+            {
+                <a href="@Url.Action("Index", "ForCompanies")" class="item active">Pro firmy</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "ForCompanies")" class="item">Pro firmy</a>
             }
             <div class="right menu">
                 @Html.Partial("_LoginPartial")

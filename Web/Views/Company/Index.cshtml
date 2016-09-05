@@ -1,5 +1,6 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
 @using UI.Helpers;
+@using Common.Helpers;
 @using UI.Extensions;
 @{
     ViewBag.Title = Model.Company.CompanyName;
@@ -54,9 +55,9 @@
         <div class="ui segment w-font-light">
             <div class="ui list w-font-size-small">
                 <div class="item">
-                    <i class="flag icon"></i>
                     <div class="content">
-                        Česká republika
+                        @Html.Raw(CultureHelper.GetCountryIcon("Czech"))
+                        <strong>Česká republika</strong>
                     </div>
                 </div>
                 <div class="item">
@@ -71,6 +72,18 @@
                         <a href="#">
                             www.kentico.com
                         </a>
+                    </div>
+                </div>
+                <div class="item w-margin-top-10">
+                    <i class="idea icon"></i>
+                    <div class="content">
+                        Založeno v roce 2004
+                    </div>
+                </div>
+                <div class="item">
+                    <i class="users icon"></i>
+                    <div class="content">
+                        100+ zaměstnanců
                     </div>
                 </div>
             </div>

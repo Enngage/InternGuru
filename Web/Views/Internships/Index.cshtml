@@ -1,0 +1,115 @@
+﻿@model UI.Builders.Internship.Views.InternshipBrowseView
+@using UI.Helpers;
+@using Common.Helpers;
+@using UI.Extensions;
+@{
+    ViewBag.Title = "Nabídka stáží";
+    ViewBag.Description = "Najsi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+@Html.RequireScript("/scripts/views/internship/browseInternships")
+
+<div class="ui grid">
+    <div class="sixteen wide column">
+        <h1>
+            @ViewBag.Title
+        </h1>
+    </div>
+
+    <div class="eight wide mobile seven wide tablet seven wide computer column">
+        <div class="ui fluid icon input">
+            <i class="search icon"></i>
+            <input name="Search" placeholder="Klíčové slovo ..." type="text">
+        </div>
+    </div>
+    <div class="eight wide mobile seven wide tablet seven wide computer column">
+        <div class="ui fluid icon input">
+            <i class="world icon"></i>
+            <input name="City" placeholder="Město" type="text">
+        </div>
+    </div>
+    <div class="sixteen wide mobile two wide tablet two wide computer column">
+        <a href="#">
+            <div class="ui button primary">
+                Hledat
+            </div>
+        </a>
+    </div>
+
+    <div class="five wide tablet only four wide computer only column">
+        <div class="ui secondary vertical pointing menu w-internship-category-menu ">
+            <a class="active item">
+                Home
+            </a>
+            <a class="item">
+                Messages
+            </a>
+            <a class="item">
+                Friends
+            </a>
+        </div>
+    </div>
+    <div class="sixteen wide mobile eleven wide tablet twelve wide computer column">
+        <table class="ui very basic table w-internship-browse-table">
+            <tbody>
+                <tr data-link="/Companies">
+                    <td class="collapsing">
+                        <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logo-auta-online1146010588880.png" />
+                    </td>
+                    <td>
+                        <a href="#">
+                            Project manager
+                        </a>
+                        <span class="w-font-size-small w-font-light">(15 000Kč / Měsíc)</span>
+                    </td>
+                    <td class="collapsing">
+                       @Html.Raw(CultureHelper.GetCountryIcon("UK")) London
+                    </td>
+                    <td class="collapsing w-body-text-right w-mobile-left">
+                        3 měsíce
+                    </td>
+                </tr>
+                <tr data-link="/Companies">
+                    <td class="collapsing">
+                        <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logiscool-logo-print-under-eng147193918944.png" />
+                    </td>
+                    <td>
+                        <a href="#">
+                            CTO
+                        </a>
+                        <span class="w-font-size-small w-font-light">($5000 / Měsíc)</span>
+                    </td>
+                    <td class="collapsing">
+                        @Html.Raw(CultureHelper.GetCountryIcon("Germany")) Vienna
+                    </td>
+                    <td class="collapsing w-body-text-right w-mobile-left">
+                        1 měsíc
+                    </td>
+                </tr>
+                <tr data-link="/Companies">
+                    <td class="collapsing">
+                        <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logo-long144102230989.png" />
+                    </td>
+                    <td>
+                        <a href="#">
+                            Javascript developer
+                        </a>
+                        <span class="w-font-size-small w-font-light">(3 000Kč / Měsíc)</span>
+                    </td>
+                    <td class="collapsing">
+                        @Html.Raw(CultureHelper.GetCountryIcon("Czech")) Brno
+                    </td>
+                    <td class="collapsing w-body-text-right w-mobile-left">
+                       2 měsíce
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
