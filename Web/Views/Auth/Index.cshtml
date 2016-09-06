@@ -1,6 +1,6 @@
 ﻿@using UI.Helpers;
 @using UI.Extensions;
-@model UI.Builders.Master.Views.MasterView
+@model UI.Builders.Auth.Views.AuthIndexView
 
 @{
     ViewBag.Title = "Můj profil";
@@ -18,8 +18,10 @@
 
             <p class="w-margin-top-10">
                 <strong>Johnny Bravo</strong>
+            <p class="w-font-size-small">
+                Kentico
             </p>
-            <p>
+            <p class="w-font-size-small">
                 <a href="@Url.Action("EditProfile", "Auth")">Upravit profil</a>
             </p>
         </div>
@@ -46,7 +48,7 @@
             </div>
         </div>
 
-        <div class="ui tab segment active" data-tab="first">
+        <div class="ui tab basic segment active" data-tab="first">
             <div class="ui divided items">
                 <div class="item">
                     <div class="content">
@@ -95,7 +97,7 @@
 
             <div class="ui info message">
                 <p>
-                    Nemáš žádné vystavené nabídky 
+                    Nemáš žádné vystavené nabídky
                 </p>
             </div>
 
@@ -122,18 +124,23 @@
     <div class="sixteen wide mobile sixteen wide tablet four wide computer column w-body-text-right">
 
 
-        <div class="ui segment padded">
-            <h4>
-                <strong>Kentico</strong>
-            </h4>
-
-            <a class="ui primary button" href="@Url.Action("NewInternship", "Auth")">
+        <div class="ui segment basic">
+            <a class="ui primary fluid button" href="@Url.Action("NewInternship", "Auth")">
                 Přidat stáž
             </a>
 
-            <a class="ui primary button w-margin-top-10" href="@Url.Action("EditCompany", "Auth")">
-                Upravit firmu
-            </a>
+            @if (Model.CompanyIsCreated)
+            {
+                <a class="ui primary fluid button w-margin-top-10" href="@Url.Action("EditCompany", "Auth")">
+                    Upravit firmu
+                </a>
+            }
+            else
+            {
+                <a class="ui primary fluid button w-margin-top-10" href="@Url.Action("RegisterCompany", "Auth")">
+                    Přidat firmu
+                </a>
+            }
         </div>
 
     </div>

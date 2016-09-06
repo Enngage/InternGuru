@@ -1770,7 +1770,7 @@
     <Content Include="Scripts\modules\companyModule.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\requireConfig.js" />
-    <Content Include="Scripts\views\auth\registerCompany.js" />
+    <Content Include="Scripts\views\auth\addEditCompany.js" />
     <Content Include="Scripts\views\auth\newInternship.js" />
     <Content Include="Scripts\views\auth\authIndex.js" />
     <Content Include="Scripts\views\company\detail.js" />
@@ -2002,6 +2002,7 @@
     <Content Include="Views\Internships\Index.cshtml" />
     <Content Include="Stylesheets\partials\_internship.scss" />
     <Content Include="Stylesheets\partials\_auth.scss" />
+    <Content Include="Views\Auth\Partials\AddEditCompany.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

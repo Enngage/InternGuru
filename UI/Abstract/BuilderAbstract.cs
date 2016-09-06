@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 using Core.Context;
-using System.Security.Principal;
 using System.Web;
 using Cache;
+using Core.Services;
+using Core.Services.Identity.Models;
+using UI.ModelState;
 
 namespace UI.Abstract
 {
@@ -14,8 +17,10 @@ namespace UI.Abstract
         #region Variables
 
         private IAppContext appContext;
-        private IIdentity currentUser;
+        private ICurrentUser currentUser;
         private ICacheService cacheService;
+        private IIdentityService identityService;
+        private ILogService logService;
 
         #endregion
 
@@ -33,9 +38,20 @@ namespace UI.Abstract
         }
 
         /// <summary>
+        /// LogService 
+        /// </summary>
+        protected ILogService LogService
+        {
+            get
+            {
+                return this.logService;
+            }
+        }
+
+        /// <summary>
         /// Current user
         /// </summary>
-        protected IIdentity CurrentUser
+        public ICurrentUser CurrentUser
         {
             get
             {
@@ -54,11 +70,26 @@ namespace UI.Abstract
             }
         }
 
+        /// <summary>
+        /// Cache service
+        /// </summary>
         protected ICacheService CacheService
         {
             get
             {
                 return this.cacheService;
+            }
+        }
+
+
+        /// <summary>
+        /// Identity service 
+        /// </summary>
+        protected IIdentityService IdentityService
+        {
+            get
+            {
+                return this.identityService;
             }
         }
 
@@ -71,11 +102,21 @@ namespace UI.Abstract
         /// </summary>
         /// <param name="appContext">appContext</param>
         /// <param name="cacheService">cacheService</param>
-        public BuilderAbstract(IAppContext appContext, ICacheService cacheService)
+        /// <param name="identityService">identityService</param>
+        /// <param name="logService">logService</param>
+        public BuilderAbstract(
+            IAppContext appContext, 
+            ICacheService cacheService,
+            IIdentityService identityService,
+            ILogService logService)
         {
             this.appContext = appContext;
             this.cacheService = cacheService;
-            this.currentUser = GetCurrentuser();
+            this.identityService = identityService;
+            this.logService = logService;
+
+            // Initialize current user
+            InitializeCurrentUser();
         }
 
         #endregion
@@ -105,7 +146,16 @@ namespace UI.Abstract
             return memberName; //output will me name of calling method
         }
 
-        private IIdentity GetCurrentuser()
+        /// <summary>
+        /// Initializes current user
+        /// </summary>
+        private void InitializeCurrentUser()
+        {
+            this.currentUser = GetCurrentuser();
+
+        }
+
+        private ICurrentUser GetCurrentuser()
         {
             if (HttpContext.Current != null)
             {
@@ -117,13 +167,38 @@ namespace UI.Abstract
 
                         if (currentIdentity != null)
                         {
-                            return currentIdentity;
+                            // try to get user id from db
+                            int cacheMinutes = 60;
+                            var cacheSetup = this.cacheService.GetSetup<ICurrentUser>("BuilderAbstract.GetCurrentUser", cacheMinutes);
+                            var userId = this.cacheService.GetOrSet<string>(() => GetApplicationUserId(currentIdentity.Name), cacheSetup);
+
+                            return new CurrentUser()
+                            {
+                                Name = currentIdentity.Name,
+                                AuthenticationType = currentIdentity.AuthenticationType,
+                                Id = userId,
+                                IsAuthenticated = currentIdentity.IsAuthenticated
+                            };
                         }
                     }
                 }
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Gets application user id of user
+        /// </summary>
+        /// <param name="userName">UserName</param>
+        /// <returns>ApplicationUserId</returns>
+        private string GetApplicationUserId(string userName)
+        {
+            var userID = this.IdentityService.GetSingle(userName)
+                .Select(m => m.Id)
+                .FirstOrDefault();
+
+            return userID;
         }
 
         #endregion

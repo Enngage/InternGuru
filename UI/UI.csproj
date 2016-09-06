@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\BaseApiController.cs" />
+    <Compile Include="Abstract\BaseForm.cs" />
     <Compile Include="Abstract\BuilderAbstract.cs" />
     <Compile Include="Abstract\BaseController.cs" />
     <Compile Include="Builders\Account\AccountBuilder.cs" />
@@ -130,6 +131,9 @@
     <Compile Include="Builders\Account\Views\LoginViewModel.cs" />
     <Compile Include="Builders\Account\Views\RegisterViewModel.cs" />
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
+    <Compile Include="Builders\Auth\Forms\AuthAddEditCompanyForm.cs" />
+    <Compile Include="Builders\Auth\Views\AuthIndexView.cs" />
+    <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
     <Compile Include="Builders\Company\CompanyBuilder.cs" />
     <Compile Include="Builders\Company\Models\CompanyDetailInternshipModel.cs" />
     <Compile Include="Builders\Company\Models\CompanyDetailModel.cs" />
@@ -146,7 +150,9 @@
     <Compile Include="Builders\Master\Views\LockoutView.cs" />
     <Compile Include="Builders\Master\Views\ErrorView.cs" />
     <Compile Include="Builders\Master\Views\MasterView.cs" />
+    <Compile Include="Builders\Shared\Forms\FormResult.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
+    <Compile Include="Extensions\HtmlRequireExtensions.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="ModelState\IModelState.cs" />
     <Compile Include="ModelState\ModelStateWrapper.cs" />
@@ -174,7 +180,10 @@
       <Name>Entity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Builders\Auth\Models\" />
+    <Folder Include="Builders\Shared\Extensions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

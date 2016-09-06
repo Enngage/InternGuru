@@ -61,6 +61,7 @@
     <Compile Include="Context\AppContextConfig.cs" />
     <Compile Include="Context\IAppContext.cs" />
     <Compile Include="Context\Initializer.cs" />
+    <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Migrations\201608201021090_First.cs" />
     <Compile Include="Migrations\201608201021090_First.Designer.cs">
@@ -98,12 +99,20 @@
     <Compile Include="Migrations\201609041605298_AmountType.Designer.cs">
       <DependentUpon>201609041605298_AmountType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609060807360_AddApplicationUserIdToCompany.cs" />
+    <Compile Include="Migrations\201609060807360_AddApplicationUserIdToCompany.Designer.cs">
+      <DependentUpon>201609060807360_AddApplicationUserIdToCompany.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
     <Compile Include="Services\Companies\ICompanyCategoryService.cs" />
     <Compile Include="Services\Companies\ICompanyService.cs" />
     <Compile Include="Services\Companies\CompanyCategoryService.cs" />
+    <Compile Include="Services\Identity\IIdentityService.cs" />
+    <Compile Include="Services\Identity\IdentityService.cs" />
+    <Compile Include="Services\Identity\Models\CurrentUser.cs" />
+    <Compile Include="Services\Identity\Models\ICurrentUser.cs" />
     <Compile Include="Services\Internships\IInternshipCategoryService.cs" />
     <Compile Include="Services\Internships\IInternshipService.cs" />
     <Compile Include="Services\Internships\InternshipCategoryService.cs" />
@@ -111,7 +120,7 @@
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\Log\ILogService.cs" />
     <Compile Include="Services\Log\LogService.cs" />
-    <Compile Include="Services\ServiceAbstract.cs" />
+    <Compile Include="Services\BaseService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -131,9 +140,7 @@
       <Name>Entity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Identity\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201608201021090_First.resx">
       <DependentUpon>201608201021090_First.cs</DependentUpon>
@@ -161,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609041605298_AmountType.resx">
       <DependentUpon>201609041605298_AmountType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609060807360_AddApplicationUserIdToCompany.resx">
+      <DependentUpon>201609060807360_AddApplicationUserIdToCompany.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

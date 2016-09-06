@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using UI.Abstract;
@@ -24,7 +23,16 @@ namespace UI.Builders.Internship
 
         #region Constructor
 
-        public InternshipBuilder(IAppContext appContext, ICacheService cacheService, IInternshipService internshipService) : base(appContext, cacheService)
+        public InternshipBuilder(
+            IAppContext appContext,
+            ICacheService cacheService,
+            IInternshipService internshipService,
+            IIdentityService identityService,
+            ILogService logService) : base(
+                appContext,
+                cacheService,
+                identityService,
+                logService)
         {
             this.internshipService = internshipService;
         }

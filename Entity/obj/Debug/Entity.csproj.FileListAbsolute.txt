@@ -12,3 +12,17 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Microsoft.
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.pdb
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Entity.dll.config
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Entity.dll
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Entity.pdb
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\EntityFramework.dll
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\EntityFramework.SqlServer.dll
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\EntityFramework.xml
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\EntityFramework.SqlServer.xml
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\inetpub\wwwroot\InternGuru\Entity\obj\Debug\Entity.dll
+C:\inetpub\wwwroot\InternGuru\Entity\obj\Debug\Entity.pdb
+C:\inetpub\wwwroot\InternGuru\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache

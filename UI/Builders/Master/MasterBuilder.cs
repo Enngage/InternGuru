@@ -4,6 +4,7 @@ using Cache;
 using System.Linq;
 using UI.Builders.Master.Models;
 using System.Web;
+using Core.Services;
 
 namespace UI.Builders.Master
 {
@@ -18,8 +19,14 @@ namespace UI.Builders.Master
 
         public MasterBuilder(
             IAppContext appContext,
-            ICacheService cacheService
-            ) : base(appContext, cacheService)
+            ICacheService cacheService,
+            IIdentityService identityService,
+            ILogService logService
+            ) : base(
+                appContext,
+                cacheService,
+                identityService,
+                logService)
         {
         }
 

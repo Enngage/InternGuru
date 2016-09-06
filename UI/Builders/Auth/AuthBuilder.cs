@@ -1,15 +1,14 @@
-﻿using Cache;
+﻿using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Linq;
+
+using UI.Abstract;
+using Cache;
 using Core.Context;
 using Core.Services;
+using UI.Builders.Auth.Views;
+using UI.Builders.Auth.Forms;
 using System;
-using System.Data.Entity;
-using PagedList.EntityFramework;
-using System.Linq;
-using System.Collections.Generic;
-using UI.Abstract;
-using UI.Builders.Company.Models;
-using UI.Builders.Company.Views;
-using System.Threading.Tasks;
 
 namespace UI.Builders.Company
 {
@@ -23,7 +22,17 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public AuthBuilder(IAppContext appContext, ICacheService cacheService, ICompanyService companyService) : base(appContext, cacheService)
+        public AuthBuilder(
+            IAppContext appContext,
+            ICacheService cacheService,
+            ICompanyService companyService,
+            IIdentityService identityService,
+            ILogService logService)
+            : base(
+                appContext,
+                cacheService,
+                identityService,
+                logService)
         {
             this.companyService = companyService;
         }
@@ -32,40 +41,136 @@ namespace UI.Builders.Company
 
         #region Actions
 
-        public async Task<CompanyIndexView> BuildIndexViewAsync(int? page)
+        public async Task<AuthIndexView> BuildIndexViewAsync()
         {
-            int cacheMinutes = 60;
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
+            var currentUserId = this.CurrentUser.Id;
 
-            var cacheSetup = CacheService.GetSetup<CompanyBrowseModel>(this.GetSource(), cacheMinutes);
-            cacheSetup.Dependencies = new List<string>()
-            {
-                Entity.Company.KeyCreateAny<Entity.Company>(),
-                Entity.Company.KeyDeleteAny<Entity.Company>(),
-                Entity.Company.KeyUpdateAny<Entity.Company>()
-            };
-
-            var companiesQuery = companyService.GetAll()
-                .OrderBy(m => m.CompanyName)
-                .Select(m => new CompanyBrowseModel()
+            // check if user has created company
+            var company = await companyService.GetAll()
+                .Where(m => m.ApplicationUserId == currentUserId)
+                .Take(1)
+                .Select(m => new
                 {
+                    ID = m.ID
+                })
+                .FirstOrDefaultAsync();
+
+            return new AuthIndexView()
+            {
+                CompanyIsCreated = company != null
+            };
+        }
+
+        public AuthRegisterCompanyView BuildRegisterCompanyView(AuthAddEditCompanyForm form)
+        {
+            if (form == null)
+            {
+                // user haven't created any company yet
+                form = new AuthAddEditCompanyForm();
+            }
+
+            // add countries and company sizes
+            form.Countries = Common.Helpers.CountryHelper.GetCountries();
+            form.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
+
+            return new AuthRegisterCompanyView()
+            {
+                CompanyForm = form,
+                CompanyIsCreated = form != null
+            };
+        }
+
+        public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync()
+        {
+            var currentUserId = this.CurrentUser.Id;
+
+            // get company assigned to user
+            var company = await companyService.GetAll()
+                .Where(m => m.ApplicationUserId == currentUserId)
+                .Take(1)
+                .Select(m => new AuthAddEditCompanyForm()
+                {
+                    Address = m.Address,
                     City = m.City,
                     CompanyName = m.CompanyName,
+                    CompanySize = m.CompanySize,
                     Country = m.Country,
+                    Facebook = m.Facebook,
                     ID = m.ID,
-                    InternshipCount = m.Internships.Count()
-                });
+                    Lat = m.Lat,
+                    Lng = m.Lng,
+                    LinkedIn = m.LinkedIn,
+                    PublicEmail = m.PublicEmail,
+                    LongDescription = m.LongDescription,
+                    ShortDescription = m.ShortDescription,
+                    Twitter = m.Twitter,
+                    Web = m.Web,
+                    YearFounded = m.YearFounded
+                })
+                .FirstOrDefaultAsync();
 
-            var companies = await CacheService.GetOrSetAsync(async () => await companiesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
-
-            var tease = CacheService.GetAllSetups();
-
-            return new CompanyIndexView()
+            if (company == null)
             {
-                Companies = companies
-            };
+                // user haven't created any company yet
+                company = new AuthAddEditCompanyForm();
+            }
 
+            // add countries and company sizes
+            company.Countries = Common.Helpers.CountryHelper.GetCountries();
+            company.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
+
+            return new AuthRegisterCompanyView()
+            {
+                CompanyForm = company,
+                CompanyIsCreated = company != null
+            };
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Creates new company from given form
+        /// </summary>
+        /// <param name="form">form</param>
+        /// <returns>ID of new company</returns>
+        public async Task<int> CreateCompany(AuthAddEditCompanyForm form)
+        {
+            try
+            {
+                var company = new Entity.Company
+                {
+                    ApplicationUserId = this.CurrentUser.Id,
+                    Address = form.Address,
+                    City = form.City,
+                    CompanyName = form.CompanyName,
+                    CompanySize = form.CompanySize,
+                    Country = form.Country,
+                    Facebook = form.Facebook,
+                    Lat = form.Lat,
+                    LinkedIn = form.LinkedIn,
+                    Lng = form.Lng,
+                    LongDescription = form.LongDescription,
+                    PublicEmail = form.PublicEmail,
+                    ShortDescription = form.ShortDescription,
+                    Twitter = form.Twitter,
+                    Web = form.Web,
+                    YearFounded = form.YearFounded,
+                };
+
+                await companyService.InsertAsync(company);
+
+                return company.ID;
+            }
+            catch (Exception ex)
+            {
+                // log error
+                LogService.LogException(ex);
+
+                // re-throw
+                throw;
+            }
         }
 
         #endregion

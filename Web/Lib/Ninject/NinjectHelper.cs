@@ -87,6 +87,7 @@ namespace Web.Lib.Ninject
             kernel.Bind<ICompanyCategoryService>().To<CompanyCategoryService>().InRequestScope();
             kernel.Bind<IInternshipService>().To<InternshipService>().InRequestScope();
             kernel.Bind<IInternshipCategoryService>().To<InternshipCategoryService>().InRequestScope();
+            kernel.Bind<IIdentityService>().To<Identityservice>().InRequestScope();
 
             return kernel;
         }

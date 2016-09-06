@@ -1,0 +1,168 @@
+﻿@using UI.Helpers;
+@using UI.Extensions;
+@model UI.Builders.Auth.Forms.AuthAddEditCompanyForm
+
+@Html.RequireScript("/scripts/views/auth/addEditCompany")
+
+<div class="ui grid">
+    <div class="centered sixteen wide mobile sixteen wide tablet eight wide computer column">
+
+        @if (Model.FormResult.Success)
+        {
+            @Html.RenderSuccessMessage("Firma byla vytvořena")
+        }
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            @Html.RenderValidationSummary()
+        }
+
+        @using (Html.BeginForm("AddEditCompany", "Auth", FormMethod.Post, new { id = "_RegisterCompanyForm", @class = "ui form" }))
+        {
+            @Html.Hidden("ID", Model.ID)
+
+            <h4 class="ui dividing header">
+                Obecné informace
+            </h4>
+
+                <div class="field required">
+                    <label>Název společnosti</label>
+                    <input name="CompanyName" placeholder="" type="text" value="@(Model.CompanyName)">
+                </div>
+
+                <div class="field required">
+                    <label>
+                        Logo
+                    </label>
+                    <input type="file" name="Logo">
+                </div>
+
+                <div class="field required">
+                    <label>E-mail</label>
+                    <input name="PublicEmail" placeholder="" type="text" value="@(Model.CompanyName)">
+                </div>
+
+                <div class="field required">
+                    <label>Krátky popis</label>
+                    <textarea name="ShortDescription">
+                        @(Model.ShortDescription)
+                    </textarea>
+                </div>
+
+                <div class="field">
+                    <label>Dlouhý popis</label>
+                    <textarea id="_LongDescription" name="LongDescription">
+                        @(Model.LongDescription)
+                    </textarea>
+                </div>
+
+                <div class="field required">
+                    <label>Rok založení</label>
+                    <select name="YearFounded" class="ui dropdown _YearFoundedDropdown">
+                        <option value="">Rok</option>
+                        @for (int i = DateTime.Now.Year; i >= 1950; i--)
+                        {
+                            if (Model.YearFounded == i)
+                            {
+                                <option selected value="@i">@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="field required">
+                    <label>Počet zaměstanců</label>
+                    <select name="CompanySize" class="ui dropdown _CompanySizeDropdown">
+                        <option value="">Počet</option>
+                        @foreach (var size in Model.AllowedCompanySizes)
+                        {
+                            if (size.Value.Equals(Model.CompanySize.ToString(), StringComparison.OrdinalIgnoreCase))
+                            {
+                                <option selected value="@size.Value">@size.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@size.Value">@size.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <h4 class="ui dividing header">
+                    Lokace
+                </h4>
+
+                <div class="field required">
+                    <label>Adresa</label>
+                    <input name="Address" placeholder="" type="text" value="@(Model.Address)">
+                </div>
+
+                <div class="field required">
+                    <label>Město</label>
+                    <input name="City" placeholder="" type="text" value="@(Model.City)">
+                </div>
+
+                <div class="field required">
+                    <label>Stát</label>
+                    <select name="Country" class="ui search dropdown _StateDropdown">
+                        <option value="">Stát</option>
+                        @foreach (var country in Model.Countries)
+                        {
+                            if (country.CultureCodeName.Equals(Model.Country, StringComparison.OrdinalIgnoreCase))
+                            {
+                                <option selected value="@country.CultureCodeName">@country.CultureName</option>
+                            }
+                            else
+                            {
+                                <option value="@country.CultureCodeName">@country.CultureName</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Zeměpisná šířka (Lat)</label>
+                    <input name="Lat" placeholder="" type="text" value="@(Model.Lat)">
+                </div>
+
+                <div class="field">
+                    <label>Zeměpisná délka (Lng)</label>
+                    <input name="Lng" placeholder="" type="text" value="@(Model.Lng)">
+                </div>
+
+                <h4 class="ui dividing header">
+                    Social
+                </h4>
+
+                <div class="field required">
+                    <label>Web</label>
+                    <input name="Web" placeholder="např. http://mycompany.com" type="text" value="@(Model.Web)">
+                </div>
+
+                <div class="field">
+                    <label>Facebook</label>
+                    <input name="Facebook" placeholder="např. http://facebook.com/myCompany" type="text" value="@(Model.Facebook)">
+                </div>
+
+                <div class="field">
+                    <label>Twitter</label>
+                    <input name="Twitter" placeholder="např. http://twitter.com/myCompany" type="text" value="@(Model.Twitter)">
+                </div>
+
+                <div class="field">
+                    <label>LinkedIn</label>
+                    <input name="LinkedIn" placeholder="např. http://linkedin.com/company/myCompany" type="text" value="@(Model.LinkedIn)">
+                </div>
+
+                <button class="ui button submit primary" type="submit">
+                    Přidat společnost
+                </button>
+
+                <div class="ui error message"></div>
+        }
+    </div>
+</div>

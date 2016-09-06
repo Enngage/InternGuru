@@ -8,6 +8,13 @@ namespace Core.Services
 {
     public interface IService<T> where T : EntityAbstract
     {
+        ///// <summary>
+        ///// Validates given object. Used to determin whether an object can be saved in DB
+        ///// Throws 'ValidationException' exception if object is not valid
+        ///// </summary>
+        ///// <param name="obj">Object to validate</param>
+        //void Validate(T obj);
+
         /// <summary>
         /// Inserts object into database
         /// </summary>

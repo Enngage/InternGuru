@@ -10,7 +10,7 @@ using Core.Exceptions;
 
 namespace Core.Services
 {
-    public class InternshipCategoryService : ServiceAbstract, IService<InternshipCategory>, IInternshipCategoryService
+    public class InternshipCategoryService : BaseService<InternshipCategory>, IInternshipCategoryService
     {
 
         public InternshipCategoryService(IAppContext appContext, ICacheService cacheService) : base(appContext, cacheService) { }

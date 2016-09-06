@@ -67,6 +67,19 @@
                              }
                         ]
                     },
+                    CompanySize: {
+                        identifier: 'CompanySize',
+                        rules: [
+                          {
+                              type: 'empty',
+                              prompt: 'Zvol počet zaměstnanců'
+                            },
+                             {
+                                 type: 'integer[1..100000]',
+                                 prompt: 'Počet zaměstnanců musí být celé číslo'
+                             }
+                        ]
+                    },
                     Address: {
                         identifier: 'Address',
                         rules: [

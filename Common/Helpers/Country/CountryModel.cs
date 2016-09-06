@@ -1,7 +1,7 @@
 ﻿
-namespace Common.Helpers.Culture
+namespace Common.Helpers.Country
 {
-    public class CultureModel
+    public class CountryModel
     {
         public string CultureName { get; set; }
         public string CultureCodeName { get; set; }

@@ -23,7 +23,16 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public CompanyBuilder(IAppContext appContext, ICacheService cacheService, ICompanyService companyService) : base(appContext, cacheService)
+        public CompanyBuilder(
+            IAppContext appContext,
+            ICacheService cacheService,
+            ICompanyService companyService,
+            IIdentityService identityService,
+            ILogService logService) : base(
+                appContext,
+                cacheService,
+                identityService,
+                logService)
         {
             this.companyService = companyService;
         }

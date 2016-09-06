@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Core.Services
 {
-    public class LogService : ServiceAbstract, IService<Log>, ILogService
+    public class LogService : BaseService<Log>, ILogService
     {
 
         public LogService(IAppContext appContext, ICacheService cacheService) : base(appContext, cacheService) { }

@@ -24,9 +24,12 @@ namespace Entity
         public int CompanySize { get; set; }
         [ForeignKey("CompanyCategory")]
         public int CompanyCategoryID { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
 
         #region Virtual properties
 
+        public ApplicationUser ApplicationUser { get; set; }
         public CompanyCategory CompanyCategory { get; set; }
         public virtual ICollection<Internship> Internships { get; set; }
 

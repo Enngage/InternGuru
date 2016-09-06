@@ -6,7 +6,7 @@ using Entity;
 
 namespace Core.Services
 {
-    public class ServiceAbstract : IDisposable
+    public class BaseService<T> : IDisposable where T :EntityAbstract
     {
         #region Variables
 
@@ -48,7 +48,7 @@ namespace Core.Services
         /// </summary>
         /// <param name="appContext">AppContext</param>
         /// <param name="cacheService">Cache service</param>
-        public ServiceAbstract(IAppContext appContext, ICacheService cacheService)
+        public BaseService(IAppContext appContext, ICacheService cacheService)
         {
             this.appContext = appContext;
             this.cacheService = cacheService;
@@ -111,7 +111,7 @@ namespace Core.Services
         /// <summary>
         /// Touches all keys for insert action
         /// </summary>
-        public void TouchInsertKeys(EntityAbstract obj)
+        public void TouchInsertKeys(T obj)
         {
             cacheService.TouchKey(obj.KeyCreateAny());
         }
@@ -121,7 +121,7 @@ namespace Core.Services
         /// </summary>
         /// <param name="obj">Object</param>
         /// <param name="objID">ObjectID</param>
-        public void TouchUpdateKeys(EntityAbstract obj, string objID)
+        public void TouchUpdateKeys(T obj, string objID)
         {
             cacheService.TouchKey(obj.KeyUpdateAny());
             cacheService.TouchKey(obj.KeyUpdate(objID));
@@ -133,7 +133,7 @@ namespace Core.Services
         /// </summary>
         /// <param name="obj">Object</param>
         /// <param name="objID">ObjectID</param>
-        public void TouchDeleteKeys(EntityAbstract obj, string objID)
+        public void TouchDeleteKeys(T obj, string objID)
         {
             cacheService.TouchKey(obj.KeyCreateAny());
             cacheService.TouchKey(obj.KeyDelete(objID));

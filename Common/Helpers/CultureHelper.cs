@@ -1,38 +1,38 @@
-﻿using Common.Helpers.Culture;
+﻿using Common.Helpers.Country;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Common.Helpers
 {
-    public static class CultureHelper
+    public static class CountryHelper
     {
         /// <summary>
         /// Gets collection of allowed countries used for Company/Internships
         /// </summary>
         /// <returns>Collection of countries</returns>
-        public static IEnumerable<CultureModel> GetCountries()
+        public static IEnumerable<CountryModel> GetCountries()
         {
-            return new List<CultureModel>()
+            return new List<CountryModel>()
             {
-              new CultureModel()
+              new CountryModel()
               {
                   CultureCodeName = "Czech",
                   CultureName = "Česká republika",
                   FlagIcon = "cz"
               },
-              new CultureModel()
+              new CountryModel()
               {
                   CultureCodeName = "Slovakia",
                   CultureName = "Slovensko",
                   FlagIcon = "sk"
               },
-              new CultureModel()
+              new CountryModel()
               {
                   CultureCodeName = "Germany",
                   CultureName = "Germany",
                   FlagIcon = "de"
               },
-              new CultureModel()
+              new CountryModel()
               {
                   CultureCodeName = "UK",
                   CultureName = "United Kingdom",
@@ -46,7 +46,7 @@ namespace Common.Helpers
         /// </summary>
         /// <param name="cultureCodeName">Code name of culture</param>
         /// <returns>Country or null</returns>
-        public static CultureModel GetCountry(string cultureCodeName)
+        public static CountryModel GetCountry(string cultureCodeName)
         {
             return GetCountries()
                 .Where(m => m.CultureCodeName.Equals(cultureCodeName, System.StringComparison.OrdinalIgnoreCase))

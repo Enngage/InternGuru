@@ -4,6 +4,7 @@ using Cache;
 using System.Text;
 using Common.Config;
 using UI.Builders.Account.Views;
+using Core.Services;
 
 namespace UI.Builders.Account
 {
@@ -19,8 +20,14 @@ namespace UI.Builders.Account
 
         public AccountBuilder(
             IAppContext appContext,
-            ICacheService cacheService
-            ) : base(appContext, cacheService)
+            ICacheService cacheService,
+            IIdentityService identityService,
+            ILogService logService
+            ) : base(
+                appContext, 
+                cacheService, 
+                identityService, 
+                logService)
         {
         }
 
