@@ -1,9 +1,9 @@
 ﻿@using UI.Helpers;
 @using UI.Extensions;
-@model UI.Builders.Auth.Views.AuthRegisterCompanyView
+@model UI.Builders.Auth.Views.AuthEditCompanyView
 
 @{
-    ViewBag.Title = "Editace firmy";
+    ViewBag.Title = "Editace firmy - " + Model.CompanyForm.CompanyName;
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 

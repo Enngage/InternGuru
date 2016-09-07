@@ -4,6 +4,7 @@
 
 @{ 
     var formAction = Model.IsExistingCompany ? "EditCompany" : "RegisterCompany"; // Form action
+    var submitButtonText = Model.IsExistingCompany ? "Uložit" : "Přidat firmu";
 }
 
 @Html.RequireScript("/scripts/views/auth/addEditCompany")
@@ -14,7 +15,7 @@
 
         @if (Model.FormResult.Success)
         {
-            @Html.RenderSuccessMessage("Firma byla vytvořena")
+            @Html.RenderSuccessMessage("Firma byla uložena")
         }
 
         @if (!ViewData.ModelState.IsValid)
@@ -22,7 +23,7 @@
             @Html.RenderValidationSummary()
         }
 
-        @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { id = "_RegisterCompanyForm", @class = "ui form" }))
+        @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", id = "_RegisterCompanyForm", @class = "ui form" }))
         {
             @Html.Hidden("ID", Model.ID)
 
@@ -37,7 +38,7 @@
 
             <div class="field required">
                 <label>E-mail (veřejný e-mail firmy)</label>
-                <input name="PublicEmail" placeholder="" type="text" value="@(Model.CompanyName)">
+                <input name="PublicEmail" placeholder="" type="text" value="@(Model.PublicEmail)">
             </div>
 
             <div class="field required">
@@ -84,7 +85,7 @@
 
                     <div class="field required">
                         <label>
-                            Banner
+                            Banner (zobrazen v profilu firmy)
                         </label>
                         <input type="file" name="Banner">
                     </div>
@@ -198,7 +199,7 @@
                     </div>
 
                     <button class="ui button submit primary" type="submit">
-                        Přidat společnost
+                        @submitButtonText
                     </button>
 
                     <div class="ui error message"></div>

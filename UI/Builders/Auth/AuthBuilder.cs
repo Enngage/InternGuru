@@ -11,6 +11,9 @@ using UI.Builders.Auth.Forms;
 using System;
 using System.Collections.Generic;
 using UI.Builders.Auth.Models;
+using UI.Files;
+using Common.Config;
+using Common.Helpers;
 
 namespace UI.Builders.Company
 {
@@ -20,6 +23,7 @@ namespace UI.Builders.Company
 
         ICompanyService companyService;
         ICompanyCategoryService companyCategoryService;
+        IFileProvider fileProvider;
 
         #endregion
 
@@ -31,7 +35,8 @@ namespace UI.Builders.Company
             ICompanyService companyService,
             IIdentityService identityService,
             ILogService logService,
-            ICompanyCategoryService companyCategoryService)
+            ICompanyCategoryService companyCategoryService,
+            IFileProvider fileProvider)
             : base(
                 appContext,
                 cacheService,
@@ -40,6 +45,7 @@ namespace UI.Builders.Company
         {
             this.companyService = companyService;
             this.companyCategoryService = companyCategoryService;
+            this.fileProvider = fileProvider;
         }
 
         #endregion
@@ -86,9 +92,70 @@ namespace UI.Builders.Company
             };
         }
 
-        public async Task<AuthRegisterCompanyView> BuildEditCompanyViewAsync()
+        public async Task<AuthEditCompanyView> BuildEditCompanyViewAsync(AuthAddEditCompanyForm form)
         {
-            return await BuildRegisterCompanyViewAsync();
+            if (form == null)
+            {
+                // invalid form data
+                return null;
+            }
+
+            // add countries, categories and company sizes
+            form.Countries = Common.Helpers.CountryHelper.GetCountries();
+            form.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
+            form.CompanyCategories = await GetCompanyCategories();
+
+            return new AuthEditCompanyView()
+            {
+                CompanyForm = form,
+            };
+        }
+
+        public async Task<AuthEditCompanyView> BuildEditCompanyViewAsync()
+        {
+            var currentUserId = this.CurrentUser.Id;
+
+            // get company assigned to user
+            var company = await companyService.GetAll()
+                .Where(m => m.ApplicationUserId == currentUserId)
+                .Take(1)
+                .Select(m => new AuthAddEditCompanyForm()
+                {
+                    Address = m.Address,
+                    City = m.City,
+                    CompanyName = m.CompanyName,
+                    CompanySize = m.CompanySize,
+                    Country = m.Country,
+                    Facebook = m.Facebook,
+                    ID = m.ID,
+                    Lat = m.Lat,
+                    Lng = m.Lng,
+                    LinkedIn = m.LinkedIn,
+                    PublicEmail = m.PublicEmail,
+                    LongDescription = m.LongDescription,
+                    ShortDescription = m.ShortDescription,
+                    Twitter = m.Twitter,
+                    Web = m.Web,
+                    CompanyCategoryID = m.CompanyCategoryID,
+                    YearFounded = m.YearFounded
+                })
+                .FirstOrDefaultAsync();
+
+            if (company == null)
+            {
+                // user haven't created any company yet
+                return null;
+            }
+
+            // add countries, categories and company sizes
+            company.Countries = Common.Helpers.CountryHelper.GetCountries();
+            company.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
+            company.CompanyCategories = await GetCompanyCategories();
+
+            return new AuthEditCompanyView()
+            {
+                CompanyForm = company,
+            };
         }
 
         public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync()
@@ -152,6 +219,10 @@ namespace UI.Builders.Company
         {
             try
             {
+                // try to upload files before adding database record of company
+                fileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
+                fileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+
                 var company = new Entity.Company
                 {
                     ApplicationUserId = this.CurrentUser.Id,
@@ -176,6 +247,52 @@ namespace UI.Builders.Company
                 await companyService.InsertAsync(company);
 
                 return company.ID;
+            }
+            catch (Exception ex)
+            {
+                // log error
+                LogService.LogException(ex);
+
+                // re-throw
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Edits company
+        /// </summary>
+        /// <param name="form">form</param>
+        public async Task EditCompany(AuthAddEditCompanyForm form)
+        {
+            try
+            {
+                // try to upload files before adding database record of company
+                fileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
+                fileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+
+                var company = new Entity.Company
+                {
+                    ID = form.ID,
+                    ApplicationUserId = this.CurrentUser.Id,
+                    Address = form.Address,
+                    City = form.City,
+                    CompanyName = form.CompanyName,
+                    CompanySize = form.CompanySize,
+                    Country = form.Country,
+                    Facebook = form.Facebook,
+                    Lat = form.Lat,
+                    LinkedIn = form.LinkedIn,
+                    Lng = form.Lng,
+                    LongDescription = form.LongDescription,
+                    PublicEmail = form.PublicEmail,
+                    ShortDescription = form.ShortDescription,
+                    Twitter = form.Twitter,
+                    Web = form.Web,
+                    YearFounded = form.YearFounded,
+                    CompanyCategoryID = form.CompanyCategoryID
+                };
+
+                await companyService.UpdateAsync(company);
             }
             catch (Exception ex)
             {

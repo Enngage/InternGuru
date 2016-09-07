@@ -61,3 +61,4 @@ C:\inetpub\wwwroot\InternGuru\Core\obj\Debug\Core.csproj.GenerateResource.Cache
 C:\inetpub\wwwroot\InternGuru\Core\obj\Debug\Core.dll
 C:\inetpub\wwwroot\InternGuru\Core\obj\Debug\Core.pdb
 C:\inetpub\wwwroot\InternGuru\Core\obj\Debug\Core.Migrations.AddApplicationUserIdToCompany.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.AddApplicationUserIdToCompany.resources

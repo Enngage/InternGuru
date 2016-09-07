@@ -40,6 +40,12 @@ namespace Web.Controllers
         {
             var model = await authBuilder.BuildEditCompanyViewAsync();
 
+            if (model == null)
+            {
+                // company does not exist
+                return HttpNotFound();
+            }
+
             return View(model);
         }
 
@@ -101,6 +107,35 @@ namespace Web.Controllers
                 this.ModelStateWrapper.AddError(ex.Message);
 
                 return View(await authBuilder.BuildRegisterCompanyViewAsync(form));
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditCompany(AuthAddEditCompanyForm form)
+        {
+            // validate form
+            if (!this.ModelStateWrapper.IsValid)
+            {
+                return View(await authBuilder.BuildEditCompanyViewAsync(form));
+            }
+
+            try
+            {
+                // edit company
+                await authBuilder.EditCompany(form);
+
+                var model = await authBuilder.BuildEditCompanyViewAsync(form);
+
+                // set form status
+                model.CompanyForm.FormResult.Success = true;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                return View(await authBuilder.BuildEditCompanyViewAsync(form));
             }
         }
 

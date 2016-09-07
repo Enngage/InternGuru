@@ -154,6 +154,9 @@ input::selection {
 .ui.button {
   font-weight: normal!important;
 }
+.ui.form *::-moz-placeholder {
+  color: #a3a3a3!important;
+}
 .ui.input input::-moz-placeholder {
   color: #a3a3a3!important;
 }

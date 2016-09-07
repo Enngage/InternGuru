@@ -12,6 +12,7 @@ using Ninject;
 using Ninject.Web.Common;
 using System;
 using System.Web;
+using UI.Files;
 
 namespace Web.Lib.Ninject
 {
@@ -88,6 +89,7 @@ namespace Web.Lib.Ninject
             kernel.Bind<IInternshipService>().To<InternshipService>().InRequestScope();
             kernel.Bind<IInternshipCategoryService>().To<InternshipCategoryService>().InRequestScope();
             kernel.Bind<IIdentityService>().To<Identityservice>().InRequestScope();
+            kernel.Bind<IFileProvider>().To<FileProvider>().InRequestScope();
 
             return kernel;
         }

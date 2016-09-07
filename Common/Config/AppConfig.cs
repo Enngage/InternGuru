@@ -22,6 +22,21 @@ namespace Common.Config
 
         #endregion
 
+        #region Maximum file size
+
+        /// <summary>
+        /// Maximum file size for upload
+        /// </summary>
+        public static int MaximumFileSize
+        {
+            get
+            {
+                return Convert.ToInt32(ConfigurationManager.AppSettings["MaximumFileSize"]);
+            }
+        }
+
+        #endregion
+
         #region Site
 
         /// <summary>
