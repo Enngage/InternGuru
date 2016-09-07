@@ -51,13 +51,13 @@ namespace Core.Services
             // get log
             var log = this.AppContext.Logs.Find(obj.ID);
 
-            if (obj == null)
+            if (log == null)
             {
                 throw new NotFoundException(string.Format("Log with ID: {0} not found", obj.ID));
             }
 
             // update log
-            this.AppContext.Entry(obj).CurrentValues.SetValues(obj);
+            this.AppContext.Entry(log).CurrentValues.SetValues(obj);
 
             // touch cache keys
             this.TouchUpdateKeys(log, log.ID.ToString());
