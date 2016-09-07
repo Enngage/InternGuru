@@ -132,6 +132,7 @@
     <Compile Include="Builders\Account\Views\RegisterViewModel.cs" />
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
     <Compile Include="Builders\Auth\Forms\AuthAddEditCompanyForm.cs" />
+    <Compile Include="Builders\Auth\Models\AuthCompanyCategoryModel.cs" />
     <Compile Include="Builders\Auth\Views\AuthIndexView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
     <Compile Include="Builders\Company\CompanyBuilder.cs" />
@@ -181,7 +182,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Builders\Auth\Models\" />
     <Folder Include="Builders\Shared\Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

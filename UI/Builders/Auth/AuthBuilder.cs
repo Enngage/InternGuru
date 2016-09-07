@@ -9,6 +9,8 @@ using Core.Services;
 using UI.Builders.Auth.Views;
 using UI.Builders.Auth.Forms;
 using System;
+using System.Collections.Generic;
+using UI.Builders.Auth.Models;
 
 namespace UI.Builders.Company
 {
@@ -17,6 +19,7 @@ namespace UI.Builders.Company
         #region Services
 
         ICompanyService companyService;
+        ICompanyCategoryService companyCategoryService;
 
         #endregion
 
@@ -27,7 +30,8 @@ namespace UI.Builders.Company
             ICacheService cacheService,
             ICompanyService companyService,
             IIdentityService identityService,
-            ILogService logService)
+            ILogService logService,
+            ICompanyCategoryService companyCategoryService)
             : base(
                 appContext,
                 cacheService,
@@ -35,6 +39,7 @@ namespace UI.Builders.Company
                 logService)
         {
             this.companyService = companyService;
+            this.companyCategoryService = companyCategoryService;
         }
 
         #endregion
@@ -61,7 +66,7 @@ namespace UI.Builders.Company
             };
         }
 
-        public AuthRegisterCompanyView BuildRegisterCompanyView(AuthAddEditCompanyForm form)
+        public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync(AuthAddEditCompanyForm form)
         {
             if (form == null)
             {
@@ -69,15 +74,21 @@ namespace UI.Builders.Company
                 form = new AuthAddEditCompanyForm();
             }
 
-            // add countries and company sizes
+            // add countries, categories and company sizes
             form.Countries = Common.Helpers.CountryHelper.GetCountries();
             form.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
+            form.CompanyCategories = await GetCompanyCategories();
 
             return new AuthRegisterCompanyView()
             {
                 CompanyForm = form,
                 CompanyIsCreated = form != null
             };
+        }
+
+        public async Task<AuthRegisterCompanyView> BuildEditCompanyViewAsync()
+        {
+            return await BuildRegisterCompanyViewAsync();
         }
 
         public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync()
@@ -105,6 +116,7 @@ namespace UI.Builders.Company
                     ShortDescription = m.ShortDescription,
                     Twitter = m.Twitter,
                     Web = m.Web,
+                    CompanyCategoryID = m.CompanyCategoryID,
                     YearFounded = m.YearFounded
                 })
                 .FirstOrDefaultAsync();
@@ -115,9 +127,10 @@ namespace UI.Builders.Company
                 company = new AuthAddEditCompanyForm();
             }
 
-            // add countries and company sizes
+            // add countries, categories and company sizes
             company.Countries = Common.Helpers.CountryHelper.GetCountries();
             company.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
+            company.CompanyCategories = await GetCompanyCategories();
 
             return new AuthRegisterCompanyView()
             {
@@ -157,6 +170,7 @@ namespace UI.Builders.Company
                     Twitter = form.Twitter,
                     Web = form.Web,
                     YearFounded = form.YearFounded,
+                    CompanyCategoryID = form.CompanyCategoryID
                 };
 
                 await companyService.InsertAsync(company);
@@ -171,6 +185,37 @@ namespace UI.Builders.Company
                 // re-throw
                 throw;
             }
+        }
+
+        #endregion
+
+        #region Helper methods
+
+        /// <summary>
+        /// Gets company categories and caches the result
+        /// </summary>
+        /// <returns>Collection of company categories</returns>
+        private async Task<IEnumerable<AuthCompanyCategoryModel>> GetCompanyCategories()
+        {
+            var cacheMinutes = 60;
+            var cacheSetup = this.CacheService.GetSetup<AuthCompanyCategoryModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                Entity.CompanyCategory.KeyCreateAny<Entity.CompanyCategory>(),
+                Entity.CompanyCategory.KeyDeleteAny<Entity.CompanyCategory>(),
+                Entity.CompanyCategory.KeyUpdateAny<Entity.CompanyCategory>(),
+            };
+
+            var companyCategoriesQuery = this.companyCategoryService.GetAll()
+                .Select(m => new AuthCompanyCategoryModel()
+                {
+                    CompanyCategoryID = m.ID,
+                    CompanyCategoryName = m.Name
+                });
+
+            var companyCategories = await this.CacheService.GetOrSetAsync(async () => await companyCategoriesQuery.ToListAsync(), cacheSetup);
+
+            return companyCategories;
         }
 
         #endregion

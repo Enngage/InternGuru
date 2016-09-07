@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Helpers\InternshipHelper.cs" />
-    <Compile Include="Helpers\CultureHelper.cs" />
+    <Compile Include="Helpers\CountryHelper.cs" />
     <Compile Include="Config\SystemConfig.cs" />
     <Compile Include="Environment\EnvironmentEnum.cs" />
     <Compile Include="Helpers\Country\CountryModel.cs" />

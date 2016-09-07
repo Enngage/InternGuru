@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using UI.Abstract;
+using UI.Builders.Auth.Models;
 
 namespace UI.Builders.Auth.Forms
 {
@@ -13,6 +14,8 @@ namespace UI.Builders.Auth.Forms
         public int ID { get; set; }
         [Required(ErrorMessage = "Název firmy nemůže být prázdný")]
         public string CompanyName { get; set; }
+        [Required(ErrorMessage = "Zadejte kategorii")]
+        public int CompanyCategoryID { get; set; }
         [Required(ErrorMessage = "Rok založení nemůže být prázdný")]
         public int YearFounded { get; set; }
         [Required(ErrorMessage = "E-mail nemůže být prázdný")]
@@ -41,6 +44,7 @@ namespace UI.Builders.Auth.Forms
 
         public IEnumerable<InternshipCompanySizeModel> AllowedCompanySizes { get; set; }
         public IEnumerable<CountryModel> Countries { get; set; }
+        public IEnumerable<AuthCompanyCategoryModel> CompanyCategories { get; set; }
 
         /// <summary>
         /// Indicates whether the model represents existing company (based on ID)

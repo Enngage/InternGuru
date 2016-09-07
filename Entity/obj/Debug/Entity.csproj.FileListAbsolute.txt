@@ -25,4 +25,3 @@ C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.Core.xm
 C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\inetpub\wwwroot\InternGuru\Entity\obj\Debug\Entity.dll
 C:\inetpub\wwwroot\InternGuru\Entity\obj\Debug\Entity.pdb
-C:\inetpub\wwwroot\InternGuru\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache

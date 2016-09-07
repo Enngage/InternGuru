@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using UI.Abstract;
 using UI.Builders.Auth.Forms;
+using UI.Builders.Auth.Views;
 using UI.Builders.Company;
 using UI.Builders.Master;
 
@@ -37,7 +38,9 @@ namespace Web.Controllers
 
         public async Task<ActionResult> EditCompany()
         {
-            return View();
+            var model = await authBuilder.BuildEditCompanyViewAsync();
+
+            return View(model);
         }
 
         public async Task<ActionResult> NewInternship()
@@ -70,34 +73,12 @@ namespace Web.Controllers
         #region POST methods
 
         [HttpPost]
-        public async Task<ActionResult> AddEditCompany(AuthAddEditCompanyForm form)
+        public async Task<ActionResult> RegisterCompany(AuthAddEditCompanyForm form)
         {
-            if (form.ID == 0)
-            {
-                // Create new company
-                return await AddCompany(form);
-
-            }
-            else
-            {
-                // Update existing company
-                return null;
-            }
-        }
-
-
-        #endregion
-
-        #region Helper methods
-
-        public async Task<ActionResult> AddCompany(AuthAddEditCompanyForm form)
-        {
-            var viewPath = "~/Views/Auth/RegisterCompany.cshtml";
-
             // validate form
             if (!this.ModelStateWrapper.IsValid)
             {
-                return View(viewPath, authBuilder.BuildRegisterCompanyView(form));
+                return View(await authBuilder.BuildRegisterCompanyViewAsync(form));
             }
 
             try
@@ -105,7 +86,7 @@ namespace Web.Controllers
                 // create company
                 var companyID = await authBuilder.CreateCompany(form);
 
-                var model = authBuilder.BuildRegisterCompanyView(form);
+                var model = await authBuilder.BuildRegisterCompanyViewAsync(form);
 
                 // set form status
                 model.CompanyForm.FormResult.Success = true;
@@ -113,13 +94,13 @@ namespace Web.Controllers
                 // update CompanyID
                 model.CompanyForm.ID = companyID;
 
-                return View(viewPath, model);
+                return View(model);
             }
             catch (Exception ex)
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 
-                return View(viewPath, authBuilder.BuildRegisterCompanyView(form));
+                return View(await authBuilder.BuildRegisterCompanyViewAsync(form));
             }
         }
 

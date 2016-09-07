@@ -16,26 +16,26 @@ namespace Common.Helpers
             {
               new CountryModel()
               {
-                  CultureCodeName = "Czech",
-                  CultureName = "Česká republika",
+                  CoutryCodeName = "Czech",
+                  CountryName = "Česká republika",
                   FlagIcon = "cz"
               },
               new CountryModel()
               {
-                  CultureCodeName = "Slovakia",
-                  CultureName = "Slovensko",
+                  CoutryCodeName = "Slovakia",
+                  CountryName = "Slovensko",
                   FlagIcon = "sk"
               },
               new CountryModel()
               {
-                  CultureCodeName = "Germany",
-                  CultureName = "Germany",
+                  CoutryCodeName = "Germany",
+                  CountryName = "Germany",
                   FlagIcon = "de"
               },
               new CountryModel()
               {
-                  CultureCodeName = "UK",
-                  CultureName = "United Kingdom",
+                  CoutryCodeName = "UK",
+                  CountryName = "United Kingdom",
                   FlagIcon = "gb"
               }
            };
@@ -49,7 +49,7 @@ namespace Common.Helpers
         public static CountryModel GetCountry(string cultureCodeName)
         {
             return GetCountries()
-                .Where(m => m.CultureCodeName.Equals(cultureCodeName, System.StringComparison.OrdinalIgnoreCase))
+                .Where(m => m.CoutryCodeName.Equals(cultureCodeName, System.StringComparison.OrdinalIgnoreCase))
                 .FirstOrDefault();
         }
 
