@@ -69,7 +69,7 @@ namespace Core.Services
             }
 
             // update log
-            this.AppContext.Entry(obj).CurrentValues.SetValues(obj);
+            this.AppContext.Entry(category).CurrentValues.SetValues(obj);
 
             // touch cache keys
             this.TouchUpdateKeys(category, category.ID.ToString());
