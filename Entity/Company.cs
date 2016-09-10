@@ -1,4 +1,5 @@
 ﻿
+using Common.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,7 +11,6 @@ namespace Entity
         public string CompanyName { get; set; }
         public int YearFounded { get; set; }
         public string PublicEmail { get; set; }
-        public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
@@ -32,6 +32,30 @@ namespace Entity
         public ApplicationUser ApplicationUser { get; set; }
         public CompanyCategory CompanyCategory { get; set; }
         public virtual ICollection<Internship> Internships { get; set; }
+
+        #endregion
+
+        #region Image methods
+
+        /// <summary>
+        /// Gets file name of banner from CompanyName
+        /// </summary>
+        /// <param name="companyName"></param>
+        /// <returns></returns>
+        public static string GetBannerFileName(string companyName)
+        {
+            return StringHelper.GetCodeName(companyName);
+        }
+
+        /// <summary>
+        /// Gets file name of logo from CompanyName
+        /// </summary>
+        /// <param name="companyName"></param>
+        /// <returns></returns>
+        public static string GetLogoFileName(string companyName)
+        {
+            return StringHelper.GetCodeName(companyName);
+        }
 
         #endregion
     }

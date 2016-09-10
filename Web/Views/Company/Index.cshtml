@@ -4,7 +4,7 @@
 @using UI.Extensions;
 @{
     ViewBag.Title = Model.Company.CompanyName;
-    ViewBag.Description = Model.Company.ShortDescription;
+    ViewBag.Description = "Profil společnosti " + Model.Company.CompanyName;
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 

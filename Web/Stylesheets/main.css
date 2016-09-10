@@ -397,22 +397,22 @@
 #w-body-wrapper .w-internship-category-menu .item.active {
   border-right: solid 3px #FF5733; }
 
-#w-body-wrapper .w-internship-browse-table tr {
+#w-body-wrapper .w-auth-menu .item.active {
+  border-bottom: solid 3px #FF5733; }
+
+#w-body-wrapper .w-table-listing tr {
   cursor: pointer; }
 
-#w-body-wrapper .w-internship-browse-table tr > td:first-of-type {
+#w-body-wrapper .w-table-listing tr > td:first-of-type {
   padding-left: 20px; }
 
-#w-body-wrapper .w-internship-browse-table tr > td:last-of-type {
+#w-body-wrapper .w-table-listing tr > td:last-of-type {
   padding-right: 20px; }
 
-#w-body-wrapper .w-internship-browse-table tr:hover {
+#w-body-wrapper .w-table-listing tr:hover {
   cursor: pointer;
   background-color: #ffffff; }
 
-#w-body-wrapper .w-internship-browse-table td a {
+#w-body-wrapper .w-table-listing td a {
   font-size: 17px; }
-
-#w-body-wrapper .w-auth-menu .item.active {
-  border-bottom: solid 3px #FF5733; }
 

@@ -2,30 +2,25 @@
 @using UI.Extensions;
 @model UI.Builders.Auth.Forms.AuthAddEditCompanyForm
 
-@{ 
-    var formAction = Model.IsExistingCompany ? "EditCompany" : "RegisterCompany"; // Form action
+@{
+    var formAction = Model.IsExistingCompany ? "EditCompany" : "RegisterCompany";
     var submitButtonText = Model.IsExistingCompany ? "Uložit" : "Přidat firmu";
 }
 
 @Html.RequireScript("/scripts/views/auth/addEditCompany")
 
 
-<div class="ui grid">
-    <div class="centered sixteen wide mobile sixteen wide tablet eight wide computer column">
+@using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", id = "_RegisterCompanyForm", @class = "ui form" }))
+{
+    <div class="ui grid">
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
 
-        @if (Model.FormResult.Success)
-        {
-            @Html.RenderSuccessMessage("Firma byla uložena")
-        }
+          @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
 
-        @if (!ViewData.ModelState.IsValid)
-        {
-            @Html.RenderValidationSummary()
-        }
+        </div>
 
-        @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", id = "_RegisterCompanyForm", @class = "ui form" }))
-        {
-            @Html.Hidden("ID", Model.ID)
+        <div class="sixteen wide mobile eight wide tablet eight wide computer column">
+
 
             <h4 class="ui dividing header">
                 Obecné informace
@@ -65,144 +60,151 @@
                 </div>
             </div>
 
-                <div class="field required">
-                    <label>Krátky popis</label>
-                    <textarea name="ShortDescription">@(Model.ShortDescription)</textarea>
-                </div>
+            <div class="field">
+                <label>Dlouhý popis</label>
+                <textarea id="_LongDescription" name="LongDescription">@(Model.LongDescription)</textarea>
+            </div>
 
-                <div class="field">
-                    <label>Dlouhý popis</label>
-                    <textarea id="_LongDescription" name="LongDescription">@(Model.LongDescription)</textarea>
-                </div>
+            <div class="field required">
+                <label>Rok založení</label>
+                <select name="YearFounded" class="ui dropdown _YearFoundedDropdown">
+                    <option value="">Rok</option>
+                    @for (int i = DateTime.Now.Year; i >= 1950; i--)
+                    {
+                        if (Model.YearFounded == i)
+                        {
+                            <option selected value="@i">@i</option>
+                        }
+                        else
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    }
+                </select>
+            </div>
 
+            <div class="field required">
+                <label>Počet zaměstanců</label>
+                <select name="CompanySize" class="ui dropdown _CompanySizeDropdown">
+                    <option value="">Počet</option>
+                    @foreach (var size in Model.AllowedCompanySizes)
+                    {
+                        if (size.Value.Equals(Model.CompanySize.ToString(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option selected value="@size.Value">@size.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@size.Value">@size.Name</option>
+                        }
+                    }
+                </select>
+            </div>
 
-                    <div class="field required">
-                        <label>
-                            Logo
-                        </label>
-                        <input type="file" name="Logo">
-                    </div>
+            <div class="field required">
+                <label>
+                    Logo
+                </label>
 
-                    <div class="field required">
-                        <label>
-                            Banner (zobrazen v profilu firmy)
-                        </label>
-                        <input type="file" name="Banner">
-                    </div>
+                <img class="ui image small" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyName)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
 
-                    <div class="field required">
-                        <label>Rok založení</label>
-                        <select name="YearFounded" class="ui dropdown _YearFoundedDropdown">
-                            <option value="">Rok</option>
-                            @for (int i = DateTime.Now.Year; i >= 1950; i--)
+                <input type="file" name="Logo">
+            </div>
+
+            <div class="field required">
+                <label>
+                    Banner (zobrazen v profilu firmy)
+                </label>
+
+                <img class="ui image" data-src="@ImageHelper.GetCompanyBanner(Model.CompanyName)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
+
+                <input type="file" name="Banner">
+            </div>
+
+        </div>
+        <div class="sixteen wide mobile eight wide tablet eight wide computer column">
+
+            <h4 class="ui dividing header">
+                Lokace
+            </h4>
+
+            <div class="field required">
+                <label>Adresa</label>
+                <input name="Address" placeholder="" type="text" value="@(Model.Address)">
+            </div>
+
+            <div class="field required">
+                <label>Město</label>
+                <input name="City" placeholder="" type="text" value="@(Model.City)">
+            </div>
+
+            <div class="field required">
+                <label>Stát</label>
+
+                <div class="ui fluid search selection dropdown _StateDropdown">
+                    <input type="hidden" name="Country" value="@Model.Country">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Stát</div>
+                    <div class="menu">
+                        @foreach (var country in Model.Countries)
+                        {
+                            if (country.CoutryCodeName.Equals(Model.Country, StringComparison.OrdinalIgnoreCase))
                             {
-                                if (Model.YearFounded == i)
-                                {
-                                    <option selected value="@i">@i</option>
-                                }
-                                else
-                                {
-                                    <option value="@i">@i</option>
-                                }
+                                <div class="item active" data-value="@country.CoutryCodeName">@Html.Raw(country.FlagIconHtml) @country.CountryName</div>
                             }
-                        </select>
-                    </div>
-
-                    <div class="field required">
-                        <label>Počet zaměstanců</label>
-                        <select name="CompanySize" class="ui dropdown _CompanySizeDropdown">
-                            <option value="">Počet</option>
-                            @foreach (var size in Model.AllowedCompanySizes)
+                            else
                             {
-                                if (size.Value.Equals(Model.CompanySize.ToString(), StringComparison.OrdinalIgnoreCase))
-                                {
-                                    <option selected value="@size.Value">@size.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@size.Value">@size.Name</option>
-                                }
+                                <div class="item" data-value="@country.CoutryCodeName">@Html.Raw(country.FlagIconHtml) @country.CountryName</div>
                             }
-                        </select>
+                        }
+
                     </div>
+                </div>
+            </div>
 
-                    <h4 class="ui dividing header">
-                        Lokace
-                    </h4>
+            <div class="field">
+                <label>Zeměpisná šířka (Lat)</label>
+                <input name="Lat" placeholder="" type="text" value="@(Model.Lat)">
+            </div>
 
-                    <div class="field required">
-                        <label>Adresa</label>
-                        <input name="Address" placeholder="" type="text" value="@(Model.Address)">
-                    </div>
+            <div class="field">
+                <label>Zeměpisná délka (Lng)</label>
+                <input name="Lng" placeholder="" type="text" value="@(Model.Lng)">
+            </div>
 
-                    <div class="field required">
-                        <label>Město</label>
-                        <input name="City" placeholder="" type="text" value="@(Model.City)">
-                    </div>
+            <h4 class="ui dividing header">
+                Social
+            </h4>
 
-                    <div class="field required">
-                        <label>Stát</label>
+            <div class="field required">
+                <label>Web</label>
+                <input name="Web" placeholder="např. http://mycompany.com" type="text" value="@(Model.Web)">
+            </div>
 
-                        <div class="ui fluid search selection dropdown _StateDropdown">
-                            <input type="hidden" name="Country" value="@Model.Country">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Stát</div>
-                            <div class="menu">
-                                @foreach (var country in Model.Countries)
-                                {
-                                    if (country.CoutryCodeName.Equals(Model.Country, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        <div class="item active" data-value="@country.CoutryCodeName">@Html.Raw(country.FlagIconHtml) @country.CountryName</div>
-                                    }
-                                    else
-                                    {
-                                        <div class="item" data-value="@country.CoutryCodeName">@Html.Raw(country.FlagIconHtml) @country.CountryName</div>
-                                    }
-                                }
+            <div class="field">
+                <label>Facebook</label>
+                <input name="Facebook" placeholder="např. http://facebook.com/myCompany" type="text" value="@(Model.Facebook)">
+            </div>
 
-                            </div>
-                        </div>
-                    </div>
+            <div class="field">
+                <label>Twitter</label>
+                <input name="Twitter" placeholder="např. http://twitter.com/myCompany" type="text" value="@(Model.Twitter)">
+            </div>
 
-                    <div class="field">
-                        <label>Zeměpisná šířka (Lat)</label>
-                        <input name="Lat" placeholder="" type="text" value="@(Model.Lat)">
-                    </div>
+            <div class="field">
+                <label>LinkedIn</label>
+                <input name="LinkedIn" placeholder="např. http://linkedin.com/company/myCompany" type="text" value="@(Model.LinkedIn)">
+            </div>
 
-                    <div class="field">
-                        <label>Zeměpisná délka (Lng)</label>
-                        <input name="Lng" placeholder="" type="text" value="@(Model.Lng)">
-                    </div>
+            <button class="ui button submit primary" type="submit">
+                @submitButtonText
+            </button>
 
-                    <h4 class="ui dividing header">
-                        Social
-                    </h4>
-
-                    <div class="field required">
-                        <label>Web</label>
-                        <input name="Web" placeholder="např. http://mycompany.com" type="text" value="@(Model.Web)">
-                    </div>
-
-                    <div class="field">
-                        <label>Facebook</label>
-                        <input name="Facebook" placeholder="např. http://facebook.com/myCompany" type="text" value="@(Model.Facebook)">
-                    </div>
-
-                    <div class="field">
-                        <label>Twitter</label>
-                        <input name="Twitter" placeholder="např. http://twitter.com/myCompany" type="text" value="@(Model.Twitter)">
-                    </div>
-
-                    <div class="field">
-                        <label>LinkedIn</label>
-                        <input name="LinkedIn" placeholder="např. http://linkedin.com/company/myCompany" type="text" value="@(Model.LinkedIn)">
-                    </div>
-
-                    <button class="ui button submit primary" type="submit">
-                        @submitButtonText
-                    </button>
-
-                    <div class="ui error message"></div>
-        }
+            <div class="ui error message"></div>
+        </div>
     </div>
-</div>
+
+    @Html.Hidden("ID", Model.ID)
+}
+
+

@@ -211,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\teaser.jpg" />
+    <Content Include="Content\Images\teaser_cropped.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -1766,12 +1767,13 @@
     <Content Include="Scripts\addons\jquery-2.1.4.min.js" />
     <Content Include="Scripts\addons\respond.min.js" />
     <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\modules\tableModule.js" />
     <Content Include="Scripts\modules\internshipModule.js" />
     <Content Include="Scripts\modules\companyModule.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\requireConfig.js" />
     <Content Include="Scripts\views\auth\addEditCompany.js" />
-    <Content Include="Scripts\views\auth\newInternship.js" />
+    <Content Include="Scripts\views\auth\addEditInternship.js" />
     <Content Include="Scripts\views\auth\authIndex.js" />
     <Content Include="Scripts\views\company\detail.js" />
     <Content Include="Scripts\views\company\browse.js" />
@@ -2003,6 +2005,8 @@
     <Content Include="Stylesheets\partials\_internship.scss" />
     <Content Include="Stylesheets\partials\_auth.scss" />
     <Content Include="Views\Auth\Partials\AddEditCompany.cshtml" />
+    <Content Include="Stylesheets\partials\_table.scss" />
+    <Content Include="Views\Auth\Partials\AddEditInternship.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

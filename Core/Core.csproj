@@ -103,6 +103,14 @@
     <Compile Include="Migrations\201609060807360_AddApplicationUserIdToCompany.Designer.cs">
       <DependentUpon>201609060807360_AddApplicationUserIdToCompany.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609101322567_RemoveShortDescriptionFromCompany.cs" />
+    <Compile Include="Migrations\201609101322567_RemoveShortDescriptionFromCompany.Designer.cs">
+      <DependentUpon>201609101322567_RemoveShortDescriptionFromCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609101445298_minAndMaxDurationInternship.cs" />
+    <Compile Include="Migrations\201609101445298_minAndMaxDurationInternship.Designer.cs">
+      <DependentUpon>201609101445298_minAndMaxDurationInternship.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
@@ -171,6 +179,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609060807360_AddApplicationUserIdToCompany.resx">
       <DependentUpon>201609060807360_AddApplicationUserIdToCompany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609101322567_RemoveShortDescriptionFromCompany.resx">
+      <DependentUpon>201609101322567_RemoveShortDescriptionFromCompany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609101445298_minAndMaxDurationInternship.resx">
+      <DependentUpon>201609101445298_minAndMaxDurationInternship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,7 +7,6 @@ namespace UI.Builders.Company.Models
         public string CompanyName { get; set; }
         public int YearFounded { get; set; }
         public string PublicEmail { get; set; }
-        public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public string Address { get; set; }
         public string City { get; set; }

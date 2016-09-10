@@ -12,7 +12,7 @@ namespace Core.Services
     public class Identityservice : BaseService<EntityAbstract>, IIdentityService // Use EntityAbstract because ApplicationUser is not inheriting it
     {
 
-        public Identityservice(IAppContext appContext, ICacheService cacheService) : base(appContext, cacheService) { }
+        public Identityservice(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
 
         public Task<ApplicationUser> GetAsync(string applicationUserId)
         {

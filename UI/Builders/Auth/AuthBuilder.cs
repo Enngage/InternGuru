@@ -14,6 +14,8 @@ using UI.Builders.Auth.Models;
 using UI.Files;
 using Common.Config;
 using Common.Helpers;
+using UI.Exceptions;
+using Common.Helpers.Internship;
 
 namespace UI.Builders.Company
 {
@@ -22,7 +24,9 @@ namespace UI.Builders.Company
         #region Services
 
         ICompanyService companyService;
+        IInternshipService internshipService;
         ICompanyCategoryService companyCategoryService;
+        IInternshipCategoryService internshipCategoryService;
         IFileProvider fileProvider;
 
         #endregion
@@ -36,6 +40,8 @@ namespace UI.Builders.Company
             IIdentityService identityService,
             ILogService logService,
             ICompanyCategoryService companyCategoryService,
+            IInternshipCategoryService internshipCategoryService,
+            IInternshipService internshipService,
             IFileProvider fileProvider)
             : base(
                 appContext,
@@ -44,7 +50,9 @@ namespace UI.Builders.Company
                 logService)
         {
             this.companyService = companyService;
+            this.internshipService = internshipService;
             this.companyCategoryService = companyCategoryService;
+            this.internshipCategoryService = internshipCategoryService;
             this.fileProvider = fileProvider;
         }
 
@@ -72,6 +80,10 @@ namespace UI.Builders.Company
             };
         }
 
+        #endregion
+
+        #region Company 
+
         public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync(AuthAddEditCompanyForm form)
         {
             if (form == null)
@@ -83,7 +95,7 @@ namespace UI.Builders.Company
             // add countries, categories and company sizes
             form.Countries = Common.Helpers.CountryHelper.GetCountries();
             form.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
-            form.CompanyCategories = await GetCompanyCategories();
+            form.CompanyCategories = await GetCompanyCategoriesAsync();
 
             return new AuthRegisterCompanyView()
             {
@@ -103,7 +115,7 @@ namespace UI.Builders.Company
             // add countries, categories and company sizes
             form.Countries = Common.Helpers.CountryHelper.GetCountries();
             form.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
-            form.CompanyCategories = await GetCompanyCategories();
+            form.CompanyCategories = await GetCompanyCategoriesAsync();
 
             return new AuthEditCompanyView()
             {
@@ -133,7 +145,6 @@ namespace UI.Builders.Company
                     LinkedIn = m.LinkedIn,
                     PublicEmail = m.PublicEmail,
                     LongDescription = m.LongDescription,
-                    ShortDescription = m.ShortDescription,
                     Twitter = m.Twitter,
                     Web = m.Web,
                     CompanyCategoryID = m.CompanyCategoryID,
@@ -150,7 +161,7 @@ namespace UI.Builders.Company
             // add countries, categories and company sizes
             company.Countries = Common.Helpers.CountryHelper.GetCountries();
             company.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
-            company.CompanyCategories = await GetCompanyCategories();
+            company.CompanyCategories = await GetCompanyCategoriesAsync();
 
             return new AuthEditCompanyView()
             {
@@ -180,7 +191,6 @@ namespace UI.Builders.Company
                     LinkedIn = m.LinkedIn,
                     PublicEmail = m.PublicEmail,
                     LongDescription = m.LongDescription,
-                    ShortDescription = m.ShortDescription,
                     Twitter = m.Twitter,
                     Web = m.Web,
                     CompanyCategoryID = m.CompanyCategoryID,
@@ -197,12 +207,50 @@ namespace UI.Builders.Company
             // add countries, categories and company sizes
             company.Countries = Common.Helpers.CountryHelper.GetCountries();
             company.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
-            company.CompanyCategories = await GetCompanyCategories();
+            company.CompanyCategories = await GetCompanyCategoriesAsync();
 
             return new AuthRegisterCompanyView()
             {
                 CompanyForm = company,
                 CompanyIsCreated = company != null
+            };
+        }
+
+        #endregion
+
+        #region Internship
+
+        public async Task<AuthNewInternshipView> BuildNewInternshipViewAsync()
+        {
+            var form = new AuthAddEditInternshipForm()
+            {
+                InternshipCategories = await GetInternshipCategoriesAsync(),
+                AmountTypes = InternshipHelper.GetAmountTypes(),
+                DurationTypes = InternshipHelper.GetInternshipDurations(),
+                Countries = CountryHelper.GetCountries(),
+                Currencies = CurrencyHelper.GetCurrencies()
+            };
+
+            return new AuthNewInternshipView()
+            {
+                InternshipForm = form,
+                CanCreateInternship = await GetCompanyIDOfCurrentUserAsync() != 0, // user can create internship only if he created company before
+            };
+        }
+
+        public async Task<AuthNewInternshipView> BuildNewInternshipViewAsync(AuthAddEditInternshipForm form)
+        {
+
+            form.InternshipCategories = await GetInternshipCategoriesAsync();
+            form.AmountTypes = InternshipHelper.GetAmountTypes();
+            form.DurationTypes = InternshipHelper.GetInternshipDurations();
+            form.Countries = CountryHelper.GetCountries();
+            form.Currencies = CurrencyHelper.GetCurrencies();
+
+            return new AuthNewInternshipView()
+            {
+                InternshipForm = form,
+                CanCreateInternship = await GetCompanyIDOfCurrentUserAsync() != 0, // user can create internship only if he created company before
             };
         }
 
@@ -220,8 +268,8 @@ namespace UI.Builders.Company
             try
             {
                 // try to upload files before adding database record of company
-                fileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
-                fileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                fileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
+                fileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
 
                 var company = new Entity.Company
                 {
@@ -237,7 +285,6 @@ namespace UI.Builders.Company
                     Lng = form.Lng,
                     LongDescription = form.LongDescription,
                     PublicEmail = form.PublicEmail,
-                    ShortDescription = form.ShortDescription,
                     Twitter = form.Twitter,
                     Web = form.Web,
                     YearFounded = form.YearFounded,
@@ -267,8 +314,14 @@ namespace UI.Builders.Company
             try
             {
                 // try to upload files before adding database record of company
-                fileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
-                fileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                if (form.Banner != null)
+                {
+                    fileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
+                }
+                if (form.Logo != null)
+                {
+                    fileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                }
 
                 var company = new Entity.Company
                 {
@@ -285,7 +338,6 @@ namespace UI.Builders.Company
                     Lng = form.Lng,
                     LongDescription = form.LongDescription,
                     PublicEmail = form.PublicEmail,
-                    ShortDescription = form.ShortDescription,
                     Twitter = form.Twitter,
                     Web = form.Web,
                     YearFounded = form.YearFounded,
@@ -304,15 +356,91 @@ namespace UI.Builders.Company
             }
         }
 
+        /// <summary>
+        /// Creates new internship from given form
+        /// </summary>
+        /// <param name="form">form</param>
+        /// <returns>ID of new internship</returns>
+        public async Task<int> CreateInternship(AuthAddEditInternshipForm form)
+        {
+            try
+            {
+                var companyIDOfCurrentUser = await GetCompanyIDOfCurrentUserAsync();
+
+                if (companyIDOfCurrentUser == 0)
+                {
+                    // we cannot create internship without assigned company
+                    throw new UIException("Internship has invalid company assigned");
+                }
+
+                // Get enums for duration type
+                var maxDurationTypeEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(form.MaxDurationType);
+                var minDurationTypeEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(form.MinDurationType);
+
+                var internship = new Entity.Internship
+                {
+                    Amount = form.Amount,
+                    AmountType = form.AmountType,
+                    City = form.City,
+                    Country = form.Country,
+                    StartDate = form.StartDate,
+                    Title = form.Title,
+                    IsPaid = true, //TODO
+                    CompanyID = companyIDOfCurrentUser,
+                    InternshipCategoryID = form.InternshipCategoryID,
+                    Currency = form.Currency,
+                    Description = form.Description,
+                    MaxDurationInDays = form.GetDurationInDays(maxDurationTypeEnum, form.MaxDuration),
+                    MaxDurationInWeeks = form.GetDurationInWeeks(maxDurationTypeEnum, form.MaxDuration),
+                    MaxDurationInMonths = form.GetDurationInMonths(maxDurationTypeEnum, form.MaxDuration),
+                    MinDurationInDays = form.GetDurationInDays(minDurationTypeEnum, form.MinDuration),
+                    MinDurationInWeeks = form.GetDurationInWeeks(minDurationTypeEnum, form.MinDuration),
+                    MinDurationInMonths = form.GetDurationInMonths(minDurationTypeEnum, form.MinDuration),
+                };
+
+                await internshipService.InsertAsync(internship);
+
+                return internship.ID;
+            }
+            catch (Exception ex)
+            {
+                // log error
+                LogService.LogException(ex);
+
+                // re-throw
+                throw;
+            }
+        }
+
         #endregion
 
         #region Helper methods
 
         /// <summary>
+        /// Gets company ID of current user
+        /// </summary>
+        /// <returns>CompanyID of current user or 0 if user is not logged or hasn't created any company</returns>
+        private async Task<int> GetCompanyIDOfCurrentUserAsync()
+        {
+            if (!this.CurrentUser.IsAuthenticated)
+            {
+                return 0;
+            }
+
+            var company = await companyService.GetAll()
+                .Where(m => m.ApplicationUserId == this.CurrentUser.Id)
+                .Take(1)
+                .Select(m => m.ID)
+                .FirstOrDefaultAsync();
+
+            return company;
+        }
+
+        /// <summary>
         /// Gets company categories and caches the result
         /// </summary>
         /// <returns>Collection of company categories</returns>
-        private async Task<IEnumerable<AuthCompanyCategoryModel>> GetCompanyCategories()
+        private async Task<IEnumerable<AuthCompanyCategoryModel>> GetCompanyCategoriesAsync()
         {
             var cacheMinutes = 60;
             var cacheSetup = this.CacheService.GetSetup<AuthCompanyCategoryModel>(this.GetSource(), cacheMinutes);
@@ -333,6 +461,33 @@ namespace UI.Builders.Company
             var companyCategories = await this.CacheService.GetOrSetAsync(async () => await companyCategoriesQuery.ToListAsync(), cacheSetup);
 
             return companyCategories;
+        }
+
+        /// <summary>
+        /// Gets internship categories and caches the result
+        /// </summary>
+        /// <returns>Collection of internship categories</returns>
+        private async Task<IEnumerable<AuthInternshipCategoryModel>> GetInternshipCategoriesAsync()
+        {
+            var cacheMinutes = 60;
+            var cacheSetup = this.CacheService.GetSetup<AuthInternshipCategoryModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                Entity.InternshipCategory.KeyCreateAny<Entity.InternshipCategory>(),
+                Entity.InternshipCategory.KeyDeleteAny<Entity.InternshipCategory>(),
+                Entity.InternshipCategory.KeyUpdateAny<Entity.InternshipCategory>(),
+            };
+
+            var internshipCategoriesQuery = this.internshipCategoryService.GetAll()
+                .Select(m => new AuthInternshipCategoryModel()
+                {
+                    InternshipCategoryID = m.ID,
+                    InternshipCategoryName = m.Name
+                });
+
+            var internshipCategories = await this.CacheService.GetOrSetAsync(async () => await internshipCategoriesQuery.ToListAsync(), cacheSetup);
+
+            return internshipCategories;
         }
 
         #endregion

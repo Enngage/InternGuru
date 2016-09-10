@@ -6,6 +6,6 @@ namespace UI.Builders.Shared.Forms
         /// <summary>
         /// Indicates if form was saves successfully
         /// </summary>
-        public bool Success { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }

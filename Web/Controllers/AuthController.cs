@@ -51,7 +51,9 @@ namespace Web.Controllers
 
         public async Task<ActionResult> NewInternship()
         {
-            return View();
+            var model = await authBuilder.BuildNewInternshipViewAsync();
+
+            return View(model);
         }
 
         public async Task<ActionResult> EditInternship()
@@ -79,6 +81,41 @@ namespace Web.Controllers
         #region POST methods
 
         [HttpPost]
+        public async Task<ActionResult> NewInternship(AuthAddEditInternshipForm form)
+        {
+            // validate form
+            if (!this.ModelStateWrapper.IsValid)
+            {
+                return View(await authBuilder.BuildNewInternshipViewAsync(form));
+            }
+
+            try
+            {
+                // create internship
+                var internshipID = await authBuilder.CreateInternship(form);
+
+                var model = await authBuilder.BuildNewInternshipViewAsync(form);
+
+                // set form status
+                model.InternshipForm.FormResult.IsSuccess = true;
+
+                // update InternshipID
+                model.InternshipForm.ID = internshipID;
+
+                // edit view name
+                var editView = "~/Views/Auth/EditInternship.cshtml";
+
+                return View(editView, model);
+            }
+            catch (Exception ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                return View(await authBuilder.BuildNewInternshipViewAsync(form));
+            }
+        }
+
+        [HttpPost]
         public async Task<ActionResult> RegisterCompany(AuthAddEditCompanyForm form)
         {
             // validate form
@@ -95,7 +132,7 @@ namespace Web.Controllers
                 var model = await authBuilder.BuildRegisterCompanyViewAsync(form);
 
                 // set form status
-                model.CompanyForm.FormResult.Success = true;
+                model.CompanyForm.FormResult.IsSuccess = true;
 
                 // update CompanyID
                 model.CompanyForm.ID = companyID;
@@ -127,7 +164,7 @@ namespace Web.Controllers
                 var model = await authBuilder.BuildEditCompanyViewAsync(form);
 
                 // set form status
-                model.CompanyForm.FormResult.Success = true;
+                model.CompanyForm.FormResult.IsSuccess = true;
 
                 return View(model);
             }

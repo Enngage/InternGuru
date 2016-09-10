@@ -1,0 +1,213 @@
+﻿@model UI.Builders.Auth.Forms.AuthAddEditInternshipForm
+@using UI.Helpers;
+@using UI.Extensions;
+
+@{
+    var formAction = Model.IsExistingInternship ? "EditInternship" : "NewInternship";
+    var submitButtonText = Model.ID == 0 ? "Vložit nabídku" : "Uložit";
+    var defaultCurrency = Model.Currencies.FirstOrDefault();
+    var defaultDuration = Model.DurationTypes.FirstOrDefault();
+    var defaultAmountType = Model.AmountTypes.FirstOrDefault();
+
+    var startDate = DateTime.Now.ToShortDateString();
+    if (Model.IsExistingInternship)
+    {
+        startDate = Model.StartDate.ToShortDateString();
+    }
+    else
+    {
+        if (Model.StartDate != DateTime.MinValue)
+        {
+            startDate = Model.StartDate.ToShortDateString();
+        }
+    }
+
+    ViewBag.Title = Model.ID == 0 ? "Nová nabídka" : "Upravit stáž | " + Model.Title;
+}
+
+@Html.RequireScript("/scripts/views/auth/addEditInternship")
+@Html.RequireCSS("/scripts/addons/datepicker-master/dist/datepicker.min")
+
+@using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))
+{
+
+    <div class="ui grid">
+        <div class="centered sixteen wide mobile sixteen wide tablet eight wide computer column">
+
+            @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
+
+            <form id="_InternshipForm" class="ui form">
+                <div class="field required">
+                    <label>Název pozice</label>
+                    <input name="Title" placeholder="" type="text" value="@Model.Title">
+                </div>
+                <div class="field required">
+                    <label>Popis pozice</label>
+                    <textarea id="_Description" name="Description">@Model.Description</textarea>
+                </div>
+
+                <div class="field required">
+                    <label>Kategorie</label>
+                    <div class="ui fluid search selection dropdown _CategorySearchDropdown">
+                        <input type="hidden" name="InternshipCategoryID" value="@Model.InternshipCategoryID">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Kategorie</div>
+                        <div class="menu">
+                            @foreach (var category in Model.InternshipCategories)
+                            {
+                                if (category.InternshipCategoryID == Model.InternshipCategoryID)
+                                {
+                                    <div class="item active" data-value="@category.InternshipCategoryID">@category.InternshipCategoryName</div>
+                                }
+                                else
+                                {
+                                    <div class="item" data-value="@category.InternshipCategoryID">@category.InternshipCategoryName</div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field required">
+                    <label>Město</label>
+                    <input name="City" placeholder="" type="text" value="@Model.City">
+                </div>
+
+                <div class="field required">
+                    <label>Stát</label>
+                    <div class="ui fluid search selection dropdown _StateDropdown">
+                        <input type="hidden" name="Country" value="@Model.Country">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Stát</div>
+                        <div class="menu">
+                            @foreach (var country in Model.Countries)
+                            {
+                                if (country.CoutryCodeName.Equals(Model.Country, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <div class="item active" data-value="@country.CoutryCodeName">@Html.Raw(country.FlagIconHtml) @country.CountryName</div>
+                                }
+                                else
+                                {
+                                    <div class="item" data-value="@country.CoutryCodeName">@Html.Raw(country.FlagIconHtml) @country.CountryName</div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Odměna</label>
+                    <div id="_IsPaidCheckbox" class="ui checkbox">
+                        <input name="IsPaid" class="hidden" type="checkbox" tabindex="0">
+                        <label>Stáž je placená</label>
+                    </div>
+
+                    <div id="_InternshipAmountField" class="field w-margin-top-10 w-body-hide">
+                        <div class="ui right labeled input">
+                            <input name="Amount" placeholder="" type="text" value="@Model.Amount">
+                            <div class="ui dropdown label _CurrencyDropdown">
+                                <input name="Currency" type="hidden" value="@Model.Currency">
+                                <div class="item text" data-value="@defaultCurrency">@defaultCurrency</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    @foreach (var currency in Model.Currencies)
+                                    {
+                                        if (currency.Equals(Model.Currency, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <div class="item active" data-value="@currency">@currency</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="item" data-value="@currency">@currency</div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="ui dropdown label _CurrencyDropdown">
+                                <input name="AmountType" type="hidden" value="@Model.AmountType">
+                                <div class="item text" data-value="@defaultAmountType">@defaultAmountType</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    @foreach (var amountType in Model.AmountTypes)
+                                    {
+                                        if (amountType.Equals(Model.AmountType, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <div class="item active" data-value="@amountType">@amountType</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="item" data-value="@amountType">@amountType</div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field required">
+                    <label>Nástup od</label>
+                    <input name="StartDate" class="_Datepicker" type="text" data-toggle="startdate" value="@startDate">
+                    <div class="_Datepicker" data-toggle="startdate"></div>
+                </div>
+
+                <div class="field required">
+                    <label>Minimální délka stáže</label>
+                    <div class="ui right labeled input">
+                        <input name="MinDuration" placeholder="" type="text" value="@Model.MinDuration">
+                        <div class="ui dropdown label _DurationDropdown">
+                            <input name="MinDurationType" type="hidden" value="@Model.MinDurationType">
+                            <div class="item text" data-value="@defaultDuration.DurationValue">@defaultDuration.DurationName</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                @foreach (var durationType in Model.DurationTypes)
+                                {
+                                    if (durationType.DurationValue.Equals(Model.MinDurationType, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <div class="item active" data-value="@durationType.DurationValue">@durationType.DurationName</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="item" data-value="@durationType.DurationValue">@durationType.DurationName</div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field required">
+                    <label>Maximální délka stáže</label>
+                    <div class="ui right labeled input">
+                        <input name="MaxDuration" placeholder="" type="text" value="@Model.MaxDuration">
+                        <div class="ui dropdown label _DurationDropdown">
+                            <input name="MaxDurationType" type="hidden" value="@Model.MaxDurationType">
+                            <div class="item text" data-value="@defaultDuration.DurationValue">@defaultDuration.DurationName</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                @foreach (var durationType in Model.DurationTypes)
+                                {
+                                    if (durationType.DurationValue.Equals(Model.MaxDurationType, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <div class="item active" data-value="@durationType.DurationValue">@durationType.DurationName</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="item" data-value="@durationType.DurationValue">@durationType.DurationName</div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="ui button submit primary" type="submit">
+                    @submitButtonText
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+}

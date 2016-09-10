@@ -5,6 +5,46 @@ namespace Common.Helpers
 {
     public static class InternshipHelper
     {
+
+        /// <summary>
+        /// Gets collection of allowed amount types (e.g. "Total", "Per month" ..)
+        /// </summary>
+        /// <returns>Collection of duration types</returns>
+        public static IEnumerable<string> GetAmountTypes()
+        {
+            return new List<string>()
+            {
+                "Celkem",
+                "Měsíc"
+            };
+        }
+
+        /// <summary>
+        /// Gets collection of allowed duration types (e.g. "Days", "Month" ..)
+        /// </summary>
+        /// <returns>Collection of duration types</returns>
+        public static IEnumerable<InternshipDurationTypeModel> GetInternshipDurations()
+        {
+            return new List<InternshipDurationTypeModel>()
+            {
+                new InternshipDurationTypeModel()
+                {
+                    DurationName = "Měsíců",
+                    DurationValue = "Months",
+                },
+                new InternshipDurationTypeModel()
+                {
+                    DurationName = "Týdnů",
+                    DurationValue = "Weeks",
+                },
+                new InternshipDurationTypeModel()
+                {
+                    DurationName = "Dnů",
+                    DurationValue = "Days",
+                }
+            };
+        }
+
         /// <summary>
         /// Gets collection of possible employee count states
         /// </summary>

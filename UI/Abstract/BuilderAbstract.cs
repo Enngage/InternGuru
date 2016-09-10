@@ -60,17 +60,6 @@ namespace UI.Abstract
         }
 
         /// <summary>
-        /// Indicates if user is authenticated
-        /// </summary>
-        protected bool IsAuthenticated
-        {
-            get
-            {
-                return CurrentUser == null;
-            }
-        }
-
-        /// <summary>
         /// Cache service
         /// </summary>
         protected ICacheService CacheService

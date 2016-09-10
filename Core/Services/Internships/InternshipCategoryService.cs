@@ -13,7 +13,7 @@ namespace Core.Services
     public class InternshipCategoryService : BaseService<InternshipCategory>, IInternshipCategoryService
     {
 
-        public InternshipCategoryService(IAppContext appContext, ICacheService cacheService) : base(appContext, cacheService) { }
+        public InternshipCategoryService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
 
         public Task DeleteAsync(int id)
         {

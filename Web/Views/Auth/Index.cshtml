@@ -49,48 +49,63 @@
         </div>
 
         <div class="ui tab basic segment active" data-tab="first">
-            <div class="ui divided items">
-                <div class="item">
-                    <div class="content">
-                        <div class="ui right floated w-font-light w-font-size-small">
-                            <i class="warning red icon"></i> Nová zpráva
-                        </div>
-                        <a class="header" href="@Url.Action("Conversation", "Auth")">
-                            Skype
-                        </a>
-                        <div class="description">
-                            <p>
-                                Eppi je e-commerce butik, který se specializuje na šperky a klenoty. Náš tým tvoří několik mladých a nadšených osobností, které se snaží dělat e-commerce tím správným způsobem. Vzhledem k přirozenému růstu našeho podnikání chceme v současné době rozšířit náš tým, abychom mohli zajistit poskytování výjimečných zákaznických služeb všem našim zákazníkům.
-                            </p>
-                        </div>
-                        <div class="extra w-font-size-small">
-                            <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortTimeString() | RichardS | <a href="#">Skype</a>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="item">
-                    <div class="content">
-                        <div class="ui right floated w-font-light w-font-size-small">
-                            <i class="checkmark green icon"></i> Přečteno
-                        </div>
-                        <a class="header" href="@Url.Action("Conversation", "Auth")">
-                            Microsoft
-                        </a>
-                        <div class="description">
-                            <p>
-                                Stále se považujeme za start-up tzn. na formality si moc nepotrpíme, ale jsme motivováni na našich výsledcích. S našimi řešeními oslovujeme obce, města, výrobní podniky, majitele administrativních budov. Občas si jdeme s firmou zajezdit na motokárách, zahrát paintball nebo v zimě na hory, ale na prvním místě jsou vždy výsledky.
-                            </p>
-                        </div>
-                        <div class="extra w-font-size-small">
+            <table class="ui very basic table w-table-listing _ConversationListingTable">
+                <tbody>
+                    <tr data-link="@Url.Action("Conversation")">
+                        <td class="collapsing">
+                            <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logo-auta-online1146010588880.png" />
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Conversation")">
+                                John Brown
+                            </a>
+                        </td>
+                        <td class="collapsing w-body-text-right w-mobile-left">
                             <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortTimeString() | JohnG | <a href="#">Microsoft</a>
-                        </div>
-                    </div>
-                </div>
+                            @DateTime.Now.ToShortTimeString()
+                        </td>
+                        <td class="collapsing w-body-text-right w-mobile-left">
+                            <i title="Přečteno" class="checkmark green icon"></i>
 
-            </div>
+                        </td>
+                    </tr>
+                    <tr data-link="@Url.Action("Conversation")">
+                        <td class="collapsing">
+                            <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logo-auta-online1146010588880.png" />
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Conversation")">
+                                John Brown
+                            </a>
+                        </td>
+                        <td class="collapsing w-body-text-right w-mobile-left">
+                            <i class="calendar icon"></i>
+                            @DateTime.Now.ToShortTimeString()
+                        </td>
+                        <td class="collapsing w-body-text-right w-mobile-left">
+                            <i title="Nová zpráva"  class="warning red icon"></i> 
+                        </td>
+                    </tr>
+                    <tr data-link="@Url.Action("Conversation")">
+                        <td class="collapsing">
+                            <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logo-auta-online1146010588880.png" />
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Conversation")">
+                                John Brown
+                            </a>
+                        </td>
+                        <td class="collapsing w-body-text-right w-mobile-left">
+                            <i class="calendar icon"></i>
+                            @DateTime.Now.ToShortTimeString()
+                        </td>
+                        <td class="collapsing w-body-text-right w-mobile-left">
+                            <i title="Přečteno" class="checkmark green icon"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="ui tab segment" data-tab="second">

@@ -13,7 +13,7 @@ namespace Core.Services
     public class CompanyCategoryService : BaseService<CompanyCategory>, ICompanyCategoryService
     {
 
-        public CompanyCategoryService(IAppContext appContext, ICacheService cacheService) : base(appContext, cacheService) { }
+        public CompanyCategoryService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
 
         public Task DeleteAsync(int id)
         {

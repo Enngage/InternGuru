@@ -22,6 +22,43 @@ namespace UI.Extensions
             return html.Raw(sb);
         }
 
+        /// <summary>
+        /// Renders either success message or validation form summary in a nicely presented HTML format
+        /// </summary>
+        /// <param name="html">html</param>
+        /// <param name="isSuccess">Indicates if form was saved successfully</param>
+        /// <param name="successMessage">Message to show if form was saved successfully</param>
+        /// <returns></returns>
+        public static IHtmlString RenderFormValidationResult(this HtmlHelper html, bool isSuccess, string successMessage)
+        {
+            if (isSuccess)
+            {
+                return RenderSuccessMessage(html, successMessage);
+            }
+            else
+            {
+                return RenderValidationSummary(html);
+            }
+        }
+
+        /// <summary>
+        /// Renders either success message or validation form summary in a nicely presented HTML format
+        /// </summary>
+        /// <param name="html">html</param>
+        /// <param name="isSuccess">Indicates if form was saved successfully</param>
+        /// <returns></returns>
+        public static IHtmlString RenderFormValidationResult(this HtmlHelper html, bool isSuccess)
+        {
+            if (isSuccess)
+            {
+                return RenderSuccessMessage(html, "Uloženo");
+            }
+            else
+            {
+                return RenderValidationSummary(html);
+            }
+        }
+
         public static IHtmlString RenderSuccessMessage(this HtmlHelper html, string message)
         {
             return RenderSuccessMessage(html, message, null);
@@ -39,18 +76,25 @@ namespace UI.Extensions
 
         public static IHtmlString RenderErrorMessage(this HtmlHelper html, string message, string title)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("<div class=\"ui negative message\">");
-
-            if (!string.IsNullOrEmpty(title))
+            // render only if model is not valid
+            if (!html.ViewData.ModelState.IsValid)
             {
-                sb.AppendFormat("<div class=\"header\">{0}</div>", title);
+
+                var sb = new StringBuilder();
+                sb.AppendLine("<div class=\"ui negative message\">");
+
+                if (!string.IsNullOrEmpty(title))
+                {
+                    sb.AppendFormat("<div class=\"header\">{0}</div>", title);
+                }
+
+                sb.AppendFormat("<p>{0}</p>", message);
+                sb.AppendLine("</div>");
+
+                return html.Raw(sb);
             }
 
-            sb.AppendFormat("<p>{0}</p>", message);
-            sb.AppendLine("</div>");
-
-            return html.Raw(sb);
+            return null;
         }
 
         public static IHtmlString RenderErrorMessage(this HtmlHelper html, string message)

@@ -32,11 +32,17 @@ namespace Entity
         public string Currency { get; set; }
         public string AmountType { get; set; }
         [Required]
-        public int DurationInMonths { get; set; }
+        public int MinDurationInMonths { get; set; }
         [Required]
-        public int DurationInDays { get; set; }
+        public int MinDurationInDays { get; set; }
         [Required]
-        public int DurationInWeeks { get; set; }
+        public int MinDurationInWeeks { get; set; }
+        [Required]
+        public int MaxDurationInMonths { get; set; }
+        [Required]
+        public int MaxDurationInDays { get; set; }
+        [Required]
+        public int MaxDurationInWeeks { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
 

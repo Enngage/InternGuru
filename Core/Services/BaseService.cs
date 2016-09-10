@@ -6,12 +6,13 @@ using Entity;
 
 namespace Core.Services
 {
-    public class BaseService<T> : IDisposable where T :EntityAbstract
+    public class BaseService<T> : IDisposable where T : EntityAbstract
     {
         #region Variables
 
         private IAppContext appContext;
         private ICacheService cacheService;
+        private ILogService logService;
 
         #endregion
 
@@ -39,6 +40,17 @@ namespace Core.Services
             }
         }
 
+        /// <summary>
+        /// Log service
+        /// </summary>
+        protected ILogService LogService
+        {
+            get
+            {
+                return this.logService;
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -48,10 +60,12 @@ namespace Core.Services
         /// </summary>
         /// <param name="appContext">AppContext</param>
         /// <param name="cacheService">Cache service</param>
-        public BaseService(IAppContext appContext, ICacheService cacheService)
+        /// <param name="logService">Log service (can be null because of cyclic ILogService)</param>
+        public BaseService(IAppContext appContext, ICacheService cacheService, ILogService logService = null)
         {
             this.appContext = appContext;
             this.cacheService = cacheService;
+            this.logService = logService;
         }
 
         #endregion
@@ -76,8 +90,14 @@ namespace Core.Services
             {
                 this.appContext.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
+                // log event
+                if (logService != null)
+                {
+                    logService.LogException(ex);
+                }
+
                 // re-throw
                 throw;
             }
@@ -89,8 +109,14 @@ namespace Core.Services
             {
                 await this.appContext.SaveChangesAsync();
             }
-            catch
+            catch (Exception ex)
             {
+                // log event
+                if (logService != null)
+                {
+                    logService.LogException(ex);
+                }
+
                 // re-throw
                 throw;
             }

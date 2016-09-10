@@ -47,12 +47,16 @@
   <ItemGroup>
     <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Config\FileConfig.cs" />
+    <Compile Include="Helpers\CurrencyHelper.cs" />
     <Compile Include="Helpers\ConvertHelper.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\InternshipHelper.cs" />
     <Compile Include="Helpers\CountryHelper.cs" />
     <Compile Include="Config\SystemConfig.cs" />
     <Compile Include="Environment\EnvironmentEnum.cs" />
     <Compile Include="Helpers\Country\CountryModel.cs" />
+    <Compile Include="Helpers\Internship\InternshipDurationTypeEnum.cs" />
+    <Compile Include="Helpers\Internship\InternshipDurationTypeModel.cs" />
     <Compile Include="Helpers\Internship\InternshipEmployeeCountModel.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Loc\KernelProvider.cs" />

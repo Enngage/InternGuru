@@ -13,7 +13,7 @@ namespace Core.Services
     public class InternshipService : BaseService<Internship>, IInternshipService
     {
 
-        public InternshipService(IAppContext appContext, ICacheService cacheService) : base(appContext, cacheService) { }
+        public InternshipService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
 
         public Task DeleteAsync(int id)
         {
@@ -51,6 +51,9 @@ namespace Core.Services
 
         public Task InsertAsync(Internship obj)
         {
+            obj.Created = DateTime.Now;
+            obj.Updated = DateTime.Now;
+
             this.AppContext.Internships.Add(obj);
 
             // touch cache keys
@@ -67,6 +70,8 @@ namespace Core.Services
             {
                 throw new NotFoundException(string.Format("Internship with ID: {0} not found", internship.ID));
             }
+
+            obj.Updated = DateTime.Now;
 
             // update log
             this.AppContext.Entry(internship).CurrentValues.SetValues(obj);

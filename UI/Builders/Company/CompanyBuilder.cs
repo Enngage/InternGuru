@@ -107,7 +107,6 @@ namespace UI.Builders.Company
                     City = m.City,
                     CompanyName = m.CompanyName,
                     Country = m.Country,
-                    ShortDescription = m.ShortDescription,
                     ID = m.ID,
                     Internships = m.Internships
                         .Select(s => new CompanyDetailInternshipModel()

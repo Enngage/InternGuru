@@ -19,7 +19,7 @@ namespace UI.Abstract
                 {
                     formResult = new FormResult()
                     {
-                        Success = false
+                        IsSuccess = false
                     };
                 }
                 return formResult;
