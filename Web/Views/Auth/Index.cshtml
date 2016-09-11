@@ -61,13 +61,12 @@
                                 John Brown
                             </a>
                         </td>
-                        <td class="collapsing w-body-text-right w-mobile-left w-tablet-hide">
+                        <td class="collapsing w-body-text-right w-mobile-left w-tablet-hide w-font-size-small">
                             <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortTimeString()
+                            @DateTime.Now.ToShortDateString()
                         </td>
                         <td class="collapsing w-body-text-right w-mobile-left">
                             <i title="Přečteno" class="checkmark green icon"></i>
-
                         </td>
                     </tr>
                     <tr data-link="@Url.Action("Conversation")">
@@ -79,9 +78,9 @@
                                 John Brown
                             </a>
                         </td>
-                        <td class="collapsing w-body-text-right w-mobile-left w-tablet-hide">
+                        <td class="collapsing w-body-text-right w-mobile-left w-tablet-hide w-font-size-small">
                             <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortTimeString()
+                            @DateTime.Now.ToShortDateString()
                         </td>
                         <td class="collapsing w-body-text-right w-mobile-left">
                             <i title="Nová zpráva" class="warning red icon"></i>
@@ -96,9 +95,9 @@
                                 John Brown
                             </a>
                         </td>
-                        <td class="collapsing w-body-text-right w-mobile-left w-tablet-hide">
+                        <td class="collapsing w-body-text-right w-mobile-left w-tablet-hide w-font-size-small">
                             <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortTimeString()
+                            @DateTime.Now.ToShortDateString()
                         </td>
                         <td class="collapsing w-body-text-right w-mobile-left">
                             <i title="Přečteno" class="checkmark green icon"></i>
@@ -121,14 +120,24 @@
                         @foreach (var internship in Model.Internships)
                         {
                             <tr>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    @if (internship.IsActive)
+                                    {
+                                        <i title="Aktivní" class="checkmark green icon"></i>
+                                    }
+                                    else
+                                    {
+                                        <i title="Neaktivní" class="remove red icon"></i>
+                                    }
+                                </td>
                                 <td>
                                     <a href="@Url.Action("Internship", new { id = internship.ID })">
                                         @internship.Title
                                     </a>
                                 </td>
-                                <td class="collapsing w-mobile-left w-tablet-hide">
+                                <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
                                     <i class="calendar icon"></i>
-                                    @internship.Created.ToShortTimeString()
+                                    @internship.Created.ToShortDateString()
                                 </td>
                                 <td class="collapsing w-body-text-right w-mobile-left">
                                     <a href="@Url.Action("EditInternship", new { id = internship.ID })">
