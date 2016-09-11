@@ -14,6 +14,9 @@ namespace Entity
         [ForeignKey("Company")]
         public int CompanyID { get; set; }
 
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+
         [Required]
         public string Title { get; set; }
         [Required]
@@ -32,11 +35,14 @@ namespace Entity
         public string Currency { get; set; }
         public string AmountType { get; set; }
         [Required]
+        public string MinDurationType { get; set; }
+        [Required]
         public int MinDurationInMonths { get; set; }
         [Required]
         public int MinDurationInDays { get; set; }
         [Required]
         public int MinDurationInWeeks { get; set; }
+        public string MaxDurationType { get; set; }
         [Required]
         public int MaxDurationInMonths { get; set; }
         [Required]
@@ -45,10 +51,12 @@ namespace Entity
         public int MaxDurationInWeeks { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
+        public bool IsActive { get; set; }
 
 
         #region Virtual
 
+        public ApplicationUser ApplicationUser { get; set; }
         public InternshipCategory InternshipCategory { get; set; }
         public Company Company { get; set; }
 

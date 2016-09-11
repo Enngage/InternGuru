@@ -27,9 +27,10 @@ namespace UI.Builders.Auth.Forms
         [Required(ErrorMessage = "Zadejte stát výkonu stáže")]
         public string Country { get; set; }
 
+        public string IsActive { get; set; }
         public string IsPaid{ get; set; }
 
-        public int Amount { get; set; }
+        public double Amount { get; set; }
 
         public string Currency { get; set; }
 
@@ -57,6 +58,16 @@ namespace UI.Builders.Auth.Forms
         public IEnumerable<InternshipDurationTypeModel> DurationTypes { get; set; }
         public IEnumerable<AuthInternshipCategoryModel> InternshipCategories { get; set; }
 
+        // duration values
+        public int MinDurationInDays { get; set; }
+        public int MinDurationInWeeks { get; set; }
+        public int MinDurationInMonths { get; set; }
+
+        public int MaxDurationInDays { get; set; }
+        public int MaxDurationInWeeks { get; set; }
+        public int MaxDurationInMonths { get; set; }
+
+
         /// <summary>
         /// Indicates whether the model represents existing internship (based on ID)
         /// </summary>
@@ -70,7 +81,22 @@ namespace UI.Builders.Auth.Forms
 
         public bool GetIsPaid()
         {
-            return true;
+            if (String.IsNullOrEmpty(IsPaid))
+            {
+                return false;
+            }
+
+            return IsPaid.Equals("on", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public bool GetIsActive()
+        {
+            if (String.IsNullOrEmpty(IsActive))
+            {
+                return false;
+            }
+
+            return IsActive.Equals("on", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>

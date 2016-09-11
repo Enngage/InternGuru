@@ -13,9 +13,7 @@
 }
 else
 {
-    <div class="ui info message">
-        Vložit stáž lze jen po zaregistrování firmy
-    </div>
+    @Html.RenderWarningMessage("Vložit stáž lze jen pro zaregistrování firmy")
 
     <a href="@Url.Action("RegisterCompany")">
         <div class="ui large button primary">

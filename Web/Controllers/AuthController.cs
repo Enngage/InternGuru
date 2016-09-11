@@ -56,9 +56,22 @@ namespace Web.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> EditInternship()
+        public async Task<ActionResult> EditInternship(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = await authBuilder.BuildEditInternshipViewAsync(id ?? 0);
+
+            // internship was not found
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(model);
         }
 
         public async Task<ActionResult> EditProfile()
@@ -94,7 +107,7 @@ namespace Web.Controllers
                 // create internship
                 var internshipID = await authBuilder.CreateInternship(form);
 
-                var model = await authBuilder.BuildNewInternshipViewAsync(form);
+                var model = await authBuilder.BuildEditInternshipViewAsync(form);
 
                 // set form status
                 model.InternshipForm.FormResult.IsSuccess = true;
@@ -112,6 +125,35 @@ namespace Web.Controllers
                 this.ModelStateWrapper.AddError(ex.Message);
 
                 return View(await authBuilder.BuildNewInternshipViewAsync(form));
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditInternship(AuthAddEditInternshipForm form)
+        {
+            // validate form
+            if (!this.ModelStateWrapper.IsValid)
+            {
+                return View(await authBuilder.BuildEditInternshipViewAsync(form));
+            }
+
+            try
+            {
+                // edit internship
+                await authBuilder.EditInternship(form);
+
+                var model = await authBuilder.BuildEditInternshipViewAsync(form);
+
+                // set form status
+                model.InternshipForm.FormResult.IsSuccess = true;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                return View(await authBuilder.BuildEditInternshipViewAsync(form));
             }
         }
 

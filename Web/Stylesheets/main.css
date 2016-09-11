@@ -41,7 +41,7 @@
   transition: box-shadow 0.5s ease, padding 0.5s ease; }
   #w-body-wrapper .w-menu-main a, #w-body-wrapper .w-menu-main div.item {
     color: #e2e2e2;
-    font-size: 17px;
+    font-size: 14px;
     background: none; }
   #w-body-wrapper .w-menu-main a.active, #w-body-wrapper .w-menu-main div.item.active {
     color: #FF5733; }

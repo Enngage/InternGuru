@@ -14,21 +14,41 @@ namespace UI.Exceptions
         }
 
         /// <summary>
-        /// Create the exception with description
+        /// Create the exception using given type
         /// </summary>
-        /// <param name="message">Exception description</param>
-        public UIException(String message)
+        /// <param name="exceptionType">Exception type</param>
+        public UIException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        /// Create the exception with description and inner cause
+        /// Create the exception using given type
         /// </summary>
-        /// <param name="message">Exception description</param>
-        /// <param name="innerException">Exception inner cause</param>
-        public UIException(String message, Exception innerException)
+        /// <param name="exceptionType">Exception type</param>
+        /// <param name="innerException">Inner exception</param>
+        public UIException(string message, Exception innerException)
             : base(message, innerException)
+        {
+        }
+
+
+        /// <summary>
+        /// Create the exception using given type
+        /// </summary>
+        /// <param name="exceptionType">Exception type</param>
+        public UIException(UIExceptionEnum exceptionType)
+            : base(UIExceptionHelper.GetExceptionMessage(exceptionType))
+        {
+        }
+
+        /// <summary>
+        /// Create the exception using given type
+        /// </summary>
+        /// <param name="exceptionType">Exception type</param>
+        /// <param name="innerException">Exception inner cause</param>
+        public UIException(UIExceptionEnum exceptionType, Exception innerException)
+            : base(UIExceptionHelper.GetExceptionMessage(exceptionType), innerException)
         {
         }
 

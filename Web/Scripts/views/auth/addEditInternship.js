@@ -7,6 +7,8 @@
         SetInitialState();
         InitializeCkEditor();
 
+        $('#_IsActiveCheckbox').checkbox();
+
         // checkbox events
         $('#_IsPaidCheckbox').checkbox({
             onChecked: function () {

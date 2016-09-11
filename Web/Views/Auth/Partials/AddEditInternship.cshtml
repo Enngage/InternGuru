@@ -9,6 +9,14 @@
     var defaultDuration = Model.DurationTypes.FirstOrDefault();
     var defaultAmountType = Model.AmountTypes.FirstOrDefault();
 
+    var minDurationTypeVal = String.IsNullOrEmpty(Model.MinDurationType) ? defaultDuration.DurationValue : Model.MinDurationType;
+    var maxDurationTypeVal = String.IsNullOrEmpty(Model.MaxDurationType) ? defaultDuration.DurationValue : Model.MinDurationType;
+    var currencyVal = String.IsNullOrEmpty(Model.Currency) ? defaultCurrency : Model.Currency;
+    var amountTypeVal = String.IsNullOrEmpty(Model.AmountType) ? defaultAmountType : Model.AmountType;
+
+    var minDurationVal = Model.MinDuration == 0 ? null : Model.MinDuration.ToString();
+    var maxDurationVal = Model.MaxDuration == 0 ? null : Model.MaxDuration.ToString();
+
     var startDate = DateTime.Now.ToShortDateString();
     if (Model.IsExistingInternship)
     {
@@ -37,6 +45,28 @@
             @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
 
             <form id="_InternshipForm" class="ui form">
+
+                <div class="ui segment orange secondary inverted">
+
+                    <div class="field">
+                        @if (Model.GetIsActive())
+                        {
+                            <div id="_IsActiveCheckbox" class="ui checked checkbox">
+                                <input name="IsActive" class="hidden" checked="" type="checkbox" tabindex="0">
+                                <label>Nabídka je aktivní</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="_IsActiveCheckbox" class="ui checkbox">
+                                <input name="IsActive" class="hidden" type="checkbox" tabindex="0">
+                                <label>Nabídka je aktivní</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
                 <div class="field required">
                     <label>Název pozice</label>
                     <input name="Title" placeholder="" type="text" value="@Model.Title">
@@ -98,49 +128,59 @@
 
                 <div class="field">
                     <label>Odměna</label>
-                    <div id="_IsPaidCheckbox" class="ui checkbox">
-                        <input name="IsPaid" class="hidden" type="checkbox" tabindex="0">
-                        <label>Stáž je placená</label>
-                    </div>
+                    @if (Model.GetIsPaid())
+                    {
+                        <div id="_IsPaidCheckbox" class="ui checked checkbox">
+                            <input name="IsPaid" class="hidden" checked="" type="checkbox" tabindex="0">
+                            <label>Stáž je placená</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="_IsPaidCheckbox" class="ui checkbox">
+                            <input name="IsPaid" class="hidden" type="checkbox" tabindex="0">
+                            <label>Stáž je placená</label>
+                        </div>
+                    }
+                </div>
 
-                    <div id="_InternshipAmountField" class="field w-margin-top-10 w-body-hide">
-                        <div class="ui right labeled input">
-                            <input name="Amount" placeholder="" type="text" value="@Model.Amount">
-                            <div class="ui dropdown label _CurrencyDropdown">
-                                <input name="Currency" type="hidden" value="@Model.Currency">
-                                <div class="item text" data-value="@defaultCurrency">@defaultCurrency</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    @foreach (var currency in Model.Currencies)
+                <div id="_InternshipAmountField" class="field w-margin-top-10 w-body-hide">
+                    <div class="ui right labeled input">
+                        <input name="Amount" placeholder="" type="text" value="@Model.Amount">
+                        <div class="ui dropdown label _CurrencyDropdown">
+                            <input name="Currency" type="hidden" value="@currencyVal">
+                            <div class="item text" data-value="@defaultCurrency">@defaultCurrency</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                @foreach (var currency in Model.Currencies)
+                                {
+                                    if (currency.Equals(Model.Currency, StringComparison.OrdinalIgnoreCase))
                                     {
-                                        if (currency.Equals(Model.Currency, StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            <div class="item active" data-value="@currency">@currency</div>
-                                        }
-                                        else
-                                        {
-                                            <div class="item" data-value="@currency">@currency</div>
-                                        }
+                                        <div class="item active" data-value="@currency">@currency</div>
                                     }
-                                </div>
+                                    else
+                                    {
+                                        <div class="item" data-value="@currency">@currency</div>
+                                    }
+                                }
                             </div>
-                            <div class="ui dropdown label _CurrencyDropdown">
-                                <input name="AmountType" type="hidden" value="@Model.AmountType">
-                                <div class="item text" data-value="@defaultAmountType">@defaultAmountType</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    @foreach (var amountType in Model.AmountTypes)
+                        </div>
+                        <div class="ui dropdown label _CurrencyDropdown">
+                            <input name="AmountType" type="hidden" value="@amountTypeVal">
+                            <div class="item text" data-value="@defaultAmountType">@defaultAmountType</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                @foreach (var amountType in Model.AmountTypes)
+                                {
+                                    if (amountType.Equals(Model.AmountType, StringComparison.OrdinalIgnoreCase))
                                     {
-                                        if (amountType.Equals(Model.AmountType, StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            <div class="item active" data-value="@amountType">@amountType</div>
-                                        }
-                                        else
-                                        {
-                                            <div class="item" data-value="@amountType">@amountType</div>
-                                        }
+                                        <div class="item active" data-value="@amountType">@amountType</div>
                                     }
-                                </div>
+                                    else
+                                    {
+                                        <div class="item" data-value="@amountType">@amountType</div>
+                                    }
+                                }
                             </div>
                         </div>
                     </div>
@@ -155,9 +195,9 @@
                 <div class="field required">
                     <label>Minimální délka stáže</label>
                     <div class="ui right labeled input">
-                        <input name="MinDuration" placeholder="" type="text" value="@Model.MinDuration">
+                        <input name="MinDuration" placeholder="" type="text" value="@minDurationVal">
                         <div class="ui dropdown label _DurationDropdown">
-                            <input name="MinDurationType" type="hidden" value="@Model.MinDurationType">
+                            <input name="MinDurationType" type="hidden" value="@minDurationTypeVal">
                             <div class="item text" data-value="@defaultDuration.DurationValue">@defaultDuration.DurationName</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -180,9 +220,9 @@
                 <div class="field required">
                     <label>Maximální délka stáže</label>
                     <div class="ui right labeled input">
-                        <input name="MaxDuration" placeholder="" type="text" value="@Model.MaxDuration">
+                        <input name="MaxDuration" placeholder="" type="text" value="@maxDurationVal">
                         <div class="ui dropdown label _DurationDropdown">
-                            <input name="MaxDurationType" type="hidden" value="@Model.MaxDurationType">
+                            <input name="MaxDurationType" type="hidden" value="@maxDurationTypeVal">
                             <div class="item text" data-value="@defaultDuration.DurationValue">@defaultDuration.DurationName</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -210,4 +250,6 @@
 
         </div>
     </div>
+
+    @Html.Hidden("ID", Model.ID)
 }

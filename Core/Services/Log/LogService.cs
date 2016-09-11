@@ -56,6 +56,9 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("Log with ID: {0} not found", obj.ID));
             }
 
+            // keep the created date
+            obj.Created = log.Created;
+
             // update log
             this.AppContext.Entry(log).CurrentValues.SetValues(obj);
 

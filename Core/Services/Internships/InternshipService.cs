@@ -68,10 +68,11 @@ namespace Core.Services
 
             if (internship == null)
             {
-                throw new NotFoundException(string.Format("Internship with ID: {0} not found", internship.ID));
+                throw new NotFoundException(string.Format("Internship with ID: {0} not found", obj.ID));
             }
 
             obj.Updated = DateTime.Now;
+            obj.Created = internship.Created; 
 
             // update log
             this.AppContext.Entry(internship).CurrentValues.SetValues(obj);

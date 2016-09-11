@@ -6,6 +6,74 @@ namespace UI.Extensions
 {
     public static class HtmlExtensions
     {
+        /// <summary>
+        /// Renders warning message with title
+        /// </summary>
+        /// <param name="html">Html helper</param>
+        /// <param name="message">Message</param>
+        /// <param name="title">Title of message</param>
+        /// <returns>HTML for info message</returns>
+        public static IHtmlString RenderWarningMessage(this HtmlHelper html, string message, string title)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("<div class=\"ui info warning\">");
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                sb.AppendFormat("<div class=\"header\">{0}</div>", title);
+            }
+
+            sb.AppendFormat("<p>{0}</p>", message);
+            sb.AppendLine("</div>");
+
+            return html.Raw(sb);
+        }
+
+        /// <summary>
+        /// Renders warning message with no title
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="message">Message</param>
+        /// <returns>HTML for info message</returns>
+        public static IHtmlString RenderWarningMessage(this HtmlHelper html, string message)
+        {
+            return RenderInfoMessage(html, message, null);
+        }
+
+        /// <summary>
+        /// Renders info message with title
+        /// </summary>
+        /// <param name="html">Html helper</param>
+        /// <param name="message">Message</param>
+        /// <param name="title">Title of message</param>
+        /// <returns>HTML for info message</returns>
+        public static IHtmlString RenderInfoMessage(this HtmlHelper html, string message, string title)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("<div class=\"ui info message\">");
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                sb.AppendFormat("<div class=\"header\">{0}</div>", title);
+            }
+
+            sb.AppendFormat("<p>{0}</p>", message);
+            sb.AppendLine("</div>");
+
+            return html.Raw(sb);
+        }
+
+        /// <summary>
+        /// Renders info message with no title
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="message">Message</param>
+        /// <returns>HTML for info message</returns>
+        public static IHtmlString RenderInfoMessage(this HtmlHelper html, string message)
+        {
+            return RenderInfoMessage(html, message, null);
+        }
+
         public static IHtmlString RenderSuccessMessage(this HtmlHelper html, string message, string title)
         {
             var sb = new StringBuilder();
