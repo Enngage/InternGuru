@@ -43,12 +43,13 @@ namespace UI.Builders.Company
             IInternshipCategoryService internshipCategoryService,
             IInternshipService internshipService,
             IFileProvider fileProvider)
-            : base(
+            : base
+            (
                 appContext,
                 cacheService,
                 identityService,
                 logService)
-        {
+            {
             this.companyService = companyService;
             this.internshipService = internshipService;
             this.companyCategoryService = companyCategoryService;
@@ -80,6 +81,12 @@ namespace UI.Builders.Company
 
             int cacheMinutes = 60;
             var cacheSetup = CacheService.GetSetup<AuthInternshipListingModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                Entity.Internship.KeyUpdateAny<Entity.Internship>(),
+                Entity.Internship.KeyDeleteAny<Entity.Internship>(),
+                Entity.Internship.KeyCreateAny<Entity.Internship>(),
+            };
 
             var internships = await CacheService.GetOrSet(async () => await internshipsQuery.ToListAsync(), cacheSetup);
 
@@ -477,7 +484,7 @@ namespace UI.Builders.Company
                 if (companyIDOfCurrentUser == 0)
                 {
                     // we cannot create internship without assigned company
-                    throw new UIException("Internship has invalid company assigned");
+                    throw new UIException("Stáž musí být přiřazena k firmě");
                 }
 
                 if (!this.CurrentUser.IsAuthenticated)
