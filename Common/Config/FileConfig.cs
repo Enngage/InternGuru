@@ -3,6 +3,9 @@ namespace Common.Config
 {
     public static class FileConfig
     {
+
+        #region Company files
+
         /// <summary>
         /// Company logo width in px
         /// </summary>
@@ -68,5 +71,45 @@ namespace Common.Config
                 return "Content/Company/Logos/";
             }
         }
+
+        #endregion
+
+        #region Avatar config
+
+        /// <summary>
+        /// Path where avatars are stored
+        /// </summary>
+        public static string AvatarFolderPath
+        {
+            get
+            {
+                return "Content/Avatars/";
+            }
+        }
+
+        /// <summary>
+        /// Side size of users avatar (avatar is squared) in pixels
+        /// </summary>
+        public static int AvatarSideSize
+        {
+            get
+            {
+                return 80;
+            }
+        }
+
+        /// <summary>
+        /// Path to default avatar
+        /// </summary>
+        public static string DefaultAvatarPath
+        {
+            get
+            {
+                return "Content/images/icons/defaultAvatar.png";
+            }
+        }
+
+        #endregion
+
     }
 }

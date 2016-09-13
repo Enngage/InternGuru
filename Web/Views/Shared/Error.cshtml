@@ -1,14 +1,57 @@
-﻿@model UI.Builders.Master.Views.ErrorView
+﻿@using UI.Helpers;
+@using Common.Config;
+@model UI.Builders.Master.Views.ErrorView
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "Nastala chyba";
+    ViewBag.Description = "Neočekávaná chyba narušila zdánlivě bezchybný chod webu";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 
-<h1>Error</h1>
-<p>
-    @Model.ErrorMessage
-</p>
-<p>
-    @Model.Stacktrace
-</p>
+<div class="ui sixteen column grid">
+    <div class="centered row w-margin-top-30">
+        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column">
 
+            <h1>
+                Ooops, nastala <span class="ui header red">Chyba</span>
+            </h1>
+
+        </div>
+    </div>
+    <div class="centered row">
+        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column w-mobile-left">
+            <div class="ui very padded segment">
+                <div class="ui header">
+                    <img class="ui image mini" src="@ImageHelper.GetImage("images/icons/caution.png")" alt="Ikona chyby">
+                    <div class="content">
+                        Zpráva
+                    </div>
+                </div>
+                @if (AppConfig.Environment == Common.Environment.EnvironmentEnum.Dev)
+                {
+                    <p>
+                        @Model.ErrorMessage
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        Nastala neočekávaná chyba, která byla ihned zaznamenána. Chybu určitě brzy odstráníme. Za případné problémy se omlouváme. 
+                    </p>
+                }
+            </div>
+
+            @if (AppConfig.Environment == Common.Environment.EnvironmentEnum.Dev)
+            {
+                <div class="ui very padded segment">
+                    <h3>
+                        Stacktrace
+                    </h3>
+                    <p>
+                        @Model.Stacktrace
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

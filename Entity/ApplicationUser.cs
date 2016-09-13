@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Common.Helpers;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
@@ -33,6 +34,16 @@ namespace Entity
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
             return userIdentity;
+        }
+
+        /// <summary>
+        /// Gets file name of user's avatar
+        /// </summary>
+        /// <param name="userName">User name</param>
+        /// <returns>Filename used for user's avatar</returns>
+        public static string GetAvatarFileName(string userName)
+        {
+            return StringHelper.GetCodeName(userName);
         }
 
         #endregion

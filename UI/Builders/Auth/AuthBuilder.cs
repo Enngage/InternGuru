@@ -59,7 +59,7 @@ namespace UI.Builders.Company
 
         #endregion
 
-        #region Actions
+        #region Index
 
         public async Task<AuthIndexView> BuildIndexViewAsync()
         {
@@ -94,6 +94,20 @@ namespace UI.Builders.Company
             {
                 CompanyIsCreated = await GetCompanyIDOfCurrentUserAsync() != 0,
                 Internships = internships
+            };
+        }
+
+        #endregion
+
+        #region Avatar 
+
+        public AuthAvatarView BuildAvatarView()
+        {
+            var avatarForm = new AuthAvatarUploadForm();
+
+            return new AuthAvatarView()
+            {
+                AvatarForm = avatarForm
             };
         }
 
@@ -599,6 +613,36 @@ namespace UI.Builders.Company
                 throw new UIException(UIExceptionEnum.SaveFailure, ex);
             }
         }
+
+        /// <summary>
+        /// Uploads avatar for current user
+        /// </summary>
+        /// <param name="form">Avatar form</param>
+        public void UploadAvatar(AuthAvatarUploadForm form)
+        {
+            try
+            {
+                if (form?.Avatar == null)
+                {
+                    throw new ArgumentNullException("Nelze nahrát prázdný avatar");
+                }
+
+                if (!this.CurrentUser.IsAuthenticated)
+                {
+                    throw new UIException(UIExceptionEnum.NotAuthenticated);
+                }
+
+                fileProvider.SaveImage(form.Avatar, FileConfig.AvatarFolderPath, Entity.ApplicationUser.GetAvatarFileName(this.CurrentUser.Name), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
+            }
+            catch(Exception ex)
+            {
+                // log error
+                LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+            }
+        } 
 
         #endregion
 

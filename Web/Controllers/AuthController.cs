@@ -7,18 +7,28 @@ using UI.Builders.Auth.Forms;
 using UI.Builders.Auth.Views;
 using UI.Builders.Company;
 using UI.Builders.Master;
+using UI.Exceptions;
 
 namespace Web.Controllers
 {
     [Authorize]
     public class AuthController : BaseController
     {
+
+        #region Builder
+
         AuthBuilder authBuilder;
 
-        public AuthController(IAppContext appContext, MasterBuilder masterBuilder, AuthBuilder authBuilder) : base (appContext, masterBuilder)
+        #endregion
+
+        #region Constructor
+
+        public AuthController(IAppContext appContext, MasterBuilder masterBuilder, AuthBuilder authBuilder) : base(appContext, masterBuilder)
         {
             this.authBuilder = authBuilder;
         }
+
+        #endregion
 
         #region Actions
 
@@ -79,9 +89,11 @@ namespace Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Avatar()
+        public ActionResult Avatar()
         {
-            return View();
+            var model = authBuilder.BuildAvatarView();
+
+            return View(model);
         }
 
         public async Task<ActionResult> Conversation()
@@ -92,6 +104,29 @@ namespace Web.Controllers
         #endregion
 
         #region POST methods
+
+        [HttpPost]
+        public ActionResult Avatar(AuthAvatarUploadForm form)
+        {
+            // validate form
+            if (!this.ModelStateWrapper.IsValid)
+            {
+                return View(authBuilder.BuildAvatarView());
+            }
+
+            try
+            {
+                this.authBuilder.UploadAvatar(form);
+
+                return View(authBuilder.BuildAvatarView());
+            }
+            catch(UIException ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                return View(authBuilder.BuildAvatarView());
+            }
+        }
 
         [HttpPost]
         public async Task<ActionResult> NewInternship(AuthAddEditInternshipForm form)
@@ -120,7 +155,7 @@ namespace Web.Controllers
 
                 return View(editView, model);
             }
-            catch (Exception ex)
+            catch (UIException ex)
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 
@@ -149,7 +184,7 @@ namespace Web.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (UIException ex)
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 
@@ -181,7 +216,7 @@ namespace Web.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (UIException ex)
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 
@@ -210,7 +245,7 @@ namespace Web.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (UIException ex)
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 

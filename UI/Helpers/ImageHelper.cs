@@ -1,4 +1,6 @@
 ﻿using Common.Config;
+using Common.Helpers;
+using Common.Project;
 using System;
 using System.IO;
 
@@ -21,6 +23,29 @@ namespace UI.Helpers
                 return SystemConfig.ServerRootPath;
             }
         }
+
+        /// <summary>
+        /// Gets url to image from "Content" folder and appends hash version (?v=kji424Nfs02dmsik24...)
+        /// Example usage: GetImage("Images/logo.png")
+        /// </summary>
+        /// <param name="imagePath">Path to image</param>
+        /// <returns>Url to image/returns>
+        public static string GetImage(string imagePath)
+        {
+            if (string.IsNullOrEmpty(imagePath))
+            {
+                return null;
+            }
+
+            // remove slash if its present
+            if (imagePath[0] == '/')
+            {
+                imagePath = imagePath.Substring(1, imagePath.Length);
+            }
+
+            return AbsolutePath + "Content/" + imagePath + "?v" + HashHelper.GetVersionHash();
+        }
+
 
         /// <summary>
         /// Gets url to transparent image
@@ -46,13 +71,35 @@ namespace UI.Helpers
         /// <summary>
         /// Gets url to company logo
         /// </summary>
-        /// <param name="companyName"></param>
+        /// <param name="companyName">Company name</param>
         /// <returns>Url to company logo</returns>
         public static string GetCompanyLogo(string companyName)
         {
             var imagePath = AbsolutePath + FileConfig.LogoFolderPath;
 
             return GetFilePathWithExtension(imagePath, Entity.Company.GetLogoFileName(companyName));
+        }
+
+        /// <summary>
+        /// Gets url to user's avatar. Returns default avatar if none is found.
+        /// </summary>
+        /// <param name="userName">UserName</param>
+        /// <returns>Url to avatar of user</returns>
+        public static string GetUserAvatar(string userName)
+        {
+            var imagePath = AbsolutePath + FileConfig.AvatarFolderPath;
+
+            var avatar = GetFilePathWithExtension(imagePath, Entity.ApplicationUser.GetAvatarFileName(userName));
+
+            if (string.IsNullOrEmpty(avatar))
+            {
+                // use default avatar if user's avatar is not found
+                return AbsolutePath + FileConfig.DefaultAvatarPath;
+            }
+            else
+            {
+                return avatar;
+            }
         }
 
 

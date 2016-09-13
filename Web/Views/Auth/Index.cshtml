@@ -13,7 +13,7 @@
     <div class="sixteen wide mobile six wide tablet three wide computer column">
         <div class="ui segment padded w-body-text-center">
             <a href="@Url.Action("Avatar", "Auth")">
-                <img alt="avatar" class="ui avatar tiny image" data-src="http://semantic-ui.com/images/wireframe/square-image.png" src="@ImageHelper.GetTransparentImage()">
+                <img alt="avatar" class="ui avatar tiny image" data-src="@ImageHelper.GetUserAvatar(Model.Master.AuthenticatedUserName)" src="@ImageHelper.GetTransparentImage()">
             </a>
 
             <p class="w-margin-top-10">
@@ -23,6 +23,9 @@
             </p>
             <p class="w-font-size-small">
                 <a href="@Url.Action("EditProfile", "Auth")">Upravit profil</a>
+            </p>
+            <p class="w-font-size-small">
+                <a href="@Url.Action("Avatar", "Auth")">Nahrát avatar</a>
             </p>
         </div>
     </div>
