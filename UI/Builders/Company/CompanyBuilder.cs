@@ -19,10 +19,8 @@ namespace UI.Builders.Company
 
         public CompanyBuilder(
             IAppContext appContext,
-            IServicesLoader servicesLoader,
-            ICompanyService companyService,
-            IIdentityService identityService,
-            ILogService logService) : base(
+            IServicesLoader servicesLoader)
+            : base(
                 appContext,
                 servicesLoader)
         {

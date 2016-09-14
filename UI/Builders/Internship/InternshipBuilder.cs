@@ -20,11 +20,8 @@ namespace UI.Builders.Internship
 
         public InternshipBuilder(
             IAppContext appContext,
-            IServicesLoader servicesLoader,
-            IInternshipService internshipService,
-            IIdentityService identityService,
-            ILogService logService,
-            ICompanyService companyService) : base(
+            IServicesLoader servicesLoader
+            ) : base(
                 appContext,
                 servicesLoader)
         {
