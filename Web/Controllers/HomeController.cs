@@ -4,7 +4,7 @@ using Ninject;
 using Core.Services;
 using System;
 using System.Threading.Tasks;
-using UI.Abstract;
+using UI.Base;
 using Core.Context;
 using UI.Builders.Master;
 using UI.Builders.Master.Views;

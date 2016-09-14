@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Entity;
-using UI.Abstract;
+using UI.Base;
 using Core.Context;
 using UI.Builders.Master;
 using UI.Builders.Account;

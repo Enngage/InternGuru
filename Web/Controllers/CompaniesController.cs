@@ -1,7 +1,7 @@
 ﻿using Core.Context;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using UI.Abstract;
+using UI.Base;
 using UI.Builders.Company;
 using UI.Builders.Master;
 

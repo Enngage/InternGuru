@@ -2,7 +2,7 @@
 
 using UI.Builders.Shared.Forms;
 
-namespace UI.Abstract
+namespace UI.Base
 {
     public abstract class BaseForm
     {

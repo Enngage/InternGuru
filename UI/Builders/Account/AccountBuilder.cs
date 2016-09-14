@@ -1,14 +1,15 @@
-﻿using UI.Abstract;
+﻿using UI.Base;
 using Core.Context;
 using Cache;
 using System.Text;
 using Common.Config;
 using UI.Builders.Account.Views;
 using Core.Services;
+using UI.Builders.Services;
 
 namespace UI.Builders.Account
 {
-    public class AccountBuilder : BuilderAbstract
+    public class AccountBuilder : BaseBuilder
     {
 
         #region Services
@@ -20,16 +21,10 @@ namespace UI.Builders.Account
 
         public AccountBuilder(
             IAppContext appContext,
-            ICacheService cacheService,
-            IIdentityService identityService,
-            ILogService logService,
-            ICompanyService companyService
+            IServicesLoader servicesLoader
             ) : base(
-                appContext, 
-                cacheService, 
-                identityService, 
-                logService,
-                companyService)
+                appContext,
+                servicesLoader)
         {
         }
 

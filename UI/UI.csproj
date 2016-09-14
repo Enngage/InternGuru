@@ -115,10 +115,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\BaseApiController.cs" />
-    <Compile Include="Abstract\BaseForm.cs" />
-    <Compile Include="Abstract\BuilderAbstract.cs" />
-    <Compile Include="Abstract\BaseController.cs" />
+    <Compile Include="Base\BaseApiController.cs" />
+    <Compile Include="Base\BaseForm.cs" />
+    <Compile Include="Base\BuilderAbstract.cs" />
+    <Compile Include="Base\BaseController.cs" />
     <Compile Include="Builders\Account\AccountBuilder.cs" />
     <Compile Include="Builders\Account\Forms\ForgotPasswordForm.cs" />
     <Compile Include="Builders\Account\Forms\ExternalLoginConfirmationForm.cs" />
@@ -162,6 +162,8 @@
     <Compile Include="Builders\Master\Views\LockoutView.cs" />
     <Compile Include="Builders\Master\Views\ErrorView.cs" />
     <Compile Include="Builders\Master\Views\MasterView.cs" />
+    <Compile Include="Builders\Services\IServicesLoader.cs" />
+    <Compile Include="Builders\Services\ServicesLoader.cs" />
     <Compile Include="Builders\Shared\Forms\FormResult.cs" />
     <Compile Include="Builders\Shared\Models\CurrentUser.cs" />
     <Compile Include="Builders\Shared\Models\CurrentCompany.cs" />

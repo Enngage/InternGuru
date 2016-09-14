@@ -1,12 +1,11 @@
-﻿using UI.Abstract;
+﻿using UI.Base;
 using Core.Context;
-using Cache;
 using UI.Builders.Master.Models;
-using Core.Services;
+using UI.Builders.Services;
 
 namespace UI.Builders.Master
 {
-    public class MasterBuilder : BuilderAbstract
+    public class MasterBuilder : BaseBuilder
     {
 
         #region Services
@@ -17,16 +16,11 @@ namespace UI.Builders.Master
 
         public MasterBuilder(
             IAppContext appContext,
-            ICacheService cacheService,
-            IIdentityService identityService,
-            ILogService logService,
-            ICompanyService companyService
+            IServicesLoader servicesLoader
             ) : base(
                 appContext,
-                cacheService,
-                identityService,
-                logService,
-                companyService)
+                servicesLoader
+                )
         {
         }
 

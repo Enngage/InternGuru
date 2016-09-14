@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
-using UI.Abstract;
+using UI.Base;
 using UI.Builders.Auth.Models;
 
 namespace UI.Builders.Auth.Forms

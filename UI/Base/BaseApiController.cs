@@ -3,7 +3,7 @@ using UI.Builders.Master;
 using UI.ModelState;
 using System.Web.Http;
 
-namespace UI.Abstract
+namespace UI.Base
 {
     public abstract class BaseApiController: ApiController
     {

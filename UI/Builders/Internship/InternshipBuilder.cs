@@ -3,40 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using UI.Abstract;
-using Cache;
+using UI.Base;
 using Core.Context;
 using Core.Services;
 using UI.Builders.Internship.Views;
 using UI.Builders.Internship.Models;
 using PagedList.EntityFramework;
+using UI.Builders.Services;
 
 namespace UI.Builders.Internship
 {
-    public class InternshipBuilder : BuilderAbstract
+    public class InternshipBuilder : BaseBuilder
     {
-        #region Services
-
-        IInternshipService internshipService;
-
-        #endregion
 
         #region Constructor
 
         public InternshipBuilder(
             IAppContext appContext,
-            ICacheService cacheService,
+            IServicesLoader servicesLoader,
             IInternshipService internshipService,
             IIdentityService identityService,
             ILogService logService,
             ICompanyService companyService) : base(
                 appContext,
-                cacheService,
-                identityService,
-                logService,
-                companyService)
+                servicesLoader)
         {
-            this.internshipService = internshipService;
         }
 
         #endregion
@@ -57,7 +48,7 @@ namespace UI.Builders.Internship
                 Entity.Internship.KeyUpdateAny<Entity.Internship>()
             };
 
-            var internshipsQuery = internshipService.GetAll()
+            var internshipsQuery = Services.InternshipService.GetAll()
                 .OrderByDescending(m => m.Created)
                 .Select(m => new InternshipBrowseModel()
                 {

@@ -1,37 +1,30 @@
-﻿using Cache;
-using Core.Context;
+﻿using Core.Context;
 using Core.Services;
-using System;
 using System.Data.Entity;
 using PagedList.EntityFramework;
 using System.Linq;
 using System.Collections.Generic;
-using UI.Abstract;
+using UI.Base;
 using UI.Builders.Company.Models;
 using UI.Builders.Company.Views;
 using System.Threading.Tasks;
+using UI.Builders.Services;
 
 namespace UI.Builders.Company
 {
-    public class CompanyBuilder : BuilderAbstract
+    public class CompanyBuilder : BaseBuilder
     {
-        #region Services
-
-        #endregion
 
         #region Constructor
 
         public CompanyBuilder(
             IAppContext appContext,
-            ICacheService cacheService,
+            IServicesLoader servicesLoader,
             ICompanyService companyService,
             IIdentityService identityService,
             ILogService logService) : base(
                 appContext,
-                cacheService,
-                identityService,
-                logService,
-                companyService)
+                servicesLoader)
         {
         }
 
@@ -53,7 +46,7 @@ namespace UI.Builders.Company
                 Entity.Company.KeyUpdateAny<Entity.Company>()
             };
 
-            var companiesQuery = CompanyService.GetAll()
+            var companiesQuery = Services.CompanyService.GetAll()
                 .OrderBy(m => m.CompanyName)
                 .Select(m => new CompanyBrowseModel()
                 {
@@ -84,7 +77,7 @@ namespace UI.Builders.Company
                 Entity.Company.KeyDelete<Entity.Company>(companyID),
             };
 
-            var companyQuery = CompanyService.GetAll()
+            var companyQuery = Services.CompanyService.GetAll()
                 .Where(m => m.ID == companyID)
                 .Take(1)
                 .Select(m => new CompanyDetailModel()

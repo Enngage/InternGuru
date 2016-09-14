@@ -12,6 +12,7 @@ using Ninject;
 using Ninject.Web.Common;
 using System;
 using System.Web;
+using UI.Builders.Services;
 using UI.Files;
 
 namespace Web.Lib.Ninject
@@ -78,6 +79,9 @@ namespace Web.Lib.Ninject
 
             // IDataProtection for e-mail confirmation
             kernel.Bind<IDataProtectionProvider>().ToMethod(m => Startup.GetDataProtectionProvider()).InRequestScope();
+
+            // Services loader
+            kernel.Bind<IServicesLoader>().To<ServicesLoader>().InRequestScope();
 
             // Services - they need to be in RequestScope, otherwise they may throw infinite recursion exceptions in services
             kernel.Bind<ICacheService>().To<CacheService>().InRequestScope();

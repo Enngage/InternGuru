@@ -2,59 +2,37 @@
 using System.Data.Entity;
 using System.Linq;
 
-using UI.Abstract;
-using Cache;
+using UI.Base;
 using Core.Context;
-using Core.Services;
 using UI.Builders.Auth.Views;
 using UI.Builders.Auth.Forms;
 using System;
 using System.Collections.Generic;
 using UI.Builders.Auth.Models;
-using UI.Files;
 using Common.Config;
 using Common.Helpers;
 using UI.Exceptions;
 using Common.Helpers.Internship;
+using UI.Builders.Services;
 
 namespace UI.Builders.Company
 {
-    public class AuthBuilder : BuilderAbstract
+    public class AuthBuilder : BaseBuilder
     {
-        #region Services
-
-        IInternshipService internshipService;
-        ICompanyCategoryService companyCategoryService;
-        IInternshipCategoryService internshipCategoryService;
-        IFileProvider fileProvider;
-
-        #endregion
-
+ 
         #region Constructor
 
         public AuthBuilder(
             IAppContext appContext,
-            ICacheService cacheService,
-            ICompanyService companyService,
-            IIdentityService identityService,
-            ILogService logService,
-            ICompanyCategoryService companyCategoryService,
-            IInternshipCategoryService internshipCategoryService,
-            IInternshipService internshipService,
-            IFileProvider fileProvider)
+            IServicesLoader servicesLoader
+            )
             : base
             (
                 appContext,
-                cacheService,
-                identityService,
-                logService,
-                companyService)
+                servicesLoader
+            )
             {
-            this.internshipService = internshipService;
-            this.companyCategoryService = companyCategoryService;
-            this.internshipCategoryService = internshipCategoryService;
-            this.fileProvider = fileProvider;
-        }
+            }
 
         #endregion
 
@@ -67,7 +45,8 @@ namespace UI.Builders.Company
                 return null;
             }
 
-            var internshipsQuery = internshipService.GetAll()
+
+            var internshipsQuery = this.Services.InternshipService.GetAll()
                 .Where(m => m.ApplicationUserId == this.CurrentUser.Id)
                 .OrderByDescending(m => m.Created)
                 .Select(m => new AuthInternshipListingModel()
@@ -106,7 +85,7 @@ namespace UI.Builders.Company
                 throw new UIException(UIExceptionEnum.NotAuthenticated);
             }
 
-            var currentApplicationUser = await this.IdentityService.GetSingle(this.CurrentUser.Id).FirstOrDefaultAsync();
+            var currentApplicationUser = await this.Services.IdentityService.GetSingle(this.CurrentUser.Id).FirstOrDefaultAsync();
 
             if (currentApplicationUser == null)
             {
@@ -200,7 +179,7 @@ namespace UI.Builders.Company
             var currentUserId = this.CurrentUser.Id;
 
             // get company assigned to user
-            var company = await CompanyService.GetAll()
+            var company = await Services.CompanyService.GetAll()
                 .Where(m => m.ApplicationUserId == currentUserId)
                 .Take(1)
                 .Select(m => new AuthAddEditCompanyForm()
@@ -246,7 +225,7 @@ namespace UI.Builders.Company
             var currentUserId = this.CurrentUser.Id;
 
             // get company assigned to user
-            var company = await CompanyService.GetAll()
+            var company = await Services.CompanyService.GetAll()
                 .Where(m => m.ApplicationUserId == currentUserId)
                 .Take(1)
                 .Select(m => new AuthAddEditCompanyForm()
@@ -296,7 +275,7 @@ namespace UI.Builders.Company
         {
             var companyIDOfCurrentUser = await GetCompanyIDOfCurrentUserAsync();
 
-            var internshipQuery = this.internshipService.GetSingle(internshipID)
+            var internshipQuery = this.Services.InternshipService.GetSingle(internshipID)
                 .Where(m => m.CompanyID == companyIDOfCurrentUser) // only user assigned to company can edit the internship (otherwise other users could edit the internship)
                 .Select(m => new AuthAddEditInternshipForm()
                 {
@@ -440,7 +419,7 @@ namespace UI.Builders.Company
                     throw new UIException(UIExceptionEnum.NotAuthenticated);
                 }
 
-                var applicationUser = await this.IdentityService.GetAsync(this.CurrentUser.Id);
+                var applicationUser = await this.Services.IdentityService.GetAsync(this.CurrentUser.Id);
 
                 if (applicationUser == null)
                 {
@@ -451,12 +430,12 @@ namespace UI.Builders.Company
                 applicationUser.FirstName = form.FirstName;
                 applicationUser.LastName = form.LastName;
 
-                await this.IdentityService.UpdateAsync(applicationUser);
+                await this.Services.IdentityService.UpdateAsync(applicationUser);
             }
             catch (Exception ex)
             {
                 // log error
-                LogService.LogException(ex);
+                Services.LogService.LogException(ex);
 
                 // re-throw
                 throw new UIException(UIExceptionEnum.SaveFailure, ex);
@@ -473,8 +452,8 @@ namespace UI.Builders.Company
             try
             {
                 // try to upload files before adding database record of company
-                fileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
-                fileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
+                Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
 
                 var company = new Entity.Company
                 {
@@ -496,14 +475,14 @@ namespace UI.Builders.Company
                     CompanyCategoryID = form.CompanyCategoryID
                 };
 
-                await CompanyService.InsertAsync(company);
+                await Services.CompanyService.InsertAsync(company);
 
                 return company.ID;
             }
             catch (Exception ex)
             {
                 // log error
-                LogService.LogException(ex);
+                Services.LogService.LogException(ex);
 
                 // re-throw
                 throw new UIException(UIExceptionEnum.SaveFailure, ex);
@@ -521,11 +500,11 @@ namespace UI.Builders.Company
                 // try to upload files before adding database record of company
                 if (form.Banner != null)
                 {
-                    fileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
+                    Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
                 }
                 if (form.Logo != null)
                 {
-                    fileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                    Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
                 }
 
                 var company = new Entity.Company
@@ -549,12 +528,12 @@ namespace UI.Builders.Company
                     CompanyCategoryID = form.CompanyCategoryID
                 };
 
-                await CompanyService.UpdateAsync(company);
+                await Services.CompanyService.UpdateAsync(company);
             }
             catch (Exception ex)
             {
                 // log error
-                LogService.LogException(ex);
+                Services.LogService.LogException(ex);
 
                 // re-throw
                 throw new UIException(UIExceptionEnum.SaveFailure, ex);
@@ -613,14 +592,14 @@ namespace UI.Builders.Company
                     ApplicationUserId = this.CurrentUser.Id,
                 };
 
-                await internshipService.InsertAsync(internship);
+                await Services.InternshipService.InsertAsync(internship);
 
                 return internship.ID;
             }
             catch (Exception ex)
             {
                 // log error
-                LogService.LogException(ex);
+                Services.LogService.LogException(ex);
 
                 // re-throw
                 throw new UIException(UIExceptionEnum.SaveFailure, ex);
@@ -679,12 +658,12 @@ namespace UI.Builders.Company
                     ApplicationUserId = this.CurrentUser.Id,
                 };
 
-                await internshipService.UpdateAsync(internship);
+                await Services.InternshipService.UpdateAsync(internship);
             }
             catch (Exception ex)
             {
                 // log error
-                LogService.LogException(ex);
+                Services.LogService.LogException(ex);
 
                 // re-throw
                 throw new UIException(UIExceptionEnum.SaveFailure, ex);
@@ -709,12 +688,12 @@ namespace UI.Builders.Company
                     throw new UIException(UIExceptionEnum.NotAuthenticated);
                 }
 
-                fileProvider.SaveImage(form.Avatar, FileConfig.AvatarFolderPath, Entity.ApplicationUser.GetAvatarFileName(this.CurrentUser.UserName), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
+                Services.FileProvider.SaveImage(form.Avatar, FileConfig.AvatarFolderPath, Entity.ApplicationUser.GetAvatarFileName(this.CurrentUser.UserName), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
             }
             catch(Exception ex)
             {
                 // log error
-                LogService.LogException(ex);
+                Services.LogService.LogException(ex);
 
                 // re-throw
                 throw new UIException(UIExceptionEnum.SaveFailure, ex);
@@ -736,7 +715,7 @@ namespace UI.Builders.Company
                 return 0;
             }
 
-            var companyQuery = CompanyService.GetAll()
+            var companyQuery = Services.CompanyService.GetAll()
                 .Where(m => m.ApplicationUserId == this.CurrentUser.Id)
                 .Take(1)
                 .Select(m => m.ID);
@@ -769,7 +748,7 @@ namespace UI.Builders.Company
                 Entity.CompanyCategory.KeyUpdateAny<Entity.CompanyCategory>(),
             };
 
-            var companyCategoriesQuery = this.companyCategoryService.GetAll()
+            var companyCategoriesQuery = this.Services.CompanyCategoryService.GetAll()
                 .Select(m => new AuthCompanyCategoryModel()
                 {
                     CompanyCategoryID = m.ID,
@@ -796,7 +775,7 @@ namespace UI.Builders.Company
                 Entity.InternshipCategory.KeyUpdateAny<Entity.InternshipCategory>(),
             };
 
-            var internshipCategoriesQuery = this.internshipCategoryService.GetAll()
+            var internshipCategoriesQuery = this.Services.InternshipCategoryService.GetAll()
                 .Select(m => new AuthInternshipCategoryModel()
                 {
                     InternshipCategoryID = m.ID,

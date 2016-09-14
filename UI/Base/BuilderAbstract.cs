@@ -5,14 +5,14 @@ using System.Linq;
 using Core.Context;
 using System.Web;
 using Cache;
-using Core.Services;
 using System.Collections.Generic;
 using Entity;
 using UI.Builders.Shared;
+using UI.Builders.Services;
 
-namespace UI.Abstract
+namespace UI.Base
 {
-    public abstract class BuilderAbstract : IDisposable
+    public abstract class BaseBuilder : IDisposable
     {
 
         #region Variables
@@ -20,10 +20,8 @@ namespace UI.Abstract
         private IAppContext appContext;
         private ICurrentUser currentUser;
         private ICurrentCompany currentCompany;
-        private ICacheService cacheService;
-        private IIdentityService identityService;
-        private ILogService logService;
-        private ICompanyService companyService;
+
+        private IServicesLoader services;
 
         #endregion
 
@@ -37,17 +35,6 @@ namespace UI.Abstract
             get
             {
                 return this.appContext;
-            }
-        }
-
-        /// <summary>
-        /// LogService 
-        /// </summary>
-        protected ILogService LogService
-        {
-            get
-            {
-                return this.logService;
             }
         }
 
@@ -80,31 +67,18 @@ namespace UI.Abstract
         {
             get
             {
-                return this.cacheService;
+                return this.services.CacheService;
             }
         }
 
-
         /// <summary>
-        /// Identity service 
+        /// List of all available services
         /// </summary>
-        protected IIdentityService IdentityService
+        protected IServicesLoader Services
         {
             get
             {
-                return this.identityService;
-            }
-        }
-
-
-        /// <summary>
-        /// Company service 
-        /// </summary>
-        protected ICompanyService CompanyService
-        {
-            get
-            {
-                return this.companyService;
+                return this.services;
             }
         }
 
@@ -116,22 +90,14 @@ namespace UI.Abstract
         /// Initializes builder
         /// </summary>
         /// <param name="appContext">appContext</param>
-        /// <param name="cacheService">cacheService</param>
-        /// <param name="identityService">identityService</param>
-        /// <param name="logService">logService</param>
-        /// <param name="companyService">companyService</param>
-        public BuilderAbstract(
+        /// <param name="IServicesLoader">services loader used to initialize all services</param>
+        public BaseBuilder(
             IAppContext appContext,
-            ICacheService cacheService,
-            IIdentityService identityService,
-            ILogService logService,
-            ICompanyService companyService)
+            IServicesLoader servicesLoader
+            )
         {
             this.appContext = appContext;
-            this.cacheService = cacheService;
-            this.identityService = identityService;
-            this.logService = logService;
-            this.companyService = companyService;
+            this.services = servicesLoader;
 
             // Initialize current user
             InitializeCurrentUser();
@@ -203,14 +169,14 @@ namespace UI.Abstract
                             // ----- Process current user ------- //
                             var cacheKey = "BuilderAbstract.GetCurrentUser." + currentIdentity.Name; // key under which given user will be stored
                             int cacheMinutes = 60;
-                            var cacheSetup = this.cacheService.GetSetup<ICurrentUser>(cacheKey, cacheMinutes);
+                            var cacheSetup = this.CacheService.GetSetup<ICurrentUser>(cacheKey, cacheMinutes);
                             cacheSetup.Dependencies = new List<string>()
                             {
                                 ApplicationUser.KeyUpdate<ApplicationUser>(currentIdentity.Name),
                                 ApplicationUser.KeyUpdateAny<ApplicationUser>()
                             };
 
-                            var user = this.cacheService.GetOrSet<ICurrentUser>(() => GetApplicationUser(currentIdentity.Name, currentIdentity.AuthenticationType), cacheSetup);
+                            var user = this.CacheService.GetOrSet<ICurrentUser>(() => GetApplicationUser(currentIdentity.Name, currentIdentity.AuthenticationType), cacheSetup);
 
                             if (user == null)
                             {
@@ -242,7 +208,7 @@ namespace UI.Abstract
         /// <returns>ApplicationUser</returns>
         private ICurrentUser GetApplicationUser(string userName, string authenticationType)
         {
-            var user = this.IdentityService.GetAll()
+            var user = this.services.IdentityService.GetAll()
                 .Where(m => m.UserName == userName)
                 .Select(m => new CurrentUser()
                 {
@@ -267,7 +233,7 @@ namespace UI.Abstract
         /// <returns>Company of current user or null if not found</returns>
         private ICurrentCompany GetCompanyOfUserInternal(string applicationUserId)
         {
-            var company = this.companyService.GetAll()
+            var company = this.services.CompanyService.GetAll()
                 .Where(m => m.ApplicationUserId == applicationUserId)
                 .Select(m => new CurrentCompany()
                 {
@@ -290,7 +256,7 @@ namespace UI.Abstract
         {
             var cacheKey = "BuilderAbstract.GetCompanyOfUserFromCache." + userName; // key under which company of user will be stored
             int cacheMinutes = 60;
-            var cacheSetup = this.cacheService.GetSetup<ICurrentCompany>(cacheKey, cacheMinutes);
+            var cacheSetup = this.CacheService.GetSetup<ICurrentCompany>(cacheKey, cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
                             {
                                 Entity.Company.KeyDeleteAny<Entity.Company>(),
@@ -298,7 +264,7 @@ namespace UI.Abstract
                                 Entity.Company.KeyUpdateAny<Entity.Company>(),
                             };
 
-            var company = cacheService.GetOrSet<ICurrentCompany>(() => GetCompanyOfUserInternal(applicationUserId), cacheSetup);
+            var company = this.CacheService.GetOrSet<ICurrentCompany>(() => GetCompanyOfUserInternal(applicationUserId), cacheSetup);
 
             if (company != null)
             {

@@ -4,7 +4,7 @@ using UI.Builders.Master;
 using UI.Builders.Master.Views;
 using UI.ModelState;
 
-namespace UI.Abstract
+namespace UI.Base
 {
     public abstract class BaseController: Controller
     {
