@@ -6,7 +6,6 @@ namespace UI.Builders.Auth.Views
 {
     public class AuthIndexView : MasterView
     {
-        public bool CompanyIsCreated { get; set; }
         public IEnumerable<AuthInternshipListingModel> Internships { get; set; }
     }
 }

@@ -11,5 +11,14 @@ namespace Entity
         public String InnerException { get; set; }
         public String Stacktrace { get; set; }
         public String ApplicationUserName { get; set; }
+
+        #region Entity abstract members
+
+        public override object GetObjectID()
+        {
+            return ID;
+        }
+
+        #endregion
     }
 }

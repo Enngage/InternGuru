@@ -5,9 +5,11 @@
 
 @if (Request.IsAuthenticated)
 {
+   var displayName = string.IsNullOrEmpty(Model.Master.CurrentUser.FirstName) ? Model.Master.CurrentUser.UserName : Model.Master.CurrentUser.FirstName;
+
     <a class="item w-menu-right-item" href="@Url.Action("Index", "Auth")">
-        <img alt="avatar" class="ui avatar image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(Model.Master.AuthenticatedUserName)">
-        &nbsp;<span>@User.Identity.GetUserName()</span>
+        <img alt="avatar" class="ui avatar image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)">
+        &nbsp;<span>@displayName</span>
     </a>
 }
 else

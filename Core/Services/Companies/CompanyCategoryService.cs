@@ -25,7 +25,7 @@ namespace Core.Services
                 this.AppContext.CompanyCategories.Remove(category);
 
                 // touch cache keys
-                this.TouchDeleteKeys(category, category.ID.ToString());
+                this.TouchDeleteKeys(category);
 
                 // save changes
                 return this.AppContext.SaveChangesAsync();
@@ -72,7 +72,7 @@ namespace Core.Services
             this.AppContext.Entry(category).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(category, category.ID.ToString());
+            this.TouchUpdateKeys(category);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

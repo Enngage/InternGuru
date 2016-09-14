@@ -1,31 +1,37 @@
 ﻿@using UI.Helpers;
 @using UI.Extensions;
-@model UI.Builders.Master.Views.MasterView
+@model UI.Builders.Auth.Views.AuthEditProfileView
 
 @{
     ViewBag.Title = "Upravit profil";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 
-<div class="ui grid">
-    <div class="centered sixteen wide mobile sixteen wide tablet five wide computer column">
+@using (Html.BeginForm("EditPRofile", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="ui grid">
+        <div class="centered sixteen wide mobile sixteen wide tablet six wide computer column">
+            <h1>
+                @ViewBag.Title
+            </h1>
 
-        <form class="ui form">
+            <div class="ui form">
 
-            <div class="field">
-                <label>Jméno</label>
-                <input name="FirstName" placeholder="" type="text">
+                <div class="field">
+                    <label>Jméno</label>
+                    <input name="FirstName" placeholder="" type="text" value="@Model.ProfileForm.FirstName">
+                </div>
+
+                <div class="field">
+                    <label>Příjmení</label>
+                    <input name="LastName" placeholder="" type="text" value="@Model.ProfileForm.LastName">
+                </div>
+
+                <button class="ui button submit primary" type="submit">
+                    Uložit
+                </button>
             </div>
 
-            <div class="field">
-                <label>Příjmení</label>
-                <input name="LastName" placeholder="" type="text">
-            </div>
-
-            <button class="ui button submit primary" type="submit">
-                Uložit
-            </button>
-        </form>
-
+        </div>
     </div>
-</div>
+}

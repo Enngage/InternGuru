@@ -1,10 +1,8 @@
 ﻿using Core.Context;
-using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using UI.Abstract;
 using UI.Builders.Auth.Forms;
-using UI.Builders.Auth.Views;
 using UI.Builders.Company;
 using UI.Builders.Master;
 using UI.Exceptions;
@@ -86,7 +84,9 @@ namespace Web.Controllers
 
         public async Task<ActionResult> EditProfile()
         {
-            return View();
+            var model = await authBuilder.BuildEditProfileViewAsync();
+
+            return View(model);
         }
 
         public ActionResult Avatar()
@@ -125,6 +125,35 @@ namespace Web.Controllers
                 this.ModelStateWrapper.AddError(ex.Message);
 
                 return View(authBuilder.BuildAvatarView());
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditProfile(AuthEditProfileForm form)
+        {
+            // validate form
+            if (!this.ModelStateWrapper.IsValid)
+            {
+                return View(authBuilder.BuildEditProfileView(form));
+            }
+
+            try
+            {
+                // edit profile
+                await authBuilder.EditProfile(form);
+
+                var model = authBuilder.BuildEditProfileView(form);
+
+                // set form status
+                model.ProfileForm.FormResult.IsSuccess = true;
+
+                return View(model);
+            }
+            catch (UIException ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                return View(authBuilder.BuildEditProfileView(form));
             }
         }
 

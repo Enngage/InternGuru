@@ -17,8 +17,6 @@ namespace UI.Builders.Company
     {
         #region Services
 
-        ICompanyService companyService;
-
         #endregion
 
         #region Constructor
@@ -32,9 +30,9 @@ namespace UI.Builders.Company
                 appContext,
                 cacheService,
                 identityService,
-                logService)
+                logService,
+                companyService)
         {
-            this.companyService = companyService;
         }
 
         #endregion
@@ -55,7 +53,7 @@ namespace UI.Builders.Company
                 Entity.Company.KeyUpdateAny<Entity.Company>()
             };
 
-            var companiesQuery = companyService.GetAll()
+            var companiesQuery = CompanyService.GetAll()
                 .OrderBy(m => m.CompanyName)
                 .Select(m => new CompanyBrowseModel()
                 {
@@ -86,7 +84,7 @@ namespace UI.Builders.Company
                 Entity.Company.KeyDelete<Entity.Company>(companyID),
             };
 
-            var companyQuery = companyService.GetAll()
+            var companyQuery = CompanyService.GetAll()
                 .Where(m => m.ID == companyID)
                 .Take(1)
                 .Select(m => new CompanyDetailModel()

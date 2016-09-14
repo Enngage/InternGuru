@@ -37,7 +37,7 @@ namespace Core.Services
                 this.AppContext.Logs.Remove(log);
 
                 // touch cache keys
-                this.TouchDeleteKeys(log, log.ID.ToString());
+                this.TouchDeleteKeys(log);
 
                 // save changes
                 return this.AppContext.SaveChangesAsync();
@@ -63,7 +63,7 @@ namespace Core.Services
             this.AppContext.Entry(log).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(log, log.ID.ToString());
+            this.TouchUpdateKeys(log);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

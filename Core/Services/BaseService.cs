@@ -84,11 +84,11 @@ namespace Core.Services
 
         #region Save methods
 
-        protected void SaveChanges()
+        protected int SaveChanges()
         {
             try
             {
-                this.appContext.SaveChanges();
+                return this.appContext.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -103,11 +103,11 @@ namespace Core.Services
             }
         }
 
-        protected async Task SaveChangesAsync()
+        protected Task<int> SaveChangesAsync()
         {
             try
             {
-                await this.appContext.SaveChangesAsync();
+                return this.appContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -139,18 +139,17 @@ namespace Core.Services
         /// </summary>
         public void TouchInsertKeys(T obj)
         {
-            cacheService.TouchKey(obj.KeyCreateAny());
+            cacheService.TouchKey(EntityAbstract.KeyCreateAny<T>());
         }
 
         /// <summary>
         /// Touches all keys for update actions
         /// </summary>
         /// <param name="obj">Object</param>
-        /// <param name="objID">ObjectID</param>
-        public void TouchUpdateKeys(T obj, string objID)
+        public void TouchUpdateKeys(T obj)
         {
-            cacheService.TouchKey(obj.KeyUpdateAny());
-            cacheService.TouchKey(obj.KeyUpdate(objID));
+            cacheService.TouchKey(EntityAbstract.KeyUpdateAny<T>());
+            cacheService.TouchKey(EntityAbstract.KeyUpdate<T>(obj.GetObjectID().ToString()));
         }
 
 
@@ -158,11 +157,10 @@ namespace Core.Services
         /// Touches all keys for delete actions
         /// </summary>
         /// <param name="obj">Object</param>
-        /// <param name="objID">ObjectID</param>
-        public void TouchDeleteKeys(T obj, string objID)
+        public void TouchDeleteKeys(T obj)
         {
-            cacheService.TouchKey(obj.KeyCreateAny());
-            cacheService.TouchKey(obj.KeyDelete(objID));
+            cacheService.TouchKey(EntityAbstract.KeyCreateAny<T>());
+            cacheService.TouchKey(EntityAbstract.KeyDelete<T>(obj.GetObjectID().ToString()));
         }
 
         /// <summary>

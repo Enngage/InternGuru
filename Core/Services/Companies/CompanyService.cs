@@ -26,7 +26,7 @@ namespace Core.Services
                 this.AppContext.Companies.Remove(company);
 
                 // touch cache keys
-                this.TouchDeleteKeys(company, company.ID.ToString());
+                this.TouchDeleteKeys(company);
 
                 // save changes
                 return this.AppContext.SaveChangesAsync();
@@ -74,7 +74,7 @@ namespace Core.Services
             this.AppContext.Entry(company).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(company, company.ID.ToString());
+            this.TouchUpdateKeys(company);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

@@ -1,5 +1,5 @@
 ﻿
-namespace Core.Services.Identity.Models
+namespace UI.Builders.Shared
 {
     public class CurrentUser : ICurrentUser
     {
@@ -14,11 +14,21 @@ namespace Core.Services.Identity.Models
         /// <summary>
         /// Name of user
         /// </summary>
-        public string Name { get; set; }
+        public string UserName { get; set; }
 
         /// <summary>
         /// ApplicationUserId
         /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// First name of user if available
+        /// </summary>
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Last name of user if available
+        /// </summary>
+        public string LastName { get; set; }
     }
 }

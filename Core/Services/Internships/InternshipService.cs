@@ -25,7 +25,7 @@ namespace Core.Services
                 this.AppContext.Internships.Remove(internship);
 
                 // touch cache keys
-                this.TouchDeleteKeys(internship, internship.ID.ToString());
+                this.TouchDeleteKeys(internship);
 
                 // save changes
                 return this.AppContext.SaveChangesAsync();
@@ -78,7 +78,7 @@ namespace Core.Services
             this.AppContext.Entry(internship).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(internship, internship.ID.ToString());
+            this.TouchUpdateKeys(internship);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

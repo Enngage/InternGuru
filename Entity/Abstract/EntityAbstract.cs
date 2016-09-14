@@ -5,6 +5,14 @@ namespace Entity
 {
     public abstract class EntityAbstract
     {
+        #region Abstract members
+
+        /// <summary>
+        /// Gets value from entity primary key
+        /// </summary>
+        public abstract object GetObjectID();
+
+        #endregion
 
         #region Cache keys
 
@@ -18,11 +26,6 @@ namespace Entity
             return ConstructKey(typeof(T), ActionType.Delete, objectID.ToString());
         }
 
-        public string KeyDelete(int objectID)
-        {
-            return ConstructKey(this.GetType(), ActionType.Delete, objectID.ToString());
-        }
-
         /// <summary>
         /// Gets cache key for "delete" object action
         /// </summary>
@@ -31,11 +34,6 @@ namespace Entity
         public static string KeyDelete<T>(string objectID) where T : class
         {
             return ConstructKey(typeof(T), ActionType.Delete, objectID.ToString());
-        }
-
-        public string KeyDelete(string objectID)
-        {
-            return ConstructKey(this.GetType(), ActionType.Delete, objectID.ToString());
         }
 
         /// <summary>
@@ -48,12 +46,6 @@ namespace Entity
             return ConstructKey(typeof(T), ActionType.Update, objectID.ToString());
         }
 
-        public string KeyUpdate(int objectID)
-        {
-            return ConstructKey(this.GetType(), ActionType.Update, objectID.ToString());
-        }
-
-
         /// <summary>
         /// Gets cache key for "update" object action
         /// </summary>
@@ -62,11 +54,6 @@ namespace Entity
         public static string KeyUpdate<T>(string objectID) where T : class
         {
             return ConstructKey(typeof(T), ActionType.Update, objectID.ToString());
-        }
-
-        public string KeyUpdate(string objectID) 
-        {
-            return ConstructKey(this.GetType(), ActionType.Update, objectID.ToString());
         }
 
         /// <summary>
@@ -78,10 +65,6 @@ namespace Entity
             return ConstructKey(typeof(T), ActionType.UpdateAny);
         }
 
-        public string KeyUpdateAny()
-        {
-            return ConstructKey(this.GetType(), ActionType.UpdateAny);
-        }
 
         /// <summary>
         /// Gets cache key for delete any object action
@@ -90,11 +73,6 @@ namespace Entity
         public static string KeyDeleteAny<T>() where T : class
         {
             return ConstructKey(typeof(T), ActionType.DeleteAny);
-        }
-
-        public string KeyDeleteAny()
-        {
-            return ConstructKey(this.GetType(), ActionType.DeleteAny);
         }
 
         /// <summary>
@@ -106,10 +84,6 @@ namespace Entity
             return ConstructKey(typeof(T), ActionType.CreateAny);
         }
 
-        public string KeyCreateAny()
-        {
-            return ConstructKey(this.GetType(), ActionType.CreateAny);
-        }
 
         #endregion
 
@@ -124,7 +98,6 @@ namespace Entity
         private static string ConstructKey(Type type, ActionType actionType)
         {
             return string.Format("{0}.{1}", type.FullName, actionType.Value);
-
         }
 
         /// <summary>

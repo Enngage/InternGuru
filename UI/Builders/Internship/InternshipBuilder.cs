@@ -28,11 +28,13 @@ namespace UI.Builders.Internship
             ICacheService cacheService,
             IInternshipService internshipService,
             IIdentityService identityService,
-            ILogService logService) : base(
+            ILogService logService,
+            ICompanyService companyService) : base(
                 appContext,
                 cacheService,
                 identityService,
-                logService)
+                logService,
+                companyService)
         {
             this.internshipService = internshipService;
         }

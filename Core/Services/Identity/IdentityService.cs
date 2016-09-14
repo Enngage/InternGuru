@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Core.Context;
 using Entity;
 using Cache;
+using Core.Exceptions;
 
 namespace Core.Services
 {
@@ -27,6 +28,26 @@ namespace Core.Services
         public IQueryable<ApplicationUser> GetSingle(string applicationUserId)
         {
             return this.AppContext.Users.Where(m => m.Id == applicationUserId).Take(1);
+        }
+
+        public Task UpdateAsync(ApplicationUser obj)
+        {
+            var user = this.AppContext.Users.Find(obj.Id);
+
+            if (user == null)
+            {
+                throw new NotFoundException(string.Format("User with ID: {0} was not found", obj.Id));
+            }
+
+            // update user
+            this.AppContext.Entry(user).CurrentValues.SetValues(obj);
+
+            // touch cache keys
+            this.TouchKey(ApplicationUser.KeyUpdate<ApplicationUser>(obj.UserName));
+            this.TouchKey(ApplicationUser.KeyUpdateAny<ApplicationUser>());
+
+            // save changes
+            return this.AppContext.SaveChangesAsync();
         }
     }
 }

@@ -6,5 +6,14 @@ namespace Entity
         public int ID { get; set; }
         public string Name { get; set; }
 
+        #region Entity abstract members
+
+        public override object GetObjectID()
+        {
+            return ID;
+        }
+
+        #endregion
+
     }
 }

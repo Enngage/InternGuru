@@ -132,6 +132,7 @@
     <Compile Include="Builders\Account\Views\LoginViewModel.cs" />
     <Compile Include="Builders\Account\Views\RegisterViewModel.cs" />
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
+    <Compile Include="Builders\Auth\Forms\AuthEditProfileForm.cs" />
     <Compile Include="Builders\Auth\Forms\AuthAvatarUploadForm.cs" />
     <Compile Include="Builders\Auth\Forms\AuthAddEditCompanyForm.cs" />
     <Compile Include="Builders\Auth\Forms\AuthAddEditInternshipForm.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Builders\Auth\Models\AuthInternshipListingModel.cs" />
     <Compile Include="Builders\Auth\Views\AuthAvatarView.cs" />
     <Compile Include="Builders\Auth\Views\AuthEditInternshipView.cs" />
+    <Compile Include="Builders\Auth\Views\AuthEditProfileView.cs" />
     <Compile Include="Builders\Auth\Views\AuthNewInternshipView.cs" />
     <Compile Include="Builders\Auth\Views\AuthIndexView.cs" />
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
@@ -161,6 +163,10 @@
     <Compile Include="Builders\Master\Views\ErrorView.cs" />
     <Compile Include="Builders\Master\Views\MasterView.cs" />
     <Compile Include="Builders\Shared\Forms\FormResult.cs" />
+    <Compile Include="Builders\Shared\Models\CurrentUser.cs" />
+    <Compile Include="Builders\Shared\Models\CurrentCompany.cs" />
+    <Compile Include="Builders\Shared\Models\ICurrentCompany.cs" />
+    <Compile Include="Builders\Shared\Models\ICurrentUser.cs" />
     <Compile Include="Exceptions\UIException.cs" />
     <Compile Include="Exceptions\UIExceptionEnum.cs" />
     <Compile Include="Exceptions\UIExceptionHelper.cs" />

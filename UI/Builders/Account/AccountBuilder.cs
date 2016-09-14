@@ -22,12 +22,14 @@ namespace UI.Builders.Account
             IAppContext appContext,
             ICacheService cacheService,
             IIdentityService identityService,
-            ILogService logService
+            ILogService logService,
+            ICompanyService companyService
             ) : base(
                 appContext, 
                 cacheService, 
                 identityService, 
-                logService)
+                logService,
+                companyService)
         {
         }
 

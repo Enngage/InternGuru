@@ -61,5 +61,14 @@ namespace Entity
         public Company Company { get; set; }
 
         #endregion
+
+        #region Entity abstract members
+
+        public override object GetObjectID()
+        {
+            return ID;
+        }
+
+        #endregion
     }
 }

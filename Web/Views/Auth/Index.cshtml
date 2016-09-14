@@ -13,14 +13,20 @@
     <div class="sixteen wide mobile six wide tablet three wide computer column">
         <div class="ui segment padded w-body-text-center">
             <a href="@Url.Action("Avatar", "Auth")">
-                <img alt="avatar" class="ui avatar tiny image" data-src="@ImageHelper.GetUserAvatar(Model.Master.AuthenticatedUserName)" src="@ImageHelper.GetTransparentImage()">
+                <img alt="avatar" class="ui avatar tiny image" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)" src="@ImageHelper.GetTransparentImage()">
             </a>
 
             <p class="w-margin-top-10">
-                <strong>Johnny Bravo</strong>
-            <p class="w-font-size-small">
-                Kentico
+                <strong>@Model.Master.CurrentUser.FirstName @Model.Master.CurrentUser.LastName</strong>
             </p>
+
+            @if (Model.Master.CurrentCompany.IsCreated)
+            {
+                <p class="w-font-size-small">
+                    @Model.Master.CurrentCompany.CompanyName
+                </p>
+            }
+          
             <p class="w-font-size-small">
                 <a href="@Url.Action("EditProfile", "Auth")">Upravit profil</a>
             </p>
@@ -112,50 +118,56 @@
 
         <div class="ui tab basic segment" data-tab="second">
 
-            @if (Model.Internships.Count() == 0)
+            @if (Model.Master.CurrentCompany.IsCreated)
             {
-                @Html.RenderInfoMessage("Žádné nabídky nejsou vystaveny")
+                if (Model.Internships.Count() == 0)
+                {
+                    @Html.RenderInfoMessage("Žádné nabídky nejsou vystaveny")
+                }
+                else
+                {
+                    <table class="ui very basic table">
+                        <tbody>
+                            @foreach (var internship in Model.Internships)
+                            {
+                                <tr>
+                                    <td class="collapsing w-body-text-right w-mobile-left">
+                                        @if (internship.IsActive)
+                                        {
+                                            <i title="Aktivní" class="checkmark green icon"></i>
+                                        }
+                                        else
+                                        {
+                                            <i title="Neaktivní" class="remove red icon"></i>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Internship", new { id = internship.ID })">
+                                            @internship.Title
+                                        </a>
+                                    </td>
+                                    <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
+                                        <i class="calendar icon"></i>
+                                        @internship.Created.ToShortDateString()
+                                    </td>
+                                    <td class="collapsing w-body-text-right w-mobile-left">
+                                        <a href="@Url.Action("EditInternship", new { id = internship.ID })">
+                                            <div class="ui button secondary">
+                                                Upravit
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
             }
             else
             {
-                <table class="ui very basic table">
-                    <tbody>
-                        @foreach (var internship in Model.Internships)
-                        {
-                            <tr>
-                                <td class="collapsing w-body-text-right w-mobile-left">
-                                    @if (internship.IsActive)
-                                    {
-                                        <i title="Aktivní" class="checkmark green icon"></i>
-                                    }
-                                    else
-                                    {
-                                        <i title="Neaktivní" class="remove red icon"></i>
-                                    }
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Internship", new { id = internship.ID })">
-                                        @internship.Title
-                                    </a>
-                                </td>
-                                <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
-                                    <i class="calendar icon"></i>
-                                    @internship.Created.ToShortDateString()
-                                </td>
-                                <td class="collapsing w-body-text-right w-mobile-left">
-                                    <a href="@Url.Action("EditInternship", new { id = internship.ID })">
-                                        <div class="ui button secondary">
-                                            Upravit
-                                        </div>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                @Html.RenderInfoMessage("Pro přidání inzerátu musíte vytvořit firmu")
             }
         </div>
-
     </div>
     <div class="sixteen wide mobile sixteen wide tablet four wide computer column w-body-text-right">
 
@@ -164,7 +176,7 @@
                 Přidat stáž
             </a>
 
-            @if (Model.CompanyIsCreated)
+            @if (Model.Master.CurrentCompany.IsCreated)
             {
                 <a class="ui primary fluid button w-margin-top-10" href="@Url.Action("EditCompany", "Auth")">
                     Upravit firmu

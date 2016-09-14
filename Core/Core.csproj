@@ -131,8 +131,6 @@
     <Compile Include="Services\Companies\CompanyCategoryService.cs" />
     <Compile Include="Services\Identity\IIdentityService.cs" />
     <Compile Include="Services\Identity\IdentityService.cs" />
-    <Compile Include="Services\Identity\Models\CurrentUser.cs" />
-    <Compile Include="Services\Identity\Models\ICurrentUser.cs" />
     <Compile Include="Services\Internships\IInternshipCategoryService.cs" />
     <Compile Include="Services\Internships\IInternshipService.cs" />
     <Compile Include="Services\Internships\InternshipCategoryService.cs" />

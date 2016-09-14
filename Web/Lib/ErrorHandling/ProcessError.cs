@@ -5,6 +5,7 @@ using Ninject;
 using Common.Loc;
 using Core.Services;
 using UI.Builders.Master.Views;
+using UI.Builders.Master;
 
 namespace Web.Lib.ErrorHandling
 {
@@ -16,16 +17,23 @@ namespace Web.Lib.ErrorHandling
     {
         public override void OnException(ExceptionContext filterContext)
         {
-            Exception ex = filterContext.Exception;
-
-            // log error
+            // get services
             var logService = KernelProvider.Kernel.Get<ILogService>();
-            logService.LogException(ex, filterContext.RequestContext.HttpContext.Request.RawUrl, filterContext?.Controller?.ControllerContext?.RequestContext?.HttpContext?.User?.Identity?.Name ?? null);
+            var masterBuilder = KernelProvider.Kernel.Get<MasterBuilder>();
 
+            // mark exception as handled in the filter context
             filterContext.ExceptionHandled = true;
+
+            // --- log exception ---- //
+            Exception ex = filterContext.Exception;
+            logService.LogException(ex, filterContext.RequestContext.HttpContext.Request.RawUrl, filterContext?.Controller?.ControllerContext?.RequestContext?.HttpContext?.User?.Identity?.Name ?? null);
             string innerException = ex.InnerException != null ? ex.InnerException.ToString() : null;
 
+            // create error view
             var errorView = new ErrorView(ex);
+
+            // initialize master model directly in HandleErrorAttribute because it is not called in controller
+            errorView.Master = masterBuilder.GetMasterModel();
 
             filterContext.Result = new ViewResult()
             {

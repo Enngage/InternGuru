@@ -35,6 +35,15 @@ namespace Entity
 
         #endregion
 
+        #region Entity abstract members
+
+        public override object GetObjectID()
+        {
+            return ID;
+        }
+
+        #endregion
+
         #region Image methods
 
         /// <summary>

@@ -23,7 +23,6 @@ namespace UI.Builders.Company
     {
         #region Services
 
-        ICompanyService companyService;
         IInternshipService internshipService;
         ICompanyCategoryService companyCategoryService;
         IInternshipCategoryService internshipCategoryService;
@@ -48,9 +47,9 @@ namespace UI.Builders.Company
                 appContext,
                 cacheService,
                 identityService,
-                logService)
+                logService,
+                companyService)
             {
-            this.companyService = companyService;
             this.internshipService = internshipService;
             this.companyCategoryService = companyCategoryService;
             this.internshipCategoryService = internshipCategoryService;
@@ -92,8 +91,50 @@ namespace UI.Builders.Company
 
             return new AuthIndexView()
             {
-                CompanyIsCreated = await GetCompanyIDOfCurrentUserAsync() != 0,
                 Internships = internships
+            };
+        }
+
+        #endregion
+
+        #region Edit Profile
+
+        public async Task<AuthEditProfileView> BuildEditProfileViewAsync()
+        {
+            if (!this.CurrentUser.IsAuthenticated)
+            {
+                throw new UIException(UIExceptionEnum.NotAuthenticated);
+            }
+
+            var currentApplicationUser = await this.IdentityService.GetSingle(this.CurrentUser.Id).FirstOrDefaultAsync();
+
+            if (currentApplicationUser == null)
+            {
+                throw new UIException(string.Format("Uživatel s ID {0} nebyl nalezen", this.CurrentUser.Id));
+            }
+
+            var form = new AuthEditProfileForm()
+            {
+                FirstName = currentApplicationUser.FirstName,
+                LastName = currentApplicationUser.LastName
+            };
+
+            return new AuthEditProfileView()
+            {
+                ProfileForm = form
+            };
+        }
+
+        public AuthEditProfileView BuildEditProfileView(AuthEditProfileForm form)
+        {
+            if (!this.CurrentUser.IsAuthenticated)
+            {
+                throw new UIException(UIExceptionEnum.NotAuthenticated);
+            }
+
+            return new AuthEditProfileView()
+            {
+                ProfileForm = form
             };
         }
 
@@ -159,7 +200,7 @@ namespace UI.Builders.Company
             var currentUserId = this.CurrentUser.Id;
 
             // get company assigned to user
-            var company = await companyService.GetAll()
+            var company = await CompanyService.GetAll()
                 .Where(m => m.ApplicationUserId == currentUserId)
                 .Take(1)
                 .Select(m => new AuthAddEditCompanyForm()
@@ -205,7 +246,7 @@ namespace UI.Builders.Company
             var currentUserId = this.CurrentUser.Id;
 
             // get company assigned to user
-            var company = await companyService.GetAll()
+            var company = await CompanyService.GetAll()
                 .Where(m => m.ApplicationUserId == currentUserId)
                 .Take(1)
                 .Select(m => new AuthAddEditCompanyForm()
@@ -387,6 +428,42 @@ namespace UI.Builders.Company
         #region Methods
 
         /// <summary>
+        /// Edits profile
+        /// </summary>
+        /// <param name="form">form</param>
+        public async Task EditProfile(AuthEditProfileForm form)
+        {
+            try
+            {
+                if (!this.CurrentUser.IsAuthenticated)
+                {
+                    throw new UIException(UIExceptionEnum.NotAuthenticated);
+                }
+
+                var applicationUser = await this.IdentityService.GetAsync(this.CurrentUser.Id);
+
+                if (applicationUser == null)
+                {
+                    throw new UIException(string.Format("Uživatel s ID {0} nebyl nalezen", this.CurrentUser.Id));
+                }
+
+                // set object properties
+                applicationUser.FirstName = form.FirstName;
+                applicationUser.LastName = form.LastName;
+
+                await this.IdentityService.UpdateAsync(applicationUser);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+            }
+       }
+
+        /// <summary>
         /// Creates new company from given form
         /// </summary>
         /// <param name="form">form</param>
@@ -419,7 +496,7 @@ namespace UI.Builders.Company
                     CompanyCategoryID = form.CompanyCategoryID
                 };
 
-                await companyService.InsertAsync(company);
+                await CompanyService.InsertAsync(company);
 
                 return company.ID;
             }
@@ -472,7 +549,7 @@ namespace UI.Builders.Company
                     CompanyCategoryID = form.CompanyCategoryID
                 };
 
-                await companyService.UpdateAsync(company);
+                await CompanyService.UpdateAsync(company);
             }
             catch (Exception ex)
             {
@@ -632,7 +709,7 @@ namespace UI.Builders.Company
                     throw new UIException(UIExceptionEnum.NotAuthenticated);
                 }
 
-                fileProvider.SaveImage(form.Avatar, FileConfig.AvatarFolderPath, Entity.ApplicationUser.GetAvatarFileName(this.CurrentUser.Name), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
+                fileProvider.SaveImage(form.Avatar, FileConfig.AvatarFolderPath, Entity.ApplicationUser.GetAvatarFileName(this.CurrentUser.UserName), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
             }
             catch(Exception ex)
             {
@@ -659,7 +736,7 @@ namespace UI.Builders.Company
                 return 0;
             }
 
-            var companyQuery = companyService.GetAll()
+            var companyQuery = CompanyService.GetAll()
                 .Where(m => m.ApplicationUserId == this.CurrentUser.Id)
                 .Take(1)
                 .Select(m => m.ID);
