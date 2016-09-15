@@ -15,7 +15,7 @@ namespace Core.Services
 
         public InternshipService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
 
-        public Task DeleteAsync(int id)
+        public Task<int> DeleteAsync(int id)
         {
             var internship = this.AppContext.Internships.Find(id);
 
@@ -49,7 +49,7 @@ namespace Core.Services
             return this.AppContext.Internships.Where(m => m.ID == id).Take(1);
         }
 
-        public Task InsertAsync(Internship obj)
+        public Task<int> InsertAsync(Internship obj)
         {
             obj.Created = DateTime.Now;
             obj.Updated = DateTime.Now;
@@ -62,7 +62,7 @@ namespace Core.Services
             return this.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(Internship obj)
+        public Task<int> UpdateAsync(Internship obj)
         {
             var internship = this.AppContext.Internships.Find(obj.ID);
 

@@ -24,36 +24,19 @@
         </div>
     </div>
 
-    <div class="sixteen wide mobile eight wide tablet five wide computer column">
-        <a href="#">
-            <img class="ui image fluid" alt="Company name image" data-src="http://semantic-ui.com/images/wireframe/image.png" src="@ImageHelper.GetTransparentImage()" />
-        </a>
-        <div class="w-body-text-left">
-            <a href="@Url.Action("Index", "Company", new { id = 1 })">
-                Kentico
-            </a>
-        </div>
-    </div>
-    <div class="sixteen wide mobile eight wide tablet five wide computer column">
-        <a href="#">
-            <img class="ui image fluid" alt="Company name image" data-src="http://semantic-ui.com/images/wireframe/image.png" src="@ImageHelper.GetTransparentImage()" />
-        </a>
-        <div class="w-body-text-left">
-            <a href="@Url.Action("Index", "Company", new { id = 2 })">
-                Microsoft
-            </a>
-        </div>
-    </div>
-    <div class="sixteen wide mobile eight wide tablet five wide computer column">
-        <a href="@Url.Action("Index", "Company", new { id = 3 })">
-            <img class="ui image fluid" alt="Company name image" data-src="http://semantic-ui.com/images/wireframe/image.png" src="@ImageHelper.GetTransparentImage()" />
-        </a>
-        <div class="w-body-text-left">
+    @foreach (var company in Model.Companies)
+    {
+        <div class="sixteen wide mobile eight wide tablet five wide computer column">
             <a href="#">
-                Skype
+                <img class="ui image fluid" alt="@company.CompanyName logo" data-src="@ImageHelper.GetCompanyBanner(company.ID)" src="@ImageHelper.GetTransparentImage()" />
             </a>
+            <div class="w-body-text-left">
+                <a href="@Url.Action("Index", "Company", new { id = company.ID })">
+                    @company.CompanyName
+                </a>
+            </div>
         </div>
-    </div>
+    }
 </div>
 
 <div íd="_CompanyLoading" class="ui segment basic w-segment-no-background loading">

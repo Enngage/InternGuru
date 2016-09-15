@@ -84,6 +84,10 @@ namespace Core.Services
 
         #region Save methods
 
+        /// <summary>
+        /// Saves all changes made in this context to the underlying database
+        /// </summary>
+        /// <returns>The number of objects written to the underlying database</returns>
         protected int SaveChanges()
         {
             try
@@ -103,6 +107,10 @@ namespace Core.Services
             }
         }
 
+        /// <summary>
+        /// Saves all changes made in this context to the underlying database
+        /// </summary>
+        /// <returns>The number of objects written to the underlying database</returns>
         protected Task<int> SaveChangesAsync()
         {
             try
@@ -149,6 +157,7 @@ namespace Core.Services
         public void TouchUpdateKeys(T obj)
         {
             cacheService.TouchKey(EntityAbstract.KeyUpdateAny<T>());
+            cacheService.TouchKey(EntityAbstract.KeyUpdateCodeName<T>(obj.GetCodeName()));
             cacheService.TouchKey(EntityAbstract.KeyUpdate<T>(obj.GetObjectID().ToString()));
         }
 
@@ -159,7 +168,8 @@ namespace Core.Services
         /// <param name="obj">Object</param>
         public void TouchDeleteKeys(T obj)
         {
-            cacheService.TouchKey(EntityAbstract.KeyCreateAny<T>());
+            cacheService.TouchKey(EntityAbstract.KeyDeleteAny<T>());
+            cacheService.TouchKey(EntityAbstract.KeyDeleteCodeName<T>(obj.GetCodeName()));
             cacheService.TouchKey(EntityAbstract.KeyDelete<T>(obj.GetObjectID().ToString()));
         }
 

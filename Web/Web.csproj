@@ -212,6 +212,8 @@
   <ItemGroup>
     <Content Include="Content\Images\icons\caution.png" />
     <Content Include="Content\Images\icons\defaultAvatar.png" />
+    <Content Include="Content\Images\icons\defaultCompanyBanner.png" />
+    <Content Include="Content\Images\icons\defaultCompanyLogo.png" />
     <Content Include="Content\Images\teaser.jpg" />
     <Content Include="Content\Images\teaser_cropped.jpg" />
     <Content Include="Content\Images\transparent.png" />

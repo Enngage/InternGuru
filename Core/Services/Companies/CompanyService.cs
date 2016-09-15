@@ -15,7 +15,7 @@ namespace Core.Services
 
         public CompanyService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
 
-        public Task DeleteAsync(int id)
+        public Task<int> DeleteAsync(int id)
         {
             // get log
             var company = this.AppContext.Companies.Find(id);
@@ -50,19 +50,27 @@ namespace Core.Services
             return this.AppContext.Companies;
         }
 
-        public Task InsertAsync(Company obj)
+        public async Task<int> InsertAsync(Company obj)
         {
+            // set company alias
+            obj.CodeName = obj.GetAlias();
+
+            // check if alias is unique
+            if (!await CompanyAliasIsUnique(obj.CodeName, 0))
+            {
+                throw new CodeNameNotUniqueException(string.Format("Company name {0} is not unique", obj.CodeName));
+            }
+
             this.AppContext.Companies.Add(obj);
 
             // touch cache keys
             this.TouchInsertKeys(obj);
 
-            return this.SaveChangesAsync();
+            return await this.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(Company obj)
+        public async Task<int> UpdateAsync(Company obj)
         {
-            // get log
             var company = this.AppContext.Companies.Find(obj.ID);
 
             if (company == null)
@@ -70,14 +78,51 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("Company with ID: {0} not found", company.ID));
             }
 
-            // update log
+            // set company alias
+            obj.CodeName = obj.GetAlias();
+
+            // check if alias is unique
+            if (!await CompanyAliasIsUnique(obj.CodeName, obj.ID))
+            {
+                throw new CodeNameNotUniqueException(string.Format("Company name {0} is not unique", obj.CodeName));
+            }
+
+            // update company
             this.AppContext.Entry(company).CurrentValues.SetValues(obj);
 
             // touch cache keys
             this.TouchUpdateKeys(company);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return await this.AppContext.SaveChangesAsync();
         }
+
+        #region Helper methods
+
+        /// <summary>
+        /// Indicates if given alias is unique
+        /// </summary>
+        /// <param name="alias">Alias to check for uniqueness</param>
+        /// <param name="companyID">CompanyID of udpated company. Use 0 when creating new company</param>
+        /// <returns>True if unique, false otherwise</returns>
+        private async Task<bool> CompanyAliasIsUnique(string alias, int companyID)
+        {
+            var companyQuery = this.GetAll()
+                .Where(m => m.CodeName == alias)
+                .Take(1);
+
+            if (companyID != 0)
+            {
+                companyQuery = companyQuery.Where(m => m.ID != companyID);
+            }
+
+            var company = await companyQuery
+                .Select(m => m.ID)
+                .FirstOrDefaultAsync();
+
+            return company == 0;
+        }
+
+        #endregion
     }
 }

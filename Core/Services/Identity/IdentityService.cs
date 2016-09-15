@@ -30,7 +30,7 @@ namespace Core.Services
             return this.AppContext.Users.Where(m => m.Id == applicationUserId).Take(1);
         }
 
-        public Task UpdateAsync(ApplicationUser obj)
+        public Task<int> UpdateAsync(ApplicationUser obj)
         {
             var user = this.AppContext.Users.Find(obj.Id);
 

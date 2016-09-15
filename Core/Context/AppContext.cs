@@ -47,5 +47,14 @@ namespace Core.Context
         }
 
         #endregion
+
+        #region IAppContext
+
+        public DbContextTransaction BeginTransaction()
+        {
+            return this.Database.BeginTransaction();
+        }
+
+        #endregion
     }
 }

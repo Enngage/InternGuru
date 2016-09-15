@@ -8,32 +8,26 @@ namespace Core.Services
 {
     public interface IService<T> where T : EntityAbstract
     {
-        ///// <summary>
-        ///// Validates given object. Used to determin whether an object can be saved in DB
-        ///// Throws 'ValidationException' exception if object is not valid
-        ///// </summary>
-        ///// <param name="obj">Object to validate</param>
-        //void Validate(T obj);
 
         /// <summary>
         /// Inserts object into database
         /// </summary>
         /// <param name="obj">Object to insert</param>
-        /// <returns></returns>
-        Task InsertAsync(T obj);
+        /// <returns>The number of objects written to the underlying database</returns>
+        Task<int> InsertAsync(T obj);
 
         /// <summary>
         /// Deletes object from database
         /// </summary>
-        /// <returns></returns>
-        Task DeleteAsync(int id);
+        /// <returns>The number of objects written to the underlying database</returns>
+        Task<int> DeleteAsync(int id);
 
         /// <summary>
         /// Updates given object based on its inner ID
         /// </summary>
         /// <param name="obj">Object to update</param>
-        /// <returns></returns>
-        Task UpdateAsync(T obj);
+        /// <returns>The number of objects written to the underlying database</returns>
+        Task<int> UpdateAsync(T obj);
 
         /// <summary>
         /// Gets query to all objects of given type (does not execute SQL query)

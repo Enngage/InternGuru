@@ -17,14 +17,7 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public CompanyBuilder(
-            IAppContext appContext,
-            IServicesLoader servicesLoader)
-            : base(
-                appContext,
-                servicesLoader)
-        {
-        }
+        public CompanyBuilder(IAppContext appContext,IServicesLoader servicesLoader): base(appContext, servicesLoader) { }
 
         #endregion
 
@@ -64,19 +57,19 @@ namespace UI.Builders.Company
 
         }
 
-        public async Task<CompanyDetailView> BuildDetailViewAsync(int companyID)
+        public async Task<CompanyDetailView> BuildDetailViewAsync(string codeName)
         {
             int cacheMinutes = 60;
 
             var cacheSetup = CacheService.GetSetup<CompanyDetailModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.Company.KeyUpdate<Entity.Company>(companyID),
-                Entity.Company.KeyDelete<Entity.Company>(companyID),
+                Entity.Company.KeyUpdateCodeName<Entity.Company>(codeName),
+                Entity.Company.KeyDeleteCodeName<Entity.Company>(codeName),
             };
 
             var companyQuery = Services.CompanyService.GetAll()
-                .Where(m => m.ID == companyID)
+                .Where(m => m.CodeName == codeName)
                 .Take(1)
                 .Select(m => new CompanyDetailModel()
                 {

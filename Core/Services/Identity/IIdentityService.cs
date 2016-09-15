@@ -9,6 +9,6 @@ namespace Core.Services
         IQueryable<ApplicationUser> GetSingle(string applicationUserId);
         IQueryable<ApplicationUser> GetAll();
         Task<ApplicationUser> GetAsync(string applicationUserId);
-        Task UpdateAsync(ApplicationUser user);
+        Task<int> UpdateAsync(ApplicationUser user);
     }
 }

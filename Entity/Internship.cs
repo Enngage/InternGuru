@@ -69,6 +69,11 @@ namespace Entity
             return ID;
         }
 
+        public override string GetCodeName()
+        {
+            return ID.ToString();
+        }
+
         #endregion
     }
 }

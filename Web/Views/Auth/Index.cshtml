@@ -20,13 +20,6 @@
                 <strong>@Model.Master.CurrentUser.FirstName @Model.Master.CurrentUser.LastName</strong>
             </p>
 
-            @if (Model.Master.CurrentCompany.IsCreated)
-            {
-                <p class="w-font-size-small">
-                    @Model.Master.CurrentCompany.CompanyName
-                </p>
-            }
-          
             <p class="w-font-size-small">
                 <a href="@Url.Action("EditProfile", "Auth")">Upravit profil</a>
             </p>
@@ -176,19 +169,29 @@
                 Přidat stáž
             </a>
 
-            @if (Model.Master.CurrentCompany.IsCreated)
-            {
-                <a class="ui primary fluid button w-margin-top-10" href="@Url.Action("EditCompany", "Auth")">
-                    Upravit firmu
-                </a>
-            }
-            else
+            @if (!Model.Master.CurrentCompany.IsCreated)
             {
                 <a class="ui primary fluid button w-margin-top-10" href="@Url.Action("RegisterCompany", "Auth")">
                     Přidat firmu
                 </a>
             }
+
         </div>
 
+        @if (Model.Master.CurrentCompany.IsCreated)
+            {
+            <div class="ui segment padded w-body-text-center">
+
+                <img class="ui image tiny w-image-center" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyID)" />
+
+                <p class="w-margin-top-10">
+                    <strong>@Model.Master.CurrentCompany.CompanyName</strong>
+                </p>
+
+                <a class="w-font-size-small" href="@Url.Action("EditCompany", "Auth")">
+                    Upravit firmu
+                </a>
+            </div>
+        }
     </div>
 </div>

@@ -1,6 +1,5 @@
 ﻿using Common.Config;
 using Common.Helpers;
-using Common.Project;
 using System;
 using System.IO;
 
@@ -53,7 +52,7 @@ namespace UI.Helpers
         /// <returns>Url to transparent (1px) image</returns>
         public static string GetTransparentImage()
         {
-            return AbsolutePath + "Content/images/transparent.png";
+            return AbsolutePath + FileConfig.TransparentImagePath;
         }
 
         /// <summary>
@@ -61,23 +60,43 @@ namespace UI.Helpers
         /// </summary>
         /// <param name="companyName"></param>
         /// <returns>Url to company banner</returns>
-        public static string GetCompanyBanner(string companyName)
+        public static string GetCompanyBanner(int companyID)
         {
             var imagePath = AbsolutePath + FileConfig.BannerFolderPath;
 
-            return GetFilePathWithExtension(imagePath, Entity.Company.GetLogoFileName(companyName));
+            var banner = GetFilePathWithExtension(imagePath, Entity.Company.GetLogoFileName(companyID));
+
+            if (string.IsNullOrEmpty(banner))
+            {
+                // use default logo
+                return AbsolutePath + FileConfig.DefaultCompanyLogoBanner;
+            }
+            else
+            {
+                return banner;
+            }
         }
 
         /// <summary>
         /// Gets url to company logo
         /// </summary>
-        /// <param name="companyName">Company name</param>
+        /// <param name="companyID">CompanyID</param>
         /// <returns>Url to company logo</returns>
-        public static string GetCompanyLogo(string companyName)
+        public static string GetCompanyLogo(int companyID)
         {
             var imagePath = AbsolutePath + FileConfig.LogoFolderPath;
 
-            return GetFilePathWithExtension(imagePath, Entity.Company.GetLogoFileName(companyName));
+            var logo = GetFilePathWithExtension(imagePath, Entity.Company.GetLogoFileName(companyID));
+
+            if (string.IsNullOrEmpty(logo))
+            {
+                // use default logo
+                return AbsolutePath + FileConfig.DefaultCompanyLogoPath;
+            }
+            else
+            {
+                return logo;
+            }
         }
 
         /// <summary>

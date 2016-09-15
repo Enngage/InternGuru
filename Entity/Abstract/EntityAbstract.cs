@@ -8,6 +8,11 @@ namespace Entity
         #region Abstract members
 
         /// <summary>
+        /// Gets code name value of object
+        /// </summary>
+        public abstract string GetCodeName();
+
+        /// <summary>
         /// Gets value from entity primary key
         /// </summary>
         public abstract object GetObjectID();
@@ -20,10 +25,20 @@ namespace Entity
         /// Gets cache key for "delete" object action
         /// </summary>
         /// <param name="objectID">ObjectID of deleted object (primary key)</param>
-        /// <returns>Cache key for deleting an object of current class</returns>
+        /// <returns>Cache key for deleting an object</returns>
         public static string KeyDelete<T>(int objectID) where T: class
         {
             return ConstructKey(typeof(T), ActionType.Delete, objectID.ToString());
+        }
+
+        /// <summary>
+        /// Gets cache key for "delete" object action
+        /// </summary>
+        /// <param name="codeName">Code name of object</param>
+        /// <returns>Cache key for deleting an object</returns>
+        public static string KeyDeleteCodeName<T>(string codeName) where T : class
+        {
+            return ConstructKey(typeof(T), ActionType.Delete, codeName);
         }
 
         /// <summary>
@@ -40,7 +55,7 @@ namespace Entity
         /// Gets cache key for "update" object action
         /// </summary>
         /// <param name="objectID">ObjectID of updated object (primary key)</param>
-        /// <returns>Cache key for updating an object of current class</returns>
+        /// <returns>Cache key for updating an object</returns>
         public static string KeyUpdate<T>(int objectID) where T : class
         {
             return ConstructKey(typeof(T), ActionType.Update, objectID.ToString());
@@ -49,8 +64,18 @@ namespace Entity
         /// <summary>
         /// Gets cache key for "update" object action
         /// </summary>
+        /// <param name="codeName">Code name of object</param>
+        /// <returns>Cache key for updating an object</returns>
+        public static string KeyUpdateCodeName<T>(string codeName) where T : class
+        {
+            return ConstructKey(typeof(T), ActionType.Update, codeName);
+        }
+
+        /// <summary>
+        /// Gets cache key for "update" object action
+        /// </summary>
         /// <param name="objectID">ObjectID of updated object (primary key)</param>
-        /// <returns>Cache key for updating an object of current class</returns>
+        /// <returns>Cache key for updating an object</returns>
         public static string KeyUpdate<T>(string objectID) where T : class
         {
             return ConstructKey(typeof(T), ActionType.Update, objectID.ToString());
@@ -64,7 +89,6 @@ namespace Entity
         {
             return ConstructKey(typeof(T), ActionType.UpdateAny);
         }
-
 
         /// <summary>
         /// Gets cache key for delete any object action

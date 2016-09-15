@@ -2,13 +2,16 @@
 using Common.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System;
 
 namespace Entity
 {
     public class Company : EntityAbstract
     {
+
         public int ID { get; set; }
         public string CompanyName { get; set; }
+        public string CodeName { get; set; }
         public int YearFounded { get; set; }
         public string PublicEmail { get; set; }
         public string LongDescription { get; set; }
@@ -35,11 +38,15 @@ namespace Entity
 
         #endregion
 
-        #region Entity abstract members
+        #region EntityAbstract members
 
         public override object GetObjectID()
         {
             return ID;
+        }
+        public override string GetCodeName()
+        {
+            return CodeName;
         }
 
         #endregion
@@ -49,21 +56,34 @@ namespace Entity
         /// <summary>
         /// Gets file name of banner from CompanyName
         /// </summary>
-        /// <param name="companyName"></param>
+        /// <param name="companyID"></param>
         /// <returns></returns>
-        public static string GetBannerFileName(string companyName)
+        public static string GetBannerFileName(int companyID)
         {
-            return StringHelper.GetCodeName(companyName);
+            return companyID.ToString();
         }
 
         /// <summary>
         /// Gets file name of logo from CompanyName
         /// </summary>
-        /// <param name="companyName"></param>
+        /// <param name="companyID">companyID</param>
         /// <returns></returns>
-        public static string GetLogoFileName(string companyName)
+        public static string GetLogoFileName(int companyID)
         {
-            return StringHelper.GetCodeName(companyName);
+            return companyID.ToString();
+        }
+
+        #endregion
+
+        #region Alias
+
+        /// <summary>
+        /// Gets alias based on Company name 
+        /// </summary>
+        /// <returns></returns>
+        public string GetAlias()
+        {
+            return StringHelper.GetCodeName(CompanyName);
         }
 
         #endregion

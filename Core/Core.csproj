@@ -61,6 +61,8 @@
     <Compile Include="Context\AppContextConfig.cs" />
     <Compile Include="Context\IAppContext.cs" />
     <Compile Include="Context\Initializer.cs" />
+    <Compile Include="Exceptions\CodeNameNotUniqueException.cs" />
+    <Compile Include="Exceptions\FileNotProvidedException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Migrations\201608201021090_First.cs" />
@@ -122,6 +124,14 @@
     <Compile Include="Migrations\201609110927455_IsActiveColumn.cs" />
     <Compile Include="Migrations\201609110927455_IsActiveColumn.Designer.cs">
       <DependentUpon>201609110927455_IsActiveColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609151601304_CompanyAlias.cs" />
+    <Compile Include="Migrations\201609151601304_CompanyAlias.Designer.cs">
+      <DependentUpon>201609151601304_CompanyAlias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609151728004_ChangeCodeName.cs" />
+    <Compile Include="Migrations\201609151728004_ChangeCodeName.Designer.cs">
+      <DependentUpon>201609151728004_ChangeCodeName.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -204,6 +214,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609110927455_IsActiveColumn.resx">
       <DependentUpon>201609110927455_IsActiveColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609151601304_CompanyAlias.resx">
+      <DependentUpon>201609151601304_CompanyAlias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609151728004_ChangeCodeName.resx">
+      <DependentUpon>201609151728004_ChangeCodeName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

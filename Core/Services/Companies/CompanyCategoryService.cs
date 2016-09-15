@@ -15,7 +15,7 @@ namespace Core.Services
 
         public CompanyCategoryService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
 
-        public Task DeleteAsync(int id)
+        public Task<int> DeleteAsync(int id)
         {
             var category = this.AppContext.CompanyCategories.Find(id);
 
@@ -49,7 +49,7 @@ namespace Core.Services
             return this.AppContext.CompanyCategories.Where(m => m.ID == id).Take(1);
         }
 
-        public Task InsertAsync(CompanyCategory obj)
+        public Task<int> InsertAsync(CompanyCategory obj)
         {
             this.AppContext.CompanyCategories.Add(obj);
 
@@ -59,7 +59,7 @@ namespace Core.Services
             return this.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(CompanyCategory obj)
+        public Task<int> UpdateAsync(CompanyCategory obj)
         {
             var category = this.AppContext.CompanyCategories.Find(obj.ID);
 

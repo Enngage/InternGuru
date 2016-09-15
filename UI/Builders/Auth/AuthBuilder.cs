@@ -14,12 +14,13 @@ using Common.Helpers;
 using UI.Exceptions;
 using Common.Helpers.Internship;
 using UI.Builders.Services;
+using Core.Exceptions;
 
 namespace UI.Builders.Company
 {
     public class AuthBuilder : BaseBuilder
     {
- 
+
         #region Constructor
 
         public AuthBuilder(
@@ -31,8 +32,8 @@ namespace UI.Builders.Company
                 appContext,
                 servicesLoader
             )
-            {
-            }
+        {
+        }
 
         #endregion
 
@@ -440,7 +441,7 @@ namespace UI.Builders.Company
                 // re-throw
                 throw new UIException(UIExceptionEnum.SaveFailure, ex);
             }
-       }
+        }
 
         /// <summary>
         /// Creates new company from given form
@@ -449,45 +450,74 @@ namespace UI.Builders.Company
         /// <returns>ID of new company</returns>
         public async Task<int> CreateCompany(AuthAddEditCompanyForm form)
         {
-            try
+            // Create company in transaction because files require CompanyID
+            using (var transaction = this.AppContext.BeginTransaction())
             {
-                // try to upload files before adding database record of company
-                Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
-                Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
-
-                var company = new Entity.Company
+                try
                 {
-                    ApplicationUserId = this.CurrentUser.Id,
-                    Address = form.Address,
-                    City = form.City,
-                    CompanyName = form.CompanyName,
-                    CompanySize = form.CompanySize,
-                    Country = form.Country,
-                    Facebook = form.Facebook,
-                    Lat = form.Lat,
-                    LinkedIn = form.LinkedIn,
-                    Lng = form.Lng,
-                    LongDescription = form.LongDescription,
-                    PublicEmail = form.PublicEmail,
-                    Twitter = form.Twitter,
-                    Web = form.Web,
-                    YearFounded = form.YearFounded,
-                    CompanyCategoryID = form.CompanyCategoryID
-                };
+                    var company = new Entity.Company
+                    {
+                        ApplicationUserId = this.CurrentUser.Id,
+                        Address = form.Address,
+                        City = form.City,
+                        CompanyName = form.CompanyName,
+                        CompanySize = form.CompanySize,
+                        Country = form.Country,
+                        Facebook = form.Facebook,
+                        Lat = form.Lat,
+                        LinkedIn = form.LinkedIn,
+                        Lng = form.Lng,
+                        LongDescription = form.LongDescription,
+                        PublicEmail = form.PublicEmail,
+                        Twitter = form.Twitter,
+                        Web = form.Web,
+                        YearFounded = form.YearFounded,
+                        CompanyCategoryID = form.CompanyCategoryID
+                    };
 
-                await Services.CompanyService.InsertAsync(company);
+                   await Services.CompanyService.InsertAsync(company);
 
-                return company.ID;
-            }
-            catch (Exception ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
+                    // upload files
+                    if (form.Banner != null)
+                    {
+                        Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(company.ID), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
+                    }
 
-                // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                    if (form.Logo != null)
+                    {
+                        Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(company.ID), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                    }
+
+                    // commit transaction
+                    transaction.Commit();
+
+                    return company.ID;
+                }
+                catch (CodeNameNotUniqueException ex)
+                {
+                    // rollback
+                    transaction.Rollback();
+
+                    // log error
+                    Services.LogService.LogException(ex);
+
+                    // re-throw
+                    throw new UIException(string.Format("Firma {0} je již v databázi", form.CompanyName), ex);
+                }
+                catch (Exception ex)
+                {
+                    // rollback
+                    transaction.Rollback();
+
+                    // log error
+                    Services.LogService.LogException(ex);
+
+                    // re-throw
+                    throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                }
             }
         }
+
 
         /// <summary>
         /// Edits company
@@ -495,48 +525,68 @@ namespace UI.Builders.Company
         /// <param name="form">form</param>
         public async Task EditCompany(AuthAddEditCompanyForm form)
         {
-            try
+            using (var transaction = this.AppContext.BeginTransaction())
             {
-                // try to upload files before adding database record of company
-                if (form.Banner != null)
+                try
                 {
-                    Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerWidth);
+                    // upload files if they are provided
+                    if (form.Banner != null)
+                    {
+                        Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(form.ID), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
+                    }
+                    if (form.Logo != null)
+                    {
+                        Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(form.ID), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                    }
+
+                    var company = new Entity.Company
+                    {
+                        ID = form.ID,
+                        ApplicationUserId = this.CurrentUser.Id,
+                        Address = form.Address,
+                        City = form.City,
+                        CompanyName = form.CompanyName,
+                        CompanySize = form.CompanySize,
+                        Country = form.Country,
+                        Facebook = form.Facebook,
+                        Lat = form.Lat,
+                        LinkedIn = form.LinkedIn,
+                        Lng = form.Lng,
+                        LongDescription = form.LongDescription,
+                        PublicEmail = form.PublicEmail,
+                        Twitter = form.Twitter,
+                        Web = form.Web,
+                        YearFounded = form.YearFounded,
+                        CompanyCategoryID = form.CompanyCategoryID
+                    };
+
+                    await Services.CompanyService.UpdateAsync(company);
+
+                    // commit 
+                    transaction.Commit();
                 }
-                if (form.Logo != null)
+                catch (CodeNameNotUniqueException ex)
                 {
-                    Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, StringHelper.GetCodeName(form.CompanyName), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                    // rollback
+                    transaction.Rollback();
+
+                    // log error
+                    Services.LogService.LogException(ex);
+
+                    // re-throw
+                    throw new UIException(string.Format("Firma {0} je již v databázi", form.CompanyName), ex);
                 }
-
-                var company = new Entity.Company
+                catch (Exception ex)
                 {
-                    ID = form.ID,
-                    ApplicationUserId = this.CurrentUser.Id,
-                    Address = form.Address,
-                    City = form.City,
-                    CompanyName = form.CompanyName,
-                    CompanySize = form.CompanySize,
-                    Country = form.Country,
-                    Facebook = form.Facebook,
-                    Lat = form.Lat,
-                    LinkedIn = form.LinkedIn,
-                    Lng = form.Lng,
-                    LongDescription = form.LongDescription,
-                    PublicEmail = form.PublicEmail,
-                    Twitter = form.Twitter,
-                    Web = form.Web,
-                    YearFounded = form.YearFounded,
-                    CompanyCategoryID = form.CompanyCategoryID
-                };
+                    // rollback
+                    transaction.Rollback();
 
-                await Services.CompanyService.UpdateAsync(company);
-            }
-            catch (Exception ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
+                    // log error
+                    Services.LogService.LogException(ex);
 
-                // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                    // re-throw
+                    throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                }
             }
         }
 
@@ -575,7 +625,7 @@ namespace UI.Builders.Company
                     Country = form.Country,
                     StartDate = form.StartDate,
                     Title = form.Title,
-                    IsPaid = form.GetIsPaid(), 
+                    IsPaid = form.GetIsPaid(),
                     CompanyID = companyIDOfCurrentUser,
                     InternshipCategoryID = form.InternshipCategoryID,
                     Currency = form.Currency,
@@ -594,7 +644,7 @@ namespace UI.Builders.Company
 
                 await Services.InternshipService.InsertAsync(internship);
 
-                return internship.ID;
+                return internship.ID;           
             }
             catch (Exception ex)
             {
@@ -690,7 +740,7 @@ namespace UI.Builders.Company
 
                 Services.FileProvider.SaveImage(form.Avatar, FileConfig.AvatarFolderPath, Entity.ApplicationUser.GetAvatarFileName(this.CurrentUser.UserName), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // log error
                 Services.LogService.LogException(ex);
@@ -698,7 +748,7 @@ namespace UI.Builders.Company
                 // re-throw
                 throw new UIException(UIExceptionEnum.SaveFailure, ex);
             }
-        } 
+        }
 
         #endregion
 

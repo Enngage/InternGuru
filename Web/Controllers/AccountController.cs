@@ -128,7 +128,31 @@ namespace Web.Controllers
                     // redirect to confirmation page
                     return RedirectToAction("ConfirmEmailSent");
                 }
-                AddErrors(result);
+
+                bool unknownErrorAdded = false;
+                bool emailTakenErrorAdded = false;
+
+                foreach (var error in result.Errors)
+                {
+                    // translate errors
+                    if (error.EndsWith("already taken.", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!emailTakenErrorAdded)
+                        {
+                            this.ModelStateWrapper.AddError(string.Format("E-mail {0} je již zaregistrován", form.Email));
+                            emailTakenErrorAdded = true;
+                        }
+                    }
+                    else
+                    {
+                        // other errors
+                        if (!unknownErrorAdded)
+                        {
+                            this.ModelStateWrapper.AddError("Nastala neočekavá chyba, opakujte prosím akci");
+                            unknownErrorAdded = true;
+                        }
+                    }
+                }
             }
 
             // If we got this far, something failed, redisplay form

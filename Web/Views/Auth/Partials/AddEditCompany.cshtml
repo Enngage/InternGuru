@@ -106,9 +106,9 @@
                     Logo
                 </label>
 
-                <img class="ui image small" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyName)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
+                <img class="ui image small" data-src="@ImageHelper.GetCompanyLogo(Model.ID)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
 
-                <input type="file" name="Logo">
+                <input class="w-margin-top-10" type="file" name="Logo">
             </div>
 
             <div class="field required">
@@ -116,9 +116,9 @@
                     Banner (zobrazen v profilu firmy)
                 </label>
 
-                <img class="ui image" data-src="@ImageHelper.GetCompanyBanner(Model.CompanyName)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
+                <img class="ui image" data-src="@ImageHelper.GetCompanyBanner(Model.ID)" src="@ImageHelper.GetTransparentImage()" alt="Banner" />
 
-                <input type="file" name="Banner">
+                <input class="w-margin-top-10" type="file" name="Banner">
             </div>
 
         </div>

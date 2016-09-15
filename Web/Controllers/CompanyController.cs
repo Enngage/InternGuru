@@ -18,14 +18,14 @@ namespace Web.Controllers
 
         #region Actions
 
-        public async Task<ActionResult> Index(int? id)
+        public async Task<ActionResult> Index(string codeName)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(codeName))
             {
                 return HttpNotFound();
             }
 
-            var model = await companyBuilder.BuildDetailViewAsync(id ?? 0);
+            var model = await companyBuilder.BuildDetailViewAsync(codeName);
 
             if (model == null)
             {

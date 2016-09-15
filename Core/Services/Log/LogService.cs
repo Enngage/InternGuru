@@ -16,7 +16,7 @@ namespace Core.Services
 
         #region IService members
 
-        public Task InsertAsync(Log obj)
+        public Task<int> InsertAsync(Log obj)
         {
             this.AppContext.Logs.Add(obj);
 
@@ -26,7 +26,7 @@ namespace Core.Services
             return this.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public Task<int> DeleteAsync(int id)
         {
             // get log
             var log = this.AppContext.Logs.Find(id);
@@ -46,7 +46,7 @@ namespace Core.Services
             return Task.FromResult(0);
         }
 
-        public Task UpdateAsync(Log obj)
+        public Task<int> UpdateAsync(Log obj)
         {
             // get log
             var log = this.AppContext.Logs.Find(obj.ID);

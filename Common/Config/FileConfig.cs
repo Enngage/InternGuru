@@ -3,6 +3,20 @@ namespace Common.Config
 {
     public static class FileConfig
     {
+        #region General
+
+        /// <summary>
+        /// Path to transparent image
+        /// </summary>
+        public static string TransparentImagePath
+        {
+            get
+            {
+                return "Content/images/transparent.png";
+            }
+        }
+
+        #endregion
 
         #region Company files
 
@@ -69,6 +83,28 @@ namespace Common.Config
             get
             {
                 return "Content/Company/Logos/";
+            }
+        }
+
+        /// <summary>
+        /// Path to default company path
+        /// </summary>
+        public static string DefaultCompanyLogoPath
+        {
+            get
+            {
+                return "Content/images/icons/defaultCompanyLogo.png";
+            }
+        }
+
+        /// <summary>
+        /// Path to default company banner path
+        /// </summary>
+        public static string DefaultCompanyLogoBanner
+        {
+            get
+            {
+                return "Content/images/icons/defaultCompanyBanner.png";
             }
         }
 

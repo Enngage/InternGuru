@@ -16,6 +16,7 @@ namespace Core.Context
         IDbSet<Log> Logs { get; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
+        DbContextTransaction BeginTransaction();
         DbEntityEntry Entry(object entity);
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
     }
