@@ -31,7 +31,7 @@
                 <img class="ui image fluid" alt="@company.CompanyName logo" data-src="@ImageHelper.GetCompanyBanner(company.ID)" src="@ImageHelper.GetTransparentImage()" />
             </a>
             <div class="w-body-text-left">
-                <a href="@Url.Action("Index", "Company", new { id = company.ID })">
+                <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
                     @company.CompanyName
                 </a>
             </div>

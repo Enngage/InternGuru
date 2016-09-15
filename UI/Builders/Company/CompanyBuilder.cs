@@ -45,7 +45,8 @@ namespace UI.Builders.Company
                     CompanyName = m.CompanyName,
                     Country = m.Country,
                     ID = m.ID,
-                    InternshipCount = m.Internships.Count()
+                    InternshipCount = m.Internships.Count(),
+                    CodeName = m.CodeName
                 });
 
             var companies = await CacheService.GetOrSetAsync(async () => await companiesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);

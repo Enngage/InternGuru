@@ -3,6 +3,7 @@ using Common.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entity
 {
@@ -10,19 +11,29 @@ namespace Entity
     {
 
         public int ID { get; set; }
+        [MaxLength(150)]
         public string CompanyName { get; set; }
+        [Index]
+        [MaxLength(100)]
         public string CodeName { get; set; }
         public int YearFounded { get; set; }
         public string PublicEmail { get; set; }
         public string LongDescription { get; set; }
+        [MaxLength(100)]
         public string Address { get; set; }
+        [MaxLength(100)]
         public string City { get; set; }
+        [MaxLength(100)]
         public string Country { get; set; }
         public float Lat { get; set; }
         public float Lng { get; set; }
+        [MaxLength(250)]
         public string Web { get; set; }
+        [MaxLength(250)]
         public string Twitter { get; set; }
+        [MaxLength(250)]
         public string LinkedIn { get; set; }
+        [MaxLength(250)]
         public string Facebook { get; set; }
         public int CompanySize { get; set; }
         [ForeignKey("CompanyCategory")]
