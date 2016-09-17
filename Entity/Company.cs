@@ -2,7 +2,6 @@
 using Common.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Entity
@@ -12,6 +11,7 @@ namespace Entity
 
         public int ID { get; set; }
         [MaxLength(150)]
+        [Index]
         public string CompanyName { get; set; }
         [Index]
         [MaxLength(100)]

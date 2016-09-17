@@ -49,7 +49,7 @@ namespace Common.Config
         {
             get
             {
-                return 1100;
+                return 1280;
             }
         }
 
@@ -60,7 +60,7 @@ namespace Common.Config
         {
             get
             {
-                return 350;
+                return 280;
             }
         }
 

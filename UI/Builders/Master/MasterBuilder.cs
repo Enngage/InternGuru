@@ -8,21 +8,9 @@ namespace UI.Builders.Master
     public class MasterBuilder : BaseBuilder
     {
 
-        #region Services
-
-        #endregion
-
         #region Constructor
 
-        public MasterBuilder(
-            IAppContext appContext,
-            IServicesLoader servicesLoader
-            ) : base(
-                appContext,
-                servicesLoader
-                )
-        {
-        }
+        public MasterBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) {}
 
         #endregion
 

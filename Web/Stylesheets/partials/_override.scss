@@ -1,7 +1,34 @@
 ﻿@import "_base";
 
 #w-body-wrapper {
-    .w-override-border-radius{
+    .w-override-border-radius {
         border-radius: 0.285714rem;
     }
+
+    /* Segment start*/
+
+    .ui.segment {
+        border: none;
+        box-shadow: none;
+    }
+
+    /* Segment end */
+
+    /* Labeled dropdown start*/
+    .ui.labeled.input .ui.dropdown.label {
+        border-radius: 0;
+        background: $primary-color;
+        color: $primary-color-text;
+    }
+
+    .ui.dropdown .menu{
+        background: $primary-color-text;
+
+        .item:hover{
+            background: $primary-color; 
+            color: $primary-color-text;
+        }
+    }
+
+    /* Labeled dropdown end*/
 }

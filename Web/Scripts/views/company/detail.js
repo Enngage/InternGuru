@@ -2,8 +2,14 @@
     // DOM ready
     $(function () {
         var companyModule = new CompanyModule();
-       
-        $('.menu .item').tab();
 
+        $('#_CompanyRightMenu .item').tab();
+
+        // fixed top scrolling menu after 
+        $('#_CompanyMenuWrapper')
+            .visibility({
+                type: 'fixed',
+                //offset: 54 // height of top fixed menu
+            });
     });
 });

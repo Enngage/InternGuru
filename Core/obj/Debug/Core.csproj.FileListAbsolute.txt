@@ -70,3 +70,4 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrati
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.CompanyAlias.resources
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.ChangeCodeName.resources
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.CodeNameIndexForCompany.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.CompanyNameIndex.resources

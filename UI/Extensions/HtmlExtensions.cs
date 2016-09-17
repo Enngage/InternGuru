@@ -16,7 +16,7 @@ namespace UI.Extensions
         public static IHtmlString RenderWarningMessage(this HtmlHelper html, string message, string title)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("<div class=\"ui info warning\">");
+            sb.AppendLine("<div class=\"ui warning message\">");
 
             if (!string.IsNullOrEmpty(title))
             {
@@ -37,7 +37,7 @@ namespace UI.Extensions
         /// <returns>HTML for info message</returns>
         public static IHtmlString RenderWarningMessage(this HtmlHelper html, string message)
         {
-            return RenderInfoMessage(html, message, null);
+            return RenderWarningMessage(html, message, null);
         }
 
         /// <summary>
@@ -132,16 +132,35 @@ namespace UI.Extensions
             return RenderSuccessMessage(html, message, null);
         }
 
+        /// <summary>
+        /// Renders validation summary - used when submitting forms
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="title">Title to show</param>
+        /// <returns>Validation summary HTML</returns>
         public static IHtmlString RenderValidationSummary(this HtmlHelper html, string title)
         {
             return RenderErrorMessage(html, System.Web.Mvc.Html.ValidationExtensions.ValidationSummary(html, false).ToHtmlString(), title);
         }
 
+        /// <summary>
+        /// Renders validation summary - used when submitting forms
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns>Validation summary HTML</returns>
         public static IHtmlString RenderValidationSummary(this HtmlHelper html)
         {
             return RenderErrorMessage(html, System.Web.Mvc.Html.ValidationExtensions.ValidationSummary(html, false).ToHtmlString(), null);
         }
 
+        /// <summary>
+        /// Renders error message is form submittion is not valid
+        /// Displays message ONLY if the ModelState is not valid
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="message">Message to show</param>
+        /// <param name="title">Title to show</param>
+        /// <returns>Html with error message</returns>
         public static IHtmlString RenderErrorMessage(this HtmlHelper html, string message, string title)
         {
             // render only if model is not valid
@@ -165,9 +184,52 @@ namespace UI.Extensions
             return null;
         }
 
+
+        /// <summary>
+        /// Renders error message is form submittion is not valid
+        /// Displays message ONLY if the ModelState is not valid
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="message">Message to show</param>
+        /// <returns>Html with error message</returns>
         public static IHtmlString RenderErrorMessage(this HtmlHelper html, string message)
         {
-            return RenderSuccessMessage(html, message, null);
+            return RenderErrorMessage(html, message, null);
+        }
+
+
+        /// <summary>
+        /// Renders error message regardless of whether ModelState is valid 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="message">Message to show</param>
+        /// <param name="title">Title to show</param>
+        /// <returns>Html with error message</returns>
+        public static IHtmlString RenderCustomErrorMessage(this HtmlHelper html, string message, string title)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("<div class=\"ui negative message\">");
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                sb.AppendFormat("<div class=\"header\">{0}</div>", title);
+            }
+
+            sb.AppendFormat("<p>{0}</p>", message);
+            sb.AppendLine("</div>");
+
+            return html.Raw(sb);
+        }
+
+        /// <summary>
+        /// Renders error message regardless of whether ModelState is valid 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="message">Message to show</param>
+        /// <returns>Html with error message</returns>
+        public static IHtmlString RenderCustomErrorMessage(this HtmlHelper html, string message)
+        {
+            return RenderCustomErrorMessage(html, message, null);
         }
     }
 }

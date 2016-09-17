@@ -16,8 +16,8 @@
                 <img alt="avatar" class="ui avatar tiny image" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)" src="@ImageHelper.GetTransparentImage()">
             </a>
 
-            <p class="w-margin-top-10">
-                <strong>@Model.Master.CurrentUser.FirstName @Model.Master.CurrentUser.LastName</strong>
+            <p class="w-margin-top-10 w-font-bold">
+                @Model.Master.CurrentUser.FirstName @Model.Master.CurrentUser.LastName
             </p>
 
             <p class="w-font-size-small">
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <div class="ui tab basic segment active" data-tab="first">
+        <div class="ui tab segment active" data-tab="first">
 
             <table class="ui very basic table w-table-listing _ConversationListingTable">
                 <tbody>
@@ -109,7 +109,7 @@
             </table>
         </div>
 
-        <div class="ui tab basic segment" data-tab="second">
+        <div class="ui tab segment" data-tab="second">
 
             @if (Model.Master.CurrentCompany.IsCreated)
             {
@@ -184,8 +184,8 @@
 
                 <img class="ui image tiny w-image-center" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyID)" />
 
-                <p class="w-margin-top-10">
-                    <strong>@Model.Master.CurrentCompany.CompanyName</strong>
+                <p class="w-margin-top-10 w-font-bold">
+                    @Model.Master.CurrentCompany.CompanyName
                 </p>
 
                 <a class="w-font-size-small" href="@Url.Action("EditCompany", "Auth")">

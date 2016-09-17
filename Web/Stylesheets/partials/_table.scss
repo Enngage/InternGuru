@@ -4,6 +4,7 @@
      .w-table-listing{
         tr{
             cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1) 0s;
         }
 
         tr > td:first-of-type{
@@ -16,7 +17,8 @@
 
         tr:hover{
             cursor: pointer;
-            background-color: #ffffff;
+            background-color: #e8ebeb;
+            
         }
 
         td a{

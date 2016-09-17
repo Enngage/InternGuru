@@ -1,5 +1,4 @@
 ﻿using Core.Context;
-using Core.Services;
 using System.Data.Entity;
 using PagedList.EntityFramework;
 using System.Linq;
@@ -15,6 +14,12 @@ namespace UI.Builders.Company
     public class CompanyBuilder : BaseBuilder
     {
 
+        #region Variables
+
+        private readonly int browseCompaniesPageSize = 4;
+
+        #endregion
+
         #region Constructor
 
         public CompanyBuilder(IAppContext appContext,IServicesLoader servicesLoader): base(appContext, servicesLoader) { }
@@ -25,35 +30,11 @@ namespace UI.Builders.Company
 
         public async Task<CompanyIndexView> BuildIndexViewAsync(int? page)
         {
-            int cacheMinutes = 60;
-            int pageSize = 10;
             int pageNumber = (page ?? 1);
-
-            var cacheSetup = CacheService.GetSetup<CompanyBrowseModel>(this.GetSource(), cacheMinutes);
-            cacheSetup.Dependencies = new List<string>()
-            {
-                Entity.Company.KeyCreateAny<Entity.Company>(),
-                Entity.Company.KeyDeleteAny<Entity.Company>(),
-                Entity.Company.KeyUpdateAny<Entity.Company>()
-            };
-
-            var companiesQuery = Services.CompanyService.GetAll()
-                .OrderBy(m => m.CompanyName)
-                .Select(m => new CompanyBrowseModel()
-                {
-                    City = m.City,
-                    CompanyName = m.CompanyName,
-                    Country = m.Country,
-                    ID = m.ID,
-                    InternshipCount = m.Internships.Count(),
-                    CodeName = m.CodeName
-                });
-
-            var companies = await CacheService.GetOrSetAsync(async () => await companiesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
 
             return new CompanyIndexView()
             {
-                Companies = companies
+                Companies = await GetCompaniesAsync(pageNumber, null)
             };
 
         }
@@ -116,27 +97,59 @@ namespace UI.Builders.Company
 
         #region Web API methods
 
-        public async Task<IList<CompanyBrowseModel>> GetMoreCompaniesAsync(int? page)
+        public Task<IList<CompanyBrowseModel>> GetMoreCompaniesAsync(int pageNumber, string search)
         {
-            int pageSize = 10;
+            return GetCompaniesAsync(pageNumber, search);
+        }
 
-            // TODO 
-            var list = new List<CompanyBrowseModel>();
+        #endregion
 
-            // generate random companies
-            for (int i = 0; i <= pageSize; i++)
+        #region Helper methods
+
+        private async Task<IList<CompanyBrowseModel>> GetCompaniesAsync(int pageNumber, string search)
+        {
+            int cacheMinutes = 60;
+
+            // get companies from db/cache
+            var cacheSetup = CacheService.GetSetup<CompanyBrowseModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
             {
-                list.Add(new CompanyBrowseModel()
-                {
-                    City = "city",
-                    CompanyName = "company_" + i,
-                    Country = "country",
-                    ID = i,
-                    InternshipCount = i * 3 - i * 2
-                });
-            }
+                Entity.Company.KeyCreateAny<Entity.Company>(),
+                Entity.Company.KeyDeleteAny<Entity.Company>(),
+                Entity.Company.KeyUpdateAny<Entity.Company>()
+            };
 
-            return list;
+            // cache different pages separately
+            cacheSetup.PageNumber = pageNumber;
+
+            var companiesQuery = Services.CompanyService.GetAll()
+                .OrderBy(m => m.CompanyName)
+                .Select(m => new CompanyBrowseModel()
+                {
+                    City = m.City,
+                    CompanyName = m.CompanyName,
+                    Country = m.Country,
+                    ID = m.ID,
+                    InternshipCount = m.Internships.Count(),
+                    CodeName = m.CodeName,
+                });
+
+            // search
+            if (!string.IsNullOrEmpty(search))
+            {
+                companiesQuery = companiesQuery.Where(m => m.CompanyName.Contains(search));
+
+                var companies = await companiesQuery.ToPagedListAsync(pageNumber, browseCompaniesPageSize);
+
+                return companies.ToList();
+            }
+            // not search
+            else
+            {
+                var companies = await CacheService.GetOrSetAsync(async () => await companiesQuery.ToPagedListAsync(pageNumber, browseCompaniesPageSize), cacheSetup);
+
+                return companies.ToList();
+            }
         }
 
         #endregion

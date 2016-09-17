@@ -1,4 +1,5 @@
-﻿using Core.Context;
+﻿using Common.Helpers;
+using Core.Context;
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -6,6 +7,7 @@ using UI.Base;
 using UI.Builders.Company;
 using UI.Builders.Company.Models;
 using UI.Builders.Master;
+using UI.Helpers;
 
 namespace Web.Api.Controllers
 {
@@ -25,9 +27,18 @@ namespace Web.Api.Controllers
         {
             try
             {
-                var companies = await companyBuilder.GetMoreCompaniesAsync(1);
+                var companies = await companyBuilder.GetMoreCompaniesAsync(query.PageNumber, query.Search);
 
-                System.Threading.Thread.Sleep(5000);
+                // add company URLs and banner image URLs
+                foreach (var company in companies)
+                {
+                    company.Url = this.Url.Link("Company", new { codeName = company.CodeName });
+                    company.UrlToInternships = "TODO";
+                    company.LogoImageUrl = ImageHelper.GetCompanyLogo(company.ID);
+                    company.BannerImageUrl = ImageHelper.GetCompanyBanner(company.ID);
+                    company.CountryIcon = CountryHelper.GetCountryIcon(company.Country);
+                    company.PluralInternshipsCountWord = StringHelper.GetPluralWord(company.InternshipCount, "nabídka", "nabídky", "nabídek");
+                }
 
                 return Ok(companies);
             }

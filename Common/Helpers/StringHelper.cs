@@ -7,6 +7,31 @@ namespace Common.Helpers
 {
     public static class StringHelper
     {
+        /// <summary>
+        /// Gets plural version of given word based on count
+        /// </summary>
+        /// <param name="count">Count</param>
+        /// <param name="version1">Version of the word when the count = 1</param>
+        /// <param name="version2">Version of the word when the count = 2</param>
+        /// <param name="version5">Version of the word when the count = 5</param>
+        /// <returns>True if string is valid e-mail address, false otherwise</returns>
+        public static string GetPluralWord(int count, string version1, string version2, string version5)
+        {
+            var modCount = count % 10;
+
+            if (modCount == 1)
+            {
+                return version1;
+            }
+            else if (modCount > 1 && modCount < 5)
+            {
+                return version2;
+            }
+            else
+            {
+                return version5;
+            }
+        }
 
         /// <summary>
         /// Indicates if given string is a valid e-mail address

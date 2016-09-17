@@ -9,5 +9,11 @@ namespace UI.Builders.Company.Models
         public string City { get; set; }
         public string Country { get; set; }
         public int InternshipCount { get; set; }
+        public string Url { get; set; }
+        public string BannerImageUrl { get; set; }
+        public string LogoImageUrl { get; set; }
+        public string UrlToInternships { get; set; }
+        public string CountryIcon { get; set; }
+        public string PluralInternshipsCountWord { get; set; }
     }
 }

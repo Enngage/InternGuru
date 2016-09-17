@@ -1,6 +1,7 @@
 ﻿@model UI.Builders.Company.Views.CompanyIndexView
 @using UI.Helpers;
 @using UI.Extensions;
+@using Common.Helpers;
 @{
     ViewBag.Title = "Přehled firem nabízejících stáže";
     ViewBag.Description = "";
@@ -9,38 +10,54 @@
 
 @Html.RequireScript("/scripts/views/company/browse")
 
-<div id="_CompanySegment" class="ui centered grid">
-    <div class="fifteen wide column w-body-text-left">
-        <h1>
-            @ViewBag.Title
-        </h1>
 
-        <div class="ui search">
-            <div class="ui icon input">
-                <input class="prompt" placeholder="Hledat firmu..." type="text">
-                <i class="search icon"></i>
-            </div>
-            <div class="results"></div>
-        </div>
-    </div>
+<h1>
+    @ViewBag.Title
+</h1>
 
+<div class="ui icon input">
+    <input id="_SearchCompanies" placeholder="Hledej firmu ..." type="text">
+    <i class="search icon"></i>
+</div>
+
+<div id="_CompanySegment" class="ui centered padded grid w-company-segment">
     @foreach (var company in Model.Companies)
     {
-        <div class="sixteen wide mobile eight wide tablet five wide computer column">
-            <a href="#">
-                <img class="ui image fluid" alt="@company.CompanyName logo" data-src="@ImageHelper.GetCompanyBanner(company.ID)" src="@ImageHelper.GetTransparentImage()" />
-            </a>
-            <div class="w-body-text-left">
-                <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
-                    @company.CompanyName
-                </a>
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer w-color-background-white column w-padding-none">
+            <div class="ui segment basic padded w-margin-none w-body-text-left">
+                <div class="ui items">
+                    <div class="item">
+                        <img class="ui image tiny w-company-logo" alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(company.ID)" />
+                        <div class="middle aligned content">
+                            <div class="header">
+                                <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
+                                    @company.CompanyName
+                                </a>
+                            </div>
+                            <div class="meta">
+                               @Html.Raw(CountryHelper.GetCountryIcon(company.Country)) @company.City | <a href="#">@company.InternshipCount @StringHelper.GetPluralWord(company.InternshipCount, "nabídka", "nabídky", "nabídek")</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
+                <img class="ui image w-company-browse-banner" alt="@company.CompanyName logo" data-src="@ImageHelper.GetCompanyBanner(company.ID)" src="@ImageHelper.GetTransparentImage()" />
+            </a>
         </div>
     }
 </div>
 
-<div íd="_CompanyLoading" class="ui segment basic w-segment-no-background loading">
+<div id="_CompanyLoading" class="ui segment basic w-segment-no-background loading">
     Nahrávám
+</div>
+
+<div id="_AllCompaniesLoaded" class="w-margin-top-20 w-body-text-center">
+    @Html.RenderInfoMessage("Všechny firmy byly načteny")
+</div>
+
+<div id="_NoCompaniesFound" class="w-margin-top-20 w-body-text-center">
+    @Html.RenderWarningMessage("Žádné firmy nebyly nalezeny")
 </div>
 
 

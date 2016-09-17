@@ -2012,6 +2012,8 @@
     <Content Include="Views\Auth\Partials\AddEditCompany.cshtml" />
     <Content Include="Stylesheets\partials\_table.scss" />
     <Content Include="Views\Auth\Partials\AddEditInternship.cshtml" />
+    <Content Include="Stylesheets\partials\_generic.scss" />
+    <Content Include="Stylesheets\partials\_color.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

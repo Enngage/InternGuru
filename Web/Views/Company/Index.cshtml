@@ -5,29 +5,29 @@
 @{
     ViewBag.Title = Model.Company.CompanyName;
     ViewBag.Description = "Profil společnosti " + Model.Company.CompanyName;
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+    Layout = "~/Views/Shared/Body/Dark.cshtml";
 }
 
 @Html.RequireScript("/scripts/views/company/detail")
 
-TODO: STICKY right menu
-
-<div class="ui grid">
-
-    <div class="sixteen wide column w-padding-bottom-0">
-        <img alt="" src="@ImageHelper.GetTransparentImage()" data-src="//s3-us-west-1.amazonaws.com/patreon.user/TChsNz0iBlJEQMc0mmTK7nNjQsRdCXCGQRwaR2qcmipMqhae00e1q9haQCl64Ayj_large_2.jpeg" class="ui image fluid" />
+<div class="ui container w-margin-top-20">
+    <div class="ui grid">
+        <div class="sixteen wide column w-padding-bottom-0">
+            <img alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Company.ID)" class="ui image fluid w-company-detail-banner" />
+        </div>
     </div>
+</div>
 
-    <div class="sixteen wide column w-padding-top-0">
+<div id="_CompanyMenuWrapper" class="w-company-fixed-wrapper">
+    <div class="ui container">
         <div class="ui vertical segment w-company-menu-wrapper">
-
-            <img alt="Company teaser" class="ui avatar image w-company-icon" src="@ImageHelper.GetTransparentImage()" data-src="https://s3-us-west-1.amazonaws.com/patreon.user/a57F80Y3UhrxNNn9o4w1j36CBPZY1N2YJo1kg8SP6nZ7bEEUntit4Ha7kKeKzFGZ_large_2.jpeg">
+            <img alt="Company logo" class="ui avatar image w-company-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Company.ID)">
 
             <h1>
                 @Model.Company.CompanyName
             </h1>
 
-            <div class="ui secondary pointing menu w-company-menu">
+            <div id="_CompanyRightMenu" class="ui secondary pointing menu w-company-menu">
                 <a class="item active" data-tab="first">
                     O nás
                 </a>
@@ -38,14 +38,16 @@ TODO: STICKY right menu
                     Kontakt
                 </a>
             </div>
-
             <div class="w-body-clear"></div>
-
         </div>
     </div>
+</div>
 
-    <div class="sixteen wide mobile six wide tablet five wide computer column">
-        @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
+
+<div class="ui container w-margin-top-20 w-padding-bottom-30">
+    <div class="ui grid">
+        <div class="sixteen wide mobile six wide tablet five wide computer column">
+            @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
          new UI.Builders.GoogleMaps.Views.GoogleMapView()
          {
              Zoom = 15,
@@ -54,126 +56,123 @@ TODO: STICKY right menu
              MarkerTitle = Model.Company.CompanyName
          })
 
-        <div class="ui segment w-font-light">
-            <div class="ui list w-font-size-small">
-                <div class="item">
-                    <div class="content">
-                        @Html.Raw(CountryHelper.GetCountryIcon("Czech"))
-                        <strong>Česká republika</strong>
+            <div class="ui segment w-font-light">
+                <div class="ui list w-font-size-small">
+                    <div class="item">
+                        <div class="content">
+                            @Html.Raw(CountryHelper.GetCountryIcon("Czech"))
+                            <strong>Česká republika</strong>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="marker icon"></i>
+                        <div class="content">
+                            Brno, Nové sady 20
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="laptop icon"></i>
+                        <div class="content">
+                            <a href="#">
+                                www.kentico.com
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item w-margin-top-10">
+                        <i class="idea icon"></i>
+                        <div class="content">
+                            Založeno v roce 2004
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="users icon"></i>
+                        <div class="content">
+                            100+ zaměstnanců
+                        </div>
                     </div>
                 </div>
-                <div class="item">
-                    <i class="marker icon"></i>
-                    <div class="content">
-                        Brno, Nové sady 20
-                    </div>
+
+                <hr />
+
+                <div class="w-company-social-icons">
+                    <a href="#">
+                        <i class="facebook icon"></i>
+                    </a>
+                    <a href="#">
+                        <i class="twitter icon"></i>
+                    </a>
+                    <a href="#">
+                        <i class="linkedin icon"></i>
+                    </a>
                 </div>
-                <div class="item">
-                    <i class="laptop icon"></i>
-                    <div class="content">
-                        <a href="#">
-                            www.kentico.com
-                        </a>
-                    </div>
-                </div>
-                <div class="item w-margin-top-10">
-                    <i class="idea icon"></i>
-                    <div class="content">
-                        Založeno v roce 2004
-                    </div>
-                </div>
-                <div class="item">
-                    <i class="users icon"></i>
-                    <div class="content">
-                        100+ zaměstnanců
-                    </div>
-                </div>
+
+            </div>
+        </div>
+
+        <div class="sixteen wide mobile ten wide tablet eleven wide computer column">
+            <div class="ui tab segment active" data-tab="first">
+                <h2>
+                    O nás
+                </h2>
+                <p>
+                    Jsme český startup, který provozuje vlastní CDN síť. Doručujeme obsah pro weby z Alexa top 10.000 -> úplné top světového internetu. Konkurujeme hrstce firem typu Akamai či Amazon a podle Mashable jsme mezi TOP10 CDNs worldwide. Do roka chceme být TOP5, ale k tomu potřebujeme ty nejlepší lidi.
+                </p>
             </div>
 
-            <hr />
+            <div class="ui tab segment w-margin-top-0" data-tab="second">
+                <h2>
+                    Aktuální nabídky
+                </h2>
 
-            <div class="w-company-social-icons">
-                <a href="#">
-                    <i class="facebook icon"></i>
-                </a>
-                <a href="#">
-                    <i class="twitter icon"></i>
-                </a>
-                <a href="#">
-                    <i class="linkedin icon"></i>
-                </a>
+                <table class="ui very basic table">
+                    <tbody>
+                        <tr>
+                            <td class="w-font-size-large">
+                                <a href="#">
+                                    Skype engineer <span class="w-font-size-small w-font-light">(30 000 CZK / měsíc)</span>
+                                </a>
+                            </td>
+                            <td class="collapsing">
+                                <a href="@Url.Action("EditInternship", "Auth")">
+                                    <div class="ui button primary">
+                                        Odpovědět
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-font-size-large">
+                                <a href="#">
+                                    CTO
+                                </a>
+                            </td>
+                            <td class="collapsing">
+                                <a href="@Url.Action("EditInternship", "Auth")">
+                                    <div class="ui button primary">
+                                        Odpovědět
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
 
+            <div class="ui tab segment w-margin-top-0" data-tab="third">
+                <h2>
+                    Napiš nám
+                </h2>
+
+                <form class="ui reply form">
+                    <div class="field">
+                        <textarea></textarea>
+                    </div>
+                    <div class="ui blue labeled submit icon button">
+                        <i class="icon edit"></i> Odeslat
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-
-    <div class="sixteen wide mobile ten wide tablet eleven wide computer column">
-        <div class="ui tab segment active" data-tab="first">
-
-            <h2>
-                O nás
-            </h2>
-
-            <p>
-                Jsme český startup, který provozuje vlastní CDN síť. Doručujeme obsah pro weby z Alexa top 10.000 -> úplné top světového internetu. Konkurujeme hrstce firem typu Akamai či Amazon a podle Mashable jsme mezi TOP10 CDNs worldwide. Do roka chceme být TOP5, ale k tomu potřebujeme ty nejlepší lidi.
-            </p>
-        </div>
-
-        <div class="ui tab segment w-margin-top-0" data-tab="second">
-            <h2>
-                Aktuální nabídky
-            </h2>
-
-            <table class="ui very basic table">
-                <tbody>
-                    <tr>
-                        <td class="w-font-size-large">
-                            <a href="#">
-                                Skype engineer <span class="w-font-size-small w-font-light">(30 000 CZK / měsíc)</span>
-                            </a>
-                        </td>
-                        <td class="collapsing">
-                            <a href="@Url.Action("EditInternship", "Auth")">
-                                <div class="ui button primary">
-                                    Odpovědět
-                                </div>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="w-font-size-large">
-                            <a href="#">
-                                CTO
-                            </a>
-                        </td>
-                        <td class="collapsing">
-                            <a href="@Url.Action("EditInternship", "Auth")">
-                                <div class="ui button primary">
-                                    Odpovědět
-                                </div>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-        <div class="ui tab segment w-margin-top-0" data-tab="third">
-            <h2>
-                Napiš nám
-            </h2>
-
-            <form class="ui reply form">
-                <div class="field">
-                    <textarea></textarea>
-                </div>
-                <div class="ui blue labeled submit icon button">
-                    <i class="icon edit"></i> Odeslat
-                </div>
-            </form>
-
-        </div>
-
     </div>
 </div>

@@ -8,6 +8,9 @@ using UI.Base;
 using Core.Context;
 using UI.Builders.Master;
 using UI.Builders.Master.Views;
+using Entity;
+using System.Linq;
+using System.Data.Entity;
 
 namespace Web.Controllers
 {
@@ -15,6 +18,34 @@ namespace Web.Controllers
     {
 
         public HomeController(IAppContext appContext, MasterBuilder masterBuilder) : base (appContext, masterBuilder) { }
+
+        public async Task<ActionResult> Test()
+        {
+            var companyService = Common.Loc.KernelProvider.Kernel.Get<ICompanyService>();
+            var masterBuilder = Common.Loc.KernelProvider.Kernel.Get<MasterBuilder>();
+            var companyCategoryService = Common.Loc.KernelProvider.Kernel.Get<ICompanyCategoryService>();
+
+            var category = await companyCategoryService.GetAll().FirstOrDefaultAsync();
+
+            int companiesToCreate = 30;
+
+            for(int i = 0; i < companiesToCreate; i++)
+            {
+                var company = new Company()
+                {
+                    ApplicationUserId = masterBuilder.CurrentUser.Id,
+                    CompanyName = "Company_" + i,
+                    Lat = 0,
+                    LongDescription = "FE",
+                    Lng = 0,
+                    CompanyCategoryID = category.ID
+                };
+
+                await companyService.InsertAsync(company);
+            }
+
+            return View();
+        }
 
         public ActionResult Index()
         {
