@@ -23,17 +23,7 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public AuthBuilder(
-            IAppContext appContext,
-            IServicesLoader servicesLoader
-            )
-            : base
-            (
-                appContext,
-                servicesLoader
-            )
-        {
-        }
+        public AuthBuilder(IAppContext appContext, IServicesLoader servicesLoader): base(appContext, servicesLoader){}
 
         #endregion
 
@@ -45,7 +35,6 @@ namespace UI.Builders.Company
             {
                 return null;
             }
-
 
             var internshipsQuery = this.Services.InternshipService.GetAll()
                 .Where(m => m.ApplicationUserId == this.CurrentUser.Id)
@@ -300,6 +289,8 @@ namespace UI.Builders.Company
                     MaxDurationInMonths = m.MaxDurationInMonths,
                     MaxDurationInWeeks = m.MaxDurationInWeeks,
                     IsActive = m.IsActive ? "on" : null,
+                    HasFlexibleHours = m.HasFlexibleHours ? "on" : null,
+                    WorkingHours = m.WorkingHours
                 });
 
             var internship = await internshipQuery.FirstOrDefaultAsync();
@@ -640,6 +631,8 @@ namespace UI.Builders.Company
                     MaxDurationType = form.MaxDurationType,
                     IsActive = form.GetIsActive(),
                     ApplicationUserId = this.CurrentUser.Id,
+                    HasFlexibleHours = form.GetHasFlexibleHours(),
+                    WorkingHours = form.WorkingHours
                 };
 
                 await Services.InternshipService.InsertAsync(internship);
@@ -706,6 +699,8 @@ namespace UI.Builders.Company
                     MaxDurationType = form.MaxDurationType,
                     IsActive = form.GetIsActive(),
                     ApplicationUserId = this.CurrentUser.Id,
+                    HasFlexibleHours = form.GetHasFlexibleHours(),
+                    WorkingHours = form.WorkingHours
                 };
 
                 await Services.InternshipService.UpdateAsync(internship);

@@ -10,7 +10,7 @@ namespace Entity
     {
 
         public int ID { get; set; }
-        [MaxLength(150)]
+        [MaxLength(100)]
         [Index]
         public string CompanyName { get; set; }
         [Index]
@@ -40,6 +40,7 @@ namespace Entity
         public int CompanyCategoryID { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
+
 
         #region Virtual properties
 

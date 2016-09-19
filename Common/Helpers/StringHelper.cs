@@ -100,5 +100,38 @@ namespace Common.Helpers
             }
             return null;
         }
+
+        /// <summary>
+        /// Formats number. 
+        /// Returns "9,593,938" instead of "9593938"
+        /// </summary>
+        /// <param name="number">Number to format</param>
+        /// <returns>Formatted number as string</returns>
+        public static string FormatNumber(long number)
+        {
+            return number.ToString("#,##0");
+        }
+
+        /// <summary>
+        /// Formats number. 
+        /// Returns "9,593,938" instead of "9593938"
+        /// </summary>
+        /// <param name="number">Number to format</param>
+        /// <returns>Formatted number as string</returns>
+        public static string FormatNumber(double number)
+        {
+            return FormatNumber((long)number);
+        }
+
+        /// <summary>
+        /// Formats number. 
+        /// Returns "9,593,938" instead of "9593938"
+        /// </summary>
+        /// <param name="number">Number to format</param>
+        /// <returns>Formatted number as string</returns>
+        public static string FormatNumber(int number)
+        {
+            return FormatNumber((double)number);
+        }
     }
 }

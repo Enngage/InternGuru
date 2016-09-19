@@ -48,46 +48,63 @@
     <div class="ui grid">
         <div class="sixteen wide mobile six wide tablet five wide computer column">
             @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
-         new UI.Builders.GoogleMaps.Views.GoogleMapView()
-         {
-             Zoom = 15,
-             Lat = 47.481501,
-             Lng = -122.286666,
-             MarkerTitle = Model.Company.CompanyName
-         })
+            new UI.Builders.GoogleMaps.Views.GoogleMapView()
+            {
+                Zoom = 15,
+                Lat = Model.Company.Lat,
+                Lng = Model.Company.Lng,
+                MarkerTitle = Model.Company.CompanyName
+            })
 
             <div class="ui segment w-font-light">
                 <div class="ui list w-font-size-small">
                     <div class="item">
                         <div class="content">
-                            @Html.Raw(CountryHelper.GetCountryIcon("Czech"))
-                            <strong>Česká republika</strong>
+                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Company.Country))
+                            @{
+                                var country = CountryHelper.GetCountry(Model.Company.Country);
+                                if (country != null)
+                                {
+                                    <strong>@country.CountryName</strong>
+                                }
+                            }
                         </div>
                     </div>
                     <div class="item">
                         <i class="marker icon"></i>
                         <div class="content">
-                            Brno, Nové sady 20
+                            @Model.Company.City, @Model.Company.Address
                         </div>
                     </div>
                     <div class="item">
-                        <i class="laptop icon"></i>
-                        <div class="content">
-                            <a href="#">
-                                www.kentico.com
-                            </a>
-                        </div>
+                        @if (!string.IsNullOrEmpty(Model.Company.Web))
+                        {
+                            <i class="laptop icon"></i>
+                            <div class="content">
+                                <a href="@Model.Company.Web">
+                                    @Model.Company.Web
+                                </a>
+                            </div>
+                        }
                     </div>
                     <div class="item w-margin-top-10">
                         <i class="idea icon"></i>
                         <div class="content">
-                            Založeno v roce 2004
+                            Založeno v roce @Model.Company.YearFounded
                         </div>
                     </div>
                     <div class="item">
                         <i class="users icon"></i>
                         <div class="content">
-                            100+ zaměstnanců
+                            @{
+                                // get display name of company size
+                                var companySizeDisplay = InternshipHelper.GetAllowedCompanySizes().Where(m => m.Value == Model.Company.CompanySize.ToString()).FirstOrDefault();
+
+                                if (companySizeDisplay != null)
+                                {
+                                    <span>@companySizeDisplay.Name zaměstnanců</span>
+                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -95,15 +112,24 @@
                 <hr />
 
                 <div class="w-company-social-icons">
-                    <a href="#">
-                        <i class="facebook icon"></i>
-                    </a>
-                    <a href="#">
-                        <i class="twitter icon"></i>
-                    </a>
-                    <a href="#">
-                        <i class="linkedin icon"></i>
-                    </a>
+                    @if (!string.IsNullOrEmpty(Model.Company.Facebook))
+                    {
+                        <a href="@Model.Company.Facebook">
+                            <i class="facebook icon"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Company.Twitter))
+                    {
+                        <a href="@Model.Company.Twitter">
+                            <i class="twitter icon"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Company.LinkedIn))
+                    {
+                        <a href="@Model.Company.LinkedIn">
+                            <i class="linkedin icon"></i>
+                        </a>
+                    }
                 </div>
 
             </div>
@@ -115,7 +141,7 @@
                     O nás
                 </h2>
                 <p>
-                    Jsme český startup, který provozuje vlastní CDN síť. Doručujeme obsah pro weby z Alexa top 10.000 -> úplné top světového internetu. Konkurujeme hrstce firem typu Akamai či Amazon a podle Mashable jsme mezi TOP10 CDNs worldwide. Do roka chceme být TOP5, ale k tomu potřebujeme ty nejlepší lidi.
+                    @Html.Raw(Model.Company.LongDescription)
                 </p>
             </div>
 
@@ -126,34 +152,28 @@
 
                 <table class="ui very basic table">
                     <tbody>
-                        <tr>
-                            <td class="w-font-size-large">
-                                <a href="#">
-                                    Skype engineer <span class="w-font-size-small w-font-light">(30 000 CZK / měsíc)</span>
-                                </a>
-                            </td>
-                            <td class="collapsing">
-                                <a href="@Url.Action("EditInternship", "Auth")">
-                                    <div class="ui button primary">
-                                        Odpovědět
-                                    </div>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="w-font-size-large">
-                                <a href="#">
-                                    CTO
-                                </a>
-                            </td>
-                            <td class="collapsing">
-                                <a href="@Url.Action("EditInternship", "Auth")">
-                                    <div class="ui button primary">
-                                        Odpovědět
-                                    </div>
-                                </a>
-                            </td>
-                        </tr>
+                        @foreach (var internship in Model.Company.Internships)
+                        {
+                            <tr>
+                                <td class="w-font-size-large">
+                                    <a href="#">
+                                        @internship.Title <span class="w-font-size-small w-font-light">
+                                            @if (internship.IsPaid)
+                                            {
+                                                <span>(@StringHelper.FormatNumber(internship.Amount) @internship.Currency / @internship.AmountType)</span>
+                                            }
+                                        </span>
+                                    </a>
+                                </td>
+                                <td class="collapsing">
+                                    <a href="@Url.Action("AnswerTODO", "Auth")">
+                                        <div class="ui button primary">
+                                            Odpovědět
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
 
@@ -164,14 +184,20 @@
                     Napiš nám
                 </h2>
 
-                <form class="ui reply form">
-                    <div class="field">
-                        <textarea></textarea>
+                @using (Html.BeginForm("Index", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.RenderFormValidationResult(Model.ContactUsForm.FormResult.IsSuccess)
+
+                    <div class="ui reply form">
+                        <div class="field">
+                            <textarea name="Message" @Model.ContactUsForm.Message></textarea>
+                        </div>
+
+                        <button class="ui button submit primary" type="submit">
+                           Odeslat
+                        </button>
                     </div>
-                    <div class="ui blue labeled submit icon button">
-                        <i class="icon edit"></i> Odeslat
-                    </div>
-                </form>
+                }
             </div>
         </div>
     </div>

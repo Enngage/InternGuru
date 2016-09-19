@@ -16,25 +16,25 @@ namespace Common.Helpers
             {
               new CountryModel()
               {
-                  CoutryCodeName = "Czech",
+                  CoutryCodeName = "CZ",
                   CountryName = "Česká republika",
                   FlagIcon = "cz"
               },
               new CountryModel()
               {
-                  CoutryCodeName = "Slovakia",
+                  CoutryCodeName = "SK",
                   CountryName = "Slovensko",
                   FlagIcon = "sk"
               },
               new CountryModel()
               {
-                  CoutryCodeName = "Germany",
+                  CoutryCodeName = "DE",
                   CountryName = "Germany",
                   FlagIcon = "de"
               },
               new CountryModel()
               {
-                  CoutryCodeName = "UK",
+                  CoutryCodeName = "GB",
                   CountryName = "United Kingdom",
                   FlagIcon = "gb"
               }

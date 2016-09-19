@@ -46,7 +46,7 @@
 
             <form id="_InternshipForm" class="ui form">
 
-                <div class="ui segment orange secondary inverted">
+                <div class="ui segment blue secondary inverted">
 
                     <div class="field">
                         @if (Model.GetIsActive())
@@ -71,6 +71,7 @@
                     <label>Název pozice</label>
                     <input name="Title" placeholder="" type="text" value="@Model.Title">
                 </div>
+
                 <div class="field required">
                     <label>Popis pozice</label>
                     <textarea id="_Description" name="Description">@Model.Description</textarea>
@@ -124,6 +125,29 @@
 
                         </div>
                     </div>
+                </div>
+
+                <div class="field">
+                    <label>Pracovní doba</label>
+                    @if (Model.GetHasFlexibleHours())
+                    {
+                        <div id="_HasFlexibleHours" class="ui checked checkbox">
+                            <input name="HasFlexibleHours" class="hidden" checked="" type="checkbox" tabindex="0">
+                            <label>Flexibilní pracovní doba</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="_HasFlexibleHours" class="ui checkbox">
+                            <input name="HasFlexibleHours" class="hidden" type="checkbox" tabindex="0">
+                            <label>Flexibilní pracovní doba</label>
+                        </div>
+                    }
+                </div>
+
+                <div id="_WorkingHoursField" class="field">
+                    <label>Pracovní doba (slovy)</label>
+                    <input name="WorkingHours" placeholder="Např. denně 08:00 - 15:00" type="text" value="@Model.WorkingHours">
                 </div>
 
                 <div class="field">

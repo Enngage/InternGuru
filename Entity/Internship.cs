@@ -18,12 +18,15 @@ namespace Entity
         public string ApplicationUserId { get; set; }
 
         [Required]
+        [MaxLength(250)]
         public string Title { get; set; }
         [Required]
         public string Description { get; set; }
         [Required]
+        [MaxLength(100)]
         public string City { get; set; }
         [Required]
+        [MaxLength(100)]
         public string Country { get; set; }
         [Required]
         public DateTime Created { get; set; }
@@ -32,7 +35,9 @@ namespace Entity
         [Required]
         public bool IsPaid { get; set; }
         public double Amount { get; set; }
+        [MaxLength(50)]
         public string Currency { get; set; }
+        [MaxLength(50)]
         public string AmountType { get; set; }
         [Required]
         public string MinDurationType { get; set; }
@@ -42,6 +47,7 @@ namespace Entity
         public int MinDurationInDays { get; set; }
         [Required]
         public int MinDurationInWeeks { get; set; }
+        [Required]
         public string MaxDurationType { get; set; }
         [Required]
         public int MaxDurationInMonths { get; set; }
@@ -52,7 +58,9 @@ namespace Entity
         [Required]
         public DateTime StartDate { get; set; }
         public bool IsActive { get; set; }
-
+        public bool HasFlexibleHours { get; set; }
+        [MaxLength(250)]
+        public string WorkingHours { get; set; }
 
         #region Virtual
 

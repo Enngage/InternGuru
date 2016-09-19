@@ -21,10 +21,32 @@
             }
         });
 
+        // checkbox events
+        $('#_HasFlexibleHours').checkbox({
+            onChecked: function () {
+                // show field
+                HideWorkingHoursField();
+            },
+            onUnchecked: function () {
+                // hide field
+                ShowWorkingHoursField();
+            }
+        });
+
         function InitializeCkEditor() {
             CKEDITOR.replace('_Description', {
                 customConfig: '/scripts/addons/ckeditor/simpleEditorConfig.js'
             });
+        }
+
+        function ShowWorkingHoursField() {
+            var fieldID = "_WorkingHoursField";
+            $("#" + fieldID).removeClass("w-body-hide");
+        }
+
+        function HideWorkingHoursField() {
+            var fieldID = "_WorkingHoursField";
+            $("#" + fieldID).addClass("w-body-hide");
         }
 
         function ShowAmountField() {

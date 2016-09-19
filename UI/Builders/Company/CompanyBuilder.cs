@@ -8,6 +8,7 @@ using UI.Builders.Company.Models;
 using UI.Builders.Company.Views;
 using System.Threading.Tasks;
 using UI.Builders.Services;
+using UI.Builders.Company.Forms;
 
 namespace UI.Builders.Company
 {
@@ -28,11 +29,11 @@ namespace UI.Builders.Company
 
         #region Actions
 
-        public async Task<CompanyIndexView> BuildIndexViewAsync(int? page)
+        public async Task<CompanyBrowseView> BuildBrowseViewAsync(int? page)
         {
             int pageNumber = (page ?? 1);
 
-            return new CompanyIndexView()
+            return new CompanyBrowseView()
             {
                 Companies = await GetCompaniesAsync(pageNumber, null)
             };
@@ -43,11 +44,19 @@ namespace UI.Builders.Company
         {
             int cacheMinutes = 60;
 
+            var form = new CompanyContactUsForm()
+            {
+                Message = string.Empty
+            };
+
             var cacheSetup = CacheService.GetSetup<CompanyDetailModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 Entity.Company.KeyUpdateCodeName<Entity.Company>(codeName),
                 Entity.Company.KeyDeleteCodeName<Entity.Company>(codeName),
+                Entity.Internship.KeyUpdateAny<Entity.Internship>(),
+                Entity.Internship.KeyCreateAny<Entity.Internship>(),
+                Entity.Internship.KeyDeleteAny<Entity.Internship>()
             };
 
             var companyQuery = Services.CompanyService.GetAll()
@@ -73,10 +82,15 @@ namespace UI.Builders.Company
                     Country = m.Country,
                     ID = m.ID,
                     Internships = m.Internships
+                        .Where(v => v.IsActive == true)
                         .Select(s => new CompanyDetailInternshipModel()
                         {
                             ID = s.ID,
-                            Title = s.Title
+                            Title = s.Title,
+                            Amount = s.Amount,
+                            AmountType = s.AmountType,
+                            IsPaid = s.IsPaid,
+                            Currency = s.Currency
                         })
                 });
 
@@ -90,6 +104,7 @@ namespace UI.Builders.Company
             return new CompanyDetailView()
             {
                 Company = company,
+                ContactUsForm = form,
             };
         }
 

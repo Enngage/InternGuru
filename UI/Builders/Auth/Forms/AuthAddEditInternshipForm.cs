@@ -52,6 +52,9 @@ namespace UI.Builders.Auth.Forms
         [Required(ErrorMessage = "Zvolte kategorii stáže")]
         public int InternshipCategoryID { get; set; }
 
+        public string HasFlexibleHours { get; set; }
+        public string WorkingHours { get; set; }
+
         public IEnumerable<CountryModel> Countries { get; set; }
         public IEnumerable<string> Currencies { get; set; }
         public IEnumerable<string> AmountTypes { get; set; }
@@ -77,6 +80,16 @@ namespace UI.Builders.Auth.Forms
             {
                 return ID != 0;
             }
+        }
+
+        public bool GetHasFlexibleHours()
+        {
+            if (String.IsNullOrEmpty(HasFlexibleHours))
+            {
+                return false;
+            }
+
+            return HasFlexibleHours.Equals("on", StringComparison.OrdinalIgnoreCase);
         }
 
         public bool GetIsPaid()

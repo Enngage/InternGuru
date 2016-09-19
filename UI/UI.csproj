@@ -147,12 +147,13 @@
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
     <Compile Include="Builders\Company\CompanyBuilder.cs" />
+    <Compile Include="Builders\Company\Forms\CompanyContactUsForm.cs" />
     <Compile Include="Builders\Company\Models\CompanyDetailInternshipModel.cs" />
     <Compile Include="Builders\Company\Models\CompanyDetailModel.cs" />
     <Compile Include="Builders\Company\Models\GetMoreCompaniesModel.cs" />
     <Compile Include="Builders\Company\Models\CompanyBrowseModel.cs" />
     <Compile Include="Builders\Company\Views\CompanyDetailView.cs" />
-    <Compile Include="Builders\Company\Views\CompanyIndexView.cs" />
+    <Compile Include="Builders\Company\Views\CompanyBrowseView.cs" />
     <Compile Include="Builders\GoogleMaps\Views\GoogleMapView.cs" />
     <Compile Include="Builders\Internship\InternshipBuilder.cs" />
     <Compile Include="Builders\Internship\Models\InternshipBrowseModel.cs" />

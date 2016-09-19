@@ -21,7 +21,7 @@ namespace Web.Controllers
 
         public async Task<ActionResult> Index(int? page)
         {
-            var model = await companyBuilder.BuildIndexViewAsync(page);
+            var model = await companyBuilder.BuildBrowseViewAsync(page);
 
             return View(model);
         }
