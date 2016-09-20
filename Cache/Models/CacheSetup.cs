@@ -23,6 +23,11 @@ namespace Cache
         public int ObjectID { get; set; }
 
         /// <summary>
+        /// Identifies object ID using string of item stored in cache
+        /// </summary>
+        public string ObjectStringID { get; set; }
+
+        /// <summary>
         /// Identifies sort under which cache item is stored
         /// </summary>
         public string Sort { get; set; }
@@ -107,6 +112,11 @@ namespace Cache
             fullKey += string.Format(".cacheFor[{0}]", this.cacheMinutes);
 
             fullKey += string.Format(".class[{0}]", this.TypeName);
+
+            if (!string.IsNullOrEmpty(ObjectStringID))
+            {
+                fullKey += string.Format(".sid[{0}]", this.ObjectStringID);
+            }
 
             if (ObjectID > 0)
             {

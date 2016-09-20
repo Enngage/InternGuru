@@ -11,6 +11,7 @@ namespace Cache
         string CacheKey { get; }
         IList<String> Dependencies { get; set; }
         int ObjectID { get; set; }
+        string ObjectStringID { get; set; }
         int PageNumber { get; set; }
         int PageSize { get; set; }
         string Sort { get; set; }

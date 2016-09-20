@@ -21,6 +21,8 @@ namespace Entity
         [MaxLength(250)]
         public string Title { get; set; }
         [Required]
+        public string Requirements { get; set; }
+        [Required]
         public string Description { get; set; }
         [Required]
         [MaxLength(100)]

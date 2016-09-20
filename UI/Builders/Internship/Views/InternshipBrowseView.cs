@@ -8,5 +8,6 @@ namespace UI.Builders.Internship.Views
     public class InternshipBrowseView : MasterView
     {
         public IEnumerable<InternshipBrowseModel> Internships { get; set; }
+        public IEnumerable<InternshipCategoryModel> InternshipCategories { get; set; }
     }
 }

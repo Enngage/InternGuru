@@ -19,9 +19,9 @@ namespace Web.Controllers
         #region Actions
 
 
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(int? page, string category, string search, string city)
         {
-            var model = await internshipBuilder.BuildBrowseViewAsync(page);
+            var model = await internshipBuilder.BuildBrowseViewAsync(page, category, search, city);
 
             return View(model);
         }

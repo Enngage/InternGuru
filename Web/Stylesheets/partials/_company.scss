@@ -2,6 +2,7 @@
 
 #w-body-wrapper {
     .w-company-fixed-wrapper{
+        transition: all 0.5s ease;
         width: 100%;
         top: 54px!important; /* override the Top set by semantic-ui*/
 
@@ -9,6 +10,10 @@
             /* Fix top in mobile devices because the main top nav is missing*/
             top:0!important; /* override the Top set by semantic-ui*/
         }
+    }
+
+    .w-company-fixed-wrapper.fixed .segment{
+         box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
     }
 
     /* company menu */

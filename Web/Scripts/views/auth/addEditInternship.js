@@ -37,6 +37,10 @@
             CKEDITOR.replace('_Description', {
                 customConfig: '/scripts/addons/ckeditor/simpleEditorConfig.js'
             });
+
+            CKEDITOR.replace('_Requirements', {
+                customConfig: '/scripts/addons/ckeditor/simpleEditorConfig.js'
+            });
         }
 
         function ShowWorkingHoursField() {

@@ -15,10 +15,14 @@ namespace UI.Builders.Auth.Forms
         public int ID { get; set; }
 
         [Required(ErrorMessage = "Vyplňte název pozice")]
+        [MaxLength(60, ErrorMessage = "Maximální délka názvu stáže je 60 znaků")]
         public string Title { get; set; }
+        [AllowHtml]
+        [Required(ErrorMessage = "Vyplňte požadavky stáže")]
+        public string Requirements { get; set; }
 
         [AllowHtml]
-        [Required(ErrorMessage = "Vyplňte popis pozice")]
+        [Required(ErrorMessage = "Vyplňte popis stáže")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Zadejte město výkonu stáže")]

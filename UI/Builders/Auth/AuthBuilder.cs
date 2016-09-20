@@ -290,7 +290,8 @@ namespace UI.Builders.Company
                     MaxDurationInWeeks = m.MaxDurationInWeeks,
                     IsActive = m.IsActive ? "on" : null,
                     HasFlexibleHours = m.HasFlexibleHours ? "on" : null,
-                    WorkingHours = m.WorkingHours
+                    WorkingHours = m.WorkingHours,
+                    Requirements = m.Requirements
                 });
 
             var internship = await internshipQuery.FirstOrDefaultAsync();
@@ -632,7 +633,8 @@ namespace UI.Builders.Company
                     IsActive = form.GetIsActive(),
                     ApplicationUserId = this.CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
-                    WorkingHours = form.WorkingHours
+                    WorkingHours = form.WorkingHours,
+                    Requirements = form.Requirements
                 };
 
                 await Services.InternshipService.InsertAsync(internship);
@@ -700,7 +702,8 @@ namespace UI.Builders.Company
                     IsActive = form.GetIsActive(),
                     ApplicationUserId = this.CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
-                    WorkingHours = form.WorkingHours
+                    WorkingHours = form.WorkingHours,
+                    Requirements = form.Requirements
                 };
 
                 await Services.InternshipService.UpdateAsync(internship);

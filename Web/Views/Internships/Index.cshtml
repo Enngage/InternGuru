@@ -4,110 +4,112 @@
 @using UI.Extensions;
 @{
     ViewBag.Title = "Nabídka stáží";
-    ViewBag.Description = "Najsi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu";
+    ViewBag.Description = "Najsi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+
+    var currentCategory = ViewContext.RouteData.Values["category"] != null ? ViewContext.RouteData.Values["category"].ToString() : string.Empty;
+    var searchVal = HttpContext.Current.Request.QueryString["search"] ?? string.Empty;
+    var cityVal = HttpContext.Current.Request.QueryString["city"] ?? string.Empty;
 }
 
 @Html.RequireScript("/scripts/views/internship/browseInternships")
 
-<div class="ui grid">
-    <div class="sixteen wide column">
-        <h1>
-            @ViewBag.Title
-        </h1>
-    </div>
+@using (Html.BeginForm("Index", "Internships", FormMethod.Get, null))
+{
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <h1>
+                @ViewBag.Title
+            </h1>
+        </div>
 
-    <div class="eight wide mobile seven wide tablet seven wide computer column">
-        <div class="ui fluid icon input">
-            <i class="search icon"></i>
-            <input name="Search" placeholder="Klíčové slovo ..." type="text">
-        </div>
-    </div>
-    <div class="eight wide mobile seven wide tablet seven wide computer column">
-        <div class="ui fluid icon input">
-            <i class="world icon"></i>
-            <input name="City" placeholder="Město" type="text">
-        </div>
-    </div>
-    <div class="sixteen wide mobile two wide tablet two wide computer column">
-        <a href="#">
-            <div class="ui button primary">
-                Hledat
+        <div class="eight wide mobile seven wide tablet seven wide computer column">
+
+            <div class="ui fluid icon input">
+                <i class="search icon"></i>
+                <input name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal">
             </div>
-        </a>
-    </div>
+        </div>
+        <div class="eight wide mobile seven wide tablet seven wide computer column">
+            <div class="ui fluid icon input">
+                <i class="world icon"></i>
+                <input name="city" placeholder="Město" type="text" value="@cityVal">
+            </div>
+        </div>
+        <div class="sixteen wide mobile two wide tablet two wide computer column">
+            <button class="ui button submit primary" type="submit">
+                Odeslat
+            </button>
+        </div>
 
-    <div class="five wide tablet only four wide computer only column">
-        <div class="ui secondary vertical pointing menu w-internship-category-menu ">
-            <a class="active item">
-                Home
-            </a>
-            <a class="item">
-                Messages
-            </a>
-            <a class="item">
-                Friends
-            </a>
+        <div class="five wide tablet only four wide computer only column">
+            <div class="ui secondary vertical pointing menu w-internship-category-menu ">
+                @if (string.IsNullOrEmpty(currentCategory))
+                {
+                    <a href="@Url.Action("Index", new { category = "" })" class="active item">
+                        Všechny nabídky
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", new { category = "" })" class="item">
+                        Všechny nabídky
+                    </a>
+                }
+
+                @foreach (var category in Model.InternshipCategories)
+                {
+                    if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <a href="@Url.Action("Index", new { category = category.CodeName })" class="active item">
+                            @category.CategoryName
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", new { category = category.CodeName })" class="item">
+                            @category.CategoryName
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+        <div class="sixteen wide mobile eleven wide tablet twelve wide computer column">
+            <div class="ui segment">
+
+                @if (Model.Internships.Count() == 0)
+                {
+                    @Html.RenderWarningMessage("Žádné stáže nebyly nalezeny")
+                }
+
+                <table class="ui very basic table w-table-listing">
+                    <tbody>
+                        @foreach (var internship in Model.Internships)
+                        {
+                            <tr data-link="/Companies">
+                                <td class="collapsing">
+                                    <img class="ui tiny image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyID)" />
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        @internship.Title
+                                    </a>
+                                    <span class="w-font-size-small w-font-light">(@StringHelper.FormatNumber(internship.Amount) @internship.Currency / @internship.AmountType)</span>
+                                </td>
+                                <td>
+                                    @Html.Raw(CountryHelper.GetCountryIcon(internship.Country)) @internship.City
+                                </td>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    od @internship.StartDate.ToString("dd/MM/yyyy")
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <div class="sixteen wide mobile eleven wide tablet twelve wide computer column">
-        <table class="ui very basic table w-table-listing">
-            <tbody>
-                <tr data-link="/Companies">
-                    <td class="collapsing">
-                        <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logo-auta-online1146010588880.png" />
-                    </td>
-                    <td>
-                        <a href="#">
-                            Project manager
-                        </a>
-                        <span class="w-font-size-small w-font-light">(15 000Kč / Měsíc)</span>
-                    </td>
-                    <td class="collapsing">
-                       @Html.Raw(CountryHelper.GetCountryIcon("UK")) London
-                    </td>
-                    <td class="collapsing w-body-text-right w-mobile-left">
-                        3 měsíce
-                    </td>
-                </tr>
-                <tr data-link="/Companies">
-                    <td class="collapsing">
-                        <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logiscool-logo-print-under-eng147193918944.png" />
-                    </td>
-                    <td>
-                        <a href="#">
-                            CTO
-                        </a>
-                        <span class="w-font-size-small w-font-light">($5000 / Měsíc)</span>
-                    </td>
-                    <td class="collapsing">
-                        @Html.Raw(CountryHelper.GetCountryIcon("Germany")) Vienna
-                    </td>
-                    <td class="collapsing w-body-text-right w-mobile-left">
-                        1 měsíc
-                    </td>
-                </tr>
-                <tr data-link="/Companies">
-                    <td class="collapsing">
-                        <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logo-long144102230989.png" />
-                    </td>
-                    <td>
-                        <a href="#">
-                            Javascript developer
-                        </a>
-                        <span class="w-font-size-small w-font-light">(3 000Kč / Měsíc)</span>
-                    </td>
-                    <td class="collapsing">
-                        @Html.Raw(CountryHelper.GetCountryIcon("Czech")) Brno
-                    </td>
-                    <td class="collapsing w-body-text-right w-mobile-left">
-                       2 měsíce
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+}
 
 
 
