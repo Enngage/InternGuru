@@ -28,23 +28,6 @@
             </p>
         </div>
 
-
-        @if (Model.Master.CurrentCompany.IsCreated)
-            {
-            <div class="ui segment padded w-body-text-center">
-
-                <img class="ui image tiny w-image-center" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyID)" />
-
-                <p class="w-margin-top-10 w-font-bold">
-                    @Model.Master.CurrentCompany.CompanyName
-                </p>
-
-                <a class="w-font-size-small" href="@Url.Action("EditCompany", "Auth")">
-                    Upravit firmu
-                </a>
-            </div>
-        }
-
     </div>
     <div class="sixteen wide mobile ten wide tablet nine wide computer column">
 
@@ -195,5 +178,21 @@
             }
 
         </div>
+
+        @if (Model.Master.CurrentCompany.IsCreated)
+            {
+            <div class="ui segment padded w-body-text-center">
+
+                <img class="ui image tiny w-image-center" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyID)" />
+
+                <p class="w-margin-top-10 w-font-bold">
+                    @Model.Master.CurrentCompany.CompanyName
+                </p>
+
+                <a class="w-font-size-small" href="@Url.Action("EditCompany", "Auth")">
+                    Upravit firmu
+                </a>
+            </div>
+        }
     </div>
 </div>
