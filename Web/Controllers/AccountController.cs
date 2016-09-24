@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using System.Web;
-using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -11,7 +10,6 @@ using Core.Context;
 using UI.Builders.Master;
 using UI.Builders.Account;
 using UI.Builders.Account.Forms;
-using System.Security.Claims;
 
 namespace Web.Controllers
 {
@@ -59,7 +57,7 @@ namespace Web.Controllers
             var model = accountBuilder.BuildLoginView();
 
             // set submitted values
-            model.LoginForm.Email = form.Email;
+            model.LoginForm.UserName = form.UserName;
 
             if (!ModelState.IsValid)
             {
@@ -67,15 +65,19 @@ namespace Web.Controllers
             }
 
             // Prevent users with not confirmed e-mail address from logging in
-            var userid = userManager.FindByEmail(form.Email).Id;
-            if (!userManager.IsEmailConfirmed(userid))
+            var user = userManager.FindByName(form.UserName);
+
+            if (user != null)
             {
-                return View("EmailNotConfirmed");
+                if (!userManager.IsEmailConfirmed(user.Id))
+                {
+                    return View("EmailNotConfirmed");
+                }
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await signInManager.PasswordSignInAsync(form.Email, form.Password, true, shouldLockout: false);
+            var result = await signInManager.PasswordSignInAsync(form.UserName, form.Password, true, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:

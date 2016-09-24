@@ -27,11 +27,11 @@
   
                 <div class="ui form w-margin-top-30">
                     @{
-                        var email = Model?.LoginForm != null ? Model.LoginForm.Email : "";
+                        var userName = Model?.LoginForm != null ? Model.LoginForm.UserName : "";
                     }
                     <div class="ten wide field">
                         <div class="ui left icon input">
-                            <input name="Email" placeholder="E-mail" type="text" value="@email">
+                            <input name="UserName" placeholder="E-mail" type="text" value="@userName">
                             <i class="mail outline icon"></i>
                         </div>
                     </div>

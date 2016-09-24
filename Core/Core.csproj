@@ -161,6 +161,22 @@
     <Compile Include="Migrations\201609201558032_InternshipCategoryCodeName.Designer.cs">
       <DependentUpon>201609201558032_InternshipCategoryCodeName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609240708284_AddMessageTable.cs" />
+    <Compile Include="Migrations\201609240708284_AddMessageTable.Designer.cs">
+      <DependentUpon>201609240708284_AddMessageTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609241138232_IsReadColumn.cs" />
+    <Compile Include="Migrations\201609241138232_IsReadColumn.Designer.cs">
+      <DependentUpon>201609241138232_IsReadColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609241332437_MessageFixes.cs" />
+    <Compile Include="Migrations\201609241332437_MessageFixes.Designer.cs">
+      <DependentUpon>201609241332437_MessageFixes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609241339208_RecipientCompanyID.cs" />
+    <Compile Include="Migrations\201609241339208_RecipientCompanyID.Designer.cs">
+      <DependentUpon>201609241339208_RecipientCompanyID.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
@@ -174,9 +190,11 @@
     <Compile Include="Services\Internships\InternshipCategoryService.cs" />
     <Compile Include="Services\Internships\InternshipService.cs" />
     <Compile Include="Services\IService.cs" />
-    <Compile Include="Services\Log\ILogService.cs" />
-    <Compile Include="Services\Log\LogService.cs" />
+    <Compile Include="Services\Logs\ILogService.cs" />
+    <Compile Include="Services\Logs\LogService.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\Messages\IMessageService.cs" />
+    <Compile Include="Services\Messages\MessageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -269,6 +287,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609201558032_InternshipCategoryCodeName.resx">
       <DependentUpon>201609201558032_InternshipCategoryCodeName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609240708284_AddMessageTable.resx">
+      <DependentUpon>201609240708284_AddMessageTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609241138232_IsReadColumn.resx">
+      <DependentUpon>201609241138232_IsReadColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609241332437_MessageFixes.resx">
+      <DependentUpon>201609241332437_MessageFixes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609241339208_RecipientCompanyID.resx">
+      <DependentUpon>201609241339208_RecipientCompanyID.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -149,7 +149,7 @@
             <div class="ui tab segment w-margin-top-0" data-tab="second">
                 <h2>
                     Aktuální nabídky
-                </h2>
+                </h2>               
 
                 <table class="ui very basic table">
                     <tbody>
@@ -185,9 +185,15 @@
                     Napiš nám
                 </h2>
 
-                @using (Html.BeginForm("Index", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("Index", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
+
+                    @Html.AntiForgeryToken()
+
                     @Html.RenderFormValidationResult(Model.ContactUsForm.FormResult.IsSuccess)
+
+                    @Html.Hidden("CompanyCodeName", Model.ContactUsForm.CompanyCodeName)
+                    @Html.Hidden("CompanyID", Model.ContactUsForm.CompanyID)
 
                     <div class="ui reply form">
                         <div class="field">

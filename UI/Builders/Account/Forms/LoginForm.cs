@@ -6,7 +6,7 @@ namespace UI.Builders.Account.Forms
     {
         [Required(ErrorMessage = "Prázdný e-mail")]
         [EmailAddress(ErrorMessage = "Nevalidní e-mailová adresa")]
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "Prázdné heslo")]
         [DataType(DataType.Password)]

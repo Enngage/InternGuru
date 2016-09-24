@@ -9,6 +9,9 @@ using UI.Builders.Company.Views;
 using System.Threading.Tasks;
 using UI.Builders.Services;
 using UI.Builders.Company.Forms;
+using System;
+using UI.Exceptions;
+using Entity;
 
 namespace UI.Builders.Company
 {
@@ -23,7 +26,7 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public CompanyBuilder(IAppContext appContext,IServicesLoader servicesLoader): base(appContext, servicesLoader) { }
+        public CompanyBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
 
         #endregion
 
@@ -40,14 +43,9 @@ namespace UI.Builders.Company
 
         }
 
-        public async Task<CompanyDetailView> BuildDetailViewAsync(string codeName)
+        public async Task<CompanyDetailView> BuildDetailViewAsync(string codeName, CompanyContactUsForm contactUsForm = null)
         {
             int cacheMinutes = 60;
-
-            var form = new CompanyContactUsForm()
-            {
-                Message = string.Empty
-            };
 
             var cacheSetup = CacheService.GetSetup<CompanyDetailModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
@@ -101,11 +99,62 @@ namespace UI.Builders.Company
                 return null;
             }
 
+            var defaultForm = new CompanyContactUsForm()
+            {
+                Message = string.Empty,
+                CompanyCodeName = codeName,
+                CompanyID = company.ID
+            };
+
             return new CompanyDetailView()
             {
                 Company = company,
-                ContactUsForm = form,
+                ContactUsForm = contactUsForm == null ? defaultForm : contactUsForm,
             };
+        }
+
+        #endregion
+
+        #region Public methods
+
+        public async Task<int> CreateMessage(CompanyContactUsForm form)
+        {
+            try
+            {
+                if (!this.CurrentUser.IsAuthenticated)
+                {
+                    // only authenticated users can send message
+                    throw new UIException("Pro odeslání zprávy se prosím přihlašte");
+                }
+
+                // get recipient (company's representative)
+                var companyUserID = await GetIDOfCompanyUserAsync(form.CompanyID);
+
+                if (string.IsNullOrEmpty(companyUserID))
+                {
+                    throw new UIException("Firma neexistuje");
+                }
+
+                var message = new Message()
+                {
+                    SenderApplicationUserId = this.CurrentUser.Id,
+                    RecipientCompanyID = form.CompanyID,
+                    RecipientApplicationUserId = companyUserID,
+                    MessageText = form.Message,
+                    Subject = null, // no subject needed
+                    IsRead = false,
+                };
+
+                return await this.Services.MessageService.InsertAsync(message);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+            }
         }
 
         #endregion
@@ -121,6 +170,18 @@ namespace UI.Builders.Company
 
         #region Helper methods
 
+        /// <summary>
+        /// Gets ID of user who created company
+        /// </summary>
+        /// <param name="companyID">CompanyID</param>
+        /// <returns>ID of user who created company</returns>
+        private async Task<string> GetIDOfCompanyUserAsync(int companyID)
+        {
+            return await this.Services.CompanyService.GetSingle(companyID)
+                .Select(m => m.ApplicationUserId)
+                .FirstOrDefaultAsync();
+        }
+ 
         private async Task<IList<CompanyBrowseModel>> GetCompaniesAsync(int pageNumber, string search)
         {
             int cacheMinutes = 60;

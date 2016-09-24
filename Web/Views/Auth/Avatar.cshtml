@@ -7,8 +7,10 @@
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 
-@using (Html.BeginForm("Avatar", "Auth", FormMethod.Post, new { enctype = "multipart/form-data"}))
+@using (Html.BeginForm("Avatar", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.AntiForgeryToken()
+
     <div class="ui grid">
         <div class="centered sixteen wide mobile sixteen wide tablet six wide computer column">
             <h1>

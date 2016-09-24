@@ -16,6 +16,7 @@ namespace UI.Builders.Services
         public ICompanyService CompanyService { get; private set; }
         public IIdentityService IdentityService { get; private set; }
         public ILogService LogService { get; private set; }
+        public IMessageService MessageService { get; private set; }
 
         public ServicesLoader(
                 ICacheService cacheService,
@@ -25,7 +26,8 @@ namespace UI.Builders.Services
                 IFileProvider fileProvider,
                 ICompanyService companyService,
                 IIdentityService identityService,
-                ILogService logService
+                ILogService logService,
+                IMessageService messageService
         )
         {
             this.CacheService = cacheService;
@@ -36,6 +38,7 @@ namespace UI.Builders.Services
             this.CompanyService = companyService;
             this.IdentityService = identityService;
             this.LogService = logService;
+            this.MessageService = messageService;
         }
     }
 }

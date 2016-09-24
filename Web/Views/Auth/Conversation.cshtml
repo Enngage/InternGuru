@@ -1,79 +1,75 @@
 ﻿@using UI.Helpers;
 @using UI.Extensions;
-@model UI.Builders.Master.Views.MasterView
+@using PagedList.Mvc
+@model UI.Builders.Auth.Views.AuthConversationView
 
 @{
-    ViewBag.Title = "Konverzace";
+    ViewBag.Title = "Konverzace | " + Model.ConversationUser.DisplayName;
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 
 <div class="ui grid">
     <div class="centered sixteen wide mobile sixteen wide tablet eight wide computer column">
+        @using (Html.BeginForm("Conversation", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
 
-        <h1>
-            Skype technical engineer
-        </h1>
+            @Html.Hidden("RecipientApplicationUserId", Model.ConversationUser.UserID)
+            @Html.Hidden("CompanyID", Model.LastMessage != null ? Model.LastMessage.CompanyID : 0)
 
-        <form class="ui reply form">
-            <div class="field">
-                <textarea></textarea>
+            @Html.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess)
+
+            <h1>
+                @($"Konverzace s {Model.ConversationUser.DisplayName}")
+            </h1>
+
+            <div class="ui reply form">
+                <div class="field">
+                    <textarea name="Message">@Model.MessageForm.Message</textarea>
+                </div>
+
+                <button class="ui blue labeled submit icon button">
+                    <i class="icon edit"></i> Odeslat
+                </button>
             </div>
-            <div class="ui blue labeled submit icon button">
-                <i class="icon edit"></i> Odeslat
-            </div>
-        </form>
+        }
 
         <div class="ui divided items">
 
-            <div class="ui segment basic padded w-segment-dark">
-                <div class="item w-body-item-highlighted">
-                    <div class="content">
-                        <div class="description">
-                            <p>
-                                Eppi je e-commerce butik, který se specializuje na šperky a klenoty. Náš tým tvoří několik mladých a nadšených osobností, které se snaží dělat e-commerce tím správným způsobem. Vzhledem k přirozenému růstu našeho podnikání chceme v současné době rozšířit náš tým, abychom mohli zajistit poskytování výjimečných zákaznických služeb všem našim zákazníkům.
-                            </p>
-                        </div>
-                        <div class="extra w-font-size-small">
-                            <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortTimeString() | RichardS | <a href="#">Skype</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="ui segment basic padded w-segment-light">
-                <div class="item">
-                    <div class="content">
-                        <div class="description">
-                            <p>
-                                Stále se považujeme za start-up tzn. na formality si moc nepotrpíme, ale jsme motivováni na našich výsledcích. S našimi řešeními oslovujeme obce, města, výrobní podniky, majitele administrativních budov. Občas si jdeme s firmou zajezdit na motokárách, zahrát paintball nebo v zimě na hory, ale na prvním místě jsou vždy výsledky.
-                            </p>
-                        </div>
-                        <div class="extra w-font-size-small">
-                            <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortTimeString() | Já
+            @foreach (var message in Model.Messages)
+            {
+                var segmentClass = message.WrittenByCurrentUser ? "" : "w-segment-dark basic";
+                var senderName = (!string.IsNullOrEmpty(message.SenderFirstName) ? message.SenderFirstName + " " + message.SenderLastName : message.SenderApplicationUserName);
+                <div class="ui segment padded @segmentClass">
+                    <div class="item w-body-item-highlighted">
+                        <div class="content">
+                            <div class="extra w-body-text-right w-font-size-small">
+                                <i class="calendar icon"></i>@message.MessageCreated.ToShortDateString() @message.MessageCreated.ToLongTimeString() |
+                                @if (message.IsRead)
+                                {
+                                    <i title="Přečteno" class="checkmark green icon"></i>
+                                }
+                                else
+                                {
+                                    <i title="Nepřečteno" class="remove red icon"></i>
+                                }
+                            </div>
+                            <div class="description">
+                                <p>
+                                    @HTMLAddons.AddLineBreaks(message.MessageText)
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="ui segment basic padded w-segment-dark">
-                <div class="item">
-                    <div class="content">
-                        <div class="description">
-                            <p>
-                                Eppi je e-commerce butik, který se specializuje na šperky a klenoty. Náš tým tvoří několik mladých a nadšených osobností, které se snaží dělat e-commerce tím správným způsobem. Vzhledem k přirozenému růstu našeho podnikání chceme v současné době rozšířit náš tým, abychom mohli zajistit poskytování výjimečných zákaznických služeb všem našim zákazníkům.
-                            </p>
-                        </div>
-                        <div class="extra w-font-size-small">
-                            <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortTimeString() | RichardS | <a href="#">Skype</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            }
         </div>
+
+        @if (Model.Messages.PageCount > 1)
+            {
+            @(Model.Messages.PageCount < Model.Messages.PageNumber ? 0 : Model.Messages.PageNumber) @:/ @Model.Messages.PageCount
+            @Html.PagedListPager(Model.Messages, page => Url.Action("Conversation", "Auth", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
+        }
 
     </div>
 </div>

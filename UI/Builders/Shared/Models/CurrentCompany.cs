@@ -23,5 +23,16 @@ namespace UI.Builders.Shared
         /// ID of company
         /// </summary>
         public int CompanyID { get; set; }
+
+
+        /// <summary>
+        /// ID of user who created company
+        /// </summary>
+        public string CompanyCreatedByApplicationUserId { get; set; }
+
+        /// <summary>
+        /// Name of user who created company
+        /// </summary>
+        public string CompanyCreatedByApplicationUserName { get; set; }
     }
 }

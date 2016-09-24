@@ -239,6 +239,8 @@ namespace UI.Base
                 {
                     CompanyID = m.ID,
                     CompanyName = m.CompanyName,
+                    CompanyCreatedByApplicationUserId = m.ApplicationUser.Id,
+                    CompanyCreatedByApplicationUserName = m.ApplicationUser.UserName
                 })
                 .FirstOrDefault();
 

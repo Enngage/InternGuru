@@ -32,7 +32,7 @@ namespace Web.Controllers
 
         public async Task<ActionResult> Index(int? page)
         {
-            var model = await authBuilder.BuildIndexViewAsync();
+            var model = await authBuilder.BuildIndexViewAsync(page);
 
             return View(model);
         }
@@ -96,9 +96,21 @@ namespace Web.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> Conversation()
+        public async Task<ActionResult> Conversation(string id, int? page)
         {
-            return View();
+            if (string.IsNullOrEmpty(id))
+            {
+                return HttpNotFound();
+            }
+
+            var model = await authBuilder.BuildConversationViewAsync(id, page);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(model);
         }
 
         #endregion
@@ -106,6 +118,39 @@ namespace Web.Controllers
         #region POST methods
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Conversation(AuthMessageForm form)
+        {
+            // validate form
+            if (!this.ModelStateWrapper.IsValid)
+            {
+                return View(await authBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form));
+            }
+
+            try
+            {
+                await authBuilder.CreateMessage(form);
+
+                var model = await authBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form);
+
+                // set form status
+                model.MessageForm.FormResult.IsSuccess = true;
+
+                // clear the form
+                model.MessageForm.Message = string.Empty;
+
+                return View(model);
+            }
+            catch (UIException ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                return View(await authBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form));
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Avatar(AuthAvatarUploadForm form)
         {
             // validate form
@@ -129,6 +174,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditProfile(AuthEditProfileForm form)
         {
             // validate form
@@ -158,6 +204,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> NewInternship(AuthAddEditInternshipForm form)
         {
             // validate form
@@ -193,6 +240,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditInternship(AuthAddEditInternshipForm form)
         {
             // validate form
@@ -222,6 +270,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterCompany(AuthAddEditCompanyForm form)
         {
             // validate form
@@ -254,6 +303,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditCompany(AuthAddEditCompanyForm form)
         {
             // validate form

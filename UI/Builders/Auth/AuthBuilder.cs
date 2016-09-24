@@ -15,6 +15,9 @@ using UI.Exceptions;
 using Common.Helpers.Internship;
 using UI.Builders.Services;
 using Core.Exceptions;
+using PagedList;
+using PagedList.EntityFramework;
+using Entity;
 
 namespace UI.Builders.Company
 {
@@ -23,44 +26,23 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public AuthBuilder(IAppContext appContext, IServicesLoader servicesLoader): base(appContext, servicesLoader){}
+        public AuthBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
 
         #endregion
 
         #region Index
 
-        public async Task<AuthIndexView> BuildIndexViewAsync()
+        public async Task<AuthIndexView> BuildIndexViewAsync(int? page)
         {
             if (!this.CurrentUser.IsAuthenticated)
             {
                 return null;
             }
 
-            var internshipsQuery = this.Services.InternshipService.GetAll()
-                .Where(m => m.ApplicationUserId == this.CurrentUser.Id)
-                .OrderByDescending(m => m.Created)
-                .Select(m => new AuthInternshipListingModel()
-                {
-                    ID = m.ID,
-                    Title = m.Title,
-                    Created = m.Created,
-                    IsActive = m.IsActive
-                });
-
-            int cacheMinutes = 60;
-            var cacheSetup = CacheService.GetSetup<AuthInternshipListingModel>(this.GetSource(), cacheMinutes);
-            cacheSetup.Dependencies = new List<string>()
-            {
-                Entity.Internship.KeyUpdateAny<Entity.Internship>(),
-                Entity.Internship.KeyDeleteAny<Entity.Internship>(),
-                Entity.Internship.KeyCreateAny<Entity.Internship>(),
-            };
-
-            var internships = await CacheService.GetOrSet(async () => await internshipsQuery.ToListAsync(), cacheSetup);
-
             return new AuthIndexView()
             {
-                Internships = internships
+                Internships = await GetInternshipsAsync(),
+                Messages = await GetMessagesAsync(page)
             };
         }
 
@@ -397,7 +379,98 @@ namespace UI.Builders.Company
 
         #endregion
 
+        #region Conversation
+
+        public async Task<AuthConversationView> BuildConversationViewAsync(string otherUserId, int? page, AuthMessageForm messageForm = null)
+        {
+            var defaultMessageForm = new AuthMessageForm()
+            {
+                RecipientApplicationUserId = otherUserId
+            };
+
+            // don't show anything if recipient == current user. It should always be the other user
+            if (otherUserId.Equals(this.CurrentUser.Id, StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
+            // get other user and check if he exists
+            var otherUser = await GetMessageUserAsync(otherUserId);
+
+            if(otherUser == null)
+            {
+                return null;
+            }
+
+            // get messages 
+            var messages = await GetConversationMessagesAsync(otherUserId, page);
+
+            // mark messages as read if the last message's recipient is current user
+            var lastMessage = messages.FirstOrDefault();
+            if (lastMessage != null)
+            {
+                if (lastMessage.RecipientApplicationUserId.Equals(this.CurrentUser.Id, StringComparison.OrdinalIgnoreCase))
+                {
+                    await this.Services.MessageService.MarkMessagesAsRead(this.CurrentUser.Id, otherUserId);
+
+                    // mark all loaded messages as read
+                    foreach (var message in messages)
+                    {
+                        message.IsRead = true;
+                    }
+                }
+            }
+
+            return new AuthConversationView()
+            {
+                Messages = messages,
+                ConversationUser = otherUser,
+                Me = new AuthMessageUserModel()
+                {
+                    FirstName = this.CurrentUser.FirstName,
+                    LastName = this.CurrentUser.LastName,
+                    UserID = this.CurrentUser.Id,
+                    UserName = this.CurrentUser.UserName
+                },
+                MessageForm = messageForm == null ? defaultMessageForm : messageForm
+            };
+        }
+
+        #endregion
+
         #region Methods
+
+        public async Task<int> CreateMessage(AuthMessageForm form)
+        {
+            try
+            {
+                if (!this.CurrentUser.IsAuthenticated)
+                {
+                    // only authenticated users can send messages
+                    throw new UIException("Pro odeslání zprávy se přihlašte");
+                }
+
+                var message = new Message()
+                {
+                    SenderApplicationUserId = this.CurrentUser.Id,
+                    RecipientCompanyID = form.CompanyID,
+                    RecipientApplicationUserId = form.RecipientApplicationUserId,
+                    MessageText = form.Message,
+                    Subject = null, // no subject needed
+                    IsRead = false,
+                };
+
+                return await this.Services.MessageService.InsertAsync(message);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+            }
+        }
 
         /// <summary>
         /// Edits profile
@@ -467,7 +540,7 @@ namespace UI.Builders.Company
                         CompanyCategoryID = form.CompanyCategoryID
                     };
 
-                   await Services.CompanyService.InsertAsync(company);
+                    await Services.CompanyService.InsertAsync(company);
 
                     // upload files
                     if (form.Banner != null)
@@ -639,7 +712,7 @@ namespace UI.Builders.Company
 
                 await Services.InternshipService.InsertAsync(internship);
 
-                return internship.ID;           
+                return internship.ID;
             }
             catch (Exception ex)
             {
@@ -751,6 +824,163 @@ namespace UI.Builders.Company
         #endregion
 
         #region Helper methods
+
+        /// <summary>
+        /// Gets conversation messages with given user
+        /// </summary>
+        /// <param name="otherUserId">ID of the other user (NEVER current user)</param>
+        /// <param name="page">Page number</param>
+        /// <returns>Collection of messages of current user with other user</returns>
+        private async Task<IPagedList<AuthMessageModel>> GetConversationMessagesAsync(string otherUserId, int? page)
+        {
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+
+            var messagesQuery = this.Services.MessageService.GetAll()
+               .Where(m =>
+                    (m.RecipientApplicationUserId == otherUserId || m.RecipientApplicationUserId == this.CurrentUser.Id)
+                    &&
+                    (m.SenderApplicationUserId == otherUserId || m.SenderApplicationUserId == this.CurrentUser.Id))
+               .OrderByDescending(m => m.MessageCreated)
+               .Select(m => new AuthMessageModel()
+               {
+                   ID = m.ID,
+                   MessageCreated = m.MessageCreated,
+                   SenderApllicationUserId = m.SenderApplicationUserId,
+                   SenderApplicationUserName = m.SenderApplicationUser.UserName,
+                   RecipientApplicationUserId = m.RecipientApplicationUserId,
+                   RecipientApplicationUserName = m.RecipientApplicationUser.UserName,
+                   CompanyID = m.RecipientCompanyID,
+                   CompanyName = m.Company.CompanyName,
+                   MessageText = m.MessageText,
+                   CurrentUserId = this.CurrentUser.Id,
+                   IsRead = m.IsRead,
+                   SenderFirstName = m.SenderApplicationUser.FirstName,
+                   SenderLastName = m.SenderApplicationUser.LastName,
+                   RecipientFirstName = m.RecipientApplicationUser.FirstName,
+                   RecipientLastName = m.RecipientApplicationUser.LastName,
+                   Subject = m.Subject,
+               });
+
+            int cacheMinutes = 30;
+            var cacheSetup = CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                Entity.Message.KeyUpdateAny<Entity.Message>(),
+                Entity.Message.KeyDeleteAny<Entity.Message>(),
+                Entity.Message.KeyCreateAny<Entity.Message>(),
+            };
+            cacheSetup.ObjectStringID = this.CurrentUser.Id + "_" + otherUserId;
+            cacheSetup.PageNumber = pageNumber;
+            cacheSetup.PageSize = pageSize;
+
+            return await CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+        }
+
+        /// <summary>
+        /// Gets name of given user
+        /// </summary>
+        /// <param name="applicationUserId">ID of user</param>
+        /// <returns>Name of given user</returns>
+        private async Task<AuthMessageUserModel> GetMessageUserAsync(string applicationUserId)
+        {
+            int cacheMinutes = 30;
+            var cacheSetup = CacheService.GetSetup<AuthMessageUserModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                Entity.ApplicationUser.KeyUpdateAny<Entity.Message>(),
+            };
+            cacheSetup.ObjectStringID = applicationUserId;
+
+            var userQuery = this.Services.IdentityService.GetSingle(applicationUserId)
+                .Select(m => new AuthMessageUserModel()
+                {
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    UserID = m.Id,
+                    UserName = m.UserName
+                });
+
+            return await CacheService.GetOrSet(async () => await userQuery.FirstOrDefaultAsync(), cacheSetup);
+        }
+
+        /// <summary>
+        /// Gets messages of current user
+        /// </summary>
+        /// <returns>Collection of messages of current user</returns>
+        private async Task<IPagedList<AuthMessageModel>> GetMessagesAsync(int? page)
+        {
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+
+            // get both incoming and outgoming messages as well as messages targeted for given company
+            var messagesQuery = this.Services.MessageService.GetAll()
+               .Where(m => m.SenderApplicationUserId == this.CurrentUser.Id || m.Company.ApplicationUserId == this.CurrentUser.Id || m.RecipientApplicationUserId == this.CurrentUser.Id)
+               .OrderByDescending(m => m.MessageCreated)
+               .Select(m => new AuthMessageModel()
+               {
+                   ID = m.ID,
+                   MessageCreated = m.MessageCreated,
+                   SenderApllicationUserId = m.SenderApplicationUserId,
+                   SenderApplicationUserName = m.SenderApplicationUser.UserName,
+                   RecipientApplicationUserId = m.RecipientApplicationUserId,
+                   RecipientApplicationUserName = m.RecipientApplicationUser.UserName,
+                   CompanyID = m.RecipientCompanyID,
+                   CompanyName = m.Company.CompanyName,
+                   MessageText = m.MessageText,
+                   CurrentUserId = this.CurrentUser.Id,
+                   IsRead = m.IsRead,
+                   SenderFirstName = m.SenderApplicationUser.FirstName,
+                   SenderLastName = m.SenderApplicationUser.LastName,
+                   RecipientFirstName = m.RecipientApplicationUser.FirstName,
+                   RecipientLastName = m.RecipientApplicationUser.LastName,
+                   Subject = m.Subject,
+               });
+
+            int cacheMinutes = 60;
+            var cacheSetup = CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                Entity.Message.KeyUpdateAny<Entity.Message>(),
+                Entity.Message.KeyDeleteAny<Entity.Message>(),
+                Entity.Message.KeyCreateAny<Entity.Message>(),
+            };
+            cacheSetup.ObjectStringID = this.CurrentUser.Id;
+            cacheSetup.PageNumber = pageNumber;
+            cacheSetup.PageSize = pageSize;
+
+            return await CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+        }
+
+        /// <summary>
+        /// Gets internships of current user
+        /// </summary>
+        /// <returns>Collection of internships of current user</returns>
+        private async Task<IEnumerable<AuthInternshipListingModel>> GetInternshipsAsync()
+        {
+            var internshipsQuery = this.Services.InternshipService.GetAll()
+               .Where(m => m.ApplicationUserId == this.CurrentUser.Id)
+               .OrderByDescending(m => m.Created)
+               .Select(m => new AuthInternshipListingModel()
+               {
+                   ID = m.ID,
+                   Title = m.Title,
+                   Created = m.Created,
+                   IsActive = m.IsActive
+               });
+
+            int cacheMinutes = 60;
+            var cacheSetup = CacheService.GetSetup<AuthInternshipListingModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                Entity.Internship.KeyUpdateAny<Entity.Internship>(),
+                Entity.Internship.KeyDeleteAny<Entity.Internship>(),
+                Entity.Internship.KeyCreateAny<Entity.Internship>(),
+            };
+            cacheSetup.ObjectStringID = this.CurrentUser.Id;
+
+            return await CacheService.GetOrSet(async () => await internshipsQuery.ToListAsync(), cacheSetup);
+        }
 
         /// <summary>
         /// Gets company ID of current user

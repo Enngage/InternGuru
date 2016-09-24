@@ -20,6 +20,7 @@ namespace UI.Builders.Services
         IIdentityService IdentityService { get; }
         ILogService LogService { get; }
 
+        IMessageService MessageService { get; }
         #endregion
     }
 }

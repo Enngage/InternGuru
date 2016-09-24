@@ -7,6 +7,37 @@ namespace Common.Helpers
 {
     public static class StringHelper
     {
+
+        /// <summary>
+        /// Shortens given text
+        /// </summary>
+        /// <param name="appendDots">If true, 3 dots "..." will be appended to text</param>
+        /// <param name="count">Number of characters to return</param>
+        /// <returns>Shortened text</returns>
+        public static string ShortenText(string text, int count, bool appendDots = true)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
+            if (text.Length < count)
+            {
+                return text;
+            }
+
+            string shortenedText = text.Substring(0, count);
+
+            if (appendDots)
+            {
+                return shortenedText + "...";
+            }
+            else
+            {
+                return shortenedText;
+            }
+        }
+
         /// <summary>
         /// Gets plural version of given word based on count
         /// </summary>

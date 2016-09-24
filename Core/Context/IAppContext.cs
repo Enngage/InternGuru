@@ -14,6 +14,7 @@ namespace Core.Context
         IDbSet<InternshipCategory> InternshipCategories { get; }
         IDbSet<CompanyCategory> CompanyCategories { get; }
         IDbSet<Log> Logs { get; }
+        IDbSet<Message> Messages { get; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
         DbContextTransaction BeginTransaction();

@@ -12,6 +12,8 @@
 
 @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", id = "_RegisterCompanyForm", @class = "ui form" }))
 {
+    @Html.AntiForgeryToken()
+
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
 

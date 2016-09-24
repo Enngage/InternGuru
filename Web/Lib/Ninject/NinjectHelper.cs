@@ -94,6 +94,7 @@ namespace Web.Lib.Ninject
             kernel.Bind<IInternshipCategoryService>().To<InternshipCategoryService>().InRequestScope();
             kernel.Bind<IIdentityService>().To<Identityservice>().InRequestScope();
             kernel.Bind<IFileProvider>().To<FileProvider>().InRequestScope();
+            kernel.Bind<IMessageService>().To<MessageService>().InRequestScope();
 
             return kernel;
         }

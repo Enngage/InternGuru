@@ -14,6 +14,7 @@ namespace Core.Context
         public IDbSet<InternshipCategory> InternshipCategories { get; set; }
         public IDbSet<CompanyCategory> CompanyCategories { get; set; }
         public IDbSet<Log> Logs { get; set; }
+        public IDbSet<Message> Messages { get; set; }
 
         #endregion
 

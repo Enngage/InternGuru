@@ -1,5 +1,7 @@
 ﻿@using UI.Helpers;
 @using UI.Extensions;
+@using Common.Helpers;
+@using PagedList.Mvc
 @model UI.Builders.Auth.Views.AuthIndexView
 
 @{
@@ -33,7 +35,7 @@
 
         <div class="ui secondary pointing menu w-auth-menu">
             <a class="item active" data-tab="first">
-                Konverzace
+                Zprávy
             </a>
             <a class="item" data-tab="second">
                 Vystavené nabídky
@@ -53,61 +55,57 @@
 
         <div class="ui tab segment active" data-tab="first">
 
-            <table class="ui very basic table w-table-listing _ConversationListingTable">
-                <tbody>
-                    <tr data-link="@Url.Action("Conversation")">
-                        <td class="collapsing">
-                            <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logo-auta-online1146010588880.png" />
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Conversation")">
-                                John Brown
+            @if (Model.Messages.Count() == 0)
+            {
+                @Html.RenderInfoMessage("Nemáš žádné zprávy")
+            }
+            else
+            {
+                <div class="ui items divided">
+                    @foreach (var message in Model.Messages)
+                    {
+                        <div class="item">
+                            <a class="ui tiny image" href="@Url.Action("Conversation", new { id = message.ConversationID })">
+                                <img class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(message.SenderApplicationUserName)">
                             </a>
-                        </td>
-                        <td class="collapsing w-body-text-right w-mobile-left w-tablet-hide w-font-size-small">
-                            <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortDateString()
-                        </td>
-                        <td class="collapsing w-body-text-right w-mobile-left">
-                            <i title="Přečteno" class="checkmark green icon"></i>
-                        </td>
-                    </tr>
-                    <tr data-link="@Url.Action("Conversation")">
-                        <td class="collapsing">
-                            <img class="ui tiny image" alt="" src="@ImageHelper.GetTransparentImage()" data-src="https://www.startupjobs.cz/upload/logos/logo-auta-online1146010588880.png" />
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Conversation")">
-                                John Brown
-                            </a>
-                        </td>
-                        <td class="collapsing w-body-text-right w-mobile-left w-tablet-hide w-font-size-small">
-                            <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortDateString()
-                        </td>
-                        <td class="collapsing w-body-text-right w-mobile-left">
-                            <i title="Nová zpráva" class="warning red icon"></i>
-                        </td>
-                    </tr>
-                    <tr data-link="@Url.Action("Conversation")">
-                        <td class="collapsing">
-                            <img class="ui tiny image" alt="" src="https://www.startupjobs.cz/upload/logos/logo-auta-online1146010588880.png" />
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Conversation")">
-                                John Brown
-                            </a>
-                        </td>
-                        <td class="collapsing w-body-text-right w-mobile-left w-tablet-hide w-font-size-small">
-                            <i class="calendar icon"></i>
-                            @DateTime.Now.ToShortDateString()
-                        </td>
-                        <td class="collapsing w-body-text-right w-mobile-left">
-                            <i title="Přečteno" class="checkmark green icon"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            <div class="content">
+                                <a class="header" href="@Url.Action("Conversation", new { id = message.ConversationID })">
+                                    @if (message.WrittenByCurrentUser)
+                                    {
+                                        <span>Já</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Od @(!string.IsNullOrEmpty(message.SenderFirstName) ? message.SenderFirstName + " " + message.SenderLastName : message.SenderApplicationUserName)</span>
+                                    }
+                                </a>
+                                <div class="meta w-font-size-small">
+                                    <i class="calendar icon"></i>@message.MessageCreated.ToShortDateString() @message.MessageCreated.ToLongTimeString() | 
+                                    @if (message.IsRead)
+                                    {
+                                        <i title="Přečteno" class="checkmark green icon"></i><span>přečteno</span>
+                                    }
+                                    else
+                                    {
+                                        <i title="Nepřečteno" class="remove red icon"></i><span>nepřečteno</span>
+                                    }
+                                    @(!string.IsNullOrEmpty(message.Subject) ? " | " + message.Subject : null)
+                                </div>
+                                <div class="description">
+                                    <p>
+                                        @StringHelper.ShortenText(message.MessageText, 200, true)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                if (Model.Messages.PageCount > 1)
+                {
+                    @Html.PagedListPager(Model.Messages, page => Url.Action("Index", "Auth", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
+                }
+}
         </div>
 
         <div class="ui tab segment" data-tab="second">
@@ -116,7 +114,7 @@
             {
                 if (Model.Internships.Count() == 0)
                 {
-                    @Html.RenderInfoMessage("Žádné nabídky nejsou vystaveny")
+                    @Html.RenderInfoMessage("Dosud jsi nevystavil žádné nabídky")
                 }
                 else
                 {

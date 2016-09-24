@@ -76,3 +76,7 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrati
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.RequirementsInternship.resources
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.CompanyCategoryCodeName.resources
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.InternshipCategoryCodeName.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.AddMessageTable.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.IsReadColumn.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.MessageFixes.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.RecipientCompanyID.resources
