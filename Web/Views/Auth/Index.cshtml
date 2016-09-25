@@ -57,7 +57,7 @@
 
             @if (Model.Messages.Count() == 0)
             {
-                @Html.RenderInfoMessage("Nemáš žádné zprávy")
+                @Html.RenderInfoMessage("Žádné zprávy nebyly nalezeny")
             }
             else
             {
@@ -80,7 +80,7 @@
                                     }
                                 </a>
                                 <div class="meta w-font-size-small">
-                                    <i class="calendar icon"></i>@message.MessageCreated.ToShortDateString() @message.MessageCreated.ToLongTimeString() | 
+                                    <i class="calendar icon"></i>@DateHelper.GetPrettyDate(message.MessageCreated) | 
                                     @if (message.IsRead)
                                     {
                                         <i title="Přečteno" class="checkmark green icon"></i><span>přečteno</span>
@@ -114,7 +114,7 @@
             {
                 if (Model.Internships.Count() == 0)
                 {
-                    @Html.RenderInfoMessage("Dosud jsi nevystavil žádné nabídky")
+                    @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné nabídky")
                 }
                 else
                 {

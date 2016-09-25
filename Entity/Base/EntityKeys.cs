@@ -3,21 +3,8 @@ using System;
 
 namespace Entity
 {
-    public abstract class EntityAbstract
+    public static class EntityKeys
     {
-        #region Abstract members
-
-        /// <summary>
-        /// Gets code name value of object
-        /// </summary>
-        public abstract string GetCodeName();
-
-        /// <summary>
-        /// Gets value from entity primary key
-        /// </summary>
-        public abstract object GetObjectID();
-
-        #endregion
 
         #region Cache keys
 
@@ -107,7 +94,6 @@ namespace Entity
         {
             return ConstructKey(typeof(T), ActionType.CreateAny);
         }
-
 
         #endregion
 

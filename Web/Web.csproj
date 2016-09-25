@@ -197,6 +197,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\FormController.cs" />
     <Compile Include="Controllers\InternshipsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
@@ -2014,6 +2015,11 @@
     <Content Include="Views\Auth\Partials\AddEditInternship.cshtml" />
     <Content Include="Stylesheets\partials\_generic.scss" />
     <Content Include="Stylesheets\partials\_color.scss" />
+    <Content Include="Views\Company\Tabs\About.cshtml" />
+    <Content Include="Views\Company\Tabs\Internships.cshtml" />
+    <Content Include="Views\Company\Tabs\Contact.cshtml" />
+    <Content Include="Views\Company\Tabs\Thesis.cshtml" />
+    <Content Include="Views\Form\Internship.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

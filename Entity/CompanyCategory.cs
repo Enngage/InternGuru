@@ -1,20 +1,20 @@
 ﻿
 namespace Entity
 {
-    public class CompanyCategory : EntityAbstract
+    public class CompanyCategory : IEntity
     {
         public int ID { get; set; }
         public string CodeName { get; set; }
         public string Name { get; set; }
 
-        #region Entity abstract members
+        #region IEntity members
 
-        public override object GetObjectID()
+        public object GetObjectID()
         {
             return ID;
         }
 
-        public override string GetCodeName()
+        public string GetCodeName()
         {
             return CodeName;
         }

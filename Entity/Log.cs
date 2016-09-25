@@ -2,7 +2,7 @@
 
 namespace Entity
 {
-    public class Log : EntityAbstract
+    public class Log : IEntity
     {
         public int ID { get; set; }
         public DateTime Created { get; set; }
@@ -12,14 +12,14 @@ namespace Entity
         public String Stacktrace { get; set; }
         public String ApplicationUserName { get; set; }
 
-        #region Entity abstract members
+        #region IEntity members
 
-        public override object GetObjectID()
+        public object GetObjectID()
         {
             return ID;
         }
 
-        public override string GetCodeName()
+        public string GetCodeName()
         {
             return ID.ToString();
         }

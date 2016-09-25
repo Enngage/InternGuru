@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity
 {
-    public class Message : EntityAbstract
+    public class Message : IEntity
     {
         public int ID { get; set; }
         [ForeignKey("Company")]
@@ -27,13 +27,13 @@ namespace Entity
 
         #endregion
 
-        #region EntityAbstract members
+        #region IEntity members
 
-        public override object GetObjectID()
+        public object GetObjectID()
         {
             return ID;
         }
-        public override string GetCodeName()
+        public string GetCodeName()
         {
             return ID.ToString();
         }

@@ -4,16 +4,27 @@
 @using UI.Extensions;
 @{
     ViewBag.Title = Model.Company.CompanyName;
-    ViewBag.Description = "Profil společnosti " + Model.Company.CompanyName;
+    ViewBag.Description = $"Profil společnosti {Model.Company.CompanyName}. Jdi na stáž této firmy nebo pro ni napiš svou závěrečnou práci a připrav se na svou budoucnost";
     Layout = "~/Views/Shared/Body/Dark.cshtml";
+
+    // determine which tabs are active
+    var aboutTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.About;
+    var internshipTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships;
+    var contactTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Contact;
+    var thesisTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Thesis;
+
+    var aboutTabClass = aboutTabActive ? "active" : null;
+    var internshipTabClass = internshipTabActive ? "active" : null;
+    var contactTabClass = contactTabActive ? "active" : null;
+    var thesisTabClass = thesisTabActive ? "active" : null;
 }
 
 @Html.RequireScript("/scripts/views/company/detail")
 
 <div class="ui container w-margin-top-20">
     <div class="ui grid">
-        <div class="sixteen wide column w-padding-bottom-0">
-            <img alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Company.ID)" class="ui image fluid w-company-detail-banner" />
+        <div id="_CompanyScrollAnchor" class="sixteen wide column w-padding-bottom-0">
+            <img alt="@Model.Company.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Company.ID)" class="ui image fluid w-company-detail-banner" />
         </div>
     </div>
 </div>
@@ -28,14 +39,18 @@
             </h1>
 
             <div id="_CompanyRightMenu" class="ui secondary pointing menu w-company-menu">
-                <a class="item active" data-tab="first">
+                <a class="item @aboutTabClass" data-tab="about">
                     O nás
                 </a>
-                <a class="item" data-tab="second">
-                    Stáže 
+                <a class="item @internshipTabClass" data-tab="internships">
+                    Stáže
                     <span class="w-font-light">&nbsp;(@Model.Company.Internships.Count())</span>
                 </a>
-                <a class="item" data-tab="third">
+                <a class="item @thesisTabClass" data-tab="thesis">
+                    Závěrečné práce
+                    <span class="w-font-light">&nbsp;(9)</span>
+                </a>
+                <a class="item @contactTabClass" data-tab="contact">
                     Kontakt
                 </a>
             </div>
@@ -137,74 +152,21 @@
         </div>
 
         <div class="sixteen wide mobile ten wide tablet eleven wide computer column">
-            <div class="ui tab segment active" data-tab="first">
-                <h2>
-                    O nás
-                </h2>
-                <p>
-                    @Html.Raw(Model.Company.LongDescription)
-                </p>
+           
+            <div class="ui tab segment @aboutTabClass" data-tab="about">
+                @Html.Partial("Tabs/About", Model)
             </div>
 
-            <div class="ui tab segment w-margin-top-0" data-tab="second">
-                <h2>
-                    Aktuální nabídky
-                </h2>               
-
-                <table class="ui very basic table">
-                    <tbody>
-                        @foreach (var internship in Model.Company.Internships)
-                        {
-                            <tr>
-                                <td class="w-font-size-large">
-                                    <a href="#">
-                                        @internship.Title <span class="w-font-size-small w-font-light">
-                                            @if (internship.IsPaid)
-                                            {
-                                                <span>(@StringHelper.FormatNumber(internship.Amount) @internship.Currency / @internship.AmountType)</span>
-                                            }
-                                        </span>
-                                    </a>
-                                </td>
-                                <td class="collapsing">
-                                    <a href="@Url.Action("AnswerTODO", "Auth")">
-                                        <div class="ui button primary">
-                                            Odpovědět
-                                        </div>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
+            <div class="ui tab segment w-margin-top-0 @internshipTabClass" data-tab="internships">
+                @Html.Partial("Tabs/Internships", Model)
             </div>
 
-            <div class="ui tab segment w-margin-top-0" data-tab="third">
-                <h2>
-                    Napiš nám
-                </h2>
+            <div class="ui tab segment w-margin-top-0 @thesisTabClass" data-tab="thesis">
+                @Html.Partial("Tabs/Thesis", Model)
+            </div>
 
-                @using (Html.BeginForm("Index", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-
-                    @Html.AntiForgeryToken()
-
-                    @Html.RenderFormValidationResult(Model.ContactUsForm.FormResult.IsSuccess)
-
-                    @Html.Hidden("CompanyCodeName", Model.ContactUsForm.CompanyCodeName)
-                    @Html.Hidden("CompanyID", Model.ContactUsForm.CompanyID)
-
-                    <div class="ui reply form">
-                        <div class="field">
-                            <textarea name="Message" @Model.ContactUsForm.Message></textarea>
-                        </div>
-
-                        <button class="ui button submit primary" type="submit">
-                           Odeslat
-                        </button>
-                    </div>
-                }
+            <div class="ui tab segment w-margin-top-0 @contactTabClass" data-tab="contact">
+                @Html.Partial("Tabs/Contact", Model)
             </div>
         </div>
     </div>

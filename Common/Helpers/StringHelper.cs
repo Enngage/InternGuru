@@ -9,6 +9,20 @@ namespace Common.Helpers
     {
 
         /// <summary>
+        /// Indicates whether given string is well formed URL
+        /// </summary>
+        /// <param name="url">Url</param>
+        /// <returns>True if url is well formed, false otherwise</returns>
+        public static bool IsValidUrl(string url)
+        {
+            Uri uriResult;
+            bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult)
+                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
+            return result;
+        }
+
+        /// <summary>
         /// Shortens given text
         /// </summary>
         /// <param name="appendDots">If true, 3 dots "..." will be appended to text</param>

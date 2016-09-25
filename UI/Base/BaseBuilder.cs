@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Entity;
 using UI.Builders.Shared;
 using UI.Builders.Services;
+using UI.Events;
 
 namespace UI.Base
 {
@@ -91,10 +92,7 @@ namespace UI.Base
         /// </summary>
         /// <param name="appContext">appContext</param>
         /// <param name="IServicesLoader">services loader used to initialize all services</param>
-        public BaseBuilder(
-            IAppContext appContext,
-            IServicesLoader servicesLoader
-            )
+        public BaseBuilder(IAppContext appContext, IServicesLoader servicesLoader)
         {
             this.appContext = appContext;
             this.services = servicesLoader;
@@ -107,6 +105,10 @@ namespace UI.Base
             {
                 InitializeCurrentCompany();
             }
+
+            // Register service events
+            var eventProvider = new ServiceEvents(servicesLoader);
+            eventProvider.RegisterEvents();
         }
 
         #endregion
@@ -172,8 +174,8 @@ namespace UI.Base
                             var cacheSetup = this.CacheService.GetSetup<ICurrentUser>(cacheKey, cacheMinutes);
                             cacheSetup.Dependencies = new List<string>()
                             {
-                                ApplicationUser.KeyUpdate<ApplicationUser>(currentIdentity.Name),
-                                ApplicationUser.KeyUpdateAny<ApplicationUser>()
+                                EntityKeys.KeyUpdate<ApplicationUser>(currentIdentity.Name),
+                                EntityKeys.KeyUpdateAny<ApplicationUser>()
                             };
 
                             var user = this.CacheService.GetOrSet<ICurrentUser>(() => GetApplicationUser(currentIdentity.Name, currentIdentity.AuthenticationType), cacheSetup);
@@ -261,9 +263,9 @@ namespace UI.Base
             var cacheSetup = this.CacheService.GetSetup<ICurrentCompany>(cacheKey, cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
                             {
-                                Entity.Company.KeyDeleteAny<Entity.Company>(),
-                                Entity.Company.KeyCreateAny<Entity.Company>(),
-                                Entity.Company.KeyUpdateAny<Entity.Company>(),
+                                EntityKeys.KeyDeleteAny<Entity.Company>(),
+                                EntityKeys.KeyCreateAny<Entity.Company>(),
+                                EntityKeys.KeyUpdateAny<Entity.Company>(),
                             };
 
             var company = this.CacheService.GetOrSet<ICurrentCompany>(() => GetCompanyOfUserInternal(applicationUserId), cacheSetup);

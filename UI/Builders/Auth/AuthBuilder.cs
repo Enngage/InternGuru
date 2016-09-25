@@ -391,7 +391,7 @@ namespace UI.Builders.Company
             // don't show anything if recipient == current user. It should always be the other user
             if (otherUserId.Equals(this.CurrentUser.Id, StringComparison.OrdinalIgnoreCase))
             {
-                return null;
+                // to do maybe
             }
 
             // get other user and check if he exists
@@ -520,6 +520,13 @@ namespace UI.Builders.Company
             {
                 try
                 {
+
+                    // verify company URL
+                    if (!StringHelper.IsValidUrl(form.Web))
+                    {
+                        throw new UIException($"Zadejte validní URL webu");
+                    }
+
                     var company = new Entity.Company
                     {
                         ApplicationUserId = this.CurrentUser.Id,
@@ -594,6 +601,12 @@ namespace UI.Builders.Company
             {
                 try
                 {
+                    // verify company URL
+                    if (!StringHelper.IsValidUrl(form.Web))
+                    {
+                        throw new ValidationException($"Zadejte validní URL webu");
+
+                    }
                     // upload files if they are provided
                     if (form.Banner != null)
                     {
@@ -639,7 +652,18 @@ namespace UI.Builders.Company
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException(string.Format("Firma {0} je již v databázi", form.CompanyName), ex);
+                    throw new UIException($"Firma {form.CompanyName} je již v databázi", ex);
+                }
+                catch (ValidationException ex)
+                {
+                    // rollback
+                    transaction.Rollback();
+
+                    // log error
+                    Services.LogService.LogException(ex);
+
+                    // re-throw
+                    throw new UIException($"Zadejte validní URL webu", ex);
                 }
                 catch (Exception ex)
                 {
@@ -866,9 +890,9 @@ namespace UI.Builders.Company
             var cacheSetup = CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.Message.KeyUpdateAny<Entity.Message>(),
-                Entity.Message.KeyDeleteAny<Entity.Message>(),
-                Entity.Message.KeyCreateAny<Entity.Message>(),
+                EntityKeys.KeyUpdateAny<Entity.Message>(),
+                EntityKeys.KeyDeleteAny<Entity.Message>(),
+                EntityKeys.KeyCreateAny<Entity.Message>(),
             };
             cacheSetup.ObjectStringID = this.CurrentUser.Id + "_" + otherUserId;
             cacheSetup.PageNumber = pageNumber;
@@ -888,7 +912,7 @@ namespace UI.Builders.Company
             var cacheSetup = CacheService.GetSetup<AuthMessageUserModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.ApplicationUser.KeyUpdateAny<Entity.Message>(),
+                EntityKeys.KeyUpdateAny<Entity.Message>(),
             };
             cacheSetup.ObjectStringID = applicationUserId;
 
@@ -941,9 +965,9 @@ namespace UI.Builders.Company
             var cacheSetup = CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.Message.KeyUpdateAny<Entity.Message>(),
-                Entity.Message.KeyDeleteAny<Entity.Message>(),
-                Entity.Message.KeyCreateAny<Entity.Message>(),
+                EntityKeys.KeyUpdateAny<Entity.Message>(),
+                EntityKeys.KeyDeleteAny<Entity.Message>(),
+                EntityKeys.KeyCreateAny<Entity.Message>(),
             };
             cacheSetup.ObjectStringID = this.CurrentUser.Id;
             cacheSetup.PageNumber = pageNumber;
@@ -973,9 +997,9 @@ namespace UI.Builders.Company
             var cacheSetup = CacheService.GetSetup<AuthInternshipListingModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.Internship.KeyUpdateAny<Entity.Internship>(),
-                Entity.Internship.KeyDeleteAny<Entity.Internship>(),
-                Entity.Internship.KeyCreateAny<Entity.Internship>(),
+                EntityKeys.KeyUpdateAny<Entity.Internship>(),
+                EntityKeys.KeyDeleteAny<Entity.Internship>(),
+                EntityKeys.KeyCreateAny<Entity.Internship>(),
             };
             cacheSetup.ObjectStringID = this.CurrentUser.Id;
 
@@ -1002,8 +1026,8 @@ namespace UI.Builders.Company
             var cacheSetup = CacheService.GetSetup<int>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.Company.KeyCreateAny<Entity.Company>(),
-                Entity.Company.KeyDeleteAny<Entity.Company>(),
+                EntityKeys.KeyCreateAny<Entity.Company>(),
+                EntityKeys.KeyDeleteAny<Entity.Company>(),
             };
 
             var company = await CacheService.GetOrSet(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
@@ -1021,9 +1045,9 @@ namespace UI.Builders.Company
             var cacheSetup = this.CacheService.GetSetup<AuthCompanyCategoryModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.CompanyCategory.KeyCreateAny<Entity.CompanyCategory>(),
-                Entity.CompanyCategory.KeyDeleteAny<Entity.CompanyCategory>(),
-                Entity.CompanyCategory.KeyUpdateAny<Entity.CompanyCategory>(),
+                EntityKeys.KeyCreateAny<Entity.CompanyCategory>(),
+                EntityKeys.KeyDeleteAny<Entity.CompanyCategory>(),
+                EntityKeys.KeyUpdateAny<Entity.CompanyCategory>(),
             };
 
             var companyCategoriesQuery = this.Services.CompanyCategoryService.GetAll()
@@ -1048,9 +1072,9 @@ namespace UI.Builders.Company
             var cacheSetup = this.CacheService.GetSetup<AuthInternshipCategoryModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.InternshipCategory.KeyCreateAny<Entity.InternshipCategory>(),
-                Entity.InternshipCategory.KeyDeleteAny<Entity.InternshipCategory>(),
-                Entity.InternshipCategory.KeyUpdateAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyDeleteAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyUpdateAny<Entity.InternshipCategory>(),
             };
 
             var internshipCategoriesQuery = this.Services.InternshipCategoryService.GetAll()

@@ -1,8 +1,10 @@
-﻿using Core.Context;
+﻿using Common.Helpers;
+using Core.Context;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using UI.Base;
 using UI.Builders.Company;
+using UI.Builders.Company.Enums;
 using UI.Builders.Company.Forms;
 using UI.Builders.Master;
 using UI.Exceptions;
@@ -20,7 +22,7 @@ namespace Web.Controllers
 
         #region Actions
 
-        public async Task<ActionResult> Index(string codeName)
+        public async Task<ActionResult> Index(string codeName, string tab)
         {
             if (string.IsNullOrEmpty(codeName))
             {
@@ -34,6 +36,10 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
+            // set tab if possible
+            var activeTab = EnumHelper.ParseEnum<CompanyDetailMenuEnum>(tab, CompanyDetailMenuEnum.About.ToString());
+            model.ActiveTab = activeTab;
+
             return View(model);
         }
 
@@ -45,10 +51,16 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(CompanyContactUsForm form)
         {
+            // active tab (indicates which right menu is active)
+            var activeTab = CompanyDetailMenuEnum.Contact;
+
             // validate form
             if (!this.ModelStateWrapper.IsValid)
             {
-                return View(await companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form));
+                var model = await companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form);
+                model.ActiveTab = activeTab;
+
+                return View(model);
             }
 
             try
@@ -56,6 +68,9 @@ namespace Web.Controllers
                 await companyBuilder.CreateMessage(form);
 
                 var model = await companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, null);
+
+                // set active tab
+                model.ActiveTab = activeTab;
 
                 // set form status
                 model.ContactUsForm.FormResult.IsSuccess = true;
@@ -66,7 +81,10 @@ namespace Web.Controllers
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 
-                return View(await companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form));
+                var model = await companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form);
+                model.ActiveTab = activeTab;
+
+                return View(model);
             }
         }
 

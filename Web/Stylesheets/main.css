@@ -482,3 +482,9 @@
 #w-body-wrapper .w-color-background-white {
   background: #ffffff; }
 
+#w-body-wrapper .w-color-primary {
+  color: #2185d0; }
+
+#w-body-wrapper .w-color-secondary {
+  color: #FF5733; }
+

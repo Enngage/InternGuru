@@ -1,5 +1,6 @@
 ﻿using Cache;
 using Core.Services;
+using UI.Events;
 using UI.Files;
 
 namespace UI.Builders.Services
@@ -19,8 +20,8 @@ namespace UI.Builders.Services
         ICompanyService CompanyService { get; }
         IIdentityService IdentityService { get; }
         ILogService LogService { get; }
-
         IMessageService MessageService { get; }
+
         #endregion
     }
 }

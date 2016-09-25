@@ -40,7 +40,6 @@ namespace UI.Builders.Company
             {
                 Companies = await GetCompaniesAsync(pageNumber, null)
             };
-
         }
 
         public async Task<CompanyDetailView> BuildDetailViewAsync(string codeName, CompanyContactUsForm contactUsForm = null)
@@ -50,12 +49,13 @@ namespace UI.Builders.Company
             var cacheSetup = CacheService.GetSetup<CompanyDetailModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.Company.KeyUpdateCodeName<Entity.Company>(codeName),
-                Entity.Company.KeyDeleteCodeName<Entity.Company>(codeName),
-                Entity.Internship.KeyUpdateAny<Entity.Internship>(),
-                Entity.Internship.KeyCreateAny<Entity.Internship>(),
-                Entity.Internship.KeyDeleteAny<Entity.Internship>()
+                EntityKeys.KeyUpdateCodeName<Entity.Company>(codeName),
+                EntityKeys.KeyDeleteCodeName<Entity.Company>(codeName),
+                EntityKeys.KeyUpdateAny<Entity.Internship>(),
+                EntityKeys.KeyCreateAny<Entity.Internship>(),
+                EntityKeys.KeyDeleteAny<Entity.Internship>()
             };
+            cacheSetup.ObjectStringID = codeName;
 
             var companyQuery = Services.CompanyService.GetAll()
                 .Where(m => m.CodeName == codeName)
@@ -190,9 +190,9 @@ namespace UI.Builders.Company
             var cacheSetup = CacheService.GetSetup<CompanyBrowseModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.Company.KeyCreateAny<Entity.Company>(),
-                Entity.Company.KeyDeleteAny<Entity.Company>(),
-                Entity.Company.KeyUpdateAny<Entity.Company>()
+                EntityKeys.KeyCreateAny<Entity.Company>(),
+                EntityKeys.KeyDeleteAny<Entity.Company>(),
+                EntityKeys.KeyUpdateAny<Entity.Company>()
             };
 
             // cache different pages separately

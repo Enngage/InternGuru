@@ -13,6 +13,7 @@ using System.Collections;
 using System.Data.Entity;
 using PagedList;
 using Common.Extensions;
+using Entity;
 
 namespace UI.Builders.Internship
 {
@@ -81,9 +82,9 @@ namespace UI.Builders.Internship
             var cacheSetup = CacheService.GetSetup<InternshipBrowseModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.Internship.KeyCreateAny<Entity.Internship>(),
-                Entity.Internship.KeyDeleteAny<Entity.Internship>(),
-                Entity.Internship.KeyUpdateAny<Entity.Internship>()
+                EntityKeys.KeyCreateAny<Entity.Internship>(),
+                EntityKeys.KeyDeleteAny<Entity.Internship>(),
+                EntityKeys.KeyUpdateAny<Entity.Internship>()
             };
 
             var internshipsQuery = Services.InternshipService.GetAll()
@@ -140,9 +141,9 @@ namespace UI.Builders.Internship
             var cacheSetup = this.CacheService.GetSetup<IEnumerable<InternshipCategoryModel>>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.InternshipCategory.KeyCreateAny<Entity.InternshipCategory>(),
-                Entity.InternshipCategory.KeyUpdateAny<Entity.InternshipCategory>(),
-                Entity.InternshipCategory.KeyDeleteAny<Entity.InternshipCategory>()
+                EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyUpdateAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyDeleteAny<Entity.InternshipCategory>()
             };
 
             var internshipCategories = await this.CacheService.GetOrSetAsync(async () => await internshipCategoryQuery.ToListAsync(), cacheSetup);
@@ -175,9 +176,9 @@ namespace UI.Builders.Internship
 
             cacheSetup.Dependencies = new List<string>()
             {
-                Entity.InternshipCategory.KeyCreateAny<Entity.InternshipCategory>(),
-                Entity.InternshipCategory.KeyUpdateAny<Entity.InternshipCategory>(),
-                Entity.InternshipCategory.KeyDeleteAny<Entity.InternshipCategory>()
+                EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyUpdateAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyDeleteAny<Entity.InternshipCategory>()
             };
             cacheSetup.ObjectStringID = categoryCodeName;
 

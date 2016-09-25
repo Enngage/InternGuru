@@ -2,6 +2,7 @@
 
 using Cache;
 using Core.Services;
+using UI.Events;
 using UI.Files;
 
 namespace UI.Builders.Services

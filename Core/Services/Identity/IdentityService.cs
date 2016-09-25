@@ -10,7 +10,7 @@ using Core.Exceptions;
 
 namespace Core.Services
 {
-    public class Identityservice : BaseService<EntityAbstract>, IIdentityService // Use EntityAbstract because ApplicationUser is not inheriting it
+    public class Identityservice : BaseService<IEntity>, IIdentityService // Use EntityAbstract because ApplicationUser is not inheriting it
     {
 
         public Identityservice(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
@@ -43,8 +43,10 @@ namespace Core.Services
             this.AppContext.Entry(user).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchKey(ApplicationUser.KeyUpdate<ApplicationUser>(obj.UserName));
-            this.TouchKey(ApplicationUser.KeyUpdateAny<ApplicationUser>());
+            this.TouchUpdateKeys(obj);
+
+            // fire event
+            this.OnUpdate(obj);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

@@ -13,6 +13,7 @@ using Ninject.Web.Common;
 using System;
 using System.Web;
 using UI.Builders.Services;
+using UI.Events;
 using UI.Files;
 
 namespace Web.Lib.Ninject

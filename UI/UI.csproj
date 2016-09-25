@@ -117,7 +117,7 @@
   <ItemGroup>
     <Compile Include="Base\BaseApiController.cs" />
     <Compile Include="Base\BaseForm.cs" />
-    <Compile Include="Base\BuilderAbstract.cs" />
+    <Compile Include="Base\BaseBuilder.cs" />
     <Compile Include="Base\BaseController.cs" />
     <Compile Include="Builders\Account\AccountBuilder.cs" />
     <Compile Include="Builders\Account\Forms\ForgotPasswordForm.cs" />
@@ -151,6 +151,7 @@
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
     <Compile Include="Builders\Company\CompanyBuilder.cs" />
+    <Compile Include="Builders\Company\Enums\CompanyDetailMenuEnum.cs" />
     <Compile Include="Builders\Company\Forms\CompanyContactUsForm.cs" />
     <Compile Include="Builders\Company\Models\CompanyDetailInternshipModel.cs" />
     <Compile Include="Builders\Company\Models\CompanyDetailModel.cs" />
@@ -158,6 +159,10 @@
     <Compile Include="Builders\Company\Models\CompanyBrowseModel.cs" />
     <Compile Include="Builders\Company\Views\CompanyDetailView.cs" />
     <Compile Include="Builders\Company\Views\CompanyBrowseView.cs" />
+    <Compile Include="Builders\Form\FormBuilder.cs" />
+    <Compile Include="Builders\Form\Forms\FormInternshipForm.cs" />
+    <Compile Include="Builders\Form\Models\FormInternshipCompanyModel.cs" />
+    <Compile Include="Builders\Form\Views\FormInternshipView.cs" />
     <Compile Include="Builders\GoogleMaps\Views\GoogleMapView.cs" />
     <Compile Include="Builders\Internship\InternshipBuilder.cs" />
     <Compile Include="Builders\Internship\Models\InternshipBrowseModel.cs" />
@@ -188,6 +193,7 @@
     <Compile Include="ModelState\IModelState.cs" />
     <Compile Include="ModelState\ModelStateWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Events\ServiceEvents.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

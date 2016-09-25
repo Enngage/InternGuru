@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity
 {
-    public class Internship : EntityAbstract
+    public class Internship : IEntity
     {
         public int ID { get; set; }
         
@@ -72,14 +72,14 @@ namespace Entity
 
         #endregion
 
-        #region Entity abstract members
+        #region IEntity members
 
-        public override object GetObjectID()
+        public object GetObjectID()
         {
             return ID;
         }
 
-        public override string GetCodeName()
+        public string GetCodeName()
         {
             return ID.ToString();
         }

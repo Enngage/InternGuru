@@ -4,4 +4,12 @@
    .w-color-background-white{
        background: #ffffff;
    }
+
+   .w-color-primary{
+       color: $primary-color;
+   }
+
+   .w-color-secondary{
+       color: $secondary-color;
+   }
 }

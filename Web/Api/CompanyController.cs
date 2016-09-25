@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using UI.Base;
 using UI.Builders.Company;
+using UI.Builders.Company.Enums;
 using UI.Builders.Company.Models;
 using UI.Builders.Master;
 using UI.Helpers;
@@ -33,7 +34,7 @@ namespace Web.Api.Controllers
                 foreach (var company in companies)
                 {
                     company.Url = this.Url.Link("Company", new { codeName = company.CodeName });
-                    company.UrlToInternships = "TODO";
+                    company.UrlToInternships = this.Url.Link("Company", new { codeName = company.CodeName, tab = CompanyDetailMenuEnum.Internships });
                     company.LogoImageUrl = ImageHelper.GetCompanyLogo(company.ID);
                     company.BannerImageUrl = ImageHelper.GetCompanyBanner(company.ID);
                     company.CountryIcon = CountryHelper.GetCountryIcon(company.Country);

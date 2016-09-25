@@ -1,13 +1,17 @@
 ﻿
 using Core.Context;
+using Core.Events;
 using Entity;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Core.Services
 {
-    public interface IService<T> where T : EntityAbstract
+    public interface IService<T> where T : IEntity
     {
+
+        #region Entity actions 
 
         /// <summary>
         /// Inserts object into database
@@ -49,6 +53,10 @@ namespace Core.Services
         /// <returns>Object from database</returns>
         Task<T> GetAsync(int id);
 
+        #endregion
+
+        #region General
+
         /// <summary>
         /// Used for refreshing context may bring better performance when bulk inserting etc. 
         /// USE WITH CAUTION because the old context is lost
@@ -61,6 +69,16 @@ namespace Core.Services
         /// </summary>
         /// <param name="key"></param>
         void TouchKey(string key);
+
+        #endregion
+
+        #region Events
+
+        event EventHandler<InsertEventArgs<T>> OnInsertObject;
+        event EventHandler<UpdateEventArgs<T>> OnUpdateObject;
+        event EventHandler<DeleteEventArgs<T>> OnDeleteObject;
+
+        #endregion
 
     }
 }

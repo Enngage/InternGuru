@@ -1,0 +1,67 @@
+﻿@model UI.Builders.Form.Views.FormInternshipView
+@using UI.Helpers;
+@using Common.Helpers;
+@using UI.Extensions;
+@{
+    ViewBag.Title = $"Zájem | {Model.Internship.InternshipTitle}";
+    ViewBag.Description = $"Zájem | {Model.Internship.InternshipTitle}";
+    Layout = "~/Views/Shared/Body/Dark.cshtml";
+
+}
+
+<div class="w-padding-bottom-30">
+
+    <div class="ui container w-margin-top-20">
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <img alt="@Model.Internship.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Internship.CompanyID)" class="ui image fluid w-company-detail-banner" />
+            </div>
+        </div>
+    </div>
+
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <h1>
+                    Zájem o stáž <span class="ui header w-color-secondary">@Model.Internship.InternshipTitle</span>
+                </h1>
+
+                @using (Html.BeginForm("Internship", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    @Html.AntiForgeryToken()
+
+                    @Html.RenderFormValidationResult(Model.InternshipForm.FormResult.IsSuccess, "Zpráva byla odeslána")
+
+                    @Html.Hidden("InternshipID", Model.Internship.InternshipID)
+
+                    if (!Model.InternshipForm.FormResult.IsSuccess)
+                    {
+                        <p>
+                            Zpráva bude doručena firmě <strong>@Model.Internship.CompanyName</strong>
+                        </p>
+
+                            <div class="ui reply form">
+                                <div class="field">
+                                    <textarea name="Message" @Model.InternshipForm.Message></textarea>
+                                </div>
+
+                                <button class="ui button submit primary" type="submit">
+                                    Odeslat
+                                </button>
+                            </div>
+                    }
+                    else
+                    {
+                        <div class="ui segment padded">
+                            <p>
+                                Historii lze nalézt v <a href="@Url.Action("Index", "Auth")">profilu</a>
+                            </p>
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

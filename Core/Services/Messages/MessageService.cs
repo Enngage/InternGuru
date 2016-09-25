@@ -26,6 +26,9 @@ namespace Core.Services
             // touch cache keys
             this.TouchInsertKeys(obj);
 
+            // fire event
+            this.OnInsert(obj);
+
             return this.SaveChangesAsync();
         }
 
@@ -40,8 +43,12 @@ namespace Core.Services
                 // touch cache keys
                 this.TouchDeleteKeys(message);
 
+                // fire event
+                this.OnDelete(message);
+
                 // save changes
                 return this.AppContext.SaveChangesAsync();
+
             }
 
             return Task.FromResult(0);
@@ -64,6 +71,9 @@ namespace Core.Services
 
             // touch cache keys
             this.TouchUpdateKeys(message);
+
+            // fire event
+            this.OnUpdate(message);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

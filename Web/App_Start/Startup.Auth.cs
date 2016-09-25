@@ -14,8 +14,6 @@ using Common.Config;
 using Ninject.Web.Common.OwinHost;
 using Entity;
 using Microsoft.Owin.Security.DataProtection;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Web
 {

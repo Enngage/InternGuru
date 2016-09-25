@@ -1,6 +1,7 @@
 ﻿@using UI.Helpers;
 @using UI.Extensions;
 @using PagedList.Mvc
+@using Common.Helpers;
 @model UI.Builders.Auth.Views.AuthConversationView
 
 @{
@@ -44,14 +45,18 @@
                     <div class="item w-body-item-highlighted">
                         <div class="content">
                             <div class="extra w-body-text-right w-font-size-small">
-                                <i class="calendar icon"></i>@message.MessageCreated.ToShortDateString() @message.MessageCreated.ToLongTimeString() |
-                                @if (message.IsRead)
+                                <i class="calendar icon"></i>@DateHelper.GetPrettyDate(message.MessageCreated)
+                                @if (message.SenderApllicationUserId.Equals(message.CurrentUserId, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    <i title="Přečteno" class="checkmark green icon"></i>
-                                }
-                                else
-                                {
-                                    <i title="Nepřečteno" class="remove red icon"></i>
+                                    <span>|</span>
+                                    if (message.IsRead)
+                                    {
+                                        <i title="Přečteno" class="checkmark green icon"></i>
+                                    }
+                                    else
+                                    {
+                                        <i title="Nepřečteno" class="remove red icon"></i>
+                                    }
                                 }
                             </div>
                             <div class="description">
@@ -67,7 +72,6 @@
 
         @if (Model.Messages.PageCount > 1)
             {
-            @(Model.Messages.PageCount < Model.Messages.PageNumber ? 0 : Model.Messages.PageNumber) @:/ @Model.Messages.PageCount
             @Html.PagedListPager(Model.Messages, page => Url.Action("Conversation", "Auth", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
         }
 

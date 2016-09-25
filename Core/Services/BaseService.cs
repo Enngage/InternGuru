@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using Core.Context;
 using Cache;
 using Entity;
+using Core.Events;
 
 namespace Core.Services
 {
-    public class BaseService<T> : IDisposable where T : EntityAbstract
+    public class BaseService<T> : IDisposable where T : class, IEntity
     {
         #region Variables
 
@@ -132,12 +133,59 @@ namespace Core.Services
 
         #endregion
 
-        #region IService members
+        #region Events 
+
+        public event EventHandler<InsertEventArgs<T>> OnInsertObject;
+        public event EventHandler<UpdateEventArgs<T>> OnUpdateObject;
+        public event EventHandler<DeleteEventArgs<T>> OnDeleteObject;
+
+        /// <summary>
+        /// Insert event action
+        /// </summary>
+        /// <param name="e"></param>
+        protected void OnInsert(T obj)
+        {
+            var args = new InsertEventArgs<T>()
+            {
+                Obj = obj
+            };
+            OnInsertObject?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Update event action
+        /// </summary>
+        /// <param name="e"></param>
+        protected void OnUpdate(T obj)
+        {
+            var args = new UpdateEventArgs<T>()
+            {
+                Obj = obj
+            };
+            OnUpdateObject?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Delete event action
+        /// </summary>
+        /// <param name="e"></param>
+        protected void OnDelete(T obj)
+        {
+            var args = new DeleteEventArgs<T>()
+            {
+                Obj = obj
+            };
+            OnDeleteObject?.Invoke(this, args);
+        }
+
+        #endregion
+
+        #region IService
 
         /// <summary>
         /// Touches given cache key in order to clear the item
         /// </summary>
-        public void TouchKey(string key)
+        public virtual void TouchKey(string key)
         {
             cacheService.TouchKey(key);
         }
@@ -145,20 +193,20 @@ namespace Core.Services
         /// <summary>
         /// Touches all keys for insert action
         /// </summary>
-        public void TouchInsertKeys(T obj)
+        public virtual void TouchInsertKeys(T obj)
         {
-            cacheService.TouchKey(EntityAbstract.KeyCreateAny<T>());
+            cacheService.TouchKey(EntityKeys.KeyCreateAny<T>());
         }
 
         /// <summary>
         /// Touches all keys for update actions
         /// </summary>
         /// <param name="obj">Object</param>
-        public void TouchUpdateKeys(T obj)
+        public virtual void TouchUpdateKeys(T obj)
         {
-            cacheService.TouchKey(EntityAbstract.KeyUpdateAny<T>());
-            cacheService.TouchKey(EntityAbstract.KeyUpdateCodeName<T>(obj.GetCodeName()));
-            cacheService.TouchKey(EntityAbstract.KeyUpdate<T>(obj.GetObjectID().ToString()));
+            cacheService.TouchKey(EntityKeys.KeyUpdateAny<T>());
+            cacheService.TouchKey(EntityKeys.KeyUpdateCodeName<T>(obj.GetCodeName()));
+            cacheService.TouchKey(EntityKeys.KeyUpdate<T>(obj.GetObjectID().ToString()));
         }
 
 
@@ -166,11 +214,11 @@ namespace Core.Services
         /// Touches all keys for delete actions
         /// </summary>
         /// <param name="obj">Object</param>
-        public void TouchDeleteKeys(T obj)
+        public virtual void TouchDeleteKeys(T obj)
         {
-            cacheService.TouchKey(EntityAbstract.KeyDeleteAny<T>());
-            cacheService.TouchKey(EntityAbstract.KeyDeleteCodeName<T>(obj.GetCodeName()));
-            cacheService.TouchKey(EntityAbstract.KeyDelete<T>(obj.GetObjectID().ToString()));
+            cacheService.TouchKey(EntityKeys.KeyDeleteAny<T>());
+            cacheService.TouchKey(EntityKeys.KeyDeleteCodeName<T>(obj.GetCodeName()));
+            cacheService.TouchKey(EntityKeys.KeyDelete<T>(obj.GetObjectID().ToString()));
         }
 
         /// <summary>
@@ -178,7 +226,7 @@ namespace Core.Services
         /// USE WITH CAUTION because the old context is lost
         /// </summary>
         /// <param name="appContext"></param>
-        public void RefreshAppContext(IAppContext appContext)
+        public virtual void RefreshAppContext(IAppContext appContext)
         {
             // dispose old context
             Dispose();
@@ -186,7 +234,7 @@ namespace Core.Services
             // assign new context
             this.appContext = appContext;
         }
-
+       
         #endregion
     }
 }

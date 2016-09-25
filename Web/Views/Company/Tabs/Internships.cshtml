@@ -1,0 +1,36 @@
+﻿@model UI.Builders.Company.Views.CompanyDetailView
+@using UI.Helpers;
+@using Common.Helpers;
+@using UI.Extensions;
+
+<h2>
+    Aktuální nabídky
+</h2>
+
+<table class="ui very basic table">
+    <tbody>
+        @foreach (var internship in Model.Company.Internships)
+        {
+            <tr>
+                <td class="w-font-size-large">
+                    <a href="#">
+                        @internship.Title <span class="w-font-size-small w-font-light">
+                            @if (internship.IsPaid)
+                            {
+                                <span>(@StringHelper.FormatNumber(internship.Amount) @internship.Currency / @internship.AmountType)</span>
+                            }
+                        </span>
+                    </a>
+                </td>
+                <td class="collapsing">
+                    <a href="@Url.Action("Internship", "Form", new { id = internship.ID })">
+                        <div class="ui button primary">
+                            Odpovědět
+                        </div>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -61,6 +61,9 @@
     <Compile Include="Context\AppContextConfig.cs" />
     <Compile Include="Context\IAppContext.cs" />
     <Compile Include="Context\Initializer.cs" />
+    <Compile Include="Events\DeleteEventArgs.cs" />
+    <Compile Include="Events\UpdateEventArgs.cs" />
+    <Compile Include="Events\InsertEventArgs.cs" />
     <Compile Include="Exceptions\CodeNameNotUniqueException.cs" />
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
