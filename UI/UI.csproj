@@ -167,6 +167,8 @@
     <Compile Include="Builders\Internship\InternshipBuilder.cs" />
     <Compile Include="Builders\Internship\Models\InternshipBrowseModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipCategoryModel.cs" />
+    <Compile Include="Builders\Internship\Models\InternshipDetailModel.cs" />
+    <Compile Include="Builders\Internship\Views\InternshipDetailView.cs" />
     <Compile Include="Builders\Internship\Views\InternshipBrowseView.cs" />
     <Compile Include="Builders\Master\MasterBuilder.cs" />
     <Compile Include="Builders\Master\Models\MasterModel.cs" />

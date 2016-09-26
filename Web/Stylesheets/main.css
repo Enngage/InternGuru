@@ -455,6 +455,38 @@
 #w-body-wrapper .w-internship-category-menu .item.active {
   border-right: solid 3px #FF5733; }
 
+#w-body-wrapper .w-internship-fixed-wrapper {
+  transition: all 0.5s ease;
+  width: 100%;
+  top: 54px !important;
+  /* override the Top set by semantic-ui*/ }
+  @media (max-width: 767px) {
+    #w-body-wrapper .w-internship-fixed-wrapper {
+      /* Fix top in mobile devices because the main top nav is missing*/
+      top: 0 !important;
+      /* override the Top set by semantic-ui*/ } }
+
+#w-body-wrapper .w-internship-fixed-wrapper.fixed .segment {
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); }
+
+#w-body-wrapper .w-internship-detail-banner {
+  height: 247px; }
+
+#w-body-wrapper .w-internship-menu-wrapper {
+  background-color: #ffffff; }
+  #w-body-wrapper .w-internship-menu-wrapper h1 {
+    float: left;
+    margin-top: 8px;
+    margin-bottom: 0; }
+  #w-body-wrapper .w-internship-menu-wrapper .w-internship-icon {
+    float: left;
+    margin-right: 10px;
+    margin-left: 15px;
+    margin-top: 8px; }
+  #w-body-wrapper .w-internship-menu-wrapper .w-internship-menu-right {
+    float: right;
+    margin-right: 20px; }
+
 #w-body-wrapper .w-auth-menu .item.active {
   border-bottom: solid 3px #FF5733; }
 

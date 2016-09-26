@@ -1,0 +1,78 @@
+﻿@model UI.Builders.Internship.Views.InternshipDetailView
+@using UI.Helpers;
+@using Common.Helpers;
+@using UI.Extensions;
+
+@{
+    ViewBag.Title = Model.Internship.Title;
+    ViewBag.Description = $"Informace o stáži {Model.Internship.Title} u firmy {Model.Internship.CompanyName}";
+    Layout = "~/Views/Shared/Body/Dark.cshtml";
+}
+
+@Html.RequireScript("/scripts/views/internship/detail")
+
+<div class="ui container w-margin-top-20">
+    <div class="ui grid">
+        <div class="sixteen wide column w-padding-bottom-0">
+            <img alt="@Model.Internship.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Internship.CompanyID)" class="ui image fluid w-internship-detail-banner" />
+        </div>
+    </div>
+</div>
+
+<div id="_InternshipMenuWrapper" class="w-internship-fixed-wrapper">
+    <div class="ui container">
+        <div class="ui vertical segment w-internship-menu-wrapper">
+            <img alt="Company logo" class="ui avatar image w-internship-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Internship.CompanyID)">
+
+            <h1>
+                @Model.Internship.Title
+            </h1>
+
+            <div class="w-internship-menu-right">
+                <a href="@Url.Action("Internship", "Form", new { id = Model.Internship.ID })">
+                    <div class="ui button secondary">
+                        Odpovědět
+                    </div>
+                </a>
+            </div>
+
+            <div class="w-body-clear"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="ui container w-margin-top-20 w-padding-bottom-30">
+    <div class="ui grid">
+        <div class="sixteen wide mobile six wide tablet five wide computer column">
+           HERE
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br /><br />
+            <br />
+            <br />
+            <br />
+            <br /><br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>

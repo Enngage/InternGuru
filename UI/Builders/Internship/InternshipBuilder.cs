@@ -67,6 +67,21 @@ namespace UI.Builders.Internship
             };
         }
 
+        public async Task<InternshipDetailView> BuildDetailViewAsync(int internshipID)
+        {
+            var internship = await GetInternshipDetailModelAsync(internshipID);
+
+            if (internship == null)
+            {
+                return null;
+            }
+
+            return new InternshipDetailView()
+            {
+                Internship = internship
+            };
+        }
+
         #endregion
 
         #region Helper methods
@@ -185,6 +200,61 @@ namespace UI.Builders.Internship
             var category = await this.CacheService.GetOrSetAsync(async () => await categoryQuery.FirstOrDefaultAsync(), cacheSetup);
 
             return category == null ? 0 : category.CategoryID;
+        }
+
+        /// <summary>
+        /// Gets Internship detail model from db/cache
+        /// </summary>
+        /// <param name="internshipID">Internship ID</param>
+        /// <returns>Internship or null if none is found</returns>
+        private async Task<InternshipDetailModel> GetInternshipDetailModelAsync(int internshipID)
+        {
+            var internshipQuery = this.Services.InternshipService.GetSingle(internshipID)
+                .Select(m => new InternshipDetailModel()
+                {
+                    CompanyID = m.CompanyID,
+                    CompanyName = m.Company.CompanyName,
+                    Amount = m.Amount,
+                    AmountType = m.AmountType,
+                    City = m.City,
+                    Country = m.Country,
+                    Created = m.Created,
+                    Currency = m.Currency,
+                    Description = m.Description,
+                    HasFlexibleHours = m.HasFlexibleHours,
+                    ID = m.ID,
+                    InternshipCategoryID = m.InternshipCategoryID,
+                    InternshipCategoryName = m.InternshipCategory.Name,
+                    IsActive = m.IsActive,
+                    IsPaid = m.IsPaid,
+                    MaxDurationInDays = m.MaxDurationInDays,
+                    MaxDurationInMonths = m.MaxDurationInMonths,
+                    MaxDurationInWeeks = m.MaxDurationInWeeks,
+                    MaxDurationType = m.MaxDurationType,
+                    MinDurationInDays = m.MinDurationInDays,
+                    MinDurationInMonths = m.MinDurationInMonths,
+                    MinDurationInWeeks = m.MinDurationInWeeks,
+                    MinDurationType = m.MinDurationType,
+                    Requirements = m.Requirements,
+                    StartDate = m.StartDate,
+                    Title = m.Title,
+                    Updated = m.Updated,
+                    WorkingHours = m.WorkingHours
+                });
+
+            int cacheMinutes = 120;
+            var cacheSetup = this.CacheService.GetSetup<int>(this.GetSource(), cacheMinutes);
+
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdate<Entity.Internship>(internshipID),
+                EntityKeys.KeyDelete<Entity.Internship>(internshipID)
+            };
+            cacheSetup.ObjectID = internshipID;
+
+            var internship = await this.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
+
+            return internship;
         }
 
         #endregion

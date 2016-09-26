@@ -38,7 +38,7 @@
         </div>
         <div class="sixteen wide mobile two wide tablet two wide computer column">
             <button class="ui button submit primary" type="submit">
-                Odeslat
+                Hledat
             </button>
         </div>
 
@@ -91,7 +91,7 @@
                                     <img class="ui tiny image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyID)" />
                                 </td>
                                 <td>
-                                    <a href="#">
+                                    <a href="@Url.Action("Index", "Internship", new { id = internship.ID })">
                                         @internship.Title
                                     </a>
                                     <span class="w-font-size-small w-font-light">(@StringHelper.FormatNumber(internship.Amount) @internship.Currency / @internship.AmountType)</span>
