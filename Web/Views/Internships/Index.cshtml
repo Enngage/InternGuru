@@ -86,12 +86,12 @@
                     <tbody>
                         @foreach (var internship in Model.Internships)
                         {
-                            <tr data-link="/Companies">
+                            <tr data-link="@Url.Action("Index", "Internship", new { id = internship.ID, codename = internship.CodeName })">
                                 <td class="collapsing">
                                     <img class="ui tiny image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyID)" />
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("Index", "Internship", new { id = internship.ID })">
+                                    <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codename = internship.CodeName })">
                                         @internship.Title
                                     </a>
                                     <span class="w-font-size-small w-font-light">(@StringHelper.FormatNumber(internship.Amount) @internship.Currency / @internship.AmountType)</span>

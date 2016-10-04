@@ -16,6 +16,12 @@ namespace Web
             );
 
             routes.MapRoute(
+                name: "Internship",
+                url: "Internship/{id}/{codeName}",
+                defaults: new { controller = "Internship", action = "Index", id = UrlParameter.Optional, codename = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "BrowseInternships",
                 url: "Internships/{category}",
                 defaults: new { controller = "Internships", action = "Index", category = UrlParameter.Optional }

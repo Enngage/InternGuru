@@ -180,6 +180,10 @@
     <Compile Include="Migrations\201609241339208_RecipientCompanyID.Designer.cs">
       <DependentUpon>201609241339208_RecipientCompanyID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610041625580_AddCodeNameToInternship.cs" />
+    <Compile Include="Migrations\201610041625580_AddCodeNameToInternship.Designer.cs">
+      <DependentUpon>201610041625580_AddCodeNameToInternship.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
@@ -302,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609241339208_RecipientCompanyID.resx">
       <DependentUpon>201609241339208_RecipientCompanyID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610041625580_AddCodeNameToInternship.resx">
+      <DependentUpon>201610041625580_AddCodeNameToInternship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

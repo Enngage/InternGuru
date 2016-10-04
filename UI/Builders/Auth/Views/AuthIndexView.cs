@@ -9,5 +9,6 @@ namespace UI.Builders.Auth.Views
     {
         public IEnumerable<AuthInternshipListingModel> Internships { get; set; }
         public IPagedList<AuthMessageModel> Messages { get; set; }
+        public int NotReadMessagesCount { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Helpers;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,6 +8,10 @@ namespace Entity
     public class Internship : IEntity
     {
         public int ID { get; set; }
+        [Required]
+        [MaxLength(250)]
+        [Index]
+        public string CodeName { get; set; }
         
         [ForeignKey("InternshipCategory")]
         public int InternshipCategoryID { get; set; }
@@ -81,7 +86,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return ID.ToString();
+            return StringHelper.GetCodeName(Title);
         }
 
         #endregion

@@ -8,6 +8,7 @@ namespace UI.Builders.Internship.Models
     public class InternshipBrowseModel
     {
         public int ID { get; set; }
+        public string CodeName { get; set; }
         public string Description { get; set; }
         public string Requirements { get; set; }
         public int InternshipCategoryID { get; set; }

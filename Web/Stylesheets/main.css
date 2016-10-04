@@ -70,6 +70,7 @@
 
 #w-body-wrapper .w-menu-mobile-header {
   margin-top: 0;
+  margin-bottom: 0;
   border: none;
   border-radius: 0; }
 
@@ -289,6 +290,9 @@
 
 #w-body-wrapper .w-padding-left-0 {
   padding-left: 0; }
+
+#w-body-wrapper .w-padding-left-15 {
+  padding-left: 15px; }
 
 #w-body-wrapper .w-padding-right-0 {
   padding-right: 0; }

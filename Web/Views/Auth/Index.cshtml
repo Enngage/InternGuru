@@ -36,9 +36,13 @@
         <div class="ui secondary pointing menu w-auth-menu">
             <a class="item active" data-tab="first">
                 Zprávy
+                @if (Model.NotReadMessagesCount > 0)
+                {
+                    <span class="w-color-secondary">&nbsp;(@Model.NotReadMessagesCount)</span>
+                }
             </a>
             <a class="item" data-tab="second">
-                Vystavené nabídky
+                Moje stáže
             </a>
             <div class="right menu">
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
@@ -64,7 +68,8 @@
                 <div class="ui items divided">
                     @foreach (var message in Model.Messages)
                     {
-                        <div class="item">
+                        var segmentClass = message.WrittenByCurrentUser ? string.Empty : "w-segment-dark basic";
+                        <div class="item w-padding-left-15 @segmentClass">
                             <a class="ui tiny image" href="@Url.Action("Conversation", new { id = message.ConversationID })">
                                 <img class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(message.SenderApplicationUserName)">
                             </a>
@@ -80,7 +85,7 @@
                                     }
                                 </a>
                                 <div class="meta w-font-size-small">
-                                    <i class="calendar icon"></i>@DateHelper.GetPrettyDate(message.MessageCreated) | 
+                                    <i class="calendar icon"></i>@DateHelper.GetPrettyDate(message.MessageCreated) |
                                     @if (message.IsRead)
                                     {
                                         <i title="Přečteno" class="checkmark green icon"></i><span>přečteno</span>
@@ -105,7 +110,7 @@
                 {
                     @Html.PagedListPager(Model.Messages, page => Url.Action("Index", "Auth", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
                 }
-}
+            }
         </div>
 
         <div class="ui tab segment" data-tab="second">

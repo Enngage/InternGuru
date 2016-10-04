@@ -42,7 +42,8 @@ namespace UI.Builders.Company
             return new AuthIndexView()
             {
                 Internships = await GetInternshipsAsync(),
-                Messages = await GetMessagesAsync(page)
+                Messages = await GetMessagesAsync(page),
+                NotReadMessagesCount = await GetNotReadMessagesOfCurrentUserAsync()
             };
         }
 
@@ -848,6 +849,32 @@ namespace UI.Builders.Company
         #endregion
 
         #region Helper methods
+
+        /// <summary>
+        /// Gets total number of not read messages of current user
+        /// </summary>
+        /// <param name="userID">ID of user whose messages will be retrieved</param>
+        /// <returns>Number of not read messages</returns>
+        private async Task<int> GetNotReadMessagesOfCurrentUserAsync()
+        {
+            var messagesQuery = this.Services.MessageService.GetAll()
+               .Where(m => m.RecipientApplicationUserId == this.CurrentUser.Id && !m.IsRead)
+               .Select(m => m.ID);
+
+            int cacheMinutes = 30;
+            var cacheSetup = CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdateAny<Entity.Message>(),
+                EntityKeys.KeyDeleteAny<Entity.Message>(),
+                EntityKeys.KeyCreateAny<Entity.Message>(),
+            };
+            cacheSetup.ObjectStringID = this.CurrentUser.Id;
+
+            var result = await CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetup);
+
+            return result.Count();
+        }
 
         /// <summary>
         /// Gets conversation messages with given user

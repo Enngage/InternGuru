@@ -57,6 +57,9 @@ namespace Core.Services
             obj.Created = DateTime.Now;
             obj.Updated = DateTime.Now;
 
+            // set code name
+            obj.CodeName = obj.GetCodeName();
+
             this.AppContext.Internships.Add(obj);
 
             // touch cache keys
@@ -78,7 +81,10 @@ namespace Core.Services
             }
 
             obj.Updated = DateTime.Now;
-            obj.Created = internship.Created; 
+            obj.Created = internship.Created;
+
+            // set code name
+            obj.CodeName = obj.GetCodeName();
 
             // update log
             this.AppContext.Entry(internship).CurrentValues.SetValues(obj);

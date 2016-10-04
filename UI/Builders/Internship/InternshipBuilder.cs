@@ -7,9 +7,7 @@ using UI.Base;
 using Core.Context;
 using UI.Builders.Internship.Views;
 using UI.Builders.Internship.Models;
-using PagedList.EntityFramework;
 using UI.Builders.Services;
-using System.Collections;
 using System.Data.Entity;
 using PagedList;
 using Common.Extensions;
@@ -108,6 +106,7 @@ namespace UI.Builders.Internship
                 .Select(m => new InternshipBrowseModel()
                 {
                     ID = m.ID,
+                    CodeName = m.CodeName,
                     Created = m.Created,
                     Amount = m.Amount,
                     AmountType = m.AmountType,
