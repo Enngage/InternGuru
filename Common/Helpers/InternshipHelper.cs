@@ -1,5 +1,7 @@
 ﻿using Common.Helpers.Internship;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Common.Helpers
 {
@@ -30,19 +32,59 @@ namespace Common.Helpers
                 new InternshipDurationTypeModel()
                 {
                     DurationName = "Měsíců",
-                    DurationValue = "Months",
+                    DurationValue = InternshipDurationTypeEnum.Months
                 },
                 new InternshipDurationTypeModel()
                 {
                     DurationName = "Týdnů",
-                    DurationValue = "Weeks",
+                    DurationValue = InternshipDurationTypeEnum.Weeks,
                 },
                 new InternshipDurationTypeModel()
                 {
                     DurationName = "Dnů",
-                    DurationValue = "Days",
+                    DurationValue = InternshipDurationTypeEnum.Days,
                 }
             };
+        }
+
+        /// <summary>
+        /// Get internship duration type
+        /// </summary>
+        /// <param name="durationValue">Duration value (codeName)</param>
+        public static InternshipDurationTypeModel GetInternshipDuration(InternshipDurationTypeEnum durationValue)
+        {
+            return GetInternshipDurations().Where(m => m.DurationValue.Equals(durationValue)).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets "nice" text (eg" 3 - 5 týdnů, 1 -2 týdny, 3 týdny - 5 měsíců)
+        /// </summary>
+        /// <param name="minDurationType"></param>
+        /// <param name="minValue"></param>
+        /// <param name="maxDurationType"></param>
+        /// <param name="maxValue"></param>
+        public static string GetInternshipDurationDisplayValue(InternshipDurationTypeEnum minDurationType, int minValue, InternshipDurationTypeEnum maxDurationType, int maxValue)
+        {
+            Func<InternshipDurationTypeEnum, int, string> translate = (type, duration) =>
+            {
+                switch (type)
+                {
+                    case InternshipDurationTypeEnum.Days:
+                        return StringHelper.GetPluralWord(duration, "den", "dny", "dnů");
+                    case InternshipDurationTypeEnum.Weeks:
+                        return StringHelper.GetPluralWord(duration, "týden", "týdny", "týdnů");
+                    case InternshipDurationTypeEnum.Months:
+                    default:
+                        return StringHelper.GetPluralWord(duration, "měsíc", "měsíce", "měsíců");
+                }
+            };
+
+            if (minDurationType == maxDurationType)
+            {
+                return $"{minValue} - {maxValue} {translate(minDurationType, maxValue)}";
+            }
+
+            return $"{minValue} {translate(minDurationType, minValue)} - {maxValue} {translate(maxDurationType, maxValue)}";
         }
 
         /// <summary>

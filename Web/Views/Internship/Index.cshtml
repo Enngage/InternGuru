@@ -5,8 +5,14 @@
 
 @{
     ViewBag.Title = Model.Internship.Title;
-    ViewBag.Description = $"Informace o stáži {Model.Internship.Title} u firmy {Model.Internship.CompanyName}";
+    ViewBag.Description = $"Informace o stáži {Model.Internship.Title} u firmy {Model.Internship.Company.CompanyName}";
     Layout = "~/Views/Shared/Body/Dark.cshtml";
+
+    // get currency
+    var currency = CurrencyHelper.GetCurrency(Model.Internship.Currency);
+
+    // get country
+    var country = CountryHelper.GetCountry(Model.Internship.Country);
 }
 
 @Html.RequireScript("/scripts/views/internship/detail")
@@ -14,7 +20,9 @@
 <div class="ui container w-margin-top-20">
     <div class="ui grid">
         <div class="sixteen wide column w-padding-bottom-0">
-            <img alt="@Model.Internship.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Internship.CompanyID)" class="ui image fluid w-internship-detail-banner" />
+            <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
+                <img alt="@Model.Internship.Company.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyID)" class="ui image fluid w-internship-detail-banner" />
+            </a>
         </div>
     </div>
 </div>
@@ -22,7 +30,7 @@
 <div id="_InternshipMenuWrapper" class="w-internship-fixed-wrapper">
     <div class="ui container">
         <div class="ui vertical segment w-internship-menu-wrapper">
-            <img alt="Company logo" class="ui avatar image w-internship-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Internship.CompanyID)">
+            <img alt="Company logo" class="ui avatar image w-internship-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Internship.Company.CompanyID)">
 
             <h1>
                 @Model.Internship.Title
@@ -44,35 +52,174 @@
 
 <div class="ui container w-margin-top-20 w-padding-bottom-30">
     <div class="ui grid">
-        <div class="sixteen wide mobile six wide tablet five wide computer column">
-           HERE
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br /><br />
-            <br />
-            <br />
-            <br />
-            <br /><br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+            <div class="ui segment">
+                <div class="w-body-text-center">
+                    <div class="ui horizontal list">
+                        <div class="item">
+                            <div class="content">
+                                <i class="marker icon"></i>@Model.Internship.City
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.Country))
+                                @{
+                                    if (country != null)
+                                    {
+                                        @country.CountryName
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                @if (Model.Internship.IsPaid)
+                                {
+                                    <i class="gift icon"></i><span>@currency.DisplayValue(Model.Internship.Amount) / @Model.Internship.AmountType</span>
+                                }
+                                else
+                                {
+                                    <i class="gift icon"></i><span>Neplaceno</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <i title="Nástup od" class="calendar icon"></i>Nástup od @DateHelper.GetPrettyDate(Model.Internship.StartDate)
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                @if (Model.Internship.HasFlexibleHours)
+                                {
+                                    <i class="wait icon"></i><span>Flexibilní pracovní doba <i class="checkmark green icon"></i></span>
+                                }
+                                else
+                                {
+                                    <i class="wait icon"></i><span>@Model.Internship.WorkingHours</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-margin-top-30">
+
+                    <div class="w-body-text-center">
+                        <div class="ui button teal large w-override-no-button">
+                            @InternshipHelper.GetInternshipDurationDisplayValue(Model.Internship.MinDurationTypeModel.DurationValue, Model.Internship.MinDurationDefault, Model.Internship.MaxDurationTypeModel.DurationValue, Model.Internship.MaxDurationDefault)
+                        </div>
+                    </div>
+
+                    <div class="w-margin-top-30">
+
+                        @Html.Raw(Model.Internship.Description)
+
+                    </div>
+
+                    <div class="w-margin-top-30">
+                        <h2 class="w-font-primary">
+                            Požadavky
+                        </h2>
+
+                        @Html.Raw(Model.Internship.Requirements)
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <div class="ui segment">
+        <div class="ui grid">
+
+            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column w-body-text-center">
+                <div class="ui horizontal list w-font-light">
+                    <div class="item">
+                        <div class="content">
+                            <h3>
+                                <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
+                                    @Model.Internship.Company.CompanyName
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <i class="idea icon"></i> Založeno @Model.Internship.Company.YearFounded
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <i class="users icon"></i>
+                            @{
+                                // get display name of company size
+                                var companySizeDisplay = InternshipHelper.GetAllowedCompanySizes().Where(m => m.Value == Model.Internship.Company.CompanySize.ToString()).FirstOrDefault();
+
+                                if (companySizeDisplay != null)
+                                {
+                                    <span>@companySizeDisplay.Name zaměstnanců</span>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Internship.Company.Web))
+                    {
+                        <div class="item">
+                            <div class="content">
+                                <i class="laptop icon"></i>
+                                <a href="@Model.Internship.Company.Web">
+                                    @Model.Internship.Company.Web
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Internship.Company.Facebook))
+                    {<div class="item">
+                        <div class="content">
+                            <a href="@Model.Internship.Company.Facebook">
+                                <i class="facebook icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Internship.Company.Twitter))
+                    {
+                        <div class="item">
+                            <div class="content">
+                                <a href="@Model.Internship.Company.Twitter">
+                                    <i class="twitter icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Internship.Company.LinkedIn))
+                    {
+                        <div class="item">
+                            <div class="content">
+                                <a href="@Model.Internship.Company.LinkedIn">
+                                    <i class="linkedin icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
+                    new UI.Builders.GoogleMaps.Views.GoogleMapView()
+                    {
+                        Zoom = 15,
+                        Lat = Model.Internship.Company.Lat,
+                        Lng = Model.Internship.Company.Lng,
+                        MarkerTitle = Model.Internship.Company.CompanyName
+                    })
+            </div>
+        </div>
+    </div>
+
 </div>

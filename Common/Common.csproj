@@ -50,8 +50,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\CurrencyHelper.cs" />
     <Compile Include="Helpers\ConvertHelper.cs" />
+    <Compile Include="Helpers\Currency\CurrencyModel.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
-    <Compile Include="Helpers\EncryptionHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\HashHelper.cs" />
     <Compile Include="Helpers\InternshipHelper.cs" />

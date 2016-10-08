@@ -65,7 +65,7 @@ namespace Common.Helpers
 
             if (country == null)
             {
-                return string.Format("<i class=\"flag\"></i>");
+                return string.Format("<i class=\"flag icon\"></i>");
             }
 
             return string.Format("<i class=\"{0} flag\"></i>", country.FlagIcon);

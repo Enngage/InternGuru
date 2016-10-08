@@ -1,16 +1,15 @@
-﻿using Common.Helpers;
-using Core.Context;
+﻿using Core.Context;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using UI.Base;
 using UI.Builders.Company;
 using UI.Builders.Form.Forms;
-using UI.Builders.Form.Views;
 using UI.Builders.Master;
 using UI.Exceptions;
 
 namespace Web.Controllers
 {
+    [Authorize]
     public class FormController : BaseController
     {
         FormBuilder formBuilder;

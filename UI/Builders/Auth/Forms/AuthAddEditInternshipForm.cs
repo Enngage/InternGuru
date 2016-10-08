@@ -1,4 +1,5 @@
 ﻿using Common.Helpers.Country;
+using Common.Helpers.Currency;
 using Common.Helpers.Internship;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace UI.Builders.Auth.Forms
         public string WorkingHours { get; set; }
 
         public IEnumerable<CountryModel> Countries { get; set; }
-        public IEnumerable<string> Currencies { get; set; }
+        public IEnumerable<CurrencyModel> Currencies { get; set; }
         public IEnumerable<string> AmountTypes { get; set; }
         public IEnumerable<InternshipDurationTypeModel> DurationTypes { get; set; }
         public IEnumerable<AuthInternshipCategoryModel> InternshipCategories { get; set; }

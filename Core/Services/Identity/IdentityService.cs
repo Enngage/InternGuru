@@ -10,7 +10,7 @@ using Core.Exceptions;
 
 namespace Core.Services
 {
-    public class Identityservice : BaseService<IEntity>, IIdentityService // Use EntityAbstract because ApplicationUser is not inheriting it
+    public class Identityservice : BaseService<ApplicationUser>, IIdentityService 
     {
 
         public Identityservice(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }

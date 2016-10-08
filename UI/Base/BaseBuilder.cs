@@ -4,7 +4,6 @@ using System.Linq;
 
 using Core.Context;
 using System.Web;
-using Cache;
 using System.Collections.Generic;
 using Entity;
 using UI.Builders.Shared;
@@ -21,6 +20,7 @@ namespace UI.Base
         private IAppContext appContext;
         private ICurrentUser currentUser;
         private ICurrentCompany currentCompany;
+        private IStatusBox statusBox;
 
         private IServicesLoader services;
 
@@ -61,16 +61,18 @@ namespace UI.Base
             }
         }
 
+
         /// <summary>
-        /// Cache service
+        /// Status box of current user
         /// </summary>
-        protected ICacheService CacheService
+        public IStatusBox StatusBox
         {
             get
             {
-                return this.services.CacheService;
+                return this.statusBox;
             }
         }
+
 
         /// <summary>
         /// List of all available services
@@ -103,7 +105,13 @@ namespace UI.Base
             // Initialize company of current user if user is authenticated
             if (CurrentUser.IsAuthenticated)
             {
-                InitializeCurrentCompany();
+                InitializeCurrentCompany(this.CurrentUser.UserName, this.CurrentUser.Id);
+            }
+
+            // Initialize status box
+            if (CurrentUser.IsAuthenticated)
+            {
+                InitializeStatusBox(this.CurrentUser.Id);
             }
 
             // Register service events
@@ -148,12 +156,23 @@ namespace UI.Base
         }
 
         /// <summary>
+        /// Initializes status box
+        /// </summary>
+        /// <param name="applicationUserId">UserId</param>
+        private void InitializeStatusBox(string applicationUserId)
+        {
+            this.statusBox = GetStatusBox(applicationUserId);
+        }
+
+        /// <summary>
         /// Initializes current company
         /// Call ONLY if user is already initialized and IS authenticated
         /// </summary>
-        private void InitializeCurrentCompany()
+        /// <param name="userId">UserId</param>
+        /// <param name="userName">UserName</param>
+        private void InitializeCurrentCompany(string userName, string userId)
         {
-            this.currentCompany = GetCompanyOfUser(this.CurrentUser.UserName, this.CurrentUser.Id);
+            this.currentCompany = GetCompanyOfUser(userName, userId);
         }
 
         private ICurrentUser GetCurrentuser()
@@ -169,16 +188,17 @@ namespace UI.Base
                         if (currentIdentity != null)
                         {
                             // ----- Process current user ------- //
-                            var cacheKey = "BuilderAbstract.GetCurrentUser." + currentIdentity.Name; // key under which given user will be stored
+                            var cacheKey = "BuilderAbstract.GetCurrentUser";
                             int cacheMinutes = 60;
-                            var cacheSetup = this.CacheService.GetSetup<ICurrentUser>(cacheKey, cacheMinutes);
+                            var cacheSetup = this.Services.CacheService.GetSetup<ICurrentUser>(cacheKey, cacheMinutes);
                             cacheSetup.Dependencies = new List<string>()
                             {
                                 EntityKeys.KeyUpdate<ApplicationUser>(currentIdentity.Name),
                                 EntityKeys.KeyUpdateAny<ApplicationUser>()
                             };
+                            cacheSetup.ObjectStringID = currentIdentity.Name;
 
-                            var user = this.CacheService.GetOrSet<ICurrentUser>(() => GetApplicationUser(currentIdentity.Name, currentIdentity.AuthenticationType), cacheSetup);
+                            var user = this.Services.CacheService.GetOrSet<ICurrentUser>(() => GetApplicationUser(currentIdentity.Name, currentIdentity.AuthenticationType), cacheSetup);
 
                             if (user == null)
                             {
@@ -260,7 +280,7 @@ namespace UI.Base
         {
             var cacheKey = "BuilderAbstract.GetCompanyOfUserFromCache." + userName; // key under which company of user will be stored
             int cacheMinutes = 60;
-            var cacheSetup = this.CacheService.GetSetup<ICurrentCompany>(cacheKey, cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<ICurrentCompany>(cacheKey, cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
                             {
                                 EntityKeys.KeyDeleteAny<Entity.Company>(),
@@ -268,7 +288,7 @@ namespace UI.Base
                                 EntityKeys.KeyUpdateAny<Entity.Company>(),
                             };
 
-            var company = this.CacheService.GetOrSet<ICurrentCompany>(() => GetCompanyOfUserInternal(applicationUserId), cacheSetup);
+            var company = this.Services.CacheService.GetOrSet<ICurrentCompany>(() => GetCompanyOfUserInternal(applicationUserId), cacheSetup);
 
             if (company != null)
             {
@@ -276,6 +296,50 @@ namespace UI.Base
             }
 
             return new CurrentCompany();
+        }
+
+        /// <summary>
+        /// Gets status box from cache
+        /// </summary>
+        /// <param name="applicationUserId">ApplicationUserId</param>
+        /// <returns>Status box</returns>
+        private IStatusBox GetStatusBox(string applicationUserId)
+        {
+            var cacheKey = "BuilderAbstract.GetStatusBox";
+            int cacheMinutes = 60;
+            var cacheSetup = this.Services.CacheService.GetSetup<IStatusBox>(cacheKey, cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+                            {
+                                EntityKeys.KeyUpdateAny<Entity.Message>(),
+                                EntityKeys.KeyDeleteAny<Entity.Message>(),
+                                EntityKeys.KeyCreateAny<Entity.Message>(),
+                            };
+            cacheSetup.ObjectStringID = applicationUserId;
+
+            var statusBox = this.Services.CacheService.GetOrSet<IStatusBox>(() => GetStatusBoxInternal(applicationUserId), cacheSetup);
+
+            return statusBox;
+        }
+
+        /// <summary>
+        /// Gets status box from cache
+        /// </summary>
+        /// <param name="applicationUserId">ApplicationUserId</param>
+        /// <returns></returns>
+        private IStatusBox GetStatusBoxInternal(string applicationUserId)
+        {
+            var newMessagesQuery = this.Services.MessageService.GetAll()
+                .Where(m => m.RecipientApplicationUserId == applicationUserId && !m.IsRead)
+                .Select(m => new
+                {
+                    ID = m.ID
+                });
+
+            return new StatusBox()
+            {
+                NewMessagesCount = newMessagesQuery.Count()
+            };
+                
         }
 
         #endregion

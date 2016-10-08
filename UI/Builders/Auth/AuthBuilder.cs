@@ -380,7 +380,7 @@ namespace UI.Builders.Company
 
         #endregion
 
-        #region Conversation
+        #region Conversation messages
 
         public async Task<AuthConversationView> BuildConversationViewAsync(string otherUserId, int? page, AuthMessageForm messageForm = null)
         {
@@ -398,7 +398,7 @@ namespace UI.Builders.Company
             // get other user and check if he exists
             var otherUser = await GetMessageUserAsync(otherUserId);
 
-            if(otherUser == null)
+            if (otherUser == null)
             {
                 return null;
             }
@@ -862,7 +862,7 @@ namespace UI.Builders.Company
                .Select(m => m.ID);
 
             int cacheMinutes = 30;
-            var cacheSetup = CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Message>(),
@@ -871,20 +871,20 @@ namespace UI.Builders.Company
             };
             cacheSetup.ObjectStringID = this.CurrentUser.Id;
 
-            var result = await CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetup);
+            var result = await this.Services.CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetup);
 
             return result.Count();
         }
 
         /// <summary>
-        /// Gets conversation messages with given user
+        /// Gets conversations for current user
         /// </summary>
         /// <param name="otherUserId">ID of the other user (NEVER current user)</param>
         /// <param name="page">Page number</param>
         /// <returns>Collection of messages of current user with other user</returns>
         private async Task<IPagedList<AuthMessageModel>> GetConversationMessagesAsync(string otherUserId, int? page)
         {
-            int pageSize = 15;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             var messagesQuery = this.Services.MessageService.GetAll()
@@ -914,7 +914,7 @@ namespace UI.Builders.Company
                });
 
             int cacheMinutes = 30;
-            var cacheSetup = CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Message>(),
@@ -925,7 +925,7 @@ namespace UI.Builders.Company
             cacheSetup.PageNumber = pageNumber;
             cacheSetup.PageSize = pageSize;
 
-            return await CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+            return await this.Services.CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
         }
 
         /// <summary>
@@ -936,7 +936,7 @@ namespace UI.Builders.Company
         private async Task<AuthMessageUserModel> GetMessageUserAsync(string applicationUserId)
         {
             int cacheMinutes = 30;
-            var cacheSetup = CacheService.GetSetup<AuthMessageUserModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<AuthMessageUserModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Message>(),
@@ -952,7 +952,7 @@ namespace UI.Builders.Company
                     UserName = m.UserName
                 });
 
-            return await CacheService.GetOrSet(async () => await userQuery.FirstOrDefaultAsync(), cacheSetup);
+            return await this.Services.CacheService.GetOrSet(async () => await userQuery.FirstOrDefaultAsync(), cacheSetup);
         }
 
         /// <summary>
@@ -961,7 +961,7 @@ namespace UI.Builders.Company
         /// <returns>Collection of messages of current user</returns>
         private async Task<IPagedList<AuthMessageModel>> GetMessagesAsync(int? page)
         {
-            int pageSize = 15;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             // get both incoming and outgoming messages as well as messages targeted for given company
@@ -989,7 +989,7 @@ namespace UI.Builders.Company
                });
 
             int cacheMinutes = 60;
-            var cacheSetup = CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Message>(),
@@ -1000,7 +1000,7 @@ namespace UI.Builders.Company
             cacheSetup.PageNumber = pageNumber;
             cacheSetup.PageSize = pageSize;
 
-            return await CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+            return await this.Services.CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
         }
 
         /// <summary>
@@ -1021,7 +1021,7 @@ namespace UI.Builders.Company
                });
 
             int cacheMinutes = 60;
-            var cacheSetup = CacheService.GetSetup<AuthInternshipListingModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<AuthInternshipListingModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Internship>(),
@@ -1030,7 +1030,7 @@ namespace UI.Builders.Company
             };
             cacheSetup.ObjectStringID = this.CurrentUser.Id;
 
-            return await CacheService.GetOrSet(async () => await internshipsQuery.ToListAsync(), cacheSetup);
+            return await this.Services.CacheService.GetOrSet(async () => await internshipsQuery.ToListAsync(), cacheSetup);
         }
 
         /// <summary>
@@ -1050,14 +1050,14 @@ namespace UI.Builders.Company
                 .Select(m => m.ID);
 
             int cacheMinutes = 30;
-            var cacheSetup = CacheService.GetSetup<int>(GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<int>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Company>(),
                 EntityKeys.KeyDeleteAny<Entity.Company>(),
             };
 
-            var company = await CacheService.GetOrSet(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
+            var company = await this.Services.CacheService.GetOrSet(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
 
             return company;
         }
@@ -1069,7 +1069,7 @@ namespace UI.Builders.Company
         private async Task<IEnumerable<AuthCompanyCategoryModel>> GetCompanyCategoriesAsync()
         {
             var cacheMinutes = 60;
-            var cacheSetup = this.CacheService.GetSetup<AuthCompanyCategoryModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<AuthCompanyCategoryModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.CompanyCategory>(),
@@ -1084,7 +1084,7 @@ namespace UI.Builders.Company
                     CompanyCategoryName = m.Name
                 });
 
-            var companyCategories = await this.CacheService.GetOrSetAsync(async () => await companyCategoriesQuery.ToListAsync(), cacheSetup);
+            var companyCategories = await this.Services.CacheService.GetOrSetAsync(async () => await companyCategoriesQuery.ToListAsync(), cacheSetup);
 
             return companyCategories;
         }
@@ -1096,7 +1096,7 @@ namespace UI.Builders.Company
         private async Task<IEnumerable<AuthInternshipCategoryModel>> GetInternshipCategoriesAsync()
         {
             var cacheMinutes = 60;
-            var cacheSetup = this.CacheService.GetSetup<AuthInternshipCategoryModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<AuthInternshipCategoryModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
@@ -1111,7 +1111,7 @@ namespace UI.Builders.Company
                     InternshipCategoryName = m.Name
                 });
 
-            var internshipCategories = await this.CacheService.GetOrSetAsync(async () => await internshipCategoriesQuery.ToListAsync(), cacheSetup);
+            var internshipCategories = await this.Services.CacheService.GetOrSetAsync(async () => await internshipCategoriesQuery.ToListAsync(), cacheSetup);
 
             return internshipCategories;
         }

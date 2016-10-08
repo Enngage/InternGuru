@@ -69,7 +69,7 @@
                     @foreach (var message in Model.Messages)
                     {
                         var segmentClass = message.WrittenByCurrentUser ? string.Empty : "w-segment-dark basic";
-                        <div class="item w-padding-left-15 @segmentClass">
+                        <div class="item w-override-padding-all @segmentClass">
                             <a class="ui tiny image" href="@Url.Action("Conversation", new { id = message.ConversationID })">
                                 <img class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(message.SenderApplicationUserName)">
                             </a>
@@ -77,11 +77,11 @@
                                 <a class="header" href="@Url.Action("Conversation", new { id = message.ConversationID })">
                                     @if (message.WrittenByCurrentUser)
                                     {
-                                        <span>Já</span>
+                                        <span><span class="w-font-weight-base">Pro</span> @(!string.IsNullOrEmpty(message.RecipientFirstName) ? message.RecipientFirstName + " " + message.RecipientLastName : message.RecipientApplicationUserName)</span>
                                     }
                                     else
                                     {
-                                        <span>Od @(!string.IsNullOrEmpty(message.SenderFirstName) ? message.SenderFirstName + " " + message.SenderLastName : message.SenderApplicationUserName)</span>
+                                        <span><span class="w-font-weight-base">Od</span> @(!string.IsNullOrEmpty(message.SenderFirstName) ? message.SenderFirstName + " " + message.SenderLastName : message.SenderApplicationUserName)</span>
                                     }
                                 </a>
                                 <div class="meta w-font-size-small">

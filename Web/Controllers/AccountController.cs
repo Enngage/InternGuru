@@ -245,11 +245,14 @@ namespace Web.Controllers
             {
                 return View(model);
             }
+
+            // get user by email/username
             var user = await userManager.FindByNameAsync(model.ResetPasswordForm.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                this.ModelStateWrapper.AddError("Zadali jste neexistujícího uživatele");
+                return View();
             }
             var result = await userManager.ResetPasswordAsync(user.Id, form.Code, form.Password);
             if (result.Succeeded)

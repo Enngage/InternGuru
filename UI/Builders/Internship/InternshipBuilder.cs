@@ -12,6 +12,8 @@ using System.Data.Entity;
 using PagedList;
 using Common.Extensions;
 using Entity;
+using Common.Helpers;
+using Common.Helpers.Internship;
 
 namespace UI.Builders.Internship
 {
@@ -20,7 +22,7 @@ namespace UI.Builders.Internship
 
         #region Constructor
 
-        public InternshipBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader){}
+        public InternshipBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
 
         #endregion
 
@@ -92,7 +94,7 @@ namespace UI.Builders.Internship
         {
             int cacheMinutes = 60;
 
-            var cacheSetup = CacheService.GetSetup<InternshipBrowseModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<InternshipBrowseModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
@@ -132,7 +134,7 @@ namespace UI.Builders.Internship
                     Requirements = m.Requirements
                 });
 
-            return await CacheService.GetOrSetAsync(async () => await internshipsQuery.ToListAsync(), cacheSetup);
+            return await this.Services.CacheService.GetOrSetAsync(async () => await internshipsQuery.ToListAsync(), cacheSetup);
         }
 
         /// <summary>
@@ -152,7 +154,7 @@ namespace UI.Builders.Internship
                     CodeName = m.CodeName
                 });
 
-            var cacheSetup = this.CacheService.GetSetup<IEnumerable<InternshipCategoryModel>>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<IEnumerable<InternshipCategoryModel>>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
@@ -160,10 +162,10 @@ namespace UI.Builders.Internship
                 EntityKeys.KeyDeleteAny<Entity.InternshipCategory>()
             };
 
-            var internshipCategories = await this.CacheService.GetOrSetAsync(async () => await internshipCategoryQuery.ToListAsync(), cacheSetup);
+            var internshipCategories = await this.Services.CacheService.GetOrSetAsync(async () => await internshipCategoryQuery.ToListAsync(), cacheSetup);
 
             return internshipCategories;
-        } 
+        }
 
         /// <summary>
         /// Gets ID of category based on given code name or 0 if none is found
@@ -186,7 +188,7 @@ namespace UI.Builders.Internship
                 .Take(1);
 
             int cacheMinutes = 120;
-            var cacheSetup = this.CacheService.GetSetup<int>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<int>(this.GetSource(), cacheMinutes);
 
             cacheSetup.Dependencies = new List<string>()
             {
@@ -196,7 +198,7 @@ namespace UI.Builders.Internship
             };
             cacheSetup.ObjectStringID = categoryCodeName;
 
-            var category = await this.CacheService.GetOrSetAsync(async () => await categoryQuery.FirstOrDefaultAsync(), cacheSetup);
+            var category = await this.Services.CacheService.GetOrSetAsync(async () => await categoryQuery.FirstOrDefaultAsync(), cacheSetup);
 
             return category == null ? 0 : category.CategoryID;
         }
@@ -211,8 +213,25 @@ namespace UI.Builders.Internship
             var internshipQuery = this.Services.InternshipService.GetSingle(internshipID)
                 .Select(m => new InternshipDetailModel()
                 {
-                    CompanyID = m.CompanyID,
-                    CompanyName = m.Company.CompanyName,
+                    Company = new InternshipDetailCompanyModel()
+                    {
+                        CompanyCodeName = m.Company.CodeName,
+                        CompanyID = m.CompanyID,
+                        CompanyName = m.Company.CompanyName,
+                        Lat = m.Company.Lat,
+                        Lng = m.Company.Lng,
+                        Address = m.Company.Address,
+                        City = m.Company.City,
+                        CompanySize = m.Company.CompanySize,
+                        Country = m.Company.Country,
+                        Facebook = m.Company.Facebook,
+                        LinkedIn = m.Company.LinkedIn,
+                        LongDescription = m.Company.LongDescription,
+                        PublicEmail = m.Company.PublicEmail,
+                        Twitter = m.Company.Twitter,
+                        Web = m.Company.Web,
+                        YearFounded = m.Company.YearFounded
+                    },
                     Amount = m.Amount,
                     AmountType = m.AmountType,
                     City = m.City,
@@ -238,11 +257,12 @@ namespace UI.Builders.Internship
                     StartDate = m.StartDate,
                     Title = m.Title,
                     Updated = m.Updated,
-                    WorkingHours = m.WorkingHours
+                    WorkingHours = m.WorkingHours,
+                   
                 });
 
             int cacheMinutes = 120;
-            var cacheSetup = this.CacheService.GetSetup<int>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<int>(this.GetSource(), cacheMinutes);
 
             cacheSetup.Dependencies = new List<string>()
             {
@@ -251,9 +271,44 @@ namespace UI.Builders.Internship
             };
             cacheSetup.ObjectID = internshipID;
 
-            var internship = await this.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
+            var internship = await this.Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
+
+            // set default duration
+            var minDurationEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MinDurationType);
+            var maxDurationEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MaxDurationType);
+
+            if (minDurationEnum == InternshipDurationTypeEnum.Days)
+            {
+                internship.MinDurationDefault = internship.MinDurationInDays;
+            }
+            else if (minDurationEnum == InternshipDurationTypeEnum.Weeks)
+            {
+                internship.MinDurationDefault = internship.MinDurationInWeeks;
+            }
+            else if (minDurationEnum == InternshipDurationTypeEnum.Months)
+            {
+                internship.MinDurationDefault = internship.MinDurationInMonths;
+            }
+
+            if (maxDurationEnum == InternshipDurationTypeEnum.Days)
+            {
+                internship.MaxDurationDefault = internship.MaxDurationInDays;
+            }
+            else if (maxDurationEnum == InternshipDurationTypeEnum.Weeks)
+            {
+                internship.MaxDurationDefault = internship.MaxDurationInWeeks;
+            }
+            else if (maxDurationEnum == InternshipDurationTypeEnum.Months)
+            {
+                internship.MaxDurationDefault = internship.MaxDurationInMonths;
+
+            }
+
+            internship.MinDurationTypeModel = InternshipHelper.GetInternshipDuration(minDurationEnum);
+            internship.MaxDurationTypeModel = InternshipHelper.GetInternshipDuration(maxDurationEnum);
 
             return internship;
+
         }
 
         #endregion

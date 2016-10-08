@@ -113,7 +113,7 @@ namespace UI.Builders.Company
         private async Task<FormInternshipModel> GetInternshipModelAsync(int internshipID)
         {
             int cacheMinutes = 30;
-            var cacheSetup = CacheService.GetSetup<FormInternshipModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<FormInternshipModel>(this.GetSource(), cacheMinutes);
             cacheSetup.ObjectID = internshipID;
             cacheSetup.Dependencies = new List<string>()
             {
@@ -130,7 +130,7 @@ namespace UI.Builders.Company
                     InternshipTitle = m.Title
                 });
 
-            return await CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
+            return await this.Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
         }
 
         /// <summary>

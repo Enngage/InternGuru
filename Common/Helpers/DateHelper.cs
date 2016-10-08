@@ -13,13 +13,13 @@ namespace Common.Helpers
         /// <returns>Formatted date</returns>
         public static string GetPrettyDate(DateTime date)
         {
-            if (date.AddDays(-1) < DateTime.Now)
+            if (DateTime.Now.AddDays(-1) > date)
             {
-                return date.ToShortTimeString();
+                return date.ToShortDateString();
             }
             else
             {
-                return date.ToShortDateString();
+                return date.ToShortTimeString();
             }
         }
     }

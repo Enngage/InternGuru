@@ -5,15 +5,19 @@
         border-radius: 0.285714rem;
     }
 
-    /* Segment start*/
+    .w-override-no-button {
+        cursor: default;
+    }
 
+    .w-override-padding-all {
+        padding: 15px !important;
+    }
+    /* Segment start*/
     .ui.segment {
         border: none;
         box-shadow: none;
     }
-
     /* Segment end */
-
     /* Labeled dropdown start*/
     .ui.labeled.input .ui.dropdown.label {
         border-radius: 0;
@@ -21,14 +25,13 @@
         color: $primary-color-text;
     }
 
-    .ui.dropdown .menu{
+    .ui.dropdown .menu {
         background: $primary-color-text;
 
-        .item:hover{
-            background: $primary-color; 
+        .item:hover {
+            background: $primary-color;
             color: $primary-color-text;
         }
     }
-
     /* Labeled dropdown end*/
 }

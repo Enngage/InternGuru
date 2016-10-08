@@ -24,11 +24,11 @@
         // checkbox events
         $('#_HasFlexibleHours').checkbox({
             onChecked: function () {
-                // show field
+                // hide field
                 HideWorkingHoursField();
             },
             onUnchecked: function () {
-                // hide field
+                // show field
                 ShowWorkingHoursField();
             }
         });
@@ -74,6 +74,14 @@
             }
             else {
                 HideAmountField();
+            }
+
+            var hasFlefibleHours = $('#_HasFlexibleHours').checkbox("is checked");
+            if (hasFlefibleHours) {
+                HideWorkingHoursField();
+            }
+            else {
+                ShowWorkingHoursField();
             }
         }
 

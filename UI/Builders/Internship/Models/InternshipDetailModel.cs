@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Helpers.Internship;
+using System;
 
 namespace UI.Builders.Internship.Models
 {
@@ -7,8 +8,6 @@ namespace UI.Builders.Internship.Models
         public int ID { get; set; }
         public int InternshipCategoryID { get; set; }
         public string InternshipCategoryName { get; set; }
-        public int CompanyID { get; set; }
-        public string CompanyName { get; set; }
         public string Title { get; set; }
         public string Requirements { get; set; }
         public string Description { get; set; }
@@ -32,5 +31,14 @@ namespace UI.Builders.Internship.Models
         public bool IsActive { get; set; }
         public bool HasFlexibleHours { get; set; }
         public string WorkingHours { get; set; }
+        public InternshipDetailCompanyModel Company { get; set; }
+
+        // virtual properties
+        public int MinDurationDefault { get; set; }
+        public int MaxDurationDefault { get; set; }
+        public InternshipDurationTypeModel MinDurationTypeModel { get; set; }
+        public InternshipDurationTypeModel MaxDurationTypeModel { get; set; }
     }
+
+
 }

@@ -46,7 +46,7 @@ namespace UI.Builders.Company
         {
             int cacheMinutes = 60;
 
-            var cacheSetup = CacheService.GetSetup<CompanyDetailModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<CompanyDetailModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateCodeName<Entity.Company>(codeName),
@@ -92,7 +92,7 @@ namespace UI.Builders.Company
                         })
                 });
 
-            var company = await CacheService.GetOrSetAsync(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
+            var company = await this.Services.CacheService.GetOrSetAsync(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
 
             if (company == null)
             {
@@ -187,7 +187,7 @@ namespace UI.Builders.Company
             int cacheMinutes = 60;
 
             // get companies from db/cache
-            var cacheSetup = CacheService.GetSetup<CompanyBrowseModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<CompanyBrowseModel>(this.GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Company>(),
@@ -222,7 +222,7 @@ namespace UI.Builders.Company
             // not search
             else
             {
-                var companies = await CacheService.GetOrSetAsync(async () => await companiesQuery.ToPagedListAsync(pageNumber, browseCompaniesPageSize), cacheSetup);
+                var companies = await this.Services.CacheService.GetOrSetAsync(async () => await companiesQuery.ToPagedListAsync(pageNumber, browseCompaniesPageSize), cacheSetup);
 
                 return companies.ToList();
             }

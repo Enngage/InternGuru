@@ -25,7 +25,8 @@ namespace UI.Builders.Master
             return new MasterModel()
             {
                 CurrentUser = this.CurrentUser,
-                CurrentCompany = this.CurrentCompany
+                CurrentCompany = this.CurrentCompany,
+                StatusBox = this.StatusBox
             };
         }
 

@@ -167,6 +167,7 @@
     <Compile Include="Builders\Internship\InternshipBuilder.cs" />
     <Compile Include="Builders\Internship\Models\InternshipBrowseModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipCategoryModel.cs" />
+    <Compile Include="Builders\Internship\Models\InternshipDetailCompanyModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipDetailModel.cs" />
     <Compile Include="Builders\Internship\Views\InternshipDetailView.cs" />
     <Compile Include="Builders\Internship\Views\InternshipBrowseView.cs" />
@@ -181,6 +182,8 @@
     <Compile Include="Builders\Shared\Models\CurrentUser.cs" />
     <Compile Include="Builders\Shared\Models\CurrentCompany.cs" />
     <Compile Include="Builders\Shared\Models\ICurrentCompany.cs" />
+    <Compile Include="Builders\Shared\Models\StatusBox.cs" />
+    <Compile Include="Builders\Shared\Models\IStatusBox.cs" />
     <Compile Include="Builders\Shared\Models\ICurrentUser.cs" />
     <Compile Include="Exceptions\UIException.cs" />
     <Compile Include="Exceptions\UIExceptionEnum.cs" />
