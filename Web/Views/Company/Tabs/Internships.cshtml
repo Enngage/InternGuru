@@ -13,7 +13,7 @@
         {
             <tr>
                 <td class="w-font-size-large">
-                    <a href="@Url.Action("Index", "Internship", new { id = internship.ID })">
+                    <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })">
                         @internship.Title <span class="w-font-size-small w-font-light">
                             @if (internship.IsPaid)
                             {
@@ -23,7 +23,7 @@
                     </a>
                 </td>
                 <td class="collapsing">
-                    <a href="@Url.Action("Internship", "Form", new { id = internship.ID })">
+                    <a href="@Url.Action("Internship", "Form", new { id = internship.ID, codeName = internship.CodeName })">
                         <div class="ui button primary">
                             Odpovědět
                         </div>

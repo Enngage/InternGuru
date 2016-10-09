@@ -7,6 +7,7 @@ using Core.Context;
 using Entity;
 using Cache;
 using Core.Exceptions;
+using System.Collections.Generic;
 
 namespace Core.Services
 {
@@ -50,6 +51,11 @@ namespace Core.Services
 
             // save changes
             return this.AppContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetAllCachedAsync()
+        {
+            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
         }
     }
 }

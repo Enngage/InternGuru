@@ -26,6 +26,9 @@
 #w-body-wrapper .w-margin-top-30 {
   margin-top: 30px; }
 
+#w-body-wrapper .w-margin-top-14 {
+  margin-top: 14px; }
+
 #w-body-wrapper .w-margin-top-20 {
   margin-top: 20px; }
 
@@ -40,6 +43,9 @@
   border: none;
   box-shadow: none;
   transition: box-shadow 0.5s ease, padding 0.5s ease; }
+  #w-body-wrapper .w-menu-main .avatar {
+    height: 22px;
+    width: 22px; }
   #w-body-wrapper .w-menu-main a, #w-body-wrapper .w-menu-main div.item {
     color: #e2e2e2;
     font-size: 14px;
@@ -128,11 +134,11 @@
   /* Change margin top on tablet and computer so that content is visible */ }
   @media (min-width: 991px) {
     #w-body-wrapper {
-      margin-top: 52px;
+      margin-top: 48px;
       /* Height of the top menu on computer screen */ } }
   @media (max-width: 991px) and (min-width: 768px) {
     #w-body-wrapper {
-      margin-top: 52px;
+      margin-top: 48px;
       /* Height of the top menu on tablet screen */ } }
   #w-body-wrapper .w-body-padded {
     padding: 30px 0; }
@@ -413,7 +419,7 @@
   #w-body-wrapper .w-company-fixed-wrapper {
     transition: all 0.5s ease;
     width: 100%;
-    top: 54px !important;
+    top: 48px !important;
     /* override the Top set by semantic-ui*/ }
     @media (max-width: 767px) {
       #w-body-wrapper .w-company-fixed-wrapper {
@@ -469,7 +475,7 @@
 #w-body-wrapper .w-internship-fixed-wrapper {
   transition: all 0.5s ease;
   width: 100%;
-  top: 54px !important;
+  top: 48px !important;
   /* override the Top set by semantic-ui*/ }
   @media (max-width: 767px) {
     #w-body-wrapper .w-internship-fixed-wrapper {
@@ -530,4 +536,13 @@
 
 #w-body-wrapper .w-color-secondary {
   color: #FF5733; }
+
+#w-body-wrapper .w-color-facebook {
+  color: #3b5998; }
+
+#w-body-wrapper .w-color-linkedin {
+  color: #1f88be; }
+
+#w-body-wrapper .w-color-twitter {
+  color: #55acee; }
 

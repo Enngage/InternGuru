@@ -117,9 +117,9 @@ namespace UI.Builders.Company
             }
 
             // add countries, categories and company sizes
-            form.Countries = Common.Helpers.CountryHelper.GetCountries();
-            form.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
-            form.CompanyCategories = await GetCompanyCategoriesAsync();
+            form.Countries = await FormGetCountriesAsync();
+            form.CompanySizes = await FormGetCompanySizesAsync();
+            form.CompanyCategories = await FormGetCompanyCategories();
 
             return new AuthRegisterCompanyView()
             {
@@ -137,15 +137,15 @@ namespace UI.Builders.Company
             }
 
             // add countries, categories and company sizes
-            form.Countries = Common.Helpers.CountryHelper.GetCountries();
-            form.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
-            form.CompanyCategories = await GetCompanyCategoriesAsync();
+            form.Countries = await FormGetCountriesAsync();
+            form.CompanySizes = await FormGetCompanySizesAsync();
+            form.CompanyCategories = await FormGetCompanyCategories();
 
             return new AuthEditCompanyView()
             {
                 CompanyForm = form,
             };
-        }
+        }       
 
         public async Task<AuthEditCompanyView> BuildEditCompanyViewAsync()
         {
@@ -160,8 +160,11 @@ namespace UI.Builders.Company
                     Address = m.Address,
                     City = m.City,
                     CompanyName = m.CompanyName,
-                    CompanySize = m.CompanySize,
-                    Country = m.Country,
+                    CompanySizeID = m.CompanySizeID,
+                    CompanySizeName = m.CompanySize.CompanySizeName,
+                    CountryID = m.CountryID,
+                    CountryCode = m.Country.CountryCode,
+                    CountryName = m.Country.CountryName,
                     Facebook = m.Facebook,
                     ID = m.ID,
                     Lat = m.Lat,
@@ -183,9 +186,9 @@ namespace UI.Builders.Company
             }
 
             // add countries, categories and company sizes
-            company.Countries = Common.Helpers.CountryHelper.GetCountries();
-            company.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
-            company.CompanyCategories = await GetCompanyCategoriesAsync();
+            company.Countries = await FormGetCountriesAsync();
+            company.CompanySizes = await FormGetCompanySizesAsync();
+            company.CompanyCategories = await FormGetCompanyCategories();
 
             return new AuthEditCompanyView()
             {
@@ -206,8 +209,10 @@ namespace UI.Builders.Company
                     Address = m.Address,
                     City = m.City,
                     CompanyName = m.CompanyName,
-                    CompanySize = m.CompanySize,
-                    Country = m.Country,
+                    CompanySizeID = m.CompanySizeID,
+                    CountryID = m.CountryID,
+                    CountryName = m.Country.CountryName,
+                    CountryCode = m.Country.CountryCode,
                     Facebook = m.Facebook,
                     ID = m.ID,
                     Lat = m.Lat,
@@ -229,10 +234,10 @@ namespace UI.Builders.Company
             }
 
             // add countries, categories and company sizes
-            company.Countries = Common.Helpers.CountryHelper.GetCountries();
-            company.AllowedCompanySizes = Common.Helpers.InternshipHelper.GetAllowedCompanySizes();
-            company.CompanyCategories = await GetCompanyCategoriesAsync();
-
+            company.Countries = await FormGetCountriesAsync();
+            company.CompanySizes = await FormGetCompanySizesAsync();
+            company.CompanyCategories = await FormGetCompanyCategories();
+            
             return new AuthRegisterCompanyView()
             {
                 CompanyForm = company,
@@ -253,16 +258,16 @@ namespace UI.Builders.Company
                 .Select(m => new AuthAddEditInternshipForm()
                 {
                     Amount = m.Amount,
-                    AmountType = m.AmountType,
+                    AmountTypeID = m.AmountTypeID,
                     City = m.City,
-                    Country = m.Country,
-                    Currency = m.Currency,
+                    CountryID = m.CountryID,
+                    CurrencyID = m.CurrencyID,
                     Description = m.Description,
                     ID = m.ID,
                     InternshipCategoryID = m.InternshipCategoryID,
                     IsPaid = m.IsPaid ? "on" : "",
-                    MaxDurationType = m.MaxDurationType,
-                    MinDurationType = m.MinDurationType,
+                    MaxDurationTypeID = m.MaxDurationTypeID,
+                    MinDurationTypeID = m.MinDurationTypeID,
                     StartDate = m.StartDate,
                     Title = m.Title,
                     MinDurationInDays = m.MinDurationInDays,
@@ -274,7 +279,9 @@ namespace UI.Builders.Company
                     IsActive = m.IsActive ? "on" : null,
                     HasFlexibleHours = m.HasFlexibleHours ? "on" : null,
                     WorkingHours = m.WorkingHours,
-                    Requirements = m.Requirements
+                    Requirements = m.Requirements,
+                    MinDurationTypeCodeName = m.MinDurationType.CodeName,
+                    MaxDurationTypeCodeName = m.MaxDurationType.CodeName
                 });
 
             var internship = await internshipQuery.FirstOrDefaultAsync();
@@ -286,15 +293,17 @@ namespace UI.Builders.Company
             }
 
             // initialize form values
-            internship.InternshipCategories = await GetInternshipCategoriesAsync();
-            internship.AmountTypes = InternshipHelper.GetAmountTypes();
-            internship.DurationTypes = InternshipHelper.GetInternshipDurations();
-            internship.Countries = CountryHelper.GetCountries();
-            internship.Currencies = CurrencyHelper.GetCurrencies();
+            internship.MaxDurationTypeEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MaxDurationTypeCodeName);
+            internship.MinDurationTypeEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MinDurationTypeCodeName);
+            internship.InternshipCategories = await FormGetInternshipCategoriesAsync();
+            internship.AmountTypes = await FormGetInternshipAmountTypesAsync();
+            internship.DurationTypes = await FormGetInternshipDurationsAsync();
+            internship.Countries = await FormGetCountriesAsync();
+            internship.Currencies = await FormGetCurrenciesAsync();
 
             // set default duration
-            var minDurationEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MinDurationType);
-            var maxDurationEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MaxDurationType);
+            var minDurationEnum = internship.MinDurationTypeEnum;
+            var maxDurationEnum = internship.MaxDurationTypeEnum;
 
             if (minDurationEnum == InternshipDurationTypeEnum.Days)
             {
@@ -332,11 +341,11 @@ namespace UI.Builders.Company
         {
             var form = new AuthAddEditInternshipForm()
             {
-                InternshipCategories = await GetInternshipCategoriesAsync(),
-                AmountTypes = InternshipHelper.GetAmountTypes(),
-                DurationTypes = InternshipHelper.GetInternshipDurations(),
-                Countries = CountryHelper.GetCountries(),
-                Currencies = CurrencyHelper.GetCurrencies(),
+                InternshipCategories = await FormGetInternshipCategoriesAsync(),
+                AmountTypes = await FormGetInternshipAmountTypesAsync(),
+                DurationTypes = await FormGetInternshipDurationsAsync(),
+                Countries = await FormGetCountriesAsync(),
+                Currencies = await FormGetCurrenciesAsync(),
                 IsActive = "on", // IsActive is enabled by default
             };
 
@@ -350,11 +359,11 @@ namespace UI.Builders.Company
         public async Task<AuthEditInternshipView> BuildEditInternshipViewAsync(AuthAddEditInternshipForm form)
         {
 
-            form.InternshipCategories = await GetInternshipCategoriesAsync();
-            form.AmountTypes = InternshipHelper.GetAmountTypes();
-            form.DurationTypes = InternshipHelper.GetInternshipDurations();
-            form.Countries = CountryHelper.GetCountries();
-            form.Currencies = CurrencyHelper.GetCurrencies();
+            form.InternshipCategories = await FormGetInternshipCategoriesAsync();
+            form.AmountTypes = await FormGetInternshipAmountTypesAsync();
+            form.DurationTypes = await FormGetInternshipDurationsAsync();
+            form.Countries = await FormGetCountriesAsync();
+            form.Currencies = await FormGetCurrenciesAsync();
 
             return new AuthEditInternshipView()
             {
@@ -365,11 +374,11 @@ namespace UI.Builders.Company
         public async Task<AuthNewInternshipView> BuildNewInternshipViewAsync(AuthAddEditInternshipForm form)
         {
 
-            form.InternshipCategories = await GetInternshipCategoriesAsync();
-            form.AmountTypes = InternshipHelper.GetAmountTypes();
-            form.DurationTypes = InternshipHelper.GetInternshipDurations();
-            form.Countries = CountryHelper.GetCountries();
-            form.Currencies = CurrencyHelper.GetCurrencies();
+            form.InternshipCategories = await FormGetInternshipCategoriesAsync();
+            form.AmountTypes = await FormGetInternshipAmountTypesAsync();
+            form.DurationTypes = await FormGetInternshipDurationsAsync();
+            form.Countries = await FormGetCountriesAsync();
+            form.Currencies = await FormGetCurrenciesAsync();
 
             return new AuthNewInternshipView()
             {
@@ -525,7 +534,7 @@ namespace UI.Builders.Company
                     // verify company URL
                     if (!StringHelper.IsValidUrl(form.Web))
                     {
-                        throw new UIException($"Zadejte validní URL webu");
+                        throw new ValidationException($"Zadejte validní URL webu");
                     }
 
                     var company = new Entity.Company
@@ -534,8 +543,8 @@ namespace UI.Builders.Company
                         Address = form.Address,
                         City = form.City,
                         CompanyName = form.CompanyName,
-                        CompanySize = form.CompanySize,
-                        Country = form.Country,
+                        CompanySizeID = form.CompanySizeID,
+                        CountryID = form.CountryID,
                         Facebook = form.Facebook,
                         Lat = form.Lat,
                         LinkedIn = form.LinkedIn,
@@ -576,6 +585,17 @@ namespace UI.Builders.Company
 
                     // re-throw
                     throw new UIException(string.Format("Firma {0} je již v databázi", form.CompanyName), ex);
+                }
+                catch (ValidationException ex)
+                {
+                    // rollback
+                    transaction.Rollback();
+
+                    // log error
+                    Services.LogService.LogException(ex);
+
+                    // re-throw
+                    throw new UIException(ex.Message, ex);
                 }
                 catch (Exception ex)
                 {
@@ -625,8 +645,8 @@ namespace UI.Builders.Company
                         Address = form.Address,
                         City = form.City,
                         CompanyName = form.CompanyName,
-                        CompanySize = form.CompanySize,
-                        Country = form.Country,
+                        CompanySizeID = form.CompanySizeID,
+                        CountryID = form.CountryID,
                         Facebook = form.Facebook,
                         Lat = form.Lat,
                         LinkedIn = form.LinkedIn,
@@ -664,7 +684,7 @@ namespace UI.Builders.Company
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException($"Zadejte validní URL webu", ex);
+                    throw new UIException(ex.Message, ex);
                 }
                 catch (Exception ex)
                 {
@@ -694,31 +714,31 @@ namespace UI.Builders.Company
                 if (companyIDOfCurrentUser == 0)
                 {
                     // we cannot create internship without assigned company
-                    throw new UIException("Stáž musí být přiřazena k firmě");
+                    throw new ValidationException("Stáž musí být přiřazena k firmě");
                 }
 
                 if (!this.CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can create internship
-                    throw new UIException("Nelze vytvořit stáž bez příhlášení");
+                    throw new ValidationException("Nelze vytvořit stáž bez příhlášení");
                 }
 
-                // Get enums for duration type
-                var maxDurationTypeEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(form.MaxDurationType);
-                var minDurationTypeEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(form.MinDurationType);
+                // Get enums from duration ID to calculate durations
+                var maxDurationTypeEnum = ((await GetDurationTypeAsync(form.MaxDurationTypeID)).DurationTypeEnum);
+                var minDurationTypeEnum = ((await GetDurationTypeAsync(form.MinDurationTypeID)).DurationTypeEnum);
 
                 var internship = new Entity.Internship
                 {
                     Amount = form.Amount,
-                    AmountType = form.AmountType,
+                    AmountTypeID = form.AmountTypeID,
                     City = form.City,
-                    Country = form.Country,
+                    CountryID = form.CountryID,
                     StartDate = form.StartDate,
                     Title = form.Title,
                     IsPaid = form.GetIsPaid(),
                     CompanyID = companyIDOfCurrentUser,
                     InternshipCategoryID = form.InternshipCategoryID,
-                    Currency = form.Currency,
+                    CurrencyID = form.CurrencyID,
                     Description = form.Description,
                     MaxDurationInDays = form.GetDurationInDays(maxDurationTypeEnum, form.MaxDuration),
                     MaxDurationInWeeks = form.GetDurationInWeeks(maxDurationTypeEnum, form.MaxDuration),
@@ -726,8 +746,8 @@ namespace UI.Builders.Company
                     MinDurationInDays = form.GetDurationInDays(minDurationTypeEnum, form.MinDuration),
                     MinDurationInWeeks = form.GetDurationInWeeks(minDurationTypeEnum, form.MinDuration),
                     MinDurationInMonths = form.GetDurationInMonths(minDurationTypeEnum, form.MinDuration),
-                    MinDurationType = form.MinDurationType,
-                    MaxDurationType = form.MaxDurationType,
+                    MinDurationTypeID = form.MinDurationTypeID,
+                    MaxDurationTypeID = form.MaxDurationTypeID,
                     IsActive = form.GetIsActive(),
                     ApplicationUserId = this.CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
@@ -738,6 +758,14 @@ namespace UI.Builders.Company
                 await Services.InternshipService.InsertAsync(internship);
 
                 return internship.ID;
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -762,32 +790,32 @@ namespace UI.Builders.Company
                 if (companyIDOfCurrentUser == 0)
                 {
                     // we cannot create internship without assigned company
-                    throw new UIException("Nelze vytvořit stáž bez firmy");
+                    throw new ValidationException("Nelze vytvořit stáž bez firmy");
                 }
 
                 if (!this.CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can create internship
-                    throw new UIException("Nelze vytvořit stáž bez příhlášení");
+                    throw new ValidationException("Nelze vytvořit stáž bez příhlášení");
                 }
 
-                // Get enums for duration type
-                var maxDurationTypeEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(form.MaxDurationType);
-                var minDurationTypeEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(form.MinDurationType);
+                // Get enums from duration ID to calculate durations
+                var maxDurationTypeEnum = ((await GetDurationTypeAsync(form.MaxDurationTypeID)).DurationTypeEnum);
+                var minDurationTypeEnum = ((await GetDurationTypeAsync(form.MinDurationTypeID)).DurationTypeEnum);
 
                 var internship = new Entity.Internship
                 {
                     ID = form.ID,
                     Amount = form.Amount,
-                    AmountType = form.AmountType,
+                    AmountTypeID = form.AmountTypeID,
                     City = form.City,
-                    Country = form.Country,
+                    CountryID = form.CountryID,
                     StartDate = form.StartDate,
                     Title = form.Title,
                     IsPaid = form.GetIsPaid(), //TODO
                     CompanyID = companyIDOfCurrentUser,
                     InternshipCategoryID = form.InternshipCategoryID,
-                    Currency = form.Currency,
+                    CurrencyID = form.CurrencyID,
                     Description = form.Description,
                     MaxDurationInDays = form.GetDurationInDays(maxDurationTypeEnum, form.MaxDuration),
                     MaxDurationInWeeks = form.GetDurationInWeeks(maxDurationTypeEnum, form.MaxDuration),
@@ -795,8 +823,8 @@ namespace UI.Builders.Company
                     MinDurationInDays = form.GetDurationInDays(minDurationTypeEnum, form.MinDuration),
                     MinDurationInWeeks = form.GetDurationInWeeks(minDurationTypeEnum, form.MinDuration),
                     MinDurationInMonths = form.GetDurationInMonths(minDurationTypeEnum, form.MinDuration),
-                    MinDurationType = form.MinDurationType,
-                    MaxDurationType = form.MaxDurationType,
+                    MinDurationTypeID = form.MinDurationTypeID,
+                    MaxDurationTypeID = form.MaxDurationTypeID,
                     IsActive = form.GetIsActive(),
                     ApplicationUserId = this.CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
@@ -805,6 +833,14 @@ namespace UI.Builders.Company
                 };
 
                 await Services.InternshipService.UpdateAsync(internship);
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -826,15 +862,23 @@ namespace UI.Builders.Company
             {
                 if (form?.Avatar == null)
                 {
-                    throw new ArgumentNullException("Nelze nahrát prázdný avatar");
+                    throw new ValidationException("Nelze nahrát prázdný avatar");
                 }
 
                 if (!this.CurrentUser.IsAuthenticated)
                 {
-                    throw new UIException(UIExceptionEnum.NotAuthenticated);
+                    throw new ValidationException(UIExceptionEnum.NotAuthenticated.ToString());
                 }
 
                 Services.FileProvider.SaveImage(form.Avatar, FileConfig.AvatarFolderPath, Entity.ApplicationUser.GetAvatarFileName(this.CurrentUser.UserName), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -849,6 +893,76 @@ namespace UI.Builders.Company
         #endregion
 
         #region Helper methods
+
+        private async Task<AuthInternshipDurationType> GetDurationTypeAsync(int durationID)
+        {
+            var durationTypes = await this.FormGetInternshipDurationsAsync();
+            return durationTypes
+                .Where(m => m.ID == durationID)
+                .SingleOrDefault();
+        }
+
+        private async Task<IEnumerable<AuthInternshipAmountType>> FormGetInternshipAmountTypesAsync()
+        {
+            var internshipAmountTypes = await this.Services.InternshipAmountTypeService.GetAllCachedAsync();
+
+            return internshipAmountTypes.Select(m => new AuthInternshipAmountType()
+            {
+                ID = m.ID,
+                CodeName = m.CodeName,
+                AmountTypeName = m.AmountTypeName
+            });
+        }
+
+        private async Task<IEnumerable<AuthInternshipDurationType>> FormGetInternshipDurationsAsync()
+        {
+            var durationTypes = await this.Services.InternshipDurationTypeService.GetAllCachedAsync();
+
+            return durationTypes.Select(m => new AuthInternshipDurationType()
+            {
+                ID = m.ID,
+                CodeName = m.CodeName,
+                DurationName = m.DurationName,
+                DurationTypeEnum = m.DurationTypeEnum
+            });
+        }
+
+        private async Task<IEnumerable<AuthCurrencyModel>> FormGetCurrenciesAsync()
+        {
+            var currencies = await this.Services.CurrencyService.GetAllCachedAsync();
+
+            return currencies.Select(m => new AuthCurrencyModel()
+            {
+                ID = m.ID,
+                CodeName = m.CodeName,
+                CurrencyName = m.CurrencyName
+            });
+        }
+
+        private async Task<IEnumerable<AuthCountryModel>> FormGetCountriesAsync()
+        {
+            var countries = await this.Services.CountryService.GetAllCachedAsync();
+
+            return countries.Select(m => new AuthCountryModel()
+            {
+                ID = m.ID,
+                CountryCode = m.CountryCode,
+                CountryName = m.CountryName,
+                Icon = m.Icon
+            });
+        }
+
+        private async Task<IEnumerable<AuthCompanySize>> FormGetCompanySizesAsync()
+        {
+            var companySizes = await this.Services.CompanySizeService.GetAllCachedAsync();
+
+            return companySizes.Select(m => new AuthCompanySize()
+            {
+                ID = m.ID,
+                CodeName = m.CodeName,
+                CompanySizeName = m.CompanySizeName
+            });
+        }
 
         /// <summary>
         /// Gets total number of not read messages of current user
@@ -1066,7 +1180,7 @@ namespace UI.Builders.Company
         /// Gets company categories and caches the result
         /// </summary>
         /// <returns>Collection of company categories</returns>
-        private async Task<IEnumerable<AuthCompanyCategoryModel>> GetCompanyCategoriesAsync()
+        private async Task<IEnumerable<AuthCompanyCategoryModel>> FormGetCompanyCategories()
         {
             var cacheMinutes = 60;
             var cacheSetup = this.Services.CacheService.GetSetup<AuthCompanyCategoryModel>(this.GetSource(), cacheMinutes);
@@ -1093,7 +1207,7 @@ namespace UI.Builders.Company
         /// Gets internship categories and caches the result
         /// </summary>
         /// <returns>Collection of internship categories</returns>
-        private async Task<IEnumerable<AuthInternshipCategoryModel>> GetInternshipCategoriesAsync()
+        private async Task<IEnumerable<AuthInternshipCategoryModel>> FormGetInternshipCategoriesAsync()
         {
             var cacheMinutes = 60;
             var cacheSetup = this.Services.CacheService.GetSetup<AuthInternshipCategoryModel>(this.GetSource(), cacheMinutes);

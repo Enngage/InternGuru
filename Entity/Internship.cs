@@ -12,15 +12,22 @@ namespace Entity
         [MaxLength(250)]
         [Index]
         public string CodeName { get; set; }
-        
         [ForeignKey("InternshipCategory")]
         public int InternshipCategoryID { get; set; }
-
         [ForeignKey("Company")]
         public int CompanyID { get; set; }
-
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
+        [ForeignKey("Country")]
+        public int CountryID { get; set; }
+        [ForeignKey("AmountType")]
+        public int AmountTypeID { get; set; }
+        [ForeignKey("Currency")]
+        public int CurrencyID { get; set; }
+        [ForeignKey("MinDurationType")]
+        public int MinDurationTypeID { get; set; }
+        [ForeignKey("MaxDurationType")]
+        public int MaxDurationTypeID { get; set; }
 
         [Required]
         [MaxLength(250)]
@@ -33,29 +40,18 @@ namespace Entity
         [MaxLength(100)]
         public string City { get; set; }
         [Required]
-        [MaxLength(100)]
-        public string Country { get; set; }
-        [Required]
         public DateTime Created { get; set; }
         [Required]
         public DateTime Updated { get; set; }
         [Required]
         public bool IsPaid { get; set; }
         public double Amount { get; set; }
-        [MaxLength(50)]
-        public string Currency { get; set; }
-        [MaxLength(50)]
-        public string AmountType { get; set; }
-        [Required]
-        public string MinDurationType { get; set; }
         [Required]
         public int MinDurationInMonths { get; set; }
         [Required]
         public int MinDurationInDays { get; set; }
         [Required]
         public int MinDurationInWeeks { get; set; }
-        [Required]
-        public string MaxDurationType { get; set; }
         [Required]
         public int MaxDurationInMonths { get; set; }
         [Required]
@@ -71,8 +67,16 @@ namespace Entity
 
         #region Virtual
 
+        [ForeignKey("MinDurationTypeID")]
+        public InternshipDurationType MinDurationType { get; set; }
+        [ForeignKey("MaxnDurationTypeID")]
+        public InternshipDurationType MaxDurationType { get; set; }
+        public Currency Currency { get; set; }
+        public InternshipAmountType AmountType { get; set; }
+        public Country Country { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public InternshipCategory InternshipCategory { get; set; }
+        [ForeignKey("CompanyID")]
         public Company Company { get; set; }
 
         #endregion

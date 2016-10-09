@@ -37,7 +37,7 @@ namespace Web.Api.Controllers
                     company.UrlToInternships = this.Url.Link("Company", new { codeName = company.CodeName, tab = CompanyDetailMenuEnum.Internships });
                     company.LogoImageUrl = ImageHelper.GetCompanyLogo(company.ID);
                     company.BannerImageUrl = ImageHelper.GetCompanyBanner(company.ID);
-                    company.CountryIcon = CountryHelper.GetCountryIcon(company.Country);
+                    company.CountryIcon = CountryHelper.GetCountryIcon(company.CountryCode);
                     company.PluralInternshipsCountWord = StringHelper.GetPluralWord(company.InternshipCount, "nabídka", "nabídky", "nabídek");
                 }
 

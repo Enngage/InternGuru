@@ -49,6 +49,7 @@ C:\inetpub\wwwroot\InternGuru\UI\bin\Debug\System.Web.WebPages.Razor.xml
 C:\inetpub\wwwroot\InternGuru\UI\obj\Debug\UI.csprojResolveAssemblyReference.cache
 C:\inetpub\wwwroot\InternGuru\UI\obj\Debug\UI.dll
 C:\inetpub\wwwroot\InternGuru\UI\obj\Debug\UI.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\obj\Debug\UI.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\UI.dll.config
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\UI.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\UI.pdb
@@ -97,6 +98,5 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\System.Web.Raz
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\System.Web.WebPages.xml
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\System.Web.WebPages.Razor.xml
-C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\obj\Debug\UI.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\obj\Debug\UI.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\obj\Debug\UI.pdb

@@ -98,7 +98,7 @@ namespace Common.Helpers
               new InternshipCompanySizeModel()
               {
                   Name = "< 10",
-                  Value = "9"
+                  Value = "9",
               },
                new InternshipCompanySizeModel()
               {

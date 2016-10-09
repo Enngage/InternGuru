@@ -84,7 +84,7 @@ namespace Web.Lib.Ninject
             // Services loader
             kernel.Bind<IServicesLoader>().To<ServicesLoader>().InRequestScope();
 
-            // Services - they need to be in RequestScope, otherwise they may throw infinite recursion exceptions in services
+            // Services - they need to be in RequestScope, otherwise they may throw infinite recursion exceptions when a service is used inside another service
             kernel.Bind<ICacheService>().To<CacheService>().InRequestScope();
             kernel.Bind<ILogService>().To<LogService>().InRequestScope();
             kernel.Bind<IEmailProvider>().To<GoogleEmailProvider>().InRequestScope();
@@ -96,10 +96,16 @@ namespace Web.Lib.Ninject
             kernel.Bind<IIdentityService>().To<Identityservice>().InRequestScope();
             kernel.Bind<IFileProvider>().To<FileProvider>().InRequestScope();
             kernel.Bind<IMessageService>().To<MessageService>().InRequestScope();
+            kernel.Bind<IInternshipDurationTypeService>().To<InternshipDurationTypeService>().InRequestScope();
+            kernel.Bind<InternshipAmountTypeService>().To<InternshipAmountTypeService>().InRequestScope();
+            kernel.Bind<ICountryService>().To<CountryService>().InRequestScope();
+            kernel.Bind<ICurrencyService>().To<CurrencyService>().InRequestScope();
+            kernel.Bind<ICompanySizeService>().To<CompanySizeService>().InRequestScope();
+            kernel.Bind<IInternshipAmountTypeService>().To<InternshipAmountTypeService>().InRequestScope();
+            
 
             return kernel;
         }
-
 
         #endregion
 

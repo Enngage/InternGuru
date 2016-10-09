@@ -21,7 +21,11 @@ namespace UI.Builders.Services
         IIdentityService IdentityService { get; }
         ILogService LogService { get; }
         IMessageService MessageService { get; }
-
+        IInternshipDurationTypeService InternshipDurationTypeService { get; }
+        IInternshipAmountTypeService InternshipAmountTypeService { get; }
+        ICountryService CountryService { get; }
+        ICurrencyService CurrencyService { get; }
+        ICompanySizeService CompanySizeService { get; }
         #endregion
     }
 }

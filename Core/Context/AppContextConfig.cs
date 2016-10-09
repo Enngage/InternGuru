@@ -3,7 +3,7 @@ namespace Core.Context
 {
     public class AppContextConfig
     {
-        private bool autoDetectChanges = true; // default value
+        private bool autoDetectChanges = false; // default value
 
         public bool AutoDetectChanges
         {

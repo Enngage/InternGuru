@@ -17,13 +17,15 @@ namespace UI.Builders.Internship.Models
         public DateTime Updated { get; set; }
         public bool IsPaid { get; set; }
         public double Amount { get; set; }
-        public string Currency { get; set; }
-        public string AmountType { get; set; }
-        public string MinDurationType { get; set; }
+        public string CurrencyName { get; set; }
+        public string CurrencyCode { get; set; }
+        public string AmountTypeCodeName { get; set; }
+        public string AmountTypeName { get; set; }
+        public InternshipDurationTypeEnum MinDurationType { get; set; }
         public int MinDurationInMonths { get; set; }
         public int MinDurationInDays { get; set; }
         public int MinDurationInWeeks { get; set; }
-        public string MaxDurationType { get; set; }
+        public InternshipDurationTypeEnum MaxDurationType { get; set; }
         public int MaxDurationInMonths { get; set; }
         public int MaxDurationInDays { get; set; }
         public int MaxDurationInWeeks { get; set; }
@@ -36,9 +38,5 @@ namespace UI.Builders.Internship.Models
         // virtual properties
         public int MinDurationDefault { get; set; }
         public int MaxDurationDefault { get; set; }
-        public InternshipDurationTypeModel MinDurationTypeModel { get; set; }
-        public InternshipDurationTypeModel MaxDurationTypeModel { get; set; }
     }
-
-
 }

@@ -1,8 +1,5 @@
-﻿
-
-using Cache;
+﻿using Cache;
 using Core.Services;
-using UI.Events;
 using UI.Files;
 
 namespace UI.Builders.Services
@@ -18,6 +15,11 @@ namespace UI.Builders.Services
         public IIdentityService IdentityService { get; private set; }
         public ILogService LogService { get; private set; }
         public IMessageService MessageService { get; private set; }
+        public IInternshipDurationTypeService InternshipDurationTypeService { get; private set; }
+        public IInternshipAmountTypeService InternshipAmountTypeService { get; private set; }
+        public ICountryService CountryService { get; private set; }
+        public ICurrencyService CurrencyService { get; private set; }
+        public ICompanySizeService CompanySizeService { get; private set; }
 
         public ServicesLoader(
                 ICacheService cacheService,
@@ -28,7 +30,12 @@ namespace UI.Builders.Services
                 ICompanyService companyService,
                 IIdentityService identityService,
                 ILogService logService,
-                IMessageService messageService
+                IMessageService messageService,
+                IInternshipDurationTypeService internshipDurationService,
+                IInternshipAmountTypeService internshipAmountTypeService,
+                ICountryService countryService,
+                ICurrencyService currencyService,
+                ICompanySizeService companySizeService
         )
         {
             this.CacheService = cacheService;
@@ -40,6 +47,11 @@ namespace UI.Builders.Services
             this.IdentityService = identityService;
             this.LogService = logService;
             this.MessageService = messageService;
+            this.InternshipDurationTypeService = internshipDurationService;
+            this.InternshipAmountTypeService = internshipAmountTypeService;
+            this.CountryService = countryService;
+            this.CurrencyService = currencyService;
+            this.CompanySizeService = companySizeService;
         }
     }
 }

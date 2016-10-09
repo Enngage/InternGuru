@@ -8,11 +8,13 @@
     var defaultCurrency = Model.Currencies.FirstOrDefault();
     var defaultDuration = Model.DurationTypes.FirstOrDefault();
     var defaultAmountType = Model.AmountTypes.FirstOrDefault();
+    var defaultCountry = Model.Countries.FirstOrDefault();
 
-    var minDurationTypeVal = String.IsNullOrEmpty(Model.MinDurationType) ? defaultDuration.DurationValue.ToString() : Model.MinDurationType;
-    var maxDurationTypeVal = String.IsNullOrEmpty(Model.MaxDurationType) ? defaultDuration.DurationValue.ToString() : Model.MaxDurationType;
-    var currencyVal = Model.Currency == null ? defaultCurrency.CurrencyCodeName : Model.Currency;
-    var amountTypeVal = String.IsNullOrEmpty(Model.AmountType) ? defaultAmountType : Model.AmountType;
+    var minDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration.ID : Model.MinDurationTypeID;
+    var maxDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration.ID : Model.MaxDurationTypeID;
+    var currencyVal = Model.CurrencyID == 0 ? defaultCurrency.ID : Model.CurrencyID;
+    var amountTypeVal = Model.AmountTypeID == 0 ? defaultAmountType.ID : Model.AmountTypeID;
+    var countryVal = Model.CountryID == 0 ? defaultCountry.ID : Model.CountryID;
 
     var minDurationVal = Model.MinDuration == 0 ? null : Model.MinDuration.ToString();
     var maxDurationVal = Model.MaxDuration == 0 ? null : Model.MaxDuration.ToString();
@@ -39,6 +41,7 @@
 @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))
 {
     @Html.AntiForgeryToken()
+    <input type="hidden" name="ID" value="@Model.ID" />
 
     <div class="ui grid">
         <div class="centered sixteen wide mobile sixteen wide tablet ten wide computer column">
@@ -113,19 +116,19 @@
                 <div class="field required">
                     <label>Stát</label>
                     <div class="ui fluid search selection dropdown _StateDropdown">
-                        <input type="hidden" name="Country" value="@Model.Country">
+                        <input type="hidden" name="CountryID" value="@countryVal">
                         <i class="dropdown icon"></i>
                         <div class="default text">Stát</div>
                         <div class="menu">
                             @foreach (var country in Model.Countries)
                             {
-                                if (country.CoutryCodeName.Equals(Model.Country, StringComparison.OrdinalIgnoreCase))
+                                if (country.ID.Equals(Model.CountryID))
                                 {
-                                    <div class="item active" data-value="@country.CoutryCodeName">@Html.Raw(country.FlagIconHtml) @country.CountryName</div>
+                                    <div class="item active" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
                                 }
                                 else
                                 {
-                                    <div class="item" data-value="@country.CoutryCodeName">@Html.Raw(country.FlagIconHtml) @country.CountryName</div>
+                                    <div class="item" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
                                 }
                             }
 
@@ -178,37 +181,37 @@
                     <div class="ui right labeled input">
                         <input name="Amount" placeholder="" type="text" value="@Model.Amount">
                         <div class="ui dropdown label _CurrencyDropdown">
-                            <input name="Currency" type="hidden" value="@currencyVal">
+                            <input name="CurrencyID" type="hidden" value="@currencyVal">
                             <div class="item text" data-value="@defaultCurrency">@defaultCurrency</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 @foreach (var currency in Model.Currencies)
                                 {
-                                    if (currency.CurrencyCodeName.Equals(Model.Currency, StringComparison.OrdinalIgnoreCase))
+                                    if (currency.ID.Equals(Model.CurrencyID))
                                     {
-                                        <div class="item active" data-value="@currency.CurrencyCodeName">@currency.CurrencyCodeName</div>
+                                        <div class="item active" data-value="@currency.ID">@currency.CodeName</div>
                                     }
                                     else
                                     {
-                                        <div class="item" data-value="@currency.CurrencyCodeName">@currency.CurrencyCodeName</div>
+                                        <div class="item" data-value="@currency.ID">@currency.CodeName</div>
                                     }
                                 }
                             </div>
                         </div>
                         <div class="ui dropdown label _CurrencyDropdown">
-                            <input name="AmountType" type="hidden" value="@amountTypeVal">
-                            <div class="item text" data-value="@defaultAmountType">@defaultAmountType</div>
+                            <input name="AmountTypeID" type="hidden" value="@amountTypeVal">
+                            <div class="item text" data-value="@defaultAmountType.ID">@defaultAmountType.AmountTypeName</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 @foreach (var amountType in Model.AmountTypes)
                                 {
-                                    if (amountType.Equals(Model.AmountType, StringComparison.OrdinalIgnoreCase))
+                                    if (amountType.ID.Equals(Model.AmountTypeID))
                                     {
-                                        <div class="item active" data-value="@amountType">@amountType</div>
+                                        <div class="item active" data-value="@amountType.ID">@amountType.AmountTypeName</div>
                                     }
                                     else
                                     {
-                                        <div class="item" data-value="@amountType">@amountType</div>
+                                        <div class="item" data-value="@amountType.ID">@amountType.AmountTypeName</div>
                                     }
                                 }
                             </div>
@@ -227,19 +230,19 @@
                     <div class="ui right labeled input">
                         <input name="MinDuration" placeholder="" type="text" value="@minDurationVal">
                         <div class="ui dropdown label _DurationDropdown">
-                            <input name="MinDurationType" type="hidden" value="@minDurationTypeVal">
-                            <div class="item text" data-value="@defaultDuration.DurationValue">@defaultDuration.DurationName</div>
+                            <input name="MinDurationTypeID" type="hidden" value="@minDurationTypeVal">
+                            <div class="item text" data-value="@defaultDuration.ID">@defaultDuration.DurationName</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 @foreach (var durationType in Model.DurationTypes)
                                 {
-                                    if (durationType.DurationValue.Equals(Model.MinDurationType))
+                                    if (durationType.ID.Equals(Model.MinDurationTypeID))
                                     {
-                                        <div class="item active" data-value="@durationType.DurationValue">@durationType.DurationName</div>
+                                        <div class="item active" data-value="@durationType.ID">@durationType.DurationName</div>
                                     }
                                     else
                                     {
-                                        <div class="item" data-value="@durationType.DurationValue">@durationType.DurationName</div>
+                                        <div class="item" data-value="@durationType.ID">@durationType.DurationName</div>
                                     }
                                 }
                             </div>
@@ -252,19 +255,19 @@
                     <div class="ui right labeled input">
                         <input name="MaxDuration" placeholder="" type="text" value="@maxDurationVal">
                         <div class="ui dropdown label _DurationDropdown">
-                            <input name="MaxDurationType" type="hidden" value="@maxDurationTypeVal">
-                            <div class="item text" data-value="@defaultDuration.DurationValue">@defaultDuration.DurationName</div>
+                            <input name="MaxDurationTypeID" type="hidden" value="@maxDurationTypeVal">
+                            <div class="item text" data-value="@defaultDuration.ID">@defaultDuration.DurationName</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 @foreach (var durationType in Model.DurationTypes)
                                 {
-                                    if (durationType.DurationValue.Equals(Model.MaxDurationType))
+                                    if (durationType.ID.Equals(Model.MaxDurationTypeID))
                                     {
-                                        <div class="item active" data-value="@durationType.DurationValue">@durationType.DurationName</div>
+                                        <div class="item active" data-value="@durationType.ID">@durationType.DurationName</div>
                                     }
                                     else
                                     {
-                                        <div class="item" data-value="@durationType.DurationValue">@durationType.DurationName</div>
+                                        <div class="item" data-value="@durationType.ID">@durationType.DurationName</div>
                                     }
                                 }
                             </div>
@@ -280,6 +283,4 @@
 
         </div>
     </div>
-
-    @Html.Hidden("ID", Model.ID)
 }

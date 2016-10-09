@@ -1,6 +1,4 @@
-﻿using Common.Helpers.Country;
-using Common.Helpers.Internship;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
@@ -37,7 +35,9 @@ namespace UI.Builders.Auth.Forms
         public string City { get; set; }
 
         [Required(ErrorMessage = "Stát nemůže být prázdný")]
-        public string Country { get; set; }
+        public int CountryID { get; set; }
+        public string CountryName { get; set; }
+        public string CountryCode { get; set; }
 
         public float Lat { get; set; }
 
@@ -53,14 +53,15 @@ namespace UI.Builders.Auth.Forms
         public string Facebook { get; set; }
 
         [Required(ErrorMessage = "Velikost firmy nemůže být prázdná")]
-        public int CompanySize { get; set; }
+        public int CompanySizeID { get; set; }
+        public string CompanySizeName { get; set; }
 
         // Files
         public HttpPostedFileBase Logo { get; set; }
         public HttpPostedFileBase Banner { get; set; }
 
-        public IEnumerable<InternshipCompanySizeModel> AllowedCompanySizes { get; set; }
-        public IEnumerable<CountryModel> Countries { get; set; }
+        public IEnumerable<AuthCompanySize> CompanySizes { get; set; }
+        public IEnumerable<AuthCountryModel> Countries { get; set; }
         public IEnumerable<AuthCompanyCategoryModel> CompanyCategories { get; set; }
 
         /// <summary>

@@ -3,6 +3,7 @@ using Common.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
 namespace Entity
 {
@@ -23,8 +24,6 @@ namespace Entity
         public string Address { get; set; }
         [MaxLength(100)]
         public string City { get; set; }
-        [MaxLength(100)]
-        public string Country { get; set; }
         public float Lat { get; set; }
         public float Lng { get; set; }
         [MaxLength(250)]
@@ -35,18 +34,23 @@ namespace Entity
         public string LinkedIn { get; set; }
         [MaxLength(250)]
         public string Facebook { get; set; }
-        public int CompanySize { get; set; }
         [ForeignKey("CompanyCategory")]
         public int CompanyCategoryID { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
-
+        [ForeignKey("Country")]
+        public int CountryID { get; set; }
+        [ForeignKey("CompanySize")]
+        public int CompanySizeID { get; set; }
 
         #region Virtual properties
 
+        public CompanySize CompanySize { get; set; }
+        public Country Country { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public CompanyCategory CompanyCategory { get; set; }
-        public virtual ICollection<Internship> Internships { get; set; }
+        public ICollection<Internship> Internships { get; set; }
+        public ICollection<Message> Messages { get; set; }
 
         #endregion
 

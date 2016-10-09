@@ -4,6 +4,7 @@ using Core.Context;
 using Cache;
 using Entity;
 using Core.Events;
+using System.Collections.Generic;
 
 namespace Core.Services
 {
@@ -234,7 +235,32 @@ namespace Core.Services
             // assign new context
             this.appContext = appContext;
         }
-       
+
+        #endregion
+
+        #region Helper methods
+
+        /// <summary>
+        /// Gets cache setup used to save all objects of this type to cache
+        /// </summary>
+        /// <returns>Cache setup</returns>
+        protected ICacheSetup GetCacheAllCacheSetup()
+        {
+            int cacheMinutes = 120;
+            var cacheKey = $"GetCacheAllCacheSetup";
+
+            var cacheSetup = CacheService.GetSetup<T>(cacheKey, cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdateAny<T>(),
+                EntityKeys.KeyDeleteAny<T>(),
+                EntityKeys.KeyCreateAny<T>(),
+            };
+            cacheSetup.ObjectStringID = this.GetType().Name;
+
+            return cacheSetup;
+        }
+
         #endregion
     }
 }

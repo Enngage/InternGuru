@@ -55,7 +55,6 @@
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\HashHelper.cs" />
     <Compile Include="Helpers\InternshipHelper.cs" />
-    <Compile Include="Helpers\CountryHelper.cs" />
     <Compile Include="Config\SystemConfig.cs" />
     <Compile Include="Environment\EnvironmentEnum.cs" />
     <Compile Include="Helpers\Country\CountryModel.cs" />

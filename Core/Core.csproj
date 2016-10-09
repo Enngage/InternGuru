@@ -68,131 +68,25 @@
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\201608201021090_First.cs" />
-    <Compile Include="Migrations\201608201021090_First.Designer.cs">
-      <DependentUpon>201608201021090_First.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608201326457_Logs.cs" />
-    <Compile Include="Migrations\201608201326457_Logs.Designer.cs">
-      <DependentUpon>201608201326457_Logs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608261654498_UserNameProperties.cs" />
-    <Compile Include="Migrations\201608261654498_UserNameProperties.Designer.cs">
-      <DependentUpon>201608261654498_UserNameProperties.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608291808475_Categories_CompanyInfo.cs" />
-    <Compile Include="Migrations\201608291808475_Categories_CompanyInfo.Designer.cs">
-      <DependentUpon>201608291808475_Categories_CompanyInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608291810213_InternshipCategoryFix.cs" />
-    <Compile Include="Migrations\201608291810213_InternshipCategoryFix.Designer.cs">
-      <DependentUpon>201608291810213_InternshipCategoryFix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608301702044_CompanyAddressFix.cs" />
-    <Compile Include="Migrations\201608301702044_CompanyAddressFix.Designer.cs">
-      <DependentUpon>201608301702044_CompanyAddressFix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609031410126_InternshipRedesign.cs" />
-    <Compile Include="Migrations\201609031410126_InternshipRedesign.Designer.cs">
-      <DependentUpon>201609031410126_InternshipRedesign.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609031415257_InternshipRedesign2.cs" />
-    <Compile Include="Migrations\201609031415257_InternshipRedesign2.Designer.cs">
-      <DependentUpon>201609031415257_InternshipRedesign2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609041605298_AmountType.cs" />
-    <Compile Include="Migrations\201609041605298_AmountType.Designer.cs">
-      <DependentUpon>201609041605298_AmountType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609060807360_AddApplicationUserIdToCompany.cs" />
-    <Compile Include="Migrations\201609060807360_AddApplicationUserIdToCompany.Designer.cs">
-      <DependentUpon>201609060807360_AddApplicationUserIdToCompany.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609101322567_RemoveShortDescriptionFromCompany.cs" />
-    <Compile Include="Migrations\201609101322567_RemoveShortDescriptionFromCompany.Designer.cs">
-      <DependentUpon>201609101322567_RemoveShortDescriptionFromCompany.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609101445298_minAndMaxDurationInternship.cs" />
-    <Compile Include="Migrations\201609101445298_minAndMaxDurationInternship.Designer.cs">
-      <DependentUpon>201609101445298_minAndMaxDurationInternship.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609110755208_DurationTypes.cs" />
-    <Compile Include="Migrations\201609110755208_DurationTypes.Designer.cs">
-      <DependentUpon>201609110755208_DurationTypes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609110826228_ApplicationUserForInternship.cs" />
-    <Compile Include="Migrations\201609110826228_ApplicationUserForInternship.Designer.cs">
-      <DependentUpon>201609110826228_ApplicationUserForInternship.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609110927455_IsActiveColumn.cs" />
-    <Compile Include="Migrations\201609110927455_IsActiveColumn.Designer.cs">
-      <DependentUpon>201609110927455_IsActiveColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609151601304_CompanyAlias.cs" />
-    <Compile Include="Migrations\201609151601304_CompanyAlias.Designer.cs">
-      <DependentUpon>201609151601304_CompanyAlias.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609151728004_ChangeCodeName.cs" />
-    <Compile Include="Migrations\201609151728004_ChangeCodeName.Designer.cs">
-      <DependentUpon>201609151728004_ChangeCodeName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609151913250_CodeNameIndexForCompany.cs" />
-    <Compile Include="Migrations\201609151913250_CodeNameIndexForCompany.Designer.cs">
-      <DependentUpon>201609151913250_CodeNameIndexForCompany.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609171038583_CompanyNameIndex.cs" />
-    <Compile Include="Migrations\201609171038583_CompanyNameIndex.Designer.cs">
-      <DependentUpon>201609171038583_CompanyNameIndex.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609191559190_FlexibleHoursCompany.cs" />
-    <Compile Include="Migrations\201609191559190_FlexibleHoursCompany.Designer.cs">
-      <DependentUpon>201609191559190_FlexibleHoursCompany.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609191642136_InternshipFlexibleHours.cs" />
-    <Compile Include="Migrations\201609191642136_InternshipFlexibleHours.Designer.cs">
-      <DependentUpon>201609191642136_InternshipFlexibleHours.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609201447042_RequirementsInternship.cs" />
-    <Compile Include="Migrations\201609201447042_RequirementsInternship.Designer.cs">
-      <DependentUpon>201609201447042_RequirementsInternship.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609201552292_CompanyCategoryCodeName.cs" />
-    <Compile Include="Migrations\201609201552292_CompanyCategoryCodeName.Designer.cs">
-      <DependentUpon>201609201552292_CompanyCategoryCodeName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609201558032_InternshipCategoryCodeName.cs" />
-    <Compile Include="Migrations\201609201558032_InternshipCategoryCodeName.Designer.cs">
-      <DependentUpon>201609201558032_InternshipCategoryCodeName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609240708284_AddMessageTable.cs" />
-    <Compile Include="Migrations\201609240708284_AddMessageTable.Designer.cs">
-      <DependentUpon>201609240708284_AddMessageTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609241138232_IsReadColumn.cs" />
-    <Compile Include="Migrations\201609241138232_IsReadColumn.Designer.cs">
-      <DependentUpon>201609241138232_IsReadColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609241332437_MessageFixes.cs" />
-    <Compile Include="Migrations\201609241332437_MessageFixes.Designer.cs">
-      <DependentUpon>201609241332437_MessageFixes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609241339208_RecipientCompanyID.cs" />
-    <Compile Include="Migrations\201609241339208_RecipientCompanyID.Designer.cs">
-      <DependentUpon>201609241339208_RecipientCompanyID.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610041625580_AddCodeNameToInternship.cs" />
-    <Compile Include="Migrations\201610041625580_AddCodeNameToInternship.Designer.cs">
-      <DependentUpon>201610041625580_AddCodeNameToInternship.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
+    <Compile Include="Services\Companies\CompanySizeService.cs" />
     <Compile Include="Services\Companies\ICompanyCategoryService.cs" />
+    <Compile Include="Services\Companies\ICompanySizeService.cs" />
     <Compile Include="Services\Companies\ICompanyService.cs" />
     <Compile Include="Services\Companies\CompanyCategoryService.cs" />
+    <Compile Include="Services\Country\CountryService.cs" />
+    <Compile Include="Services\Country\ICountryService.cs" />
+    <Compile Include="Services\Currency\ICurrencyService.cs" />
+    <Compile Include="Services\Currency\CurrencyService.cs" />
     <Compile Include="Services\Identity\IIdentityService.cs" />
     <Compile Include="Services\Identity\IdentityService.cs" />
+    <Compile Include="Services\Internships\InternshipDurationTypeService.cs" />
+    <Compile Include="Services\Internships\InternshipAmountTypeService.cs" />
+    <Compile Include="Services\Internships\IInternshipDurationTypeService.cs" />
     <Compile Include="Services\Internships\IInternshipCategoryService.cs" />
+    <Compile Include="Services\Internships\IInternshipAmountTypeService.cs" />
     <Compile Include="Services\Internships\IInternshipService.cs" />
     <Compile Include="Services\Internships\InternshipCategoryService.cs" />
     <Compile Include="Services\Internships\InternshipService.cs" />
@@ -220,96 +114,6 @@
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608201021090_First.resx">
-      <DependentUpon>201608201021090_First.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608201326457_Logs.resx">
-      <DependentUpon>201608201326457_Logs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608261654498_UserNameProperties.resx">
-      <DependentUpon>201608261654498_UserNameProperties.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608291808475_Categories_CompanyInfo.resx">
-      <DependentUpon>201608291808475_Categories_CompanyInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608291810213_InternshipCategoryFix.resx">
-      <DependentUpon>201608291810213_InternshipCategoryFix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608301702044_CompanyAddressFix.resx">
-      <DependentUpon>201608301702044_CompanyAddressFix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609031410126_InternshipRedesign.resx">
-      <DependentUpon>201609031410126_InternshipRedesign.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609031415257_InternshipRedesign2.resx">
-      <DependentUpon>201609031415257_InternshipRedesign2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609041605298_AmountType.resx">
-      <DependentUpon>201609041605298_AmountType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609060807360_AddApplicationUserIdToCompany.resx">
-      <DependentUpon>201609060807360_AddApplicationUserIdToCompany.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609101322567_RemoveShortDescriptionFromCompany.resx">
-      <DependentUpon>201609101322567_RemoveShortDescriptionFromCompany.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609101445298_minAndMaxDurationInternship.resx">
-      <DependentUpon>201609101445298_minAndMaxDurationInternship.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609110755208_DurationTypes.resx">
-      <DependentUpon>201609110755208_DurationTypes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609110826228_ApplicationUserForInternship.resx">
-      <DependentUpon>201609110826228_ApplicationUserForInternship.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609110927455_IsActiveColumn.resx">
-      <DependentUpon>201609110927455_IsActiveColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609151601304_CompanyAlias.resx">
-      <DependentUpon>201609151601304_CompanyAlias.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609151728004_ChangeCodeName.resx">
-      <DependentUpon>201609151728004_ChangeCodeName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609151913250_CodeNameIndexForCompany.resx">
-      <DependentUpon>201609151913250_CodeNameIndexForCompany.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609171038583_CompanyNameIndex.resx">
-      <DependentUpon>201609171038583_CompanyNameIndex.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609191559190_FlexibleHoursCompany.resx">
-      <DependentUpon>201609191559190_FlexibleHoursCompany.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609191642136_InternshipFlexibleHours.resx">
-      <DependentUpon>201609191642136_InternshipFlexibleHours.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609201447042_RequirementsInternship.resx">
-      <DependentUpon>201609201447042_RequirementsInternship.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609201552292_CompanyCategoryCodeName.resx">
-      <DependentUpon>201609201552292_CompanyCategoryCodeName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609201558032_InternshipCategoryCodeName.resx">
-      <DependentUpon>201609201558032_InternshipCategoryCodeName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609240708284_AddMessageTable.resx">
-      <DependentUpon>201609240708284_AddMessageTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609241138232_IsReadColumn.resx">
-      <DependentUpon>201609241138232_IsReadColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609241332437_MessageFixes.resx">
-      <DependentUpon>201609241332437_MessageFixes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609241339208_RecipientCompanyID.resx">
-      <DependentUpon>201609241339208_RecipientCompanyID.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610041625580_AddCodeNameToInternship.resx">
-      <DependentUpon>201610041625580_AddCodeNameToInternship.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

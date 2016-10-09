@@ -1,10 +1,7 @@
-﻿using Common.Helpers.Country;
-using Common.Helpers.Currency;
-using Common.Helpers.Internship;
+﻿using Common.Helpers.Internship;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web;
 using System.Web.Mvc;
 using UI.Base;
 using UI.Builders.Auth.Models;
@@ -30,16 +27,15 @@ namespace UI.Builders.Auth.Forms
         public string City { get; set; }
 
         [Required(ErrorMessage = "Zadejte stát výkonu stáže")]
-        public string Country { get; set; }
+        public int CountryID { get; set; }
 
         public string IsActive { get; set; }
         public string IsPaid{ get; set; }
 
         public double Amount { get; set; }
 
-        public string Currency { get; set; }
-
-        public string AmountType { get; set; }
+        public int CurrencyID { get; set; }
+        public int AmountTypeID { get; set; }
 
         [Required(ErrorMessage = "Zadejte datum možného nástupu do stáže")]
         public DateTime StartDate { get; set; }
@@ -47,26 +43,31 @@ namespace UI.Builders.Auth.Forms
         [Required(ErrorMessage = "Zvolte minimální délku trvání stáže")]
         public int MinDuration { get; set; }
 
-        public string MinDurationType { get; set; }
+        public int MinDurationTypeID { get; set; }
 
         [Required(ErrorMessage = "Zvolte maximální délku trvání stáže")]
         public int MaxDuration { get; set; }
 
-        public string MaxDurationType { get; set; }
+        public int MaxDurationTypeID { get; set; }
 
         [Required(ErrorMessage = "Zvolte kategorii stáže")]
         public int InternshipCategoryID { get; set; }
 
         public string HasFlexibleHours { get; set; }
         public string WorkingHours { get; set; }
+        public string MinDurationTypeCodeName { get; set; }
+        public string MaxDurationTypeCodeName { get; set; }
 
-        public IEnumerable<CountryModel> Countries { get; set; }
-        public IEnumerable<CurrencyModel> Currencies { get; set; }
-        public IEnumerable<string> AmountTypes { get; set; }
-        public IEnumerable<InternshipDurationTypeModel> DurationTypes { get; set; }
+        public IEnumerable<AuthCountryModel> Countries { get; set; }
+        public IEnumerable<AuthCurrencyModel> Currencies { get; set; }
+        public IEnumerable<AuthInternshipAmountType> AmountTypes { get; set; }
+        public IEnumerable<AuthInternshipDurationType> DurationTypes { get; set; }
         public IEnumerable<AuthInternshipCategoryModel> InternshipCategories { get; set; }
 
         // duration values
+        public InternshipDurationTypeEnum MinDurationTypeEnum { get; set; }
+        public InternshipDurationTypeEnum MaxDurationTypeEnum { get; set; }
+
         public int MinDurationInDays { get; set; }
         public int MinDurationInWeeks { get; set; }
         public int MinDurationInMonths { get; set; }

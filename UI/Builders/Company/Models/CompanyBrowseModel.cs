@@ -7,7 +7,8 @@ namespace UI.Builders.Company.Models
         public string CodeName { get; set; }
         public string CompanyName { get; set; }
         public string City { get; set; }
-        public string Country { get; set; }
+        public string CountryCode { get; set; }
+        public string CountryName { get; set; }
         public int InternshipCount { get; set; }
         public string Url { get; set; }
         public string BannerImageUrl { get; set; }

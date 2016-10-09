@@ -23,11 +23,11 @@
     line-height: 24px;
     /* Change margin top on tablet and computer so that content is visible */
     @media (min-width: 991px) {
-        margin-top: 52px; /* Height of the top menu on computer screen */
+        margin-top: 48px; /* Height of the top menu on computer screen */
     }
 
     @media (max-width: 991px) and (min-width: 768px) {
-        margin-top: 52px; /* Height of the top menu on tablet screen */
+        margin-top: 48px; /* Height of the top menu on tablet screen */
     }
 
     .w-body-padded {

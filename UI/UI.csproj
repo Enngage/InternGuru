@@ -137,8 +137,14 @@
     <Compile Include="Builders\Auth\Forms\AuthAvatarUploadForm.cs" />
     <Compile Include="Builders\Auth\Forms\AuthAddEditCompanyForm.cs" />
     <Compile Include="Builders\Auth\Forms\AuthAddEditInternshipForm.cs" />
+    <Compile Include="Builders\Auth\Models\AuthAmountType.cs" />
+    <Compile Include="Builders\Auth\Models\AuthCompanySize.cs" />
+    <Compile Include="Builders\Auth\Models\AuthCountryModel.cs" />
+    <Compile Include="Builders\Auth\Models\AuthCurrencyModel.cs" />
+    <Compile Include="Builders\Auth\Models\AuthInternshipAmountType.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipCategoryModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthCompanyCategoryModel.cs" />
+    <Compile Include="Builders\Auth\Models\AuthInternshipDurationType.cs" />
     <Compile Include="Builders\Auth\Models\AuthMessageModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipListingModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthMessageUserModel.cs" />
@@ -193,6 +199,7 @@
     <Compile Include="Files\FileUploadException.cs" />
     <Compile Include="Files\FileProvider.cs" />
     <Compile Include="Files\IFileProvider.cs" />
+    <Compile Include="Helpers\CountryHelper.cs" />
     <Compile Include="Helpers\HTMLAddons.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="ModelState\IModelState.cs" />

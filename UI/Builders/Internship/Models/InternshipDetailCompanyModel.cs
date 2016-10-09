@@ -11,13 +11,14 @@ namespace UI.Builders.Internship.Models
         public string LongDescription { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public string Country { get; set; }
+        public string CountryCode { get; set; }
+        public string CountryName { get; set; }
         public float Lat { get; set; }
         public float Lng { get; set; }
         public string Web { get; set; }
         public string Twitter { get; set; }
         public string LinkedIn { get; set; }
         public string Facebook { get; set; }
-        public int CompanySize { get; set; }
+        public string CompanySizeName { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using Core.Context;
 using Entity;
 using Cache;
 using Core.Exceptions;
+using System.Collections.Generic;
 
 namespace Core.Services
 {
@@ -104,6 +105,11 @@ namespace Core.Services
 
             // save changes
             return await this.AppContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Company>> GetAllCachedAsync()
+        {
+            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
         }
 
         #region Helper methods

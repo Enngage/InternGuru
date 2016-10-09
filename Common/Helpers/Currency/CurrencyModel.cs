@@ -16,9 +16,9 @@ namespace Common.Helpers.Currency
         {
             if (ShowSignOnLeft)
             {
-                return $"{CurrencyName}{value}";
+                return $"{CurrencyName}{StringHelper.FormatNumber(value)}";
             }
-            return $"{value}{CurrencyName}";
+            return $"{StringHelper.FormatNumber(value)}{CurrencyName}";
         }
     }
 }

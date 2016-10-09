@@ -1,6 +1,7 @@
 ﻿using Common.Helpers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -45,6 +46,10 @@ namespace Entity
         {
             return StringHelper.GetCodeName(userName);
         }
+
+        #endregion
+
+        #region Virtual properties
 
         #endregion
 

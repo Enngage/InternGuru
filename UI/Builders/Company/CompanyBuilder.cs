@@ -65,7 +65,11 @@ namespace UI.Builders.Company
                     Address = m.Address,
                     CompanyCategoryID = m.CompanyCategoryID,
                     CompanyCategoryName = m.CompanyCategory.Name,
-                    CompanySize = m.CompanySize,
+                    CompanySizeID = m.CompanySizeID,
+                    CompanySizeName = m.CompanySize.CompanySizeName,
+                    CountryCode = m.Country.CountryCode,
+                    CountryID = m.CountryID,
+                    CountryName = m.Country.CountryName,
                     Facebook = m.Facebook,
                     Lat = m.Lat,
                     LinkedIn = m.LinkedIn,
@@ -77,7 +81,6 @@ namespace UI.Builders.Company
                     YearFounded = m.YearFounded,
                     City = m.City,
                     CompanyName = m.CompanyName,
-                    Country = m.Country,
                     ID = m.ID,
                     Internships = m.Internships
                         .Where(v => v.IsActive == true)
@@ -86,9 +89,11 @@ namespace UI.Builders.Company
                             ID = s.ID,
                             Title = s.Title,
                             Amount = s.Amount,
-                            AmountType = s.AmountType,
+                            AmountTypeName = s.AmountType.AmountTypeName,
                             IsPaid = s.IsPaid,
-                            Currency = s.Currency
+                            CurrencyName = s.Currency.CurrencyName,
+                            CurrencyCode = s.Currency.CodeName,
+                            CodeName = s.CodeName
                         })
                 });
 
@@ -204,7 +209,9 @@ namespace UI.Builders.Company
                 {
                     City = m.City,
                     CompanyName = m.CompanyName,
-                    Country = m.Country,
+                    CountryName = m.Country.CountryName,
+                    CountryCode = m.Country.CountryCode,
+                    CountryIcon = m.Country.Icon,
                     ID = m.ID,
                     InternshipCount = m.Internships.Count(),
                     CodeName = m.CodeName,

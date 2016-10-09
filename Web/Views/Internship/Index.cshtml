@@ -13,11 +13,14 @@
 
     // get country
     var country = CountryHelper.GetCountry(Model.Internship.Country);
+
+    var companySizeDisplay = InternshipHelper.GetAllowedCompanySizes().Where(m => m.Value == Model.Internship.Company.CompanySize.ToString()).FirstOrDefault();
+
 }
 
 @Html.RequireScript("/scripts/views/internship/detail")
 
-<div class="ui container w-margin-top-20">
+<div class="ui container w-margin-top-14">
     <div class="ui grid">
         <div class="sixteen wide column w-padding-bottom-0">
             <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
@@ -76,7 +79,7 @@
                             <div class="content">
                                 @if (Model.Internship.IsPaid)
                                 {
-                                    <i class="gift icon"></i><span>@currency.DisplayValue(Model.Internship.Amount) / @Model.Internship.AmountType</span>
+                                    <i class="gift icon"></i><span>@(currency.DisplayValue(Model.Internship.Amount)) / @Model.Internship.AmountType</span>
                                 }
                                 else
                                 {
@@ -134,15 +137,21 @@
     <div class="ui segment">
         <div class="ui grid">
 
-            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column w-body-text-center">
-                <div class="ui horizontal list w-font-light">
+            <div class="sixteen wide mobile six wide tablet four wide computer column">
+                <h2>
+                    <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
+                        @Model.Internship.Company.CompanyName
+                    </a>
+                </h2>
+                <div class="ui list w-font-light w-font-size-small">
                     <div class="item">
                         <div class="content">
-                            <h3>
-                                <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
-                                    @Model.Internship.Company.CompanyName
-                                </a>
-                            </h3>
+                            <i class="map icon"></i>@Model.Internship.Company.City, @Model.Internship.Company.Address
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.Country)) @Model.Internship.Company.Country
                         </div>
                     </div>
                     <div class="item">
@@ -154,9 +163,6 @@
                         <div class="content">
                             <i class="users icon"></i>
                             @{
-                                // get display name of company size
-                                var companySizeDisplay = InternshipHelper.GetAllowedCompanySizes().Where(m => m.Value == Model.Internship.Company.CompanySize.ToString()).FirstOrDefault();
-
                                 if (companySizeDisplay != null)
                                 {
                                     <span>@companySizeDisplay.Name zaměstnanců</span>
@@ -176,40 +182,34 @@
                             </div>
                         </div>
                     }
+                </div>
+
+                <div class="w-company-social-icons">
+
                     @if (!string.IsNullOrEmpty(Model.Internship.Company.Facebook))
-                    {<div class="item">
-                        <div class="content">
-                            <a href="@Model.Internship.Company.Facebook">
-                                <i class="facebook icon"></i>
-                            </a>
-                        </div>
-                    </div>
+                    {
+                        <a href="@Model.Internship.Company.Facebook">
+                            <i class="facebook icon large w-color-facebook"></i>
+                        </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.Internship.Company.Twitter))
                     {
-                        <div class="item">
-                            <div class="content">
-                                <a href="@Model.Internship.Company.Twitter">
-                                    <i class="twitter icon"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <a href="@Model.Internship.Company.Twitter">
+                            <i class="twitter icon large w-color-twitter"></i>
+                        </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.Internship.Company.LinkedIn))
                     {
-                        <div class="item">
-                            <div class="content">
-                                <a href="@Model.Internship.Company.LinkedIn">
-                                    <i class="linkedin icon"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <a href="@Model.Internship.Company.LinkedIn">
+                            <i class="linkedin icon large w-color-linkedin"></i>
+                        </a>
                     }
 
                 </div>
+
             </div>
 
-            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+            <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
                 @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
                     new UI.Builders.GoogleMaps.Views.GoogleMapView()
                     {

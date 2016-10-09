@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Core.Services
 {
@@ -129,6 +130,11 @@ namespace Core.Services
 
             this.AppContext.Logs.Add(log);
             this.SaveChanges();
+        }
+
+        public async Task<IEnumerable<Log>> GetAllCachedAsync()
+        {
+            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
         }
     }
 

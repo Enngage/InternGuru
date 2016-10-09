@@ -60,6 +60,11 @@
     <Compile Include="Base\IEntity.cs" />
     <Compile Include="Base\EntityKeys.cs" />
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Currency.cs" />
+    <Compile Include="CompanySize.cs" />
+    <Compile Include="InternshipAmountType.cs" />
+    <Compile Include="InternshipDurationType.cs" />
+    <Compile Include="Country.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="CompanyCategory.cs" />
     <Compile Include="Enums\ActionType.cs" />

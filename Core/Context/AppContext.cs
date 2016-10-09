@@ -13,8 +13,13 @@ namespace Core.Context
         public IDbSet<Internship> Internships { get; set; }
         public IDbSet<InternshipCategory> InternshipCategories { get; set; }
         public IDbSet<CompanyCategory> CompanyCategories { get; set; }
-        public IDbSet<Log> Logs { get; set; }
         public IDbSet<Message> Messages { get; set; }
+        public IDbSet<Log> Logs { get; set; }
+        public IDbSet<Currency> Currencies { get; set; }
+        public IDbSet<InternshipAmountType> InternshipAmountTypes { get; set; }
+        public IDbSet<InternshipDurationType> InternshipDurationTypes { get; set; }
+        public IDbSet<CompanySize> CompanySizes { get; set; }
+        public IDbSet<Country> Countries { get; set; }
 
         #endregion
 
@@ -57,5 +62,39 @@ namespace Core.Context
         }
 
         #endregion
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // disable cascade on following entities:
+            // see https://social.msdn.microsoft.com/Forums/en-US/58a4e272-ee28-4245-ba95-ca7edc818e7a/sql-exception-foreign-key-may-cause-multiple-cascade-path-specify-on-delete-no-action?forum=adodotnetentityframework
+
+            modelBuilder.Entity<Internship>()
+                .HasRequired(p => p.MinDurationType)
+                .WithMany()
+                .HasForeignKey(p => p.MinDurationTypeID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Internship>()
+                .HasRequired(p => p.MaxDurationType)
+                .WithMany()
+                .HasForeignKey(p => p.MaxDurationTypeID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Internship>()
+                .HasRequired(p => p.Country)
+                .WithMany()
+                .HasForeignKey(p => p.CountryID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Company>()
+                .HasRequired(p => p.Country)
+                .WithMany()
+                .HasForeignKey(p => p.CountryID)
+                .WillCascadeOnDelete(false);
+
+            // end cascade delete
+        }
     }
 }

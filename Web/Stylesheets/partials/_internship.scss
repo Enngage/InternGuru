@@ -11,7 +11,7 @@
     .w-internship-fixed-wrapper {
         transition: all 0.5s ease;
         width: 100%;
-        top: 54px !important; /* override the Top set by semantic-ui*/
+        top: 48px !important; /* override the Top set by semantic-ui*/
         @media (max-width: 767px) {
             /* Fix top in mobile devices because the main top nav is missing*/
             top: 0 !important; /* override the Top set by semantic-ui*/

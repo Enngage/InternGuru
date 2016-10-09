@@ -111,12 +111,15 @@ namespace UI.Builders.Internship
                     CodeName = m.CodeName,
                     Created = m.Created,
                     Amount = m.Amount,
-                    AmountType = m.AmountType,
+                    AmountTypeCode = m.AmountType.CodeName,
                     City = m.City,
                     CompanyID = m.CompanyID,
                     CompanyName = m.Company.CompanyName,
-                    Country = m.Country,
-                    Currency = m.Currency,
+                    CountryCode = m.Country.CodeName,
+                    CurrencyCode = m.Currency.CodeName,
+                    CountryName = m.Country.CountryName,
+                    AmountTypeName = m.AmountType.AmountTypeName,
+                    CurrencyName = m.Currency.CurrencyName, 
                     MinDurationDays = m.MinDurationInDays,
                     MinDurationMonths = m.MinDurationInMonths,
                     MinDurationWeeks = m.MinDurationInWeeks,
@@ -128,8 +131,8 @@ namespace UI.Builders.Internship
                     IsPaid = m.IsPaid,
                     StartDate = m.StartDate,
                     Title = m.Title,
-                    MaxDurationType = m.MaxDurationType,
-                    MinDurationType = m.MinDurationType,
+                    MaxDurationType = m.MaxDurationType.DurationTypeEnum,
+                    MinDurationType = m.MinDurationType.DurationTypeEnum,
                     Description = m.Description,
                     Requirements = m.Requirements
                 });
@@ -222,8 +225,9 @@ namespace UI.Builders.Internship
                         Lng = m.Company.Lng,
                         Address = m.Company.Address,
                         City = m.Company.City,
-                        CompanySize = m.Company.CompanySize,
-                        Country = m.Company.Country,
+                        CompanySizeName = m.Company.CompanySize.CompanySizeName,
+                        CountryName = m.Company.Country.CountryName,
+                        CountryCode = m.Country.CountryCode,
                         Facebook = m.Company.Facebook,
                         LinkedIn = m.Company.LinkedIn,
                         LongDescription = m.Company.LongDescription,
@@ -233,11 +237,12 @@ namespace UI.Builders.Internship
                         YearFounded = m.Company.YearFounded
                     },
                     Amount = m.Amount,
-                    AmountType = m.AmountType,
+                    AmountTypeCodeName = m.AmountType.CodeName,
+                    CurrencyName = m.Currency.CurrencyName,
+                    AmountTypeName = m.AmountType.AmountTypeName,
+                    CurrencyCode = m.Currency.CodeName,
                     City = m.City,
-                    Country = m.Country,
                     Created = m.Created,
-                    Currency = m.Currency,
                     Description = m.Description,
                     HasFlexibleHours = m.HasFlexibleHours,
                     ID = m.ID,
@@ -248,11 +253,11 @@ namespace UI.Builders.Internship
                     MaxDurationInDays = m.MaxDurationInDays,
                     MaxDurationInMonths = m.MaxDurationInMonths,
                     MaxDurationInWeeks = m.MaxDurationInWeeks,
-                    MaxDurationType = m.MaxDurationType,
+                    MaxDurationType = m.MaxDurationType.DurationTypeEnum,
                     MinDurationInDays = m.MinDurationInDays,
                     MinDurationInMonths = m.MinDurationInMonths,
                     MinDurationInWeeks = m.MinDurationInWeeks,
-                    MinDurationType = m.MinDurationType,
+                    MinDurationType = m.MinDurationType.DurationTypeEnum,
                     Requirements = m.Requirements,
                     StartDate = m.StartDate,
                     Title = m.Title,
@@ -274,8 +279,8 @@ namespace UI.Builders.Internship
             var internship = await this.Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
 
             // set default duration
-            var minDurationEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MinDurationType);
-            var maxDurationEnum = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MaxDurationType);
+            var minDurationEnum = internship.MinDurationType;
+            var maxDurationEnum = internship.MaxDurationType;
 
             if (minDurationEnum == InternshipDurationTypeEnum.Days)
             {
@@ -303,9 +308,6 @@ namespace UI.Builders.Internship
                 internship.MaxDurationDefault = internship.MaxDurationInMonths;
 
             }
-
-            internship.MinDurationTypeModel = InternshipHelper.GetInternshipDuration(minDurationEnum);
-            internship.MaxDurationTypeModel = InternshipHelper.GetInternshipDuration(maxDurationEnum);
 
             return internship;
 

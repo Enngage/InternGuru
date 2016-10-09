@@ -1,14 +1,14 @@
-﻿
-using Core.Context;
+﻿using Core.Context;
 using Core.Events;
 using Entity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Core.Services
 {
-    public interface IService<T> where T : IEntity
+    public interface IService<T> where T : class, IEntity
     {
 
         #region Entity actions 
@@ -38,6 +38,14 @@ namespace Core.Services
         /// </summary>
         /// <returns>Query to all objects of given type</returns>
         IQueryable<T> GetAll();
+
+        /// <summary>
+        /// Gets all objects from db and stores the result in cache
+        /// All subsequent calls get data from cache
+        /// Cache is automatically cleared whenever an object of this type is updated/created/deleted
+        /// </summary>
+        /// <returns>DbSet of all objects</returns>
+        Task<IEnumerable<T>> GetAllCachedAsync();
 
         /// <summary>
         /// Gets query for single object
