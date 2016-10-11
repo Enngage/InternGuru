@@ -1131,7 +1131,8 @@ namespace UI.Builders.Company
                    ID = m.ID,
                    Title = m.Title,
                    Created = m.Created,
-                   IsActive = m.IsActive
+                   IsActive = m.IsActive,
+                   CodeName = m.CodeName
                });
 
             int cacheMinutes = 60;

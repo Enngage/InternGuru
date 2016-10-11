@@ -119,7 +119,8 @@ namespace UI.Builders.Internship
                     CurrencyCode = m.Currency.CodeName,
                     CountryName = m.Country.CountryName,
                     AmountTypeName = m.AmountType.AmountTypeName,
-                    CurrencyName = m.Currency.CurrencyName, 
+                    CurrencyName = m.Currency.CurrencyName,
+                    CurrencyShowSignOnLeft = m.Currency.ShowSignOnLeft,
                     MinDurationDays = m.MinDurationInDays,
                     MinDurationMonths = m.MinDurationInMonths,
                     MinDurationWeeks = m.MinDurationInWeeks,
@@ -131,13 +132,25 @@ namespace UI.Builders.Internship
                     IsPaid = m.IsPaid,
                     StartDate = m.StartDate,
                     Title = m.Title,
-                    MaxDurationType = m.MaxDurationType.DurationTypeEnum,
-                    MinDurationType = m.MinDurationType.DurationTypeEnum,
                     Description = m.Description,
-                    Requirements = m.Requirements
+                    Requirements = m.Requirements,
+                    MaxDurationTypeCodeName = m.MaxDurationType.CodeName,
+                    MinDurationTypeCodeName = m.MinDurationType.CodeName
                 });
 
-            return await this.Services.CacheService.GetOrSetAsync(async () => await internshipsQuery.ToListAsync(), cacheSetup);
+            var internships = await this.Services.CacheService.GetOrSetAsync(async () => await internshipsQuery.ToListAsync(), cacheSetup);
+
+            // initialize duration types and values
+            foreach (var internship in internships)
+            {
+                internship.MinDurationType = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MinDurationTypeCodeName);
+                internship.MaxDurationType = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MaxDurationTypeCodeName);
+
+                internship.MinDurationDefaultValue = InternshipHelper.GetInternshipDurationDefaultValue(internship.MinDurationType, internship.MinDurationDays, internship.MinDurationWeeks, internship.MinDurationMonths);
+                internship.MaxDurationDefaultValue = InternshipHelper.GetInternshipDurationDefaultValue(internship.MaxDurationType, internship.MaxDurationDays, internship.MaxDurationWeeks, internship.MaxDurationMonths);
+            }
+
+            return internships;
         }
 
         /// <summary>
@@ -239,6 +252,7 @@ namespace UI.Builders.Internship
                     Amount = m.Amount,
                     AmountTypeCodeName = m.AmountType.CodeName,
                     CurrencyName = m.Currency.CurrencyName,
+                    CurrencyShowSignOnLeft = m.Currency.ShowSignOnLeft,
                     AmountTypeName = m.AmountType.AmountTypeName,
                     CurrencyCode = m.Currency.CodeName,
                     City = m.City,
@@ -250,21 +264,25 @@ namespace UI.Builders.Internship
                     InternshipCategoryName = m.InternshipCategory.Name,
                     IsActive = m.IsActive,
                     IsPaid = m.IsPaid,
+                    MaxDurationTypeID = m.MaxDurationTypeID,
+                    MinDurationTypeID = m.MinDurationTypeID,
+                    MaxDurationTypeCodeName = m.MaxDurationType.CodeName,
+                    MinDurationTypeCodeName = m.MinDurationType.CodeName,
                     MaxDurationInDays = m.MaxDurationInDays,
                     MaxDurationInMonths = m.MaxDurationInMonths,
                     MaxDurationInWeeks = m.MaxDurationInWeeks,
-                    MaxDurationType = m.MaxDurationType.DurationTypeEnum,
                     MinDurationInDays = m.MinDurationInDays,
                     MinDurationInMonths = m.MinDurationInMonths,
                     MinDurationInWeeks = m.MinDurationInWeeks,
-                    MinDurationType = m.MinDurationType.DurationTypeEnum,
                     Requirements = m.Requirements,
                     StartDate = m.StartDate,
                     Title = m.Title,
                     Updated = m.Updated,
                     WorkingHours = m.WorkingHours,
-                   
+                    CountryCode = m.Country.CountryCode,
+                    CountryName = m.Country.CountryName
                 });
+
 
             int cacheMinutes = 120;
             var cacheSetup = this.Services.CacheService.GetSetup<int>(this.GetSource(), cacheMinutes);
@@ -279,35 +297,12 @@ namespace UI.Builders.Internship
             var internship = await this.Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
 
             // set default duration
-            var minDurationEnum = internship.MinDurationType;
-            var maxDurationEnum = internship.MaxDurationType;
+            internship.MinDurationType = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MinDurationTypeCodeName);
+            internship.MaxDurationType = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MaxDurationTypeCodeName);
 
-            if (minDurationEnum == InternshipDurationTypeEnum.Days)
-            {
-                internship.MinDurationDefault = internship.MinDurationInDays;
-            }
-            else if (minDurationEnum == InternshipDurationTypeEnum.Weeks)
-            {
-                internship.MinDurationDefault = internship.MinDurationInWeeks;
-            }
-            else if (minDurationEnum == InternshipDurationTypeEnum.Months)
-            {
-                internship.MinDurationDefault = internship.MinDurationInMonths;
-            }
-
-            if (maxDurationEnum == InternshipDurationTypeEnum.Days)
-            {
-                internship.MaxDurationDefault = internship.MaxDurationInDays;
-            }
-            else if (maxDurationEnum == InternshipDurationTypeEnum.Weeks)
-            {
-                internship.MaxDurationDefault = internship.MaxDurationInWeeks;
-            }
-            else if (maxDurationEnum == InternshipDurationTypeEnum.Months)
-            {
-                internship.MaxDurationDefault = internship.MaxDurationInMonths;
-
-            }
+            // set default duration values
+            internship.MinDurationInDefaultValue = InternshipHelper.GetInternshipDurationDefaultValue(internship.MinDurationType, internship.MinDurationInDays, internship.MinDurationInWeeks, internship.MinDurationInMonths);
+            internship.MaxDurationInDefaultValue = InternshipHelper.GetInternshipDurationDefaultValue(internship.MaxDurationType, internship.MaxDurationInDays, internship.MaxDurationInWeeks, internship.MaxDurationInMonths);
 
             return internship;
 

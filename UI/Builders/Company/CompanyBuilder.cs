@@ -93,7 +93,8 @@ namespace UI.Builders.Company
                             IsPaid = s.IsPaid,
                             CurrencyName = s.Currency.CurrencyName,
                             CurrencyCode = s.Currency.CodeName,
-                            CodeName = s.CodeName
+                            CodeName = s.CodeName,
+                            CurrencyShowSignOnLeft = s.Currency.ShowSignOnLeft
                         })
                 });
 

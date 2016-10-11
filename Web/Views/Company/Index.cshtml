@@ -76,13 +76,9 @@
                 <div class="ui list w-font-size-small">
                     <div class="item">
                         <div class="content">
-                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Company.Country))
+                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Company.CountryCode))
                             @{
-                                var country = CountryHelper.GetCountry(Model.Company.Country);
-                                if (country != null)
-                                {
-                                    <strong>@country.CountryName</strong>
-                                }
+                                <strong>@Model.Company.CountryName</strong>
                             }
                         </div>
                     </div>
@@ -112,15 +108,13 @@
                     <div class="item">
                         <i class="users icon"></i>
                         <div class="content">
-                            @{
-                                // get display name of company size
-                                var companySizeDisplay = InternshipHelper.GetAllowedCompanySizes().Where(m => m.Value == Model.Company.CompanySize.ToString()).FirstOrDefault();
-
-                                if (companySizeDisplay != null)
-                                {
-                                    <span>@companySizeDisplay.Name zaměstnanců</span>
-                                }
-                            }
+                            <span>@Model.Company.CompanySizeName zaměstnanců</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="tag icon"></i>
+                        <div class="content">
+                            <span>@Model.Company.CompanyCategoryName</span>
                         </div>
                     </div>
                 </div>

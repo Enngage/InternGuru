@@ -35,7 +35,7 @@ namespace Common.Helpers
         /// <param name="value">Value to parse</param>
         /// <param name="defaultValue">Default value - should be enum value</param>
         /// <returns>Enum value</returns>
-        public static T ParseEnum<T>(string value, string defaultValue)
+        public static T ParseEnum<T>(string value, T defaultValue)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace Common.Helpers
             }
             catch
             {
-                return (T)Enum.Parse(typeof(T), defaultValue, true);
+                return defaultValue;
             }
         }
     }

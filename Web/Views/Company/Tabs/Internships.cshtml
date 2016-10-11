@@ -17,7 +17,7 @@
                         @internship.Title <span class="w-font-size-small w-font-light">
                             @if (internship.IsPaid)
                             {
-                                <span>(@StringHelper.FormatNumber(internship.Amount) @internship.Currency / @internship.AmountType)</span>
+                                <span>(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
                             }
                         </span>
                     </a>

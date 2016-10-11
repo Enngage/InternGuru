@@ -7,15 +7,6 @@
     ViewBag.Title = Model.Internship.Title;
     ViewBag.Description = $"Informace o stáži {Model.Internship.Title} u firmy {Model.Internship.Company.CompanyName}";
     Layout = "~/Views/Shared/Body/Dark.cshtml";
-
-    // get currency
-    var currency = CurrencyHelper.GetCurrency(Model.Internship.Currency);
-
-    // get country
-    var country = CountryHelper.GetCountry(Model.Internship.Country);
-
-    var companySizeDisplay = InternshipHelper.GetAllowedCompanySizes().Where(m => m.Value == Model.Internship.Company.CompanySize.ToString()).FirstOrDefault();
-
 }
 
 @Html.RequireScript("/scripts/views/internship/detail")
@@ -66,24 +57,19 @@
                         </div>
                         <div class="item">
                             <div class="content">
-                                @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.Country))
-                                @{
-                                    if (country != null)
-                                    {
-                                        @country.CountryName
-                                    }
-                                }
+                                @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.CountryCode))
+                                @Model.Internship.CountryName
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
                                 @if (Model.Internship.IsPaid)
                                 {
-                                    <i class="gift icon"></i><span>@(currency.DisplayValue(Model.Internship.Amount)) / @Model.Internship.AmountType</span>
+                                    <i class="money green icon"></i><span>@(CurrencyHelper.DisplayCurrencyValue(Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
                                 }
                                 else
                                 {
-                                    <i class="gift icon"></i><span>Neplaceno</span>
+                                    <i class="money red icon"></i><span>Neplaceno</span>
                                 }
                             </div>
                         </div>
@@ -111,7 +97,7 @@
 
                     <div class="w-body-text-center">
                         <div class="ui button teal large w-override-no-button">
-                            @InternshipHelper.GetInternshipDurationDisplayValue(Model.Internship.MinDurationTypeModel.DurationValue, Model.Internship.MinDurationDefault, Model.Internship.MaxDurationTypeModel.DurationValue, Model.Internship.MaxDurationDefault)
+                            @InternshipHelper.GetInternshipDurationDisplayValue(Model.Internship.MinDurationType, Model.Internship.MinDurationInDefaultValue, Model.Internship.MaxDurationType, Model.Internship.MaxDurationInDefaultValue)
                         </div>
                     </div>
 
@@ -151,7 +137,7 @@
                     </div>
                     <div class="item">
                         <div class="content">
-                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.Country)) @Model.Internship.Company.Country
+                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.CountryCode)) @Model.Internship.Company.CountryName
                         </div>
                     </div>
                     <div class="item">
@@ -162,12 +148,7 @@
                     <div class="item">
                         <div class="content">
                             <i class="users icon"></i>
-                            @{
-                                if (companySizeDisplay != null)
-                                {
-                                    <span>@companySizeDisplay.Name zaměstnanců</span>
-                                }
-                            }
+                            <span>@Model.Internship.Company.CompanySizeName zaměstnanců</span>
                         </div>
                     </div>
 

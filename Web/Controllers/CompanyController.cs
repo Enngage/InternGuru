@@ -37,7 +37,7 @@ namespace Web.Controllers
             }
 
             // set tab if possible
-            var activeTab = EnumHelper.ParseEnum<CompanyDetailMenuEnum>(tab, CompanyDetailMenuEnum.About.ToString());
+            var activeTab = EnumHelper.ParseEnum<CompanyDetailMenuEnum>(tab, CompanyDetailMenuEnum.About);
             model.ActiveTab = activeTab;
 
             return View(model);

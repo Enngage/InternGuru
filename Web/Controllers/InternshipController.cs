@@ -19,9 +19,14 @@ namespace Web.Controllers
         #region Actions
 
 
-        public async Task<ActionResult> Index(int id)
+        public async Task<ActionResult> Index(int? id)
         {
-            var model = await internshipBuilder.BuildDetailViewAsync(id);
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = await internshipBuilder.BuildDetailViewAsync(id ?? 0);
 
             if (model == null)
             {

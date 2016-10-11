@@ -182,16 +182,19 @@ namespace Core.Context
                 {
                     CurrencyName = "Kč",
                     CodeName = "CZK",
+                    ShowSignOnLeft = false
                 },
                   new Currency()
                 {
                     CurrencyName = "$",
                     CodeName = "USD",
+                    ShowSignOnLeft = true
                 },
                     new Currency()
                 {
                     CurrencyName = "€",
                     CodeName = "EUR",
+                    ShowSignOnLeft = false
                 },
             };
 

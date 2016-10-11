@@ -11,5 +11,6 @@ namespace UI.Builders.Company.Models
         public double Amount { get; set; }
         public string CurrencyName { get; set; }
         public string CurrencyCode { get; set; }
+        public bool CurrencyShowSignOnLeft { get; set; }
     }
 }

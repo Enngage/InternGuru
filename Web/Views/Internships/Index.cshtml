@@ -4,7 +4,7 @@
 @using UI.Extensions;
 @{
     ViewBag.Title = "Nabídka stáží";
-    ViewBag.Description = "Najsi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
+    ViewBag.Description = "Najdi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 
     var currentCategory = ViewContext.RouteData.Values["category"] != null ? ViewContext.RouteData.Values["category"].ToString() : string.Empty;
@@ -94,13 +94,13 @@
                                     <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codename = internship.CodeName })">
                                         @internship.Title
                                     </a>
-                                    <span class="w-font-size-small w-font-light">(@StringHelper.FormatNumber(internship.Amount) @internship.Currency / @internship.AmountType)</span>
+                                    <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
                                 </td>
                                 <td>
-                                    @Html.Raw(CountryHelper.GetCountryIcon(internship.Country)) @internship.City
+                                    @Html.Raw(CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
                                 </td>
                                 <td class="collapsing w-body-text-right w-mobile-left">
-                                    od @internship.StartDate.ToString("dd/MM/yyyy")
+                                    @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
                                 </td>
                             </tr>
                         }

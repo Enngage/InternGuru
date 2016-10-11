@@ -139,7 +139,7 @@
                                         }
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("Internship", new { id = internship.ID })">
+                                        <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })">
                                             @internship.Title
                                         </a>
                                     </td>

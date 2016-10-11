@@ -22,6 +22,7 @@ namespace UI.Builders.Internship.Models
         public double Amount { get; set; }
         public string CurrencyCode { get; set; }
         public string CurrencyName { get; set; }
+        public bool CurrencyShowSignOnLeft { get; set; }
         public string AmountTypeName { get; set; }
         public string AmountTypeCode { get; set; }
         public int MinDurationMonths { get; set; }
@@ -31,7 +32,11 @@ namespace UI.Builders.Internship.Models
         public int MaxDurationDays { get; set; }
         public int MaxDurationWeeks { get; set; }
         public DateTime StartDate { get; set; }
+        public string MinDurationTypeCodeName { get; set; }
+        public string MaxDurationTypeCodeName { get; set; }
         public InternshipDurationTypeEnum MinDurationType { get; set; }
         public InternshipDurationTypeEnum MaxDurationType { get; set; }
+        public int MinDurationDefaultValue { get; set; }
+        public int MaxDurationDefaultValue { get; set; }
     }
 }

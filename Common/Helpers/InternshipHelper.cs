@@ -9,51 +9,27 @@ namespace Common.Helpers
     {
 
         /// <summary>
-        /// Gets collection of allowed amount types (e.g. "Total", "Per month" ..)
+        /// Gets the proper duration value based on the duration type
+        /// Eg: if duration type = Month the durationInMonts is retrieved
         /// </summary>
-        /// <returns>Collection of duration types</returns>
-        public static IEnumerable<string> GetAmountTypes()
+        /// <param name="durationType"></param>
+        /// <param name="durationInDays"></param>
+        /// <param name="durationInWeeks"></param>
+        /// <param name="durationInMonts"></param>
+        /// <returns>Proper duration value</returns>
+        public static int GetInternshipDurationDefaultValue(InternshipDurationTypeEnum durationType, int durationInDays, int durationInWeeks, int durationInMonts)
         {
-            return new List<string>()
+            switch (durationType)
             {
-                "Celkem",
-                "Měsíc"
-            };
-        }
-
-        /// <summary>
-        /// Gets collection of allowed duration types (e.g. "Days", "Month" ..)
-        /// </summary>
-        /// <returns>Collection of duration types</returns>
-        public static IEnumerable<InternshipDurationTypeModel> GetInternshipDurations()
-        {
-            return new List<InternshipDurationTypeModel>()
-            {
-                new InternshipDurationTypeModel()
-                {
-                    DurationName = "Měsíců",
-                    DurationValue = InternshipDurationTypeEnum.Months
-                },
-                new InternshipDurationTypeModel()
-                {
-                    DurationName = "Týdnů",
-                    DurationValue = InternshipDurationTypeEnum.Weeks,
-                },
-                new InternshipDurationTypeModel()
-                {
-                    DurationName = "Dnů",
-                    DurationValue = InternshipDurationTypeEnum.Days,
-                }
-            };
-        }
-
-        /// <summary>
-        /// Get internship duration type
-        /// </summary>
-        /// <param name="durationValue">Duration value (codeName)</param>
-        public static InternshipDurationTypeModel GetInternshipDuration(InternshipDurationTypeEnum durationValue)
-        {
-            return GetInternshipDurations().Where(m => m.DurationValue.Equals(durationValue)).FirstOrDefault();
+                case InternshipDurationTypeEnum.Days:
+                    return durationInDays;
+                case InternshipDurationTypeEnum.Weeks:
+                    return durationInWeeks;
+                case InternshipDurationTypeEnum.Months:
+                    return durationInMonts;
+                default:
+                    throw new NotSupportedException($"Cannot convert {durationType} to proper duration. Duration type is not supported.");
+            }
         }
 
         /// <summary>
@@ -87,40 +63,5 @@ namespace Common.Helpers
             return $"{minValue} {translate(minDurationType, minValue)} - {maxValue} {translate(maxDurationType, maxValue)}";
         }
 
-        /// <summary>
-        /// Gets collection of possible employee count states
-        /// </summary>
-        /// <returns>Collection of count states</returns>
-        public static IEnumerable<InternshipCompanySizeModel> GetAllowedCompanySizes()
-        {
-            return new List<InternshipCompanySizeModel>()
-            {
-              new InternshipCompanySizeModel()
-              {
-                  Name = "< 10",
-                  Value = "9",
-              },
-               new InternshipCompanySizeModel()
-              {
-                  Name = "10 - 19",
-                  Value = "19"
-              },
-                new InternshipCompanySizeModel()
-              {
-                  Name = "20 - 49",
-                  Value = "49"
-              },
-                 new InternshipCompanySizeModel()
-              {
-                  Name = "50 - 99",
-                  Value = "99"
-              },
-                  new InternshipCompanySizeModel()
-              {
-                  Name = "100+",
-                  Value = "100"
-              },
-           };
-        }
     }
 }
