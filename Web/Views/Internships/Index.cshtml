@@ -22,24 +22,31 @@
                 @ViewBag.Title
             </h1>
         </div>
-
-        <div class="eight wide mobile seven wide tablet seven wide computer column">
-
-            <div class="ui fluid icon input">
-                <i class="search icon"></i>
-                <input name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal">
+        <div class="sixteen wide column">
+            <div class="ui segment padded">
+                <div class="ui grid">
+                    <div class="eight wide mobile seven wide tablet seven wide computer column">
+                        <div class="ui fluid icon input">
+                            <i class="search icon"></i>
+                            <input name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="eight wide mobile seven wide tablet seven wide computer column">
+                        <div class="ui search _CitiesAutocomplete">
+                            <div class="ui fluid icon input">
+                                <input class="prompt" name="city" placeholder="Město" type="text" value="@cityVal" autocomplete="off">
+                                <i class="world icon"></i>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                    <div class="sixteen wide mobile two wide tablet two wide computer column">
+                        <button class="ui button submit primary" type="submit">
+                            Hledat
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="eight wide mobile seven wide tablet seven wide computer column">
-            <div class="ui fluid icon input">
-                <i class="world icon"></i>
-                <input name="city" placeholder="Město" type="text" value="@cityVal">
-            </div>
-        </div>
-        <div class="sixteen wide mobile two wide tablet two wide computer column">
-            <button class="ui button submit primary" type="submit">
-                Hledat
-            </button>
         </div>
 
         <div class="five wide tablet only four wide computer only column">
@@ -82,7 +89,7 @@
                     @Html.RenderWarningMessage("Žádné stáže nebyly nalezeny")
                 }
 
-                <table class="ui very basic table w-table-listing">
+                <table class="ui very basic table w-table-listing _InternshipsListingTable">
                     <tbody>
                         @foreach (var internship in Model.Internships)
                         {

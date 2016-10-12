@@ -12,6 +12,15 @@
     .w-override-padding-all {
         padding: 15px !important;
     }
+
+    .ui.search .message.empty .header{
+        display: none!important;
+    }
+
+    .ui.search input{
+        border-radius: 0.285714rem!important;
+    }
+
     /* Segment start*/
     .ui.segment {
         border: none;

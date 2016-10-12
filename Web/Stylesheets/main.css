@@ -180,6 +180,10 @@
     cursor: default; }
   #w-body-wrapper .w-override-padding-all {
     padding: 15px !important; }
+  #w-body-wrapper .ui.search .message.empty .header {
+    display: none !important; }
+  #w-body-wrapper .ui.search input {
+    border-radius: 0.28571rem !important; }
   #w-body-wrapper .ui.segment {
     border: none;
     box-shadow: none; }
