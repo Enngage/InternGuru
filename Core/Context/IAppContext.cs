@@ -20,6 +20,8 @@ namespace Core.Context
         IDbSet<InternshipDurationType> InternshipDurationTypes { get; }
         IDbSet<CompanySize> CompanySizes { get; }
         IDbSet<Country> Countries { get; }
+        IDbSet<ThesisType> ThesisTypes { get; }
+        IDbSet<Thesis> Theses { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

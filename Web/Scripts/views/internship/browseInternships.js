@@ -25,7 +25,24 @@
                 error: {
                     noResults: "Město nenalezeno"
                 },
-                minCharacters: 2
+                minCharacters: 1
+            });
+
+        // initialize autocomplete for internship queries
+        $('._InternshipTitleAutocomplete')
+            .search({
+                apiSettings: {
+                    url: searchModule.getInternshipKeywordsUrl()
+                },
+                fields: {
+                    results: 'Items',
+                    title: 'Title',
+                    description: 'Description'
+                },
+                error: {
+                    noResults: "Nic nenalezeno"
+                },
+                minCharacters: 1
             });
     });
 });

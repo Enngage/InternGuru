@@ -5,9 +5,14 @@
 
     var Promise = ExtendedPromise.Promise;
 
-    SearchModule.prototype.getSearchCitiesUrl = function (pageNumber, search) {
+    SearchModule.prototype.getSearchCitiesUrl = function () {
         return '/api/search/GetSearchCities?q={query}';
     }
+
+    SearchModule.prototype.getInternshipKeywordsUrl = function () {
+        return '/api/search/GetInternshipKeywords?q={query}';
+    }
+
 
     return SearchModule;
 });

@@ -72,6 +72,14 @@
     <Compile Include="Migrations\201610111646194_CurrencyShowSignOnLeftColumn.Designer.cs">
       <DependentUpon>201610111646194_CurrencyShowSignOnLeftColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610151424018_EntityOptimization.cs" />
+    <Compile Include="Migrations\201610151424018_EntityOptimization.Designer.cs">
+      <DependentUpon>201610151424018_EntityOptimization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610151441003_ThesisSupport.cs" />
+    <Compile Include="Migrations\201610151441003_ThesisSupport.Designer.cs">
+      <DependentUpon>201610151441003_ThesisSupport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
@@ -80,10 +88,10 @@
     <Compile Include="Services\Companies\ICompanySizeService.cs" />
     <Compile Include="Services\Companies\ICompanyService.cs" />
     <Compile Include="Services\Companies\CompanyCategoryService.cs" />
-    <Compile Include="Services\Country\CountryService.cs" />
-    <Compile Include="Services\Country\ICountryService.cs" />
-    <Compile Include="Services\Currency\ICurrencyService.cs" />
-    <Compile Include="Services\Currency\CurrencyService.cs" />
+    <Compile Include="Services\Countries\CountryService.cs" />
+    <Compile Include="Services\Countries\ICountryService.cs" />
+    <Compile Include="Services\Currencies\ICurrencyService.cs" />
+    <Compile Include="Services\Currencies\CurrencyService.cs" />
     <Compile Include="Services\Identity\IIdentityService.cs" />
     <Compile Include="Services\Identity\IdentityService.cs" />
     <Compile Include="Services\Internships\InternshipDurationTypeService.cs" />
@@ -100,6 +108,10 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\Messages\IMessageService.cs" />
     <Compile Include="Services\Messages\MessageService.cs" />
+    <Compile Include="Services\Thesis\IThesisTypeService.cs" />
+    <Compile Include="Services\Thesis\ThesisTypeService.cs" />
+    <Compile Include="Services\Thesis\ThesisService.cs" />
+    <Compile Include="Services\Thesis\IThesisService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -122,6 +134,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610111646194_CurrencyShowSignOnLeftColumn.resx">
       <DependentUpon>201610111646194_CurrencyShowSignOnLeftColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151424018_EntityOptimization.resx">
+      <DependentUpon>201610151424018_EntityOptimization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151441003_ThesisSupport.resx">
+      <DependentUpon>201610151441003_ThesisSupport.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

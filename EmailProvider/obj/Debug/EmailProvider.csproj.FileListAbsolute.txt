@@ -5,5 +5,6 @@ C:\inetpub\wwwroot\InternGuru\EmailProvider\obj\Debug\EmailProvider.pdb
 C:\inetpub\wwwroot\InternGuru\EmailProvider\obj\Debug\EmailProvider.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\EmailProvider\bin\Debug\EmailProvider.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\EmailProvider\bin\Debug\EmailProvider.pdb
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\EmailProvider\obj\Debug\EmailProvider.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\EmailProvider\obj\Debug\EmailProvider.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\EmailProvider\obj\Debug\EmailProvider.pdb

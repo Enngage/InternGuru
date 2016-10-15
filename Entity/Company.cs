@@ -34,23 +34,26 @@ namespace Entity
         public string LinkedIn { get; set; }
         [MaxLength(250)]
         public string Facebook { get; set; }
-        [ForeignKey("CompanyCategory")]
+        
         public int CompanyCategoryID { get; set; }
-        [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
-        [ForeignKey("Country")]
         public int CountryID { get; set; }
-        [ForeignKey("CompanySize")]
         public int CompanySizeID { get; set; }
 
         #region Virtual properties
 
+        [ForeignKey("CompanySizeID")]
         public CompanySize CompanySize { get; set; }
+        [ForeignKey("CountryID")]
         public Country Country { get; set; }
+        [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("CompanyCategoryID")]
         public CompanyCategory CompanyCategory { get; set; }
         public ICollection<Internship> Internships { get; set; }
         public ICollection<Message> Messages { get; set; }
+        [ForeignKey("CompanyID")] // foreign key from "Thesis" entity
+        public ICollection<Thesis> Theses { get; set; }
 
         #endregion
 

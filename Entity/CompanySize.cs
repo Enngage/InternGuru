@@ -1,10 +1,16 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Entity
 {
     public class CompanySize : IEntity
     {
         public int ID { get; set; }
+        [MaxLength(100)]
         public string CompanySizeName { get; set; }
+        [Index]
+        [MaxLength(100)]
         public string CodeName { get; set; }
 
         #region IEntity members

@@ -132,6 +132,7 @@
     <Compile Include="Builders\Account\Views\LoginViewModel.cs" />
     <Compile Include="Builders\Account\Views\RegisterViewModel.cs" />
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
+    <Compile Include="Builders\Auth\Forms\AuthAddEditThesisForm.cs" />
     <Compile Include="Builders\Auth\Forms\AuthMessageForm.cs" />
     <Compile Include="Builders\Auth\Forms\AuthEditProfileForm.cs" />
     <Compile Include="Builders\Auth\Forms\AuthAvatarUploadForm.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
     <Compile Include="Builders\Search\Autocomplete\SearchAutocompleteItemModel.cs" />
     <Compile Include="Builders\Search\Autocomplete\SearchAutocompleteResultModel.cs" />
+    <Compile Include="Builders\Search\Models\SearchInternshipTitleModel.cs" />
     <Compile Include="Builders\Search\Models\SearchQModel.cs" />
     <Compile Include="Builders\Search\SearchBuilder.cs" />
     <Compile Include="Builders\Search\Models\SearchCityModel.cs" />

@@ -58,6 +58,56 @@ namespace UI.Builders.Search
             return allCities.Where(m => m.City.Contains(searchForCities.Trim(), StringComparison.OrdinalIgnoreCase));
         }
 
+        /// <summary>
+        /// Gets all internship keywords (title of internship splitted by words)
+        /// </summary>
+        /// <param name="search">Search value</param>
+        /// <returns>Distinct internship title keywords</returns>
+        public async Task<IEnumerable<SearchInternshipTitleModel>> GetInternshipTitleKeywords(string search)
+        {
+            var cacheMinutes = 60;
+            var cacheSetup = this.Services.CacheService.GetSetup<SearchInternshipTitleModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyCreateAny<Entity.Internship>(),
+                EntityKeys.KeyDeleteAny<Entity.Internship>(),
+                EntityKeys.KeyUpdateAny<Entity.Internship>()
+            };
+
+            var internshipQuery = this.Services.InternshipService.GetAll()
+                .GroupBy(m => new
+                {
+                    Title = m.Title,
+                })
+                .Select(m => new
+                {
+                    Title = m.Key.Title,
+                    InternshipCount = m.Count()
+                });
+
+           
+            var internshipsKeywords = await this.Services.CacheService.GetOrSet(async () => await internshipQuery.ToListAsync(), cacheSetup);
+
+            // split title of all internship
+            var keywordList = new List<SearchInternshipTitleModel>();
+
+            foreach (var internship in internshipsKeywords.Where(m => m.Title.Contains(search.Trim(), StringComparison.OrdinalIgnoreCase)))
+            {
+                var keywords = internship.Title.Split(' ');
+
+                foreach(var keyword in keywords)
+                {
+                    keywordList.Add(new SearchInternshipTitleModel()
+                    {
+                        InternshipCount = internship.InternshipCount,
+                        TitleKeyword = keyword.Trim()
+                    });
+                }
+            }
+
+            return keywordList;
+        }
+
         #endregion
     }
 }

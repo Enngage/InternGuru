@@ -1,7 +1,7 @@
 ﻿using Common.Helpers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -13,7 +13,9 @@ namespace Entity
     {
         #region DB Properties
 
+        [MaxLength(150)]
         public string FirstName { get; set; }
+        [MaxLength(150)]
         public string LastName { get; set; }
 
         [NotMapped]

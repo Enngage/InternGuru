@@ -113,7 +113,6 @@ C:\inetpub\wwwroot\InternGuru\Web\bin\PagedList.EntityFramework.xml
 C:\inetpub\wwwroot\InternGuru\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\inetpub\wwwroot\InternGuru\Web\obj\Debug\Web.dll
 C:\inetpub\wwwroot\InternGuru\Web\obj\Debug\Web.pdb
-C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\ApplicationInsights.config
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\roslyn\csc.exe
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\roslyn\csc.exe.config
@@ -226,5 +225,6 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\Microsoft.Owin.Secu
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.xml
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFramework.pdb
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFramework.xml
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.pdb

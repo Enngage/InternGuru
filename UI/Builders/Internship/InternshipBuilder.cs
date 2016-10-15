@@ -87,6 +87,38 @@ namespace UI.Builders.Internship
         #region Helper methods
 
         /// <summary>
+        /// Gets internship categories
+        /// </summary>
+        /// <returns>Internship categories</returns>
+        private async Task<IEnumerable<InternshipCategoryModel>> GetInternshipCategoriesAsync()
+        {
+            int cacheMinutes = 60;
+
+            var cacheSetup = this.Services.CacheService.GetSetup<InternshipCategoryModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyCreateAny<Entity.Internship>(),
+                EntityKeys.KeyDeleteAny<Entity.Internship>(),
+                EntityKeys.KeyUpdateAny<Entity.Internship>(),
+                EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyDeleteAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyUpdateAny<Entity.InternshipCategory>(),
+            };
+
+            var categoriesQuery = this.Services.InternshipCategoryService.GetAll()
+                .Select(m => new InternshipCategoryModel()
+                {
+                    CategoryID = m.ID,
+                    CategoryName = m.Name,
+                    CodeName = m.CodeName,
+                    InternshipCount = m.Internships.Count
+                })
+                .OrderBy(m => m.CategoryName);
+
+            return await this.Services.CacheService.GetOrSetAsync(async () => await categoriesQuery.ToListAsync(), cacheSetup);
+        }
+
+        /// <summary>
         /// Gets all internships from DB or cache
         /// </summary>
         /// <returns>Collection of all internships</returns>
@@ -151,36 +183,6 @@ namespace UI.Builders.Internship
             }
 
             return internships;
-        }
-
-        /// <summary>
-        /// Gets internship categories and stores the result in cache
-        /// </summary>
-        /// <returns>Collection of internship categories</returns>
-        private async Task<IEnumerable<InternshipCategoryModel>> GetInternshipCategoriesAsync()
-        {
-            int cacheMinutes = 120;
-
-            var internshipCategoryQuery = this.Services.InternshipCategoryService.GetAll()
-                .OrderByDescending(m => m.Name)
-                .Select(m => new InternshipCategoryModel()
-                {
-                    CategoryID = m.ID,
-                    CategoryName = m.Name,
-                    CodeName = m.CodeName
-                });
-
-            var cacheSetup = this.Services.CacheService.GetSetup<IEnumerable<InternshipCategoryModel>>(this.GetSource(), cacheMinutes);
-            cacheSetup.Dependencies = new List<string>()
-            {
-                EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
-                EntityKeys.KeyUpdateAny<Entity.InternshipCategory>(),
-                EntityKeys.KeyDeleteAny<Entity.InternshipCategory>()
-            };
-
-            var internshipCategories = await this.Services.CacheService.GetOrSetAsync(async () => await internshipCategoryQuery.ToListAsync(), cacheSetup);
-
-            return internshipCategories;
         }
 
         /// <summary>

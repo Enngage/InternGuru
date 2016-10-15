@@ -12,21 +12,13 @@ namespace Entity
         [MaxLength(250)]
         [Index]
         public string CodeName { get; set; }
-        [ForeignKey("InternshipCategory")]
         public int InternshipCategoryID { get; set; }
-        [ForeignKey("Company")]
         public int CompanyID { get; set; }
-        [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
-        [ForeignKey("Country")]
         public int CountryID { get; set; }
-        [ForeignKey("AmountType")]
         public int AmountTypeID { get; set; }
-        [ForeignKey("Currency")]
         public int CurrencyID { get; set; }
-        [ForeignKey("MinDurationType")]
         public int MinDurationTypeID { get; set; }
-        [ForeignKey("MaxDurationType")]
         public int MaxDurationTypeID { get; set; }
 
         [Required]
@@ -71,10 +63,15 @@ namespace Entity
         public InternshipDurationType MinDurationType { get; set; }
         [ForeignKey("MaxnDurationTypeID")]
         public InternshipDurationType MaxDurationType { get; set; }
+        [ForeignKey("CurrencyID")]
         public Currency Currency { get; set; }
+        [ForeignKey("AmountTypeID")]
         public InternshipAmountType AmountType { get; set; }
+        [ForeignKey("CountryID")]
         public Country Country { get; set; }
+        [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("InternshipCategoryID")]
         public InternshipCategory InternshipCategory { get; set; }
         [ForeignKey("CompanyID")]
         public Company Company { get; set; }

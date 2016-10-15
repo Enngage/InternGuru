@@ -10,6 +10,8 @@
     var currentCategory = ViewContext.RouteData.Values["category"] != null ? ViewContext.RouteData.Values["category"].ToString() : string.Empty;
     var searchVal = HttpContext.Current.Request.QueryString["search"] ?? string.Empty;
     var cityVal = HttpContext.Current.Request.QueryString["city"] ?? string.Empty;
+
+    var totalInternshipCount = Model.InternshipCategories.Sum(m => m.InternshipCount);
 }
 
 @Html.RequireScript("/scripts/views/internship/browseInternships")
@@ -26,9 +28,12 @@
             <div class="ui segment padded">
                 <div class="ui grid">
                     <div class="eight wide mobile seven wide tablet seven wide computer column">
-                        <div class="ui fluid icon input">
-                            <i class="search icon"></i>
-                            <input name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
+                        <div class="ui search _InternshipTitleAutocomplete">
+                            <div class="ui fluid icon input">
+                                <input class="prompt" name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
+                                <i class="search icon"></i>
+                            </div>
+                            <div class="results"></div>
                         </div>
                     </div>
                     <div class="eight wide mobile seven wide tablet seven wide computer column">
@@ -55,12 +60,14 @@
                 {
                     <a href="@Url.Action("Index", new { category = "" })" class="active item">
                         Všechny nabídky
+                        <span class="w-color-primary w-body-float-right">@totalInternshipCount</span>
                     </a>
                 }
                 else
                 {
                     <a href="@Url.Action("Index", new { category = "" })" class="item">
                         Všechny nabídky
+                        <span class="w-color-primary w-body-float-right">@totalInternshipCount</span>
                     </a>
                 }
 
@@ -69,13 +76,15 @@
                     if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
                     {
                         <a href="@Url.Action("Index", new { category = category.CodeName })" class="active item">
-                            @category.CategoryName
+                            @category.CategoryName 
+                            <span class="w-color-primary w-body-float-right">@category.InternshipCount</span>
                         </a>
                     }
                     else
                     {
                         <a href="@Url.Action("Index", new { category = category.CodeName })" class="item">
                             @category.CategoryName
+                            <span class="w-color-primary w-body-float-right">@category.InternshipCount</span>
                         </a>
                     }
                 }

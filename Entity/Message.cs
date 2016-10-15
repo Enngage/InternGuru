@@ -7,11 +7,9 @@ namespace Entity
     public class Message : IEntity
     {
         public int ID { get; set; }
-        [ForeignKey("Company")]
+      
         public int RecipientCompanyID { get; set; }
-        [ForeignKey("SenderApplicationUser")]
         public string SenderApplicationUserId { get; set; }
-        [ForeignKey("RecipientApplicationUser")]
         public string RecipientApplicationUserId { get; set; }
         public DateTime MessageCreated { get; set; }
         public string MessageText { get; set; }
@@ -21,8 +19,11 @@ namespace Entity
 
         #region Virtual properties
 
+        [ForeignKey("RecipientCompanyID")]
         public Company Company { get; set; }
+        [ForeignKey("SenderApplicationUserId")]
         public ApplicationUser SenderApplicationUser { get; set; }
+        [ForeignKey("RecipientApplicationUserId")]
         public ApplicationUser RecipientApplicationUser { get; set; }
 
         #endregion

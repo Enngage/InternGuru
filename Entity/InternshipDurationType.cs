@@ -1,6 +1,7 @@
 ﻿
 using Common.Helpers;
 using Common.Helpers.Internship;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity
@@ -8,7 +9,10 @@ namespace Entity
     public class InternshipDurationType : IEntity
     {
         public int ID { get; set; }
+        [MaxLength(50)]
         public string DurationName { get; set; }
+        [Index]
+        [MaxLength(50)]
         public string CodeName { get; set; }
 
         #region Not mapped properties

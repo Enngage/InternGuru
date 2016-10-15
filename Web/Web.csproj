@@ -2025,6 +2025,7 @@
     <Content Include="Views\Company\Tabs\Thesis.cshtml" />
     <Content Include="Views\Form\Internship.cshtml" />
     <Content Include="Views\Internship\Index.cshtml" />
+    <Content Include="Views\Auth\Partials\AddEditThesis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

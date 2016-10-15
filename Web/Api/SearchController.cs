@@ -45,7 +45,31 @@ namespace Web.Api.Controllers
             {
                 return InternalServerError(ex);
             }
+        }
 
+
+        [HttpGet]
+        public async Task<IHttpActionResult> GetInternshipKeywords([FromUri] SearchQModel query)
+        {
+            try
+            {
+                var keywords = (await searchBuilder.GetInternshipTitleKeywords(query.q))
+                    .Select(m => new SearchAutocompleteItemModel()
+                    {
+                        Description = $"{m.InternshipCount} {StringHelper.GetPluralWord(m.InternshipCount, "nabídka", "nabídky", "nabídek")}",
+                        Title = m.TitleKeyword.Trim()
+                    });
+
+                return Ok(new SearchAutocompleteResultModel()
+                {
+                    Count = keywords.Count(),
+                    Items = keywords
+                });
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         #endregion

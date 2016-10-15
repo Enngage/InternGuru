@@ -49,7 +49,9 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\bin\Debug\EntityFramew
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.CurrencyShowSignOnLeftColumn.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.EntityOptimization.resources
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.csproj.GenerateResource.Cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.pdb
-C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.CurrencyShowSignOnLeftColumn.resources
-C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.csproj.GenerateResource.Cache
+C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Core\obj\Debug\Core.Migrations.ThesisSupport.resources
