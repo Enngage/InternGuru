@@ -1,0 +1,67 @@
+﻿@model UI.Builders.Form.Views.FormThesisView
+@using UI.Helpers;
+@using Common.Helpers;
+@using UI.Extensions;
+@{
+    ViewBag.Title = $"Zájem | {Model.Thesis.ThesisName}";
+    ViewBag.Description = $"Zájem o závěrečnou práci {Model.Thesis.ThesisName} u firmy {Model.Thesis.CompanyName}";
+    Layout = "~/Views/Shared/Body/Dark.cshtml";
+
+}
+
+<div class="w-padding-bottom-30">
+
+    <div class="ui container w-margin-top-20">
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <img alt="@Model.Thesis.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Thesis.CompanyID)" class="ui image fluid w-company-detail-banner" />
+            </div>
+        </div>
+    </div>
+
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <h1>
+                    Zájem o <span class="ui header w-color-secondary">@Model.Thesis.ThesisName</span> <span class="w-font-size-small">(@Model.Thesis.ThesisTypeName)</span>
+                </h1>
+
+                @using (Html.BeginForm("Thesis", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    @Html.AntiForgeryToken()
+
+                    @Html.RenderFormValidationResult(Model.ThesisForm.FormResult.IsSuccess, "Zpráva byla odeslána")
+
+                    @Html.Hidden("ThesisID", Model.Thesis.ID)
+
+                    if (!Model.ThesisForm.FormResult.IsSuccess)
+                    {
+                        <p>
+                            Zpráva bude doručena firmě <strong>@Model.Thesis.CompanyName</strong>
+                        </p>
+
+                            <div class="ui reply form">
+                                <div class="field">
+                                    <textarea name="Message" @Model.ThesisForm.Message></textarea>
+                                </div>
+
+                                <button class="ui button submit primary" type="submit">
+                                    Odeslat
+                                </button>
+                            </div>
+                    }
+                    else
+                    {
+                        <div class="ui segment padded">
+                            <p>
+                                Historii zpráv lze nalézt v <a href="@Url.Action("Index", "Auth")">profilu</a>
+                            </p>
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

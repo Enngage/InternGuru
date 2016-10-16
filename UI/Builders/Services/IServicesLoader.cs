@@ -26,6 +26,9 @@ namespace UI.Builders.Services
         ICountryService CountryService { get; }
         ICurrencyService CurrencyService { get; }
         ICompanySizeService CompanySizeService { get; }
+        IThesisService ThesisService { get; }
+        IThesisTypeService ThesisTypeService { get; }
+
         #endregion
     }
 }

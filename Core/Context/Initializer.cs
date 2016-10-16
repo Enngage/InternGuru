@@ -241,6 +241,30 @@ namespace Core.Context
                 context.CompanySizes.Add(companySize);
             }
 
+            var thesisTypes = new List<ThesisType>()
+            {
+                new ThesisType()
+                {
+                    CodeName = "bp",
+                    Name = "Bakalářská práce"
+                },
+                new ThesisType()
+                {
+                    CodeName = "dp",
+                    Name = "Diplomová práce"
+                },
+                 new ThesisType()
+                {
+                    CodeName = "all",
+                    Name = "Nezáleží"
+                }
+            };
+
+            foreach (var thesisType in thesisTypes)
+            {
+                context.ThesisTypes.Add(thesisType);
+            }
+
             // save data
             context.SaveChanges();
 

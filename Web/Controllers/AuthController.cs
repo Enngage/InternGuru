@@ -82,6 +82,31 @@ namespace Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> NewThesis()
+        {
+            var model = await authBuilder.BuildNewThesisViewAsync();
+
+            return View(model);
+        }
+
+        public async Task<ActionResult> EditThesis(int? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = await authBuilder.BuildEditThesisViewAsync(id ?? 0);
+
+            // thesis was not found
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(model);
+        }
+
         public async Task<ActionResult> EditProfile()
         {
             var model = await authBuilder.BuildEditProfileViewAsync();
@@ -329,6 +354,69 @@ namespace Web.Controllers
                 this.ModelStateWrapper.AddError(ex.Message);
 
                 return View(await authBuilder.BuildEditCompanyViewAsync(form));
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> NewThesis(AuthAddEditThesisForm form)
+        {
+            // validate form
+            if (!this.ModelStateWrapper.IsValid)
+            {
+                return View(await authBuilder.BuildNewThesisViewAsync(form));
+            }
+
+            try
+            {
+                // create thesis
+                var thesisID = await authBuilder.CreateThesis(form);
+
+                var model = await authBuilder.BuildNewThesisViewAsync(form);
+
+                // set form status
+                model.ThesisForm.FormResult.IsSuccess = true;
+
+                // update thesis ID
+                model.ThesisForm.ID = thesisID;
+
+                return View(model);
+            }
+            catch (UIException ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                return View(await authBuilder.BuildNewThesisViewAsync(form));
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditThesis(AuthAddEditThesisForm form)
+        {
+            // validate form
+            if (!this.ModelStateWrapper.IsValid)
+            {
+                return View(await authBuilder.BuildEditThesisViewAsync(form));
+            }
+
+            try
+            {
+                // edit thesis
+                await authBuilder.EditThesis(form);
+
+                var model = await authBuilder.BuildEditThesisViewAsync(form);
+
+                // set form status
+                model.ThesisForm.FormResult.IsSuccess = true;
+
+                return View(model);
+            }
+            catch (UIException ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                return View(await authBuilder.BuildEditThesisViewAsync(form));
             }
         }
 

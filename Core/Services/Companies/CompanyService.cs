@@ -94,14 +94,14 @@ namespace Core.Services
                 throw new CodeNameNotUniqueException(string.Format("Company name {0} is not unique", obj.CodeName));
             }
 
+            // fire event
+            this.OnUpdate(obj, company);
+
             // update company
             this.AppContext.Entry(company).CurrentValues.SetValues(obj);
 
             // touch cache keys
             this.TouchUpdateKeys(company);
-
-            // fire event
-            this.OnUpdate(company);
 
             // save changes
             return await this.AppContext.SaveChangesAsync();

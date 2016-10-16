@@ -242,7 +242,7 @@ namespace UI.Builders.Internship
                         City = m.Company.City,
                         CompanySizeName = m.Company.CompanySize.CompanySizeName,
                         CountryName = m.Company.Country.CountryName,
-                        CountryCode = m.Country.CountryCode,
+                        CountryCode = m.Company.Country.CountryCode,
                         Facebook = m.Company.Facebook,
                         LinkedIn = m.Company.LinkedIn,
                         LongDescription = m.Company.LongDescription,
@@ -287,7 +287,7 @@ namespace UI.Builders.Internship
 
 
             int cacheMinutes = 120;
-            var cacheSetup = this.Services.CacheService.GetSetup<int>(this.GetSource(), cacheMinutes);
+            var cacheSetup = this.Services.CacheService.GetSetup<InternshipDetailModel>(this.GetSource(), cacheMinutes);
 
             cacheSetup.Dependencies = new List<string>()
             {

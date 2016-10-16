@@ -3,7 +3,7 @@
 @model UI.Builders.Auth.Views.AuthEditInternshipView
 
 @{
-    ViewBag.Title = "Upravit stáž";
+    ViewBag.Title = "Editovat | " +(Model.InternshipExists ? Model.InternshipForm.Title : "");
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 

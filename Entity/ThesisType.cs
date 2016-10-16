@@ -1,6 +1,4 @@
-﻿
-using Common.Helpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,7 +17,7 @@ namespace Entity
         #region Virtual properties
 
         [ForeignKey("ThesisID")] // Thesis model needs to point here
-        public ICollection<Thesis> Thesis { get; set; }
+        public ICollection<Thesis> Theses { get; set; }
 
         #endregion
 
@@ -32,7 +30,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return StringHelper.GetCodeName(Name);
+            return CodeName;
         }
 
         #endregion

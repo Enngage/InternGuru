@@ -63,6 +63,9 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("Log with ID: {0} not found", obj.ID));
             }
 
+            // fire event
+            this.OnUpdate(obj, log);
+
             // keep the created date
             obj.Created = log.Created;
 
@@ -71,9 +74,6 @@ namespace Core.Services
 
             // touch cache keys
             this.TouchUpdateKeys(log);
-
-            // fire event
-            this.OnUpdate(log);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

@@ -10,11 +10,14 @@ namespace UI.Builders.Company.Models
         public string CountryCode { get; set; }
         public string CountryName { get; set; }
         public int InternshipCount { get; set; }
+        public int ThesesCount { get; set; }
         public string Url { get; set; }
         public string BannerImageUrl { get; set; }
         public string LogoImageUrl { get; set; }
         public string UrlToInternships { get; set; }
+        public string UrlToTheses { get; set; }
         public string CountryIcon { get; set; }
         public string PluralInternshipsCountWord { get; set; }
+        public string PluralThesesCountWord { get; set; }
     }
 }

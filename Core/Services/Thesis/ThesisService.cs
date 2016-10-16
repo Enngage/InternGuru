@@ -81,20 +81,21 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("Thesis with ID: {0} not found", obj.ID));
             }
 
+            // fire event
+            this.OnUpdate(obj, thesis);
+
             // set code name
             obj.CodeName = obj.GetCodeName();
 
             // set dates
             obj.Updated = DateTime.Now;
+            obj.Created = thesis.Created;
 
             // update log
             this.AppContext.Entry(thesis).CurrentValues.SetValues(obj);
 
             // touch cache keys
             this.TouchUpdateKeys(thesis);
-
-            // fire event
-            this.OnUpdate(thesis);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

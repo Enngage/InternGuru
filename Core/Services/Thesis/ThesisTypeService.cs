@@ -76,6 +76,9 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("ThesisType with ID: {0} not found", obj.ID));
             }
 
+            // fire event
+            this.OnUpdate(obj, thesisType);
+
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -84,9 +87,6 @@ namespace Core.Services
 
             // touch cache keys
             this.TouchUpdateKeys(thesisType);
-
-            // fire event
-            this.OnUpdate(thesisType);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

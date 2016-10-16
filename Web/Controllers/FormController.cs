@@ -21,9 +21,31 @@ namespace Web.Controllers
 
         #region Actions
 
-        public async Task<ActionResult> Internship(int id)
+        public async Task<ActionResult> Internship(int? id)
         {
-            var model = await formBuilder.BuildInternshipViewAsync(id);
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = await formBuilder.BuildInternshipViewAsync(id ?? 0);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(model);
+        }
+
+        public async Task<ActionResult> Thesis(int? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = await formBuilder.BuildThesisViewAsync(id ?? 0);
 
             if (model == null)
             {
@@ -65,6 +87,39 @@ namespace Web.Controllers
                 this.ModelStateWrapper.AddError(ex.Message);
 
                 var model = await formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Thesis(FormThesisForm form)
+        {
+            // validate form
+            if (!this.ModelStateWrapper.IsValid)
+            {
+                var model = await formBuilder.BuildThesisViewAsync(form.ThesisID, form);
+
+                return View(model);
+            }
+
+            try
+            {
+                await formBuilder.SaveThesisForm(form);
+
+                var model = await formBuilder.BuildThesisViewAsync(form.ThesisID, null);
+
+                // set form status
+                model.ThesisForm.FormResult.IsSuccess = true;
+
+                return View(model);
+            }
+            catch (UIException ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                var model = await formBuilder.BuildThesisViewAsync(form.ThesisID, form);
 
                 return View(model);
             }

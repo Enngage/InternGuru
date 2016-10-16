@@ -102,7 +102,8 @@ namespace Web.Lib.Ninject
             kernel.Bind<ICurrencyService>().To<CurrencyService>().InRequestScope();
             kernel.Bind<ICompanySizeService>().To<CompanySizeService>().InRequestScope();
             kernel.Bind<IInternshipAmountTypeService>().To<InternshipAmountTypeService>().InRequestScope();
-            
+            kernel.Bind<IThesisTypeService>().To<ThesisTypeService>().InRequestScope();
+            kernel.Bind<IThesisService>().To<ThesisService>().InRequestScope();
 
             return kernel;
         }

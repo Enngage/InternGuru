@@ -77,6 +77,9 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("Currency with ID: {0} not found", obj.ID));
             }
 
+            // fire event
+            this.OnUpdate(obj, currency);
+
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -85,9 +88,6 @@ namespace Core.Services
 
             // touch cache keys
             this.TouchUpdateKeys(currency);
-
-            // fire event
-            this.OnUpdate(currency);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

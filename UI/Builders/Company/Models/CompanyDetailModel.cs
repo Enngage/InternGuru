@@ -25,5 +25,6 @@ namespace UI.Builders.Company.Models
         public string CompanyCategoryName { get; set; }
         public int ID { get; set; }
         public IEnumerable<CompanyDetailInternshipModel> Internships { get; set; }
+        public IEnumerable<CompanyThesisModel> Theses { get; set; }
     }
 }

@@ -1,0 +1,187 @@
+﻿@model UI.Builders.Thesis.Views.ThesisDetailView
+@using UI.Helpers;
+@using Common.Helpers;
+@using UI.Extensions;
+
+@{
+    ViewBag.Title = $"{Model.Thesis.ThesisName} | závěrečná práce";
+    ViewBag.Description = $"Informace o záveřečné práci {Model.Thesis.ThesisName} u firmy {Model.Thesis.Company.CompanyName}";
+    Layout = "~/Views/Shared/Body/Dark.cshtml";
+}
+
+@Html.RequireScript("/scripts/views/thesis/detail")
+
+<div class="ui container w-margin-top-14">
+    <div class="ui grid">
+        <div class="sixteen wide column w-padding-bottom-0">
+            <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.Company.CompanyCodeName })">
+                <img alt="@Model.Thesis.Company.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Thesis.Company.CompanyID)" class="ui image fluid w-internship-detail-banner" />
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="_ThesisMenuWrapper" class="w-internship-fixed-wrapper">
+    <div class="ui container">
+        <div class="ui vertical segment w-internship-menu-wrapper">
+            <img alt="Company logo" class="ui avatar image w-internship-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Thesis.Company.CompanyID)">
+
+            <h1>
+                @Model.Thesis.ThesisName
+            </h1>
+
+            <div class="w-internship-menu-right">
+                <a href="@Url.Action("Thesis", "Form", new { id = Model.Thesis.ID })">
+                    <div class="ui button secondary">
+                        Odpovědět
+                    </div>
+                </a>
+            </div>
+
+            <div class="w-body-clear"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="ui container w-margin-top-20 w-padding-bottom-30">
+    <div class="ui grid">
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+            <div class="ui segment">
+                <div class="w-body-text-center">
+                    <div class="ui horizontal list">
+                        <div class="item">
+                            <div class="content">
+                                <i class="home icon"></i>
+                                <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.Company.CompanyCodeName })">
+                                    @Model.Thesis.Company.CompanyName
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                @Html.Raw(CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode))
+                                @Model.Thesis.Company.CountryName
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <i class="marker icon"></i>@Model.Thesis.Company.City
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                @if (Model.Thesis.IsPaid)
+                                {
+                                    <i class="money green icon"></i><span>Odměna @(CurrencyHelper.DisplayCurrencyValue(Model.Thesis.Amount, Model.Thesis.CurrencyName, Model.Thesis.CurrencyShowSignOnLeft))</span>
+                                }
+                                else
+                                {
+                                    <i class="money red icon"></i><span>Bez odměny</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <i title="Nástup od" class="university icon"></i>@Model.Thesis.ThesisTypeNameConverted
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-margin-top-30">
+
+                    <div class="w-margin-top-30">
+                        @Html.Raw(Model.Thesis.Description)
+                    </div>
+     
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ui segment">
+        <div class="ui grid">
+
+            <div class="sixteen wide mobile six wide tablet four wide computer column">
+                <h2>
+                    <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.Company.CompanyCodeName })">
+                        @Model.Thesis.Company.CompanyName
+                    </a>
+                </h2>
+                <div class="ui list w-font-light">
+                    <div class="item">
+                        <div class="content">
+                            <i class="map icon"></i>@Model.Thesis.Company.City, @Model.Thesis.Company.Address
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode)) @Model.Thesis.Company.CountryName
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <i class="idea icon"></i> Založeno @Model.Thesis.Company.YearFounded
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <i class="users icon"></i>
+                            <span>@Model.Thesis.Company.CompanySizeName zaměstnanců</span>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Thesis.Company.Web))
+                    {
+                        <div class="item">
+                            <div class="content">
+                                <i class="laptop icon"></i>
+                                <a href="@Model.Thesis.Company.Web">
+                                    @Model.Thesis.Company.Web
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="w-company-social-icons">
+
+                    @if (!string.IsNullOrEmpty(Model.Thesis.Company.Facebook))
+                    {
+                        <a href="@Model.Thesis.Company.Facebook">
+                            <i class="facebook icon large w-color-facebook"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Thesis.Company.Twitter))
+                    {
+                        <a href="@Model.Thesis.Company.Twitter">
+                            <i class="twitter icon large w-color-twitter"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Thesis.Company.LinkedIn))
+                    {
+                        <a href="@Model.Thesis.Company.LinkedIn">
+                            <i class="linkedin icon large w-color-linkedin"></i>
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
+                @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
+                    new UI.Builders.GoogleMaps.Views.GoogleMapView()
+                    {
+                        Zoom = 15,
+                        Lat = Model.Thesis.Company.Lat,
+                        Lng = Model.Thesis.Company.Lng,
+                        MarkerTitle = Model.Thesis.Company.CompanyName
+                    })
+            </div>
+        </div>
+    </div>
+
+</div>

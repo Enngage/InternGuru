@@ -42,7 +42,10 @@
                 }
             </a>
             <a class="item" data-tab="second">
-                Moje stáže
+                Stáže
+            </a>
+            <a class="item" data-tab="third">
+                Závěrečné práce
             </a>
             <div class="right menu">
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
@@ -119,7 +122,7 @@
             {
                 if (Model.Internships.Count() == 0)
                 {
-                    @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné nabídky")
+                    @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné nabídky stáže")
                 }
                 else
                 {
@@ -165,12 +168,62 @@
                 @Html.RenderInfoMessage("Pro přidání inzerátu musíte vytvořit firmu")
             }
         </div>
+
+        <div class="ui tab segment" data-tab="third">
+            @if (Model.Theses.Count() == 0)
+            {
+                @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné práce")
+            }
+            else
+            {
+                <table class="ui very basic table">
+                    <tbody>
+                        @foreach (var thesis in Model.Theses)
+                        {
+                            <tr>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    @if (thesis.IsActive)
+                                    {
+                                        <i title="Aktivní" class="checkmark green icon"></i>
+                                    }
+                                    else
+                                    {
+                                        <i title="Neaktivní" class="remove red icon"></i>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName })">
+                                        @thesis.ThesisName
+                                    </a>
+                                </td>
+                                <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
+                                    <i class="calendar icon"></i>
+                                    @thesis.Created.ToShortDateString()
+                                </td>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    <a href="@Url.Action("EditThesis", new { id = thesis.ID })">
+                                        <div class="ui button secondary">
+                                            Upravit
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
     </div>
     <div class="sixteen wide mobile sixteen wide tablet four wide computer column w-body-text-right">
 
         <div class="ui segment basic">
             <a class="ui primary fluid button" href="@Url.Action("NewInternship", "Auth")">
                 Přidat stáž
+            </a>
+
+            <a class="ui primary fluid button w-margin-top-10" href="@Url.Action("NewThesis", "Auth")">
+                Přidat závěrečnou práci
             </a>
 
             @if (!Model.Master.CurrentCompany.IsCreated)

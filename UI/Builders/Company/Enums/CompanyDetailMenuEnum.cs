@@ -6,6 +6,6 @@ namespace UI.Builders.Company.Enums
         About,
         Internships,
         Contact,
-        Thesis
+        Theses
     }
 }

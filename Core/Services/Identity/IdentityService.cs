@@ -40,14 +40,14 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("User with ID: {0} was not found", obj.Id));
             }
 
+            // fire event
+            this.OnUpdate(obj, user);
+
             // update user
             this.AppContext.Entry(user).CurrentValues.SetValues(obj);
 
             // touch cache keys
             this.TouchUpdateKeys(obj);
-
-            // fire event
-            this.OnUpdate(obj);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

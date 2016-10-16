@@ -81,6 +81,9 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("Internship with ID: {0} not found", obj.ID));
             }
 
+            // fire event
+            this.OnUpdate(obj, internship);
+
             obj.Updated = DateTime.Now;
             obj.Created = internship.Created;
 
@@ -92,9 +95,6 @@ namespace Core.Services
 
             // touch cache keys
             this.TouchUpdateKeys(internship);
-
-            // fire event
-            this.OnUpdate(internship);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

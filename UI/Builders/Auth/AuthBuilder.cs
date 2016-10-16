@@ -1,13 +1,15 @@
 ﻿using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Linq;
+using System;
+using System.Collections.Generic;
+using PagedList;
+using PagedList.EntityFramework;
 
 using UI.Base;
 using Core.Context;
 using UI.Builders.Auth.Views;
 using UI.Builders.Auth.Forms;
-using System;
-using System.Collections.Generic;
 using UI.Builders.Auth.Models;
 using Common.Config;
 using Common.Helpers;
@@ -15,9 +17,9 @@ using UI.Exceptions;
 using Common.Helpers.Internship;
 using UI.Builders.Services;
 using Core.Exceptions;
-using PagedList;
-using PagedList.EntityFramework;
 using Entity;
+
+
 
 namespace UI.Builders.Company
 {
@@ -43,7 +45,8 @@ namespace UI.Builders.Company
             {
                 Internships = await GetInternshipsAsync(),
                 Messages = await GetMessagesAsync(page),
-                NotReadMessagesCount = await GetNotReadMessagesOfCurrentUserAsync()
+                NotReadMessagesCount = await GetNotReadMessagesOfCurrentUserAsync(),
+                Theses = await GetThesesListingsAsync()
             };
         }
 
@@ -145,7 +148,7 @@ namespace UI.Builders.Company
             {
                 CompanyForm = form,
             };
-        }       
+        }
 
         public async Task<AuthEditCompanyView> BuildEditCompanyViewAsync()
         {
@@ -237,11 +240,94 @@ namespace UI.Builders.Company
             company.Countries = await FormGetCountriesAsync();
             company.CompanySizes = await FormGetCompanySizesAsync();
             company.CompanyCategories = await FormGetCompanyCategories();
-            
+
             return new AuthRegisterCompanyView()
             {
                 CompanyForm = company,
                 CompanyIsCreated = company != null
+            };
+        }
+
+        #endregion
+
+        #region Thesis
+
+        public async Task<AuthEditThesisView> BuildEditThesisViewAsync(int thesisID)
+        {
+            var thesisQuery = this.Services.ThesisService.GetAll()
+                .Where(m => m.ID == thesisID)
+                .Select(m => new AuthAddEditThesisForm()
+                {
+                    ID = m.ID,
+                    Amount = m.Amount,
+                    CurrencyID = m.CurrencyID,
+                    InternshipCategoryID = m.InternshipCategoryID,
+                    Description = m.Description,
+                    IsPaid = m.IsPaid ? "on" : "",
+                    IsActive = m.IsActive ? "on" : "",
+                    ThesisName = m.ThesisName,
+                    ThesisTypeID = m.ThesisTypeID,
+                });
+
+            var thesis = await thesisQuery.FirstOrDefaultAsync();
+
+            // thesis with given ID does not exist
+            if (thesis == null)
+            {
+                return null;
+            }
+
+            // initialize form values
+            thesis.Currencies = await FormGetCurrenciesAsync();
+            thesis.Categories = await FormGetInternshipCategoriesAsync();
+            thesis.ThesisTypes = await FormGetThesisTypesAsync();
+
+            return new AuthEditThesisView()
+            {
+                ThesisForm = thesis
+            };
+        }
+
+        public async Task<AuthNewThesisView> BuildNewThesisViewAsync()
+        {
+            var form = new AuthAddEditThesisForm()
+            {
+                Currencies = await FormGetCurrenciesAsync(),
+                ThesisTypes = await FormGetThesisTypesAsync(),
+                Categories = await FormGetInternshipCategoriesAsync()
+            };
+
+            return new AuthNewThesisView()
+            {
+                ThesisForm = form,
+                CanCreateThesis = this.CurrentCompany.IsCreated
+            };
+        }
+
+        public async Task<AuthEditThesisView> BuildEditThesisViewAsync(AuthAddEditThesisForm form)
+        {
+
+            form.Categories = await FormGetInternshipCategoriesAsync();
+            form.Currencies = await FormGetCurrenciesAsync();
+            form.ThesisTypes = await FormGetThesisTypesAsync();
+
+            return new AuthEditThesisView()
+            {
+                ThesisForm = form,
+            };
+        }
+
+        public async Task<AuthNewThesisView> BuildNewThesisViewAsync(AuthAddEditThesisForm form)
+        {
+
+            form.Categories = await FormGetInternshipCategoriesAsync();
+            form.Currencies = await FormGetCurrenciesAsync();
+            form.ThesisTypes = await FormGetThesisTypesAsync();
+
+            return new AuthNewThesisView()
+            {
+                ThesisForm = form,
+                CanCreateThesis = this.CurrentCompany.IsCreated
             };
         }
 
@@ -449,6 +535,107 @@ namespace UI.Builders.Company
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Creates thesis
+        /// </summary>
+        /// <param name="form">form</param>
+        /// <returns>ID of new thesis</returns>
+        public async Task<int> CreateThesis(AuthAddEditThesisForm form)
+        {
+            try
+            {
+                // verify company
+                if (!this.CurrentCompany.IsCreated)
+                {
+                    throw new ValidationException($"Pro přidání práce musíte prvně vytvořit firmu");
+                }
+
+                var thesis = new Entity.Thesis
+                {
+                    ApplicationUserId = this.CurrentUser.Id,
+                    CompanyID = this.CurrentCompany.CompanyID,
+                    Amount = form.Amount,
+                    CurrencyID = form.CurrencyID,
+                    Description = form.Description,
+                    InternshipCategoryID = form.InternshipCategoryID,
+                    IsActive = form.GetIsActive(),
+                    IsPaid = form.GetIsPaid(),
+                    ThesisTypeID = form.ThesisTypeID,
+                    ThesisName = form.ThesisName,
+                };
+
+                await Services.ThesisService.InsertAsync(thesis);
+
+                return thesis.ID;
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+            }
+        }
+
+        /// <summary>
+        /// Edits thesis
+        /// </summary>
+        /// <param name="form">form</param>
+        public async Task EditThesis(AuthAddEditThesisForm form)
+        {
+            try
+            {
+                // verify company
+                if (!this.CurrentCompany.IsCreated)
+                {
+                    throw new ValidationException($"Pro přidání práce musíte prvně vytvořit firmu");
+                }
+
+                var thesis = new Entity.Thesis
+                {
+                    ID = form.ID,
+                    ApplicationUserId = this.CurrentUser.Id,
+                    CompanyID = this.CurrentCompany.CompanyID,
+                    Amount = form.Amount,
+                    CurrencyID = form.CurrencyID,
+                    Description = form.Description,
+                    InternshipCategoryID = form.InternshipCategoryID,
+                    IsActive = form.GetIsActive(),
+                    IsPaid = form.GetIsPaid(),
+                    ThesisTypeID = form.ThesisTypeID,
+                    ThesisName = form.ThesisName,
+                };
+
+                await Services.ThesisService.UpdateAsync(thesis);
+
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+            }
+        }
 
         public async Task<int> CreateMessage(AuthMessageForm form)
         {
@@ -927,6 +1114,17 @@ namespace UI.Builders.Company
             });
         }
 
+        private async Task<IEnumerable<AuthThesisTypeModel>> FormGetThesisTypesAsync()
+        {
+            var thesisTypes = await this.Services.ThesisTypeService.GetAllCachedAsync();
+
+            return thesisTypes.Select(m => new AuthThesisTypeModel()
+            {
+                ID = m.ID,
+                Name = m.Name
+            });
+        }
+
         private async Task<IEnumerable<AuthCurrencyModel>> FormGetCurrenciesAsync()
         {
             var currencies = await this.Services.CurrencyService.GetAllCachedAsync();
@@ -1124,16 +1322,27 @@ namespace UI.Builders.Company
         private async Task<IEnumerable<AuthInternshipListingModel>> GetInternshipsAsync()
         {
             var internshipsQuery = this.Services.InternshipService.GetAll()
-               .Where(m => m.ApplicationUserId == this.CurrentUser.Id)
-               .OrderByDescending(m => m.Created)
-               .Select(m => new AuthInternshipListingModel()
-               {
-                   ID = m.ID,
-                   Title = m.Title,
-                   Created = m.Created,
-                   IsActive = m.IsActive,
-                   CodeName = m.CodeName
-               });
+                     .Select(m => new AuthInternshipListingModel()
+                     {
+                         ID = m.ID,
+                         Title = m.Title,
+                         Created = m.Created,
+                         IsActive = m.IsActive,
+                         CodeName = m.CodeName,
+                         CompanyID = m.CompanyID,
+                         ApplicationUserId = m.ApplicationUserId
+                     });
+
+            if (this.CurrentCompany.IsCreated)
+            {
+                internshipsQuery = internshipsQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id || m.CompanyID == this.CurrentCompany.CompanyID);
+            }
+            else
+            {
+                internshipsQuery = internshipsQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id);
+            }
+
+            internshipsQuery = internshipsQuery.OrderByDescending(m => m.Created);
 
             int cacheMinutes = 60;
             var cacheSetup = this.Services.CacheService.GetSetup<AuthInternshipListingModel>(this.GetSource(), cacheMinutes);
@@ -1143,9 +1352,51 @@ namespace UI.Builders.Company
                 EntityKeys.KeyDeleteAny<Entity.Internship>(),
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
             };
-            cacheSetup.ObjectStringID = this.CurrentUser.Id;
+            cacheSetup.ObjectStringID = this.CurrentUser.Id + "_" + this.CurrentCompany.CompanyID;
 
             return await this.Services.CacheService.GetOrSet(async () => await internshipsQuery.ToListAsync(), cacheSetup);
+        }
+
+        /// <summary>
+        /// Gets internships of current company/user
+        /// </summary>
+        /// <returns>Collection of internships</returns>
+        private async Task<IEnumerable<AuthThesisListingModel>> GetThesesListingsAsync()
+        {
+            var thesisQuery = this.Services.ThesisService.GetAll()
+                .Select(m => new AuthThesisListingModel()
+                {
+                    ID = m.ID,
+                    IsActive = m.IsActive,
+                    ThesisName = m.ThesisName,
+                    Created = m.Created,
+                    CodeName = m.CodeName,
+                    ApplicationUserId = m.ApplicationUserId,
+                    CompanyID = m.CompanyID
+                });
+
+            if (this.CurrentCompany.IsCreated)
+            {
+                thesisQuery = thesisQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id || m.CompanyID == this.CurrentCompany.CompanyID);
+            }
+            else
+            {
+                thesisQuery = thesisQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id);
+            }
+
+            thesisQuery = thesisQuery.OrderByDescending(m => m.Created);
+
+            int cacheMinutes = 60;
+            var cacheSetup = this.Services.CacheService.GetSetup<AuthThesisListingModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdateAny<Entity.Thesis>(),
+                EntityKeys.KeyDeleteAny<Entity.Thesis>(),
+                EntityKeys.KeyCreateAny<Entity.Thesis>(),
+            };
+            cacheSetup.ObjectStringID = this.CurrentUser.Id + "_" + this.CurrentCompany.CompanyID;
+
+            return await this.Services.CacheService.GetOrSet(async () => await thesisQuery.ToListAsync(), cacheSetup);
         }
 
         /// <summary>

@@ -20,8 +20,8 @@ namespace Core.Context
         public IDbSet<InternshipDurationType> InternshipDurationTypes { get; set; }
         public IDbSet<CompanySize> CompanySizes { get; set; }
         public IDbSet<Country> Countries { get; set; }
-        public IDbSet<ThesisType> ThesisTypes { get; }
-        public IDbSet<Thesis> Theses { get; }
+        public IDbSet<ThesisType> ThesisTypes { get; set; }
+        public IDbSet<Thesis> Theses { get; set; }
 
         #endregion
 

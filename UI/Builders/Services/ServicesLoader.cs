@@ -20,6 +20,8 @@ namespace UI.Builders.Services
         public ICountryService CountryService { get; private set; }
         public ICurrencyService CurrencyService { get; private set; }
         public ICompanySizeService CompanySizeService { get; private set; }
+        public IThesisTypeService ThesisTypeService { get; private set; }
+        public IThesisService ThesisService { get; private set; }
 
         public ServicesLoader(
                 ICacheService cacheService,
@@ -35,7 +37,9 @@ namespace UI.Builders.Services
                 IInternshipAmountTypeService internshipAmountTypeService,
                 ICountryService countryService,
                 ICurrencyService currencyService,
-                ICompanySizeService companySizeService
+                ICompanySizeService companySizeService,
+                IThesisService thesisService,
+                IThesisTypeService thesisTypeService
         )
         {
             this.CacheService = cacheService;
@@ -52,6 +56,8 @@ namespace UI.Builders.Services
             this.CountryService = countryService;
             this.CurrencyService = currencyService;
             this.CompanySizeService = companySizeService;
+            this.ThesisService = thesisService;
+            this.ThesisTypeService = thesisTypeService;
         }
     }
 }

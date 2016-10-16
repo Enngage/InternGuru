@@ -1,0 +1,24 @@
+﻿@using UI.Helpers;
+@using UI.Extensions;
+@model UI.Builders.Auth.Views.AuthNewThesisView
+
+@{
+    ViewBag.Title = "Vložit závěrečnou práci";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+@if (Model.CanCreateThesis)
+{
+    @Html.Partial("Partials/AddEditThesis", Model.ThesisForm)
+}
+else
+{
+    @Html.RenderWarningMessage("Vložit závěrečnou práci lze jen pro zaregistrování firmy")
+
+    <a href="@Url.Action("RegisterCompany")">
+        <div class="ui large button primary">
+            Vytvořit firmu
+        </div>
+    </a>
+}
+

@@ -77,6 +77,9 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("Country with ID: {0} not found", obj.ID));
             }
 
+            // fire event
+            this.OnUpdate(obj, country);
+
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -85,9 +88,6 @@ namespace Core.Services
 
             // touch cache keys
             this.TouchUpdateKeys(country);
-
-            // fire event
-            this.OnUpdate(country);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

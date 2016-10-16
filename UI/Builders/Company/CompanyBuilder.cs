@@ -12,6 +12,7 @@ using UI.Builders.Company.Forms;
 using System;
 using UI.Exceptions;
 using Entity;
+using System.Collections;
 
 namespace UI.Builders.Company
 {
@@ -53,7 +54,10 @@ namespace UI.Builders.Company
                 EntityKeys.KeyDeleteCodeName<Entity.Company>(codeName),
                 EntityKeys.KeyUpdateAny<Entity.Internship>(),
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
-                EntityKeys.KeyDeleteAny<Entity.Internship>()
+                EntityKeys.KeyDeleteAny<Entity.Internship>(),
+                EntityKeys.KeyUpdateAny<Entity.Thesis>(),
+                EntityKeys.KeyCreateAny<Entity.Thesis>(),
+                EntityKeys.KeyDeleteAny<Entity.Thesis>()
             };
             cacheSetup.ObjectStringID = codeName;
 
@@ -95,6 +99,19 @@ namespace UI.Builders.Company
                             CurrencyCode = s.Currency.CodeName,
                             CodeName = s.CodeName,
                             CurrencyShowSignOnLeft = s.Currency.ShowSignOnLeft
+                        }),
+                    Theses = m.Theses
+                        .Where(v => v.IsActive == true)
+                        .Select(s => new CompanyThesisModel()
+                        {
+                            Amount = s.Amount,
+                            CodeName = s.CodeName,
+                            CurrencyName = s.Currency.CurrencyName,
+                            ID = s.ID,
+                            IsPaid = s.IsPaid,
+                            Name = s.ThesisName,
+                            CurrencyCodeName = s.Currency.CodeName,
+                            CurrencyDisplaySignOnLeft = s.Currency.ShowSignOnLeft
                         })
                 });
 
@@ -216,6 +233,7 @@ namespace UI.Builders.Company
                     ID = m.ID,
                     InternshipCount = m.Internships.Count(),
                     CodeName = m.CodeName,
+                    ThesesCount = m.Theses.Count()
                 });
 
             // search

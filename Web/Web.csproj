@@ -199,6 +199,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\FormController.cs" />
+    <Compile Include="Controllers\ThesisController.cs" />
     <Compile Include="Controllers\InternshipController.cs" />
     <Compile Include="Controllers\InternshipsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
@@ -1781,6 +1782,7 @@
     <Content Include="Scripts\modules\companyModule.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\requireConfig.js" />
+    <Content Include="Scripts\views\auth\addEditThesis.js" />
     <Content Include="Scripts\views\auth\addEditCompany.js" />
     <Content Include="Scripts\views\auth\addEditInternship.js" />
     <Content Include="Scripts\views\auth\authIndex.js" />
@@ -1790,6 +1792,7 @@
     <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\internship\detail.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
+    <Content Include="Scripts\views\thesis\detail.js" />
     <Content Include="Semantic\dist\components\accordion.css" />
     <Content Include="Semantic\dist\components\accordion.js" />
     <Content Include="Semantic\dist\components\accordion.min.css" />
@@ -2022,10 +2025,14 @@
     <Content Include="Views\Company\Tabs\About.cshtml" />
     <Content Include="Views\Company\Tabs\Internships.cshtml" />
     <Content Include="Views\Company\Tabs\Contact.cshtml" />
-    <Content Include="Views\Company\Tabs\Thesis.cshtml" />
+    <Content Include="Views\Company\Tabs\Theses.cshtml" />
     <Content Include="Views\Form\Internship.cshtml" />
     <Content Include="Views\Internship\Index.cshtml" />
     <Content Include="Views\Auth\Partials\AddEditThesis.cshtml" />
+    <Content Include="Views\Auth\EditThesis.cshtml" />
+    <Content Include="Views\Auth\NewThesis.cshtml" />
+    <Content Include="Views\Form\Thesis.cshtml" />
+    <Content Include="Views\Thesis\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

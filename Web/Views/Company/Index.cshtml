@@ -11,7 +11,7 @@
     var aboutTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.About;
     var internshipTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships;
     var contactTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Contact;
-    var thesisTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Thesis;
+    var thesisTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Theses;
 
     var aboutTabClass = aboutTabActive ? "active" : null;
     var internshipTabClass = internshipTabActive ? "active" : null;
@@ -48,7 +48,7 @@
                 </a>
                 <a class="item @thesisTabClass" data-tab="thesis">
                     Závěrečné práce
-                    <span class="w-font-light">&nbsp;(9)</span>
+                    <span class="w-font-light">&nbsp;(@Model.Company.Theses.Count())</span>
                 </a>
                 <a class="item @contactTabClass" data-tab="contact">
                     Kontakt
@@ -156,7 +156,7 @@
             </div>
 
             <div class="ui tab segment w-margin-top-0 @thesisTabClass" data-tab="thesis">
-                @Html.Partial("Tabs/Thesis", Model)
+                @Html.Partial("Tabs/Theses", Model)
             </div>
 
             <div class="ui tab segment w-margin-top-0 @contactTabClass" data-tab="contact">

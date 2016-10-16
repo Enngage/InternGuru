@@ -35,7 +35,9 @@
                                 </a>
                             </div>
                             <div class="meta">
-                               @Html.Raw(CountryHelper.GetCountryIcon(company.CountryIcon)) @company.City | <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships })">@company.InternshipCount @StringHelper.GetPluralWord(company.InternshipCount, "nabídka", "nabídky", "nabídek")</a>
+                                @Html.Raw(CountryHelper.GetCountryIcon(company.CountryIcon)) @company.City
+                                | <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships })">@company.InternshipCount @StringHelper.GetPluralWord(company.InternshipCount, "stáž", "stáže", "stáže")</a>
+                                | <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Theses })">@company.ThesesCount @StringHelper.GetPluralWord(company.ThesesCount, "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
                             </div>
                         </div>
                     </div>

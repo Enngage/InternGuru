@@ -4,7 +4,7 @@
 @using UI.Extensions;
 
 @{
-    ViewBag.Title = Model.Internship.Title;
+    ViewBag.Title = $"{Model.Internship.Title} | Stáž";
     ViewBag.Description = $"Informace o stáži {Model.Internship.Title} u firmy {Model.Internship.Company.CompanyName}";
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 }
@@ -52,13 +52,21 @@
                     <div class="ui horizontal list">
                         <div class="item">
                             <div class="content">
-                                <i class="marker icon"></i>@Model.Internship.City
+                                <i class="home icon"></i>
+                                <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
+                                    @Model.Internship.Company.CompanyName
+                                </a>
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
                                 @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.CountryCode))
                                 @Model.Internship.CountryName
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <i class="marker icon"></i>@Model.Internship.City
                             </div>
                         </div>
                         <div class="item">
@@ -137,7 +145,7 @@
                     </div>
                     <div class="item">
                         <div class="content">
-                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.CountryCode)) @Model.Internship.Company.CountryName
+                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.Company.CountryCode)) @Model.Internship.Company.CountryName
                         </div>
                     </div>
                     <div class="item">

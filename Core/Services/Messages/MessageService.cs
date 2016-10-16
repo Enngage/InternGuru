@@ -64,6 +64,9 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("Message with ID: {0} not found", obj.ID));
             }
 
+            // fire event
+            this.OnUpdate(obj, message);
+
             // keep the created date
             obj.MessageCreated = message.MessageCreated;
 
@@ -72,9 +75,6 @@ namespace Core.Services
 
             // touch cache keys
             this.TouchUpdateKeys(message);
-
-            // fire event
-            this.OnUpdate(message);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

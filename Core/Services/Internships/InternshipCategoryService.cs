@@ -75,14 +75,14 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("InternshipCategory with ID: {0} not found", category.ID));
             }
 
+            // fire event
+            this.OnUpdate(obj, category);
+
             // update log
             this.AppContext.Entry(category).CurrentValues.SetValues(obj);
 
             // touch cache keys
             this.TouchUpdateKeys(category);
-
-            // fire event
-            this.OnUpdate(category);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

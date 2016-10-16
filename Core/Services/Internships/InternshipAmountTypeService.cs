@@ -77,6 +77,9 @@ namespace Core.Services
                 throw new NotFoundException(string.Format("Amount type with ID: {0} not found", obj.ID));
             }
 
+            // fire event
+            this.OnUpdate(obj, amountType);
+
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -85,9 +88,6 @@ namespace Core.Services
 
             // touch cache keys
             this.TouchUpdateKeys(amountType);
-
-            // fire event
-            this.OnUpdate(amountType);
 
             // save changes
             return this.AppContext.SaveChangesAsync();

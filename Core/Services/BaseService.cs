@@ -148,7 +148,7 @@ namespace Core.Services
         {
             var args = new InsertEventArgs<T>()
             {
-                Obj = obj
+                Obj = obj,
             };
             OnInsertObject?.Invoke(this, args);
         }
@@ -157,11 +157,12 @@ namespace Core.Services
         /// Update event action
         /// </summary>
         /// <param name="e"></param>
-        protected void OnUpdate(T obj)
+        protected void OnUpdate(T obj, T originalObj)
         {
             var args = new UpdateEventArgs<T>()
             {
-                Obj = obj
+                Obj = obj,
+                OriginalObj = originalObj
             };
             OnUpdateObject?.Invoke(this, args);
         }
@@ -174,7 +175,7 @@ namespace Core.Services
         {
             var args = new DeleteEventArgs<T>()
             {
-                Obj = obj
+                Obj = obj,
             };
             OnDeleteObject?.Invoke(this, args);
         }

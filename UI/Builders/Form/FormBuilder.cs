@@ -30,8 +30,8 @@ namespace UI.Builders.Company
         {
             var defaultForm = new FormInternshipForm()
             {
-                InternshipID = internshipID,
-                Message = null
+                Message = null,
+                InternshipID = internshipID
             };
 
             var internship = await GetInternshipModelAsync(internshipID);
@@ -49,9 +49,80 @@ namespace UI.Builders.Company
 
         }
 
+        public async Task<FormThesisView> BuildThesisViewAsync(int thesisID, FormThesisForm form = null)
+        {
+            var defaultForm = new FormThesisForm()
+            {
+                ThesisID = thesisID,
+                Message = null
+            };
+
+            var thesis = await GetThesisModelAsync(thesisID);
+
+            if (thesis == null)
+            {
+                return null;
+            }
+
+            return new FormThesisView()
+            {
+                Thesis = thesis,
+                ThesisForm = form == null ? defaultForm : form
+            };
+
+        }
+
         #endregion
 
         #region Public methods
+
+        public async Task<int> SaveThesisForm(FormThesisForm form)
+        {
+            try
+            {
+                if (!this.CurrentUser.IsAuthenticated)
+                {
+                    // only authenticated users can send message
+                    throw new UIException("Pro odeslání zprávy se prosím přihlašte");
+                }
+
+                // get thesis
+                var thesis = await GetThesisModelAsync(form.ThesisID);
+
+                if (thesis == null)
+                {
+                    throw new UIException($"Závěrečná práce s ID {form.ThesisID} nebyla nalezena");
+                }
+
+                // get recipient (company's representative)
+                var companyUserID = await GetIDOfCompanyUserAsync(thesis.CompanyID);
+
+                if (string.IsNullOrEmpty(companyUserID))
+                {
+                    throw new UIException($"Záveřečná práce u firmy {thesis.CompanyName} nemá přiřazeného správce");
+                }
+
+                var message = new Message()
+                {
+                    SenderApplicationUserId = this.CurrentUser.Id,
+                    RecipientCompanyID = thesis.CompanyID,
+                    RecipientApplicationUserId = companyUserID,
+                    MessageText = form.Message,
+                    Subject = thesis.ThesisName,
+                    IsRead = false,
+                };
+
+                return await this.Services.MessageService.InsertAsync(message);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+            }
+        }
 
         public async Task<int> SaveInternshipForm(FormInternshipForm form)
         {
@@ -72,7 +143,7 @@ namespace UI.Builders.Company
                 }
 
                 // get recipient (company's representative)
-                var companyUserID = await GetIDOfCompanyUserAsync(form.InternshipID);
+                var companyUserID = await GetIDOfCompanyUserAsync(internship.CompanyID);
 
                 if (string.IsNullOrEmpty(companyUserID))
                 {
@@ -104,6 +175,35 @@ namespace UI.Builders.Company
         #endregion
 
         #region Helper methods
+
+        /// <summary>
+        /// Gets thesis model from DB or Cache
+        /// </summary>
+        /// <param name="thesisID">ThesisID</param>
+        /// <returns>Internship model</returns>
+        private async Task<FormThesisModel> GetThesisModelAsync(int thesisID)
+        {
+            int cacheMinutes = 30;
+            var cacheSetup = this.Services.CacheService.GetSetup<FormThesisModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.ObjectID = thesisID;
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdate<Entity.Thesis>(thesisID),
+                EntityKeys.KeyDelete<Entity.Thesis>(thesisID),
+            };
+
+            var thesisQuery = this.Services.ThesisService.GetSingle(thesisID)
+                .Select(m => new FormThesisModel()
+                {
+                    CompanyID = m.Company.ID,
+                    CompanyName = m.Company.CompanyName,
+                    ID = m.ID,
+                    ThesisName = m.ThesisName,
+                    ThesisTypeName = m.ThesisType.Name
+                });
+
+            return await this.Services.CacheService.GetOrSetAsync(async () => await thesisQuery.FirstOrDefaultAsync(), cacheSetup);
+        }
 
         /// <summary>
         /// Gets internship model from DB or Cache

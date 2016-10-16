@@ -1,0 +1,35 @@
+﻿@model UI.Builders.Company.Views.CompanyDetailView
+@using UI.Helpers;
+@using Common.Helpers;
+@using UI.Extensions;
+
+<h2>
+    Závěrečné práce
+</h2>
+
+<table class="ui very basic table">
+    <tbody>
+        @foreach (var thesis in Model.Company.Theses)
+        {
+            <tr>
+                <td class="w-font-size-large">
+                    <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName })">
+                        @thesis.Name <span class="w-font-size-small w-font-light">
+                            @if (thesis.IsPaid)
+                            {
+                                <span>(@CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyDisplaySignOnLeft))</span>
+                            }
+                        </span>
+                    </a>
+                </td>
+                <td class="collapsing">
+                    <a href="@Url.Action("Thesis", "Form", new { id = thesis.ID, codeName = thesis.CodeName })">
+                        <div class="ui button primary">
+                            Odpovědět
+                        </div>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

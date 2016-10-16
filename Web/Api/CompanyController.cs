@@ -35,10 +35,12 @@ namespace Web.Api.Controllers
                 {
                     company.Url = this.Url.Link("Company", new { codeName = company.CodeName });
                     company.UrlToInternships = this.Url.Link("Company", new { codeName = company.CodeName, tab = CompanyDetailMenuEnum.Internships });
+                    company.UrlToTheses = this.Url.Link("Company", new { codeName = company.CodeName, tab = CompanyDetailMenuEnum.Theses });
                     company.LogoImageUrl = ImageHelper.GetCompanyLogo(company.ID);
                     company.BannerImageUrl = ImageHelper.GetCompanyBanner(company.ID);
                     company.CountryIcon = CountryHelper.GetCountryIcon(company.CountryCode);
-                    company.PluralInternshipsCountWord = StringHelper.GetPluralWord(company.InternshipCount, "nabídka", "nabídky", "nabídek");
+                    company.PluralInternshipsCountWord = StringHelper.GetPluralWord(company.InternshipCount, "stáž", "stáže", "stáže");
+                    company.PluralThesesCountWord = StringHelper.GetPluralWord(company.ThesesCount, "závěrečná práce", "závěrečné práce", "závěrečných prací");
                 }
 
                 return Ok(companies);
