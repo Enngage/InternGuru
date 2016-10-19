@@ -1,6 +1,6 @@
 ﻿@using UI.Helpers;
 @using UI.Extensions;
-@model UI.Builders.Master.Views.MasterView
+@model UI.Builders.Auth.Views.AuthAvatarView
 
 @{
     ViewBag.Title = "Avatar";
@@ -16,6 +16,8 @@
             <h1>
                 Nahrajte avatar
             </h1>
+
+            @Html.RenderFormValidationResult(Model.AvatarForm.FormResult.IsSuccess)
 
             @Html.RenderInfoMessage(string.Format("Avatar bude automaticky zmenšen na {0}x{0} px", Common.Config.FileConfig.AvatarSideSize))
 

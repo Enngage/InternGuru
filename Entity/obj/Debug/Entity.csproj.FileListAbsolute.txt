@@ -28,3 +28,7 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\bin\Debug\Microsoft.
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Entity\obj\Debug\Entity.pdb
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Common.dll
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Ninject.dll
+C:\inetpub\wwwroot\InternGuru\Entity\bin\Debug\Common.pdb
+C:\inetpub\wwwroot\InternGuru\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache

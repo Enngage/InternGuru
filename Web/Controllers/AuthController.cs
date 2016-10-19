@@ -188,7 +188,11 @@ namespace Web.Controllers
             {
                 this.authBuilder.UploadAvatar(form);
 
-                return View(authBuilder.BuildAvatarView());
+                var model = authBuilder.BuildAvatarView();
+
+                model.AvatarForm.FormResult.IsSuccess = true;
+
+                return View(model);
             }
             catch(UIException ex)
             {

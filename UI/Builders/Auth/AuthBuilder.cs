@@ -18,8 +18,7 @@ using Common.Helpers.Internship;
 using UI.Builders.Services;
 using Core.Exceptions;
 using Entity;
-
-
+using UI.Files;
 
 namespace UI.Builders.Company
 {
@@ -762,6 +761,17 @@ namespace UI.Builders.Company
 
                     return company.ID;
                 }
+                catch (FileUploadException ex)
+                {
+                    // rollback
+                    transaction.Rollback();
+
+                    // log erros
+                    Services.LogService.LogException(ex);
+
+                    // re-throw
+                    throw new UIException($"{ex.Message}", ex);
+                }
                 catch (CodeNameNotUniqueException ex)
                 {
                     // rollback
@@ -771,7 +781,7 @@ namespace UI.Builders.Company
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException(string.Format("Firma {0} je již v databázi", form.CompanyName), ex);
+                    throw new UIException($"{form.CompanyName} je již v databázi", ex);
                 }
                 catch (ValidationException ex)
                 {
@@ -850,6 +860,17 @@ namespace UI.Builders.Company
 
                     // commit 
                     transaction.Commit();
+                }
+                catch (FileUploadException ex)
+                {
+                    // rollback
+                    transaction.Rollback();
+
+                    // log erros
+                    Services.LogService.LogException(ex);
+
+                    // re-throw
+                    throw new UIException($"{ex.Message}", ex);
                 }
                 catch (CodeNameNotUniqueException ex)
                 {

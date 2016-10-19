@@ -68,22 +68,6 @@
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\201610111646194_CurrencyShowSignOnLeftColumn.cs" />
-    <Compile Include="Migrations\201610111646194_CurrencyShowSignOnLeftColumn.Designer.cs">
-      <DependentUpon>201610111646194_CurrencyShowSignOnLeftColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610151424018_EntityOptimization.cs" />
-    <Compile Include="Migrations\201610151424018_EntityOptimization.Designer.cs">
-      <DependentUpon>201610151424018_EntityOptimization.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610151441003_ThesisSupport.cs" />
-    <Compile Include="Migrations\201610151441003_ThesisSupport.Designer.cs">
-      <DependentUpon>201610151441003_ThesisSupport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610160904280_IsActiveThesisColumn.cs" />
-    <Compile Include="Migrations\201610160904280_IsActiveThesisColumn.Designer.cs">
-      <DependentUpon>201610160904280_IsActiveThesisColumn.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
@@ -134,20 +118,6 @@
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610111646194_CurrencyShowSignOnLeftColumn.resx">
-      <DependentUpon>201610111646194_CurrencyShowSignOnLeftColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610151424018_EntityOptimization.resx">
-      <DependentUpon>201610151424018_EntityOptimization.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610151441003_ThesisSupport.resx">
-      <DependentUpon>201610151441003_ThesisSupport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610160904280_IsActiveThesisColumn.resx">
-      <DependentUpon>201610160904280_IsActiveThesisColumn.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

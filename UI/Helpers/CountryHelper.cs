@@ -10,7 +10,7 @@ namespace UI.Helpers
                 return "<i class=\"flag icon\"></i>";
             }
 
-            return $"<i class=\"{className} flag\"></i>";
+            return $"<i class=\"{className.Trim()} flag\"></i>";
         }
     }
 }
