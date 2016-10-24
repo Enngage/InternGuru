@@ -165,9 +165,13 @@
     <Compile Include="Builders\Form\Forms\FormThesisForm.cs" />
     <Compile Include="Builders\Form\Models\FormThesisModel.cs" />
     <Compile Include="Builders\Form\Views\FormThesisView.cs" />
+    <Compile Include="Builders\Search\Models\SearchThesisKeywordModel.cs" />
+    <Compile Include="Builders\Thesis\Models\ThesisCategoryModel.cs" />
+    <Compile Include="Builders\Thesis\Models\ThesisBrowseModel.cs" />
     <Compile Include="Builders\Thesis\ThesisBuilder.cs" />
     <Compile Include="Builders\Thesis\Models\ThesisDetailCompanyModel.cs" />
     <Compile Include="Builders\Thesis\Models\ThesisDetailModel.cs" />
+    <Compile Include="Builders\Thesis\Views\ThesisBrowseView.cs" />
     <Compile Include="Builders\Thesis\Views\ThesisDetailView.cs" />
     <Compile Include="Builders\Search\Autocomplete\SearchAutocompleteItemModel.cs" />
     <Compile Include="Builders\Search\Autocomplete\SearchAutocompleteResultModel.cs" />

@@ -1,0 +1,125 @@
+﻿@model UI.Builders.Thesis.Views.ThesisBrowseView
+@using UI.Helpers;
+@using Common.Helpers;
+@using UI.Extensions;
+@{
+    ViewBag.Title = "Závěrečné práce";
+    ViewBag.Description = "Najdi si závěrečnou práci (diplomová práce nebo bakalářská práce) z uvedené nabídky, získej odměnu za svou práci, nauč se něčemu nového a hlavně pracuj na něčem, co dává smysl.";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+
+    var currentCategory = ViewContext.RouteData.Values["category"] != null ? ViewContext.RouteData.Values["category"].ToString() : string.Empty;
+    var searchVal = HttpContext.Current.Request.QueryString["search"] ?? string.Empty;
+
+    var totalThesesCount = Model.ThesisCategories.Sum(m => m.ThesesCount);
+}
+
+@Html.RequireScript("/scripts/views/thesis/browseTheses")
+
+@using (Html.BeginForm("Index", "Theses", FormMethod.Get, null))
+{
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <h1>
+                @ViewBag.Title
+            </h1>
+        </div>
+        <div class="sixteen wide column">
+            <div class="ui segment padded">
+                <div class="ui grid">
+                    <div class="twelve wide mobile fourteen wide tablet fourteen wide computer column">
+                        <div class="ui search _ThesesNameAutocomplete">
+                            <div class="ui fluid icon input">
+                                <input class="prompt" name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
+                                <i class="search icon"></i>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                    <div class="four wide mobile two wide tablet two wide computer column">
+                        <button class="ui button submit primary fluid" type="submit">
+                            Hledat
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="five wide tablet only four wide computer only column">
+            <div class="ui padded segment">
+                <div class="ui secondary vertical pointing menu w-internship-category-menu ">
+                    @if (string.IsNullOrEmpty(currentCategory))
+                    {
+                        <a href="@Url.Action("Index", new { category = "" })" class="active item">
+                            Všechny nabídky
+                            <span class="w-body-float-right">@totalThesesCount</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", new { category = "" })" class="item">
+                            Všechny nabídky
+                            <span class="w-body-float-right">@totalThesesCount</span>
+                        </a>
+                    }
+
+                    @foreach (var category in Model.ThesisCategories)
+                    {
+                    if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
+                    {
+                            <a href="@Url.Action("Index", new { category = category.CodeName })" class="active item">
+                                @category.CategoryName
+                                <span class="w-font-bold w-body-float-right">@category.ThesesCount</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", new { category = category.CodeName })" class="item">
+                                @category.CategoryName
+                                <span class="w-body-float-right">@category.ThesesCount</span>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="sixteen wide mobile eleven wide tablet twelve wide computer column">
+            <div class="ui padded segment">
+
+                @if (Model.Theses.Count() == 0)
+                {
+                    @Html.RenderWarningMessage("Žádné závěrečné práce nebyly nalezenyy")
+                }
+
+                <table class="ui very basic table w-table-listing _ThesesListingTable">
+                    <tbody>
+                        @foreach (var thesis in Model.Theses)
+                        {
+                            <tr data-link="@Url.Action("Index", "Thesis", new { id = thesis.ID, codename = thesis.CodeName })">
+                                <td class="collapsing">
+                                    <img class="ui tiny image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyID)" />
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codename = thesis.CodeName })">
+                                        @thesis.ThesisName
+                                    </a>
+                                    @if (thesis.IsPaid)
+                                    {
+                                     <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
+                                    }
+                                </td>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    @thesis.ThesisTypeNameConverted
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+

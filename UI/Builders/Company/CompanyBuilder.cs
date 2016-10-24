@@ -13,6 +13,7 @@ using System;
 using UI.Exceptions;
 using Entity;
 using System.Collections;
+using UI.Helpers;
 
 namespace UI.Builders.Company
 {

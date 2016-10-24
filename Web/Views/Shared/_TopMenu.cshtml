@@ -1,6 +1,6 @@
 ﻿@{
-    var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower() ?? "";
-    var action = ViewContext.RouteData.Values["action"].ToString().ToLower() ?? "";
+    var controller = ViewContext.RouteData.Values["controller"].ToString() ?? "";
+    var action = ViewContext.RouteData.Values["action"].ToString() ?? "";
 }
 
 <div class="w-computer-show">
@@ -10,7 +10,7 @@
                 @*<img alt="Logo" class="logo" src="@ImageHelper.GetImageUrl("content/images/general/logos/profile.png")">*@
                 <a href="@Url.Action("Index", "Home")">@Common.Config.AppConfig.SiteName</a>
             </div>
-            @if (controller.Equals("internships"))
+            @if (controller.Equals("internships", StringComparison.OrdinalIgnoreCase))
             {
                 <a href="@Url.Action("Index", "Internships")" class="item active">Nabídka stáží</a>
             }
@@ -18,7 +18,7 @@
             {
                 <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
             }
-            @if (controller.Equals("companies"))
+            @if (controller.Equals("companies", StringComparison.OrdinalIgnoreCase))
             {
                 <a href="@Url.Action("Index", "Companies")" class="item active">Firmy</a>
             }
@@ -26,7 +26,7 @@
             {
                 <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
             }
-            @if (controller.Equals("videos"))
+            @if (controller.Equals("videos", StringComparison.OrdinalIgnoreCase))
             {
                 <a href="@Url.Action("Index", "Videos")" class="item active">Proč jít na stáž?</a>
             }
@@ -34,13 +34,13 @@
             {
                 <a href="@Url.Action("Index", "Videos")" class="item">Proč jít na stáž?</a>
             }
-            @if (controller.Equals("forcompanies"))
+            @if (controller.Equals("theses", StringComparison.OrdinalIgnoreCase))
             {
-                <a href="@Url.Action("Index", "ForCompanies")" class="item active">Pro firmy</a>
+                <a href="@Url.Action("Index", "Theses")" class="item active">Závěrečné práce</a>
             }
             else
             {
-                <a href="@Url.Action("Index", "ForCompanies")" class="item">Pro firmy</a>
+                <a href="@Url.Action("Index", "Theses")" class="item">Závěrečné práce</a>
             }
             <div class="right menu">
                 @Html.Partial("_LoginPartial")

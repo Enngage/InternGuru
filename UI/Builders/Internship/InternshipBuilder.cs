@@ -32,22 +32,24 @@ namespace UI.Builders.Internship
         {
             int pageSize = 30;
             int pageNumber = (page ?? 1);
-            bool isSearchQuery = !string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(city); // indicates if cache will be used
+            bool isSearchQuery = !string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(city);
 
             // get all internships and store them in cache (filtering will be faster)
             var internships = await GetAllInternshipsAsync();
 
             // filter by category
-            var categoryID = await GetCategoryIDAsync(category);
-            if (categoryID != 0)
+            if (!string.IsNullOrEmpty(category))
             {
-                internships = internships.Where(m => m.InternshipCategoryID == categoryID);
+                var categoryID = await GetCategoryIDAsync(category);
+                if (categoryID != 0)
+                {
+                    internships = internships.Where(m => m.InternshipCategoryID == categoryID);
+                }
             }
 
             // search filter
             if (isSearchQuery)
             {
-                // search query - do not cache
                 if (!string.IsNullOrEmpty(search))
                 {
                     internships = internships.Where(m => m.Description.Contains(search, StringComparison.OrdinalIgnoreCase) || m.Title.Contains(search, StringComparison.OrdinalIgnoreCase));

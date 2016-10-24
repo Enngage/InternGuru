@@ -59,7 +59,7 @@ namespace UI.Builders.Search
         }
 
         /// <summary>
-        /// Gets all internship keywords (title of internship splitted by words)
+        /// Gets all internship keywords (title of internship split by words)
         /// </summary>
         /// <param name="search">Search value</param>
         /// <returns>Distinct internship title keywords</returns>
@@ -101,6 +101,56 @@ namespace UI.Builders.Search
                     {
                         InternshipCount = internship.InternshipCount,
                         TitleKeyword = keyword.Trim()
+                    });
+                }
+            }
+
+            return keywordList;
+        }
+
+        /// <summary>
+        /// Gets all thesis keywords (Name of thesis split by words)
+        /// </summary>
+        /// <param name="search">Search value</param>
+        /// <returns>Distinct internship title keywords</returns>
+        public async Task<IEnumerable<SearchThesisKeywordModel>> GetThesisNameKeywords(string search)
+        {
+            var cacheMinutes = 60;
+            var cacheSetup = this.Services.CacheService.GetSetup<SearchThesisKeywordModel>(this.GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyCreateAny<Entity.Thesis>(),
+                EntityKeys.KeyDeleteAny<Entity.Thesis>(),
+                EntityKeys.KeyUpdateAny<Entity.Thesis>()
+            };
+
+            var thesisQuery = this.Services.ThesisService.GetAll()
+                .GroupBy(m => new
+                {
+                    ThesisName = m.ThesisName,
+                })
+                .Select(m => new
+                {
+                    ThesisName = m.Key.ThesisName,
+                    ThesisCount = m.Count()
+                });
+
+
+            var thesisNames = await this.Services.CacheService.GetOrSet(async () => await thesisQuery.ToListAsync(), cacheSetup);
+
+            // split name
+            var keywordList = new List<SearchThesisKeywordModel>();
+
+            foreach (var thesis in thesisNames.Where(m => m.ThesisName.Contains(search.Trim(), StringComparison.OrdinalIgnoreCase)))
+            {
+                var keywords = thesis.ThesisName.Split(' ');
+
+                foreach (var keyword in keywords)
+                {
+                    keywordList.Add(new SearchThesisKeywordModel()
+                    {
+                        ThesisCount = thesis.ThesisCount,
+                        ThesisKeyword = keyword.Trim()
                     });
                 }
             }

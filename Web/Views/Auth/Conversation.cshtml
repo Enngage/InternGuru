@@ -18,7 +18,7 @@
             @Html.Hidden("RecipientApplicationUserId", Model.ConversationUser.UserID)
             @Html.Hidden("CompanyID", Model.LastMessage != null ? Model.LastMessage.CompanyID : 0)
 
-            @Html.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess)
+            @Html.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess, "Odesláno")
 
             <h1>
                 @($"Konverzace s {Model.ConversationUser.DisplayName}")

@@ -1,4 +1,6 @@
 ﻿
+using UI.Helpers;
+
 namespace UI.Builders.Company.Models
 {
     public class CompanyBrowseModel
@@ -19,5 +21,13 @@ namespace UI.Builders.Company.Models
         public string CountryIcon { get; set; }
         public string PluralInternshipsCountWord { get; set; }
         public string PluralThesesCountWord { get; set; }
+
+        public string CountryIconHTML
+        {
+            get
+            {
+                return CountryHelper.GetCountryIcon(CountryIcon);
+            }
+        }
     }
 }

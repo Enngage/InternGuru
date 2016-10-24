@@ -13,6 +13,9 @@
         return '/api/search/GetInternshipKeywords?q={query}';
     }
 
+    SearchModule.prototype.getThesisKeywordsUrl = function () {
+        return '/api/search/GetThesisKeywords?q={query}';
+    }
 
     return SearchModule;
 });

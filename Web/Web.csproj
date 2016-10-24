@@ -199,6 +199,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\FormController.cs" />
+    <Compile Include="Controllers\ThesesController.cs" />
     <Compile Include="Controllers\ThesisController.cs" />
     <Compile Include="Controllers\InternshipController.cs" />
     <Compile Include="Controllers\InternshipsController.cs" />
@@ -1792,6 +1793,7 @@
     <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\internship\detail.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
+    <Content Include="Scripts\views\thesis\browseTheses.js" />
     <Content Include="Scripts\views\thesis\detail.js" />
     <Content Include="Semantic\dist\components\accordion.css" />
     <Content Include="Semantic\dist\components\accordion.js" />
@@ -2033,6 +2035,7 @@
     <Content Include="Views\Auth\NewThesis.cshtml" />
     <Content Include="Views\Form\Thesis.cshtml" />
     <Content Include="Views\Thesis\Index.cshtml" />
+    <Content Include="Views\Theses\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

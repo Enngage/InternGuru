@@ -46,12 +46,12 @@ namespace Common.Helpers
                 switch (type)
                 {
                     case InternshipDurationTypeEnum.Days:
-                        return StringHelper.GetPluralWord(duration, "den", "dny", "dnů");
+                        return StringHelper.GetPluralWord(duration, "den", "den", "dny", "dnů");
                     case InternshipDurationTypeEnum.Weeks:
-                        return StringHelper.GetPluralWord(duration, "týden", "týdny", "týdnů");
+                        return StringHelper.GetPluralWord(duration, "týden", "týden", "týdny", "týdnů");
                     case InternshipDurationTypeEnum.Months:
                     default:
-                        return StringHelper.GetPluralWord(duration, "měsíc", "měsíce", "měsíců");
+                        return StringHelper.GetPluralWord(duration, "měsíc", "měsíc", "měsíce", "měsíců");
                 }
             };
 
