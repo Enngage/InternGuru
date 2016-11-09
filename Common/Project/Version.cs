@@ -13,7 +13,7 @@ namespace Common.Project
         {
             get
             {
-                return new DateTime(2016, 8, 21);
+                return new DateTime(2016, 11, 9);
             }
         }
 
@@ -24,7 +24,7 @@ namespace Common.Project
         {
             get
             {
-                return new Version(1, 0);
+                return new Version(0, 90);
             }
         }
 

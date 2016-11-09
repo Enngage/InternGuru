@@ -96,6 +96,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\Messages\IMessageService.cs" />
     <Compile Include="Services\Messages\MessageService.cs" />
+    <Compile Include="Services\Thesis\Enums\ThesisTypeEnum.cs" />
     <Compile Include="Services\Thesis\IThesisTypeService.cs" />
     <Compile Include="Services\Thesis\ThesisTypeService.cs" />
     <Compile Include="Services\Thesis\ThesisService.cs" />

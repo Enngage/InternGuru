@@ -53,6 +53,7 @@ namespace Web.Api.Controllers
             try
             {
                 var keywords = (await searchBuilder.GetThesisNameKeywords(query.q))
+                    .OrderByDescending(m => m.ThesisCount)
                     .Select(m => new SearchAutocompleteItemModel()
                     {
                         Description = $"{m.ThesisCount} {StringHelper.GetPluralWord(m.ThesisCount, "žádné práce", "práce", "práce", "prací")}",
@@ -78,6 +79,7 @@ namespace Web.Api.Controllers
             try
             {
                 var keywords = (await searchBuilder.GetInternshipTitleKeywords(query.q))
+                    .OrderByDescending(m => m.InternshipCount)
                     .Select(m => new SearchAutocompleteItemModel()
                     {
                         Description = $"{m.InternshipCount} {StringHelper.GetPluralWord(m.InternshipCount, "žádné nabídky", "nabídka", "nabídky", "nabídek")}",

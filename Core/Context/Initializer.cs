@@ -1,5 +1,5 @@
-﻿
-using Common.Helpers.Internship;
+﻿using Common.Helpers.Internship;
+using Core.Services.Enums;
 using Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -245,17 +245,17 @@ namespace Core.Context
             {
                 new ThesisType()
                 {
-                    CodeName = "bp",
+                    CodeName = ThesisTypeEnum.bp.ToString(),
                     Name = "Bakalářská práce"
                 },
                 new ThesisType()
                 {
-                    CodeName = "dp",
+                    CodeName = ThesisTypeEnum.dp.ToString(),
                     Name = "Diplomová práce"
                 },
                  new ThesisType()
                 {
-                    CodeName = "all",
+                    CodeName = ThesisTypeEnum.all.ToString(),
                     Name = "Nezáleží"
                 }
             };

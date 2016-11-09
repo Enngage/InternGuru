@@ -11,7 +11,7 @@ using Core.Context;
 using UI.Builders.Services;
 using UI.Builders.Thesis.Views;
 using UI.Builders.Thesis.Models;
-
+using Core.Services.Enums;
 
 namespace UI.Builders.Thesis
 {
@@ -137,7 +137,7 @@ namespace UI.Builders.Thesis
             // inititialize thesis type name
             foreach (var thesis in theses)
             {
-                thesis.ThesisTypeNameConverted = thesis.ThesisTypeCodeName.Equals("all") ? string.Join("/", await GetAllThesisTypesAsync()) : thesis.ThesisTypeName;
+                thesis.ThesisTypeNameConverted = thesis.ThesisTypeCodeName.Equals(ThesisTypeEnum.all.ToString(), StringComparison.OrdinalIgnoreCase) ? string.Join("/", (await GetAllThesisTypesAsync())) : thesis.ThesisTypeName;
             }
 
             return theses;
@@ -272,19 +272,20 @@ namespace UI.Builders.Thesis
             var thesis = await this.Services.CacheService.GetOrSetAsync(async () => await thesisQuery.FirstOrDefaultAsync(), cacheSetup);
 
             // set thesis type value
-            thesis.ThesisTypeNameConverted = thesis.ThesisTypeCodeName.Equals("all") ? string.Join("/", await GetAllThesisTypesAsync()) : thesis.ThesisTypeName;
+            thesis.ThesisTypeNameConverted = thesis.ThesisTypeCodeName.Equals(ThesisTypeEnum.all.ToString(), StringComparison.OrdinalIgnoreCase) ? string.Join("/", await GetAllThesisTypesAsync()) : thesis.ThesisTypeName;
 
             return thesis;
 
         }
 
         /// <summary>
-        /// Gets all thesis types
+        /// Gets all thesis types except the "all" type
         /// </summary>
         /// <returns></returns>
         private async Task<List<string>> GetAllThesisTypesAsync()
         {
             return (await this.Services.ThesisTypeService.GetAllCachedAsync())
+                .Where(m => !m.CodeName.Equals(ThesisTypeEnum.all.ToString(), StringComparison.OrdinalIgnoreCase))
                 .Select(m => m.Name)
                 .ToList();
         }

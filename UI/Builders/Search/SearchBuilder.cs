@@ -15,6 +15,21 @@ namespace UI.Builders.Search
     public class SearchBuilder : BaseBuilder
     {
 
+        #region Variables / Config
+
+        /// <summary>
+        /// Array of characters used for splitting text
+        /// </summary>
+        private string[] KeyWordSplitCharacters
+        {
+            get
+            {
+                return new string[] { " ", "/", "-", "\\", "_", "[", "]", ".", "?", "!" };
+            }
+        }
+
+        #endregion
+
         #region Constructor
 
         public SearchBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
@@ -85,7 +100,7 @@ namespace UI.Builders.Search
                     InternshipCount = m.Count()
                 });
 
-           
+
             var internshipsKeywords = await this.Services.CacheService.GetOrSet(async () => await internshipQuery.ToListAsync(), cacheSetup);
 
             // split title of all internship
@@ -93,10 +108,20 @@ namespace UI.Builders.Search
 
             foreach (var internship in internshipsKeywords.Where(m => m.Title.Contains(search.Trim(), StringComparison.OrdinalIgnoreCase)))
             {
-                var keywords = internship.Title.Split(' ');
+                var keywords = internship.Title.Split(KeyWordSplitCharacters, StringSplitOptions.RemoveEmptyEntries);
 
-                foreach(var keyword in keywords)
+                foreach (var keyword in keywords)
                 {
+
+                    var existingKeyword = keywordList.Where(m => m.TitleKeyword == keyword).FirstOrDefault();
+                    if (existingKeyword != null)
+                    {
+                        // increase number of occurences
+                        existingKeyword.InternshipCount++;
+
+                        continue;
+                    }
+
                     keywordList.Add(new SearchInternshipTitleModel()
                     {
                         InternshipCount = internship.InternshipCount,
@@ -143,10 +168,20 @@ namespace UI.Builders.Search
 
             foreach (var thesis in thesisNames.Where(m => m.ThesisName.Contains(search.Trim(), StringComparison.OrdinalIgnoreCase)))
             {
-                var keywords = thesis.ThesisName.Split(' ');
+                var keywords = thesis.ThesisName.Split(KeyWordSplitCharacters, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var keyword in keywords)
                 {
+
+                    var existingKeyword = keywordList.Where(m => m.ThesisKeyword == keyword).FirstOrDefault();
+                    if (existingKeyword != null)
+                    {
+                        // increase number of occurences
+                        existingKeyword.ThesisCount++;
+
+                        continue;
+                    }
+
                     keywordList.Add(new SearchThesisKeywordModel()
                     {
                         ThesisCount = thesis.ThesisCount,
