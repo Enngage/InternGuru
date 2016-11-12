@@ -21,6 +21,7 @@ namespace UI.Base
         private ICurrentUser currentUser;
         private ICurrentCompany currentCompany;
         private IStatusBox statusBox;
+        private IUIHeader uiHeader;
 
         private IServicesLoader services;
 
@@ -36,6 +37,17 @@ namespace UI.Base
             get
             {
                 return this.appContext;
+            }
+        }
+
+        /// <summary>
+        /// Header
+        /// </summary>
+        public IUIHeader UIHeader
+        {
+            get
+            {
+                return this.uiHeader;
             }
         }
 
@@ -114,6 +126,9 @@ namespace UI.Base
                 InitializeStatusBox(this.CurrentUser.Id);
             }
 
+            // Initialize header
+            InitializeUIHeader();
+
             // Register service events
             var eventProvider = new ServiceEvents(servicesLoader);
             eventProvider.RegisterEvents();
@@ -162,6 +177,18 @@ namespace UI.Base
         private void InitializeStatusBox(string applicationUserId)
         {
             this.statusBox = GetStatusBox(applicationUserId);
+        }
+
+        /// <summary>
+        /// Initializes header
+        /// </summary>
+        private void InitializeUIHeader()
+        {
+            this.uiHeader = new UIHeader()
+            {
+                Type = UIHeaderType.none,
+                Title = string.Empty
+            };
         }
 
         /// <summary>

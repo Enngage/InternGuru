@@ -1,0 +1,25 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-header {
+        padding: 50px 0;
+        display: block;
+        color: #FFFFFF;
+
+        h1 {
+            font-size: $font-size-huge;
+        }
+    }
+
+    .w-header.blue {
+        background-color: #4a6df7;
+    }
+
+    .w-header.green {
+        background-color: #18a836;
+    }
+
+    .w-header.violet {
+        background-color: #852fc4;
+    }
+}

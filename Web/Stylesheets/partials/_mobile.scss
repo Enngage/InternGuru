@@ -27,4 +27,10 @@
             text-align: left;
         }
     }
+
+    .w-mobile-margin-0 {
+        @media (max-width: 767px) {
+            margin: 0;
+        }
+    }
 }

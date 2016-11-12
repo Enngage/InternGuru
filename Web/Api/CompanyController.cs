@@ -38,8 +38,8 @@ namespace Web.Api.Controllers
                     company.UrlToTheses = this.Url.Link("Company", new { codeName = company.CodeName, tab = CompanyDetailMenuEnum.Theses });
                     company.LogoImageUrl = ImageHelper.GetCompanyLogo(company.ID);
                     company.BannerImageUrl = ImageHelper.GetCompanyBanner(company.ID);
-                    company.PluralInternshipsCountWord = StringHelper.GetPluralWord(company.InternshipCount, "0 stáží", "stáž", "stáže", "stáže");
-                    company.PluralThesesCountWord = StringHelper.GetPluralWord(company.ThesesCount, "0 závěrečných prací", "závěrečná práce", "závěrečné práce", "závěrečných prací");
+                    company.PluralInternshipsCountWord = StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáže");
+                    company.PluralThesesCountWord = StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "{count} závěrečná práce", "{count} závěrečné práce", "{count} závěrečných prací");
                 }
 
                 return Ok(companies);

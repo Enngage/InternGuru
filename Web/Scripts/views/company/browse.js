@@ -138,8 +138,8 @@
         html += '               </a>';
         html += '            </div>';
         html += '            <div class="meta">';
-        html += '               ' + company.CountryIcon + ' ' + company.City + ' | <a href="' + company.UrlToInternships + '">' + company.InternshipCount + ' ' + company.PluralInternshipsCountWord + '</a>';
-        html += '               | <a href="' + company.UrlToTheses+ '">' + company.ThesesCount + ' ' + company.PluralThesesCountWord + '</a>'
+        html += '               ' + company.CountryIconHTML + ' ' + company.City + ' | <a href="' + company.UrlToInternships + '">' + company.PluralInternshipsCountWord + '</a>';
+        html += '               | <a href="' + company.UrlToTheses + '">' + company.PluralThesesCountWord + '</a>'
         html += '            </div>';
         html += '        </div>';
         html += '      </div>';

@@ -166,6 +166,9 @@
     <Compile Include="Builders\Form\Models\FormThesisModel.cs" />
     <Compile Include="Builders\Form\Views\FormThesisView.cs" />
     <Compile Include="Builders\Search\Models\SearchThesisKeywordModel.cs" />
+    <Compile Include="Builders\Shared\Enums\UIHeaderType.cs" />
+    <Compile Include="Builders\Shared\Models\UIHeader.cs" />
+    <Compile Include="Builders\Shared\Models\IUIHeader.cs" />
     <Compile Include="Builders\Thesis\Models\ThesisCategoryModel.cs" />
     <Compile Include="Builders\Thesis\Models\ThesisBrowseModel.cs" />
     <Compile Include="Builders\Thesis\ThesisBuilder.cs" />

@@ -12,23 +12,66 @@
 @Html.RequireScript("/scripts/views/auth/authIndex")
 
 <div class="ui grid">
+
+    @* Buttons on top when using mobile or tablet *@
+    <div class="tablet only mobile only row">
+        <div class="sixteen wide mobile sixteen wide tablet column">
+            <a class="ui primary button" href="@Url.Action("NewInternship", "Auth")">
+                Přidat stáž
+            </a>
+
+            <a class="ui primary button" href="@Url.Action("NewThesis", "Auth")">
+                Přidat závěrečnou práci
+            </a>
+
+            @if (!Model.Master.CurrentCompany.IsCreated)
+            {
+                <a class="ui primary button" href="@Url.Action("RegisterCompany", "Auth")">
+                    Přidat firmu
+                </a>
+            }
+        </div>
+    </div>
+
     <div class="sixteen wide mobile six wide tablet three wide computer column">
         <div class="ui segment padded w-body-text-center">
+            <h3>
+                Profil
+            </h3>
             <a href="@Url.Action("Avatar", "Auth")">
                 <img alt="avatar" class="ui avatar tiny image" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)" src="@ImageHelper.GetTransparentImage()">
             </a>
 
-            <p class="w-margin-top-10 w-font-bold">
-                @Model.Master.CurrentUser.FirstName @Model.Master.CurrentUser.LastName
+            <p class="w-margin-top-10 w-body-dont-break">
+                @Model.Master.CurrentUser.UserName
             </p>
 
             <p class="w-font-size-small">
-                <a href="@Url.Action("EditProfile", "Auth")">Upravit profil</a>
+                <a href="@Url.Action("EditProfile", "Auth")">Upravit</a>
             </p>
             <p class="w-font-size-small">
-                <a href="@Url.Action("Avatar", "Auth")">Nahrát avatar</a>
+                <a href="@Url.Action("Avatar", "Auth")">Avatar</a>
             </p>
         </div>
+
+        @if (Model.Master.CurrentCompany.IsCreated)
+            {
+            <div class="ui segment padded w-body-text-center">
+                <h3>
+                    Firma
+                </h3>
+
+                <img class="ui image tiny w-image-center" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyID)" />
+
+                <p class="w-margin-top-10 w-body-dont-break">
+                    @Model.Master.CurrentCompany.CompanyName
+                </p>
+
+                <a class="w-font-size-small" href="@Url.Action("EditCompany", "Auth")">
+                    Upravit
+                </a>
+            </div>
+        }
 
     </div>
     <div class="sixteen wide mobile ten wide tablet nine wide computer column">
@@ -73,7 +116,7 @@
                     {
                         var segmentClass = message.WrittenByCurrentUser ? string.Empty : "w-segment-dark basic";
                         <div class="item w-override-padding-all @segmentClass">
-                            <a class="ui tiny image" href="@Url.Action("Conversation", new { id = message.ConversationID })">
+                            <a class="ui tiny image w-mobile-margin-0" href="@Url.Action("Conversation", new { id = message.ConversationID })">
                                 <img class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(message.SenderApplicationUserName)">
                             </a>
                             <div class="content">
@@ -215,7 +258,7 @@
         </div>
 
     </div>
-    <div class="sixteen wide mobile sixteen wide tablet four wide computer column w-body-text-right">
+    <div class="four wide computer column w-body-text-right w-computer-show">
 
         <div class="ui segment basic">
             <a class="ui primary fluid button" href="@Url.Action("NewInternship", "Auth")">
@@ -234,21 +277,5 @@
             }
 
         </div>
-
-        @if (Model.Master.CurrentCompany.IsCreated)
-            {
-            <div class="ui segment padded w-body-text-center">
-
-                <img class="ui image tiny w-image-center" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyID)" />
-
-                <p class="w-margin-top-10 w-font-bold">
-                    @Model.Master.CurrentCompany.CompanyName
-                </p>
-
-                <a class="w-font-size-small" href="@Url.Action("EditCompany", "Auth")">
-                    Upravit firmu
-                </a>
-            </div>
-        }
     </div>
 </div>

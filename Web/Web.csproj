@@ -2036,6 +2036,8 @@
     <Content Include="Views\Form\Thesis.cshtml" />
     <Content Include="Views\Thesis\Index.cshtml" />
     <Content Include="Views\Theses\Index.cshtml" />
+    <Content Include="Stylesheets\partials\_header.scss" />
+    <Content Include="Views\Shared\_Header.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

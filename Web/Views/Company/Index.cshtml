@@ -7,7 +7,7 @@
     ViewBag.Description = $"Profil společnosti {Model.Company.CompanyName}. Jdi na stáž této firmy nebo pro ni napiš svou závěrečnou práci a připrav se na svou budoucnost";
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 
-    // determine which tabs are active
+    // determins which tabs are active
     var aboutTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.About;
     var internshipTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships;
     var contactTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Contact;

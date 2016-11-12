@@ -8,5 +8,6 @@ namespace UI.Builders.Master.Models
         public ICurrentUser CurrentUser { get; set; }
         public ICurrentCompany CurrentCompany { get; set; }
         public IStatusBox StatusBox { get; set; }
+        public IUIHeader UIHeader { get; set; }
     }
 }

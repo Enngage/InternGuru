@@ -3,17 +3,14 @@
 @using UI.Extensions;
 @using Common.Helpers;
 @{
-    ViewBag.Title = "Přehled firem nabízejících stáže";
+    ViewBag.Title = "Přehled firem";
     ViewBag.Description = "";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+    Model.Master.UIHeader.SetHeader(UI.Builders.Shared.UIHeaderType.blue, ViewBag.Title);
 }
 
 @Html.RequireScript("/scripts/views/company/browse")
 
-
-<h1>
-    @ViewBag.Title
-</h1>
 
 <div class="ui centered grid">
     <div class="ui sixteen wide column">
@@ -44,7 +41,7 @@
                                 @Html.Raw(company.CountryIconHTML) @company.City
                                 |
                                 <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships })">
-                                    @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "stáže", "stáže")
+                                    @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáže")
                                 </a>
                                 | <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Theses })">@company.ThesesCount @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
                             </div>
@@ -64,7 +61,7 @@
 </div>
 
 <div id="_AllCompaniesLoaded" class="w-margin-top-20 w-body-text-center">
-    @Html.RenderInfoMessage("Všechny firmy byly načteny")
+    @Html.RenderInfoMessage("Všechny firmy načteny")
 </div>
 
 <div id="_NoCompaniesFound" class="w-margin-top-20 w-body-text-center">

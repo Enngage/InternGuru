@@ -11,6 +11,9 @@
     var searchVal = HttpContext.Current.Request.QueryString["search"] ?? string.Empty;
 
     var totalThesesCount = Model.ThesisCategories.Sum(m => m.ThesesCount);
+
+    //header
+    Model.Master.UIHeader.SetHeader(UI.Builders.Shared.UIHeaderType.violet, ViewBag.Title);
 }
 
 @Html.RequireScript("/scripts/views/thesis/browseTheses")
@@ -18,11 +21,6 @@
 @using (Html.BeginForm("Index", "Theses", FormMethod.Get, null))
 {
     <div class="ui grid">
-        <div class="sixteen wide column">
-            <h1>
-                @ViewBag.Title
-            </h1>
-        </div>
         <div class="sixteen wide column">
             <div class="ui segment padded">
                 <div class="ui grid">

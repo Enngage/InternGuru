@@ -26,7 +26,8 @@ namespace UI.Builders.Master
             {
                 CurrentUser = this.CurrentUser,
                 CurrentCompany = this.CurrentCompany,
-                StatusBox = this.StatusBox
+                StatusBox = this.StatusBox,
+                UIHeader = this.UIHeader
             };
         }
 

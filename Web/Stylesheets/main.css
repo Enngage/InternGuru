@@ -47,15 +47,16 @@
     height: 22px;
     width: 22px; }
   #w-body-wrapper .w-menu-main a, #w-body-wrapper .w-menu-main div.item {
-    color: #e2e2e2;
+    color: #000000;
     font-size: 14px;
     background: none; }
   #w-body-wrapper .w-menu-main a.active, #w-body-wrapper .w-menu-main div.item.active {
-    color: #FF5733; }
+    color: #000000;
+    font-weight: 600; }
   #w-body-wrapper .w-menu-main a:hover {
-    color: #FFFFFF; }
+    color: #2874a6; }
   #w-body-wrapper .w-menu-main .header a {
-    color: #FFF; }
+    color: #2874a6; }
   #w-body-wrapper .w-menu-main .w-menu-chart-popup {
     min-width: 600px; }
   #w-body-wrapper .w-menu-main .popup a {
@@ -70,7 +71,7 @@
     width: 180px; }
 
 #w-body-wrapper .w-menu-main.fixed {
-  background-color: #232d32;
+  background-color: #ffffff;
   border-bottom: none;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); }
 
@@ -228,6 +229,10 @@
 @media (max-width: 767px) {
   #w-body-wrapper .w-mobile-left {
     text-align: left; } }
+
+@media (max-width: 767px) {
+  #w-body-wrapper .w-mobile-margin-0 {
+    margin: 0; } }
 
 @media (min-width: 991px) {
   #w-body-wrapper .w-computer-hide {
@@ -549,4 +554,20 @@
 
 #w-body-wrapper .w-color-twitter {
   color: #55acee; }
+
+#w-body-wrapper .w-header {
+  padding: 50px 0;
+  display: block;
+  color: #FFFFFF; }
+  #w-body-wrapper .w-header h1 {
+    font-size: 30px; }
+
+#w-body-wrapper .w-header.blue {
+  background-color: #4a6df7; }
+
+#w-body-wrapper .w-header.green {
+  background-color: #18a836; }
+
+#w-body-wrapper .w-header.violet {
+  background-color: #852fc4; }
 

@@ -19,7 +19,8 @@
         }
 
         a.active, div.item.active{
-            color: $secondary-color;
+            color: $menu-link-active-color;
+            font-weight: 600;
         }
 
         a:hover {
@@ -27,7 +28,7 @@
         }
 
         .header a {
-            color: #FFF;
+            color: $menu-header-color;
         }
 
         .w-menu-chart-popup {

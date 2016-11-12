@@ -1,0 +1,18 @@
+﻿@using Common.Config;
+@using Common.Project;
+
+@model UI.Builders.Master.Views.MasterView
+
+@if (Model.Master.UIHeader?.Type != UI.Builders.Shared.UIHeaderType.none)
+{
+    var headerClassName = $"w-header {Model.Master.UIHeader.Type.ToString()}";
+    <div class="@headerClassName">
+        <div class="ui container">
+            <h1>
+                @Model.Master.UIHeader.Title
+            </h1>
+        </div>
+    </div>
+}
+
+
