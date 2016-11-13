@@ -146,6 +146,7 @@
     <Compile Include="Builders\Auth\Models\AuthInternshipCategoryModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthCompanyCategoryModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipDurationType.cs" />
+    <Compile Include="Builders\Auth\Models\AuthConversationModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthThesisListingModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthMessageModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipListingModel.cs" />
@@ -217,14 +218,18 @@
     <Compile Include="Builders\Shared\Models\StatusBox.cs" />
     <Compile Include="Builders\Shared\Models\IStatusBox.cs" />
     <Compile Include="Builders\Shared\Models\ICurrentUser.cs" />
+    <Compile Include="Events\EventClasses\NotificationEvents.cs" />
+    <Compile Include="Events\IServiceEvents.cs" />
     <Compile Include="Exceptions\UIException.cs" />
     <Compile Include="Exceptions\UIExceptionEnum.cs" />
     <Compile Include="Exceptions\UIExceptionHelper.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Extensions\HtmlRequireExtensions.cs" />
-    <Compile Include="Files\FileUploadException.cs" />
-    <Compile Include="Files\FileProvider.cs" />
-    <Compile Include="Files\IFileProvider.cs" />
+    <Compile Include="UIServices\EmailTemplateService.cs" />
+    <Compile Include="UIServices\FileUploadException.cs" />
+    <Compile Include="UIServices\FileProvider.cs" />
+    <Compile Include="UIServices\IEmailTemplateService.cs" />
+    <Compile Include="UIServices\IFileProvider.cs" />
     <Compile Include="Helpers\CountryHelper.cs" />
     <Compile Include="Helpers\HTMLAddons.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
@@ -232,6 +237,7 @@
     <Compile Include="ModelState\ModelStateWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Events\ServiceEvents.cs" />
+    <Compile Include="UIServices\Models\MacroReplacement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -249,6 +255,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{1b8d32c9-e5ca-4b44-84c1-680598a37ab2}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmailProvider\EmailProvider.csproj">
+      <Project>{4464D180-77B3-42FB-8D07-14165F74F6CB}</Project>
+      <Name>EmailProvider</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>

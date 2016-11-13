@@ -1,7 +1,8 @@
 ﻿using Cache;
 using Core.Services;
+using EmailProvider;
 using UI.Events;
-using UI.Files;
+using UI.UIServices;
 
 namespace UI.Builders.Services
 {
@@ -28,6 +29,8 @@ namespace UI.Builders.Services
         ICompanySizeService CompanySizeService { get; }
         IThesisService ThesisService { get; }
         IThesisTypeService ThesisTypeService { get; }
+        IEmailTemplateService EmailTemplateService { get; }
+        IEmailProvider EmailProvider { get; }
 
         #endregion
     }

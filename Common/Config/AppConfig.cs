@@ -12,11 +12,11 @@ namespace Common.Config
         /// <summary>
         /// From e-mail address
         /// </summary>
-        public static string FromEmailAddress
+        public static string NoReplyEmailAddress
         {
             get
             {
-                return ConfigurationManager.AppSettings["FromEmailAddress"];
+                return ConfigurationManager.AppSettings["NoReplyEmailAddress"];
             }
         }
 

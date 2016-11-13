@@ -2,6 +2,11 @@
 using UI.Builders.Master;
 using UI.ModelState;
 using System.Web.Http;
+using UI.Events;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http.Controllers;
 
 namespace UI.Base
 {
@@ -12,6 +17,7 @@ namespace UI.Base
         private IAppContext appContext;
         private IModelState modelStateWrapper;
         private MasterBuilder masterBuilder;
+        private IServiceEvents serviceEvents;
 
         #endregion
 
@@ -28,14 +34,26 @@ namespace UI.Base
             }
         }
 
+        /// <summary>
+        /// ServiceEvents 
+        /// </summary>
+        public IServiceEvents ServiceEvents
+        {
+            get
+            {
+                return this.serviceEvents;
+            }
+        }
+
         #endregion
 
         #region Constructors
 
-        public BaseApiController(IAppContext appContext, MasterBuilder masterBuilder)
+        public BaseApiController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder)
         {
             this.appContext = appContext;
             this.masterBuilder = masterBuilder;
+            this.serviceEvents = serviceEvents;
         }
 
         #endregion
@@ -49,6 +67,18 @@ namespace UI.Base
                 appContext.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        #endregion
+
+        #region Filters
+
+        public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
+        {
+            // register service events
+            this.ServiceEvents.RegisterEvents();
+
+            return base.ExecuteAsync(controllerContext, cancellationToken);
         }
 
         #endregion

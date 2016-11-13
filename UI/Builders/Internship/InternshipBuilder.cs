@@ -113,7 +113,7 @@ namespace UI.Builders.Internship
                     CategoryID = m.ID,
                     CategoryName = m.Name,
                     CodeName = m.CodeName,
-                    InternshipCount = m.Internships.Count
+                    InternshipCount = m.Internships.Where(s => s.IsActive == true).Count()
                 })
                 .OrderBy(m => m.CategoryName);
 

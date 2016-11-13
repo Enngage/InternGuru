@@ -5,6 +5,7 @@ using UI.Base;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Company;
 using UI.Builders.Master;
+using UI.Events;
 using UI.Exceptions;
 
 namespace Web.Controllers
@@ -21,7 +22,7 @@ namespace Web.Controllers
 
         #region Constructor
 
-        public AuthController(IAppContext appContext, MasterBuilder masterBuilder, AuthBuilder authBuilder) : base(appContext, masterBuilder)
+        public AuthController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, AuthBuilder authBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
             this.authBuilder = authBuilder;
         }
@@ -194,7 +195,7 @@ namespace Web.Controllers
 
                 return View(model);
             }
-            catch(UIException ex)
+            catch (UIException ex)
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 

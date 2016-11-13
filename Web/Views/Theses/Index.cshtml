@@ -62,8 +62,8 @@
 
                     @foreach (var category in Model.ThesisCategories)
                     {
-                    if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
-                    {
+                        if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
+                        {
                             <a href="@Url.Action("Index", new { category = category.CodeName })" class="active item">
                                 @category.CategoryName
                                 <span class="w-font-bold w-body-float-right">@category.ThesesCount</span>
@@ -102,7 +102,7 @@
                                     </a>
                                     @if (thesis.IsPaid)
                                     {
-                                     <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
+                                        <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
                                     }
                                 </td>
                                 <td class="collapsing w-body-text-right w-mobile-left">

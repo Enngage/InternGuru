@@ -20,6 +20,12 @@ namespace Core.Services
 
         public Task<int> InsertAsync(Message obj)
         {
+            // do not allow messages to self
+            if (obj.SenderApplicationUserId == obj.RecipientApplicationUserId)
+            {
+                throw new ValidationException($"Nelze odeslat sám sobě");
+            }
+
             this.AppContext.Messages.Add(obj);
 
             obj.MessageCreated = DateTime.Now;

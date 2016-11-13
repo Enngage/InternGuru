@@ -1,6 +1,7 @@
 ﻿using Cache;
 using Core.Services;
-using UI.Files;
+using EmailProvider;
+using UI.UIServices;
 
 namespace UI.Builders.Services
 {
@@ -22,6 +23,8 @@ namespace UI.Builders.Services
         public ICompanySizeService CompanySizeService { get; private set; }
         public IThesisTypeService ThesisTypeService { get; private set; }
         public IThesisService ThesisService { get; private set; }
+        public IEmailTemplateService EmailTemplateService { get; private set; }
+        public IEmailProvider EmailProvider { get; private set; }
 
         public ServicesLoader(
                 ICacheService cacheService,
@@ -39,7 +42,9 @@ namespace UI.Builders.Services
                 ICurrencyService currencyService,
                 ICompanySizeService companySizeService,
                 IThesisService thesisService,
-                IThesisTypeService thesisTypeService
+                IThesisTypeService thesisTypeService,
+                IEmailTemplateService emailTemplateService,
+                IEmailProvider emailProvider
         )
         {
             this.CacheService = cacheService;
@@ -58,6 +63,8 @@ namespace UI.Builders.Services
             this.CompanySizeService = companySizeService;
             this.ThesisService = thesisService;
             this.ThesisTypeService = thesisTypeService;
+            this.EmailTemplateService = emailTemplateService;
+            this.EmailProvider = emailProvider;
         }
     }
 }

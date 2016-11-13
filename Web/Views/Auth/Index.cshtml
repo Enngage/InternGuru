@@ -39,14 +39,10 @@
                 Profil
             </h3>
             <a href="@Url.Action("Avatar", "Auth")">
-                <img alt="avatar" class="ui avatar tiny image" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)" src="@ImageHelper.GetTransparentImage()">
+                <img alt="avatar" class="ui tiny image w-image-center" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)" src="@ImageHelper.GetTransparentImage()">
             </a>
 
-            <p class="w-margin-top-10 w-body-dont-break">
-                @Model.Master.CurrentUser.UserName
-            </p>
-
-            <p class="w-font-size-small">
+            <p class="w-font-size-small w-margin-top-10">
                 <a href="@Url.Action("EditProfile", "Auth")">Upravit</a>
             </p>
             <p class="w-font-size-small">
@@ -78,17 +74,17 @@
 
         <div class="ui secondary pointing menu w-auth-menu">
             <a class="item active" data-tab="first">
-                Zprávy
+                Konverzace
                 @if (Model.NotReadMessagesCount > 0)
                 {
                     <span class="w-color-secondary">&nbsp;(@Model.NotReadMessagesCount)</span>
                 }
             </a>
             <a class="item" data-tab="second">
-                Stáže
+                Stáže <span class="w-font-light">&nbsp;(@Model.Internships.Count())</span>
             </a>
             <a class="item" data-tab="third">
-                Závěrečné práce
+                Závěrečné práce <span class="w-font-light">&nbsp;(@Model.Theses.Count())</span>
             </a>
             <div class="right menu">
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
@@ -105,34 +101,34 @@
 
         <div class="ui tab segment active" data-tab="first">
 
-            @if (Model.Messages.Count() == 0)
+            @if (Model.Conversations.Count() == 0)
             {
-                @Html.RenderInfoMessage("Žádné zprávy nebyly nalezeny")
+                @Html.RenderInfoMessage("Dosud nemáš žádné zprávy")
             }
             else
             {
                 <div class="ui items divided">
-                    @foreach (var message in Model.Messages)
+                    @foreach (var conversation in Model.Conversations)
                     {
-                        var segmentClass = message.WrittenByCurrentUser ? string.Empty : "w-segment-dark basic";
+                        var segmentClass = conversation.IsRead ? string.Empty : "w-segment-dark basic";
                         <div class="item w-override-padding-all @segmentClass">
-                            <a class="ui tiny image w-mobile-margin-0" href="@Url.Action("Conversation", new { id = message.ConversationID })">
-                                <img class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(message.SenderApplicationUserName)">
+                            <a class="ui tiny image w-mobile-margin-0" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
+                                <img class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(conversation.WithApplicationUserName)">
                             </a>
                             <div class="content">
-                                <a class="header" href="@Url.Action("Conversation", new { id = message.ConversationID })">
-                                    @if (message.WrittenByCurrentUser)
+                                <a class="header" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
+                                    @if (conversation.WrittenByCurrentUser)
                                     {
-                                        <span><span class="w-font-weight-base">Pro</span> @(!string.IsNullOrEmpty(message.RecipientFirstName) ? message.RecipientFirstName + " " + message.RecipientLastName : message.RecipientApplicationUserName)</span>
+                                        <span>@(!string.IsNullOrEmpty(conversation.RecipientFirstName) ? conversation.RecipientFirstName + " " + conversation.RecipientLastName : conversation.RecipientApplicationUserName)</span>
                                     }
                                     else
                                     {
-                                        <span><span class="w-font-weight-base">Od</span> @(!string.IsNullOrEmpty(message.SenderFirstName) ? message.SenderFirstName + " " + message.SenderLastName : message.SenderApplicationUserName)</span>
+                                        <span>@(!string.IsNullOrEmpty(conversation.SenderFirstName) ? conversation.SenderFirstName + " " + conversation.SenderLastName : conversation.SenderApplicationUserName)</span>
                                     }
                                 </a>
                                 <div class="meta w-font-size-small">
-                                    <i class="calendar icon"></i>@DateHelper.GetPrettyDate(message.MessageCreated) |
-                                    @if (message.IsRead)
+                                    <i class="calendar icon"></i>@DateHelper.GetPrettyDate(conversation.MessageCreated) |
+                                    @if (conversation.IsRead)
                                     {
                                         <i title="Přečteno" class="checkmark green icon"></i><span>přečteno</span>
                                     }
@@ -140,11 +136,11 @@
                                     {
                                         <i title="Nepřečteno" class="remove red icon"></i><span>nepřečteno</span>
                                     }
-                                    @(!string.IsNullOrEmpty(message.Subject) ? " | " + message.Subject : null)
+                                    @(!string.IsNullOrEmpty(conversation.Subject) ? " | " + conversation.Subject : null)
                                 </div>
                                 <div class="description">
                                     <p>
-                                        @StringHelper.ShortenText(message.MessageText, 200, true)
+                                        @StringHelper.ShortenText(conversation.MessageText, 200, true)
                                     </p>
                                 </div>
                             </div>
@@ -152,9 +148,9 @@
                     }
                 </div>
 
-                if (Model.Messages.PageCount > 1)
+                if (Model.Conversations.PageCount > 1)
                 {
-                    @Html.PagedListPager(Model.Messages, page => Url.Action("Index", "Auth", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
+                    @Html.PagedListPager(Model.Conversations, page => Url.Action("Index", "Auth", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
                 }
             }
         </div>

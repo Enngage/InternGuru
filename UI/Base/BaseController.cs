@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using UI.Builders.Master;
 using UI.Builders.Master.Views;
+using UI.Events;
 using UI.ModelState;
 
 namespace UI.Base
@@ -13,6 +14,7 @@ namespace UI.Base
         private IAppContext appContext;
         private IModelState modelStateWrapper;
         private MasterBuilder masterBuilder;
+        private IServiceEvents serviceEvents;
 
         #endregion
 
@@ -26,6 +28,17 @@ namespace UI.Base
             get
             {
                 return this.appContext;
+            }
+        }
+
+        /// <summary>
+        /// Service events 
+        /// </summary>
+        public IServiceEvents ServiceEvents
+        {
+            get
+            {
+                return this.serviceEvents;
             }
         }
 
@@ -50,15 +63,22 @@ namespace UI.Base
 
         #region Constructors
 
-        public BaseController(IAppContext appContext, MasterBuilder masterBuilder)
+        public BaseController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder)
         {
             this.appContext = appContext;
             this.masterBuilder = masterBuilder;
+            this.serviceEvents = serviceEvents;
         }
 
         #endregion
 
-        #region OnActionExecuted filter
+        #region Filters
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            // Register service events
+            this.ServiceEvents.RegisterEvents();
+        }
 
         /// <summary>
         /// This filter is used to populate global data for MasterView
@@ -72,7 +92,19 @@ namespace UI.Base
 
             if (model != null)
             {
+                // set master property of an existing model
                 model.Master = this.masterBuilder.GetMasterModel();
+            }
+            else
+            {
+                // create new master model
+                var masterView = new MasterView()
+                {
+                    Master = this.masterBuilder.GetMasterModel()
+                };
+
+                // set model
+                filterContext.Controller.ViewData.Model = masterView;
             }
         }
 

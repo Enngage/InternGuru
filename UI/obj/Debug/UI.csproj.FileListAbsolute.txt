@@ -151,3 +151,5 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Web.WebPages.Razor.
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\obj\Debug\UI.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\obj\Debug\UI.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\obj\Debug\UI.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EmailProvider.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EmailProvider.pdb

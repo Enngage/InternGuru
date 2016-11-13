@@ -18,7 +18,7 @@ using Common.Helpers.Internship;
 using UI.Builders.Services;
 using Core.Exceptions;
 using Entity;
-using UI.Files;
+using UI.UIServices;
 
 namespace UI.Builders.Company
 {
@@ -43,7 +43,7 @@ namespace UI.Builders.Company
             return new AuthIndexView()
             {
                 Internships = await GetInternshipsAsync(),
-                Messages = await GetMessagesAsync(page),
+                Conversations = await GetConversationsAsync(page),
                 NotReadMessagesCount = await GetNotReadMessagesOfCurrentUserAsync(),
                 Theses = await GetThesesListingsAsync()
             };
@@ -293,7 +293,8 @@ namespace UI.Builders.Company
             {
                 Currencies = await FormGetCurrenciesAsync(),
                 ThesisTypes = await FormGetThesisTypesAsync(),
-                Categories = await FormGetInternshipCategoriesAsync()
+                Categories = await FormGetInternshipCategoriesAsync(),
+                IsActive = "on", // thesis is active by default
             };
 
             return new AuthNewThesisView()
@@ -554,7 +555,7 @@ namespace UI.Builders.Company
                 {
                     ApplicationUserId = this.CurrentUser.Id,
                     CompanyID = this.CurrentCompany.CompanyID,
-                    Amount = form.Amount,
+                    Amount = form.Amount?? 0,
                     CurrencyID = form.CurrencyID,
                     Description = form.Description,
                     InternshipCategoryID = form.InternshipCategoryID,
@@ -605,7 +606,7 @@ namespace UI.Builders.Company
                     ID = form.ID,
                     ApplicationUserId = this.CurrentUser.Id,
                     CompanyID = this.CurrentCompany.CompanyID,
-                    Amount = form.Amount,
+                    Amount = form.Amount ?? 0,
                     CurrencyID = form.CurrencyID,
                     Description = form.Description,
                     InternshipCategoryID = form.InternshipCategoryID,
@@ -643,7 +644,7 @@ namespace UI.Builders.Company
                 if (!this.CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can send messages
-                    throw new UIException("Pro odeslání zprávy se přihlašte");
+                    throw new ValidationException("Pro odeslání zprávy se přihlašte");
                 }
 
                 var message = new Message()
@@ -657,6 +658,14 @@ namespace UI.Builders.Company
                 };
 
                 return await this.Services.MessageService.InsertAsync(message);
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -678,14 +687,14 @@ namespace UI.Builders.Company
             {
                 if (!this.CurrentUser.IsAuthenticated)
                 {
-                    throw new UIException(UIExceptionEnum.NotAuthenticated);
+                    throw new ValidationException($"Uživatel není přihlášen");
                 }
 
                 var applicationUser = await this.Services.IdentityService.GetAsync(this.CurrentUser.Id);
 
                 if (applicationUser == null)
                 {
-                    throw new UIException(string.Format("Uživatel s ID {0} nebyl nalezen", this.CurrentUser.Id));
+                    throw new ValidationException($"Uživatel s ID { this.CurrentUser.Id} nebyl nalezen");
                 }
 
                 // set object properties
@@ -693,6 +702,14 @@ namespace UI.Builders.Company
                 applicationUser.LastName = form.LastName;
 
                 await this.Services.IdentityService.UpdateAsync(applicationUser);
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -1080,6 +1097,14 @@ namespace UI.Builders.Company
 
                 Services.FileProvider.SaveImage(form.Avatar, FileConfig.AvatarFolderPath, Entity.ApplicationUser.GetAvatarFileName(this.CurrentUser.UserName), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
             }
+            catch (FileUploadException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
+            }
             catch (ValidationException ex)
             {
                 // log error
@@ -1222,9 +1247,9 @@ namespace UI.Builders.Company
 
             var messagesQuery = this.Services.MessageService.GetAll()
                .Where(m =>
-                    (m.RecipientApplicationUserId == otherUserId || m.RecipientApplicationUserId == this.CurrentUser.Id)
-                    &&
-                    (m.SenderApplicationUserId == otherUserId || m.SenderApplicationUserId == this.CurrentUser.Id))
+                    (m.RecipientApplicationUserId == this.CurrentUser.Id || m.SenderApplicationUserId == this.CurrentUser.Id)
+                    && 
+                    (m.RecipientApplicationUserId == otherUserId || m.SenderApplicationUserId == otherUserId))
                .OrderByDescending(m => m.MessageCreated)
                .Select(m => new AuthMessageModel()
                {
@@ -1292,14 +1317,15 @@ namespace UI.Builders.Company
         /// Gets messages of current user
         /// </summary>
         /// <returns>Collection of messages of current user</returns>
-        private async Task<IPagedList<AuthMessageModel>> GetMessagesAsync(int? page)
+        private async Task<IPagedList<AuthConversationModel>> GetConversationsAsync(int? page)
         {
             int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             // get both incoming and outgoming messages as well as messages targeted for given company
             var messagesQuery = this.Services.MessageService.GetAll()
-               .Where(m => m.SenderApplicationUserId == this.CurrentUser.Id || m.Company.ApplicationUserId == this.CurrentUser.Id || m.RecipientApplicationUserId == this.CurrentUser.Id)
+                   .Where(m =>
+                    (m.RecipientApplicationUserId == this.CurrentUser.Id || m.SenderApplicationUserId == this.CurrentUser.Id))
                .OrderByDescending(m => m.MessageCreated)
                .Select(m => new AuthMessageModel()
                {
@@ -1322,18 +1348,71 @@ namespace UI.Builders.Company
                });
 
             int cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
-            cacheSetup.Dependencies = new List<string>()
+            var cacheSetupMessages = this.Services.CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
+            cacheSetupMessages.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Message>(),
                 EntityKeys.KeyDeleteAny<Entity.Message>(),
                 EntityKeys.KeyCreateAny<Entity.Message>(),
             };
-            cacheSetup.ObjectStringID = this.CurrentUser.Id;
-            cacheSetup.PageNumber = pageNumber;
-            cacheSetup.PageSize = pageSize;
+            cacheSetupMessages.ObjectStringID = this.CurrentUser.Id;
 
-            return await this.Services.CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+            // get all messages for this user
+            var allMessages = await this.Services.CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetupMessages);
+
+            // get conversations from messages
+            var cacheSetupConversations = this.Services.CacheService.GetSetup<AuthConversationModel>(this.GetSource(), cacheMinutes);
+            cacheSetupConversations.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdateAny<Entity.Message>(),
+                EntityKeys.KeyDeleteAny<Entity.Message>(),
+                EntityKeys.KeyCreateAny<Entity.Message>(),
+            };
+            cacheSetupConversations.ObjectStringID = this.CurrentUser.Id;
+
+            var conversations = this.Services.CacheService.GetOrSet(() => FilterConversationMessages(allMessages), cacheSetupConversations);
+
+            return conversations.ToPagedList(pageNumber, pageSize);
+        }
+
+        /// <summary>
+        /// Creates list of conversations based on given messages
+        /// </summary>
+        /// <param name="messages">Messages</param>
+        /// <returns>Conversation list</returns>
+        private IEnumerable<AuthConversationModel> FilterConversationMessages(IEnumerable<AuthMessageModel> messages)
+        {
+            var conversationList = new List<AuthConversationModel>();
+
+            foreach (var message in messages)
+            {
+                var existingConversationMessage = conversationList.Where(m => m.RecipientApplicationUserId == this.CurrentUser.Id || m.SenderApllicationUserId == this.CurrentUser.Id)
+                    .FirstOrDefault();
+
+                if (existingConversationMessage == null)
+                {
+                    // add message to conversations
+                    conversationList.Add(new AuthConversationModel()
+                    {
+                        CurrentUserId = this.CurrentUser.Id,
+                        ID = message.ID,
+                        RecipientFirstName = message.RecipientFirstName,
+                        RecipientLastName = message.RecipientLastName,
+                        SenderFirstName = message.SenderFirstName,
+                        SenderLastName = message.SenderLastName,
+                        IsRead = message.IsRead,
+                        MessageCreated = message.MessageCreated,
+                        MessageText = message.MessageText,
+                        RecipientApplicationUserId = message.RecipientApplicationUserId,
+                        RecipientApplicationUserName = message.RecipientApplicationUserName,
+                        SenderApllicationUserId = message.SenderApllicationUserId,
+                        SenderApplicationUserName = message.SenderApplicationUserName,
+                        Subject = message.Subject
+                    });
+                }
+            }
+
+            return conversationList;
         }
 
         /// <summary>

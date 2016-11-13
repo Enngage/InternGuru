@@ -7,6 +7,7 @@ using UI.Builders.Company;
 using UI.Builders.Company.Enums;
 using UI.Builders.Company.Forms;
 using UI.Builders.Master;
+using UI.Events;
 using UI.Exceptions;
 
 namespace Web.Controllers
@@ -15,7 +16,7 @@ namespace Web.Controllers
     {
         CompanyBuilder companyBuilder;
 
-        public CompanyController(IAppContext appContext, MasterBuilder masterBuilder, CompanyBuilder companyBuilder) : base (appContext, masterBuilder)
+        public CompanyController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, CompanyBuilder companyBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
             this.companyBuilder = companyBuilder;
         }

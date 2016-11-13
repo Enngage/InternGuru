@@ -129,9 +129,6 @@ namespace UI.Base
             // Initialize header
             InitializeUIHeader();
 
-            // Register service events
-            var eventProvider = new ServiceEvents(servicesLoader);
-            eventProvider.RegisterEvents();
         }
 
         #endregion

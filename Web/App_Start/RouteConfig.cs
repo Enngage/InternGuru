@@ -28,9 +28,15 @@ namespace Web
           );
 
             routes.MapRoute(
-                name: "BrowseInternships",
+                name: "Internships",
                 url: "Internships/{category}",
                 defaults: new { controller = "Internships", action = "Index", category = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Theses",
+                url: "Theses/{category}",
+                defaults: new { controller = "Theses", action = "Index", category = UrlParameter.Optional }
             );
 
             routes.MapRoute(

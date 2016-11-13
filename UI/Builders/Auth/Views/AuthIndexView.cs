@@ -9,7 +9,7 @@ namespace UI.Builders.Auth.Views
     {
         public IEnumerable<AuthInternshipListingModel> Internships { get; set; }
         public IEnumerable<AuthThesisListingModel> Theses { get; set; }
-        public IPagedList<AuthMessageModel> Messages { get; set; }
+        public IPagedList<AuthConversationModel> Conversations { get; set; }
         public int NotReadMessagesCount { get; set; }
     }
 }

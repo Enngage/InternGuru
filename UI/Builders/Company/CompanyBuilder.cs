@@ -14,6 +14,7 @@ using UI.Exceptions;
 using Entity;
 using System.Collections;
 using UI.Helpers;
+using Core.Exceptions;
 
 namespace UI.Builders.Company
 {
@@ -148,7 +149,7 @@ namespace UI.Builders.Company
                 if (!this.CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can send message
-                    throw new UIException("Pro odeslání zprávy se prosím přihlašte");
+                    throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
                 }
 
                 // get recipient (company's representative)
@@ -156,7 +157,7 @@ namespace UI.Builders.Company
 
                 if (string.IsNullOrEmpty(companyUserID))
                 {
-                    throw new UIException("Firma neexistuje");
+                    throw new ValidationException("Firma neexistuje");
                 }
 
                 var message = new Message()
@@ -170,6 +171,14 @@ namespace UI.Builders.Company
                 };
 
                 return await this.Services.MessageService.InsertAsync(message);
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -232,7 +241,7 @@ namespace UI.Builders.Company
                     CountryCode = m.Country.CountryCode,
                     CountryIcon = m.Country.Icon,
                     ID = m.ID,
-                    InternshipCount = m.Internships.Count(),
+                    InternshipCount = m.Internships.Where(s => s.IsActive == true).Count(),
                     CodeName = m.CodeName,
                     ThesesCount = m.Theses.Count()
                 });

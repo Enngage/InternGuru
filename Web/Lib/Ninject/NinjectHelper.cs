@@ -14,7 +14,7 @@ using System;
 using System.Web;
 using UI.Builders.Services;
 using UI.Events;
-using UI.Files;
+using UI.UIServices;
 
 namespace Web.Lib.Ninject
 {
@@ -104,6 +104,8 @@ namespace Web.Lib.Ninject
             kernel.Bind<IInternshipAmountTypeService>().To<InternshipAmountTypeService>().InRequestScope();
             kernel.Bind<IThesisTypeService>().To<ThesisTypeService>().InRequestScope();
             kernel.Bind<IThesisService>().To<ThesisService>().InRequestScope();
+            kernel.Bind<IEmailTemplateService>().To<EmailTemplateService>().InRequestScope();
+            kernel.Bind<IServiceEvents>().To<ServiceEvents>().InRequestScope();
 
             return kernel;
         }

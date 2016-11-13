@@ -3,7 +3,7 @@
 
 @model UI.Builders.Master.Views.MasterView
 
-@if (Model.Master.UIHeader?.Type != UI.Builders.Shared.UIHeaderType.none)
+@if ((Model?.Master?.UIHeader?.Type ?? UI.Builders.Shared.UIHeaderType.none) != UI.Builders.Shared.UIHeaderType.none)
 {
     var headerClassName = $"w-header {Model.Master.UIHeader.Type.ToString()}";
     <div class="@headerClassName">

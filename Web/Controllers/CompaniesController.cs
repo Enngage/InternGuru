@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using UI.Base;
 using UI.Builders.Company;
 using UI.Builders.Master;
+using UI.Events;
 
 namespace Web.Controllers
 {
@@ -11,7 +12,7 @@ namespace Web.Controllers
     {
         CompanyBuilder companyBuilder;
 
-        public CompaniesController(IAppContext appContext, MasterBuilder masterBuilder, CompanyBuilder companyBuilder) : base (appContext, masterBuilder)
+        public CompaniesController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, CompanyBuilder companyBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
             this.companyBuilder = companyBuilder;
         }

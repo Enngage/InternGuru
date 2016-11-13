@@ -23,7 +23,8 @@ namespace UI.Builders.Auth.Forms
         public string IsActive { get; set; }
         [Required(ErrorMessage = "Zvolte typ práce")]
         public int ThesisTypeID { get; set; }
-        public int Amount { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Odměna musí být celé číslo")]
+        public int? Amount { get; set; }
         public int CurrencyID { get; set; }
 
         public IEnumerable<AuthThesisTypeModel> ThesisTypes { get; set; }

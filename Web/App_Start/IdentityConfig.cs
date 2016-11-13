@@ -21,7 +21,7 @@ namespace Web
             var emailService = KernelProvider.Kernel.Get<IEmailProvider>();
             var email = KernelProvider.Kernel.Get<IEmail>();
 
-            email.From = AppConfig.FromEmailAddress;
+            email.From = AppConfig.NoReplyEmailAddress;
             email.To = message.Destination;
             email.Subject = message.Subject;
             email.IsHtml = true;

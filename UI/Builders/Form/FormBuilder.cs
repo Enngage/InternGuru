@@ -12,6 +12,8 @@ using UI.Builders.Form.Models;
 using UI.Builders.Form.Views;
 using System.Collections.Generic;
 using UI.Builders.Form.Forms;
+using Core.Services.Enums;
+using Core.Exceptions;
 
 namespace UI.Builders.Company
 {
@@ -63,7 +65,7 @@ namespace UI.Builders.Company
             {
                 return null;
             }
-
+           
             return new FormThesisView()
             {
                 Thesis = thesis,
@@ -83,7 +85,7 @@ namespace UI.Builders.Company
                 if (!this.CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can send message
-                    throw new UIException("Pro odeslání zprávy se prosím přihlašte");
+                    throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
                 }
 
                 // get thesis
@@ -91,7 +93,7 @@ namespace UI.Builders.Company
 
                 if (thesis == null)
                 {
-                    throw new UIException($"Závěrečná práce s ID {form.ThesisID} nebyla nalezena");
+                    throw new ValidationException($"Závěrečná práce s ID {form.ThesisID} nebyla nalezena");
                 }
 
                 // get recipient (company's representative)
@@ -99,7 +101,7 @@ namespace UI.Builders.Company
 
                 if (string.IsNullOrEmpty(companyUserID))
                 {
-                    throw new UIException($"Záveřečná práce u firmy {thesis.CompanyName} nemá přiřazeného správce");
+                    throw new ValidationException($"Záveřečná práce u firmy {thesis.CompanyName} nemá přiřazeného správce");
                 }
 
                 var message = new Message()
@@ -113,6 +115,14 @@ namespace UI.Builders.Company
                 };
 
                 return await this.Services.MessageService.InsertAsync(message);
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -131,7 +141,7 @@ namespace UI.Builders.Company
                 if (!this.CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can send message
-                    throw new UIException("Pro odeslání zprávy se prosím přihlašte");
+                    throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
                 }
 
                 // get internship
@@ -139,7 +149,7 @@ namespace UI.Builders.Company
 
                 if (internship == null)
                 {
-                    throw new UIException($"Stáž s ID {form.InternshipID} nebyla nalezena");
+                    throw new ValidationException($"Stáž s ID {form.InternshipID} nebyla nalezena");
                 }
 
                 // get recipient (company's representative)
@@ -147,7 +157,7 @@ namespace UI.Builders.Company
 
                 if (string.IsNullOrEmpty(companyUserID))
                 {
-                    throw new UIException($"Stáž u firmy {internship.CompanyName} nemá přiřazeného správce");
+                    throw new ValidationException($"Stáž u firmy {internship.CompanyName} nemá přiřazeného správce");
                 }
 
                 var message = new Message()
@@ -161,6 +171,14 @@ namespace UI.Builders.Company
                 };
 
                 return await this.Services.MessageService.InsertAsync(message);
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -196,13 +214,36 @@ namespace UI.Builders.Company
                 .Select(m => new FormThesisModel()
                 {
                     CompanyID = m.Company.ID,
+                    ThesisCodeName = m.ThesisType.CodeName,
                     CompanyName = m.Company.CompanyName,
                     ID = m.ID,
                     ThesisName = m.ThesisName,
                     ThesisTypeName = m.ThesisType.Name
                 });
 
-            return await this.Services.CacheService.GetOrSetAsync(async () => await thesisQuery.FirstOrDefaultAsync(), cacheSetup);
+            var thesis = await this.Services.CacheService.GetOrSetAsync(async () => await thesisQuery.FirstOrDefaultAsync(), cacheSetup);
+
+            if (thesis == null)
+            {
+                return null;
+            }
+
+            // thesis name
+            thesis.ThesisTypeNameConverted = thesis.ThesisCodeName.Equals(ThesisTypeEnum.all.ToString(), StringComparison.OrdinalIgnoreCase) ? string.Join("/", (await GetAllThesisTypesAsync())) : thesis.ThesisTypeName;
+
+            return thesis;
+        }
+
+        /// <summary>
+        /// Gets all thesis types except the "all" type
+        /// </summary>
+        /// <returns></returns>
+        private async Task<List<string>> GetAllThesisTypesAsync()
+        {
+            return (await this.Services.ThesisTypeService.GetAllCachedAsync())
+                .Where(m => !m.CodeName.Equals(ThesisTypeEnum.all.ToString(), StringComparison.OrdinalIgnoreCase))
+                .Select(m => m.Name)
+                .ToList();
         }
 
         /// <summary>

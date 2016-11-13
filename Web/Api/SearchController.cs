@@ -9,6 +9,7 @@ using UI.Builders.Master;
 using UI.Builders.Search;
 using Common.Helpers;
 using UI.Helpers;
+using UI.Events;
 
 namespace Web.Api.Controllers
 {
@@ -16,7 +17,7 @@ namespace Web.Api.Controllers
     {
         SearchBuilder searchBuilder;
 
-        public SearchController(IAppContext appContext, MasterBuilder masterBuilder, SearchBuilder searchBuilder) : base (appContext, masterBuilder)
+        public SearchController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, SearchBuilder searchBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
             this.searchBuilder = searchBuilder;
         }

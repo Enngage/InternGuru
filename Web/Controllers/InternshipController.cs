@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using UI.Base;
 using UI.Builders.Internship;
 using UI.Builders.Master;
+using UI.Events;
 
 namespace Web.Controllers
 {
@@ -11,7 +12,7 @@ namespace Web.Controllers
     {
         InternshipBuilder internshipBuilder;
 
-        public InternshipController(IAppContext appContext, MasterBuilder masterBuilder, InternshipBuilder internshipBuilder) : base (appContext, masterBuilder)
+        public InternshipController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, InternshipBuilder internshipBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
             this.internshipBuilder = internshipBuilder;
         }

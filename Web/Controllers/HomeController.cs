@@ -11,13 +11,14 @@ using UI.Builders.Master.Views;
 using Entity;
 using System.Linq;
 using System.Data.Entity;
+using UI.Events;
 
 namespace Web.Controllers
 {
     public class HomeController : BaseController
     {
 
-        public HomeController(IAppContext appContext, MasterBuilder masterBuilder) : base (appContext, masterBuilder) { }
+        public HomeController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder) : base (appContext, serviceEvents, masterBuilder) { }
 
         public async Task<ActionResult> Test()
         {

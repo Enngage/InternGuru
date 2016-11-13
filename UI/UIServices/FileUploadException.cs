@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace UI.Files
+namespace UI.UIServices
 {
     public class FileUploadException : Exception
     {

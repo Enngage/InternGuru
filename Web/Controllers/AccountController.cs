@@ -10,6 +10,7 @@ using Core.Context;
 using UI.Builders.Master;
 using UI.Builders.Account;
 using UI.Builders.Account.Forms;
+using UI.Events;
 
 namespace Web.Controllers
 {
@@ -25,7 +26,7 @@ namespace Web.Controllers
 
         #endregion
 
-        public AccountController(IAppContext appContext, MasterBuilder masterBuilder, ApplicationUserManager userManager, ApplicationSignInManager signInManager, AccountBuilder accountBuilder) : base(appContext, masterBuilder)
+        public AccountController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, ApplicationUserManager userManager, ApplicationSignInManager signInManager, AccountBuilder accountBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -122,7 +123,8 @@ namespace Web.Controllers
                 var result = await userManager.CreateAsync(user, form.Password);
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user, isPersistent: true, rememberBrowser: true);
+                    // do not log user - he needs to confirm e-mail first
+                    // await signInManager.SignInAsync(user, isPersistent: true, rememberBrowser: true);
 
                     // send confirmation e-mail
                     await SendRegistrationEmail(user.Id);

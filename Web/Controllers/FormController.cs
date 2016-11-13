@@ -5,6 +5,7 @@ using UI.Base;
 using UI.Builders.Company;
 using UI.Builders.Form.Forms;
 using UI.Builders.Master;
+using UI.Events;
 using UI.Exceptions;
 
 namespace Web.Controllers
@@ -14,7 +15,7 @@ namespace Web.Controllers
     {
         FormBuilder formBuilder;
 
-        public FormController(IAppContext appContext, MasterBuilder masterBuilder, FormBuilder formBuilder) : base(appContext, masterBuilder)
+        public FormController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, FormBuilder formBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
             this.formBuilder = formBuilder;
         }

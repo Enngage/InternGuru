@@ -94,6 +94,7 @@ namespace UI.Builders.Thesis
             };
 
             var thesesQuery = this.Services.ThesisService.GetAll()
+                .Where(m => m.IsActive == true)
                 .Select(m => new ThesisBrowseModel()
                 {
                     Amount = m.Amount,
@@ -168,7 +169,7 @@ namespace UI.Builders.Thesis
                     CategoryID = m.ID,
                     CategoryName = m.Name,
                     CodeName = m.CodeName,
-                    ThesesCount = m.Theses.Count
+                    ThesesCount = m.Theses.Where(s => s.IsActive == true).Count()
                 })
                 .OrderBy(m => m.CategoryName);
 
@@ -270,6 +271,11 @@ namespace UI.Builders.Thesis
             cacheSetup.ObjectID = thesisID;
 
             var thesis = await this.Services.CacheService.GetOrSetAsync(async () => await thesisQuery.FirstOrDefaultAsync(), cacheSetup);
+            
+            if (thesis == null)
+            {
+                return null;
+            }
 
             // set thesis type value
             thesis.ThesisTypeNameConverted = thesis.ThesisTypeCodeName.Equals(ThesisTypeEnum.all.ToString(), StringComparison.OrdinalIgnoreCase) ? string.Join("/", await GetAllThesisTypesAsync()) : thesis.ThesisTypeName;

@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 
-namespace UI.Files
+namespace UI.UIServices
 {
     public class FileProvider : IFileProvider
     {

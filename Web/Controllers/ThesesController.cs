@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using UI.Base;
 using UI.Builders.Master;
 using UI.Builders.Thesis;
+using UI.Events;
 
 namespace Web.Controllers
 {
@@ -11,7 +12,7 @@ namespace Web.Controllers
     {
         ThesisBuilder thesisBuilder;
 
-        public ThesesController(IAppContext appContext, MasterBuilder masterBuilder, ThesisBuilder thesisBuilder) : base (appContext, masterBuilder)
+        public ThesesController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, ThesisBuilder thesisBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
             this.thesisBuilder = thesisBuilder;
         }

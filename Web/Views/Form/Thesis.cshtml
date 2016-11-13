@@ -23,7 +23,7 @@
         <div class="ui grid">
             <div class="sixteen wide column">
                 <h1>
-                    Zájem o <span class="ui header w-color-secondary">@Model.Thesis.ThesisName</span> <span class="w-font-size-small">(@Model.Thesis.ThesisTypeName)</span>
+                    Zájem o <span class="ui header w-color-secondary">@Model.Thesis.ThesisName</span> <span class="w-font-size-small">(@Model.Thesis.ThesisTypeNameConverted)</span>
                 </h1>
 
                 @using (Html.BeginForm("Thesis", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))

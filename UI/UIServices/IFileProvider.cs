@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Web;
 
-namespace UI.Files
+namespace UI.UIServices
 {
     public interface IFileProvider
     {

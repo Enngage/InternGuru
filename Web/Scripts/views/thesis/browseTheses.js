@@ -5,7 +5,7 @@
         var searchModule = new SearchModule();
 
         // initialize table
-        tableModule.initializeListingTable("_ThesisListingTable");
+        tableModule.initializeListingTable("_ThesesListingTable");
 
         // initialize autocomplete search for cities
         $('._ThesesNameAutocomplete')
