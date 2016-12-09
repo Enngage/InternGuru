@@ -1,4 +1,4 @@
-﻿using Common.Helpers;
+﻿using Core.Helpers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;

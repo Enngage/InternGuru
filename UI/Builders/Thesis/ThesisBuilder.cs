@@ -7,11 +7,11 @@ using Entity;
 using System.Data.Entity;
 
 using UI.Base;
-using Core.Context;
+using Service.Context;
 using UI.Builders.Services;
 using UI.Builders.Thesis.Views;
 using UI.Builders.Thesis.Models;
-using Core.Services.Enums;
+using Service.Services.Enums;
 
 namespace UI.Builders.Thesis
 {

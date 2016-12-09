@@ -4,7 +4,7 @@
 
 @{
     ViewBag.Title = "Upravit profil";
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 
 @using (Html.BeginForm("EditProfile", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))

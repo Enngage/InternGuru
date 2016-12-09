@@ -6,7 +6,7 @@ using UI.Builders.Services;
 using System.Collections.Generic;
 using UI.UIServices.Models;
 using EmailProvider;
-using Common.Config;
+using Core.Config;
 
 namespace UI.Events
 {

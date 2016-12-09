@@ -1,9 +1,8 @@
 ﻿using UI.Builders.Auth.Forms;
-using UI.Builders.Master.Views;
 
 namespace UI.Builders.Auth.Views
 {
-    public class AuthRegisterCompanyView : MasterView
+    public class AuthRegisterCompanyView : AuthMasterView
     {
         public bool CompanyIsCreated { get; set; }
         public AuthAddEditCompanyForm CompanyForm { get; set; }

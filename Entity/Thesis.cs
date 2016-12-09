@@ -1,4 +1,4 @@
-﻿using Common.Helpers;
+﻿using Core.Helpers;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

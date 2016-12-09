@@ -1,10 +1,10 @@
-﻿@using Common.Config;
+﻿@using Core.Config;
 @using UI.Extensions;
 @model UI.Builders.Master.Views.MasterView
 
 @{ 
-    var title = String.IsNullOrEmpty(ViewBag.Title) ? Common.Config.AppConfig.SiteName : ViewBag.Title + " | " + AppConfig.SiteName;
-    var description = String.IsNullOrEmpty(ViewBag.Description) ? Common.Config.AppConfig.SiteName : ViewBag.Description + " | " + AppConfig.SiteName;
+    var title = String.IsNullOrEmpty(ViewBag.Title) ? Core.Config.AppConfig.SiteName : ViewBag.Title + " | " + AppConfig.SiteName;
+    var description = String.IsNullOrEmpty(ViewBag.Description) ? Core.Config.AppConfig.SiteName : ViewBag.Description + " | " + AppConfig.SiteName;
 }
 
 <!DOCTYPE html>

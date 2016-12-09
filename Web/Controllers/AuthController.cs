@@ -1,4 +1,4 @@
-﻿using Core.Context;
+﻿using Service.Context;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using UI.Base;
@@ -115,9 +115,9 @@ namespace Web.Controllers
             return View(model);
         }
 
-        public ActionResult Avatar()
+        public async Task<ActionResult> Avatar()
         {
-            var model = authBuilder.BuildAvatarView();
+            var model = await authBuilder.BuildAvatarViewAsync();
 
             return View(model);
         }
@@ -177,19 +177,19 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Avatar(AuthAvatarUploadForm form)
+        public async Task<ActionResult> Avatar(AuthAvatarUploadForm form)
         {
             // validate form
             if (!this.ModelStateWrapper.IsValid)
             {
-                return View(authBuilder.BuildAvatarView());
+                return View(authBuilder.BuildAvatarViewAsync());
             }
 
             try
             {
                 this.authBuilder.UploadAvatar(form);
 
-                var model = authBuilder.BuildAvatarView();
+                var model = await authBuilder.BuildAvatarViewAsync();
 
                 model.AvatarForm.FormResult.IsSuccess = true;
 
@@ -199,7 +199,7 @@ namespace Web.Controllers
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 
-                return View(authBuilder.BuildAvatarView());
+                return View(authBuilder.BuildAvatarViewAsync());
             }
         }
 
@@ -210,7 +210,7 @@ namespace Web.Controllers
             // validate form
             if (!this.ModelStateWrapper.IsValid)
             {
-                return View(authBuilder.BuildEditProfileView(form));
+                return View(await authBuilder.BuildEditProfileViewAsync(form));
             }
 
             try
@@ -218,7 +218,7 @@ namespace Web.Controllers
                 // edit profile
                 await authBuilder.EditProfile(form);
 
-                var model = authBuilder.BuildEditProfileView(form);
+                var model = await authBuilder.BuildEditProfileViewAsync(form);
 
                 // set form status
                 model.ProfileForm.FormResult.IsSuccess = true;
@@ -229,7 +229,7 @@ namespace Web.Controllers
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 
-                return View(authBuilder.BuildEditProfileView(form));
+                return View(await authBuilder.BuildEditProfileViewAsync(form));
             }
         }
 

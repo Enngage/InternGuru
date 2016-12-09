@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System;
 
-using Common.Extensions;
-using Core.Context;
+using Core.Extensions;
+using Service.Context;
 using Entity;
 using UI.Base;
 using UI.Builders.Services;

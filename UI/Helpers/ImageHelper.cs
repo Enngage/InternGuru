@@ -1,5 +1,5 @@
-﻿using Common.Config;
-using Common.Helpers;
+﻿using Core.Config;
+using Core.Helpers;
 using System;
 using System.IO;
 

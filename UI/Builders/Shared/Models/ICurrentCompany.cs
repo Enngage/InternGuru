@@ -12,9 +12,9 @@ namespace UI.Builders.Shared
         string CompanyName { get; }
 
         /// <summary>
-        /// Indicates if current user created company
+        /// Indicates if current user is assigned to a company
         /// </summary>
-        bool IsCreated { get; }
+        bool IsAvailable { get; }
 
         /// <summary>
         /// ID of company

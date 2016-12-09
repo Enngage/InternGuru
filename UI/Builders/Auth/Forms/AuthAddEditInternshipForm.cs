@@ -1,4 +1,4 @@
-﻿using Common.Helpers.Internship;
+﻿using Core.Helpers.Internship;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

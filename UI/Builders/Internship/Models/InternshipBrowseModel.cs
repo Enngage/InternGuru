@@ -1,4 +1,4 @@
-﻿using Common.Helpers.Internship;
+﻿using Core.Helpers.Internship;
 using System;
 
 namespace UI.Builders.Internship.Models

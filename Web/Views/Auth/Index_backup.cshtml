@@ -1,0 +1,306 @@
+﻿@using UI.Helpers;
+@using UI.Extensions;
+@using Core.Helpers;
+@using PagedList.Mvc
+@model UI.Builders.Auth.Views.AuthIndexView
+
+@{
+    ViewBag.Title = "Můj profil";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+@Html.RequireScript("/scripts/views/auth/authIndex")
+
+<div class="ui grid">
+
+    @* Buttons on top when using mobile or tablet *@
+    <div class="tablet only mobile only row">
+        <div class="sixteen wide mobile sixteen wide tablet column">
+            <a class="ui primary button" href="@Url.Action("NewInternship", "Auth")">
+                Přidat stáž
+            </a>
+
+            <a class="ui primary button" href="@Url.Action("NewThesis", "Auth")">
+                Přidat závěrečnou práci
+            </a>
+
+            @if (!Model.Master.CurrentCompany.IsAvailable)
+            {
+                <a class="ui primary button" href="@Url.Action("RegisterCompany", "Auth")">
+                    Přidat firmu
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="sixteen wide mobile six wide tablet three wide computer column">
+        <div class="ui segment padded w-body-text-center">
+            <h3>
+                Profil
+            </h3>
+            <a href="@Url.Action("Avatar", "Auth")">
+                <img alt="avatar" class="ui tiny image w-image-center" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)" src="@ImageHelper.GetTransparentImage()">
+            </a>
+
+            <p class="w-font-size-small w-margin-top-10">
+                <a href="@Url.Action("EditProfile", "Auth")">Upravit</a>
+            </p>
+            <p class="w-font-size-small">
+                <a href="@Url.Action("Avatar", "Auth")">Avatar</a>
+            </p>
+        </div>
+
+        @if (Model.Master.CurrentCompany.IsAvailable)
+        {
+            <div class="ui segment padded w-body-text-center">
+                <h3>
+                    Firma
+                </h3>
+
+                <img class="ui image tiny w-image-center" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyID)" />
+
+                <p class="w-margin-top-10 w-body-dont-break">
+                    @Model.Master.CurrentCompany.CompanyName
+                </p>
+
+                <a class="w-font-size-small" href="@Url.Action("EditCompany", "Auth")">
+                    Upravit
+                </a>
+            </div>
+        }
+
+    </div>
+    <div class="sixteen wide mobile ten wide tablet nine wide computer column">
+
+        <div class="ui secondary pointing menu w-auth-menu">
+            <a class="item active" data-tab="first">
+                Konverzace
+                @if (Model.NotReadMessagesCount > 0)
+                {
+                    <span class="w-color-secondary">&nbsp;(@Model.NotReadMessagesCount)</span>
+                }
+            </a>
+            <a class="item" data-tab="second">
+                Stáže <span class="w-font-light">&nbsp;(@Model.Internships.Count())</span>
+            </a>
+            <a class="item" data-tab="third">
+                Závěrečné práce <span class="w-font-light">&nbsp;(@Model.Theses.Count())</span>
+            </a>
+            <div class="right menu">
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a class="ui item" href="javascript:document.getElementById('logoutForm').submit()">
+                        <i class="sign out icon"></i>
+                        Odhlásit
+                    </a>
+                }
+
+            </div>
+        </div>
+
+        <div class="ui tab segment active" data-tab="first">
+
+            @if (Model.Conversations.Count() == 0)
+            {
+                @Html.RenderInfoMessage("Dosud nemáš žádné zprávy")
+            }
+            else
+            {
+                <div class="ui items divided">
+                    @foreach (var conversation in Model.Conversations)
+                    {
+                        var segmentClass = conversation.IsRead ? string.Empty : "w-segment-dark basic";
+                        <div class="item w-override-padding-all @segmentClass">
+                            <a class="ui tiny image w-mobile-margin-0" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
+                                <img class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(conversation.WithApplicationUserName)">
+                            </a>
+                            <div class="content">
+                                <a class="header" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
+                                    @if (conversation.WrittenByCurrentUser)
+                                    {
+                                        <span>@(!string.IsNullOrEmpty(conversation.RecipientFirstName) ? conversation.RecipientFirstName + " " + conversation.RecipientLastName : conversation.RecipientApplicationUserName)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@(!string.IsNullOrEmpty(conversation.SenderFirstName) ? conversation.SenderFirstName + " " + conversation.SenderLastName : conversation.SenderApplicationUserName)</span>
+                                    }
+                                </a>
+                                <div class="meta w-font-size-small">
+                                    <i class="calendar icon"></i>@DateHelper.GetPrettyDate(conversation.MessageCreated) |
+                                    @if (conversation.IsRead)
+                                    {
+                                        <i title="Přečteno" class="checkmark green icon"></i><span>přečteno</span>
+                                    }
+                                    else
+                                    {
+                                        <i title="Nepřečteno" class="remove red icon"></i><span>nepřečteno</span>
+                                    }
+                                    @(!string.IsNullOrEmpty(conversation.Subject) ? " | " + conversation.Subject : null)
+                                </div>
+                                <div class="description">
+                                    <p>
+                                        @StringHelper.ShortenText(conversation.MessageText, 200, true)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                if (Model.Conversations.PageCount > 1)
+                {
+                    @Html.PagedListPager(Model.Conversations, page => Url.Action("Index", "Auth", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
+                }
+            }
+        </div>
+
+        <div class="ui tab segment" data-tab="second">
+
+            @if (Model.Master.CurrentCompany.IsAvailable)
+            {
+                if (Model.Internships.Count() == 0)
+                {
+                    @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné nabídky stáže")
+                }
+                else
+                {
+                    <table class="ui very basic table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Akce
+                                </th>
+                                <th>
+                                    Název stáže
+                                </th>
+                                <th>
+                                    Vytvořeno
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var internship in Model.Internships)
+                            {
+                                <tr>
+                                    <td class="collapsing w-body-text-center w-mobile-left">
+                                        <a href="@Url.Action("EditInternship", new { id = internship.ID })">
+                                            <i title="Upravit" class="edit icon black"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })">
+                                            @internship.Title
+                                        </a>
+                                    </td>
+                                    <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
+                                        <i title="Vytvořeno" class="calendar icon"></i>
+                                        @internship.Created.ToShortDateString()
+                                    </td>
+                                    <td class="collapsing w-body-text-right w-mobile-left">
+                                        @if (internship.IsActive)
+                                        {
+                                            <i title="Aktivní" class="checkmark green icon"></i>
+                                        }
+                                        else
+                                        {
+                                            <i title="Neaktivní" class="remove red icon"></i>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            }
+            else
+            {
+                @Html.RenderInfoMessage("Pro přidání inzerátu musíte vytvořit firmu")
+            }
+        </div>
+
+        <div class="ui tab segment" data-tab="third">
+            @if (Model.Theses.Count() == 0)
+            {
+                @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné práce")
+            }
+            else
+            {
+                <table class="ui very basic table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Akce
+                            </th>
+                            <th>
+                                Název práce
+                            </th>
+                            <th>
+                                Vytvořeno
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var thesis in Model.Theses)
+                        {
+                            <tr>
+                                <td class="collapsing w-body-text-center w-mobile-left">
+                                    <a href="@Url.Action("EditThesis", new { id = thesis.ID })">
+                                        <i title="Upravit" class="edit icon black"></i>
+                                    </a>
+                                </td>
+                                
+                                <td>
+                                    <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName })">
+                                        @thesis.ThesisName
+                                    </a>
+                                </td>
+                                <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
+                                    <i class="calendar icon"></i>
+                                    @thesis.Created.ToShortDateString()
+                                </td>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    @if (thesis.IsActive)
+                                    {
+                                        <i title="Aktivní" class="checkmark green icon"></i>
+                                    }
+                                    else
+                                    {
+                                        <i title="Neaktivní" class="remove red icon"></i>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+    </div>
+    <div class="four wide computer column w-body-text-right w-computer-show">
+
+        <div class="ui segment basic">
+            <a class="ui primary fluid button" href="@Url.Action("NewInternship", "Auth")">
+                Přidat stáž
+            </a>
+
+            <a class="ui primary fluid button w-margin-top-10" href="@Url.Action("NewThesis", "Auth")">
+                Přidat závěrečnou práci
+            </a>
+
+            @if (!Model.Master.CurrentCompany.IsAvailable)
+            {
+                <a class="ui primary fluid button w-margin-top-10" href="@Url.Action("RegisterCompany", "Auth")">
+                    Přidat firmu
+                </a>
+            }
+
+        </div>
+    </div>
+</div>

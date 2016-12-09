@@ -7,16 +7,16 @@ using PagedList;
 using PagedList.EntityFramework;
 
 using UI.Base;
-using Core.Context;
+using Service.Context;
 using UI.Builders.Auth.Views;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Auth.Models;
-using Common.Config;
-using Common.Helpers;
+using Core.Config;
+using Core.Helpers;
 using UI.Exceptions;
-using Common.Helpers.Internship;
+using Core.Helpers.Internship;
 using UI.Builders.Services;
-using Core.Exceptions;
+using Service.Exceptions;
 using Entity;
 using UI.UIServices;
 
@@ -31,21 +31,40 @@ namespace UI.Builders.Company
 
         #endregion
 
-        #region Index
+        #region Master view
 
-        public async Task<AuthIndexView> BuildIndexViewAsync(int? page)
+        private async Task<AuthMasterModel> GetAuthMasterModel()
         {
             if (!this.CurrentUser.IsAuthenticated)
             {
                 return null;
             }
 
-            return new AuthIndexView()
+            return new AuthMasterModel()
             {
                 Internships = await GetInternshipsAsync(),
-                Conversations = await GetConversationsAsync(page),
-                NotReadMessagesCount = await GetNotReadMessagesOfCurrentUserAsync(),
+                Conversations = await GetConversationsAsync(10),
                 Theses = await GetThesesListingsAsync()
+            };
+        }
+
+        #endregion
+
+        #region Index
+
+        public async Task<AuthIndexView> BuildIndexViewAsync(int? page)
+        {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+            return new AuthIndexView()
+            {
+                AuthMaster = authMaster,
+                ConversationsPaged = await GetConversationsAsync(page),
             };
         }
 
@@ -55,9 +74,11 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditProfileView> BuildEditProfileViewAsync()
         {
-            if (!this.CurrentUser.IsAuthenticated)
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
             {
-                throw new UIException(UIExceptionEnum.NotAuthenticated);
+                return null;
             }
 
             var currentApplicationUser = await this.Services.IdentityService.GetSingle(this.CurrentUser.Id).FirstOrDefaultAsync();
@@ -75,19 +96,23 @@ namespace UI.Builders.Company
 
             return new AuthEditProfileView()
             {
+                AuthMaster = authMaster,
                 ProfileForm = form
             };
         }
 
-        public AuthEditProfileView BuildEditProfileView(AuthEditProfileForm form)
+        public async Task<AuthEditProfileView> BuildEditProfileViewAsync(AuthEditProfileForm form)
         {
-            if (!this.CurrentUser.IsAuthenticated)
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
             {
-                throw new UIException(UIExceptionEnum.NotAuthenticated);
+                return null;
             }
 
             return new AuthEditProfileView()
             {
+                AuthMaster = authMaster,
                 ProfileForm = form
             };
         }
@@ -96,8 +121,15 @@ namespace UI.Builders.Company
 
         #region Avatar 
 
-        public AuthAvatarView BuildAvatarView()
+        public async Task<AuthAvatarView> BuildAvatarViewAsync()
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
             var avatarForm = new AuthAvatarUploadForm();
 
             return new AuthAvatarView()
@@ -112,6 +144,13 @@ namespace UI.Builders.Company
 
         public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync(AuthAddEditCompanyForm form)
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
             if (form == null)
             {
                 // user haven't created any company yet
@@ -125,6 +164,7 @@ namespace UI.Builders.Company
 
             return new AuthRegisterCompanyView()
             {
+                AuthMaster = authMaster,
                 CompanyForm = form,
                 CompanyIsCreated = form != null
             };
@@ -132,6 +172,13 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditCompanyView> BuildEditCompanyViewAsync(AuthAddEditCompanyForm form)
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
             if (form == null)
             {
                 // invalid form data
@@ -145,12 +192,20 @@ namespace UI.Builders.Company
 
             return new AuthEditCompanyView()
             {
+                AuthMaster = authMaster,
                 CompanyForm = form,
             };
         }
 
         public async Task<AuthEditCompanyView> BuildEditCompanyViewAsync()
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
             var currentUserId = this.CurrentUser.Id;
 
             // get company assigned to user
@@ -194,12 +249,20 @@ namespace UI.Builders.Company
 
             return new AuthEditCompanyView()
             {
+                AuthMaster = authMaster,
                 CompanyForm = company,
             };
         }
 
         public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync()
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+
+            }
             var currentUserId = this.CurrentUser.Id;
 
             // get company assigned to user
@@ -242,6 +305,7 @@ namespace UI.Builders.Company
 
             return new AuthRegisterCompanyView()
             {
+                AuthMaster = authMaster,
                 CompanyForm = company,
                 CompanyIsCreated = company != null
             };
@@ -253,6 +317,13 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditThesisView> BuildEditThesisViewAsync(int thesisID)
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
             var thesisQuery = this.Services.ThesisService.GetAll()
                 .Where(m => m.ID == thesisID)
                 .Select(m => new AuthAddEditThesisForm()
@@ -283,12 +354,20 @@ namespace UI.Builders.Company
 
             return new AuthEditThesisView()
             {
+                AuthMaster = authMaster, 
                 ThesisForm = thesis
             };
         }
 
         public async Task<AuthNewThesisView> BuildNewThesisViewAsync()
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
             var form = new AuthAddEditThesisForm()
             {
                 Currencies = await FormGetCurrenciesAsync(),
@@ -299,13 +378,20 @@ namespace UI.Builders.Company
 
             return new AuthNewThesisView()
             {
+                AuthMaster = authMaster,
                 ThesisForm = form,
-                CanCreateThesis = this.CurrentCompany.IsCreated
+                CanCreateThesis = this.CurrentCompany.IsAvailable
             };
         }
 
         public async Task<AuthEditThesisView> BuildEditThesisViewAsync(AuthAddEditThesisForm form)
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
 
             form.Categories = await FormGetInternshipCategoriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
@@ -313,12 +399,19 @@ namespace UI.Builders.Company
 
             return new AuthEditThesisView()
             {
+                AuthMaster = authMaster,
                 ThesisForm = form,
             };
         }
 
         public async Task<AuthNewThesisView> BuildNewThesisViewAsync(AuthAddEditThesisForm form)
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
 
             form.Categories = await FormGetInternshipCategoriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
@@ -326,8 +419,9 @@ namespace UI.Builders.Company
 
             return new AuthNewThesisView()
             {
+                AuthMaster = authMaster,
                 ThesisForm = form,
-                CanCreateThesis = this.CurrentCompany.IsCreated
+                CanCreateThesis = this.CurrentCompany.IsAvailable
             };
         }
 
@@ -337,6 +431,13 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditInternshipView> BuildEditInternshipViewAsync(int internshipID)
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
             var companyIDOfCurrentUser = await GetCompanyIDOfCurrentUserAsync();
 
             var internshipQuery = this.Services.InternshipService.GetSingle(internshipID)
@@ -419,12 +520,20 @@ namespace UI.Builders.Company
 
             return new AuthEditInternshipView()
             {
+                AuthMaster = authMaster,
                 InternshipForm = internship
             };
         }
 
         public async Task<AuthNewInternshipView> BuildNewInternshipViewAsync()
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+
+            }
             var form = new AuthAddEditInternshipForm()
             {
                 InternshipCategories = await FormGetInternshipCategoriesAsync(),
@@ -437,13 +546,20 @@ namespace UI.Builders.Company
 
             return new AuthNewInternshipView()
             {
+                AuthMaster = authMaster,
                 InternshipForm = form,
-                CanCreateInternship = await GetCompanyIDOfCurrentUserAsync() != 0, // user can create internship only if he created company before
+                CanCreateInternship = this.CurrentCompany.IsAvailable, // user can create internship only if he created company before
             };
         }
 
         public async Task<AuthEditInternshipView> BuildEditInternshipViewAsync(AuthAddEditInternshipForm form)
         {
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
 
             form.InternshipCategories = await FormGetInternshipCategoriesAsync();
             form.AmountTypes = await FormGetInternshipAmountTypesAsync();
@@ -453,13 +569,20 @@ namespace UI.Builders.Company
 
             return new AuthEditInternshipView()
             {
+                AuthMaster = authMaster,
                 InternshipForm = form,
             };
         }
 
         public async Task<AuthNewInternshipView> BuildNewInternshipViewAsync(AuthAddEditInternshipForm form)
         {
+            var authMaster = await GetAuthMasterModel();
 
+            if (authMaster == null)
+            {
+                return null;
+
+            }
             form.InternshipCategories = await FormGetInternshipCategoriesAsync();
             form.AmountTypes = await FormGetInternshipAmountTypesAsync();
             form.DurationTypes = await FormGetInternshipDurationsAsync();
@@ -468,6 +591,7 @@ namespace UI.Builders.Company
 
             return new AuthNewInternshipView()
             {
+                AuthMaster = authMaster,
                 InternshipForm = form,
                 CanCreateInternship = await GetCompanyIDOfCurrentUserAsync() != 0, // user can create internship only if he created company before
             };
@@ -479,6 +603,14 @@ namespace UI.Builders.Company
 
         public async Task<AuthConversationView> BuildConversationViewAsync(string otherUserId, int? page, AuthMessageForm messageForm = null)
         {
+
+            var authMaster = await GetAuthMasterModel();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
             var defaultMessageForm = new AuthMessageForm()
             {
                 RecipientApplicationUserId = otherUserId
@@ -519,6 +651,7 @@ namespace UI.Builders.Company
 
             return new AuthConversationView()
             {
+                AuthMaster = authMaster,
                 Messages = messages,
                 ConversationUser = otherUser,
                 Me = new AuthMessageUserModel()
@@ -546,7 +679,7 @@ namespace UI.Builders.Company
             try
             {
                 // verify company
-                if (!this.CurrentCompany.IsCreated)
+                if (!this.CurrentCompany.IsAvailable)
                 {
                     throw new ValidationException($"Pro přidání práce musíte prvně vytvořit firmu");
                 }
@@ -596,7 +729,7 @@ namespace UI.Builders.Company
             try
             {
                 // verify company
-                if (!this.CurrentCompany.IsCreated)
+                if (!this.CurrentCompany.IsAvailable)
                 {
                     throw new ValidationException($"Pro přidání práce musíte prvně vytvořit firmu");
                 }
@@ -1316,6 +1449,19 @@ namespace UI.Builders.Company
         /// <summary>
         /// Gets messages of current user
         /// </summary>
+        /// <param name="page">Page number</param>
+        /// <param name="topN">Top N</param>
+        /// <returns>Collection of messages of current user</returns>
+        private async Task<IEnumerable<AuthConversationModel>> GetConversationsAsync(int topN)
+        {
+            return (await GetConversationsAsync(null)).Take(topN);
+        }
+
+        /// <summary>
+        /// Gets messages of current user
+        /// </summary>
+        /// <param name="page">Page number</param>
+        /// <param name="topN">Top N</param>
         /// <returns>Collection of messages of current user</returns>
         private async Task<IPagedList<AuthConversationModel>> GetConversationsAsync(int? page)
         {
@@ -1433,7 +1579,7 @@ namespace UI.Builders.Company
                          ApplicationUserId = m.ApplicationUserId
                      });
 
-            if (this.CurrentCompany.IsCreated)
+            if (this.CurrentCompany.IsAvailable)
             {
                 internshipsQuery = internshipsQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id || m.CompanyID == this.CurrentCompany.CompanyID);
             }
@@ -1475,7 +1621,7 @@ namespace UI.Builders.Company
                     CompanyID = m.CompanyID
                 });
 
-            if (this.CurrentCompany.IsCreated)
+            if (this.CurrentCompany.IsAvailable)
             {
                 thesisQuery = thesisQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id || m.CompanyID == this.CurrentCompany.CompanyID);
             }

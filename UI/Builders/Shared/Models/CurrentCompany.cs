@@ -11,7 +11,7 @@ namespace UI.Builders.Shared
         /// <summary>
         /// Indicates if current user created company
         /// </summary>
-        public bool IsCreated
+        public bool IsAvailable
         {
             get
             {

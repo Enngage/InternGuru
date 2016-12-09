@@ -5,7 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-using Common.Project;
+using Core.Project;
 
 namespace UI.Extensions
 {

@@ -1,4 +1,4 @@
-﻿using Core.Context;
+﻿using Service.Context;
 using System.Data.Entity;
 using System.Linq;
 using UI.Base;
@@ -12,8 +12,8 @@ using UI.Builders.Form.Models;
 using UI.Builders.Form.Views;
 using System.Collections.Generic;
 using UI.Builders.Form.Forms;
-using Core.Services.Enums;
-using Core.Exceptions;
+using Service.Services.Enums;
+using Service.Exceptions;
 
 namespace UI.Builders.Company
 {

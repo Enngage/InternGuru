@@ -1,9 +1,8 @@
 ﻿using UI.Builders.Auth.Forms;
-using UI.Builders.Master.Views;
 
 namespace UI.Builders.Auth.Views
 {
-    public class AuthEditThesisView : MasterView
+    public class AuthEditThesisView : AuthMasterView
     {
         public AuthAddEditThesisForm ThesisForm { get; set; }
         public bool ThesisExists

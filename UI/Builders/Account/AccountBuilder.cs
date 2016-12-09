@@ -1,7 +1,7 @@
 ﻿using UI.Base;
-using Core.Context;
+using Service.Context;
 using System.Text;
-using Common.Config;
+using Core.Config;
 using UI.Builders.Account.Views;
 using UI.Builders.Services;
 

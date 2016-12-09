@@ -8,7 +8,7 @@
         <div class="ui container">
             <div class="header item">
                 @*<img alt="Logo" class="logo" src="@ImageHelper.GetImageUrl("content/images/general/logos/profile.png")">*@
-                <a href="@Url.Action("Index", "Home")">@Common.Config.AppConfig.SiteName</a>
+                <a href="@Url.Action("Index", "Home")">@Core.Config.AppConfig.SiteName</a>
             </div>
             @if (controller.Equals("internships", StringComparison.OrdinalIgnoreCase))
             {
@@ -26,13 +26,13 @@
             {
                 <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
             }
-            @if (controller.Equals("videos", StringComparison.OrdinalIgnoreCase))
+            @if (controller.Equals("meetups", StringComparison.OrdinalIgnoreCase))
             {
-                <a href="@Url.Action("Index", "Videos")" class="item active">Proč jít na stáž?</a>
+                <a href="@Url.Action("Index", "Meetups")" class="item active">Meetups</a>
             }
             else
             {
-                <a href="@Url.Action("Index", "Videos")" class="item">Proč jít na stáž?</a>
+                <a href="@Url.Action("Index", "meetups")" class="item">Meetups</a>
             }
             @if (controller.Equals("theses", StringComparison.OrdinalIgnoreCase))
             {
@@ -54,7 +54,7 @@
         <div class="ui container">
             <div class="header item">
                 @*<img alt="Logo" class="logo" src="@ImageHelper.GetImageUrl("content/images/general/logos/profile.png")">*@
-                <a href="@Url.Action("Index", "Home")">@Common.Config.AppConfig.SiteName</a>
+                <a href="@Url.Action("Index", "Home")">@Core.Config.AppConfig.SiteName</a>
             </div>
             <a href="@Url.Action("Index", "Forum")" class="item">Forum</a>
             <a href="@Url.Action("Index", "Browse")" class="item">Channels</a>
@@ -71,7 +71,7 @@
 <div class="w-mobile-show w-menu-mobile-wrapper _MobileMenu">
     <div class="ui borderless menu navbar page grid fluid w-menu-mobile-header">
         <a href="@Url.Action("Index", "Home")" class="brand item">
-            @Common.Config.AppConfig.SiteName
+            @Core.Config.AppConfig.SiteName
         </a>
         <div class="right menu">
             <a class="item _MobileMenuToggle" href="#">

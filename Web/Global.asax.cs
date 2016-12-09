@@ -1,4 +1,4 @@
-﻿using Common.Config;
+﻿using Core.Config;
 using System.Net;
 using System.Web.Http;
 using System.Web.Mvc;

@@ -1,4 +1,4 @@
-﻿using Common.Config;
+﻿using Core.Config;
 using System;
 using System.IO;
 using System.Collections.Generic;

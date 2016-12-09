@@ -1,12 +1,11 @@
 ﻿using PagedList;
 using UI.Builders.Auth.Models;
-using UI.Builders.Master.Views;
 using System.Linq;
 using UI.Builders.Auth.Forms;
 
 namespace UI.Builders.Auth.Views
 {
-    public class AuthConversationView : MasterView
+    public class AuthConversationView : AuthMasterView
     {
         public AuthMessageModel LastMessage
         {

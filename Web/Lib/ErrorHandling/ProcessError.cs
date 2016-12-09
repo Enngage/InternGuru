@@ -2,8 +2,8 @@
 using System.Web.Mvc;
 
 using Ninject;
-using Common.Loc;
-using Core.Services;
+using Core.Loc;
+using Service.Services;
 using UI.Builders.Master.Views;
 using UI.Builders.Master;
 

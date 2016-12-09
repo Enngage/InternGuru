@@ -1,6 +1,6 @@
 ﻿
-using Common.Helpers;
-using Common.Helpers.Internship;
+using Core.Helpers;
+using Core.Helpers.Internship;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

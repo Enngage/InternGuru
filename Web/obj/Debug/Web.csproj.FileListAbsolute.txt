@@ -228,6 +228,7 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFra
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\ApplicationInsights.config
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\roslyn\csc.exe
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\roslyn\csc.exe.config
@@ -259,7 +260,6 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Web.dll.config
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Web.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Cache.dll
-C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Common.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Core.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\EmailProvider.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Entity.dll
@@ -287,6 +287,7 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Ninject.Web.Mvc.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Ninject.Web.WebApi.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Ninject.Web.WebApi.WebHost.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Owin.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Service.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\System.Net.Http.Formatting.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\System.Web.Helpers.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\System.Web.Http.dll
@@ -301,10 +302,10 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\WebActivatorEx.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Cache.pdb
-C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Common.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Core.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\EmailProvider.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Entity.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Service.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\UI.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Newtonsoft.Json.xml
@@ -340,6 +341,5 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.Owin.Security.Microso
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.xml
-C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.pdb

@@ -100,12 +100,13 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\bin\Debug\System.Web.Web
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\obj\Debug\UI.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\obj\Debug\UI.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\UI\obj\Debug\UI.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\obj\Debug\UI.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\UI.dll.config
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\UI.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\UI.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Cache.dll
-C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Common.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Core.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EmailProvider.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Entity.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EntityFramework.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EntityFramework.SqlServer.dll
@@ -116,6 +117,7 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\PagedList.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\PagedList.EntityFramework.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\PagedList.Mvc.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Service.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Net.Http.Formatting.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Web.Helpers.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Web.Http.dll
@@ -127,9 +129,10 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Web.WebPages.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Web.WebPages.Razor.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Ninject.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Cache.pdb
-C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Common.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Core.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EmailProvider.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Entity.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Service.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EntityFramework.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Microsoft.AspNet.Identity.Core.xml
@@ -148,8 +151,5 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Web.Razor.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Web.WebPages.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\System.Web.WebPages.Razor.xml
-C:\Users\Yazoo\Dropbox\InternGuru-master\UI\obj\Debug\UI.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\obj\Debug\UI.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\UI\obj\Debug\UI.pdb
-C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EmailProvider.dll
-C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\EmailProvider.pdb

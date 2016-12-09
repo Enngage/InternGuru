@@ -1,4 +1,4 @@
-﻿using Core.Context;
+﻿using Service.Context;
 using System.Data.Entity;
 using PagedList.EntityFramework;
 using System.Linq;
@@ -14,7 +14,7 @@ using UI.Exceptions;
 using Entity;
 using System.Collections;
 using UI.Helpers;
-using Core.Exceptions;
+using Service.Exceptions;
 
 namespace UI.Builders.Company
 {

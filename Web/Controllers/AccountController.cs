@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Entity;
 using UI.Base;
-using Core.Context;
+using Service.Context;
 using UI.Builders.Master;
 using UI.Builders.Account;
 using UI.Builders.Account.Forms;
@@ -181,7 +181,9 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            return View();
+            var model = accountBuilder.BuildForgotPasswordView();
+
+            return View(model);
         }
 
         [HttpPost]
@@ -229,7 +231,19 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            var model = accountBuilder.BuildResetPasswordView();
+
+            if (string.IsNullOrEmpty(code))
+            {
+                model.InvalidCodeToken = true;
+                ModelStateWrapper.AddError("Nevalidní URL");
+            }
+            else
+            {
+                model.Code = code;
+            }
+
+            return View(model);
         }
 
         //

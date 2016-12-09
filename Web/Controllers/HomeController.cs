@@ -1,11 +1,11 @@
-﻿using Common.Loc;
+﻿using Core.Loc;
 using System.Web.Mvc;
 using Ninject;
-using Core.Services;
+using Service.Services;
 using System;
 using System.Threading.Tasks;
 using UI.Base;
-using Core.Context;
+using Service.Context;
 using UI.Builders.Master;
 using UI.Builders.Master.Views;
 using Entity;
@@ -22,9 +22,9 @@ namespace Web.Controllers
 
         public async Task<ActionResult> Test()
         {
-            var companyService = Common.Loc.KernelProvider.Kernel.Get<ICompanyService>();
-            var masterBuilder = Common.Loc.KernelProvider.Kernel.Get<MasterBuilder>();
-            var companyCategoryService = Common.Loc.KernelProvider.Kernel.Get<ICompanyCategoryService>();
+            var companyService = Core.Loc.KernelProvider.Kernel.Get<ICompanyService>();
+            var masterBuilder = Core.Loc.KernelProvider.Kernel.Get<MasterBuilder>();
+            var companyCategoryService = Core.Loc.KernelProvider.Kernel.Get<ICompanyCategoryService>();
 
             var category = await companyCategoryService.GetAll().FirstOrDefaultAsync();
 

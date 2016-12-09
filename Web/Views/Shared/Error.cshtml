@@ -1,5 +1,5 @@
 ﻿@using UI.Helpers;
-@using Common.Config;
+@using Core.Config;
 @model UI.Builders.Master.Views.ErrorView
 
 @{
@@ -27,7 +27,7 @@
                         Zpráva
                     </div>
                 </div>
-                @if (AppConfig.Environment == Common.Environment.EnvironmentEnum.Dev)
+                @if (AppConfig.Environment == Core.Environment.EnvironmentEnum.Dev)
                 {
                     <p>
                         @Model.ErrorMessage
@@ -41,7 +41,7 @@
                 }
             </div>
 
-            @if (AppConfig.Environment == Common.Environment.EnvironmentEnum.Dev)
+            @if (AppConfig.Environment == Core.Environment.EnvironmentEnum.Dev)
             {
                 <div class="ui very padded segment">
                     <h3>

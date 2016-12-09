@@ -46,7 +46,7 @@ namespace UI.Events
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MessageService_OnInsertObject(object sender, Core.Events.InsertEventArgs<Entity.Message> e)
+        private void MessageService_OnInsertObject(object sender, Service.Events.InsertEventArgs<Entity.Message> e)
         {
             NotificationEvents.SendMessageNotifications(e.Obj);
         }

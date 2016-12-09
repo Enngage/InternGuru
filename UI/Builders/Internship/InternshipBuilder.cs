@@ -4,16 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using UI.Base;
-using Core.Context;
+using Service.Context;
 using UI.Builders.Internship.Views;
 using UI.Builders.Internship.Models;
 using UI.Builders.Services;
 using System.Data.Entity;
 using PagedList;
-using Common.Extensions;
+using Core.Extensions;
 using Entity;
-using Common.Helpers;
-using Common.Helpers.Internship;
+using Core.Helpers;
+using Core.Helpers.Internship;
 
 namespace UI.Builders.Internship
 {

@@ -1,7 +1,7 @@
 ﻿using Cache;
-using Common.Loc.Ninject;
-using Core.Context;
-using Core.Services;
+using Core.Loc.Ninject;
+using Service.Context;
+using Service.Services;
 using EmailProvider;
 using Entity;
 using Microsoft.AspNet.Identity;
@@ -69,11 +69,11 @@ namespace Web.Lib.Ninject
                 AutoDetectChanges = true
             };
 
-            kernel.Bind<Core.Context.IAppContext>().ToMethod(context => new Core.Context.AppContext(contextConfig)).InRequestScope();
+            kernel.Bind<Service.Context.IAppContext>().ToMethod(context => new Service.Context.AppContext(contextConfig)).InRequestScope();
 
             // Authentication 
             // taken from http://stackoverflow.com/questions/36239743/how-to-inject-usermanager-signinmanager
-            kernel.Bind<IUserStore<ApplicationUser>>().ToMethod(m => new UserStore<ApplicationUser>(new Core.Context.AppContext(contextConfig)));
+            kernel.Bind<IUserStore<ApplicationUser>>().ToMethod(m => new UserStore<ApplicationUser>(new Service.Context.AppContext(contextConfig)));
             kernel.Bind<ApplicationUserManager>().ToSelf();
             kernel.Bind<ApplicationSignInManager>().ToSelf();
             kernel.Bind<IAuthenticationManager>().ToMethod(x => HttpContext.Current.GetOwinContext().Authentication);
@@ -121,11 +121,11 @@ namespace Web.Lib.Ninject
             {
                 AutoDetectChanges = true
             };
-            kernel.Bind<Core.Context.IAppContext>().ToMethod(context => new Core.Context.AppContext(contextConfig)).InThreadScope();
+            kernel.Bind<Service.Context.IAppContext>().ToMethod(context => new Service.Context.AppContext(contextConfig)).InThreadScope();
 
             // Authentication 
             // taken from http://stackoverflow.com/questions/36239743/how-to-inject-usermanager-signinmanager
-            kernel.Bind<IUserStore<ApplicationUser>>().ToMethod(m => new UserStore<ApplicationUser>(new Core.Context.AppContext(contextConfig)));
+            kernel.Bind<IUserStore<ApplicationUser>>().ToMethod(m => new UserStore<ApplicationUser>(new Service.Context.AppContext(contextConfig)));
             kernel.Bind<ApplicationUserManager>().ToSelf();
             kernel.Bind<ApplicationSignInManager>().ToSelf();
             kernel.Bind<IAuthenticationManager>().ToMethod(x => HttpContext.Current.GetOwinContext().Authentication);

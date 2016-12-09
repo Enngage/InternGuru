@@ -1,4 +1,4 @@
-﻿using Common.Helpers.Internship;
+﻿using Core.Helpers.Internship;
 
 namespace UI.Builders.Auth.Models
 {

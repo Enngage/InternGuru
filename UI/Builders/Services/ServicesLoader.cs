@@ -1,5 +1,5 @@
 ﻿using Cache;
-using Core.Services;
+using Service.Services;
 using EmailProvider;
 using UI.UIServices;
 

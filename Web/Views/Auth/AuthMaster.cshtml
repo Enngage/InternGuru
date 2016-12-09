@@ -1,0 +1,40 @@
+﻿@using UI.Helpers;
+@using UI.Extensions;
+@using Core.Helpers;
+@using PagedList.Mvc
+@model UI.Builders.Auth.Views.AuthMasterView
+
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+
+}
+
+@Html.RequireScript("/scripts/views/auth/authIndex")
+
+<div class="ui grid">
+
+    <div class="sixteen wide mobile six wide tablet four wide computer column">
+
+        @foreach (var enabledTab in Model.Tabs.GetOrderedActiveTabs())
+        {
+            if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Profile)
+            {
+                <div>
+                    Profile!
+                </div>
+            }
+            else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Buttons)
+            {
+                <div>
+                    Buttons!
+                </div>
+            }
+        }
+
+    </div>
+    <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
+        @RenderBody()
+    </div>
+
+</div>

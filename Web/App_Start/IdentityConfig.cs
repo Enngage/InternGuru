@@ -6,10 +6,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Entity;
-using Common.Loc;
+using Core.Loc;
 using Ninject;
 using EmailProvider;
-using Common.Config;
+using Core.Config;
 using Microsoft.Owin.Security.DataProtection;
 
 namespace Web

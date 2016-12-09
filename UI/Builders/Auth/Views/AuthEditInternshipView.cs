@@ -1,9 +1,8 @@
 ﻿using UI.Builders.Auth.Forms;
-using UI.Builders.Master.Views;
 
 namespace UI.Builders.Auth.Views
 {
-    public class AuthEditInternshipView : MasterView
+    public class AuthEditInternshipView : AuthMasterView
     {
         public AuthAddEditInternshipForm InternshipForm { get; set; }
 

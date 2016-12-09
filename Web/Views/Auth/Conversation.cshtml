@@ -1,12 +1,12 @@
 ﻿@using UI.Helpers;
 @using UI.Extensions;
 @using PagedList.Mvc
-@using Common.Helpers;
+@using Core.Helpers;
 @model UI.Builders.Auth.Views.AuthConversationView
 
 @{
     ViewBag.Title = "Konverzace | " + Model.ConversationUser.DisplayName;
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 
 <div class="ui grid">

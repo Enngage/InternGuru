@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1B8D32C9-E5CA-4B44-84C1-680598A37AB2}</ProjectGuid>
+    <ProjectGuid>{24AF2251-6E38-4919-AA21-D506B26A5AA9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Core</RootNamespace>
@@ -30,24 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\InternGuru\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,69 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\AppContext.cs" />
-    <Compile Include="Context\AppContextConfig.cs" />
-    <Compile Include="Context\IAppContext.cs" />
-    <Compile Include="Context\Initializer.cs" />
-    <Compile Include="Events\DeleteEventArgs.cs" />
-    <Compile Include="Events\UpdateEventArgs.cs" />
-    <Compile Include="Events\InsertEventArgs.cs" />
-    <Compile Include="Exceptions\CodeNameNotUniqueException.cs" />
-    <Compile Include="Exceptions\FileNotProvidedException.cs" />
-    <Compile Include="Exceptions\ValidationException.cs" />
-    <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Config\AppConfig.cs" />
+    <Compile Include="Config\FileConfig.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Helpers\ConvertHelper.cs" />
+    <Compile Include="Helpers\CurrencyHelper.cs" />
+    <Compile Include="Helpers\DateHelper.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\HashHelper.cs" />
+    <Compile Include="Helpers\InternshipHelper.cs" />
+    <Compile Include="Config\SystemConfig.cs" />
+    <Compile Include="Environment\EnvironmentEnum.cs" />
+    <Compile Include="Helpers\Internship\InternshipDurationTypeEnum.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Loc\KernelProvider.cs" />
+    <Compile Include="Loc\KernelType.cs" />
+    <Compile Include="Project\Version.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Companies\CompanyService.cs" />
-    <Compile Include="Services\Companies\CompanySizeService.cs" />
-    <Compile Include="Services\Companies\ICompanyCategoryService.cs" />
-    <Compile Include="Services\Companies\ICompanySizeService.cs" />
-    <Compile Include="Services\Companies\ICompanyService.cs" />
-    <Compile Include="Services\Companies\CompanyCategoryService.cs" />
-    <Compile Include="Services\Countries\CountryService.cs" />
-    <Compile Include="Services\Countries\ICountryService.cs" />
-    <Compile Include="Services\Currencies\ICurrencyService.cs" />
-    <Compile Include="Services\Currencies\CurrencyService.cs" />
-    <Compile Include="Services\Identity\IIdentityService.cs" />
-    <Compile Include="Services\Identity\IdentityService.cs" />
-    <Compile Include="Services\Internships\InternshipDurationTypeService.cs" />
-    <Compile Include="Services\Internships\InternshipAmountTypeService.cs" />
-    <Compile Include="Services\Internships\IInternshipDurationTypeService.cs" />
-    <Compile Include="Services\Internships\IInternshipCategoryService.cs" />
-    <Compile Include="Services\Internships\IInternshipAmountTypeService.cs" />
-    <Compile Include="Services\Internships\IInternshipService.cs" />
-    <Compile Include="Services\Internships\InternshipCategoryService.cs" />
-    <Compile Include="Services\Internships\InternshipService.cs" />
-    <Compile Include="Services\IService.cs" />
-    <Compile Include="Services\Logs\ILogService.cs" />
-    <Compile Include="Services\Logs\LogService.cs" />
-    <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\Messages\IMessageService.cs" />
-    <Compile Include="Services\Messages\MessageService.cs" />
-    <Compile Include="Services\Thesis\Enums\ThesisTypeEnum.cs" />
-    <Compile Include="Services\Thesis\IThesisTypeService.cs" />
-    <Compile Include="Services\Thesis\ThesisTypeService.cs" />
-    <Compile Include="Services\Thesis\ThesisService.cs" />
-    <Compile Include="Services\Thesis\IThesisService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Cache\Cache.csproj">
-      <Project>{0e43f5b2-10e6-4768-b2b4-a7432528fb1d}</Project>
-      <Name>Cache</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{24af2251-6e38-4919-aa21-d506b26a5aa9}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Entity\Entity.csproj">
-      <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
-      <Name>Entity</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

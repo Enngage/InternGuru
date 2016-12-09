@@ -4,7 +4,7 @@
 
 @{
     ViewBag.Title = "Avatar";
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 
 @using (Html.BeginForm("Avatar", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -19,7 +19,7 @@
 
             @Html.RenderFormValidationResult(Model.AvatarForm.FormResult.IsSuccess)
 
-            @Html.RenderInfoMessage(string.Format("Avatar bude automaticky zmenšen na {0}x{0} px", Common.Config.FileConfig.AvatarSideSize))
+            @Html.RenderInfoMessage(string.Format("Avatar bude automaticky zmenšen na {0}x{0} px", Core.Config.FileConfig.AvatarSideSize))
 
             <div>
                 <img class="ui image tiny" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)" />

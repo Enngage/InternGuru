@@ -2001,7 +2001,7 @@
     <Content Include="Stylesheets\partials\_footer.scss" />
     <Content Include="Views\Account\ConfirmEmailSent.cshtml" />
     <Content Include="Stylesheets\partials\_teaser.scss" />
-    <Content Include="Views\Auth\Index.cshtml" />
+    <Content Include="Views\Auth\Index_backup.cshtml" />
     <Content Include="Views\Shared\Body\LightPadded.cshtml" />
     <Content Include="Views\Shared\Body\Light.cshtml" />
     <Content Include="Views\Auth\RegisterCompany.cshtml" />
@@ -2039,6 +2039,8 @@
     <Content Include="Views\Theses\Index.cshtml" />
     <Content Include="Stylesheets\partials\_header.scss" />
     <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Auth\AuthMaster.cshtml" />
+    <Content Include="Views\Auth\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2096,12 +2098,8 @@
       <Project>{0e43f5b2-10e6-4768-b2b4-a7432528fb1d}</Project>
       <Name>Cache</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{24af2251-6e38-4919-aa21-d506b26a5aa9}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{1b8d32c9-e5ca-4b44-84c1-680598a37ab2}</Project>
+      <Project>{24af2251-6e38-4919-aa21-d506b26a5aa9}</Project>
       <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\EmailProvider\EmailProvider.csproj">
@@ -2111,6 +2109,10 @@
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{1b8d32c9-e5ca-4b44-84c1-680598a37ab2}</Project>
+      <Name>Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\UI\UI.csproj">
       <Project>{8b79d5d9-ab10-4bc9-b4f0-5f077b10da88}</Project>
