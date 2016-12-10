@@ -57,6 +57,8 @@
     <Compile Include="Config\SystemConfig.cs" />
     <Compile Include="Environment\EnvironmentEnum.cs" />
     <Compile Include="Helpers\Internship\InternshipDurationTypeEnum.cs" />
+    <Compile Include="Helpers\Privilege\PrivilegeHelper.cs" />
+    <Compile Include="Helpers\Privilege\PrivilegeLevel.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Loc\KernelProvider.cs" />
     <Compile Include="Loc\KernelType.cs" />

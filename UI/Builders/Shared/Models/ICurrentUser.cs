@@ -1,4 +1,6 @@
-﻿
+﻿using Core.Helpers.Privilege;
+using System.Collections.Generic;
+
 namespace UI.Builders.Shared
 {
     /// <summary>
@@ -35,5 +37,15 @@ namespace UI.Builders.Shared
         /// Last name of user if available
         /// </summary>
         string LastName { get; }
+        
+        /// <summary>
+        /// Privilege level
+        /// </summary>
+        PrivilegeLevel Privilege { get; }
+
+        /// <summary>
+        /// List of users in current role
+        /// </summary>
+        IEnumerable<string> Roles { get; }
     }
 }

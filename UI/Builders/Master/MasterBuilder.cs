@@ -2,6 +2,7 @@
 using Service.Context;
 using UI.Builders.Master.Models;
 using UI.Builders.Services;
+using UI.Builders.Shared.Models;
 
 namespace UI.Builders.Master
 {
@@ -10,7 +11,7 @@ namespace UI.Builders.Master
 
         #region Constructor
 
-        public MasterBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) {}
+        public MasterBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
 
         #endregion
 

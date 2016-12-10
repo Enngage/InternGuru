@@ -5,6 +5,8 @@
 @{
     ViewBag.Title = "Vložit závěrečnou práci";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
+    // tabs
+    Model.Tabs.MyTheses.Set(true, 3);
 }
 
 @if (Model.CanCreateThesis)

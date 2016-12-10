@@ -14,6 +14,7 @@ using Core.Extensions;
 using Entity;
 using Core.Helpers;
 using Core.Helpers.Internship;
+using UI.Builders.Shared.Models;
 
 namespace UI.Builders.Internship
 {
@@ -22,7 +23,7 @@ namespace UI.Builders.Internship
 
         #region Constructor
 
-        public InternshipBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
+        public InternshipBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
 
         #endregion
 

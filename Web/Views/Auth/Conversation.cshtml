@@ -7,10 +7,12 @@
 @{
     ViewBag.Title = "Konverzace | " + Model.ConversationUser.DisplayName;
     Layout = "~/Views/Auth/AuthMaster.cshtml";
+    // tabs
+    Model.Tabs.RecentConversations.Set(true, 3);
 }
 
 <div class="ui grid">
-    <div class="centered sixteen wide mobile sixteen wide tablet eight wide computer column">
+    <div class="sixteen wide mobile sixteen wide tablet ten wide computer column">
         @using (Html.BeginForm("Conversation", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()

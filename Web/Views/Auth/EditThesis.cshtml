@@ -5,6 +5,8 @@
 @{
     ViewBag.Title = "Editace | " + Model.ThesisForm.ThesisName;
     Layout = "~/Views/Auth/AuthMaster.cshtml";
+    // tabs
+    Model.Tabs.MyTheses.Set(true, 3);
 }
 
 @Html.Partial("Partials/AddEditThesis", Model.ThesisForm)

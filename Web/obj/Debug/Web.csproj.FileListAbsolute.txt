@@ -343,3 +343,5 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Identity.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Identity.pdb

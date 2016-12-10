@@ -15,6 +15,7 @@ using Entity;
 using System.Collections;
 using UI.Helpers;
 using Service.Exceptions;
+using UI.Builders.Shared.Models;
 
 namespace UI.Builders.Company
 {
@@ -29,7 +30,7 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public CompanyBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
+        public CompanyBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
 
         #endregion
 

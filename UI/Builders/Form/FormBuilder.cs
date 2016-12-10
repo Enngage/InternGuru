@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using UI.Builders.Form.Forms;
 using Service.Services.Enums;
 using Service.Exceptions;
+using UI.Builders.Shared.Models;
 
 namespace UI.Builders.Company
 {
@@ -22,7 +23,7 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public FormBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
+        public FormBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
 
         #endregion
 

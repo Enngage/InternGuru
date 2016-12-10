@@ -19,6 +19,7 @@ using UI.Builders.Services;
 using Service.Exceptions;
 using Entity;
 using UI.UIServices;
+using UI.Builders.Shared.Models;
 
 namespace UI.Builders.Company
 {
@@ -27,7 +28,7 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public AuthBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
+        public AuthBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
 
         #endregion
 

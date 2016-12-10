@@ -11,6 +11,8 @@ using UI.Builders.Master;
 using UI.Builders.Account;
 using UI.Builders.Account.Forms;
 using UI.Events;
+using System;
+using Identity;
 
 namespace Web.Controllers
 {
@@ -139,7 +141,7 @@ namespace Web.Controllers
                 foreach (var error in result.Errors)
                 {
                     // translate errors
-                    if (error.EndsWith("already taken.", System.StringComparison.OrdinalIgnoreCase))
+                    if (error.EndsWith("already taken.", StringComparison.OrdinalIgnoreCase))
                     {
                         if (!emailTakenErrorAdded)
                         {

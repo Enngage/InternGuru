@@ -14,6 +14,7 @@ using Core.Config;
 using Ninject.Web.Common.OwinHost;
 using Entity;
 using Microsoft.Owin.Security.DataProtection;
+using Identity;
 
 namespace Web
 {

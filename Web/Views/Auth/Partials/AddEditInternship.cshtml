@@ -33,6 +33,7 @@
     }
 
     ViewBag.Title = Model.ID == 0 ? "Nová nabídka" : "Upravit stáž | " + Model.Title;
+
 }
 
 @Html.RequireScript("/scripts/views/auth/addEditInternship")
@@ -44,7 +45,7 @@
     <input type="hidden" name="ID" value="@Model.ID" />
 
     <div class="ui grid">
-        <div class="centered sixteen wide mobile sixteen wide tablet ten wide computer column">
+        <div class="sixteen wide mobile sixteen wide tablet ten wide computer column">
 
             @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
 

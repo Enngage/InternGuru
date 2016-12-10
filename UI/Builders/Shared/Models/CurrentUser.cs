@@ -1,4 +1,8 @@
 ﻿
+using Core.Helpers.Privilege;
+using System;
+using System.Collections.Generic;
+
 namespace UI.Builders.Shared
 {
     public class CurrentUser : ICurrentUser
@@ -30,5 +34,15 @@ namespace UI.Builders.Shared
         /// Last name of user if available
         /// </summary>
         public string LastName { get; set; }
+        
+        /// <summary>
+        /// Privilege level of current user
+        /// </summary>
+        public PrivilegeLevel Privilege { get; set; }
+
+        /// <summary>
+        /// Roles of current user
+        /// </summary>
+        public IEnumerable<string> Roles { get; set; }
     }
 }

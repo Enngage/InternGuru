@@ -4,6 +4,7 @@ using System.Text;
 using Core.Config;
 using UI.Builders.Account.Views;
 using UI.Builders.Services;
+using UI.Builders.Shared.Models;
 
 namespace UI.Builders.Account
 {
@@ -17,14 +18,7 @@ namespace UI.Builders.Account
 
         #region Constructor
 
-        public AccountBuilder(
-            IAppContext appContext,
-            IServicesLoader servicesLoader
-            ) : base(
-                appContext,
-                servicesLoader)
-        {
-        }
+        public AccountBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
 
         #endregion
 

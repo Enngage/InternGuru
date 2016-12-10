@@ -182,7 +182,7 @@ namespace Web.Controllers
             // validate form
             if (!this.ModelStateWrapper.IsValid)
             {
-                return View(authBuilder.BuildAvatarViewAsync());
+                return View(await authBuilder.BuildAvatarViewAsync());
             }
 
             try
@@ -199,7 +199,7 @@ namespace Web.Controllers
             {
                 this.ModelStateWrapper.AddError(ex.Message);
 
-                return View(authBuilder.BuildAvatarViewAsync());
+                return View(await authBuilder.BuildAvatarViewAsync());
             }
         }
 

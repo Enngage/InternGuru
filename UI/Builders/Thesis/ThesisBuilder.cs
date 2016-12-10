@@ -12,6 +12,7 @@ using UI.Builders.Services;
 using UI.Builders.Thesis.Views;
 using UI.Builders.Thesis.Models;
 using Service.Services.Enums;
+using UI.Builders.Shared.Models;
 
 namespace UI.Builders.Thesis
 {
@@ -20,7 +21,7 @@ namespace UI.Builders.Thesis
 
         #region Constructor
 
-        public ThesisBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
+        public ThesisBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
 
         #endregion
 

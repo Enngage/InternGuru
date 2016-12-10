@@ -5,6 +5,8 @@
 @{
     ViewBag.Title = "Vložit stáž";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
+    // tabs
+    Model.Tabs.MyInternships.Set(true, 3);
 }
 
 @if (Model.CanCreateInternship)

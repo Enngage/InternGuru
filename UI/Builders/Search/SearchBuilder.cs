@@ -9,6 +9,7 @@ using Service.Context;
 using Entity;
 using UI.Base;
 using UI.Builders.Services;
+using UI.Builders.Shared.Models;
 
 namespace UI.Builders.Search
 {
@@ -32,7 +33,7 @@ namespace UI.Builders.Search
 
         #region Constructor
 
-        public SearchBuilder(IAppContext appContext, IServicesLoader servicesLoader) : base(appContext, servicesLoader) { }
+        public SearchBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
 
         #endregion
 

@@ -197,6 +197,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\System\SystemController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\FormController.cs" />
     <Compile Include="Controllers\ThesesController.cs" />
@@ -211,6 +212,8 @@
     </Compile>
     <Compile Include="Lib\ErrorHandling\ProcessError.cs" />
     <Compile Include="Lib\Ninject\NinjectHelper.cs" />
+    <Compile Include="Lib\Privilege\AuthorizeRolesMVC.cs" />
+    <Compile Include="Lib\Privilege\AuthorizeRolesWebApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -2001,7 +2004,6 @@
     <Content Include="Stylesheets\partials\_footer.scss" />
     <Content Include="Views\Account\ConfirmEmailSent.cshtml" />
     <Content Include="Stylesheets\partials\_teaser.scss" />
-    <Content Include="Views\Auth\Index_backup.cshtml" />
     <Content Include="Views\Shared\Body\LightPadded.cshtml" />
     <Content Include="Views\Shared\Body\Light.cshtml" />
     <Content Include="Views\Auth\RegisterCompany.cshtml" />
@@ -2041,6 +2043,7 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Auth\AuthMaster.cshtml" />
     <Content Include="Views\Auth\Index.cshtml" />
+    <Content Include="Views\System\EventLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2109,6 +2112,10 @@
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Identity\Identity.csproj">
+      <Project>{51635c74-ea12-428c-bd53-a025b0b36f18}</Project>
+      <Name>Identity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{1b8d32c9-e5ca-4b44-84c1-680598a37ab2}</Project>

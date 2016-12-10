@@ -5,6 +5,8 @@
 @{
     ViewBag.Title = "Editovat | " +(Model.InternshipExists ? Model.InternshipForm.Title : "");
     Layout = "~/Views/Auth/AuthMaster.cshtml";
+    // tabs
+    Model.Tabs.MyInternships.Set(true, 3);
 }
 
 @if (Model.InternshipExists)

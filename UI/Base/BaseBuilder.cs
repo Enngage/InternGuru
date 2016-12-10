@@ -8,7 +8,11 @@ using System.Collections.Generic;
 using Entity;
 using UI.Builders.Shared;
 using UI.Builders.Services;
-using UI.Events;
+using Core.Helpers.Privilege;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using UI.Builders.Shared.Models;
+using Identity;
 
 namespace UI.Base
 {
@@ -22,6 +26,9 @@ namespace UI.Base
         private ICurrentCompany currentCompany;
         private IStatusBox statusBox;
         private IUIHeader uiHeader;
+
+        private ApplicationUserManager userManager;
+        private ApplicationSignInManager signInManager;
 
         private IServicesLoader services;
 
@@ -104,12 +111,14 @@ namespace UI.Base
         /// <summary>
         /// Initializes builder
         /// </summary>
-        /// <param name="appContext">appContext</param>
-        /// <param name="IServicesLoader">services loader used to initialize all services</param>
-        public BaseBuilder(IAppContext appContext, IServicesLoader servicesLoader)
+        /// <param name="systemContext">systemContext</param>
+        /// <param name="servicesLoader">services loader used to initialize all services</param>
+        public BaseBuilder(ISystemContext systemContext, IServicesLoader servicesLoader)
         {
-            this.appContext = appContext;
+            this.appContext = systemContext.AppContext;
             this.services = servicesLoader;
+            this.userManager = systemContext.ApplicationUserManager;
+            this.signInManager = systemContext.ApplicationSignInManager;
 
             // Initialize current user
             InitializeCurrentUser();
@@ -229,7 +238,8 @@ namespace UI.Base
                                 // user was not found in DB
                                 return new CurrentUser()
                                 {
-                                    IsAuthenticated = false
+                                    IsAuthenticated = false,
+                                    Privilege = PrivilegeLevel.Public
                                 };
                             }
 
@@ -242,7 +252,8 @@ namespace UI.Base
             // user is not authenticated if we got this far
             return new CurrentUser()
             {
-                IsAuthenticated = false
+                IsAuthenticated = false,
+                Privilege = PrivilegeLevel.Public
             };
         }
 
@@ -266,6 +277,17 @@ namespace UI.Base
                     LastName = m.LastName
                 })
                 .FirstOrDefault();
+            
+            if (user == null)
+            {
+                return null;
+            }
+
+            // get roles of user
+            user.Roles = userManager.GetRoles(user.Id);
+
+            // set privilege level
+            user.Privilege = PrivilegeHelper.GetPrivilegeLevel(user.Roles, PrivilegeLevel.Authenticated);
 
             return user;
         }

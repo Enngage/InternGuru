@@ -49,3 +49,16 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\Microsoft.AspNet.Ident
 C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\obj\Debug\Entity.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\obj\Debug\Entity.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.Helpers.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.Razor.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.WebPages.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.Helpers.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.Razor.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.WebPages.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\Entity\bin\Debug\System.Web.WebPages.Razor.xml

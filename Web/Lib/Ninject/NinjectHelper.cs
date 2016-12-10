@@ -15,6 +15,8 @@ using System.Web;
 using UI.Builders.Services;
 using UI.Events;
 using UI.UIServices;
+using UI.Builders.Shared.Models;
+using Identity;
 
 namespace Web.Lib.Ninject
 {
@@ -74,9 +76,9 @@ namespace Web.Lib.Ninject
             // Authentication 
             // taken from http://stackoverflow.com/questions/36239743/how-to-inject-usermanager-signinmanager
             kernel.Bind<IUserStore<ApplicationUser>>().ToMethod(m => new UserStore<ApplicationUser>(new Service.Context.AppContext(contextConfig)));
-            kernel.Bind<ApplicationUserManager>().ToSelf();
-            kernel.Bind<ApplicationSignInManager>().ToSelf();
-            kernel.Bind<IAuthenticationManager>().ToMethod(x => HttpContext.Current.GetOwinContext().Authentication);
+            kernel.Bind<ApplicationUserManager>().ToSelf().InRequestScope();
+            kernel.Bind<ApplicationSignInManager>().ToSelf().InRequestScope();
+            kernel.Bind<IAuthenticationManager>().ToMethod(x => HttpContext.Current.GetOwinContext().Authentication).InRequestScope();
 
             // IDataProtection for e-mail confirmation
             kernel.Bind<IDataProtectionProvider>().ToMethod(m => Startup.GetDataProtectionProvider()).InRequestScope();
@@ -106,6 +108,9 @@ namespace Web.Lib.Ninject
             kernel.Bind<IThesisService>().To<ThesisService>().InRequestScope();
             kernel.Bind<IEmailTemplateService>().To<EmailTemplateService>().InRequestScope();
             kernel.Bind<IServiceEvents>().To<ServiceEvents>().InRequestScope();
+            kernel.Bind<ISystemContext>().To<SystemContext>().InRequestScope();
+            kernel.Bind<IIdentityMessageService>().To<EmailService>().InRequestScope();
+            
 
             return kernel;
         }
