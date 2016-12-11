@@ -1,14 +1,140 @@
-﻿@model UI.Builders.Internship.Views.InternshipDetailView
+﻿@model UI.Builders.System.Views.SystemEventLogView
 @using UI.Helpers;
 @using Core.Helpers;
 @using UI.Extensions;
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = $"Event log";
     ViewBag.Description = $"Event log";
-    Layout = "~/Views/Shared/Body/Dark.cshtml";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 
-<h1>
-    Event log
-</h1>
+@Html.RequireScript("/scripts/views/system/eventLog")
+
+<div class="ui grid">
+
+    <div class="sixteen wide column">
+
+        <h1>
+            Event log
+        </h1>
+
+        @foreach (var log in Model.Events)
+            {
+            <div class="ui modal" id="_Modal_@log.ID">
+                <div class="header">Detaily</div>
+                <div class="content">
+                    <table class="ui celled table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>ID:</strong>
+                                </td>
+                                <td>
+                                    @log.ID
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Čas:</strong>
+                                </td>
+                                <td>
+                                    @log.Created
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Uživatel:</strong>
+                                </td>
+                                <td>
+                                    @log.ApplicationUserName
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Url:</strong>
+                                </td>
+                                <td class="w-body-dont-break">
+                                    @log.Url
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Exception:</strong>
+                                </td>
+                                <td class="w-body-dont-break">
+                                    @log.ExceptionMessage
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Inner exception:</strong>
+                                </td>
+                                <td class="w-body-dont-break">
+                                    @log.InnerException
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Stacktrace:</strong>
+                                </td>
+                                <td class="w-body-dont-break">
+                                    @log.Stacktrace
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Čas
+                    </th>
+                    <th>
+                        Zpráva
+                    </th>
+                    <th>
+                        Url
+                    </th>
+                    <th>
+                        Uživatel
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var log in Model.Events)
+            {
+                <tr>
+                    <td>
+                        <a href="#" class="_ShowLogModal" data-logid="@log.ID">Detail</a>
+                    </td>
+                    <td>
+                        @log.Created
+                    </td>
+                    <td class="w-body-dont-break">
+                        @StringHelper.ShortenText(log.ExceptionMessage, 60)
+                    </td>
+                    <td class="w-body-dont-break">
+                        @log.Url
+                    </td>
+                    <td>
+                        @log.ApplicationUserName
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="w-margin-top-10">
+            @if (Model.Events.PageCount > 1)
+            {
+                @Html.PagedListPager(Model.Events, page => Url.Action("EventLog", "System", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
+            }
+        </div>
+    </div>
+</div>

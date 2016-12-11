@@ -1,4 +1,5 @@
-﻿using Core.Environment;
+﻿using Core.Config.Enums;
+using Core.Environment;
 using System;
 using System.Configuration;
 
@@ -164,6 +165,18 @@ namespace Core.Config
                 {
                     throw new Exception("Invalid environment. Review 'Environment' web.config key");
                 }
+            }
+        }
+
+        #endregion
+
+        #region Cookie names
+
+        public static CookieConfigWrapper CookieNames
+        {
+            get
+            {
+                return new CookieConfigWrapper();
             }
         }
 

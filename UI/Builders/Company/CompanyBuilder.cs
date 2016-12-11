@@ -1,6 +1,4 @@
-﻿using Service.Context;
-using System.Data.Entity;
-using PagedList.EntityFramework;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
 using UI.Base;
@@ -12,10 +10,10 @@ using UI.Builders.Company.Forms;
 using System;
 using UI.Exceptions;
 using Entity;
-using System.Collections;
-using UI.Helpers;
 using Service.Exceptions;
 using UI.Builders.Shared.Models;
+using PagedList;
+using Core.Extensions;
 
 namespace UI.Builders.Company
 {
@@ -229,9 +227,6 @@ namespace UI.Builders.Company
                 EntityKeys.KeyUpdateAny<Entity.Company>()
             };
 
-            // cache different pages separately
-            cacheSetup.PageNumber = pageNumber;
-
             var companiesQuery = Services.CompanyService.GetAll()
                 .OrderBy(m => m.CompanyName)
                 .Select(m => new CompanyBrowseModel()
@@ -247,21 +242,20 @@ namespace UI.Builders.Company
                     ThesesCount = m.Theses.Count()
                 });
 
+            // cache all companies
+            var allCompanies = await this.Services.CacheService.GetOrSetAsync(async () => await companiesQuery.ToListAsync(), cacheSetup);
+
             // search
             if (!string.IsNullOrEmpty(search))
             {
-                companiesQuery = companiesQuery.Where(m => m.CompanyName.Contains(search));
+                var filteredCompanies = allCompanies.Where(m => m.CompanyName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToPagedList(pageNumber, browseCompaniesPageSize);
 
-                var companies = await companiesQuery.ToPagedListAsync(pageNumber, browseCompaniesPageSize);
-
-                return companies.ToList();
+                return filteredCompanies.ToList();
             }
             // not search
             else
             {
-                var companies = await this.Services.CacheService.GetOrSetAsync(async () => await companiesQuery.ToPagedListAsync(pageNumber, browseCompaniesPageSize), cacheSetup);
-
-                return companies.ToList();
+                return allCompanies.ToPagedList(pageNumber, browseCompaniesPageSize).ToList();
             }
         }
 

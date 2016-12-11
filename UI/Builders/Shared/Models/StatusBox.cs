@@ -7,5 +7,6 @@ namespace UI.Builders.Shared
     public class StatusBox : IStatusBox
     {
          public int NewMessagesCount { get; set; }
+         public int NewEventLogCount { get; set; }
     }
 }

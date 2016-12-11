@@ -110,7 +110,7 @@ namespace Web.Lib.Ninject
             kernel.Bind<IServiceEvents>().To<ServiceEvents>().InRequestScope();
             kernel.Bind<ISystemContext>().To<SystemContext>().InRequestScope();
             kernel.Bind<IIdentityMessageService>().To<EmailService>().InRequestScope();
-            
+            kernel.Bind<ICookieService>().To<CookieService>().InRequestScope();
 
             return kernel;
         }

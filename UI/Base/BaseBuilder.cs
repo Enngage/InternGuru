@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using UI.Builders.Shared.Models;
 using Identity;
+using Core.Config;
 
 namespace UI.Base
 {
@@ -182,7 +183,13 @@ namespace UI.Base
         /// <param name="applicationUserId">UserId</param>
         private void InitializeStatusBox(string applicationUserId)
         {
-            this.statusBox = GetStatusBox(applicationUserId);
+            var statusBox = new StatusBox()
+            {
+                NewMessagesCount = GetNumberOfNewMessages(applicationUserId),
+                NewEventLogCount = GetNumberOfNewLogs()
+            };
+
+            this.statusBox = statusBox;
         }
 
         /// <summary>
@@ -349,7 +356,7 @@ namespace UI.Base
         /// </summary>
         /// <param name="applicationUserId">ApplicationUserId</param>
         /// <returns>Status box</returns>
-        private IStatusBox GetStatusBox(string applicationUserId)
+        private int GetNumberOfNewMessages(string applicationUserId)
         {
             var cacheKey = "BuilderAbstract.GetStatusBox";
             int cacheMinutes = 60;
@@ -362,18 +369,19 @@ namespace UI.Base
                             };
             cacheSetup.ObjectStringID = applicationUserId;
 
-            var statusBox = this.Services.CacheService.GetOrSet<IStatusBox>(() => GetStatusBoxInternal(applicationUserId), cacheSetup);
+            var newMessages = this.Services.CacheService.GetOrSet<IntWrapper>(() => GetNumberOfNewMessagesInternal(applicationUserId), cacheSetup);
 
-            return statusBox;
+            return newMessages.Value;
         }
 
         /// <summary>
-        /// Gets status box from cache
+        /// Gets number of new messages from cache
         /// </summary>
         /// <param name="applicationUserId">ApplicationUserId</param>
         /// <returns></returns>
-        private IStatusBox GetStatusBoxInternal(string applicationUserId)
+        private IntWrapper GetNumberOfNewMessagesInternal(string applicationUserId)
         {
+            // ---------- messages -------- //
             var newMessagesQuery = this.Services.MessageService.GetAll()
                 .Where(m => m.RecipientApplicationUserId == applicationUserId && !m.IsRead)
                 .Select(m => new
@@ -381,11 +389,47 @@ namespace UI.Base
                     ID = m.ID
                 });
 
-            return new StatusBox()
+            return new IntWrapper()
             {
-                NewMessagesCount = newMessagesQuery.Count()
+                Value = newMessagesQuery.Count()
             };
-                
+        }
+
+        #endregion
+
+        #region Log helper methods
+
+        private int GetNumberOfNewLogs()
+        {
+            var latestReadLogIDCookieName = AppConfig.CookieNames.LatestReadLogID;
+
+            var latestReadLogID = this.Services.CookieService.GetCookieValue(latestReadLogIDCookieName);
+            if (string.IsNullOrEmpty(latestReadLogID))
+            {
+                // cookie was not yet initialized, get all events
+                return (GetNumberOfEventsByThreshold(0));
+            }
+
+            return (GetNumberOfEventsByThreshold(Convert.ToInt32(latestReadLogID)));
+        }
+
+        private int GetNumberOfEventsByThreshold(int logIDThreshold)
+        {
+            int cacheMinutes = 1; // cache only for 1 minute
+            var cacheSetup = this.Services.CacheService.GetSetup<IntWrapper>(this.GetSource(), cacheMinutes);
+            cacheSetup.ObjectID = logIDThreshold;
+
+            var eventsQuery = this.Services.LogService.GetAll()
+               .Where(m => m.ID > logIDThreshold)
+               .Select(m => new IntWrapper()
+               {
+                   Value = m.ID
+               })
+               .OrderByDescending(m => m);
+
+            var events = this.Services.CacheService.GetOrSet(() => eventsQuery.ToList(), cacheSetup);
+
+            return events.Count;
         }
 
         #endregion

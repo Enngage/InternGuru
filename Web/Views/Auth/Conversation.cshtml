@@ -73,7 +73,7 @@
         </div>
 
         @if (Model.Messages.PageCount > 1)
-            {
+        {
             @Html.PagedListPager(Model.Messages, page => Url.Action("Conversation", "Auth", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
         }
 

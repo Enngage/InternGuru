@@ -2,6 +2,7 @@
 @using UI.Helpers;
 @using Core.Helpers;
 @using UI.Extensions;
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Nabídka stáží";
     ViewBag.Description = "Najdi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
@@ -122,6 +123,13 @@
                         }
                     </tbody>
                 </table>
+
+                <div class="w-margin-top-10">
+                    @if (Model.Internships.PageCount > 1)
+                    {
+                        @Html.PagedListPager(Model.Internships, page => Url.Action("Index", "Internships", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
+                    }
+                </div>
             </div>
         </div>
     </div>

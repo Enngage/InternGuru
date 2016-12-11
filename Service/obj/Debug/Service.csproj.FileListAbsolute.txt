@@ -1,4 +1,3 @@
-C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\Service.dll.config
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\Service.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\Service.pdb
@@ -17,5 +16,6 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\EntityFramework.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.pdb

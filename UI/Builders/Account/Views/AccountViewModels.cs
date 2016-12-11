@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using UI.Builders.Master.Views;
 
 namespace UI.Builders.Account.Views
@@ -14,7 +15,7 @@ namespace UI.Builders.Account.Views
     public class SendCodeViewModel : MasterView
     {
         public string SelectedProvider { get; set; }
-        public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+        public ICollection<SelectListItem> Providers { get; set; }
         public string ReturnUrl { get; set; }
         public bool RememberMe { get; set; }
     }

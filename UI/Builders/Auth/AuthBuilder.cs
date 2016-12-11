@@ -7,7 +7,6 @@ using PagedList;
 using PagedList.EntityFramework;
 
 using UI.Base;
-using Service.Context;
 using UI.Builders.Auth.Views;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Auth.Models;
@@ -28,13 +27,15 @@ namespace UI.Builders.Company
 
         #region Constructor
 
-        public AuthBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
+        public AuthBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader)
+        {
+        }
 
         #endregion
 
         #region Master view
 
-        private async Task<AuthMasterModel> GetAuthMasterModel()
+        public async Task<AuthMasterModel> GetAuthMasterModelAsync()
         {
             if (!this.CurrentUser.IsAuthenticated)
             {
@@ -55,7 +56,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthIndexView> BuildIndexViewAsync(int? page)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -75,7 +76,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditProfileView> BuildEditProfileViewAsync()
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -104,7 +105,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditProfileView> BuildEditProfileViewAsync(AuthEditProfileForm form)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -124,7 +125,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthAvatarView> BuildAvatarViewAsync()
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -145,7 +146,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync(AuthAddEditCompanyForm form)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -173,7 +174,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditCompanyView> BuildEditCompanyViewAsync(AuthAddEditCompanyForm form)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -200,7 +201,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditCompanyView> BuildEditCompanyViewAsync()
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -257,7 +258,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync()
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -318,7 +319,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditThesisView> BuildEditThesisViewAsync(int thesisID)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -355,14 +356,14 @@ namespace UI.Builders.Company
 
             return new AuthEditThesisView()
             {
-                AuthMaster = authMaster, 
+                AuthMaster = authMaster,
                 ThesisForm = thesis
             };
         }
 
         public async Task<AuthNewThesisView> BuildNewThesisViewAsync()
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -387,7 +388,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditThesisView> BuildEditThesisViewAsync(AuthAddEditThesisForm form)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -407,7 +408,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthNewThesisView> BuildNewThesisViewAsync(AuthAddEditThesisForm form)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -432,7 +433,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditInternshipView> BuildEditInternshipViewAsync(int internshipID)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -528,7 +529,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthNewInternshipView> BuildNewInternshipViewAsync()
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -555,7 +556,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthEditInternshipView> BuildEditInternshipViewAsync(AuthAddEditInternshipForm form)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -577,7 +578,7 @@ namespace UI.Builders.Company
 
         public async Task<AuthNewInternshipView> BuildNewInternshipViewAsync(AuthAddEditInternshipForm form)
         {
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -605,7 +606,7 @@ namespace UI.Builders.Company
         public async Task<AuthConversationView> BuildConversationViewAsync(string otherUserId, int? page, AuthMessageForm messageForm = null)
         {
 
-            var authMaster = await GetAuthMasterModel();
+            var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
             {
@@ -689,7 +690,7 @@ namespace UI.Builders.Company
                 {
                     ApplicationUserId = this.CurrentUser.Id,
                     CompanyID = this.CurrentCompany.CompanyID,
-                    Amount = form.Amount?? 0,
+                    Amount = form.Amount ?? 0,
                     CurrencyID = form.CurrencyID,
                     Description = form.Description,
                     InternshipCategoryID = form.InternshipCategoryID,
@@ -1382,7 +1383,7 @@ namespace UI.Builders.Company
             var messagesQuery = this.Services.MessageService.GetAll()
                .Where(m =>
                     (m.RecipientApplicationUserId == this.CurrentUser.Id || m.SenderApplicationUserId == this.CurrentUser.Id)
-                    && 
+                    &&
                     (m.RecipientApplicationUserId == otherUserId || m.SenderApplicationUserId == otherUserId))
                .OrderByDescending(m => m.MessageCreated)
                .Select(m => new AuthMessageModel()

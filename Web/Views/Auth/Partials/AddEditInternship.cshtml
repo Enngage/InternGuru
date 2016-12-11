@@ -32,12 +32,16 @@
         }
     }
 
-    ViewBag.Title = Model.ID == 0 ? "Nová nabídka" : "Upravit stáž | " + Model.Title;
+    ViewBag.Title = Model.ID == 0 ? "Nová stáž" : "Upravit stáž | " + Model.Title;
 
 }
 
 @Html.RequireScript("/scripts/views/auth/addEditInternship")
 @Html.RequireCSS("/scripts/addons/datepicker-master/dist/datepicker.min")
+
+<h1>
+    @ViewBag.Title
+</h1>
 
 @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))
 {

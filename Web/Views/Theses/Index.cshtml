@@ -2,6 +2,7 @@
 @using UI.Helpers;
 @using Core.Helpers;
 @using UI.Extensions;
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Závěrečné práce";
     ViewBag.Description = "Najdi si závěrečnou práci (diplomová práce nebo bakalářská práce) z uvedené nabídky, získej odměnu za svou práci, nauč se něčemu nového a hlavně pracuj na něčem, co dává smysl.";
@@ -112,6 +113,13 @@
                         }
                     </tbody>
                 </table>
+
+                <div class="w-margin-top-10">
+                    @if (Model.Theses.PageCount > 1)
+                    {
+                        @Html.PagedListPager(Model.Theses, page => Url.Action("Index", "Theses", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
+                    }
+                </div>
             </div>
         </div>
     </div>

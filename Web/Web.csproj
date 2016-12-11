@@ -77,6 +77,7 @@
       <HintPath>..\packages\Ninject.Web.WebApi.WebHost.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -192,7 +193,6 @@
     <Compile Include="Api\SearchController.cs" />
     <Compile Include="Api\CompanyController.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -1797,6 +1797,7 @@
     <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\internship\detail.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
+    <Content Include="Scripts\views\system\eventLog.js" />
     <Content Include="Scripts\views\thesis\browseTheses.js" />
     <Content Include="Scripts\views\thesis\detail.js" />
     <Content Include="Semantic\dist\components\accordion.css" />

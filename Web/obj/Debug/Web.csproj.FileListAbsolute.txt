@@ -228,7 +228,6 @@ C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\bin\PagedList.EntityFra
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru\Project\InternGuru\Web\obj\Debug\Web.pdb
-C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\ApplicationInsights.config
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\roslyn\csc.exe
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\roslyn\csc.exe.config
@@ -265,6 +264,7 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\EmailProvider.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Entity.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\EntityFramework.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\EntityFramework.SqlServer.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Identity.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.AspNet.Identity.Core.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -299,12 +299,12 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\System.Web.WebPages.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\System.Web.WebPages.Razor.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\UI.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\WebActivatorEx.dll
-C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Cache.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Core.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\EmailProvider.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Entity.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Identity.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Service.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\UI.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
@@ -341,7 +341,6 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.Owin.Security.Microso
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.pdb
-C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Identity.dll
-C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Identity.pdb

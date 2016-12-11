@@ -3,6 +3,8 @@
 @model UI.Builders.Auth.Forms.AuthAddEditThesisForm
 
 @{
+    ViewBag.Title = Model.ID == 0 ? "Vložit závěrečnou práci" : "Upravit | " + Model.ThesisName;
+
     var formAction = Model.IsExistingThesis ? "EditThesis" : "NewThesis";
     var submitButtonText = Model.IsExistingThesis ? "Uložit" : "Přidat";
 
@@ -13,6 +15,9 @@
 
 @Html.RequireScript("/scripts/views/auth/addEditThesis")
 
+<h1>
+    @ViewBag.Title
+</h1>
 
 @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", id = "_ThesisForm", @class = "ui form" }))
 {

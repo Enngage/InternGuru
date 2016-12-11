@@ -192,6 +192,10 @@
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
+    <Compile Include="Builders\Shared\Models\IntWrapper.cs" />
+    <Compile Include="Builders\System\Views\SystemAuthModel.cs" />
+    <Compile Include="Builders\System\Models\SystemEventModel.cs" />
+    <Compile Include="Builders\System\SystemBuilder.cs" />
     <Compile Include="Builders\Form\Forms\FormThesisForm.cs" />
     <Compile Include="Builders\Form\Models\FormThesisModel.cs" />
     <Compile Include="Builders\Form\Views\FormThesisView.cs" />
@@ -201,6 +205,7 @@
     <Compile Include="Builders\Shared\Models\UIHeader.cs" />
     <Compile Include="Builders\Shared\Models\IUIHeader.cs" />
     <Compile Include="Builders\Shared\Models\SystemContext.cs" />
+    <Compile Include="Builders\System\Views\SystemEventLogView.cs" />
     <Compile Include="Builders\Thesis\Models\ThesisCategoryModel.cs" />
     <Compile Include="Builders\Thesis\Models\ThesisBrowseModel.cs" />
     <Compile Include="Builders\Thesis\ThesisBuilder.cs" />
@@ -256,9 +261,11 @@
     <Compile Include="Exceptions\UIExceptionHelper.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Extensions\HtmlRequireExtensions.cs" />
+    <Compile Include="UIServices\CookieService.cs" />
     <Compile Include="UIServices\EmailTemplateService.cs" />
     <Compile Include="UIServices\FileUploadException.cs" />
     <Compile Include="UIServices\FileProvider.cs" />
+    <Compile Include="UIServices\ICookieService.cs" />
     <Compile Include="UIServices\IEmailTemplateService.cs" />
     <Compile Include="UIServices\IFileProvider.cs" />
     <Compile Include="Helpers\CountryHelper.cs" />

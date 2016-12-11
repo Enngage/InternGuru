@@ -31,6 +31,7 @@ namespace UI.Builders.Services
         IThesisTypeService ThesisTypeService { get; }
         IEmailTemplateService EmailTemplateService { get; }
         IEmailProvider EmailProvider { get; }
+        ICookieService CookieService { get; }
 
         #endregion
     }
