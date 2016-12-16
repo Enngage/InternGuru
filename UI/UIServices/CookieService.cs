@@ -26,7 +26,7 @@ namespace UI.UIServices
                 HttpCookie newCookie = new HttpCookie(cookieName);
                 newCookie.Value = value;
                 newCookie.Expires = expires;
-                cookie.Path = "/";
+                newCookie.Path = "/";
 
                 HttpContext.Current.Response.Cookies.Add(newCookie);
             }

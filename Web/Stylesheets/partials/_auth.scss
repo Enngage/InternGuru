@@ -7,4 +7,21 @@
             border-bottom: solid 3px $secondary-color;
         }
     }
+
+    .w-auth-gallery-column {
+    }
+
+    .w-auth-gallery-image-wrapper {
+        margin: 14px 0 0 14px;
+        display: block;
+        width: 100%;
+
+        img {
+            width: 100%;
+        }
+
+        img:hover{
+
+        }
+    }
 }

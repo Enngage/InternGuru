@@ -8,6 +8,7 @@ namespace UI.Builders.Auth.Enum
         MyInternships,
         MyTheses,
         RecentConversations,
-        Admin
+        Admin,
+        Company
     }
 }

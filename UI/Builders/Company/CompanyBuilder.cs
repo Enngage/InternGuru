@@ -237,6 +237,7 @@ namespace UI.Builders.Company
                     CountryCode = m.Country.CountryCode,
                     CountryIcon = m.Country.Icon,
                     ID = m.ID,
+                    CompanyGUID = m.CompanyGUID,
                     InternshipCount = m.Internships.Where(s => s.IsActive == true).Count(),
                     CodeName = m.CodeName,
                     ThesesCount = m.Theses.Count()

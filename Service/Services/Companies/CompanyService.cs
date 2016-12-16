@@ -59,6 +59,9 @@ namespace Service.Services
             // set company alias
             obj.CodeName = obj.GetAlias();
 
+            // set company GUID
+            obj.CompanyGUID = Guid.NewGuid();
+
             // check if alias is unique
             if (!await CompanyAliasIsUnique(obj.CodeName, 0))
             {
@@ -87,6 +90,9 @@ namespace Service.Services
 
             // set company alias
             obj.CodeName = obj.GetAlias();
+
+            // set company guid
+            obj.CompanyGUID = company.CompanyGUID;
 
             // check if alias is unique
             if (!await CompanyAliasIsUnique(obj.CodeName, obj.ID))

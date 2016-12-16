@@ -114,7 +114,7 @@
                     Logo <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyLogoWidth)x@(Core.Config.FileConfig.CompanyLogoHeight) px)</span>
                 </label>
 
-                <img class="ui image small" data-src="@ImageHelper.GetCompanyLogo(Model.ID)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
+                <img class="ui image small" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
 
                 <input class="w-margin-top-10" type="file" name="Logo">
             </div>
@@ -124,7 +124,7 @@
                     Banner <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight) px)</span>
                 </label>
 
-                <img class="ui image" data-src="@ImageHelper.GetCompanyBanner(Model.ID)" src="@ImageHelper.GetTransparentImage()" alt="Banner" />
+                <img class="ui image" data-src="@ImageHelper.GetCompanyBanner(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Banner" />
 
                 <input class="w-margin-top-10" type="file" name="Banner">
             </div>

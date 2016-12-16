@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UI.Helpers;
 
 namespace UI.Builders.Company.Models
@@ -6,6 +7,7 @@ namespace UI.Builders.Company.Models
     public class CompanyBrowseModel
     {
         public int ID { get; set; }
+        public Guid CompanyGUID { get; set; }
         public string CodeName { get; set; }
         public string CompanyName { get; set; }
         public string City { get; set; }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System;
 
 namespace Entity
 {
@@ -17,6 +18,7 @@ namespace Entity
         [Index]
         [MaxLength(100)]
         public string CodeName { get; set; }
+        public Guid CompanyGUID { get; set; }
         public int YearFounded { get; set; }
         public string PublicEmail { get; set; }
         public string LongDescription { get; set; }
@@ -73,23 +75,45 @@ namespace Entity
         #region Image methods
 
         /// <summary>
-        /// Gets file name of banner from CompanyName
+        /// Gets file name of banner for company
         /// </summary>
-        /// <param name="companyID"></param>
+        /// <param name="companyGuid"></param>
         /// <returns></returns>
-        public static string GetBannerFileName(int companyID)
+        public static string GetBannerFileName(Guid companyGuid)
         {
-            return companyID.ToString();
+            return companyGuid.ToString();
         }
 
         /// <summary>
-        /// Gets file name of logo from CompanyName
+        /// Gets file name of logo
         /// </summary>
-        /// <param name="companyID">companyID</param>
+        /// <param name="companyGuid">companyGuid</param>
         /// <returns></returns>
-        public static string GetLogoFileName(int companyID)
+        public static string GetLogoFileName(Guid companyGuid)
         {
-            return companyID.ToString();
+            return companyGuid.ToString();
+        }
+
+        /// <summary>
+        /// Gets file name of company gallery image.
+        /// Note: Use random guid using Guid.NewGuid() when creating a new image
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns></returns>
+        public static string GetCompanyGalleryFileName(Guid guid)
+        {
+            return guid.ToString();
+        }
+
+        /// <summary>
+        /// Gets path to company gallery folder
+        /// </summary>
+        /// <param name="companyGuid">companyGuid</param>
+        /// <param name="">Path -> FileConfig.cs</param>
+        /// <returns></returns>
+        public static string GetCompanyGalleryFolderPath(string path, Guid companyGuid)
+        {
+            return path + "/" + companyGuid.ToString();
         }
 
         #endregion

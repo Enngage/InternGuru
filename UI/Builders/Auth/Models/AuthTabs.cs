@@ -13,6 +13,13 @@ namespace UI.Builders.Auth.Models
             Tab = AuthTabEnum.Buttons
         };
 
+        public AuthTab Company { get; set; } = new AuthTab()
+        {
+            Display = false,
+            Priority = 3,
+            Tab = AuthTabEnum.Company
+        };
+
         public AuthTab Profile { get; set; } = new AuthTab()
         {
             Display = true,
@@ -48,6 +55,8 @@ namespace UI.Builders.Auth.Models
             Tab = AuthTabEnum.Admin
         };
 
+
+
         /// <summary>
         /// Gets all tabs, tabs need to be added here manually
         /// </summary>
@@ -61,7 +70,8 @@ namespace UI.Builders.Auth.Models
                 MyInternships,
                 MyTheses,
                 RecentConversations,
-                Admin
+                Admin,
+                Company
             };
         }
 

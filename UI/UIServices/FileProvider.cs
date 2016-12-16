@@ -23,13 +23,7 @@ namespace UI.UIServices
         {
             get
             {
-                return new List<string>()
-                {
-                    ".jpg",
-                    ".jpeg",
-                    ".png",
-                    ".gif",
-                };
+                return FileConfig.AllowedImageExtensions;
             }
         }
 
@@ -37,17 +31,7 @@ namespace UI.UIServices
         {
             get
             {
-                return new List<string>()
-                {
-                    ".jpg",
-                    ".jpeg",
-                    ".png",
-                    ".gif",
-                    ".xls",
-                    ".xml",
-                    ".doc",
-                    ".docx"
-                };
+                return FileConfig.AllowedFileExtensions;
             }
         }
 
@@ -92,6 +76,12 @@ namespace UI.UIServices
                 if (file.ContentLength > maximumFileSize)
                 {
                     throw new FileUploadException(String.Format("Maximální velikost souboru je {0}. Požadovaný soubor má {1}", ConvertHelper.FormatBytes(maximumFileSize), ConvertHelper.FormatBytes(file.ContentLength)));
+                }
+
+                // add "/" to path if it is not present
+                if (!path.EndsWith("/"))
+                {
+                    path += "/";
                 }
 
                 var fileExtension = Path.GetExtension(file.FileName).ToLower();

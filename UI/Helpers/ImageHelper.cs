@@ -1,6 +1,7 @@
 ﻿using Core.Config;
 using Core.Helpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace UI.Helpers
@@ -58,13 +59,13 @@ namespace UI.Helpers
         /// <summary>
         /// Gets url to company banner
         /// </summary>
-        /// <param name="companyName"></param>
+        /// <param name="companyGUID">companyGUID</param>
         /// <returns>Url to company banner</returns>
-        public static string GetCompanyBanner(int companyID)
+        public static string GetCompanyBanner(Guid companyGUID)
         {
             var imagePath = AbsolutePath + FileConfig.BannerFolderPath;
 
-            var banner = GetFilePathWithExtension(imagePath, Entity.Company.GetLogoFileName(companyID));
+            var banner = GetFilePathWithExtension(imagePath, Entity.Company.GetLogoFileName(companyGUID));
 
             if (string.IsNullOrEmpty(banner))
             {
@@ -80,13 +81,13 @@ namespace UI.Helpers
         /// <summary>
         /// Gets url to company logo
         /// </summary>
-        /// <param name="companyID">CompanyID</param>
+        /// <param name="companyGUID">companyGUID</param>
         /// <returns>Url to company logo</returns>
-        public static string GetCompanyLogo(int companyID)
+        public static string GetCompanyLogo(Guid companyGUID)
         {
             var imagePath = AbsolutePath + FileConfig.LogoFolderPath;
 
-            var logo = GetFilePathWithExtension(imagePath, Entity.Company.GetLogoFileName(companyID));
+            var logo = GetFilePathWithExtension(imagePath, Entity.Company.GetLogoFileName(companyGUID));
 
             if (string.IsNullOrEmpty(logo))
             {
@@ -97,6 +98,17 @@ namespace UI.Helpers
             {
                 return logo;
             }
+        }
+
+        /// <summary>
+        /// Gets company gallery images
+        /// </summary>
+        /// <param name="companyGUID">companyGUID</param>
+        /// <returns>Dictionary containing file name and url to gallery files</returns>
+        public static Dictionary<string, string> GetCompanyGalleryImages(Guid companyGUID)
+        {
+            // get all files in given folder
+            return GetFilesFromFolder(Entity.Company.GetCompanyGalleryFolderPath(FileConfig.CompanyalleryImagesPath, companyGUID));
         }
 
         /// <summary>
@@ -150,6 +162,39 @@ namespace UI.Helpers
 
                     return path + fileName + extension;
                 }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets all files from given folder
+        /// </summary>
+        /// <param name="path">Path to folder</param>
+        /// <returns>File name and path to files</returns>
+        private static Dictionary<string, string> GetFilesFromFolder(string path)
+        {
+            if (!String.IsNullOrEmpty(path))
+            {
+                var files = new Dictionary<string, string>();
+
+                // remove first slash if its present
+                var pathWithoutFirstSlash = path;
+                if (path[0] == '/')
+                {
+                    pathWithoutFirstSlash = pathWithoutFirstSlash.Substring(1, pathWithoutFirstSlash.Length - 1);
+                }
+
+                var systemAbsolutePath = (ServerRootPath + pathWithoutFirstSlash).Replace('/', '\\');
+                var existingFiles = Directory.GetFiles(systemAbsolutePath);
+
+                foreach (var file in existingFiles)
+                {
+                    var fileNameWithExtension = Path.GetFileName(file);
+                    var urlPath = AbsolutePath + path + "/" + fileNameWithExtension;
+                    files.Add(fileNameWithExtension, urlPath);
+                }
+
+                return files;
             }
             return null;
         }

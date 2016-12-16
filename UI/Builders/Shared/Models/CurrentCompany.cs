@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace UI.Builders.Shared
 {
     public class CurrentCompany : ICurrentCompany
@@ -34,5 +36,10 @@ namespace UI.Builders.Shared
         /// Name of user who created company
         /// </summary>
         public string CompanyCreatedByApplicationUserName { get; set; }
+
+        /// <summary>
+        /// Company GUID
+        /// </summary>
+        public Guid CompanyGUID { get; set; }
     }
 }

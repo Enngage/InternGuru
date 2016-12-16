@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace UI.Builders.Shared
 {
     /// <summary>
@@ -30,5 +32,10 @@ namespace UI.Builders.Shared
         /// Name of user who created company
         /// </summary>
         string CompanyCreatedByApplicationUserName { get; }
+
+        /// <summary>
+        /// GUID of company
+        /// </summary>
+        Guid CompanyGUID { get; }
     }
 }

@@ -12,6 +12,7 @@ namespace UI.Builders.Internship.Models
         public int InternshipCategoryID { get; set; }
         public string InternshipCategoryName { get; set; }
         public int CompanyID { get; set; }
+        public Guid CompanyGuid { get; set; }
         public string CompanyName { get; set; }
         public string Title { get; set; }
         public string City { get; set; }

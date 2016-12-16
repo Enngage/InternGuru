@@ -53,7 +53,7 @@ namespace UI.Builders.Internship
             {
                 if (!string.IsNullOrEmpty(search))
                 {
-                    internships = internships.Where(m => m.Description.Contains(search, StringComparison.OrdinalIgnoreCase) || m.Title.Contains(search, StringComparison.OrdinalIgnoreCase));
+                    internships = internships.Where(m => m.Description.Contains(search, StringComparison.OrdinalIgnoreCase) || m.Title.Contains(search, StringComparison.OrdinalIgnoreCase) || m.CompanyName.Contains(search, StringComparison.OrdinalIgnoreCase));
                 }
 
                 // city search
@@ -149,6 +149,7 @@ namespace UI.Builders.Internship
                     AmountTypeCode = m.AmountType.CodeName,
                     City = m.City,
                     CompanyID = m.CompanyID,
+                    CompanyGuid = m.Company.CompanyGUID,
                     CompanyName = m.Company.CompanyName,
                     CountryCode = m.Country.CodeName,
                     CurrencyCode = m.Currency.CodeName,
@@ -238,6 +239,7 @@ namespace UI.Builders.Internship
                     {
                         CompanyCodeName = m.Company.CodeName,
                         CompanyID = m.CompanyID,
+                        CompanyGuid = m.Company.CompanyGUID,
                         CompanyName = m.Company.CompanyName,
                         Lat = m.Company.Lat,
                         Lng = m.Company.Lng,

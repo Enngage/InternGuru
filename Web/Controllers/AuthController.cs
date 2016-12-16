@@ -1,5 +1,7 @@
 ﻿using Service.Context;
+using System;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using UI.Base;
 using UI.Builders.Auth.Forms;
@@ -122,6 +124,13 @@ namespace Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> CompanyGallery()
+        {
+            var model = await authBuilder.BuildCompanyGalleryViewAsync();
+
+            return View(model);
+        }
+
         public async Task<ActionResult> Conversation(string id, int? page)
         {
             if (string.IsNullOrEmpty(id))
@@ -200,6 +209,32 @@ namespace Web.Controllers
                 this.ModelStateWrapper.AddError(ex.Message);
 
                 return View(await authBuilder.BuildAvatarViewAsync());
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CompanyGallery(AuthCompanyGalleryUploadForm form)
+        {
+            var model = await authBuilder.BuildCompanyGalleryViewAsync();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            try
+            {
+                // upload files
+                authBuilder.UploadCompanyGalleryFiles(Request);
+
+                return View(model);
+            }
+            catch (UIException ex)
+            {
+                this.ModelStateWrapper.AddError(ex.Message);
+
+                return View(model);
             }
         }
 

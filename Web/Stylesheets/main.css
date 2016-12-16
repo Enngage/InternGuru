@@ -516,6 +516,13 @@
 #w-body-wrapper .w-auth-menu .item.active {
   border-bottom: solid 3px #FF5733; }
 
+#w-body-wrapper .w-auth-gallery-image-wrapper {
+  margin: 14px 0 0 14px;
+  display: block;
+  width: 100%; }
+  #w-body-wrapper .w-auth-gallery-image-wrapper img {
+    width: 100%; }
+
 #w-body-wrapper .w-table-listing tr {
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1) 0s; }

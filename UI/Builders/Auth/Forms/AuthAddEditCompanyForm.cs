@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +11,7 @@ namespace UI.Builders.Auth.Forms
     public class AuthAddEditCompanyForm : BaseForm
     {
         public int ID { get; set; }
+        public Guid CompanyGuid { get; set; }
 
         [Required(ErrorMessage = "Název firmy nemůže být prázdný")]
         public string CompanyName { get; set; }

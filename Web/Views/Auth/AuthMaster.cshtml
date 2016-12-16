@@ -11,7 +11,13 @@
     // configure admin tab
     if (Model.Master.CurrentUser.Privilege == Core.Helpers.Privilege.PrivilegeLevel.Admin)
     {
-        Model.Tabs.Admin.Set(true, -1);
+        Model.Tabs.Admin.Display = true;
+    }
+
+    // configure company tab
+    if (Model.Master.CurrentCompany.IsAvailable)
+    {
+        Model.Tabs.Company.Display = true;
     }
 }
 
@@ -48,15 +54,27 @@
                         <p>
                             <a href="@Url.Action("Avatar", "Auth")">Avatar</a>
                         </p>
+                    </div>
+                </div>
+            }
+            else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Company)
+            {
+                <div class="ui segment padded w-body-text-center">
+                    <h3>
+                        @Model.Master.CurrentCompany.CompanyName
+                    </h3>
+                    <a href="@Url.Action("EditCompany", "Auth")">
+                        <img alt="company" class="ui tiny image w-image-center" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyGUID)" src="@ImageHelper.GetTransparentImage()">
+                    </a>
 
-                        @if (Model.Master.CurrentCompany.IsAvailable)
-                        {
-                            <p>
-                                <a class="w-font-size-small" href="@Url.Action("EditCompany", "Auth")">
-                                    @Model.Master.CurrentCompany.CompanyName
-                                </a>
-                            </p>
-                        }
+                    <div class="w-font-size-small w-margin-top-10">
+
+                        <p>
+                            <a href="@Url.Action("EditCompany", "Auth")">Upravit</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("CompanyGallery", "Auth")">Galerie</a>
+                        </p>
                     </div>
                 </div>
             }

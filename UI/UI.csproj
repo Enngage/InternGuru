@@ -157,9 +157,11 @@
     <Compile Include="Builders\Account\Views\RegisterViewModel.cs" />
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
     <Compile Include="Builders\Auth\Enum\AuthTabEnum.cs" />
+    <Compile Include="Builders\Auth\Forms\AuthCompanyGalleryUploadForm.cs" />
     <Compile Include="Builders\Auth\Models\AuthTab.cs" />
     <Compile Include="Builders\Auth\Models\AuthTabs.cs" />
     <Compile Include="Builders\Auth\Models\AuthMasterModel.cs" />
+    <Compile Include="Builders\Auth\Views\AuthCompanyGalleryView.cs" />
     <Compile Include="Builders\Auth\Views\AuthMasterView.cs" />
     <Compile Include="Builders\Auth\Forms\AuthAddEditThesisForm.cs" />
     <Compile Include="Builders\Auth\Forms\AuthMessageForm.cs" />

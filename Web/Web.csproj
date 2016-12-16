@@ -1233,6 +1233,8 @@
     <Content Include="Scripts\addons\datepicker-master\test\options\inline.js" />
     <Content Include="Scripts\addons\datepicker-master\test\options\startDate.js" />
     <Content Include="Scripts\addons\datepicker-master\test\options\startView.js" />
+    <Content Include="Scripts\addons\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\addons\dropzone\dropzone.css" />
     <Content Include="Scripts\addons\es6-promise.min.js" />
     <Content Include="Scripts\addons\highcharts.js" />
     <Content Include="Scripts\addons\highcharts\api\css\font-awesome.min.css" />
@@ -1787,6 +1789,7 @@
     <Content Include="Scripts\modules\companyModule.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\requireConfig.js" />
+    <Content Include="Scripts\views\auth\authCompanyGallery.js" />
     <Content Include="Scripts\views\auth\addEditThesis.js" />
     <Content Include="Scripts\views\auth\addEditCompany.js" />
     <Content Include="Scripts\views\auth\addEditInternship.js" />
@@ -2045,11 +2048,13 @@
     <Content Include="Views\Auth\AuthMaster.cshtml" />
     <Content Include="Views\Auth\Index.cshtml" />
     <Content Include="Views\System\EventLog.cshtml" />
+    <Content Include="Views\Auth\CompanyGallery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Avatars\" />
     <Folder Include="Content\Company\Banners\" />
+    <Folder Include="Content\Company\Gallery\" />
     <Folder Include="Content\Company\Logos\" />
   </ItemGroup>
   <ItemGroup>

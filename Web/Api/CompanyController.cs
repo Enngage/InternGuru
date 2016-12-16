@@ -37,8 +37,8 @@ namespace Web.Api.Controllers
                     company.Url = this.Url.Link("Company", new { codeName = company.CodeName });
                     company.UrlToInternships = this.Url.Link("Company", new { codeName = company.CodeName, tab = CompanyDetailMenuEnum.Internships });
                     company.UrlToTheses = this.Url.Link("Company", new { codeName = company.CodeName, tab = CompanyDetailMenuEnum.Theses });
-                    company.LogoImageUrl = ImageHelper.GetCompanyLogo(company.ID);
-                    company.BannerImageUrl = ImageHelper.GetCompanyBanner(company.ID);
+                    company.LogoImageUrl = ImageHelper.GetCompanyLogo(company.CompanyGUID);
+                    company.BannerImageUrl = ImageHelper.GetCompanyBanner(company.CompanyGUID);
                     company.PluralInternshipsCountWord = StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáže");
                     company.PluralThesesCountWord = StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "{count} závěrečná práce", "{count} závěrečné práce", "{count} závěrečných prací");
                 }

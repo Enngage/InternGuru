@@ -105,7 +105,7 @@
                         {
                             <tr data-link="@Url.Action("Index", "Internship", new { id = internship.ID, codename = internship.CodeName })">
                                 <td class="collapsing">
-                                    <img class="ui tiny image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyID)" />
+                                    <img class="ui tiny image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyGuid)" />
                                 </td>
                                 <td>
                                     <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codename = internship.CodeName })">

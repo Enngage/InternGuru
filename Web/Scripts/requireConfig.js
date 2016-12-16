@@ -18,6 +18,7 @@ var require = {
         "promise": "addons/es6-promise.min", // https://github.com/jakearchibald/es6-promise#readme
         "semantic": "../Semantic/dist/semantic.min", // https://github.com/jakearchibald/es6-promise#readme
         "datepicker": "addons/datepicker-master/dist/datepicker.min", // https://github.com/fengyuanchen/datepicker
+        "dropzone": "addons/dropzone/dropzone-amd-module", // http://www.dropzonejs.com/#installation
     },
     packages: [{
         name: "codemirror",

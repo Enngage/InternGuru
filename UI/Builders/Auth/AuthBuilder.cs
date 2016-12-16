@@ -19,6 +19,8 @@ using Service.Exceptions;
 using Entity;
 using UI.UIServices;
 using UI.Builders.Shared.Models;
+using System.Web;
+using System.IO;
 
 namespace UI.Builders.Company
 {
@@ -121,6 +123,26 @@ namespace UI.Builders.Company
 
         #endregion
 
+        #region Company Gallery
+
+        public async Task<CompanyGalleryView> BuildCompanyGalleryViewAsync()
+        {
+            var authMaster = await GetAuthMasterModelAsync();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+
+            return new CompanyGalleryView()
+            {
+                AuthMaster = authMaster
+            };
+        }
+
+        #endregion
+
         #region Avatar 
 
         public async Task<AuthAvatarView> BuildAvatarViewAsync()
@@ -164,6 +186,12 @@ namespace UI.Builders.Company
             form.CompanySizes = await FormGetCompanySizesAsync();
             form.CompanyCategories = await FormGetCompanyCategories();
 
+            // add guid
+            if (this.CurrentCompany.IsAvailable)
+            {
+                form.CompanyGuid = this.CurrentCompany.CompanyGUID;
+            }
+
             return new AuthRegisterCompanyView()
             {
                 AuthMaster = authMaster,
@@ -191,6 +219,12 @@ namespace UI.Builders.Company
             form.Countries = await FormGetCountriesAsync();
             form.CompanySizes = await FormGetCompanySizesAsync();
             form.CompanyCategories = await FormGetCompanyCategories();
+
+            // add guid
+            if (this.CurrentCompany.IsAvailable)
+            {
+                form.CompanyGuid = this.CurrentCompany.CompanyGUID;
+            }
 
             return new AuthEditCompanyView()
             {
@@ -226,6 +260,7 @@ namespace UI.Builders.Company
                     CountryName = m.Country.CountryName,
                     Facebook = m.Facebook,
                     ID = m.ID,
+                    CompanyGuid = m.CompanyGUID,
                     Lat = m.Lat,
                     Lng = m.Lng,
                     LinkedIn = m.LinkedIn,
@@ -282,6 +317,7 @@ namespace UI.Builders.Company
                     CountryCode = m.Country.CountryCode,
                     Facebook = m.Facebook,
                     ID = m.ID,
+                    CompanyGuid = m.CompanyGUID,
                     Lat = m.Lat,
                     Lng = m.Lng,
                     LinkedIn = m.LinkedIn,
@@ -900,12 +936,12 @@ namespace UI.Builders.Company
                     // upload files
                     if (form.Banner != null)
                     {
-                        Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(company.ID), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
+                        Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(company.CompanyGUID), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
                     }
 
                     if (form.Logo != null)
                     {
-                        Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(company.ID), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                        Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(company.CompanyGUID), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
                     }
 
                     // commit transaction
@@ -971,6 +1007,11 @@ namespace UI.Builders.Company
             {
                 try
                 {
+                    if (!this.CurrentCompany.IsAvailable)
+                    {
+                        throw new ValidationException($"Firma, kterou chcete editovat nebyla nalezena");
+                    }
+
                     // verify company URL
                     if (!StringHelper.IsValidUrl(form.Web))
                     {
@@ -980,11 +1021,11 @@ namespace UI.Builders.Company
                     // upload files if they are provided
                     if (form.Banner != null)
                     {
-                        Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(form.ID), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
+                        Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(this.CurrentCompany.CompanyGUID), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
                     }
                     if (form.Logo != null)
                     {
-                        Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(form.ID), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                        Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(this.CurrentCompany.CompanyGUID), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
                     }
 
                     var company = new Entity.Company
@@ -1212,6 +1253,39 @@ namespace UI.Builders.Company
             }
         }
 
+        public void UploadCompanyGalleryFiles(HttpRequestBase request)
+        {
+            try
+            {
+                if (!this.CurrentCompany.IsAvailable)
+                {
+                    throw new ValidationException("Firma není dostupná");
+                }
+
+                for (int i = 0; i < request.Files.Count; i++)
+                {
+                    HttpPostedFileBase file = request.Files[i];
+
+                    var folderPath = Entity.Company.GetCompanyGalleryFolderPath(FileConfig.CompanyalleryImagesPath, this.CurrentCompany.CompanyGUID);
+                    var fileNameToSave = Entity.Company.GetCompanyGalleryFileName(Guid.NewGuid()); // generate new guid for new images
+
+                    var fileSystemPath = SystemConfig.ServerRootPath + "\\" + FileConfig.CompanyalleryImagesPath + "\\" + this.CurrentCompany.CompanyGUID;
+                    CreateCompanyDirectory(fileSystemPath);
+
+                    // save file
+                    Services.FileProvider.SaveImage(file, folderPath, fileNameToSave);
+                }
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(ex.Message, ex);
+            }
+        }
+
         /// <summary>
         /// Uploads avatar for current user
         /// </summary>
@@ -1261,6 +1335,18 @@ namespace UI.Builders.Company
         #endregion
 
         #region Helper methods
+
+        private void CreateCompanyDirectory(string path)
+        {
+            // Determine whether the directory exists.
+            if (Directory.Exists(path))
+            {
+                return;
+            }
+
+            // Try to create the directory.
+            DirectoryInfo di = Directory.CreateDirectory(path);
+        }
 
         private async Task<AuthInternshipDurationType> GetDurationTypeAsync(int durationID)
         {
@@ -1729,6 +1815,8 @@ namespace UI.Builders.Company
 
             return internshipCategories;
         }
+
+    
 
         #endregion
     }

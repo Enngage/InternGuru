@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Core.Config
 {
     public static class FileConfig
@@ -16,9 +18,52 @@ namespace Core.Config
             }
         }
 
+        public static IEnumerable<string> AllowedImageExtensions
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    ".jpg",
+                    ".jpeg",
+                    ".png",
+                    ".gif",
+                };
+            }
+        }
+
+        public static IEnumerable<string> AllowedFileExtensions
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    ".jpg",
+                    ".jpeg",
+                    ".png",
+                    ".gif",
+                    ".xls",
+                    ".xml",
+                    ".doc",
+                    ".docx"
+                };
+            }
+        }
+
         #endregion
 
         #region Company files
+
+        /// <summary>
+        /// Path where company gallery images are stored
+        /// </summary>
+        public static string CompanyalleryImagesPath
+        {
+            get
+            {
+                return "Content/Company/Gallery";
+            }
+        }
 
         /// <summary>
         /// Company logo width in px
@@ -146,6 +191,7 @@ namespace Core.Config
         }
 
         #endregion
+
 
     }
 }
