@@ -158,6 +158,7 @@
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
     <Compile Include="Builders\Auth\Enum\AuthTabEnum.cs" />
     <Compile Include="Builders\Auth\Forms\AuthCompanyGalleryUploadForm.cs" />
+    <Compile Include="Builders\Auth\Models\AuthInternshipLanguageModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthTab.cs" />
     <Compile Include="Builders\Auth\Models\AuthTabs.cs" />
     <Compile Include="Builders\Auth\Models\AuthMasterModel.cs" />
@@ -193,7 +194,11 @@
     <Compile Include="Builders\Auth\Views\AuthIndexView.cs" />
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
+    <Compile Include="Builders\CompanyGallery\CompanyGalleryBuilder.cs" />
+    <Compile Include="Builders\CompanyGallery\Models\CompanyGalleryDeleteFileQuery.cs" />
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
+    <Compile Include="Builders\Gallery\Views\GalleryView.cs" />
+    <Compile Include="Builders\Gallery\Models\GalleryImage.cs" />
     <Compile Include="Builders\Shared\Models\IntWrapper.cs" />
     <Compile Include="Builders\System\Views\SystemAuthModel.cs" />
     <Compile Include="Builders\System\Models\SystemEventModel.cs" />

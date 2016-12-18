@@ -172,7 +172,7 @@ namespace Service.Context
             // add to context
             foreach (var amountType in internshipAmountTypes)
             {
-               context.InternshipAmountTypes.Add(amountType);
+                context.InternshipAmountTypes.Add(amountType);
             }
 
 
@@ -201,7 +201,7 @@ namespace Service.Context
             // add to context
             foreach (var currency in currencies)
             {
-              context.Currencies.Add(currency);
+                context.Currencies.Add(currency);
             }
 
 
@@ -265,9 +265,61 @@ namespace Service.Context
                 context.ThesisTypes.Add(thesisType);
             }
 
+            // create languages
+            var languages = new List<Language>()
+            {
+                new Language()
+                {
+                    CodeName = "cz",
+                    LanguageName = "Čeština",
+                    IconClass = "cz",
+                },
+                 new Language()
+                {
+                    CodeName = "sk",
+                    LanguageName = "Slovenština",
+                    IconClass = "sk",
+                },
+                 new Language()
+                {
+                    CodeName = "de",
+                    LanguageName = "Němčina",
+                    IconClass = "de",
+                },
+                new Language()
+                {
+                    CodeName = "en",
+                    LanguageName = "Angličtina",
+                    IconClass = "gb",
+                },
+                new Language()
+                {
+                    CodeName = "es",
+                    LanguageName = "Španělština",
+                    IconClass = "es",
+                },
+                new Language()
+                {
+                    CodeName = "fr",
+                    LanguageName = "Francoužština",
+                    IconClass = "fr",
+                },
+                new Language()
+                {
+                    CodeName = "cn",
+                    LanguageName = "Čínština",
+                    IconClass = "cn",
+                },
+            };
+
+            // add to context
+            foreach (var language in languages)
+            {
+                context.Languages.Add(language);
+            }
+
             // save data
             context.SaveChanges();
-
         }
     }
 }

@@ -26,6 +26,7 @@ namespace UI.Builders.Services
         public IEmailTemplateService EmailTemplateService { get; private set; }
         public IEmailProvider EmailProvider { get; private set; }
         public ICookieService CookieService { get; private set; }
+        public ILanguageService LanguageService { get; private set; }
 
         public ServicesLoader(
                 ICacheService cacheService,
@@ -46,7 +47,8 @@ namespace UI.Builders.Services
                 IThesisTypeService thesisTypeService,
                 IEmailTemplateService emailTemplateService,
                 IEmailProvider emailProvider,
-                ICookieService cookieService
+                ICookieService cookieService,
+                ILanguageService languageService
         )
         {
             this.CacheService = cacheService;
@@ -68,6 +70,7 @@ namespace UI.Builders.Services
             this.EmailTemplateService = emailTemplateService;
             this.EmailProvider = emailProvider;
             this.CookieService = cookieService;
+            this.LanguageService = languageService;
         }
     }
 }

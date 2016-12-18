@@ -86,6 +86,7 @@ namespace UI.Builders.Company
                     YearFounded = m.YearFounded,
                     City = m.City,
                     CompanyName = m.CompanyName,
+                    CompanyGuid = m.CompanyGUID,
                     ID = m.ID,
                     Internships = m.Internships
                         .Where(v => v.IsActive == true)

@@ -10,6 +10,8 @@ var require = {
         "highcharts": { "deps": ['jquery'] }, // highcharts needs to be loaded after jQuery
         "semantic": { "deps": ['jquery'] }, // semantic needs to be loaded after jQuery
         "datepicker": { "deps": ['jquery'] }, // datepicker needs to be loaded after jQuery
+        "unitegallery": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery
+        "unitegallery_theme": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery
     },
     paths: {
         "jquery": "addons/jquery-2.1.4.min",
@@ -19,6 +21,8 @@ var require = {
         "semantic": "../Semantic/dist/semantic.min", // https://github.com/jakearchibald/es6-promise#readme
         "datepicker": "addons/datepicker-master/dist/datepicker.min", // https://github.com/fengyuanchen/datepicker
         "dropzone": "addons/dropzone/dropzone-amd-module", // http://www.dropzonejs.com/#installation
+        "unitegallery": "addons/unitegallery-master/dist/js/unitegallery.min", // http://unitegallery.net/index.php?page=tiles-columns
+        "unitegallery_theme": "addons/unitegallery-master/dist/themes/tiles/ug-theme-tiles", // http://unitegallery.net/index.php?page=tiles-columns
     },
     packages: [{
         name: "codemirror",

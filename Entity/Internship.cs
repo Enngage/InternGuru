@@ -20,11 +20,9 @@ namespace Entity
         public int CurrencyID { get; set; }
         public int MinDurationTypeID { get; set; }
         public int MaxDurationTypeID { get; set; }
-
         [Required]
         [MaxLength(250)]
         public string Title { get; set; }
-        [Required]
         public string Requirements { get; set; }
         [Required]
         public string Description { get; set; }
@@ -56,6 +54,7 @@ namespace Entity
         public bool HasFlexibleHours { get; set; }
         [MaxLength(250)]
         public string WorkingHours { get; set; }
+        public string Languages { get; set; }
 
         #region Virtual
 

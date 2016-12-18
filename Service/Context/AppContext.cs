@@ -22,6 +22,7 @@ namespace Service.Context
         public IDbSet<Country> Countries { get; set; }
         public IDbSet<ThesisType> ThesisTypes { get; set; }
         public IDbSet<Thesis> Theses { get; set; }
+        public IDbSet<Language> Languages { get; set; }
 
         #endregion
 

@@ -10,6 +10,8 @@
 @Html.RequireScript("/scripts/views/auth/authCompanyGallery")
 @Html.RequireCSS("/scripts/addons/dropzone/dropzone")
 
+<div class="w-body-hide" id="_CompanyGalleryGuid" data-guid="@Model.Master.CurrentCompany.CompanyGUID"></div>
+
 <h1>
     Galerie
 </h1>
@@ -28,16 +30,39 @@
 
 }
 
-<div class="ui grid w-margin-top-14">
+
+<div class="ui three column grid _CompanyGalleryCards w-margin-top-14">
     @foreach (var image in ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGUID))
-    {
-        <div class="sixteen wide mobile eight wide tablet five wide computer column w-auth-gallery-column">
-            <div class="w-auth-gallery-image-wrapper">
-                <img class="image" src="@image.Value"/>
+        {
+        <div class="column">
+            <div class="ui fluid card">
+                <div class="blurring dimmable image">
+                    <div class="ui dimmer">
+                        <div class="content">
+                            <div class="center">
+                                <div class="ui inverted button _DeleteGallery" data-filename="@image.Key">Smazat</div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="@image.Value">
+                </div>
             </div>
         </div>
     }
 </div>
+
+
+
+@*<div class="ui grid w-margin-top-14">
+        @foreach (var image in ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGUID))
+        {
+            <div class="sixteen wide mobile eight wide tablet five wide computer column w-auth-gallery-column">
+                <div class="w-auth-gallery-image-wrapper">
+                    <img class="image" src="@image.Value" />
+                </div>
+            </div>
+        }
+    </div>*@
 
 
 

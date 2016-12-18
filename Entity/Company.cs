@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System;
+using Core.Config;
 
 namespace Entity
 {
@@ -109,13 +110,22 @@ namespace Entity
         /// Gets path to company gallery folder
         /// </summary>
         /// <param name="companyGuid">companyGuid</param>
-        /// <param name="">Path -> FileConfig.cs</param>
         /// <returns></returns>
-        public static string GetCompanyGalleryFolderPath(string path, Guid companyGuid)
+        public static string GetCompanyGalleryFolderPath(Guid companyGuid)
         {
-            return path + "/" + companyGuid.ToString();
+            return FileConfig.CompanyalleryImagesPath + "/" + companyGuid.ToString();
         }
 
+        /// <summary>
+        /// Gets path to company gallery file
+        /// </summary>
+        /// <param name="fileName">fileName</param>
+        /// <param name="companyGuid">companyGuid</param>
+        /// <returns></returns>
+        public static string GetCompanyGalleryFilePath(Guid companyGuid, string fileName)
+        {
+            return GetCompanyGalleryFolderPath(companyGuid) + "/" + fileName;
+        }
         #endregion
 
         #region Alias

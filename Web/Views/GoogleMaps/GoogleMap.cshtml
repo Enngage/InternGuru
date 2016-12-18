@@ -5,7 +5,7 @@
     var apiKey = Core.Config.AppConfig.GoogleApiKey;
 }
 
-@Html.RequireScript(string.Format("//maps.googleapis.com/maps/api/js?key={0}&amp;callback=initMap", apiKey), 1, null, false, true, false)
+@Html.RequireScript($"//maps.googleapis.com/maps/api/js?key={apiKey}&amp;callback=initMap", 1, null, false, true, false)
 
 <script type="text/javascript">
     function initMap() {

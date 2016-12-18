@@ -16,6 +16,8 @@ namespace UI.Exceptions
                     return "Ukládání se nezdařilo";
                 case UIExceptionEnum.NotAuthenticated:
                     return "Pro tuto akci musíte být přihlášení";
+                case UIExceptionEnum.NoPermission:
+                    return "Pro tuto akci nemáte dostatek oprávnění";
                 case UIExceptionEnum.Unknown:
                 default:
                     return "Nastala neznáma chyba";

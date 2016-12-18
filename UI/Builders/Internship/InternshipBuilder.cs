@@ -287,7 +287,8 @@ namespace UI.Builders.Internship
                     Updated = m.Updated,
                     WorkingHours = m.WorkingHours,
                     CountryCode = m.Country.CountryCode,
-                    CountryName = m.Country.CountryName
+                    CountryName = m.Country.CountryName,
+                    Languages = m.Languages
                 });
 
 

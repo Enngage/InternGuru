@@ -506,7 +506,8 @@ namespace UI.Builders.Company
                     WorkingHours = m.WorkingHours,
                     Requirements = m.Requirements,
                     MinDurationTypeCodeName = m.MinDurationType.CodeName,
-                    MaxDurationTypeCodeName = m.MaxDurationType.CodeName
+                    MaxDurationTypeCodeName = m.MaxDurationType.CodeName,
+                    Languages = m.Languages
                 });
 
             var internship = await internshipQuery.FirstOrDefaultAsync();
@@ -525,6 +526,7 @@ namespace UI.Builders.Company
             internship.DurationTypes = await FormGetInternshipDurationsAsync();
             internship.Countries = await FormGetCountriesAsync();
             internship.Currencies = await FormGetCurrenciesAsync();
+            internship.AllLanguages = await FormGetLanguagesAsync();
 
             // set default duration
             var minDurationEnum = internship.MinDurationTypeEnum;
@@ -580,6 +582,7 @@ namespace UI.Builders.Company
                 Countries = await FormGetCountriesAsync(),
                 Currencies = await FormGetCurrenciesAsync(),
                 IsActive = "on", // IsActive is enabled by default
+                AllLanguages = await FormGetLanguagesAsync()
             };
 
             return new AuthNewInternshipView()
@@ -604,6 +607,7 @@ namespace UI.Builders.Company
             form.DurationTypes = await FormGetInternshipDurationsAsync();
             form.Countries = await FormGetCountriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
+            form.AllLanguages = await FormGetLanguagesAsync();
 
             return new AuthEditInternshipView()
             {
@@ -626,6 +630,7 @@ namespace UI.Builders.Company
             form.DurationTypes = await FormGetInternshipDurationsAsync();
             form.Countries = await FormGetCountriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
+            form.AllLanguages = await FormGetLanguagesAsync();
 
             return new AuthNewInternshipView()
             {
@@ -1153,7 +1158,8 @@ namespace UI.Builders.Company
                     ApplicationUserId = this.CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
                     WorkingHours = form.WorkingHours,
-                    Requirements = form.Requirements
+                    Requirements = form.Requirements,
+                    Languages = form.Languages
                 };
 
                 await Services.InternshipService.InsertAsync(internship);
@@ -1230,7 +1236,8 @@ namespace UI.Builders.Company
                     ApplicationUserId = this.CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
                     WorkingHours = form.WorkingHours,
-                    Requirements = form.Requirements
+                    Requirements = form.Requirements,
+                    Languages = form.Languages
                 };
 
                 await Services.InternshipService.UpdateAsync(internship);
@@ -1266,7 +1273,7 @@ namespace UI.Builders.Company
                 {
                     HttpPostedFileBase file = request.Files[i];
 
-                    var folderPath = Entity.Company.GetCompanyGalleryFolderPath(FileConfig.CompanyalleryImagesPath, this.CurrentCompany.CompanyGUID);
+                    var folderPath = Entity.Company.GetCompanyGalleryFolderPath(this.CurrentCompany.CompanyGUID);
                     var fileNameToSave = Entity.Company.GetCompanyGalleryFileName(Guid.NewGuid()); // generate new guid for new images
 
                     var fileSystemPath = SystemConfig.ServerRootPath + "\\" + FileConfig.CompanyalleryImagesPath + "\\" + this.CurrentCompany.CompanyGUID;
@@ -1401,6 +1408,16 @@ namespace UI.Builders.Company
                 ID = m.ID,
                 CodeName = m.CodeName,
                 CurrencyName = m.CurrencyName
+            });
+        }
+
+        private async Task<IEnumerable<AuthInternshipLanguageModel>> FormGetLanguagesAsync()
+        {
+            var languages = await this.Services.LanguageService.GetAllCachedAsync();
+
+            return languages.Select(m => new AuthInternshipLanguageModel() {
+                CodeName = m.CodeName,
+                LanguageName = m.LanguageName
             });
         }
 

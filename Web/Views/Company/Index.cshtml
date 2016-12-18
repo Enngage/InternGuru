@@ -24,7 +24,7 @@
 <div class="ui container w-margin-top-20">
     <div class="ui grid">
         <div id="_CompanyScrollAnchor" class="sixteen wide column w-padding-bottom-0">
-            <img alt="@Model.Company.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Company.ID)" class="ui image fluid w-company-detail-banner" />
+            <img alt="@Model.Company.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid)" class="ui image fluid w-company-detail-banner" />
         </div>
     </div>
 </div>
@@ -32,7 +32,7 @@
 <div id="_CompanyMenuWrapper" class="w-company-fixed-wrapper">
     <div class="ui container">
         <div class="ui vertical segment w-company-menu-wrapper">
-            <img alt="Company logo" class="ui avatar image w-company-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Company.ID)">
+            <img alt="Company logo" class="ui avatar image w-company-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Company.CompanyGuid)">
 
             <h1>
                 @Model.Company.CompanyName

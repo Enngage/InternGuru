@@ -32,6 +32,7 @@ namespace UI.Builders.Services
         IEmailTemplateService EmailTemplateService { get; }
         IEmailProvider EmailProvider { get; }
         ICookieService CookieService { get; }
+        ILanguageService LanguageService { get; }
 
         #endregion
     }

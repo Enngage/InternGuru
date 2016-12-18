@@ -108,7 +108,7 @@ namespace UI.Helpers
         public static Dictionary<string, string> GetCompanyGalleryImages(Guid companyGUID)
         {
             // get all files in given folder
-            return GetFilesFromFolder(Entity.Company.GetCompanyGalleryFolderPath(FileConfig.CompanyalleryImagesPath, companyGUID));
+            return GetFilesFromFolder(Entity.Company.GetCompanyGalleryFolderPath(companyGUID));
         }
 
         /// <summary>
@@ -133,6 +133,28 @@ namespace UI.Helpers
             }
         }
 
+        /// <summary>
+        /// Gets system path to given file
+        /// </summary>
+        /// <param name="relativePath">Relative path</param>
+        /// <returns>System path</returns>
+        public static string GetSystemPathToFile(string relativePath)
+        {
+            if (!String.IsNullOrEmpty(relativePath))
+            {
+                // remove first slash if its present
+                var pathWithoutFirstSlash = relativePath;
+                if (relativePath[0] == '/')
+                {
+                    pathWithoutFirstSlash = pathWithoutFirstSlash.Substring(1, pathWithoutFirstSlash.Length - 1);
+                }
+
+                var systemAbsolutePath = (ServerRootPath + pathWithoutFirstSlash).Replace('/', '\\');
+
+                return systemAbsolutePath;
+            }
+            return null;
+        }
 
         #region Helper methods
 

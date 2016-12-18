@@ -3,40 +3,42 @@
 @using UI.Extensions;
 
 @{
-    var formAction = Model.IsExistingInternship ? "EditInternship" : "NewInternship";
-    var submitButtonText = Model.ID == 0 ? "Vložit nabídku" : "Uložit";
-    var defaultCurrency = Model.Currencies.FirstOrDefault();
-    var defaultDuration = Model.DurationTypes.FirstOrDefault();
-    var defaultAmountType = Model.AmountTypes.FirstOrDefault();
-    var defaultCountry = Model.Countries.FirstOrDefault();
+        var formAction = Model.IsExistingInternship ? "EditInternship" : "NewInternship";
+        var submitButtonText = Model.ID == 0 ? "Vložit nabídku" : "Uložit";
+        var defaultCurrency = Model.Currencies.FirstOrDefault();
+        var defaultDuration = Model.DurationTypes.FirstOrDefault();
+        var defaultAmountType = Model.AmountTypes.FirstOrDefault();
+        var defaultCountry = Model.Countries.FirstOrDefault();
 
-    var minDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration.ID : Model.MinDurationTypeID;
-    var maxDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration.ID : Model.MaxDurationTypeID;
-    var currencyVal = Model.CurrencyID == 0 ? defaultCurrency.ID : Model.CurrencyID;
-    var amountTypeVal = Model.AmountTypeID == 0 ? defaultAmountType.ID : Model.AmountTypeID;
-    var countryVal = Model.CountryID == 0 ? defaultCountry.ID : Model.CountryID;
+        var minDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration.ID : Model.MinDurationTypeID;
+        var maxDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration.ID : Model.MaxDurationTypeID;
+        var currencyVal = Model.CurrencyID == 0 ? defaultCurrency.ID : Model.CurrencyID;
+        var amountTypeVal = Model.AmountTypeID == 0 ? defaultAmountType.ID : Model.AmountTypeID;
+        var countryVal = Model.CountryID == 0 ? defaultCountry.ID : Model.CountryID;
 
-    var minDurationVal = Model.MinDuration == 0 ? null : Model.MinDuration.ToString();
-    var maxDurationVal = Model.MaxDuration == 0 ? null : Model.MaxDuration.ToString();
+        var minDurationVal = Model.MinDuration == 0 ? null : Model.MinDuration.ToString();
+        var maxDurationVal = Model.MaxDuration == 0 ? null : Model.MaxDuration.ToString();
 
-    var startDate = DateTime.Now.ToShortDateString();
-    if (Model.IsExistingInternship)
-    {
-        startDate = Model.StartDate.ToShortDateString();
-    }
-    else
-    {
-        if (Model.StartDate != DateTime.MinValue)
+        var selectedLanguagesVal = Model.Languages;
+
+        var startDate = DateTime.Now.ToShortDateString();
+        if (Model.IsExistingInternship)
         {
             startDate = Model.StartDate.ToShortDateString();
         }
+        else
+        {
+            if (Model.StartDate != DateTime.MinValue)
+            {
+                startDate = Model.StartDate.ToShortDateString();
+            }
+        }
+
+        ViewBag.Title = Model.ID == 0 ? "Nová stáž" : "Upravit stáž | " + Model.Title;
+
     }
 
-    ViewBag.Title = Model.ID == 0 ? "Nová stáž" : "Upravit stáž | " + Model.Title;
-
-}
-
-@Html.RequireScript("/scripts/views/auth/addEditInternship")
+    @Html.RequireScript("/scripts/views/auth/addEditInternship")
 @Html.RequireCSS("/scripts/addons/datepicker-master/dist/datepicker.min")
 
 <h1>
@@ -46,246 +48,265 @@
 @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))
 {
     @Html.AntiForgeryToken()
-    <input type="hidden" name="ID" value="@Model.ID" />
+<input type="hidden" name="ID" value="@Model.ID" />
 
-    <div class="ui grid">
-        <div class="sixteen wide mobile sixteen wide tablet ten wide computer column">
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide tablet ten wide computer column">
 
-            @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
+        @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
 
-            <form id="_InternshipForm" class="ui form">
+        <form id="_InternshipForm" class="ui form">
 
-                <div class="ui segment blue secondary inverted">
+            <div class="ui segment blue secondary inverted">
 
-                    <div class="field">
-                        @if (Model.GetIsActive())
+                <div class="field">
+                    @if (Model.GetIsActive())
+                    {
+                    <div id="_IsActiveCheckbox" class="ui checked checkbox">
+                        <input name="IsActive" class="hidden" checked="" type="checkbox" tabindex="0">
+                        <label>Nabídka je aktivní</label>
+                    </div>
+                    }
+                    else
+                    {
+                    <div id="_IsActiveCheckbox" class="ui checkbox">
+                        <input name="IsActive" class="hidden" type="checkbox" tabindex="0">
+                        <label>Nabídka je aktivní</label>
+                    </div>
+                    }
+                </div>
+            </div>
+
+
+            <div class="field required">
+                <label>Název pozice</label>
+                <input name="Title" placeholder="" type="text" value="@Model.Title">
+            </div>
+
+            <div class="field required">
+                <label>Popis pozice</label>
+                <textarea id="_Description" name="Description">@Model.Description</textarea>
+            </div>
+
+            <div class="field required">
+                <label>Kategorie</label>
+                <div class="ui fluid search selection dropdown _CategorySearchDropdown">
+                    <input type="hidden" name="InternshipCategoryID" value="@Model.InternshipCategoryID">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Kategorie</div>
+                    <div class="menu">
+                        @foreach (var category in Model.InternshipCategories)
                         {
-                            <div id="_IsActiveCheckbox" class="ui checked checkbox">
-                                <input name="IsActive" class="hidden" checked="" type="checkbox" tabindex="0">
-                                <label>Nabídka je aktivní</label>
-                            </div>
+                        if (category.InternshipCategoryID == Model.InternshipCategoryID)
+                        {
+                        <div class="item active" data-value="@category.InternshipCategoryID">@category.InternshipCategoryName</div>
                         }
                         else
                         {
-                            <div id="_IsActiveCheckbox" class="ui checkbox">
-                                <input name="IsActive" class="hidden" type="checkbox" tabindex="0">
-                                <label>Nabídka je aktivní</label>
-                            </div>
+                        <div class="item" data-value="@category.InternshipCategoryID">@category.InternshipCategoryName</div>
+                        }
                         }
                     </div>
                 </div>
+            </div>
 
+            <div class="field required">
+                <label>Město</label>
+                <input name="City" placeholder="" type="text" value="@Model.City">
+            </div>
 
-                <div class="field required">
-                    <label>Název pozice</label>
-                    <input name="Title" placeholder="" type="text" value="@Model.Title">
+            <div class="field required">
+                <label>Stát</label>
+                <div class="ui fluid search selection dropdown _StateDropdown">
+                    <input type="hidden" name="CountryID" value="@countryVal">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Stát</div>
+                    <div class="menu">
+                        @foreach (var country in Model.Countries)
+                        {
+                        if (country.ID.Equals(Model.CountryID))
+                        {
+                        <div class="item active" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
+                        }
+                        else
+                        {
+                        <div class="item" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
+                        }
+                        }
+
+                    </div>
                 </div>
+            </div>
 
-                <div class="field required">
-                    <label>Popis pozice</label>
-                    <textarea id="_Description" name="Description">@Model.Description</textarea>
+            <div class="field">
+                <label>Pracovní doba</label>
+                @if (Model.GetHasFlexibleHours())
+                {
+                <div id="_HasFlexibleHours" class="ui checked checkbox">
+                    <input name="HasFlexibleHours" class="hidden" checked="" type="checkbox" tabindex="0">
+                    <label>Flexibilní pracovní doba</label>
                 </div>
-
-                <div class="field required">
-                    <label>Požadavky</label>
-                    <textarea id="_Requirements" name="Requirements">@Model.Requirements</textarea>
+                }
+                else
+                {
+                <div id="_HasFlexibleHours" class="ui checkbox">
+                    <input name="HasFlexibleHours" class="hidden" type="checkbox" tabindex="0">
+                    <label>Flexibilní pracovní doba</label>
                 </div>
+                }
+            </div>
 
-                <div class="field required">
-                    <label>Kategorie</label>
-                    <div class="ui fluid search selection dropdown _CategorySearchDropdown">
-                        <input type="hidden" name="InternshipCategoryID" value="@Model.InternshipCategoryID">
+            <div id="_WorkingHoursField" class="field">
+                <label>Pracovní doba (slovy)</label>
+                <input name="WorkingHours" placeholder="Např. denně 08:00 - 15:00" type="text" value="@Model.WorkingHours">
+            </div>
+
+            <div class="field">
+                <label>Odměna</label>
+                @if (Model.GetIsPaid())
+                {
+                <div id="_IsPaidCheckbox" class="ui checked checkbox">
+                    <input name="IsPaid" class="hidden" checked="" type="checkbox" tabindex="0">
+                    <label>Stáž je placená</label>
+                </div>
+                }
+                else
+                {
+                <div id="_IsPaidCheckbox" class="ui checkbox">
+                    <input name="IsPaid" class="hidden" type="checkbox" tabindex="0">
+                    <label>Stáž je placená</label>
+                </div>
+                }
+            </div>
+
+            <div id="_InternshipAmountField" class="field w-margin-top-10 w-body-hide">
+                <div class="ui right labeled input">
+                    <input name="Amount" placeholder="" type="text" value="@Model.Amount">
+                    <div class="ui dropdown label _CurrencyDropdown">
+                        <input name="CurrencyID" type="hidden" value="@currencyVal">
+                        <div class="item text" data-value="@defaultCurrency">@defaultCurrency</div>
                         <i class="dropdown icon"></i>
-                        <div class="default text">Kategorie</div>
                         <div class="menu">
-                            @foreach (var category in Model.InternshipCategories)
+                            @foreach (var currency in Model.Currencies)
                             {
-                                if (category.InternshipCategoryID == Model.InternshipCategoryID)
-                                {
-                                    <div class="item active" data-value="@category.InternshipCategoryID">@category.InternshipCategoryName</div>
-                                }
-                                else
-                                {
-                                    <div class="item" data-value="@category.InternshipCategoryID">@category.InternshipCategoryName</div>
-                                }
+                            if (currency.ID.Equals(Model.CurrencyID))
+                            {
+                            <div class="item active" data-value="@currency.ID">@currency.CodeName</div>
+                            }
+                            else
+                            {
+                            <div class="item" data-value="@currency.ID">@currency.CodeName</div>
+                            }
+                            }
+                        </div>
+                    </div>
+                    <div class="ui dropdown label _CurrencyDropdown">
+                        <input name="AmountTypeID" type="hidden" value="@amountTypeVal">
+                        <div class="item text" data-value="@defaultAmountType.ID">@defaultAmountType.AmountTypeName</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            @foreach (var amountType in Model.AmountTypes)
+                            {
+                            if (amountType.ID.Equals(Model.AmountTypeID))
+                            {
+                            <div class="item active" data-value="@amountType.ID">@amountType.AmountTypeName</div>
+                            }
+                            else
+                            {
+                            <div class="item" data-value="@amountType.ID">@amountType.AmountTypeName</div>
+                            }
                             }
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="field required">
-                    <label>Město</label>
-                    <input name="City" placeholder="" type="text" value="@Model.City">
-                </div>
+            <div class="field required">
+                <label>Nástup od</label>
+                <input name="StartDate" class="_Datepicker" type="text" data-toggle="startdate" value="@startDate">
+                <div class="_Datepicker" data-toggle="startdate"></div>
+            </div>
 
-                <div class="field required">
-                    <label>Stát</label>
-                    <div class="ui fluid search selection dropdown _StateDropdown">
-                        <input type="hidden" name="CountryID" value="@countryVal">
+            <div class="field required">
+                <label>Minimální délka stáže</label>
+                <div class="ui right labeled input">
+                    <input name="MinDuration" placeholder="" type="text" value="@minDurationVal">
+                    <div class="ui dropdown label _DurationDropdown">
+                        <input name="MinDurationTypeID" type="hidden" value="@minDurationTypeVal">
+                        <div class="item text" data-value="@defaultDuration.ID">@defaultDuration.DurationName</div>
                         <i class="dropdown icon"></i>
-                        <div class="default text">Stát</div>
                         <div class="menu">
-                            @foreach (var country in Model.Countries)
+                            @foreach (var durationType in Model.DurationTypes)
                             {
-                                if (country.ID.Equals(Model.CountryID))
-                                {
-                                    <div class="item active" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
-                                }
-                                else
-                                {
-                                    <div class="item" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
-                                }
+                            if (durationType.ID.Equals(Model.MinDurationTypeID))
+                            {
+                            <div class="item active" data-value="@durationType.ID">@durationType.DurationName</div>
                             }
-
+                            else
+                            {
+                            <div class="item" data-value="@durationType.ID">@durationType.DurationName</div>
+                            }
+                            }
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="field">
-                    <label>Pracovní doba</label>
-                    @if (Model.GetHasFlexibleHours())
-                    {
-                        <div id="_HasFlexibleHours" class="ui checked checkbox">
-                            <input name="HasFlexibleHours" class="hidden" checked="" type="checkbox" tabindex="0">
-                            <label>Flexibilní pracovní doba</label>
-                        </div>
-                    }
-                    else
-                    {
-                        <div id="_HasFlexibleHours" class="ui checkbox">
-                            <input name="HasFlexibleHours" class="hidden" type="checkbox" tabindex="0">
-                            <label>Flexibilní pracovní doba</label>
-                        </div>
-                    }
-                </div>
-
-                <div id="_WorkingHoursField" class="field">
-                    <label>Pracovní doba (slovy)</label>
-                    <input name="WorkingHours" placeholder="Např. denně 08:00 - 15:00" type="text" value="@Model.WorkingHours">
-                </div>
-
-                <div class="field">
-                    <label>Odměna</label>
-                    @if (Model.GetIsPaid())
-                    {
-                        <div id="_IsPaidCheckbox" class="ui checked checkbox">
-                            <input name="IsPaid" class="hidden" checked="" type="checkbox" tabindex="0">
-                            <label>Stáž je placená</label>
-                        </div>
-                    }
-                    else
-                    {
-                        <div id="_IsPaidCheckbox" class="ui checkbox">
-                            <input name="IsPaid" class="hidden" type="checkbox" tabindex="0">
-                            <label>Stáž je placená</label>
-                        </div>
-                    }
-                </div>
-
-                <div id="_InternshipAmountField" class="field w-margin-top-10 w-body-hide">
-                    <div class="ui right labeled input">
-                        <input name="Amount" placeholder="" type="text" value="@Model.Amount">
-                        <div class="ui dropdown label _CurrencyDropdown">
-                            <input name="CurrencyID" type="hidden" value="@currencyVal">
-                            <div class="item text" data-value="@defaultCurrency">@defaultCurrency</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                @foreach (var currency in Model.Currencies)
-                                {
-                                    if (currency.ID.Equals(Model.CurrencyID))
-                                    {
-                                        <div class="item active" data-value="@currency.ID">@currency.CodeName</div>
-                                    }
-                                    else
-                                    {
-                                        <div class="item" data-value="@currency.ID">@currency.CodeName</div>
-                                    }
-                                }
-                            </div>
-                        </div>
-                        <div class="ui dropdown label _CurrencyDropdown">
-                            <input name="AmountTypeID" type="hidden" value="@amountTypeVal">
-                            <div class="item text" data-value="@defaultAmountType.ID">@defaultAmountType.AmountTypeName</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                @foreach (var amountType in Model.AmountTypes)
-                                {
-                                    if (amountType.ID.Equals(Model.AmountTypeID))
-                                    {
-                                        <div class="item active" data-value="@amountType.ID">@amountType.AmountTypeName</div>
-                                    }
-                                    else
-                                    {
-                                        <div class="item" data-value="@amountType.ID">@amountType.AmountTypeName</div>
-                                    }
-                                }
-                            </div>
+            <div class="field required">
+                <label>Maximální délka stáže</label>
+                <div class="ui right labeled input">
+                    <input name="MaxDuration" placeholder="" type="text" value="@maxDurationVal">
+                    <div class="ui dropdown label _DurationDropdown">
+                        <input name="MaxDurationTypeID" type="hidden" value="@maxDurationTypeVal">
+                        <div class="item text" data-value="@defaultDuration.ID">@defaultDuration.DurationName</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            @foreach (var durationType in Model.DurationTypes)
+                            {
+                            if (durationType.ID.Equals(Model.MaxDurationTypeID))
+                            {
+                            <div class="item active" data-value="@durationType.ID">@durationType.DurationName</div>
+                            }
+                            else
+                            {
+                            <div class="item" data-value="@durationType.ID">@durationType.DurationName</div>
+                            }
+                            }
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="field required">
-                    <label>Nástup od</label>
-                    <input name="StartDate" class="_Datepicker" type="text" data-toggle="startdate" value="@startDate">
-                    <div class="_Datepicker" data-toggle="startdate"></div>
-                </div>
+            <h4 class="ui dividing header">
+                Požadavky
+            </h4>
 
-                <div class="field required">
-                    <label>Minimální délka stáže</label>
-                    <div class="ui right labeled input">
-                        <input name="MinDuration" placeholder="" type="text" value="@minDurationVal">
-                        <div class="ui dropdown label _DurationDropdown">
-                            <input name="MinDurationTypeID" type="hidden" value="@minDurationTypeVal">
-                            <div class="item text" data-value="@defaultDuration.ID">@defaultDuration.DurationName</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                @foreach (var durationType in Model.DurationTypes)
-                                {
-                                    if (durationType.ID.Equals(Model.MinDurationTypeID))
-                                    {
-                                        <div class="item active" data-value="@durationType.ID">@durationType.DurationName</div>
-                                    }
-                                    else
-                                    {
-                                        <div class="item" data-value="@durationType.ID">@durationType.DurationName</div>
-                                    }
-                                }
-                            </div>
-                        </div>
+            <div class="field">
+                <label>Jazyk</label>
+
+                <div class="ui multiple selection dropdown _LanguagesDropdown">
+                    <!-- This will receive comma separated !-->
+                    <input name="Languages" id="_Languages" value="@selectedLanguagesVal" type="hidden">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Jazyk</div>
+                    <div class="menu">
+                        @foreach (var language in Model.AllLanguages)
+                        {
+                            <div class="item" data-value="@language.CodeName">@language.LanguageName</div>
+                        }
                     </div>
                 </div>
+            </div>
 
-                <div class="field required">
-                    <label>Maximální délka stáže</label>
-                    <div class="ui right labeled input">
-                        <input name="MaxDuration" placeholder="" type="text" value="@maxDurationVal">
-                        <div class="ui dropdown label _DurationDropdown">
-                            <input name="MaxDurationTypeID" type="hidden" value="@maxDurationTypeVal">
-                            <div class="item text" data-value="@defaultDuration.ID">@defaultDuration.DurationName</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                @foreach (var durationType in Model.DurationTypes)
-                                {
-                                    if (durationType.ID.Equals(Model.MaxDurationTypeID))
-                                    {
-                                        <div class="item active" data-value="@durationType.ID">@durationType.DurationName</div>
-                                    }
-                                    else
-                                    {
-                                        <div class="item" data-value="@durationType.ID">@durationType.DurationName</div>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="field">
+                <label>Jiné</label>
+                <textarea id="_Requirements" name="Requirements">@Model.Requirements</textarea>
+            </div>
 
-                <button class="ui button submit primary" type="submit">
-                    @submitButtonText
-                </button>
-
-            </form>
-
-        </div>
+            <button class="ui button submit primary" type="submit">
+                @submitButtonText
+            </button>
+        </form>
     </div>
+</div>
 }

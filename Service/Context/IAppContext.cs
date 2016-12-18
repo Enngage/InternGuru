@@ -22,6 +22,7 @@ namespace Service.Context
         IDbSet<Country> Countries { get; }
         IDbSet<ThesisType> ThesisTypes { get; }
         IDbSet<Thesis> Theses { get; }
+        IDbSet<Language> Languages { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

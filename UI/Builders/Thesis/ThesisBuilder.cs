@@ -116,6 +116,7 @@ namespace UI.Builders.Thesis
                     {
                         CompanyID = m.CompanyID,
                         CompanyName = m.Company.CompanyName,
+                        CompanyGuid = m.Company.CompanyGUID,
                         Address = m.Company.Address,
                         CompanyCodeName = m.Company.CodeName,
                         City = m.Company.City,
@@ -229,6 +230,7 @@ namespace UI.Builders.Thesis
                         CompanyCodeName = m.Company.CodeName,
                         CompanyID = m.CompanyID,
                         CompanyName = m.Company.CompanyName,
+                        CompanyGuid = m.Company.CompanyGUID,
                         Lat = m.Company.Lat,
                         Lng = m.Company.Lng,
                         Address = m.Company.Address,

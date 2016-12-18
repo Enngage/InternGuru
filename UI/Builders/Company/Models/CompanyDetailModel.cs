@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UI.Builders.Company.Models
 {
     public class CompanyDetailModel
     {
         public string CompanyName { get; set; }
+        public Guid CompanyGuid { get; set; }
         public int YearFounded { get; set; }
         public string PublicEmail { get; set; }
         public string LongDescription { get; set; }

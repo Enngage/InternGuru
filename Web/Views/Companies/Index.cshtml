@@ -30,7 +30,7 @@
             <div class="ui segment basic padded w-margin-none w-body-text-left">
                 <div class="ui items">
                     <div class="item">
-                        <img class="ui image tiny w-image-tiny" alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(company.ID)" />
+                        <img class="ui image tiny w-image-tiny" alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(company.CompanyGUID)" />
                         <div class="middle aligned content">
                             <div class="header">
                                 <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
-                <img class="ui image w-company-browse-banner" alt="@company.CompanyName logo" data-src="@ImageHelper.GetCompanyBanner(company.ID)" src="@ImageHelper.GetTransparentImage()" />
+                <img class="ui image w-company-browse-banner" alt="@company.CompanyName logo" data-src="@ImageHelper.GetCompanyBanner(company.CompanyGUID)" src="@ImageHelper.GetTransparentImage()" />
             </a>
         </div>
     }

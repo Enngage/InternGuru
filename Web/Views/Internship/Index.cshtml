@@ -1,15 +1,14 @@
 ﻿@model UI.Builders.Internship.Views.InternshipDetailView
 @using UI.Helpers;
 @using Core.Helpers;
+@using UI.Builders.Gallery.Views;
 @using UI.Extensions;
-
+@using UI.Builders.Gallery.Models;
 @{
     ViewBag.Title = $"{Model.Internship.Title} | Stáž";
     ViewBag.Description = $"Informace o stáži {Model.Internship.Title} u firmy {Model.Internship.Company.CompanyName}";
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 }
-
-@Html.RequireScript("/scripts/views/internship/detail")
 
 <div class="ui container w-margin-top-14">
     <div class="ui grid">
@@ -115,7 +114,6 @@
 
                     </div>
 
-                   
                 </div>
             </div>
 
@@ -123,87 +121,103 @@
     </div>
 
     <div class="ui segment w-margin-top-30">
-        <div class="">
-            <h2 class="w-font-primary">
-                Požadavky
-            </h2>
+        <h2>
+            Požadavky
+        </h2>
 
-            @Html.Raw(Model.Internship.Requirements)
-        </div>
-        </div>
+        TODO!!!!!!!!!
 
-        <div class="ui segment">
-            <div class="ui grid">
+        @Html.Raw(Model.Internship.Requirements)
+    </div>
 
-                <div class="sixteen wide mobile six wide tablet four wide computer column">
-                    <h2>
-                        <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
-                            @Model.Internship.Company.CompanyName
-                        </a>
-                    </h2>
-                    <div class="ui list w-font-light">
-                        <div class="item">
-                            <div class="content">
-                                <i class="map icon"></i>@Model.Internship.Company.City, @Model.Internship.Company.Address
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.Company.CountryCode)) @Model.Internship.Company.CountryName
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                <i class="idea icon"></i> Založeno @Model.Internship.Company.YearFounded
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                <i class="users icon"></i>
-                                <span>@Model.Internship.Company.CompanySizeName zaměstnanců</span>
-                            </div>
-                        </div>
+    <div class="ui segment w-margin-top-30">
+        @Html.Partial("~/Views/Gallery/Base.cshtml", new GalleryView()
+   {
+       GalleryID = "_CompanyGallery",
+       Images = ImageHelper.GetCompanyGalleryImages(Model.Internship.Company.CompanyGuid).Select(m => new GalleryImage()
+       {
+           Url = m.Value
+       })
+   })
+    </div>
 
-                        @if (!string.IsNullOrEmpty(Model.Internship.Company.Web))
-                        {
-                            <div class="item">
-                                <div class="content">
-                                    <i class="laptop icon"></i>
-                                    <a href="@Model.Internship.Company.Web">
-                                        @Model.Internship.Company.Web
-                                    </a>
-                                </div>
-                            </div>
-                        }
+    <div class="ui segment">
+        <div class="ui grid">
+
+            <div class="sixteen wide mobile six wide tablet four wide computer column">
+                <h2>
+                    Základní údaje
+                </h2>
+                <div class="ui list">
+                    <div class="item">
+                        <div class="content">
+                            <i class="building icon"></i>
+                            <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
+                                @Model.Internship.Company.CompanyName
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <i class="map icon"></i>@Model.Internship.Company.City, @Model.Internship.Company.Address
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.Company.CountryCode)) @Model.Internship.Company.CountryName
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <i class="idea icon"></i> Založeno @Model.Internship.Company.YearFounded
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <i class="users icon"></i>
+                            <span>@Model.Internship.Company.CompanySizeName zaměstnanců</span>
+                        </div>
                     </div>
 
-                    <div class="w-company-social-icons">
-
-                        @if (!string.IsNullOrEmpty(Model.Internship.Company.Facebook))
-                        {
-                            <a href="@Model.Internship.Company.Facebook">
-                                <i class="facebook icon large w-color-facebook"></i>
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.Internship.Company.Twitter))
-                        {
-                            <a href="@Model.Internship.Company.Twitter">
-                                <i class="twitter icon large w-color-twitter"></i>
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.Internship.Company.LinkedIn))
-                        {
-                            <a href="@Model.Internship.Company.LinkedIn">
-                                <i class="linkedin icon large w-color-linkedin"></i>
-                            </a>
-                        }
-
-                    </div>
-
+                    @if (!string.IsNullOrEmpty(Model.Internship.Company.Web))
+                    {
+                        <div class="item">
+                            <div class="content">
+                                <i class="laptop icon"></i>
+                                <a href="@Model.Internship.Company.Web">
+                                    @Model.Internship.Company.Web
+                                </a>
+                            </div>
+                        </div>
+                    }
                 </div>
 
-                <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
-                    @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
+                <div class="w-company-social-icons">
+
+                    @if (!string.IsNullOrEmpty(Model.Internship.Company.Facebook))
+                    {
+                        <a href="@Model.Internship.Company.Facebook">
+                            <i class="facebook icon large w-color-facebook"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Internship.Company.Twitter))
+                    {
+                        <a href="@Model.Internship.Company.Twitter">
+                            <i class="twitter icon large w-color-twitter"></i>
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Internship.Company.LinkedIn))
+                    {
+                        <a href="@Model.Internship.Company.LinkedIn">
+                            <i class="linkedin icon large w-color-linkedin"></i>
+                        </a>
+                    }
+                </div>
+
+            </div>
+
+            <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
+                @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
                     new UI.Builders.GoogleMaps.Views.GoogleMapView()
                     {
                         Zoom = 15,
@@ -211,8 +225,8 @@
                         Lng = Model.Internship.Company.Lng,
                         MarkerTitle = Model.Internship.Company.CompanyName
                     })
-                </div>
             </div>
         </div>
-
     </div>
+
+</div>

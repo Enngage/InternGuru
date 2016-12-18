@@ -5,6 +5,7 @@ namespace UI.Exceptions
     {
         SaveFailure,
         NotAuthenticated,
+        NoPermission,
         Unknown
     }
 }

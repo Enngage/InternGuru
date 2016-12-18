@@ -15,7 +15,7 @@
     <div class="ui grid">
         <div class="sixteen wide column w-padding-bottom-0">
             <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.Company.CompanyCodeName })">
-                <img alt="@Model.Thesis.Company.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Thesis.Company.CompanyID)" class="ui image fluid w-internship-detail-banner" />
+                <img alt="@Model.Thesis.Company.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Thesis.Company.CompanyGuid)" class="ui image fluid w-internship-detail-banner" />
             </a>
         </div>
     </div>
@@ -24,7 +24,7 @@
 <div id="_ThesisMenuWrapper" class="w-internship-fixed-wrapper">
     <div class="ui container">
         <div class="ui vertical segment w-internship-menu-wrapper">
-            <img alt="Company logo" class="ui avatar image w-internship-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Thesis.Company.CompanyID)">
+            <img alt="Company logo" class="ui avatar image w-internship-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Thesis.Company.CompanyGuid)">
 
             <h1>
                 @Model.Thesis.ThesisName

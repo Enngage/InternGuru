@@ -16,7 +16,6 @@ namespace UI.Builders.Auth.Forms
         [MaxLength(60, ErrorMessage = "Maximální délka názvu stáže je 60 znaků")]
         public string Title { get; set; }
         [AllowHtml]
-        [Required(ErrorMessage = "Vyplňte požadavky stáže")]
         public string Requirements { get; set; }
 
         [AllowHtml]
@@ -57,12 +56,14 @@ namespace UI.Builders.Auth.Forms
         public string WorkingHours { get; set; }
         public string MinDurationTypeCodeName { get; set; }
         public string MaxDurationTypeCodeName { get; set; }
+        public string Languages { get; set; }
 
         public IEnumerable<AuthCountryModel> Countries { get; set; }
         public IEnumerable<AuthCurrencyModel> Currencies { get; set; }
         public IEnumerable<AuthInternshipAmountType> AmountTypes { get; set; }
         public IEnumerable<AuthInternshipDurationType> DurationTypes { get; set; }
         public IEnumerable<AuthInternshipCategoryModel> InternshipCategories { get; set; }
+        public IEnumerable<AuthInternshipLanguageModel> AllLanguages { get; set; }
 
         // duration values
         public InternshipDurationTypeEnum MinDurationTypeEnum { get; set; }

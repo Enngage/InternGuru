@@ -39,6 +39,7 @@ namespace UI.Builders.Internship.Models
         public bool IsActive { get; set; }
         public bool HasFlexibleHours { get; set; }
         public string WorkingHours { get; set; }
+        public string Languages { get; set; }
         public InternshipDetailCompanyModel Company { get; set; }
 
         // virtual properties

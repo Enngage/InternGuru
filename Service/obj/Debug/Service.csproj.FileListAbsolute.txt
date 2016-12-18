@@ -19,3 +19,7 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\Microsoft.AspNet.Iden
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.Migrations.LanguageInitial.resources
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.csproj.GenerateResource.Cache
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.Migrations.InternshipLanguagesColumn.resources
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.Migrations.InternshipRequirementsChange.resources
