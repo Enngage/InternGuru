@@ -267,6 +267,7 @@ namespace UI.Builders.Internship
                     Description = m.Description,
                     HasFlexibleHours = m.HasFlexibleHours,
                     ID = m.ID,
+                    CodeName = m.CodeName,
                     InternshipCategoryID = m.InternshipCategoryID,
                     InternshipCategoryName = m.InternshipCategory.Name,
                     IsActive = m.IsActive,

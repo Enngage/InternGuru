@@ -40,6 +40,12 @@ namespace Web
             );
 
             routes.MapRoute(
+              name: "FormRoute",
+              url: "Form/{action}/{id}/{codeName}",
+              defaults: new { controller = "Form", action = "Index", id = UrlParameter.Optional, codename = UrlParameter.Optional }
+          );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

@@ -30,7 +30,7 @@
             </h1>
 
             <div class="w-internship-menu-right">
-                <a href="@Url.Action("Internship", "Form", new { id = Model.Internship.ID })">
+                <a href="@Url.Action("Internship", "Form", new { id = Model.Internship.ID, codeName = Model.Internship.CodeName })">
                     <div class="ui button secondary">
                         Odpovědět
                     </div>
@@ -120,14 +120,41 @@
         </div>
     </div>
 
-    <div class="ui segment w-margin-top-30">
+    <div class="ui segment w-margin-top-30 w-body-text-center">
         <h2>
             Požadavky
         </h2>
 
-        TODO!!!!!!!!!
+        <div class="ui equal width grid ">
+            <div class="computer only column">
+                @Model.Internship.Languages
+            </div>
+            <div class="computer only column">
+                pc B
+            </div>
+            <div class="computer only column">
+                pc C
+            </div>
+        </div>
+        <div class="ui grid">
+            <div class="tablet only mobily only  sixteen wide mobile eight wide tablet column">
+                @Model.Internship.Languages
+            </div>
+            <div class="tablet only mobily only  sixteen wide mobile eight wide tablet column">
+                b
+            </div>
+            <div class="tablet only mobily only  sixteen wide mobile sixteen wide tablet column">
+                c
+            </div>
+        </div>
 
-        @Html.Raw(Model.Internship.Requirements)
+        @if (!string.IsNullOrEmpty(Model.Internship.Requirements))
+        {
+            <div class="w-margin-top-14 w-body-text-left">
+                @Html.Raw(Model.Internship.Requirements)
+            </div>
+        }
+
     </div>
 
     <div class="ui segment w-margin-top-30">
