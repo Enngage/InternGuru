@@ -7,6 +7,7 @@ using Entity;
 using Cache;
 using Service.Exceptions;
 using System.Collections.Generic;
+using System;
 
 namespace Service.Services
 {
@@ -95,6 +96,30 @@ namespace Service.Services
         public async Task<IEnumerable<Language>> GetAllCachedAsync()
         {
             return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+        }
+
+        public async Task<IEnumerable<Language>> GetLanguagesFromCommaSeparatedStringAsync(string languagesCodeString)
+        {
+            var allLanguages = await GetAllCachedAsync();
+            var result = new List<Language>();
+
+            if (string.IsNullOrEmpty(languagesCodeString))
+            {
+                throw new ArgumentException("Invalid languages code string, a comma separated string with langauge code names was expected");
+            }
+
+            foreach (var languageCodeName in languagesCodeString.Split(','))
+            {
+                var existingLanguage = allLanguages.Where(m => m.CodeName.Equals(languageCodeName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+
+                if (existingLanguage != null)
+                {
+                    // language exists and is valid, add it to result
+                    result.Add(existingLanguage);
+                }
+            }
+
+            return result;
         }
     }
 }

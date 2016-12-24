@@ -8,7 +8,15 @@
     ViewBag.Title = $"{Model.Internship.Title} | Stáž";
     ViewBag.Description = $"Informace o stáži {Model.Internship.Title} u firmy {Model.Internship.Company.CompanyName}";
     Layout = "~/Views/Shared/Body/Dark.cshtml";
+
+    // get gallery images
+    var galleryImages = ImageHelper.GetCompanyGalleryImages(Model.Internship.Company.CompanyGuid).Select(m => new GalleryImage()
+    {
+        Url = m.Value
+    });
 }
+
+@Html.RequireScript("/scripts/views/internship/detail")
 
 <div class="ui container w-margin-top-14">
     <div class="ui grid">
@@ -127,46 +135,78 @@
 
         <div class="ui equal width grid ">
             <div class="computer only column">
-                @Model.Internship.Languages
+                <h3>
+                    Jazyk
+                </h3>
+                <div class="ui list">
+                    @foreach (var requiredLanguage in Model.Internship.RequiredLanguages)
+                    {
+                        <div class="item">
+                            <div class="content">
+                                @Html.Raw(CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
+                                @requiredLanguage.LanguageName
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
             <div class="computer only column">
-                pc B
+                <h3>
+                    Student
+                </h3>
+                <p>
+                    <i class="green checkmark icon"></i> Ano
+                </p>
             </div>
             <div class="computer only column">
-                pc C
+                <h3>
+
+                </h3>
             </div>
         </div>
         <div class="ui grid">
-            <div class="tablet only mobily only  sixteen wide mobile eight wide tablet column">
-                @Model.Internship.Languages
+            <div class="tablet only mobily only sixteen wide mobile eight wide tablet column">
+                <div class="ui list">
+                    @foreach (var requiredLanguage in Model.Internship.RequiredLanguages)
+                    {
+                        <div class="item">
+                            <div class="content">
+                                @Html.Raw(CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
+                                @requiredLanguage.LanguageName
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="tablet only mobily only sixteen wide mobile eight wide tablet column">
+                    b
+                </div>
+                <div class="tablet only mobily only sixteen wide mobile sixteen wide tablet column">
+                    c
+                </div>
             </div>
-            <div class="tablet only mobily only  sixteen wide mobile eight wide tablet column">
-                b
-            </div>
-            <div class="tablet only mobily only  sixteen wide mobile sixteen wide tablet column">
-                c
-            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Internship.Requirements))
+            {
+                
+                <div class="w-margin-top-14 w-body-text-left">
+                    <p>
+                        @Html.Raw(Model.Internship.Requirements)
+                    </p>
+                </div>
+            }
         </div>
-
-        @if (!string.IsNullOrEmpty(Model.Internship.Requirements))
-        {
-            <div class="w-margin-top-14 w-body-text-left">
-                @Html.Raw(Model.Internship.Requirements)
-            </div>
-        }
-
     </div>
 
-    <div class="ui segment w-margin-top-30">
-        @Html.Partial("~/Views/Gallery/Base.cshtml", new GalleryView()
-   {
-       GalleryID = "_CompanyGallery",
-       Images = ImageHelper.GetCompanyGalleryImages(Model.Internship.Company.CompanyGuid).Select(m => new GalleryImage()
+    @if (galleryImages.Count() > 0)
+    {
+        <div class="ui segment w-margin-top-30">
+            @Html.Partial("~/Views/Gallery/Base.cshtml", new GalleryView()
        {
-           Url = m.Value
+           GalleryID = "_CompanyGallery",
+           Images = galleryImages
        })
-   })
-    </div>
+        </div>
+    }
 
     <div class="ui segment">
         <div class="ui grid">
@@ -255,5 +295,4 @@
             </div>
         </div>
     </div>
-
 </div>

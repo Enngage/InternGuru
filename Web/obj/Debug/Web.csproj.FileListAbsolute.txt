@@ -29,7 +29,6 @@ C:\inetpub\wwwroot\InternGuru\Web\bin\Web.dll.config
 C:\inetpub\wwwroot\InternGuru\Web\bin\Web.dll
 C:\inetpub\wwwroot\InternGuru\Web\bin\Web.pdb
 C:\inetpub\wwwroot\InternGuru\Web\bin\Cache.dll
-C:\inetpub\wwwroot\InternGuru\Web\bin\Common.dll
 C:\inetpub\wwwroot\InternGuru\Web\bin\Core.dll
 C:\inetpub\wwwroot\InternGuru\Web\bin\EmailProvider.dll
 C:\inetpub\wwwroot\InternGuru\Web\bin\Entity.dll
@@ -68,10 +67,8 @@ C:\inetpub\wwwroot\InternGuru\Web\bin\System.Web.WebPages.dll
 C:\inetpub\wwwroot\InternGuru\Web\bin\System.Web.WebPages.Razor.dll
 C:\inetpub\wwwroot\InternGuru\Web\bin\UI.dll
 C:\inetpub\wwwroot\InternGuru\Web\bin\WebActivatorEx.dll
-C:\inetpub\wwwroot\InternGuru\Web\bin\PagedList.dll
 C:\inetpub\wwwroot\InternGuru\Web\bin\PagedList.EntityFramework.dll
 C:\inetpub\wwwroot\InternGuru\Web\bin\Cache.pdb
-C:\inetpub\wwwroot\InternGuru\Web\bin\Common.pdb
 C:\inetpub\wwwroot\InternGuru\Web\bin\Core.pdb
 C:\inetpub\wwwroot\InternGuru\Web\bin\EmailProvider.pdb
 C:\inetpub\wwwroot\InternGuru\Web\bin\Entity.pdb
@@ -344,3 +341,7 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.pdb
+C:\inetpub\wwwroot\InternGuru\Web\bin\Identity.dll
+C:\inetpub\wwwroot\InternGuru\Web\bin\Service.dll
+C:\inetpub\wwwroot\InternGuru\Web\bin\Identity.pdb
+C:\inetpub\wwwroot\InternGuru\Web\bin\Service.pdb

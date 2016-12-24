@@ -199,6 +199,7 @@
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
     <Compile Include="Builders\Gallery\Views\GalleryView.cs" />
     <Compile Include="Builders\Gallery\Models\GalleryImage.cs" />
+    <Compile Include="Builders\Internship\Models\InternshipLanguageModel.cs" />
     <Compile Include="Builders\Shared\Models\IntWrapper.cs" />
     <Compile Include="Builders\System\Views\SystemAuthModel.cs" />
     <Compile Include="Builders\System\Models\SystemEventModel.cs" />

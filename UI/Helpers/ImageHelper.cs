@@ -104,11 +104,12 @@ namespace UI.Helpers
         /// Gets company gallery images
         /// </summary>
         /// <param name="companyGUID">companyGUID</param>
-        /// <returns>Dictionary containing file name and url to gallery files</returns>
+        /// <returns>Dictionary containing file name and url to gallery files, empty dictionary is returned if there are no files in gallery</returns>
         public static Dictionary<string, string> GetCompanyGalleryImages(Guid companyGUID)
         {
             // get all files in given folder
-            return GetFilesFromFolder(Entity.Company.GetCompanyGalleryFolderPath(companyGUID));
+            var galleryFiles = GetFilesFromFolder(Entity.Company.GetCompanyGalleryFolderPath(companyGUID));
+            return galleryFiles == null ? new Dictionary<string, string>() : galleryFiles;
         }
 
         /// <summary>
@@ -192,7 +193,7 @@ namespace UI.Helpers
         /// Gets all files from given folder
         /// </summary>
         /// <param name="path">Path to folder</param>
-        /// <returns>File name and path to files</returns>
+        /// <returns>File name and path to files, null if folder does not exist or path is invalid</returns>
         private static Dictionary<string, string> GetFilesFromFolder(string path)
         {
             if (!String.IsNullOrEmpty(path))
@@ -207,16 +208,24 @@ namespace UI.Helpers
                 }
 
                 var systemAbsolutePath = (ServerRootPath + pathWithoutFirstSlash).Replace('/', '\\');
-                var existingFiles = Directory.GetFiles(systemAbsolutePath);
 
-                foreach (var file in existingFiles)
+                try
                 {
-                    var fileNameWithExtension = Path.GetFileName(file);
-                    var urlPath = AbsolutePath + path + "/" + fileNameWithExtension;
-                    files.Add(fileNameWithExtension, urlPath);
-                }
+                    var existingFiles = Directory.GetFiles(systemAbsolutePath);
 
-                return files;
+                    foreach (var file in existingFiles)
+                    {
+                        var fileNameWithExtension = Path.GetFileName(file);
+                        var urlPath = AbsolutePath + path + "/" + fileNameWithExtension;
+                        files.Add(fileNameWithExtension, urlPath);
+                    }
+
+                    return files;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    return null;
+                }
             }
             return null;
         }

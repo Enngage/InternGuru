@@ -7,16 +7,21 @@
 
 <div id="_GalleryID" data-id="@Model.GalleryID"></div>
 
-<div class="ui segment">
-    <div id="@Model.GalleryID" class="w-body-hide">
-        @foreach (var image in Model.Images)
-        {
-            <img alt="" src="@image.Url"
-                 data-image="@image.Url"
-                 data-description="">
-        }
+@if (Model.Images.Count() > 0) // generate gallery only if there are some images
+{
+    <div class="ui segment">
+        <div id="@Model.GalleryID" class="w-body-hide">
+            @foreach (var image in Model.Images)
+            {
+                <img alt="" src="@image.Url"
+                     data-image="@image.Url"
+                     data-description="">
+            }
+        </div>
     </div>
-</div>
+}
+
+
 
 
 

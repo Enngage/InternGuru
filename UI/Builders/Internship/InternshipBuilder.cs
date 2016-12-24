@@ -15,6 +15,7 @@ using Entity;
 using Core.Helpers;
 using Core.Helpers.Internship;
 using UI.Builders.Shared.Models;
+using System.Collections;
 
 namespace UI.Builders.Internship
 {
@@ -312,6 +313,15 @@ namespace UI.Builders.Internship
             // set default duration values
             internship.MinDurationInDefaultValue = InternshipHelper.GetInternshipDurationDefaultValue(internship.MinDurationType, internship.MinDurationInDays, internship.MinDurationInWeeks, internship.MinDurationInMonths);
             internship.MaxDurationInDefaultValue = InternshipHelper.GetInternshipDurationDefaultValue(internship.MaxDurationType, internship.MaxDurationInDays, internship.MaxDurationInWeeks, internship.MaxDurationInMonths);
+
+            // set required languages
+            internship.RequiredLanguages = (await this.Services.LanguageService.GetLanguagesFromCommaSeparatedStringAsync(internship.Languages))
+                .Select(m => new InternshipLanguageModel()
+                {
+                    CodeName = m.CodeName,
+                    IconClass = m.IconClass,
+                    LanguageName = m.LanguageName
+                });
 
             return internship;
 

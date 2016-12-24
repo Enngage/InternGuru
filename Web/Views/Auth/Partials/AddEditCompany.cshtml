@@ -3,7 +3,7 @@
 @model UI.Builders.Auth.Forms.AuthAddEditCompanyForm
 
 @{
-    ViewBag.Title = Model.ID == 0 ? "Registrovar firmu" : "Upravit firmu";
+    ViewBag.Title = Model.ID == 0 ? "Registrovat firmu" : "Upravit firmu";
 
     var formAction = Model.IsExistingCompany ? "EditCompany" : "RegisterCompany";
     var submitButtonText = Model.IsExistingCompany ? "Uložit" : "Přidat firmu";

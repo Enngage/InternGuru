@@ -39,7 +39,7 @@
             <a class="item" href="@Url.Action("Contact", "Home")">Contact Us</a>
             <a class="item" href="@Url.Action("PrivacyPolicy", "Home")">Privacy Policy</a>
             <div class="item">
-                © @DateTime.Now.Year @String.Format("{0}", AppConfig.SiteName)
+                 @($"© {DateTime.Now.Year} { AppConfig.SiteName}")
             </div>
             <div class="item">
                 <span class="w-font-size-small"><span>v</span>@VersionInfo.Version.ToString()</span>

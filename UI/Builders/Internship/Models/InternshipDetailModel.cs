@@ -1,5 +1,6 @@
 ﻿using Core.Helpers.Internship;
 using System;
+using System.Collections.Generic;
 
 namespace UI.Builders.Internship.Models
 {
@@ -42,6 +43,11 @@ namespace UI.Builders.Internship.Models
         public string WorkingHours { get; set; }
         public string Languages { get; set; }
         public InternshipDetailCompanyModel Company { get; set; }
+
+        /// <summary>
+        /// Languages that are required for the internship
+        /// </summary>
+        public IEnumerable<InternshipLanguageModel> RequiredLanguages { get; set; }
 
         // virtual properties
         public int MinDurationTypeID { get; set; }
