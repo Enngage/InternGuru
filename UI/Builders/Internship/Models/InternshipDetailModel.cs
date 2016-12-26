@@ -42,7 +42,13 @@ namespace UI.Builders.Internship.Models
         public bool HasFlexibleHours { get; set; }
         public string WorkingHours { get; set; }
         public string Languages { get; set; }
+        public int HomeOfficeOptionID { get; set; }
+        public int StudentStatusOptionID { get; set; }
+
+        // model properties
         public InternshipDetailCompanyModel Company { get; set; }
+        public InternshipHomeOfficeOptionModel HomeOfficeOption { get; set; }
+        public InternshipStudentStatusOptionModel StudentStatusOption { get; set; }
 
         /// <summary>
         /// Languages that are required for the internship

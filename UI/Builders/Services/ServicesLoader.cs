@@ -27,6 +27,8 @@ namespace UI.Builders.Services
         public IEmailProvider EmailProvider { get; private set; }
         public ICookieService CookieService { get; private set; }
         public ILanguageService LanguageService { get; private set; }
+        public IHomeOfficeOptionService HomeOfficeOptionService { get; private set; }
+        public IStudentStatusOptionService StudentStatusOptionService { get; private set; }
 
         public ServicesLoader(
                 ICacheService cacheService,
@@ -48,7 +50,9 @@ namespace UI.Builders.Services
                 IEmailTemplateService emailTemplateService,
                 IEmailProvider emailProvider,
                 ICookieService cookieService,
-                ILanguageService languageService
+                ILanguageService languageService,
+                IHomeOfficeOptionService homeOfficeOptionService,
+                IStudentStatusOptionService studentStatusOptionService
         )
         {
             this.CacheService = cacheService;
@@ -71,6 +75,8 @@ namespace UI.Builders.Services
             this.EmailProvider = emailProvider;
             this.CookieService = cookieService;
             this.LanguageService = languageService;
+            this.HomeOfficeOptionService = homeOfficeOptionService;
+            this.StudentStatusOptionService = studentStatusOptionService;
         }
     }
 }

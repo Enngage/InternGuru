@@ -23,6 +23,8 @@ namespace Service.Context
         IDbSet<ThesisType> ThesisTypes { get; }
         IDbSet<Thesis> Theses { get; }
         IDbSet<Language> Languages { get; }
+        IDbSet<HomeOfficeOption> HomeOfficeOptions { get; }
+        IDbSet<StudentStatusOption> StudentStatusOptions { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

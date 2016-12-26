@@ -318,6 +318,71 @@ namespace Service.Context
                 context.Languages.Add(language);
             }
 
+            // create home office options
+            var homeOfficeOptions = new List<HomeOfficeOption>()
+            {
+                new HomeOfficeOption()
+                {
+                    HomeOfficeName = "Pouze home office",
+                    CodeName = "OnlyHomeOffice",
+                    IconClass = "green checkmark"
+                },
+               new HomeOfficeOption()
+                {
+                    HomeOfficeName = "Nutná docházka do firmy",
+                    CodeName = "OnlyInCompany",
+                    IconClass = "red remove"
+                },
+               new HomeOfficeOption()
+                {
+                    HomeOfficeName = "Home office možný po zaučení",
+                    CodeName = "HomeOfficeAfterTraining",
+                    IconClass = ""
+                },
+            };
+
+            // add to context
+            foreach (var homeOfficeOption in homeOfficeOptions)
+            {
+                context.HomeOfficeOptions.Add(homeOfficeOption);
+            }
+
+
+            // add to context
+            foreach (var language in languages)
+            {
+                context.Languages.Add(language);
+            }
+
+            // create student status options
+            var studentStatusOptions = new List<StudentStatusOption>()
+            {
+                new StudentStatusOption()
+                {
+                    StatusName = "Ano",
+                    CodeName = "Yes",
+                    IconClass = "green checkmark"
+                },
+                new StudentStatusOption()
+                {
+                    StatusName = "Ne",
+                    CodeName = "No",
+                    IconClass = "red remove"
+                },
+                new StudentStatusOption()
+                {
+                    StatusName = "Nezáleží",
+                    CodeName = "Any",
+                    IconClass = "hand peace"
+                },
+            };
+
+            // add to context
+            foreach (var studentStatusOption in studentStatusOptions)
+            {
+                context.StudentStatusOptions.Add(studentStatusOption);
+            }
+
             // save data
             context.SaveChanges();
         }

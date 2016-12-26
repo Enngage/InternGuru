@@ -82,6 +82,10 @@
     <Compile Include="Services\Currencies\CurrencyService.cs" />
     <Compile Include="Services\Identity\IIdentityService.cs" />
     <Compile Include="Services\Identity\IdentityService.cs" />
+    <Compile Include="Services\Internships\StudentStatusOptionService.cs" />
+    <Compile Include="Services\Internships\IHomeOfficeOptionService.cs" />
+    <Compile Include="Services\Internships\HomeOfficeOptionService.cs" />
+    <Compile Include="Services\Internships\IStudentStatusOptionService.cs" />
     <Compile Include="Services\Internships\InternshipDurationTypeService.cs" />
     <Compile Include="Services\Internships\InternshipAmountTypeService.cs" />
     <Compile Include="Services\Internships\IInternshipDurationTypeService.cs" />

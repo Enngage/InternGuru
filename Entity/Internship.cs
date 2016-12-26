@@ -54,7 +54,10 @@ namespace Entity
         public bool HasFlexibleHours { get; set; }
         [MaxLength(250)]
         public string WorkingHours { get; set; }
+        [MaxLength(500)]
         public string Languages { get; set; }
+        public int HomeOfficeOptionID { get; set; }
+        public int StudentStatusOptionID { get; set; }
 
         #region Virtual
 
@@ -74,6 +77,10 @@ namespace Entity
         public InternshipCategory InternshipCategory { get; set; }
         [ForeignKey("CompanyID")]
         public Company Company { get; set; }
+        [ForeignKey("HomeOfficeOptionID")]
+        public HomeOfficeOption HomeOfficeOption { get; set; }
+        [ForeignKey("StudentStatusOptionID")]
+        public StudentStatusOption StudentStatusOption { get; set; }
 
         #endregion
 

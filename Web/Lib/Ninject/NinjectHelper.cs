@@ -112,6 +112,8 @@ namespace Web.Lib.Ninject
             kernel.Bind<IIdentityMessageService>().To<EmailService>().InRequestScope();
             kernel.Bind<ICookieService>().To<CookieService>().InRequestScope();
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
+            kernel.Bind<IHomeOfficeOptionService>().To<HomeOfficeOptionService>().InRequestScope();
+            kernel.Bind<IStudentStatusOptionService>().To<StudentStatusOptionService>().InRequestScope();
 
             return kernel;
         }

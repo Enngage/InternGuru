@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entity;
+using PagedList;
+using System.Data.Entity;
 
 using UI.Base;
-using Service.Context;
 using UI.Builders.Internship.Views;
 using UI.Builders.Internship.Models;
 using UI.Builders.Services;
-using System.Data.Entity;
-using PagedList;
+using UI.Builders.Shared.Models;
 using Core.Extensions;
-using Entity;
 using Core.Helpers;
 using Core.Helpers.Internship;
-using UI.Builders.Shared.Models;
-using System.Collections;
 
 namespace UI.Builders.Internship
 {
@@ -290,17 +288,34 @@ namespace UI.Builders.Internship
                     WorkingHours = m.WorkingHours,
                     CountryCode = m.Country.CountryCode,
                     CountryName = m.Country.CountryName,
-                    Languages = m.Languages
+                    Languages = m.Languages,
+                    HomeOfficeOptionID = m.HomeOfficeOptionID,
+                    HomeOfficeOption = new InternshipHomeOfficeOptionModel()
+                    {
+                       HomeOfficeName = m.HomeOfficeOption.HomeOfficeName,
+                       IconClass = m.HomeOfficeOption.IconClass
+                    },
+                    StudentStatusOptionID = m.StudentStatusOptionID,
+                    StudentStatusOption = new InternshipStudentStatusOptionModel()
+                    {
+                        StudentStatusName = m.StudentStatusOption.StatusName,
+                        IconClass = m.StudentStatusOption.IconClass
+                    }
                 });
 
 
             int cacheMinutes = 120;
             var cacheSetup = this.Services.CacheService.GetSetup<InternshipDetailModel>(this.GetSource(), cacheMinutes);
 
+            // get company ID so that cache of internship is cleared when company changes
+            var companyID = await GetCompanyIDOfInternshipAsync(internshipID);
+
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdate<Entity.Internship>(internshipID),
-                EntityKeys.KeyDelete<Entity.Internship>(internshipID)
+                EntityKeys.KeyDelete<Entity.Internship>(internshipID),
+                EntityKeys.KeyUpdate<Entity.Company>(companyID),
+                EntityKeys.KeyDelete<Entity.Company>(companyID)
             };
             cacheSetup.ObjectID = internshipID;
 
@@ -325,6 +340,27 @@ namespace UI.Builders.Internship
 
             return internship;
 
+        }
+
+        /// <summary>
+        /// Gets CompanyID of given internship. Value is cached.
+        /// </summary>
+        /// <param name="internshipID">internshipID</param>
+        /// <returns>CompanyID or 0 if company is not fond</returns>
+        private async Task<int> GetCompanyIDOfInternshipAsync(int internshipID)
+        {
+            int cacheMinutes = 120;
+            var cacheSetup = this.Services.CacheService.GetSetup<IntWrapper>(GetSource(), cacheMinutes);
+
+            var query = this.Services.InternshipService.GetAll()
+                .Select(m => new IntWrapper()
+                {
+                    Value = m.CompanyID
+                });
+
+            var result = await this.Services.CacheService.GetOrSetAsync(async () => await query.FirstOrDefaultAsync(), cacheSetup);
+
+            return result == null ? 0 : result.Value;
         }
 
         #endregion

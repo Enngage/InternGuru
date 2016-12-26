@@ -33,6 +33,8 @@ namespace UI.Builders.Services
         IEmailProvider EmailProvider { get; }
         ICookieService CookieService { get; }
         ILanguageService LanguageService { get; }
+        IHomeOfficeOptionService HomeOfficeOptionService { get; }
+        IStudentStatusOptionService StudentStatusOptionService { get; }
 
         #endregion
     }

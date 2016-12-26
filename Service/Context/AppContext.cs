@@ -23,7 +23,8 @@ namespace Service.Context
         public IDbSet<ThesisType> ThesisTypes { get; set; }
         public IDbSet<Thesis> Theses { get; set; }
         public IDbSet<Language> Languages { get; set; }
-
+        public IDbSet<HomeOfficeOption> HomeOfficeOptions { get; set; }
+        public IDbSet<StudentStatusOption> StudentStatusOptions { get; set; }
         #endregion
 
         #region Constructor

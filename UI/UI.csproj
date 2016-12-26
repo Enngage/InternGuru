@@ -158,6 +158,8 @@
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
     <Compile Include="Builders\Auth\Enum\AuthTabEnum.cs" />
     <Compile Include="Builders\Auth\Forms\AuthCompanyGalleryUploadForm.cs" />
+    <Compile Include="Builders\Auth\Models\AuthInternshipHomeOfficeOptionModel.cs" />
+    <Compile Include="Builders\Auth\Models\AuthInternshipStudentStatusOptionModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipLanguageModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthTab.cs" />
     <Compile Include="Builders\Auth\Models\AuthTabs.cs" />
@@ -199,6 +201,8 @@
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
     <Compile Include="Builders\Gallery\Views\GalleryView.cs" />
     <Compile Include="Builders\Gallery\Models\GalleryImage.cs" />
+    <Compile Include="Builders\Internship\Models\InternshipHomeOfficeOptionModel.cs" />
+    <Compile Include="Builders\Internship\Models\InternshipStudentStatusOptionModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipLanguageModel.cs" />
     <Compile Include="Builders\Shared\Models\IntWrapper.cs" />
     <Compile Include="Builders\System\Views\SystemAuthModel.cs" />

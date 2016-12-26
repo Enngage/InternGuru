@@ -59,49 +59,47 @@
                     <div class="ui horizontal list">
                         <div class="item">
                             <div class="content">
-                                <i class="home icon"></i>
-                                <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
+                                @Html.RenderIcon("home") <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
                                     @Model.Internship.Company.CompanyName
                                 </a>
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
-                                @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.CountryCode))
-                                @Model.Internship.CountryName
+                                @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.CountryCode)) @Model.Internship.CountryName
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
-                                <i class="marker icon"></i>@Model.Internship.City
+                                @Html.RenderIcon("marker") @Model.Internship.City
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
                                 @if (Model.Internship.IsPaid)
                                 {
-                                    <i class="money green icon"></i><span>@(CurrencyHelper.DisplayCurrencyValue(Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
+                                    @Html.RenderIcon("money green") <span>@(CurrencyHelper.DisplayCurrencyValue(Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
                                 }
                                 else
                                 {
-                                    <i class="money red icon"></i><span>Neplaceno</span>
+                                    @Html.RenderIcon("money red") <span>Neplaceno</span>
                                 }
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
-                                <i title="Nástup od" class="calendar icon"></i>Nástup od @Model.Internship.StartDate.ToShortDateString()
+                                @Html.RenderIcon("calendar") Nástup od @DateHelper.FormatDate(Model.Internship.StartDate)
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
                                 @if (Model.Internship.HasFlexibleHours)
                                 {
-                                    <i class="wait icon"></i><span>Flexibilní pracovní doba <i class="checkmark green icon"></i></span>
+                                    @Html.RenderIcon("wait") <span>Flexibilní pracovní doba <i class="checkmark green icon"></i></span>
                                 }
                                 else
                                 {
-                                    <i class="wait icon"></i><span>@Model.Internship.WorkingHours</span>
+                                    @Html.RenderIcon("wait") <span>@Model.Internship.WorkingHours</span>
                                 }
                             </div>
                         </div>
@@ -112,7 +110,7 @@
 
                     <div class="w-body-text-center">
                         <div class="ui button teal large w-override-no-button">
-                            @InternshipHelper.GetInternshipDurationDisplayValue(Model.Internship.MinDurationType, Model.Internship.MinDurationInDefaultValue, Model.Internship.MaxDurationType, Model.Internship.MaxDurationInDefaultValue)
+                            Délka: @InternshipHelper.GetInternshipDurationDisplayValue(Model.Internship.MinDurationType, Model.Internship.MinDurationInDefaultValue, Model.Internship.MaxDurationType, Model.Internship.MaxDurationInDefaultValue)
                         </div>
                     </div>
 
@@ -155,13 +153,16 @@
                     Student
                 </h3>
                 <p>
-                    <i class="green checkmark icon"></i> Ano
+                    @Html.RenderIcon(Model.Internship.StudentStatusOption.IconClass) @Model.Internship.StudentStatusOption.StudentStatusName
                 </p>
             </div>
             <div class="computer only column">
                 <h3>
-
+                    Home office
                 </h3>
+                <p>
+                    @Html.RenderIcon(Model.Internship.StudentStatusOption.IconClass) @Model.Internship.HomeOfficeOption.HomeOfficeName
+                </p>
             </div>
         </div>
         <div class="ui grid">
@@ -178,10 +179,20 @@
                     }
                 </div>
                 <div class="tablet only mobily only sixteen wide mobile eight wide tablet column">
-                    b
+                    <h3>
+                        Student
+                    </h3>
+                    <p>
+                        @Html.RenderIcon(Model.Internship.StudentStatusOption.IconClass) @Model.Internship.StudentStatusOption.StudentStatusName
+                    </p>
                 </div>
                 <div class="tablet only mobily only sixteen wide mobile sixteen wide tablet column">
-                    c
+                    <h3>
+                        Home office
+                    </h3>
+                    <p>
+                        @Html.RenderIcon(Model.Internship.StudentStatusOption.IconClass) @Model.Internship.HomeOfficeOption.HomeOfficeName
+                    </p>
                 </div>
             </div>
 
@@ -213,12 +224,12 @@
 
             <div class="sixteen wide mobile six wide tablet four wide computer column">
                 <h2>
-                    Základní údaje
+                    O firmě
                 </h2>
                 <div class="ui list">
                     <div class="item">
                         <div class="content">
-                            <i class="building icon"></i>
+                            @Html.RenderIcon("building")
                             <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
                                 @Model.Internship.Company.CompanyName
                             </a>
@@ -226,7 +237,7 @@
                     </div>
                     <div class="item">
                         <div class="content">
-                            <i class="map icon"></i>@Model.Internship.Company.City, @Model.Internship.Company.Address
+                            @Html.RenderIcon("map") @Model.Internship.Company.City, @Model.Internship.Company.Address
                         </div>
                     </div>
                     <div class="item">
@@ -236,13 +247,12 @@
                     </div>
                     <div class="item">
                         <div class="content">
-                            <i class="idea icon"></i> Založeno @Model.Internship.Company.YearFounded
+                            @Html.RenderIcon("idea") Založeno @Model.Internship.Company.YearFounded
                         </div>
                     </div>
                     <div class="item">
                         <div class="content">
-                            <i class="users icon"></i>
-                            <span>@Model.Internship.Company.CompanySizeName zaměstnanců</span>
+                            @Html.RenderIcon("users") <span>@Model.Internship.Company.CompanySizeName zaměstnanců</span>
                         </div>
                     </div>
 
@@ -250,7 +260,7 @@
                     {
                         <div class="item">
                             <div class="content">
-                                <i class="laptop icon"></i>
+                                @Html.RenderIcon("laptop")
                                 <a href="@Model.Internship.Company.Web">
                                     @Model.Internship.Company.Web
                                 </a>
@@ -264,19 +274,19 @@
                     @if (!string.IsNullOrEmpty(Model.Internship.Company.Facebook))
                     {
                         <a href="@Model.Internship.Company.Facebook">
-                            <i class="facebook icon large w-color-facebook"></i>
+                            @Html.RenderIcon("facebook large w-color-facebook")
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.Internship.Company.Twitter))
                     {
                         <a href="@Model.Internship.Company.Twitter">
-                            <i class="twitter icon large w-color-twitter"></i>
+                            @Html.RenderIcon("twitter large w-color-twitter")
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.Internship.Company.LinkedIn))
                     {
                         <a href="@Model.Internship.Company.LinkedIn">
-                            <i class="linkedin icon large w-color-linkedin"></i>
+                            @Html.RenderIcon("linkedin large w-color-linkedin")
                         </a>
                     }
                 </div>

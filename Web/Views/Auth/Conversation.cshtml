@@ -47,7 +47,7 @@
                     <div class="item w-body-item-highlighted">
                         <div class="content">
                             <div class="extra w-body-text-right w-font-size-small">
-                                <i class="calendar icon"></i>@DateHelper.GetPrettyDate(message.MessageCreated)
+                                <i class="calendar icon"></i>@DateHelper.FormatTime(message.MessageCreated)
                                 @if (message.SenderApllicationUserId.Equals(message.CurrentUserId, StringComparison.OrdinalIgnoreCase))
                                 {
                                     <span>|</span>

@@ -67,7 +67,7 @@
                             }
                         </a>
                         <div class="meta w-font-size-small">
-                            <i class="calendar icon"></i>@DateHelper.GetPrettyDate(conversation.MessageCreated) |
+                            <i class="calendar icon"></i>@DateHelper.FormatTime(conversation.MessageCreated) |
                             @if (conversation.IsRead)
                             {
                                 <i title="Přečteno" class="checkmark green icon"></i><span>přečteno</span>
@@ -138,7 +138,7 @@
                             </td>
                             <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
                                 <i title="Vytvořeno" class="calendar icon"></i>
-                                @internship.Created.ToShortDateString()
+                                @DateHelper.FormatDate(internship.Created)
                             </td>
                             <td class="collapsing w-body-text-right w-mobile-left">
                                 @if (internship.IsActive)
@@ -203,7 +203,7 @@
                         </td>
                         <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
                             <i class="calendar icon"></i>
-                            @thesis.Created.ToShortDateString()
+                            @DateHelper.FormatDate(thesis.Created)
                         </td>
                         <td class="collapsing w-body-text-right w-mobile-left">
                             @if (thesis.IsActive)

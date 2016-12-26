@@ -55,8 +55,15 @@ namespace Core.Helpers
                 }
             };
 
+            if (minDurationType == maxDurationType && minValue == maxValue)
+            {
+                // min and max value are exactly the same - the internship has a fixed length (eg. 7-7 days)
+                return $"{minValue} {translate(minDurationType, maxValue)}";
+            }
+
             if (minDurationType == maxDurationType)
             {
+                // types are same, but min and max value are different (eg. 4-7 days)
                 return $"{minValue} - {maxValue} {translate(minDurationType, maxValue)}";
             }
 

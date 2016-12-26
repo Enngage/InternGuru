@@ -507,7 +507,9 @@ namespace UI.Builders.Company
                     Requirements = m.Requirements,
                     MinDurationTypeCodeName = m.MinDurationType.CodeName,
                     MaxDurationTypeCodeName = m.MaxDurationType.CodeName,
-                    Languages = m.Languages
+                    Languages = m.Languages,
+                    HomeOfficeOptionID = m.HomeOfficeOptionID,
+                    StudentStatusOptionID = m.StudentStatusOptionID
                 });
 
             var internship = await internshipQuery.FirstOrDefaultAsync();
@@ -527,6 +529,8 @@ namespace UI.Builders.Company
             internship.Countries = await FormGetCountriesAsync();
             internship.Currencies = await FormGetCurrenciesAsync();
             internship.AllLanguages = await FormGetLanguagesAsync();
+            internship.StudentStatusOptions = await FormGetAllStudentStatusOptions();
+            internship.HomeOfficeOptions = await FormGetAllHomeOfficeOptions();
 
             // set default duration
             var minDurationEnum = internship.MinDurationTypeEnum;
@@ -582,7 +586,9 @@ namespace UI.Builders.Company
                 Countries = await FormGetCountriesAsync(),
                 Currencies = await FormGetCurrenciesAsync(),
                 IsActive = "on", // IsActive is enabled by default
-                AllLanguages = await FormGetLanguagesAsync()
+                AllLanguages = await FormGetLanguagesAsync(),
+                StudentStatusOptions = await FormGetAllStudentStatusOptions(),
+                HomeOfficeOptions = await FormGetAllHomeOfficeOptions()
             };
 
             return new AuthNewInternshipView()
@@ -608,6 +614,8 @@ namespace UI.Builders.Company
             form.Countries = await FormGetCountriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
             form.AllLanguages = await FormGetLanguagesAsync();
+            form.HomeOfficeOptions = await FormGetAllHomeOfficeOptions();
+            form.StudentStatusOptions = await FormGetAllStudentStatusOptions();
 
             return new AuthEditInternshipView()
             {
@@ -631,6 +639,8 @@ namespace UI.Builders.Company
             form.Countries = await FormGetCountriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
             form.AllLanguages = await FormGetLanguagesAsync();
+            form.StudentStatusOptions = await FormGetAllStudentStatusOptions();
+            form.HomeOfficeOptions = await FormGetAllHomeOfficeOptions();
 
             return new AuthNewInternshipView()
             {
@@ -1159,7 +1169,9 @@ namespace UI.Builders.Company
                     HasFlexibleHours = form.GetHasFlexibleHours(),
                     WorkingHours = form.WorkingHours,
                     Requirements = form.Requirements,
-                    Languages = form.Languages
+                    Languages = form.Languages,
+                    HomeOfficeOptionID = form.HomeOfficeOptionID,
+                    StudentStatusOptionID = form.StudentStatusOptionID,
                 };
 
                 await Services.InternshipService.InsertAsync(internship);
@@ -1237,7 +1249,9 @@ namespace UI.Builders.Company
                     HasFlexibleHours = form.GetHasFlexibleHours(),
                     WorkingHours = form.WorkingHours,
                     Requirements = form.Requirements,
-                    Languages = form.Languages
+                    Languages = form.Languages,
+                    HomeOfficeOptionID = form.HomeOfficeOptionID,
+                    StudentStatusOptionID = form.StudentStatusOptionID
                 };
 
                 await Services.InternshipService.UpdateAsync(internship);
@@ -1283,13 +1297,21 @@ namespace UI.Builders.Company
                     Services.FileProvider.SaveImage(file, folderPath, fileNameToSave);
                 }
             }
-            catch (Exception ex)
+            catch (ValidationException ex)
             {
                 // log error
                 Services.LogService.LogException(ex);
 
                 // re-throw
                 throw new UIException(ex.Message, ex);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UIException(UIExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -1353,6 +1375,28 @@ namespace UI.Builders.Company
 
             // Try to create the directory.
             DirectoryInfo di = Directory.CreateDirectory(path);
+        }
+
+        private async Task<IEnumerable<AuthInternshipHomeOfficeOptionModel>> FormGetAllHomeOfficeOptions()
+        {
+            return (await this.Services.HomeOfficeOptionService.GetAllCachedAsync())
+                .Select(m => new AuthInternshipHomeOfficeOptionModel()
+                {
+                    CodeName = m.CodeName,
+                    HomeOfficeName = m.HomeOfficeName,
+                    ID = m.ID
+                });
+        }
+
+        private async Task<IEnumerable<AuthInternshipStudentStatusOptionModel>> FormGetAllStudentStatusOptions()
+        {
+            return (await this.Services.StudentStatusOptionService.GetAllCachedAsync())
+                .Select(m => new AuthInternshipStudentStatusOptionModel()
+                {
+                    CodeName = m.CodeName,
+                    StudentStatusName = m.StatusName,
+                    ID = m.ID
+                });
         }
 
         private async Task<AuthInternshipDurationType> GetDurationTypeAsync(int durationID)
