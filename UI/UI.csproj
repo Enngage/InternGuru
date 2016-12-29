@@ -139,6 +139,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\AttributeValidators.cs" />
+    <Compile Include="Attributes\ValidIntegerAttribute.cs" />
     <Compile Include="Base\BaseApiController.cs" />
     <Compile Include="Base\BaseForm.cs" />
     <Compile Include="Base\BaseBuilder.cs" />

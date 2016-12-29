@@ -35,7 +35,7 @@ namespace Entity
         public DateTime Updated { get; set; }
         [Required]
         public bool IsPaid { get; set; }
-        public double Amount { get; set; }
+        public int Amount { get; set; }
         [Required]
         public int MinDurationInMonths { get; set; }
         [Required]

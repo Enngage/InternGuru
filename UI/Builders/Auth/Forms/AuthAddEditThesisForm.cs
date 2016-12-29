@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using UI.Attributes;
 using UI.Base;
 using UI.Builders.Auth.Models;
 
@@ -23,7 +24,7 @@ namespace UI.Builders.Auth.Forms
         public string IsActive { get; set; }
         [Required(ErrorMessage = "Zvolte typ práce")]
         public int ThesisTypeID { get; set; }
-        [Range(0, int.MaxValue, ErrorMessage = "Odměna musí být celé číslo")]
+        [ValidInteger(ErrorMessage = "Odměna musí být celé číslo")]
         public int? Amount { get; set; }
         public int CurrencyID { get; set; }
 
