@@ -1,14 +1,14 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Companies
 {
     public class CompanySizeService :  BaseService<CompanySize>, ICompanySizeService
     {
@@ -17,21 +17,21 @@ namespace Service.Services
 
         public Task<int> DeleteAsync(int id)
         {
-            var companySize = this.AppContext.CompanySizes.Find(id);
+            var companySize = AppContext.CompanySizes.Find(id);
 
             if (companySize != null)
             {
                 // delete companySize
-                this.AppContext.CompanySizes.Remove(companySize);
+                AppContext.CompanySizes.Remove(companySize);
 
                 // touch cache keys
-                this.TouchDeleteKeys(companySize);
+                TouchDeleteKeys(companySize);
 
                 // fire event
-                this.OnDelete(companySize);
+                OnDelete(companySize);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -39,17 +39,17 @@ namespace Service.Services
 
         public Task<CompanySize> GetAsync(int id)
         {
-            return this.AppContext.CompanySizes.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.CompanySizes.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<CompanySize> GetAll()
         {
-            return this.AppContext.CompanySizes;
+            return AppContext.CompanySizes;
         }
 
         public IQueryable<CompanySize> GetSingle(int id)
         {
-            return this.AppContext.CompanySizes.Where(m => m.ID == id).Take(1);
+            return AppContext.CompanySizes.Where(m => m.ID == id).Take(1);
         }
 
         public Task<int> InsertAsync(CompanySize obj)
@@ -57,45 +57,45 @@ namespace Service.Services
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            this.AppContext.CompanySizes.Add(obj);
+            AppContext.CompanySizes.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> UpdateAsync(CompanySize obj)
         {
-            var companySize = this.AppContext.CompanySizes.Find(obj.ID);
+            var companySize = AppContext.CompanySizes.Find(obj.ID);
 
             if (companySize == null)
             {
-                throw new NotFoundException(string.Format("CompanySize with ID: {0} not found", obj.ID));
+                throw new NotFoundException($"CompanySize with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, companySize);
+            OnUpdate(obj, companySize);
 
             // set code name
             obj.CodeName = obj.GetCodeName();
 
             // update log
-            this.AppContext.Entry(companySize).CurrentValues.SetValues(obj);
+            AppContext.Entry(companySize).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(companySize);
+            TouchUpdateKeys(companySize);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CompanySize>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

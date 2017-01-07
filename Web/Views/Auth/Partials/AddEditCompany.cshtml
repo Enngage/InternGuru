@@ -77,7 +77,7 @@
                 <label>Rok založení</label>
                 <select name="YearFounded" class="ui dropdown _YearFoundedDropdown">
                     <option value="">Rok</option>
-                    @for (int i = DateTime.Now.Year; i >= 1950; i--)
+                    @for (var i = DateTime.Now.Year; i >= 1950; i--)
                     {
                         if (Model.YearFounded == i)
                         {

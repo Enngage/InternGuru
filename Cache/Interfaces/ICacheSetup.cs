@@ -9,7 +9,7 @@ namespace Cache
         DateTime? Updated { get; }
         int CacheMinutes { get; }
         string CacheKey { get; }
-        IList<String> Dependencies { get; set; }
+        IList<string> Dependencies { get; set; }
         int ObjectID { get; set; }
         string ObjectStringID { get; set; }
         int PageNumber { get; set; }

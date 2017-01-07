@@ -203,6 +203,7 @@
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
     <Compile Include="Builders\Gallery\Views\GalleryView.cs" />
     <Compile Include="Builders\Gallery\Models\GalleryImage.cs" />
+    <Compile Include="Builders\Internship\Models\InternshipActivityStats.cs" />
     <Compile Include="Builders\Internship\Models\InternshipHomeOfficeOptionModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipStudentStatusOptionModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipLanguageModel.cs" />

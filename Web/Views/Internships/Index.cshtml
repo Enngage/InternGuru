@@ -3,6 +3,7 @@
 @using Core.Helpers;
 @using UI.Extensions;
 @using PagedList.Mvc;
+@using UI.Builders.Shared.Enums
 @{
     ViewBag.Title = "Nabídka stáží";
     ViewBag.Description = "Najdi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
@@ -15,7 +16,7 @@
     var totalInternshipCount = Model.InternshipCategories.Sum(m => m.InternshipCount);
 
     //header
-    Model.Master.UIHeader.SetHeader(UI.Builders.Shared.UIHeaderType.green, ViewBag.Title);
+    Model.Master.UiHeader.SetHeader(UiHeaderType.Green, ViewBag.Title);
 }
 
 @Html.RequireScript("/scripts/views/internship/browseInternships")
@@ -45,7 +46,7 @@
                         </div>
                     </div>
                     <div class="sixteen wide mobile two wide tablet two wide computer column">
-                        <button class="ui button submit primary fluid" type="submit">
+                        <button class="ui button primary fluid" type="submit">
                             Hledat
                         </button>
                     </div>
@@ -94,33 +95,49 @@
         <div class="sixteen wide mobile eleven wide tablet twelve wide computer column">
             <div class="ui padded segment">
 
-                @if (Model.Internships.Count() == 0)
+                @if (!Model.Internships.Any())
                 {
                     @Html.RenderWarningMessage("Žádné stáže nebyly nalezeny")
                 }
 
                 <table class="ui very basic table w-table-listing _InternshipsListingTable">
+                    <thead>
+                        <tr>
+                            <th class="collapsing">
+                                Firma
+                            </th>
+                            <th>
+                                Pozice
+                            </th>
+                            <th>
+                                Místo
+                            </th>
+                            <th>
+                                Délka stáže
+                            </th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        @foreach (var internship in Model.Internships)
-                        {
-                            <tr data-link="@Url.Action("Index", "Internship", new { id = internship.ID, codename = internship.CodeName })">
-                                <td class="collapsing">
-                                    <img class="ui tiny image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyGuid)" />
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codename = internship.CodeName })">
-                                        @internship.Title
-                                    </a>
-                                    <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
-                                </td>
-                                <td>
-                                    @Html.Raw(CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
-                                </td>
-                                <td class="collapsing w-body-text-right w-mobile-left">
-                                    @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
-                                </td>
-                            </tr>
-                        }
+                    @foreach (var internship in Model.Internships)
+                    {
+                        <tr data-link="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
+                            <td class="collapsing">
+                                <img class="ui tiny image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyGuid)"/>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
+                                    @internship.Title
+                                </a>
+                                <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
+                            </td>
+                            <td>
+                                @Html.Raw(CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
+                            </td>
+                            <td class="collapsing w-body-text-right w-mobile-left">
+                                @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
+                            </td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
 

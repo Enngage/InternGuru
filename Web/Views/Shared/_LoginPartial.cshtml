@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
-@using UI.Helpers
+﻿@using UI.Helpers
 
 @model UI.Builders.Master.Views.MasterView
 
@@ -8,7 +7,7 @@
     var displayName = string.IsNullOrEmpty(Model.Master.CurrentUser.FirstName) ? Model.Master.CurrentUser.UserName : Model.Master.CurrentUser.FirstName;
 
     <a class="item w-menu-right-item" href="@Url.Action("Index", "Auth")">
-        <img alt="avatar" class="ui avatar image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)">
+        <img alt="" class="ui avatar image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)">
         &nbsp;<span>@displayName</span>
         @if (Model.Master.StatusBox.NewMessagesCount > 0)
         {

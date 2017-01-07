@@ -1,14 +1,14 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Currencies
 {
     public class CurrencyService :  BaseService<Currency>, ICurrencyService
     {
@@ -17,21 +17,21 @@ namespace Service.Services
 
         public Task<int> DeleteAsync(int id)
         {
-            var currency = this.AppContext.Currencies.Find(id);
+            var currency = AppContext.Currencies.Find(id);
 
             if (currency != null)
             {
                 // delete currency
-                this.AppContext.Currencies.Remove(currency);
+                AppContext.Currencies.Remove(currency);
 
                 // touch cache keys
-                this.TouchDeleteKeys(currency);
+                TouchDeleteKeys(currency);
 
                 // fire event
-                this.OnDelete(currency);
+                OnDelete(currency);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -39,17 +39,17 @@ namespace Service.Services
 
         public Task<Currency> GetAsync(int id)
         {
-            return this.AppContext.Currencies.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.Currencies.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<Currency> GetAll()
         {
-            return this.AppContext.Currencies;
+            return AppContext.Currencies;
         }
 
         public IQueryable<Currency> GetSingle(int id)
         {
-            return this.AppContext.Currencies.Where(m => m.ID == id).Take(1);
+            return AppContext.Currencies.Where(m => m.ID == id).Take(1);
         }
 
         public Task<int> InsertAsync(Currency obj)
@@ -57,45 +57,45 @@ namespace Service.Services
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            this.AppContext.Currencies.Add(obj);
+            AppContext.Currencies.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> UpdateAsync(Currency obj)
         {
-            var currency = this.AppContext.Currencies.Find(obj.ID);
+            var currency = AppContext.Currencies.Find(obj.ID);
 
             if (currency == null)
             {
-                throw new NotFoundException(string.Format("Currency with ID: {0} not found", obj.ID));
+                throw new NotFoundException($"Currency with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, currency);
+            OnUpdate(obj, currency);
 
             // set code name
             obj.CodeName = obj.GetCodeName();
 
             // update log
-            this.AppContext.Entry(currency).CurrentValues.SetValues(obj);
+            AppContext.Entry(currency).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(currency);
+            TouchUpdateKeys(currency);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Currency>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

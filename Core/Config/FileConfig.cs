@@ -8,13 +8,35 @@ namespace Core.Config
         #region General
 
         /// <summary>
+        /// Base folder for storing files
+        /// </summary>
+        public static string BaseFolderName
+        {
+            get
+            {
+                return "Content";
+            }
+        }
+
+        /// <summary>
+        /// Path to error icon
+        /// </summary>
+        public static string ErrorIconFilePath
+        {
+            get
+            {
+                return $"{BaseFolderName}/Images/Base/Caution.png";
+            }
+        }
+
+        /// <summary>
         /// Path to transparent image
         /// </summary>
         public static string TransparentImagePath
         {
             get
             {
-                return "Content/images/transparent.png";
+                return $"{BaseFolderName}/Images/Base/transparent.png";
             }
         }
 
@@ -55,13 +77,24 @@ namespace Core.Config
         #region Company files
 
         /// <summary>
-        /// Path where company gallery images are stored
+        /// Base path for Company files
         /// </summary>
-        public static string CompanyalleryImagesPath
+        public static string CompanyBaseFolderPath
         {
             get
             {
-                return "Content/Company/Gallery";
+                return $"{BaseFolderName}/Company";
+            }
+        }
+
+        /// <summary>
+        /// Path where company gallery images are stored
+        /// </summary>
+        public static string CompanyGalleryFolderName
+        {
+            get
+            {
+                return "Gallery";
             }
         }
 
@@ -112,22 +145,44 @@ namespace Core.Config
         /// <summary>
         /// Path where banners will be stored
         /// </summary>
-        public static string BannerFolderPath
+        public static string BannerFolderName
         {
             get
             {
-                return "Content/Company/Banners/";
+                return "Banner";
+            }
+        }
+
+        /// <summary>
+        /// Default file name for company banner
+        /// </summary>
+        public static string BannerFileName
+        {
+            get
+            {
+                return "Banner";
             }
         }
 
         /// <summary>
         /// Path where logos will be stored
         /// </summary>
-        public static string LogoFolderPath
+        public static string LogoFolderName
         {
             get
             {
-                return "Content/Company/Logos/";
+                return "Logo";
+            }
+        }
+
+        /// <summary>
+        /// Default file name for company logo
+        /// </summary>
+        public static string LogoFileName
+        {
+            get
+            {
+                return "Logo";
             }
         }
 
@@ -138,7 +193,7 @@ namespace Core.Config
         {
             get
             {
-                return "Content/images/icons/defaultCompanyLogo.png";
+                return $"{BaseFolderName}/Images/Default/defaultCompanyLogo.png";
             }
         }
 
@@ -149,22 +204,44 @@ namespace Core.Config
         {
             get
             {
-                return "Content/images/icons/defaultCompanyBanner.png";
+                return $"{BaseFolderName}/Images/Default/defaultCompanyBanner.png";
             }
         }
 
         #endregion
 
-        #region Avatar config
+        #region User files
+
+        /// <summary>
+        /// Path of base user folder
+        /// </summary>
+        public static string BaseUserFolderPath
+        {
+            get
+            {
+                return $"{BaseFolderName}/User";
+            }
+        }
 
         /// <summary>
         /// Path where avatars are stored
         /// </summary>
-        public static string AvatarFolderPath
+        public static string AvatarFolderName
         {
             get
             {
-                return "Content/Avatars/";
+                return "Avatar";
+            }
+        }
+
+        /// <summary>
+        /// Default avatar file name
+        /// </summary>
+        public static string DefaultAvatarName
+        {
+            get
+            {
+                return "avatar";
             }
         }
 
@@ -186,7 +263,7 @@ namespace Core.Config
         {
             get
             {
-                return "Content/images/icons/defaultAvatar.png";
+                return $"{BaseFolderName}/Images/Default/defaultAvatar.png";
             }
         }
 

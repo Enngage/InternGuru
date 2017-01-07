@@ -3,6 +3,7 @@
 @using Core.Helpers;
 @using UI.Extensions;
 @using PagedList.Mvc;
+@using UI.Builders.Shared.Enums
 @{
     ViewBag.Title = "Závěrečné práce";
     ViewBag.Description = "Najdi si závěrečnou práci (diplomová práce nebo bakalářská práce) z uvedené nabídky, získej odměnu za svou práci, nauč se něčemu nového a hlavně pracuj na něčem, co dává smysl.";
@@ -14,7 +15,7 @@
     var totalThesesCount = Model.ThesisCategories.Sum(m => m.ThesesCount);
 
     //header
-    Model.Master.UIHeader.SetHeader(UI.Builders.Shared.UIHeaderType.violet, ViewBag.Title);
+    Model.Master.UiHeader.SetHeader(UiHeaderType.Violet, ViewBag.Title);
 }
 
 @Html.RequireScript("/scripts/views/thesis/browseTheses")
@@ -84,33 +85,46 @@
         <div class="sixteen wide mobile eleven wide tablet twelve wide computer column">
             <div class="ui padded segment">
 
-                @if (Model.Theses.Count() == 0)
+                @if (!Model.Theses.Any())
                 {
                     @Html.RenderWarningMessage("Žádné závěrečné práce nebyly nalezenyy")
                 }
 
                 <table class="ui very basic table w-table-listing _ThesesListingTable">
+                    <thead>
+                    <tr>
+                        <th>
+                            Firma
+                        </th>
+                        <th>
+                            Název práce (odměna)
+                        </th>
+                        <th>
+                            Typ práce
+                        </th>
+                    </tr>
+                    </thead>
                     <tbody>
-                        @foreach (var thesis in Model.Theses)
-                        {
-                            <tr data-link="@Url.Action("Index", "Thesis", new { id = thesis.ID, codename = thesis.CodeName })">
-                                <td class="collapsing">
-                                    <img class="ui tiny image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)" />
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codename = thesis.CodeName })">
-                                        @thesis.ThesisName
-                                    </a>
-                                    @if (thesis.IsPaid)
-                                    {
-                                        <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
-                                    }
-                                </td>
-                                <td class="collapsing w-body-text-right w-mobile-left">
-                                    @thesis.ThesisTypeNameConverted
-                                </td>
-                            </tr>
-                        }
+                    @foreach (var thesis in Model.Theses)
+                    {
+                        <tr data-link="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
+                            <td class="collapsing">
+                                <img class="ui tiny image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)"/>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
+                                    @thesis.ThesisName
+                                </a>
+                                @if (thesis.IsPaid)
+                                {
+                                    <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
+                                }
+                            </td>
+                            <td class="collapsing w-body-text-right w-mobile-left">
+                                @thesis.ThesisTypeNameConverted
+                            </td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
 

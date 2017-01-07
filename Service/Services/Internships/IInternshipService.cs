@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Entity;
+﻿using Entity;
 
-namespace Service.Services
+namespace Service.Services.Internships
 {
     public interface IInternshipService : IService<Internship>
     {

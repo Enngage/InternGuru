@@ -1,7 +1,5 @@
 ﻿using Cache;
-using Core.Loc.Ninject;
 using Service.Context;
-using Service.Services;
 using EmailProvider;
 using Entity;
 using Microsoft.AspNet.Identity;
@@ -12,11 +10,22 @@ using Ninject;
 using Ninject.Web.Common;
 using System;
 using System.Web;
+using Core.Loc;
 using UI.Builders.Services;
 using UI.Events;
 using UI.UIServices;
 using UI.Builders.Shared.Models;
 using Identity;
+using Service.Services.Activities;
+using Service.Services.Companies;
+using Service.Services.Countries;
+using Service.Services.Currencies;
+using Service.Services.Identity;
+using Service.Services.Internships;
+using Service.Services.Languages;
+using Service.Services.Logs;
+using Service.Services.Messages;
+using Service.Services.Thesis;
 
 namespace Web.Lib.Ninject
 {
@@ -71,7 +80,8 @@ namespace Web.Lib.Ninject
                 AutoDetectChanges = true
             };
 
-            kernel.Bind<Service.Context.IAppContext>().ToMethod(context => new Service.Context.AppContext(contextConfig)).InRequestScope();
+            // bind app context with additional parameters
+            kernel.Bind<IAppContext>().ToMethod(context => new Service.Context.AppContext(contextConfig)).InRequestScope();
 
             // Authentication 
             // taken from http://stackoverflow.com/questions/36239743/how-to-inject-usermanager-signinmanager
@@ -86,8 +96,10 @@ namespace Web.Lib.Ninject
             // Services loader
             kernel.Bind<IServicesLoader>().To<ServicesLoader>().InRequestScope();
 
+            // Cache service needs additional parameters and can be used as singleton
+            kernel.Bind<ICacheService>().ToMethod(m => new CacheService(Core.Config.AppConfig.DisableCaching, Core.Config.AppConfig.DefaultCacheMinutes)).InSingletonScope();
+
             // Services - they need to be in RequestScope, otherwise they may throw infinite recursion exceptions when a service is used inside another service
-            kernel.Bind<ICacheService>().To<CacheService>().InRequestScope();
             kernel.Bind<ILogService>().To<LogService>().InRequestScope();
             kernel.Bind<IEmailProvider>().To<GoogleEmailProvider>().InRequestScope();
             kernel.Bind<IEmail>().To<Email>().InRequestScope();
@@ -114,6 +126,7 @@ namespace Web.Lib.Ninject
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
             kernel.Bind<IHomeOfficeOptionService>().To<HomeOfficeOptionService>().InRequestScope();
             kernel.Bind<IStudentStatusOptionService>().To<StudentStatusOptionService>().InRequestScope();
+            kernel.Bind<IActivityService>().To<ActivityService>().InRequestScope();
 
             return kernel;
         }
@@ -129,7 +142,7 @@ namespace Web.Lib.Ninject
             {
                 AutoDetectChanges = true
             };
-            kernel.Bind<Service.Context.IAppContext>().ToMethod(context => new Service.Context.AppContext(contextConfig)).InThreadScope();
+            kernel.Bind<IAppContext>().ToMethod(context => new Service.Context.AppContext(contextConfig)).InThreadScope();
 
             // Authentication 
             // taken from http://stackoverflow.com/questions/36239743/how-to-inject-usermanager-signinmanager

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cache.Abstract;
 
-namespace Cache
+namespace Cache.Models
 {
     internal class CacheSetup<T> : CacheSetupAbstract, ICacheSetup
     {
@@ -43,16 +44,16 @@ namespace Cache
         /// <param name="cacheMinutes">Indicates how long the item is stored in cache</param>
         public CacheSetup(string key, int cacheMinutes)
         {
-            if (String.IsNullOrEmpty(key))
+            if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentNullException("key cannot be null");
+                throw new ArgumentNullException(nameof(key));
             }
 
             // set cache properties
-            this.typeName = typeof(T).Name;
-            this.inputKey = key;
-            this.cacheMinutes = cacheMinutes;
-            this.dependencies = new List<string>();
+            TypeName = typeof(T).Name;
+            InputKey = key;
+            CacheMinutes = cacheMinutes;
+            Dependencies = new List<string>();
         }
 
         /// <summary>
@@ -63,24 +64,17 @@ namespace Cache
         /// <param name="dependencies">List of dependencies (when key is touched with, all cache items having the key in cache dependency list will be cleared)</param>
         public CacheSetup(string key, int cacheMinutes, IList<string> dependencies)
         {
-            if (String.IsNullOrEmpty(key))
+            if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentNullException("key cannot be null");
+                throw new ArgumentNullException(nameof(key));
             }
 
             // set cache properties
-            this.typeName = typeof(T).Name;
-            this.inputKey = key;
-            this.cacheMinutes = cacheMinutes;
+            TypeName = typeof(T).Name;
+            InputKey = key;
+            CacheMinutes = cacheMinutes;
 
-            if (dependencies == null)
-            {
-                this.dependencies = new List<string>();
-            }
-            else
-            {
-                this.dependencies = dependencies;
-            }
+            this.Dependencies = dependencies ?? new List<string>();
         }
 
         #endregion
@@ -107,35 +101,35 @@ namespace Cache
         /// </summary>
         /// <returns>Cache key</returns>
         private string GetCacheKey() {
-            string fullKey = string.Format("key[{0}]", this.inputKey);
+            string fullKey = $"key[{InputKey}]";
 
-            fullKey += string.Format(".cacheFor[{0}]", this.cacheMinutes);
+            fullKey += $".cacheFor[{CacheMinutes}]";
 
-            fullKey += string.Format(".class[{0}]", this.TypeName);
+            fullKey += $".class[{TypeName}]";
 
             if (!string.IsNullOrEmpty(ObjectStringID))
             {
-                fullKey += string.Format(".sid[{0}]", this.ObjectStringID);
+                fullKey += $".sid[{ObjectStringID}]";
             }
 
             if (ObjectID > 0)
             {
-                fullKey += string.Format(".id[{0}]", this.ObjectID);
+                fullKey += $".id[{ObjectID}]";
             }
 
             if (PageNumber > 0)
             {
-                fullKey += string.Format(".page[{0}]", this.PageNumber);
+                fullKey += $".page[{PageNumber}]";
             }
 
             if (PageSize > 0)
             {
-                fullKey += string.Format(".size[{0}]", this.PageSize);
+                fullKey += $".size[{PageSize}]";
             }
 
-            if (!String.IsNullOrEmpty(this.Sort))
+            if (!string.IsNullOrEmpty(Sort))
             {
-                fullKey += string.Format(".sort[{0}]", this.Sort);
+                fullKey += $".sort[{Sort}]";
             }
 
             return fullKey;

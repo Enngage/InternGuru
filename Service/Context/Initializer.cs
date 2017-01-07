@@ -1,9 +1,9 @@
 ﻿using Core.Helpers.Internship;
-using Service.Services.Enums;
 using Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using Service.Services.Thesis.Enums;
 
 namespace Service.Context
 {
@@ -17,25 +17,27 @@ namespace Service.Context
         private void RunSeed(AppContext context)
         {
             // create admin role
-            var roleManager = new RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(new RoleStore<IdentityRole>(context));
-            var adminRole = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-            adminRole.Name = "Admin";
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var adminRole = new IdentityRole {Name = "Admin"};
             roleManager.Create(adminRole);
 
             // create admin user
+            const string adminUserName = "admin@admin.com";
+            const string adminDefaultPassword = "admin";
+
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
             var newUser = new ApplicationUser()
             {
-                UserName = "Enn",
-                Email = "admin@email.com",
-
+                UserName = adminUserName,
+                Email = adminUserName,
+                EmailConfirmed = true,
             };
 
-            userManager.Create(newUser, "101154");
+            userManager.Create(newUser, adminDefaultPassword);
 
             // get this user
-            var user = userManager.FindByName("Enn");
+            var user = userManager.FindByName(adminUserName);
 
             // assign admin role to admin user
             userManager.AddToRole(user.Id, adminRole.Name);
@@ -245,17 +247,17 @@ namespace Service.Context
             {
                 new ThesisType()
                 {
-                    CodeName = ThesisTypeEnum.bp.ToString(),
+                    CodeName = ThesisTypeEnum.Bp.ToString(),
                     Name = "Bakalářská práce"
                 },
                 new ThesisType()
                 {
-                    CodeName = ThesisTypeEnum.dp.ToString(),
+                    CodeName = ThesisTypeEnum.Dp.ToString(),
                     Name = "Diplomová práce"
                 },
                  new ThesisType()
                 {
-                    CodeName = ThesisTypeEnum.all.ToString(),
+                    CodeName = ThesisTypeEnum.All.ToString(),
                     Name = "Nezáleží"
                 }
             };

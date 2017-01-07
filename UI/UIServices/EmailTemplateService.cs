@@ -1,5 +1,4 @@
 ﻿using Core.Config;
-using System;
 using System.IO;
 using System.Collections.Generic;
 using UI.UIServices.Models;
@@ -8,16 +7,16 @@ namespace UI.UIServices
 {
     public class EmailTemplateService : IEmailTemplateService
     {
-        private const string EMAIL_TEMPLATE_FOLDER = "EmailTemplates";
+        private const string EmailTemplateFolder = "EmailTemplates";
 
         private string ServerEmailTemplateFolderPath
         {
             get
             {
-                return SystemConfig.ServerRootPath + EMAIL_TEMPLATE_FOLDER + "\\";
+                return SystemConfig.ServerRootPath + EmailTemplateFolder + "\\";
             }
         }
-        public string GetTemplateHTML(string fileName)
+        public string GetTemplateHtml(string fileName)
         {
             // construct file path
             var templatePath = ServerEmailTemplateFolderPath + fileName;
@@ -32,9 +31,9 @@ namespace UI.UIServices
             return File.ReadAllText(templatePath);
         }
 
-        public string GetTemplateHTML(string fileName, IEnumerable<MacroReplacement> replacements)
+        public string GetTemplateHtml(string fileName, IEnumerable<MacroReplacement> replacements)
         {
-            return ReplaceMacros(GetTemplateHTML(fileName), replacements);
+            return ReplaceMacros(GetTemplateHtml(fileName), replacements);
         }
 
         public string ReplaceMacros(string text, IEnumerable<MacroReplacement> replacements)

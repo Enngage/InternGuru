@@ -1,10 +1,10 @@
 ﻿
-namespace Service.Services.Enums
+namespace Service.Services.Thesis.Enums
 {
     public enum ThesisTypeEnum
     {
-        bp,
-        dp,
-        all
+        Bp,
+        Dp,
+        All
     }
 }

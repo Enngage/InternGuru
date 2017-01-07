@@ -6,7 +6,7 @@ namespace UI.Base
 {
     public abstract class BaseForm
     {
-        private FormResult formResult;
+        private FormResult _formResult;
 
         /// <summary>
         /// Result of the form
@@ -15,14 +15,14 @@ namespace UI.Base
         {
             get
             {
-                if (formResult == null)
+                if (_formResult == null)
                 {
-                    formResult = new FormResult()
+                    _formResult = new FormResult()
                     {
                         IsSuccess = false
                     };
                 }
-                return formResult;
+                return _formResult;
             }
         }
     }

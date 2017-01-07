@@ -1,14 +1,14 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Thesis
 {
     public class ThesisTypeService :  BaseService<ThesisType>, IThesisTypeService
     {
@@ -17,20 +17,20 @@ namespace Service.Services
 
         public Task<int> DeleteAsync(int id)
         {
-            var thesisType = this.AppContext.ThesisTypes.Find(id);
+            var thesisType = AppContext.ThesisTypes.Find(id);
 
             if (thesisType != null)
             {
-                this.AppContext.ThesisTypes.Remove(thesisType);
+                AppContext.ThesisTypes.Remove(thesisType);
 
                 // touch cache keys
-                this.TouchDeleteKeys(thesisType);
+                TouchDeleteKeys(thesisType);
 
                 // fire event
-                this.OnDelete(thesisType);
+                OnDelete(thesisType);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -38,17 +38,17 @@ namespace Service.Services
 
         public Task<ThesisType> GetAsync(int id)
         {
-            return this.AppContext.ThesisTypes.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.ThesisTypes.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<ThesisType> GetAll()
         {
-            return this.AppContext.ThesisTypes;
+            return AppContext.ThesisTypes;
         }
 
         public IQueryable<ThesisType> GetSingle(int id)
         {
-            return this.AppContext.ThesisTypes.Where(m => m.ID == id).Take(1);
+            return AppContext.ThesisTypes.Where(m => m.ID == id).Take(1);
         }
 
         public Task<int> InsertAsync(ThesisType obj)
@@ -56,45 +56,45 @@ namespace Service.Services
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            this.AppContext.ThesisTypes.Add(obj);
+            AppContext.ThesisTypes.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> UpdateAsync(ThesisType obj)
         {
-            var thesisType = this.AppContext.ThesisTypes.Find(obj.ID);
+            var thesisType = AppContext.ThesisTypes.Find(obj.ID);
 
             if (thesisType == null)
             {
-                throw new NotFoundException(string.Format("ThesisType with ID: {0} not found", obj.ID));
+                throw new NotFoundException($"ThesisType with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, thesisType);
+            OnUpdate(obj, thesisType);
 
             // set code name
             obj.CodeName = obj.GetCodeName();
 
             // update log
-            this.AppContext.Entry(thesisType).CurrentValues.SetValues(obj);
+            AppContext.Entry(thesisType).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(thesisType);
+            TouchUpdateKeys(thesisType);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<ThesisType>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

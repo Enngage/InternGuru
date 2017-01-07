@@ -14,11 +14,11 @@ namespace Web.Controllers
 {
     public class CompanyController : BaseController
     {
-        CompanyBuilder companyBuilder;
+        readonly CompanyBuilder _companyBuilder;
 
         public CompanyController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, CompanyBuilder companyBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
-            this.companyBuilder = companyBuilder;
+            _companyBuilder = companyBuilder;
         }
 
         #region Actions
@@ -30,7 +30,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await companyBuilder.BuildDetailViewAsync(codeName);
+            var model = await _companyBuilder.BuildDetailViewAsync(codeName);
 
             if (model == null)
             {
@@ -38,7 +38,7 @@ namespace Web.Controllers
             }
 
             // set tab if possible
-            var activeTab = EnumHelper.ParseEnum<CompanyDetailMenuEnum>(tab, CompanyDetailMenuEnum.About);
+            var activeTab = EnumHelper.ParseEnum(tab, CompanyDetailMenuEnum.About);
             model.ActiveTab = activeTab;
 
             return View(model);
@@ -56,9 +56,9 @@ namespace Web.Controllers
             var activeTab = CompanyDetailMenuEnum.Contact;
 
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                var model = await companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form);
+                var model = await _companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form);
                 model.ActiveTab = activeTab;
 
                 return View(model);
@@ -66,9 +66,9 @@ namespace Web.Controllers
 
             try
             {
-                await companyBuilder.CreateMessage(form);
+                await _companyBuilder.CreateMessage(form);
 
-                var model = await companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, null);
+                var model = await _companyBuilder.BuildDetailViewAsync(form.CompanyCodeName);
 
                 // set active tab
                 model.ActiveTab = activeTab;
@@ -78,11 +78,11 @@ namespace Web.Controllers
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                var model = await companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form);
+                var model = await _companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form);
                 model.ActiveTab = activeTab;
 
                 return View(model);

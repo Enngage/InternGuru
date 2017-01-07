@@ -25,6 +25,8 @@ namespace Service.Context
         public IDbSet<Language> Languages { get; set; }
         public IDbSet<HomeOfficeOption> HomeOfficeOptions { get; set; }
         public IDbSet<StudentStatusOption> StudentStatusOptions { get; set; }
+        public IDbSet<Activity> Activities { get; set; }
+
         #endregion
 
         #region Constructor
@@ -35,7 +37,6 @@ namespace Service.Context
         /// </summary>
         public AppContext()
         {
-            new AppContext(null);
         }
 
         /// <summary>
@@ -47,12 +48,12 @@ namespace Service.Context
             // set configuration
             if (config != null)
             {
-                this.Configuration.AutoDetectChangesEnabled = config.AutoDetectChanges;
+                Configuration.AutoDetectChangesEnabled = config.AutoDetectChanges;
             }
             else
             {
                 var defaultConfig = new AppContextConfig();
-                this.Configuration.AutoDetectChangesEnabled = defaultConfig.AutoDetectChanges;
+                Configuration.AutoDetectChangesEnabled = defaultConfig.AutoDetectChanges;
             }
         }
 
@@ -62,7 +63,7 @@ namespace Service.Context
 
         public DbContextTransaction BeginTransaction()
         {
-            return this.Database.BeginTransaction();
+            return Database.BeginTransaction();
         }
 
         #endregion

@@ -25,6 +25,7 @@ namespace Service.Context
         IDbSet<Language> Languages { get; }
         IDbSet<HomeOfficeOption> HomeOfficeOptions { get; }
         IDbSet<StudentStatusOption> StudentStatusOptions { get; }
+        IDbSet<Activity> Activities { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

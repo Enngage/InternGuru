@@ -26,9 +26,6 @@ namespace Core.Config
 
         #region System paths
 
-        private static string serverRootPath = null;
-        private static string serverVirtualPath = null;
-
         /// <summary>
         /// Represents root path of server 
         /// - Server.MapPath("~")
@@ -37,13 +34,7 @@ namespace Core.Config
         /// or
         /// - System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath)
         /// </summary>
-        public static string ServerRootPath
-        {
-            get
-            {
-                return serverRootPath;
-            }
-        }
+        public static string ServerRootPath { get; private set; }
 
         /// <summary>
         /// Represents virtual root path of server 
@@ -53,13 +44,7 @@ namespace Core.Config
         /// or
         /// - System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath)
         /// </summary>
-        public static string ServerVirtualPath
-        {
-            get
-            {
-                return serverVirtualPath;
-            }
-        }
+        public static string ServerVirtualPath { get; private set; }
 
         /// <summary>
         /// Represents root path of server
@@ -67,16 +52,15 @@ namespace Core.Config
         /// <param name="rootPath">rootPath</param>
         public static void SetServerRootPath(string rootPath)
         {
-            serverRootPath = rootPath;
+            ServerRootPath = rootPath;
         }
 
         /// <summary>
         /// Represents viritual root path of server 
         /// </summary>
-        /// <param name="rootPath">rootPath</param>
         public static void SetServerVirtualRootPath(string virtualRootPath)
         {
-            serverVirtualPath = virtualRootPath;
+            ServerVirtualPath = virtualRootPath;
         }
 
         #endregion

@@ -3,6 +3,7 @@ using Core.Helpers;
 using Core.Helpers.Internship;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Entity.Base;
 
 namespace Entity
 {

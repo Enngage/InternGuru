@@ -10,11 +10,11 @@ namespace Web.Controllers
 {
     public class InternshipsController : BaseController
     {
-        InternshipBuilder internshipBuilder;
+        readonly InternshipBuilder _internshipBuilder;
 
         public InternshipsController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, InternshipBuilder internshipBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
-            this.internshipBuilder = internshipBuilder;
+            _internshipBuilder = internshipBuilder;
         }
 
         #region Actions
@@ -22,7 +22,7 @@ namespace Web.Controllers
 
         public async Task<ActionResult> Index(int? page, string category, string search, string city)
         {
-            var model = await internshipBuilder.BuildBrowseViewAsync(page, category, search, city);
+            var model = await _internshipBuilder.BuildBrowseViewAsync(page, category, search, city);
 
             return View(model);
         }

@@ -45,6 +45,9 @@ namespace UI.Builders.Internship.Models
         public int HomeOfficeOptionID { get; set; }
         public int StudentStatusOptionID { get; set; }
 
+        // activity stats
+        public InternshipActivityStats ActivityStats { get; set; }
+
         // model properties
         public InternshipDetailCompanyModel Company { get; set; }
         public InternshipHomeOfficeOptionModel HomeOfficeOption { get; set; }

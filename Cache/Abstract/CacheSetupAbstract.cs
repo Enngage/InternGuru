@@ -1,77 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cache
+namespace Cache.Abstract
 {
     internal abstract class CacheSetupAbstract
     {
 
         #region Variables
 
-        protected string inputKey;
-        protected int cacheMinutes;
-        protected IList<String> dependencies;
-        protected DateTime? updated;
-        protected string typeName;
+        protected string InputKey;
 
         #endregion
 
         #region Interface members
 
         /// <summary>
-        /// Update time when cache item was last updated
-        /// </summary>
-        public void SetUpdated(DateTime updateTime)
-        {
-            this.updated = updateTime;
-        }
-
-        /// <summary>
         /// Represents type name passed to cache setup
         /// </summary>
-        public string TypeName
-        {
-            get
-            {
-                return this.typeName;
-            }
-        }
+        public string TypeName { get; set; }
 
         /// <summary>
         /// Time when cache item was last updated
         /// </summary>
-        public DateTime? Updated
-        {
-            get
-            {
-                return this.updated;
-            }
-        }
+        public DateTime? Updated { get; set; }
 
         /// <summary>
         /// Indicates for how lond the item should be stored in cache
         /// </summary>
-        public int CacheMinutes
-        {
-            get
-            {
-                return this.cacheMinutes;
-            }
-        }
+        public int CacheMinutes { get; set; }
 
         /// <summary>
         /// Dependencies of cache item
         /// </summary>
-        public IList<string> Dependencies
+        public IList<string> Dependencies { get; set; }
+
+        public void SetUpdated(DateTime time)
         {
-            get
-            {
-                return this.dependencies;
-            }
-            set
-            {
-                this.dependencies = value;
-            }
+            Updated = time;
         }
 
         #endregion

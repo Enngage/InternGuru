@@ -2,9 +2,9 @@
 
 namespace UI.Attributes
 {
-    public class ValidIntegerValidator : System.Web.Mvc.DataAnnotationsModelValidator<ValidInteger>
+    public class ValidIntegerValidator : DataAnnotationsModelValidator<ValidInteger>
     {
-        public ValidIntegerValidator(System.Web.Mvc.ModelMetadata metadata, ControllerContext context, ValidInteger attribute)
+        public ValidIntegerValidator(ModelMetadata metadata, ControllerContext context, ValidInteger attribute)
             : base(metadata, context, attribute)
         {
             if (!attribute.IsValid(context.HttpContext.Request.Form[metadata.PropertyName]))

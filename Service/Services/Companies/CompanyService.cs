@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Companies
 {
     public class CompanyService : BaseService<Company>, ICompanyService
     {
@@ -19,21 +19,21 @@ namespace Service.Services
         public Task<int> DeleteAsync(int id)
         {
             // get log
-            var company = this.AppContext.Companies.Find(id);
+            var company = AppContext.Companies.Find(id);
 
             if (company != null)
             {
                 // delete company
-                this.AppContext.Companies.Remove(company);
+                AppContext.Companies.Remove(company);
 
                 // touch cache keys
-                this.TouchDeleteKeys(company);
+                TouchDeleteKeys(company);
 
                 // fire event
-                this.OnDelete(company);
+                OnDelete(company);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -41,17 +41,17 @@ namespace Service.Services
 
         public Task<Company> GetAsync(int id)
         {
-            return this.AppContext.Companies.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.Companies.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<Company> GetSingle(int id)
         {
-            return this.AppContext.Companies.Where(m => m.ID == id).Take(1);
+            return AppContext.Companies.Where(m => m.ID == id).Take(1);
         }
 
         public IQueryable<Company> GetAll()
         {
-            return this.AppContext.Companies;
+            return AppContext.Companies;
         }
 
         public async Task<int> InsertAsync(Company obj)
@@ -60,62 +60,62 @@ namespace Service.Services
             obj.CodeName = obj.GetAlias();
 
             // set company GUID
-            obj.CompanyGUID = Guid.NewGuid();
+            obj.CompanyGuid = Guid.NewGuid();
 
             // check if alias is unique
             if (!await CompanyAliasIsUnique(obj.CodeName, 0))
             {
-                throw new CodeNameNotUniqueException(string.Format("Company name {0} is not unique", obj.CodeName));
+                throw new CodeNameNotUniqueException($"Company name {obj.CodeName} is not unique");
             }
 
-            this.AppContext.Companies.Add(obj);
+            AppContext.Companies.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return await this.SaveChangesAsync();
+            return await SaveChangesAsync();
         }
 
         public async Task<int> UpdateAsync(Company obj)
         {
-            var company = this.AppContext.Companies.Find(obj.ID);
+            var company = AppContext.Companies.Find(obj.ID);
 
             if (company == null)
             {
-                throw new NotFoundException(string.Format("Company with ID: {0} not found", company.ID));
+                throw new NotFoundException($"Company with ID: {obj.ID} not found");
             }
 
             // set company alias
             obj.CodeName = obj.GetAlias();
 
             // set company guid
-            obj.CompanyGUID = company.CompanyGUID;
+            obj.CompanyGuid = company.CompanyGuid;
 
             // check if alias is unique
             if (!await CompanyAliasIsUnique(obj.CodeName, obj.ID))
             {
-                throw new CodeNameNotUniqueException(string.Format("Company name {0} is not unique", obj.CodeName));
+                throw new CodeNameNotUniqueException($"Company name {obj.CodeName} is not unique");
             }
 
             // fire event
-            this.OnUpdate(obj, company);
+            OnUpdate(obj, company);
 
             // update company
-            this.AppContext.Entry(company).CurrentValues.SetValues(obj);
+            AppContext.Entry(company).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(company);
+            TouchUpdateKeys(company);
 
             // save changes
-            return await this.AppContext.SaveChangesAsync();
+            return await AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Company>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
 
         #region Helper methods
@@ -128,7 +128,7 @@ namespace Service.Services
         /// <returns>True if unique, false otherwise</returns>
         private async Task<bool> CompanyAliasIsUnique(string alias, int companyID)
         {
-            var companyQuery = this.GetAll()
+            var companyQuery = GetAll()
                 .Where(m => m.CodeName == alias)
                 .Take(1);
 

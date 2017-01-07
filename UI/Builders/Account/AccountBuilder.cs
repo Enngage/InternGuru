@@ -1,5 +1,4 @@
 ﻿using UI.Base;
-using Service.Context;
 using System.Text;
 using Core.Config;
 using UI.Builders.Account.Views;

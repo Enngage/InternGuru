@@ -12,24 +12,24 @@ using Ninject;
 
 namespace Identity
 {
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public sealed class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store, IdentityFactoryOptions<ApplicationUserManager> options, IDataProtectionProvider dataProtectionProvider)
+        public ApplicationUserManager(IUserStore<ApplicationUser> store, IDataProtectionProvider dataProtectionProvider)
             : base(store)
         {
 
             // Configure messaging services
-            this.EmailService = KernelProvider.Kernel.Get<IIdentityMessageService>();
+            EmailService = KernelProvider.Kernel.Get<IIdentityMessageService>();
 
             // Configure validation logic for usernames
-            this.UserValidator = new UserValidator<ApplicationUser>(this)
+            UserValidator = new UserValidator<ApplicationUser>(this)
             {
                 AllowOnlyAlphanumericUserNames = true,
                 RequireUniqueEmail = true
             };
 
             // Configure validation logic for passwords
-            this.PasswordValidator = new PasswordValidator
+            PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
                 RequireNonLetterOrDigit = false,
@@ -39,17 +39,17 @@ namespace Identity
             };
 
             // Configure user lockout defaults
-            this.UserLockoutEnabledByDefault = true;
-            this.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(30);
-            this.MaxFailedAccessAttemptsBeforeLockout = 10;
+            UserLockoutEnabledByDefault = true;
+            DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(30);
+            MaxFailedAccessAttemptsBeforeLockout = 10;
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
-            this.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+            RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
             {
                 MessageFormat = "Your security code is {0}"
             });
-            this.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
+            RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
@@ -58,9 +58,9 @@ namespace Identity
             //var dataProtectionProvider = options.DataProtectionProvider; // moved to constructor for DI instead
             if (dataProtectionProvider != null)
             {
-                IDataProtector dataProtector = dataProtectionProvider.Create("ASP.NET Identity");
+                var dataProtector = dataProtectionProvider.Create("ASP.NET Identity");
 
-                this.UserTokenProvider =
+                UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtector);
             }
         }

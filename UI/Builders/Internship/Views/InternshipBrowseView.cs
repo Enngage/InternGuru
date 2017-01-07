@@ -1,5 +1,4 @@
 ﻿using PagedList;
-using System;
 using System.Collections.Generic;
 using UI.Builders.Internship.Models;
 using UI.Builders.Master.Views;

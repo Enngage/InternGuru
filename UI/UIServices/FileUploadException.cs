@@ -9,7 +9,6 @@ namespace UI.UIServices
         /// Just create the exception
         /// </summary>
         public FileUploadException()
-            : base()
         {
         }
 
@@ -17,7 +16,7 @@ namespace UI.UIServices
         /// Create the exception with description
         /// </summary>
         /// <param name="message">Exception description</param>
-        public FileUploadException(String message)
+        public FileUploadException(string message)
             : base(message)
         {
         }
@@ -27,7 +26,7 @@ namespace UI.UIServices
         /// </summary>
         /// <param name="message">Exception description</param>
         /// <param name="innerException">Exception inner cause</param>
-        public FileUploadException(String message, Exception innerException)
+        public FileUploadException(string message, Exception innerException)
             : base(message, innerException)
         {
         }

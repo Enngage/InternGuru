@@ -1,13 +1,12 @@
-﻿using UI.Base;
-using UI.Builders.Shared.Models;
+﻿using System;
+using System.IO;
+using UI.Base;
 using UI.Builders.Services;
-using System;
+using UI.Builders.Shared.Models;
 using UI.Exceptions;
 using UI.Helpers;
-using Core.Config;
-using System.IO;
 
-namespace UI.Builders.Company
+namespace UI.Builders.CompanyGallery
 {
     public class CompanyGalleryBuilder : BaseBuilder
     {
@@ -36,7 +35,7 @@ namespace UI.Builders.Company
             }
             else
             {
-                throw new UIException(UIExceptionEnum.NoPermission);
+                throw new UiException(UiExceptionEnum.NoPermission);
             }
         }
 
@@ -46,7 +45,7 @@ namespace UI.Builders.Company
 
         public bool UserCanManageImages(Guid companyGuid)
         {
-            if (this.CurrentCompany.CompanyGUID == companyGuid)
+            if (CurrentCompany.CompanyGuid == companyGuid)
             {
                 return true;
             }

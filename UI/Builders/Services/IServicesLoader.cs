@@ -1,7 +1,15 @@
 ﻿using Cache;
-using Service.Services;
 using EmailProvider;
-using UI.Events;
+using Service.Services.Activities;
+using Service.Services.Companies;
+using Service.Services.Countries;
+using Service.Services.Currencies;
+using Service.Services.Identity;
+using Service.Services.Internships;
+using Service.Services.Languages;
+using Service.Services.Logs;
+using Service.Services.Messages;
+using Service.Services.Thesis;
 using UI.UIServices;
 
 namespace UI.Builders.Services
@@ -35,6 +43,7 @@ namespace UI.Builders.Services
         ILanguageService LanguageService { get; }
         IHomeOfficeOptionService HomeOfficeOptionService { get; }
         IStudentStatusOptionService StudentStatusOptionService { get; }
+        IActivityService ActivityService { get; }
 
         #endregion
     }

@@ -9,7 +9,7 @@
         <div class="five wide computer sixteen wide tablet sixteen wide mobile column">
             <h1>@ViewBag.Title</h1>
 
-            @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, null))
+            @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new {ViewBag.ReturnUrl }, FormMethod.Post, null))
             {
                 @Html.AntiForgeryToken()
 

@@ -1,11 +1,34 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
 @using UI.Helpers;
-@using Core.Helpers;
-@using UI.Extensions;
+@using UI.Builders.Gallery.Views;
+@using UI.Builders.Gallery.Models;
 
-<h2>
-    O nás
-</h2>
-<p>
-    @Html.Raw(Model.Company.LongDescription)
-</p>
+@{
+    // get gallery images
+    var galleryImages = ImageHelper.GetCompanyGalleryImages(Model.Company.CompanyGuid).Select(m => new GalleryImage()
+    {
+        Url = m.Value
+    });
+}
+
+<div class="ui segment">
+
+    <h2>
+        O nás
+    </h2>
+    <p>
+        @Html.Raw(Model.Company.LongDescription)
+    </p>
+
+</div>
+
+@if (galleryImages.Count() > 0)
+{
+    <div class="ui segment w-margin-top-30">
+        @Html.Partial("~/Views/Gallery/Base.cshtml", new GalleryView()
+   {
+       GalleryID = "_CompanyGallery",
+       Images = galleryImages
+   })
+    </div>
+}

@@ -14,6 +14,7 @@ using Service.Exceptions;
 using UI.Builders.Shared.Models;
 using PagedList;
 using Core.Extensions;
+using Entity.Base;
 
 namespace UI.Builders.Company
 {
@@ -22,7 +23,7 @@ namespace UI.Builders.Company
 
         #region Variables
 
-        private readonly int browseCompaniesPageSize = 4;
+        private readonly int _browseCompaniesPageSize = 4;
 
         #endregion
 
@@ -36,7 +37,7 @@ namespace UI.Builders.Company
 
         public async Task<CompanyBrowseView> BuildBrowseViewAsync(int? page)
         {
-            int pageNumber = (page ?? 1);
+            var pageNumber = (page ?? 1);
 
             return new CompanyBrowseView()
             {
@@ -46,9 +47,9 @@ namespace UI.Builders.Company
 
         public async Task<CompanyDetailView> BuildDetailViewAsync(string codeName, CompanyContactUsForm contactUsForm = null)
         {
-            int cacheMinutes = 60;
+            var cacheMinutes = 60;
 
-            var cacheSetup = this.Services.CacheService.GetSetup<CompanyDetailModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<CompanyDetailModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateCodeName<Entity.Company>(codeName),
@@ -86,10 +87,10 @@ namespace UI.Builders.Company
                     YearFounded = m.YearFounded,
                     City = m.City,
                     CompanyName = m.CompanyName,
-                    CompanyGuid = m.CompanyGUID,
+                    CompanyGuid = m.CompanyGuid,
                     ID = m.ID,
                     Internships = m.Internships
-                        .Where(v => v.IsActive == true)
+                        .Where(v => v.IsActive)
                         .Select(s => new CompanyDetailInternshipModel()
                         {
                             ID = s.ID,
@@ -103,7 +104,7 @@ namespace UI.Builders.Company
                             CurrencyShowSignOnLeft = s.Currency.ShowSignOnLeft
                         }),
                     Theses = m.Theses
-                        .Where(v => v.IsActive == true)
+                        .Where(v => v.IsActive)
                         .Select(s => new CompanyThesisModel()
                         {
                             Amount = s.Amount,
@@ -117,7 +118,7 @@ namespace UI.Builders.Company
                         })
                 });
 
-            var company = await this.Services.CacheService.GetOrSetAsync(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
+            var company = await Services.CacheService.GetOrSetAsync(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
 
             if (company == null)
             {
@@ -134,7 +135,7 @@ namespace UI.Builders.Company
             return new CompanyDetailView()
             {
                 Company = company,
-                ContactUsForm = contactUsForm == null ? defaultForm : contactUsForm,
+                ContactUsForm = contactUsForm ?? defaultForm,
             };
         }
 
@@ -146,7 +147,7 @@ namespace UI.Builders.Company
         {
             try
             {
-                if (!this.CurrentUser.IsAuthenticated)
+                if (!CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can send message
                     throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
@@ -162,7 +163,7 @@ namespace UI.Builders.Company
 
                 var message = new Message()
                 {
-                    SenderApplicationUserId = this.CurrentUser.Id,
+                    SenderApplicationUserId = CurrentUser.Id,
                     RecipientCompanyID = form.CompanyID,
                     RecipientApplicationUserId = companyUserID,
                     MessageText = form.Message,
@@ -170,7 +171,7 @@ namespace UI.Builders.Company
                     IsRead = false,
                 };
 
-                return await this.Services.MessageService.InsertAsync(message);
+                return await Services.MessageService.InsertAsync(message);
             }
             catch (ValidationException ex)
             {
@@ -178,7 +179,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -186,7 +187,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -210,17 +211,17 @@ namespace UI.Builders.Company
         /// <returns>ID of user who created company</returns>
         private async Task<string> GetIDOfCompanyUserAsync(int companyID)
         {
-            return await this.Services.CompanyService.GetSingle(companyID)
+            return await Services.CompanyService.GetSingle(companyID)
                 .Select(m => m.ApplicationUserId)
                 .FirstOrDefaultAsync();
         }
  
         private async Task<IList<CompanyBrowseModel>> GetCompaniesAsync(int pageNumber, string search)
         {
-            int cacheMinutes = 60;
+            var cacheMinutes = 60;
 
             // get companies from db/cache
-            var cacheSetup = this.Services.CacheService.GetSetup<CompanyBrowseModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<CompanyBrowseModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Company>(),
@@ -238,26 +239,26 @@ namespace UI.Builders.Company
                     CountryCode = m.Country.CountryCode,
                     CountryIcon = m.Country.Icon,
                     ID = m.ID,
-                    CompanyGUID = m.CompanyGUID,
-                    InternshipCount = m.Internships.Where(s => s.IsActive == true).Count(),
+                    CompanyGuid = m.CompanyGuid,
+                    InternshipCount = m.Internships.Where(s => s.IsActive).Count(),
                     CodeName = m.CodeName,
                     ThesesCount = m.Theses.Count()
                 });
 
             // cache all companies
-            var allCompanies = await this.Services.CacheService.GetOrSetAsync(async () => await companiesQuery.ToListAsync(), cacheSetup);
+            var allCompanies = await Services.CacheService.GetOrSetAsync(async () => await companiesQuery.ToListAsync(), cacheSetup);
 
             // search
             if (!string.IsNullOrEmpty(search))
             {
-                var filteredCompanies = allCompanies.Where(m => m.CompanyName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToPagedList(pageNumber, browseCompaniesPageSize);
+                var filteredCompanies = allCompanies.Where(m => m.CompanyName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToPagedList(pageNumber, _browseCompaniesPageSize);
 
                 return filteredCompanies.ToList();
             }
             // not search
             else
             {
-                return allCompanies.ToPagedList(pageNumber, browseCompaniesPageSize).ToList();
+                return allCompanies.ToPagedList(pageNumber, _browseCompaniesPageSize).ToList();
             }
         }
 

@@ -1,8 +1,8 @@
-﻿using Entity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Entity;
 
-namespace Service.Services
+namespace Service.Services.Languages
 {
     public interface ILanguageService : IService<Language>
     {

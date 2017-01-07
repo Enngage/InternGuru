@@ -16,7 +16,7 @@ namespace Core.Helpers
         public static bool IsValidUrl(string url)
         {
             Uri uriResult;
-            bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult)
+            var result = Uri.TryCreate(url, UriKind.Absolute, out uriResult)
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 
             return result;
@@ -26,11 +26,12 @@ namespace Core.Helpers
         /// Shortens given text
         /// </summary>
         /// <param name="appendDots">If true, 3 dots "..." will be appended to text</param>
+        /// <param name="text"></param>
         /// <param name="count">Number of characters to return</param>
         /// <returns>Shortened text</returns>
         public static string ShortenText(string text, int count, bool appendDots = true)
         {
-            if (String.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
                 return null;
             }
@@ -40,7 +41,7 @@ namespace Core.Helpers
                 return text;
             }
 
-            string shortenedText = text.Substring(0, count);
+            var shortenedText = text.Substring(0, count);
 
             if (appendDots)
             {
@@ -114,20 +115,20 @@ namespace Core.Helpers
         /// <returns>Code name from given text</returns>
         public static string GetCodeName(string text)
         {
-            if (!String.IsNullOrEmpty(text))
+            if (!string.IsNullOrEmpty(text))
             {
                 // replace all spaces with a dash
-                string formattedText = text.Replace(" ", "-");
+                var formattedText = text.Replace(" ", "-");
 
                 // remove all non-alphanumeric or dash chars
-                Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+                var rgx = new Regex("[^a-zA-Z0-9 -]");
 
                 formattedText = rgx.Replace(formattedText, "");
 
                 // remove dash if there are 2 dashes next to each other
-                int counter = 0;
-                string codeName = "";
-                foreach (Char character in formattedText)
+                var counter = 0;
+                var codeName = "";
+                foreach (var character in formattedText)
                 {
                     if (character == '-')
                     {

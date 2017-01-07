@@ -4,21 +4,21 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Linq;
 using UI.Base;
-using UI.Builders.Company;
 using UI.Builders.Master;
+using UI.Builders.System;
 using UI.Events;
-using Web.Lib.Authorize;
+using Web.Lib.Privilege;
 
 namespace Web.Controllers.System
 {
 
-    [AuthorizeRolesMVC(PrivilegeLevel.Admin)]
+    [AuthorizeRolesMvc(PrivilegeLevel.Admin)]
     public class SystemController : BaseController
     {
 
         #region Builder
 
-        private SystemBuilder systemBuilder;
+        private readonly SystemBuilder _systemBuilder;
 
         #endregion
 
@@ -26,14 +26,14 @@ namespace Web.Controllers.System
 
         public SystemController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, SystemBuilder systemBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
-            this.systemBuilder = systemBuilder;
+            _systemBuilder = systemBuilder;
         }
 
         #endregion
 
         public async Task<ActionResult> EventLog(int? page)
         {
-            var model = await this.systemBuilder.BuildEventLogViewAsync(page);
+            var model = await _systemBuilder.BuildEventLogViewAsync(page);
 
             if (model == null)
             {
@@ -44,7 +44,7 @@ namespace Web.Controllers.System
             var latestLog = model.Events.OrderByDescending(m => m.ID).FirstOrDefault();
             if (latestLog  != null)
             {
-                systemBuilder.MarkReadLog(latestLog.ID);
+                _systemBuilder.MarkReadLog(latestLog.ID);
             }
 
             return View(model);

@@ -1,7 +1,5 @@
 ﻿@using UI.Helpers;
 @using UI.Extensions;
-@using Core.Helpers;
-@using PagedList.Mvc
 @model UI.Builders.Auth.Views.AuthMasterView
 
 @{
@@ -24,9 +22,7 @@
 @Html.RequireScript("/scripts/views/auth/authIndex")
 
 <div class="ui grid">
-
-    <div class="sixteen wide mobile six wide tablet four wide computer column">
-
+    <div class="six wide tablet only four wide computer only column">
         @foreach (var enabledTab in Model.Tabs.GetOrderedActiveTabs())
         {
             if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Profile)
@@ -43,7 +39,7 @@
                         }
                     </h3>
                     <a href="@Url.Action("Index", "Auth")">
-                        <img alt="avatar" class="ui tiny image w-image-center" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)" src="@ImageHelper.GetTransparentImage()">
+                        <img alt="avatar" class="ui tiny image w-image-center" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" src="@ImageHelper.GetTransparentImage()">
                     </a>
 
                     <div class="w-font-size-small w-margin-top-10">
@@ -61,10 +57,10 @@
             {
                 <div class="ui segment padded w-body-text-center">
                     <h3>
-                        @Model.Master.CurrentCompany.CompanyName
+                        Firma
                     </h3>
                     <a href="@Url.Action("EditCompany", "Auth")">
-                        <img alt="company" class="ui tiny image w-image-center" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyGUID)" src="@ImageHelper.GetTransparentImage()">
+                        <img alt="company" class="ui tiny image w-image-center" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyGuid)" src="@ImageHelper.GetTransparentImage()">
                     </a>
 
                     <div class="w-font-size-small w-margin-top-10">
@@ -82,11 +78,11 @@
             {
                 <div>
                     <a class="ui button fluid" href="@Url.Action("NewInternship", "Auth")">
-                        Přidat stáž
+                        Inzerovat novou stáž
                     </a>
 
                     <a class="ui button fluid w-margin-top-10" href="@Url.Action("NewThesis", "Auth")">
-                        Přidat závěrečnou práci
+                        Zadat závěrečnou práci
                     </a>
 
                     @if (!Model.Master.CurrentCompany.IsAvailable)
@@ -99,21 +95,21 @@
             }
             else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.MyInternships)
             {
-                if (Model.AuthMaster.Internships.Count() > 0)
+                if (Model.AuthMaster.Internships.Any())
                 {
                     <div>
                         <table class="ui very basic table">
                             <tbody>
-                                @foreach (var internship in Model.AuthMaster.Internships.Take(10).OrderByDescending(m => m.Created))
-                                {
-                                    <tr>
-                                        <td>
-                                            <a href="@Url.Action("EditInternship", new { id = internship.ID })">
-                                                @internship.Title
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
+                            @foreach (var internship in Model.AuthMaster.Internships.Take(10).OrderByDescending(m => m.Created))
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("EditInternship", new { id = internship.ID })">
+                                            @internship.Title
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -121,21 +117,21 @@
             }
             else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.MyTheses)
             {
-                if (Model.AuthMaster.Internships.Count() > 0)
+                if (Model.AuthMaster.Internships.Any())
                 {
                     <div>
                         <table class="ui very basic table">
                             <tbody>
-                                @foreach (var thesis in Model.AuthMaster.Theses.Take(10).OrderByDescending(m => m.Created))
-                                {
-                                    <tr>
-                                        <td>
-                                            <a href="@Url.Action("EditThesis", new { id = thesis.ID })">
-                                                @thesis.ThesisName
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
+                            @foreach (var thesis in Model.AuthMaster.Theses.Take(10).OrderByDescending(m => m.Created))
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("EditThesis", new { id = thesis.ID })">
+                                            @thesis.ThesisName
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -144,21 +140,21 @@
             else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.RecentConversations)
             {
 
-                if (Model.AuthMaster.Conversations.Count() > 0)
+                if (Model.AuthMaster.Conversations.Any())
                 {
                     <div>
                         <table class="ui very basic table">
                             <tbody>
-                                @foreach (var conversation in Model.AuthMaster.Conversations.Take(10).OrderByDescending(m => m.MessageCreated))
-                                {
-                                    <tr>
-                                        <td>
-                                            <a href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                                                @conversation.WithApplicationUserName
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
+                            @foreach (var conversation in Model.AuthMaster.Conversations.Take(10).OrderByDescending(m => m.MessageCreated))
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
+                                            @conversation.WithApplicationUserName
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -189,5 +185,5 @@
     <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
         @RenderBody()
     </div>
-
 </div>
+

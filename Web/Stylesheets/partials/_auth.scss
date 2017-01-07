@@ -8,6 +8,15 @@
         }
     }
 
+    .w-auth-conversation-text-link{
+        text-decoration: underline;
+        color: $color-base;
+    }
+
+    .w-auth-conversation-text-link:hover{
+        text-decoration: none;
+    }
+
     .w-auth-gallery-column {
     }
 

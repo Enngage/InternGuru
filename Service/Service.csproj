@@ -68,12 +68,15 @@
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\201612291125457_IntAmountInternship.cs" />
-    <Compile Include="Migrations\201612291125457_IntAmountInternship.Designer.cs">
-      <DependentUpon>201612291125457_IntAmountInternship.cs</DependentUpon>
+    <Compile Include="Migrations\201701071642193_Activities.cs" />
+    <Compile Include="Migrations\201701071642193_Activities.Designer.cs">
+      <DependentUpon>201701071642193_Activities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Activities\ActivityService.cs" />
+    <Compile Include="Services\Activities\Enums\ActivityTypeEnum.cs" />
+    <Compile Include="Services\Activities\IActivityService.cs" />
     <Compile Include="Services\Companies\CompanyService.cs" />
     <Compile Include="Services\Companies\CompanySizeService.cs" />
     <Compile Include="Services\Companies\ICompanyCategoryService.cs" />
@@ -131,8 +134,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612291125457_IntAmountInternship.resx">
-      <DependentUpon>201612291125457_IntAmountInternship.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701071642193_Activities.resx">
+      <DependentUpon>201701071642193_Activities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

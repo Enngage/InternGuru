@@ -1,6 +1,5 @@
 ﻿using Core.Config;
 using Core.Helpers;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -16,8 +15,8 @@ namespace UI.UIServices
         /// <summary>
         /// Path to application where files will be saved
         /// </summary>
-        private string rootPath = SystemConfig.ServerRootPath;
-        private int maximumFileSize = AppConfig.MaximumFileSize;
+        private readonly string _rootPath = SystemConfig.ServerRootPath;
+        private readonly int _maximumFileSize = AppConfig.MaximumFileSize;
 
         public IEnumerable<string> AllowedImageExtensions
         {
@@ -39,28 +38,34 @@ namespace UI.UIServices
         {
             if (file.ContentLength > 0)
             {
-                if (file.ContentLength > maximumFileSize)
+                if (file.ContentLength > _maximumFileSize)
                 {
-                    throw new FileUploadException(String.Format("Maximální velikost souboru je {0}. Požadovaný soubor má {1}", ConvertHelper.FormatBytes(maximumFileSize), ConvertHelper.FormatBytes(file.ContentLength)));
+                    throw new FileUploadException(
+                        $"Maximální velikost souboru je {ConvertHelper.FormatBytes(_maximumFileSize)}. Požadovaný soubor má {ConvertHelper.FormatBytes(file.ContentLength)}");
                 }
 
-                var fileExtension = Path.GetExtension(file.FileName).ToLower();
+                var extension = Path.GetExtension(file.FileName);
 
-                if (this.AllowedFileExtensions.Contains(fileExtension))
+                if (extension != null)
                 {
+                    var fileExtension = extension.ToLower();
+
+                    if (AllowedFileExtensions.Contains(fileExtension))
+                    {
                         // file extension is allowed
 
                         // get absolute path where file will be saved
-                        string absolutePath = rootPath + path + fileName + fileExtension;
+                        var absolutePath = _rootPath + path + fileName + fileExtension;
 
                         // save file
                         file.SaveAs(absolutePath);
-                }
-                else
-                {
-                    // file extension is not allowed
-                    throw new FileUploadException(String.Format("Soubory typu {0} nejsou povoleny", fileExtension));
+                    }
+                    else
+                    {
+                        // file extension is not allowed
+                        throw new FileUploadException($"Soubory typu {fileExtension} nejsou povoleny");
 
+                    }
                 }
             }
             else
@@ -73,9 +78,10 @@ namespace UI.UIServices
         {
             if (file != null && file.ContentLength > 0)
             {
-                if (file.ContentLength > maximumFileSize)
+                if (file.ContentLength > _maximumFileSize)
                 {
-                    throw new FileUploadException(String.Format("Maximální velikost souboru je {0}. Požadovaný soubor má {1}", ConvertHelper.FormatBytes(maximumFileSize), ConvertHelper.FormatBytes(file.ContentLength)));
+                    throw new FileUploadException(
+                        $"Maximální velikost souboru je {ConvertHelper.FormatBytes(_maximumFileSize)}. Požadovaný soubor má {ConvertHelper.FormatBytes(file.ContentLength)}");
                 }
 
                 // add "/" to path if it is not present
@@ -84,41 +90,45 @@ namespace UI.UIServices
                     path += "/";
                 }
 
-                var fileExtension = Path.GetExtension(file.FileName).ToLower();
-
-                if (this.AllowedImageExtensions.Contains(fileExtension))
+                var extension = Path.GetExtension(file.FileName);
+                if (extension != null)
                 {
-                    // get image from stream
-                    var image = Image.FromStream(file.InputStream);
+                    var fileExtension = extension.ToLower();
 
-                    // resize image if necessary
-                    if (resizeToWidth > 0 && resizeToHeight > 0)
+                    if (AllowedImageExtensions.Contains(fileExtension))
                     {
-                        // save resized image
-                        var resizedImage = ResizeImage(image, resizeToWidth, resizeToHeight);
+                        // get image from stream
+                        var image = Image.FromStream(file.InputStream);
 
-                        // delete existing images if they exist
-                        var existingImage = Directory.GetFiles(rootPath + path, fileName + ".*");
-                        if (existingImage.Length > 0)
+                        // resize image if necessary
+                        if (resizeToWidth > 0 && resizeToHeight > 0)
                         {
-                            // file exists -- delete it
-                            System.IO.File.Delete(existingImage[0]);
+                            // save resized image
+                            var resizedImage = ResizeImage(image, resizeToWidth, resizeToHeight);
+
+                            // delete existing images if they exist
+                            var existingImage = Directory.GetFiles(_rootPath + path, fileName + ".*");
+                            if (existingImage.Length > 0)
+                            {
+                                // file exists -- delete it
+                                File.Delete(existingImage[0]);
+                            }
+
+                            // save resized image
+                            var fullFileName = _rootPath + path + fileName + fileExtension;
+
+                            resizedImage.Save(fullFileName);
                         }
-
-                        // save resized image
-                        string fullFileName = rootPath + path + fileName + fileExtension;
-
-                        resizedImage.Save(fullFileName);
+                        else
+                        {
+                            // Save image as regular file
+                            SaveFile(file, path, fileName);
+                        }
                     }
                     else
                     {
-                        // Save image as regular file
-                        SaveFile(file, path, fileName);
+                        throw new FileUploadException($"Soubory typu {fileExtension} nejsou povoleny");
                     }
-                }
-                else
-                {
-                    throw new FileUploadException(String.Format("Soubory typu {0} nejsou povoleny", fileExtension));
                 }
             }
             else

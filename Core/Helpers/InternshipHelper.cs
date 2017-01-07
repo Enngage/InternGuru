@@ -1,7 +1,5 @@
 ﻿using Core.Helpers.Internship;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Core.Helpers
 {
@@ -49,6 +47,7 @@ namespace Core.Helpers
                         return StringHelper.GetPluralWord(duration, "den", "den", "dny", "dnů");
                     case InternshipDurationTypeEnum.Weeks:
                         return StringHelper.GetPluralWord(duration, "týden", "týden", "týdny", "týdnů");
+                    // ReSharper disable once RedundantCaseLabel
                     case InternshipDurationTypeEnum.Months:
                     default:
                         return StringHelper.GetPluralWord(duration, "měsíc", "měsíc", "měsíce", "měsíců");

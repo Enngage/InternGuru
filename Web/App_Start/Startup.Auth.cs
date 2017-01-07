@@ -9,7 +9,6 @@ using Core.Loc;
 using Microsoft.Owin.Security.Facebook;
 using Web.Lib.Ninject;
 using Ninject;
-using Core.Loc.Ninject;
 using Core.Config;
 using Ninject.Web.Common.OwinHost;
 using Entity;

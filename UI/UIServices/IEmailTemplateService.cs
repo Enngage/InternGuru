@@ -11,7 +11,7 @@ namespace UI.UIServices
         /// </summary>
         /// <param name="fileName">File name of the template (e.g. "mytemplate.html")</param>
         /// <returns>HTML of template</returns>
-        string GetTemplateHTML(string fileName);
+        string GetTemplateHtml(string fileName);
 
         /// <summary>
         /// Gets text from given template and replaces macros
@@ -19,7 +19,7 @@ namespace UI.UIServices
         /// <param name="fileName">File name of the template (e.g. "mytemplate.html")</param>
         /// <param name="replacements">Replacements</param>
         /// <returns>Text with replaced macros</returns>
-        string GetTemplateHTML(string fileName, IEnumerable<MacroReplacement> replacements);
+        string GetTemplateHtml(string fileName, IEnumerable<MacroReplacement> replacements);
 
         /// <summary>
         /// Replaces macros in given text

@@ -9,7 +9,6 @@ namespace Service.Exceptions
         /// Just create the exception
         /// </summary>
         public NotFoundException()
-            : base()
         {
         }
 
@@ -17,7 +16,7 @@ namespace Service.Exceptions
         /// Create the exception with description
         /// </summary>
         /// <param name="message">Exception description</param>
-        public NotFoundException(String message)
+        public NotFoundException(string message)
             : base(message)
         {
         }
@@ -27,7 +26,7 @@ namespace Service.Exceptions
         /// </summary>
         /// <param name="message">Exception description</param>
         /// <param name="innerException">Exception inner cause</param>
-        public NotFoundException(String message, Exception innerException)
+        public NotFoundException(string message, Exception innerException)
             : base(message, innerException)
         {
         }

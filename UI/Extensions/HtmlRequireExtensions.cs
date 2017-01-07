@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -21,22 +20,22 @@ namespace UI.Extensions
         /// <param name="priority">Priority</param>
         /// <param name="htmlAttributes">Html attributes</param>
         /// <returns>Script on the home page</returns>
-        public static string RequireCSS(this HtmlHelper html, string path, int priority = 1, string htmlAttributes = null)
+        public static string RequireCss(this HtmlHelper html, string path, int priority = 1, string htmlAttributes = null)
         {
-            string CSSPath = path;
+            var cssPath = path;
 
-            CSSPath = String.Format("{0}.css", CSSPath);
+            cssPath = $"{cssPath}.css";
 
             // add version hash
-            CSSPath += String.Format("?v={0}", VersionInfo.Version);
+            cssPath += $"?v={VersionInfo.Version}";
 
-            var requiredCSS = HttpContext.Current.Items["RequiredCSS"] as List<ResourceInclude>;
-            if (requiredCSS == null) HttpContext.Current.Items["RequiredCSS"] = requiredCSS = new List<ResourceInclude>();
-            if (!requiredCSS.Any(i => i.Path == CSSPath))
+            var requiredCss = HttpContext.Current.Items["RequiredCSS"] as List<ResourceInclude>;
+            if (requiredCss == null) HttpContext.Current.Items["RequiredCSS"] = requiredCss = new List<ResourceInclude>();
+            if (!requiredCss.Any(i => i.Path == cssPath))
             {
-                requiredCSS.Add(new ResourceInclude()
+                requiredCss.Add(new ResourceInclude()
                 {
-                    Path = CSSPath,
+                    Path = cssPath,
                     Priority = priority,
                     HtmlAttributes = htmlAttributes,
                     UseAsync = false,
@@ -49,12 +48,12 @@ namespace UI.Extensions
         /// Renders CSS stored via "RequireCSS" method
         /// </summary>
         /// <returns>Html</returns>
-        public static HtmlString EmitRequiredCSS(this HtmlHelper html)
+        public static HtmlString EmitRequiredCss(this HtmlHelper html)
         {
-            var requiredCSS = HttpContext.Current.Items["RequiredCSS"] as List<ResourceInclude>;
-            if (requiredCSS == null) return null;
-            StringBuilder sb = new StringBuilder();
-            foreach (var item in requiredCSS.OrderByDescending(i => i.Priority))
+            var requiredCss = HttpContext.Current.Items["RequiredCSS"] as List<ResourceInclude>;
+            if (requiredCss == null) return null;
+            var sb = new StringBuilder();
+            foreach (var item in requiredCss.OrderByDescending(i => i.Priority))
             {
                 sb.AppendFormat("<link {0} href=\"{1}\" rel=\"stylesheet\" />", item.HtmlAttributes, item.Path);
             }
@@ -75,17 +74,17 @@ namespace UI.Extensions
         /// <returns>Script on the home page</returns>
         public static string RequireScript(this HtmlHelper html, string path, int priority = 1, string htmlAttributes = null, bool includeVersion = true, bool useAsync = false, bool includeExtension = true)
         {
-            string scriptPath = path;
+            var scriptPath = path;
 
             if (includeExtension)
             {
-                scriptPath = String.Format("{0}.js", scriptPath);
+                scriptPath = $"{scriptPath}.js";
             }
 
             // add version hash
             if (includeVersion)
             {
-                scriptPath += String.Format("?v={0}", VersionInfo.Version);
+                scriptPath += $"?v={VersionInfo.Version}";
             }
 
             var requiredScripts = HttpContext.Current.Items["RequiredScripts"] as List<ResourceInclude>;
@@ -111,7 +110,7 @@ namespace UI.Extensions
         {
             var requiredScripts = HttpContext.Current.Items["RequiredScripts"] as List<ResourceInclude>;
             if (requiredScripts == null) return null;
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var item in requiredScripts.OrderByDescending(i => i.Priority))
             {
                 if (item.UseAsync)

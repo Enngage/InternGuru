@@ -11,12 +11,12 @@ namespace UI.Builders.Master.Views
 
         public ErrorView(Exception ex)
         {
-            this.ErrorMessage = ex.Message;
-            this.Stacktrace = ex.StackTrace;
+            ErrorMessage = ex.Message;
+            Stacktrace = ex.StackTrace;
 
             if (ex.InnerException != null)
             {
-                this.InnerException = ex.InnerException.Message;
+                InnerException = ex.InnerException.Message;
             }
         }
     }

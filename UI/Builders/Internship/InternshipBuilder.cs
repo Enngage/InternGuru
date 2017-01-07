@@ -14,6 +14,7 @@ using UI.Builders.Shared.Models;
 using Core.Extensions;
 using Core.Helpers;
 using Core.Helpers.Internship;
+using Entity.Base;
 
 namespace UI.Builders.Internship
 {
@@ -30,9 +31,9 @@ namespace UI.Builders.Internship
 
         public async Task<InternshipBrowseView> BuildBrowseViewAsync(int? page, string category, string search, string city)
         {
-            int pageSize = 30;
-            int pageNumber = (page ?? 1);
-            bool isSearchQuery = !string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(city);
+            var pageSize = 30;
+            var pageNumber = (page ?? 1);
+            var isSearchQuery = !string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(city);
 
             // get all internships and store them in cache (filtering will be faster)
             var internships = await GetAllInternshipsAsync();
@@ -80,7 +81,7 @@ namespace UI.Builders.Internship
 
             return new InternshipDetailView()
             {
-                Internship = internship
+                Internship = internship,                
             };
         }
 
@@ -94,30 +95,30 @@ namespace UI.Builders.Internship
         /// <returns>Internship categories</returns>
         private async Task<IEnumerable<InternshipCategoryModel>> GetInternshipCategoriesAsync()
         {
-            int cacheMinutes = 60;
+            var cacheMinutes = 60;
 
-            var cacheSetup = this.Services.CacheService.GetSetup<InternshipCategoryModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<InternshipCategoryModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
                 EntityKeys.KeyDeleteAny<Entity.Internship>(),
                 EntityKeys.KeyUpdateAny<Entity.Internship>(),
-                EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
-                EntityKeys.KeyDeleteAny<Entity.InternshipCategory>(),
-                EntityKeys.KeyUpdateAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyCreateAny<InternshipCategory>(),
+                EntityKeys.KeyDeleteAny<InternshipCategory>(),
+                EntityKeys.KeyUpdateAny<InternshipCategory>(),
             };
 
-            var categoriesQuery = this.Services.InternshipCategoryService.GetAll()
+            var categoriesQuery = Services.InternshipCategoryService.GetAll()
                 .Select(m => new InternshipCategoryModel()
                 {
                     CategoryID = m.ID,
                     CategoryName = m.Name,
                     CodeName = m.CodeName,
-                    InternshipCount = m.Internships.Where(s => s.IsActive == true).Count()
+                    InternshipCount = m.Internships.Where(s => s.IsActive).Count()
                 })
                 .OrderBy(m => m.CategoryName);
 
-            return await this.Services.CacheService.GetOrSetAsync(async () => await categoriesQuery.ToListAsync(), cacheSetup);
+            return await Services.CacheService.GetOrSetAsync(async () => await categoriesQuery.ToListAsync(), cacheSetup);
         }
 
         /// <summary>
@@ -126,9 +127,9 @@ namespace UI.Builders.Internship
         /// <returns>Collection of all internships</returns>
         private async Task<IEnumerable<InternshipBrowseModel>> GetAllInternshipsAsync()
         {
-            int cacheMinutes = 60;
+            var cacheMinutes = 60;
 
-            var cacheSetup = this.Services.CacheService.GetSetup<InternshipBrowseModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<InternshipBrowseModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
@@ -137,7 +138,7 @@ namespace UI.Builders.Internship
             };
 
             var internshipsQuery = Services.InternshipService.GetAll()
-                .Where(m => m.IsActive == true)
+                .Where(m => m.IsActive)
                 .OrderByDescending(m => m.Created)
                 .Select(m => new InternshipBrowseModel()
                 {
@@ -148,7 +149,7 @@ namespace UI.Builders.Internship
                     AmountTypeCode = m.AmountType.CodeName,
                     City = m.City,
                     CompanyID = m.CompanyID,
-                    CompanyGuid = m.Company.CompanyGUID,
+                    CompanyGuid = m.Company.CompanyGuid,
                     CompanyName = m.Company.CompanyName,
                     CountryCode = m.Country.CodeName,
                     CurrencyCode = m.Currency.CodeName,
@@ -173,7 +174,7 @@ namespace UI.Builders.Internship
                     MinDurationTypeCodeName = m.MinDurationType.CodeName
                 });
 
-            var internships = await this.Services.CacheService.GetOrSetAsync(async () => await internshipsQuery.ToListAsync(), cacheSetup);
+            var internships = await Services.CacheService.GetOrSetAsync(async () => await internshipsQuery.ToListAsync(), cacheSetup);
 
             // initialize duration types and values
             foreach (var internship in internships)
@@ -200,7 +201,7 @@ namespace UI.Builders.Internship
                 return 0;
             }
 
-            var categoryQuery = this.Services.InternshipCategoryService.GetAll()
+            var categoryQuery = Services.InternshipCategoryService.GetAll()
                 .Where(m => m.CodeName == categoryCodeName)
                 .Select(s => new
                 {
@@ -208,20 +209,20 @@ namespace UI.Builders.Internship
                 })
                 .Take(1);
 
-            int cacheMinutes = 120;
-            var cacheSetup = this.Services.CacheService.GetSetup<int>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 120;
+            var cacheSetup = Services.CacheService.GetSetup<int>(GetSource(), cacheMinutes);
 
             cacheSetup.Dependencies = new List<string>()
             {
-                EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
-                EntityKeys.KeyUpdateAny<Entity.InternshipCategory>(),
-                EntityKeys.KeyDeleteAny<Entity.InternshipCategory>()
+                EntityKeys.KeyCreateAny<InternshipCategory>(),
+                EntityKeys.KeyUpdateAny<InternshipCategory>(),
+                EntityKeys.KeyDeleteAny<InternshipCategory>()
             };
             cacheSetup.ObjectStringID = categoryCodeName;
 
-            var category = await this.Services.CacheService.GetOrSetAsync(async () => await categoryQuery.FirstOrDefaultAsync(), cacheSetup);
+            var category = await Services.CacheService.GetOrSetAsync(async () => await categoryQuery.FirstOrDefaultAsync(), cacheSetup);
 
-            return category == null ? 0 : category.CategoryID;
+            return category?.CategoryID ?? 0;
         }
 
         /// <summary>
@@ -231,14 +232,14 @@ namespace UI.Builders.Internship
         /// <returns>Internship or null if none is found</returns>
         private async Task<InternshipDetailModel> GetInternshipDetailModelAsync(int internshipID)
         {
-            var internshipQuery = this.Services.InternshipService.GetSingle(internshipID)
+            var internshipQuery = Services.InternshipService.GetSingle(internshipID)
                 .Select(m => new InternshipDetailModel()
                 {
                     Company = new InternshipDetailCompanyModel()
                     {
                         CompanyCodeName = m.Company.CodeName,
                         CompanyID = m.CompanyID,
-                        CompanyGuid = m.Company.CompanyGUID,
+                        CompanyGuid = m.Company.CompanyGuid,
                         CompanyName = m.Company.CompanyName,
                         Lat = m.Company.Lat,
                         Lng = m.Company.Lng,
@@ -304,8 +305,8 @@ namespace UI.Builders.Internship
                 });
 
 
-            int cacheMinutes = 120;
-            var cacheSetup = this.Services.CacheService.GetSetup<InternshipDetailModel>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 120;
+            var cacheSetup = Services.CacheService.GetSetup<InternshipDetailModel>(GetSource(), cacheMinutes);
 
             // get company ID so that cache of internship is cleared when company changes
             var companyID = await GetCompanyIDOfInternshipAsync(internshipID);
@@ -319,7 +320,7 @@ namespace UI.Builders.Internship
             };
             cacheSetup.ObjectID = internshipID;
 
-            var internship = await this.Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
+            var internship = await Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
 
             // set default duration
             internship.MinDurationType = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MinDurationTypeCodeName);
@@ -330,13 +331,16 @@ namespace UI.Builders.Internship
             internship.MaxDurationInDefaultValue = InternshipHelper.GetInternshipDurationDefaultValue(internship.MaxDurationType, internship.MaxDurationInDays, internship.MaxDurationInWeeks, internship.MaxDurationInMonths);
 
             // set required languages
-            internship.RequiredLanguages = (await this.Services.LanguageService.GetLanguagesFromCommaSeparatedStringAsync(internship.Languages))
+            internship.RequiredLanguages = (await Services.LanguageService.GetLanguagesFromCommaSeparatedStringAsync(internship.Languages))
                 .Select(m => new InternshipLanguageModel()
                 {
                     CodeName = m.CodeName,
                     IconClass = m.IconClass,
                     LanguageName = m.LanguageName
                 });
+
+            // add activity stats
+            internship.ActivityStats = await GetInternshipActivityStatsAsync(internshipID);
 
             return internship;
 
@@ -349,18 +353,39 @@ namespace UI.Builders.Internship
         /// <returns>CompanyID or 0 if company is not fond</returns>
         private async Task<int> GetCompanyIDOfInternshipAsync(int internshipID)
         {
-            int cacheMinutes = 120;
-            var cacheSetup = this.Services.CacheService.GetSetup<IntWrapper>(GetSource(), cacheMinutes);
+            const int cacheMinutes = 120;
 
-            var query = this.Services.InternshipService.GetAll()
+            var cacheSetup = Services.CacheService.GetSetup<IntWrapper>(GetSource(), cacheMinutes);
+            cacheSetup.ObjectID = internshipID;
+
+            var query = Services.InternshipService.GetAll()
+                .Where(m => m.ID == internshipID)
                 .Select(m => new IntWrapper()
                 {
                     Value = m.CompanyID
                 });
 
-            var result = await this.Services.CacheService.GetOrSetAsync(async () => await query.FirstOrDefaultAsync(), cacheSetup);
+            var result = await Services.CacheService.GetOrSetAsync(async () => await query.FirstOrDefaultAsync(), cacheSetup);
 
-            return result == null ? 0 : result.Value;
+            return result?.Value ?? 0;
+        }
+
+        /// <summary>
+        /// Gets internship activity stats
+        /// </summary>
+        /// <param name="internshipID">internshipId</param>
+        /// <returns>Activity stats</returns>
+        private async Task<InternshipActivityStats> GetInternshipActivityStatsAsync(int internshipID)
+        {
+            var cacheSetup = Services.CacheService.GetSetup<InternshipActivityStats>(GetSource());
+            cacheSetup.ObjectID = internshipID;
+
+            var internshipFormSubmissionsCount = await Services.CacheService.GetOrSetAsync(async () => await Services.ActivityService.GetInternshipFormSubmissions(internshipID).CountAsync(), cacheSetup);
+
+            return new InternshipActivityStats()
+            {
+                InternshipSubmissionsCount = internshipFormSubmissionsCount
+            };
         }
 
         #endregion

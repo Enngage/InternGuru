@@ -12,7 +12,7 @@
 
             <h1>@ViewBag.Title</h1>
 
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, null))
+            @using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl }, FormMethod.Post, null))
             {
                 @Html.AntiForgeryToken()
 

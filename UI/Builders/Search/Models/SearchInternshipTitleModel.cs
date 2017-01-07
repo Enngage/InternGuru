@@ -1,5 +1,5 @@
 ﻿
-namespace UI.Builders.Search
+namespace UI.Builders.Search.Models
 {
     public class SearchInternshipTitleModel
     {

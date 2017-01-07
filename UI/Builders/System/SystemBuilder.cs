@@ -1,32 +1,31 @@
-﻿using PagedList;
+﻿using System;
 using System.Linq;
-using PagedList.EntityFramework;
 using System.Threading.Tasks;
+using Core.Config;
+using PagedList;
+using PagedList.EntityFramework;
 using UI.Base;
+using UI.Builders.Auth;
+using UI.Builders.Auth.Models;
 using UI.Builders.Services;
 using UI.Builders.Shared.Models;
 using UI.Builders.System.Models;
 using UI.Builders.System.Views;
-using UI.Builders.Auth.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using Core.Config;
 
-namespace UI.Builders.Company
+namespace UI.Builders.System
 {
     public class SystemBuilder : BaseBuilder
     {
 
         #region Variables
 
-        public readonly string LATEST_READ_LOG_COOKIE_NAME = AppConfig.CookieNames.LatestReadLogID;
+        public readonly string LatestReadLogCookieName = AppConfig.CookieNames.LatestReadLogID;
 
         #endregion
 
         #region Auth builder
 
-        private AuthBuilder authBuilder;
+        private readonly AuthBuilder _authBuilder;
 
         #endregion
 
@@ -34,7 +33,7 @@ namespace UI.Builders.Company
 
         public SystemBuilder(ISystemContext systemContext, IServicesLoader servicesLoader, AuthBuilder authBuilder) : base(systemContext, servicesLoader)
         {
-            this.authBuilder = authBuilder;
+            _authBuilder = authBuilder;
         }
 
         #endregion
@@ -43,7 +42,7 @@ namespace UI.Builders.Company
 
         public async Task<SystemEventLogView> BuildEventLogViewAsync(int? page)
         {
-            int pageSize = 30;
+            var pageSize = 30;
 
             return new SystemEventLogView()
             {
@@ -54,7 +53,7 @@ namespace UI.Builders.Company
 
         public void MarkReadLog(int idOfLatestLog)
         {
-            this.Services.CookieService.SetCookie(LATEST_READ_LOG_COOKIE_NAME, idOfLatestLog.ToString(), DateTime.Now.AddMonths(1));
+            Services.CookieService.SetCookie(LatestReadLogCookieName, idOfLatestLog.ToString(), DateTime.Now.AddMonths(1));
         }
 
         #endregion
@@ -63,14 +62,14 @@ namespace UI.Builders.Company
 
         private async Task<AuthMasterModel> GetAuthMaster()
         {
-            return await this.authBuilder.GetAuthMasterModelAsync();
+            return await _authBuilder.GetAuthMasterModelAsync();
         }
 
         private async Task<IPagedList<SystemEventModel>> GetEvents(int? page, int pageSize)
         {
-            int pageNumber = (page ?? 1);
+            var pageNumber = (page ?? 1);
 
-            var eventsQuery = this.Services.LogService.GetAll()
+            var eventsQuery = Services.LogService.GetAll()
                 .Select(m => new SystemEventModel()
                 {
                     ApplicationUserName = m.ApplicationUserName,

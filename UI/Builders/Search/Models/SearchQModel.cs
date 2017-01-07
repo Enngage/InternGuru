@@ -1,8 +1,8 @@
 ﻿
-namespace UI.Builders.Search
+namespace UI.Builders.Search.Models
 {
     public class SearchQModel
     {
-        public string q { get; set; }
+        public string Q { get; set; }
     }
 }

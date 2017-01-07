@@ -1,6 +1,15 @@
 ﻿using Cache;
-using Service.Services;
 using EmailProvider;
+using Service.Services.Activities;
+using Service.Services.Companies;
+using Service.Services.Countries;
+using Service.Services.Currencies;
+using Service.Services.Identity;
+using Service.Services.Internships;
+using Service.Services.Languages;
+using Service.Services.Logs;
+using Service.Services.Messages;
+using Service.Services.Thesis;
 using UI.UIServices;
 
 namespace UI.Builders.Services
@@ -29,6 +38,7 @@ namespace UI.Builders.Services
         public ILanguageService LanguageService { get; private set; }
         public IHomeOfficeOptionService HomeOfficeOptionService { get; private set; }
         public IStudentStatusOptionService StudentStatusOptionService { get; private set; }
+        public IActivityService ActivityService { get; private set; }
 
         public ServicesLoader(
                 ICacheService cacheService,
@@ -52,31 +62,33 @@ namespace UI.Builders.Services
                 ICookieService cookieService,
                 ILanguageService languageService,
                 IHomeOfficeOptionService homeOfficeOptionService,
-                IStudentStatusOptionService studentStatusOptionService
+                IStudentStatusOptionService studentStatusOptionService,
+                IActivityService activityService
         )
         {
-            this.CacheService = cacheService;
-            this.InternshipService = internshipService;
-            this.CompanyCategoryService = companyCategoryService;
-            this.InternshipCategoryService = internshipCategoryService;
-            this.FileProvider = fileProvider;
-            this.CompanyService = companyService;
-            this.IdentityService = identityService;
-            this.LogService = logService;
-            this.MessageService = messageService;
-            this.InternshipDurationTypeService = internshipDurationService;
-            this.InternshipAmountTypeService = internshipAmountTypeService;
-            this.CountryService = countryService;
-            this.CurrencyService = currencyService;
-            this.CompanySizeService = companySizeService;
-            this.ThesisService = thesisService;
-            this.ThesisTypeService = thesisTypeService;
-            this.EmailTemplateService = emailTemplateService;
-            this.EmailProvider = emailProvider;
-            this.CookieService = cookieService;
-            this.LanguageService = languageService;
-            this.HomeOfficeOptionService = homeOfficeOptionService;
-            this.StudentStatusOptionService = studentStatusOptionService;
+            CacheService = cacheService;
+            InternshipService = internshipService;
+            CompanyCategoryService = companyCategoryService;
+            InternshipCategoryService = internshipCategoryService;
+            FileProvider = fileProvider;
+            CompanyService = companyService;
+            IdentityService = identityService;
+            LogService = logService;
+            MessageService = messageService;
+            InternshipDurationTypeService = internshipDurationService;
+            InternshipAmountTypeService = internshipAmountTypeService;
+            CountryService = countryService;
+            CurrencyService = currencyService;
+            CompanySizeService = companySizeService;
+            ThesisService = thesisService;
+            ThesisTypeService = thesisTypeService;
+            EmailTemplateService = emailTemplateService;
+            EmailProvider = emailProvider;
+            CookieService = cookieService;
+            LanguageService = languageService;
+            HomeOfficeOptionService = homeOfficeOptionService;
+            StudentStatusOptionService = studentStatusOptionService;
+            ActivityService = activityService;
         }
     }
 }

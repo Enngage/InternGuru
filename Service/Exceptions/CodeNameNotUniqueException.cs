@@ -9,7 +9,6 @@ namespace Service.Exceptions
         /// Just create the exception
         /// </summary>
         public CodeNameNotUniqueException()
-            : base()
         {
         }
 
@@ -17,7 +16,7 @@ namespace Service.Exceptions
         /// Create the exception with description
         /// </summary>
         /// <param name="message">Exception description</param>
-        public CodeNameNotUniqueException(String message)
+        public CodeNameNotUniqueException(string message)
             : base(message)
         {
         }
@@ -27,7 +26,7 @@ namespace Service.Exceptions
         /// </summary>
         /// <param name="message">Exception description</param>
         /// <param name="innerException">Exception inner cause</param>
-        public CodeNameNotUniqueException(String message, Exception innerException)
+        public CodeNameNotUniqueException(string message, Exception innerException)
             : base(message, innerException)
         {
         }

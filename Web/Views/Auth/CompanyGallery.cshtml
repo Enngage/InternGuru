@@ -8,15 +8,15 @@
 }
 
 @Html.RequireScript("/scripts/views/auth/authCompanyGallery")
-@Html.RequireCSS("/scripts/addons/dropzone/dropzone")
+@Html.RequireCss("/scripts/addons/dropzone/dropzone")
 
-<div class="w-body-hide" id="_CompanyGalleryGuid" data-guid="@Model.Master.CurrentCompany.CompanyGUID"></div>
+<div class="w-body-hide" id="_CompanyGalleryGuid" data-guid="@Model.Master.CurrentCompany.CompanyGuid"></div>
 
 <h1>
     Galerie
 </h1>
 
-@Html.RenderInfoMessage($"Pouze soubory typu <em>{String.Join(", ", Core.Config.FileConfig.AllowedImageExtensions)} </em> do velikosti <em>{Core.Helpers.ConvertHelper.FormatBytes(Core.Config.AppConfig.MaximumFileSize)}</em> budou uloženy")
+@Html.RenderInfoMessage($"Pouze soubory typu <em>{string.Join(", ", Core.Config.FileConfig.AllowedImageExtensions)} </em> do velikosti <em>{Core.Helpers.ConvertHelper.FormatBytes(Core.Config.AppConfig.MaximumFileSize)}</em> budou uloženy")
 
 @using (Html.BeginForm("CompanyGallery", "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "dropzone", id = "_GalleryDropzoneForm" }))
 {
@@ -32,7 +32,7 @@
 
 
 <div class="ui three column grid _CompanyGalleryCards w-margin-top-14">
-    @foreach (var image in ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGUID))
+    @foreach (var image in ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGuid))
         {
         <div class="column">
             <div class="ui fluid card">

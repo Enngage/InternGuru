@@ -1,9 +1,7 @@
-﻿
+﻿using System.Collections.Generic;
 using Core.Helpers.Privilege;
-using System;
-using System.Collections.Generic;
 
-namespace UI.Builders.Shared
+namespace UI.Builders.Shared.Models
 {
     public class CurrentUser : ICurrentUser
     {

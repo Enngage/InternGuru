@@ -516,6 +516,13 @@
 #w-body-wrapper .w-auth-menu .item.active {
   border-bottom: solid 3px #FF5733; }
 
+#w-body-wrapper .w-auth-conversation-text-link {
+  text-decoration: underline;
+  color: #232d32; }
+
+#w-body-wrapper .w-auth-conversation-text-link:hover {
+  text-decoration: none; }
+
 #w-body-wrapper .w-auth-gallery-image-wrapper {
   margin: 14px 0 0 14px;
   display: block;

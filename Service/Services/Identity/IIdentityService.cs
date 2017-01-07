@@ -1,8 +1,8 @@
-﻿using Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Entity;
 
-namespace Service.Services
+namespace Service.Services.Identity
 {
     public interface IIdentityService 
     {

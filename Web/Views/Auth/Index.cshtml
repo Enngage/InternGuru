@@ -26,22 +26,24 @@
     <a class="item" data-tab="third">
         Závěrečné práce <span class="w-font-light">&nbsp;(@Model.AuthMaster.Theses.Count())</span>
     </a>
-    <div class="right menu">
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    <a class="item w-mobile-show" data-tab="mobileOnly">
+        Další
+    </a>
+    <div class="right menu w-mobile-hide">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "_MainLogoutForm" }))
         {
             @Html.AntiForgeryToken()
-            <a class="ui item" href="javascript:document.getElementById('logoutForm').submit()">
+            <a class="ui item" href="javascript:document.getElementById('_MainLogoutForm').submit()">
                 <i class="sign out icon"></i>
                 Odhlásit
             </a>
         }
-
     </div>
 </div>
 
 <div class="ui tab segment active" data-tab="first">
 
-    @if (Model.AuthMaster.Conversations.Count() == 0)
+    @if (!Model.AuthMaster.Conversations.Any())
             {
         @Html.RenderInfoMessage("Dosud nemáš žádné zprávy")
     }
@@ -53,7 +55,7 @@
                 var segmentClass = conversation.IsRead ? string.Empty : "w-segment-dark basic";
                 <div class="item w-override-padding-all @segmentClass">
                     <a class="ui tiny image w-mobile-margin-0" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                        <img class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(conversation.WithApplicationUserName)">
+                        <img alt="" class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(conversation.WithApplicationUserName)">
                     </a>
                     <div class="content">
                         <a class="header" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
@@ -79,9 +81,9 @@
                             @(!string.IsNullOrEmpty(conversation.Subject) ? " | " + conversation.Subject : null)
                         </div>
                         <div class="description">
-                            <p>
-                                @StringHelper.ShortenText(conversation.MessageText, 200, true)
-                            </p>
+                            <a class="w-auth-conversation-text-link" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
+                                @StringHelper.ShortenText(conversation.MessageText, 200)
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -99,7 +101,7 @@
 
     @if (Model.Master.CurrentCompany.IsAvailable)
             {
-                if (Model.AuthMaster.Internships.Count() == 0)
+                if (!Model.AuthMaster.Internships.Any())
                 {
             @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné nabídky stáže")
         }
@@ -163,8 +165,8 @@
 </div>
 
 <div class="ui tab segment" data-tab="third">
-    @if (Model.AuthMaster.Theses.Count() == 0)
-            {
+    @if (!Model.AuthMaster.Theses.Any())
+    {
         @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné práce")
     }
     else
@@ -222,4 +224,40 @@
     }
 </div>
 
+<div class="ui tab segment" data-tab="mobileOnly">
+    <div class="ui list">
+        <div class="item">
+            <a href="@Url.Action("EditProfile")">Upravit profil</a>
+        </div>
+        <div class="item">
+            @if (Model.Master.CurrentCompany.IsAvailable)
+            {
+                <a href="@Url.Action("EditCompany")">Upravit firmu</a>
 
+            }
+            else
+            {
+                <a href="@Url.Action("RegisterCompany")">Vytvořit firmu</a>
+
+            }
+        </div>
+        <div class="item">
+            <a href="@Url.Action("NewInternship")">Inzerovat novou stáž</a>
+        </div>
+        <div class="item">
+            <a href="@Url.Action("NewThesis")">Zadat závěrečnou práci</a>
+        </div>
+    </div>
+
+    <div class="ui list">
+        <div class="item">
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "_MobileLogoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <a class="ui item" href="javascript:document.getElementById('_MobileLogoutForm').submit()">
+                    Odhlásit
+                </a>
+            }
+        </div>
+    </div>
+</div>

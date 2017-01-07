@@ -1,15 +1,14 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Internships
 {
     public class InternshipCategoryService : BaseService<InternshipCategory>, IInternshipCategoryService
     {
@@ -18,21 +17,21 @@ namespace Service.Services
 
         public Task<int> DeleteAsync(int id)
         {
-            var category = this.AppContext.InternshipCategories.Find(id);
+            var category = AppContext.InternshipCategories.Find(id);
 
             if (category != null)
             {
                 // delete category
-                this.AppContext.InternshipCategories.Remove(category);
+                AppContext.InternshipCategories.Remove(category);
 
                 // touch cache keys
-                this.TouchDeleteKeys(category);
+                TouchDeleteKeys(category);
 
                 // fire event
-                this.OnDelete(category);
+                OnDelete(category);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -40,57 +39,57 @@ namespace Service.Services
 
         public Task<InternshipCategory> GetAsync(int id)
         {
-            return this.AppContext.InternshipCategories.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.InternshipCategories.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<InternshipCategory> GetAll()
         {
-            return this.AppContext.InternshipCategories;
+            return AppContext.InternshipCategories;
         }
 
         public IQueryable<InternshipCategory> GetSingle(int id)
         {
-            return this.AppContext.InternshipCategories.Where(m => m.ID == id).Take(1);
+            return AppContext.InternshipCategories.Where(m => m.ID == id).Take(1);
         }
 
         public Task<int> InsertAsync(InternshipCategory obj)
         {
-            this.AppContext.InternshipCategories.Add(obj);
+            AppContext.InternshipCategories.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> UpdateAsync(InternshipCategory obj)
         {
-            var category = this.AppContext.InternshipCategories.Find(obj.ID);
+            var category = AppContext.InternshipCategories.Find(obj.ID);
 
             if (category == null)
             {
-                throw new NotFoundException(string.Format("InternshipCategory with ID: {0} not found", category.ID));
+                throw new NotFoundException($"InternshipCategory with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, category);
+            OnUpdate(obj, category);
 
             // update log
-            this.AppContext.Entry(category).CurrentValues.SetValues(obj);
+            AppContext.Entry(category).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(category);
+            TouchUpdateKeys(category);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<InternshipCategory>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

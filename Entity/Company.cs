@@ -3,15 +3,14 @@ using Core.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 using System;
 using Core.Config;
+using Entity.Base;
 
 namespace Entity
 {
     public class Company : IEntity
     {
-
         public int ID { get; set; }
         [MaxLength(100)]
         [Index]
@@ -19,7 +18,7 @@ namespace Entity
         [Index]
         [MaxLength(100)]
         public string CodeName { get; set; }
-        public Guid CompanyGUID { get; set; }
+        public Guid CompanyGuid { get; set; }
         public int YearFounded { get; set; }
         public string PublicEmail { get; set; }
         public string LongDescription { get; set; }
@@ -73,26 +72,24 @@ namespace Entity
 
         #endregion
 
-        #region Image methods
+        #region File methods
 
         /// <summary>
         /// Gets file name of banner for company
         /// </summary>
-        /// <param name="companyGuid"></param>
         /// <returns></returns>
-        public static string GetBannerFileName(Guid companyGuid)
+        public static string GetBannerFileName()
         {
-            return companyGuid.ToString();
+            return FileConfig.BannerFileName;
         }
 
         /// <summary>
         /// Gets file name of logo
         /// </summary>
-        /// <param name="companyGuid">companyGuid</param>
         /// <returns></returns>
-        public static string GetLogoFileName(Guid companyGuid)
+        public static string GetLogoFileName()
         {
-            return companyGuid.ToString();
+            return FileConfig.LogoFileName;
         }
 
         /// <summary>
@@ -113,7 +110,7 @@ namespace Entity
         /// <returns></returns>
         public static string GetCompanyGalleryFolderPath(Guid companyGuid)
         {
-            return FileConfig.CompanyalleryImagesPath + "/" + companyGuid.ToString();
+            return GetCompanyBaseFolderPath(companyGuid) + "/" + FileConfig.CompanyGalleryFolderName;
         }
 
         /// <summary>
@@ -126,6 +123,38 @@ namespace Entity
         {
             return GetCompanyGalleryFolderPath(companyGuid) + "/" + fileName;
         }
+
+
+        /// <summary>
+        /// Gets path to company folder
+        /// </summary>
+        /// <param name="companyGuid">companyGuid</param>
+        /// <returns>Path to company base folder</returns>
+        public static string GetCompanyBaseFolderPath(Guid companyGuid)
+        {
+            return FileConfig.CompanyBaseFolderPath + "/" + companyGuid.ToString();
+        }
+
+        /// <summary>
+        /// Gets path to company logo folder
+        /// </summary>
+        /// <param name="companyGuid">companyGuid</param>
+        /// <returns></returns>
+        public static string GetCompanyLogoFolderPath(Guid companyGuid)
+        {
+            return GetCompanyBaseFolderPath(companyGuid) + "/" + FileConfig.LogoFolderName;
+        }
+
+        /// <summary>
+        /// Gets path to company banner folder
+        /// </summary>
+        /// <param name="companyGuid">companyGuid</param>
+        /// <returns></returns>
+        public static string GetCompanyBannerFolderPath(Guid companyGuid)
+        {
+            return GetCompanyBaseFolderPath(companyGuid) + "/" + FileConfig.BannerFolderName;
+        }
+
         #endregion
 
         #region Alias

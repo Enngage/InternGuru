@@ -1,14 +1,14 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Internships
 {
     public class HomeOfficeOptionService :  BaseService<HomeOfficeOption>, IHomeOfficeOptionService
     {
@@ -17,20 +17,20 @@ namespace Service.Services
 
         public Task<int> DeleteAsync(int id)
         {
-            var homeOfficeOption = this.AppContext.HomeOfficeOptions.Find(id);
+            var homeOfficeOption = AppContext.HomeOfficeOptions.Find(id);
 
             if (homeOfficeOption != null)
             {
-                this.AppContext.HomeOfficeOptions.Remove(homeOfficeOption);
+                AppContext.HomeOfficeOptions.Remove(homeOfficeOption);
 
                 // touch cache keys
-                this.TouchDeleteKeys(homeOfficeOption);
+                TouchDeleteKeys(homeOfficeOption);
 
                 // fire event
-                this.OnDelete(homeOfficeOption);
+                OnDelete(homeOfficeOption);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -38,17 +38,17 @@ namespace Service.Services
 
         public Task<HomeOfficeOption> GetAsync(int id)
         {
-            return this.AppContext.HomeOfficeOptions.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.HomeOfficeOptions.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<HomeOfficeOption> GetAll()
         {
-            return this.AppContext.HomeOfficeOptions;
+            return AppContext.HomeOfficeOptions;
         }
 
         public IQueryable<HomeOfficeOption> GetSingle(int id)
         {
-            return this.AppContext.HomeOfficeOptions.Where(m => m.ID == id).Take(1);
+            return AppContext.HomeOfficeOptions.Where(m => m.ID == id).Take(1);
         }
 
         public Task<int> InsertAsync(HomeOfficeOption obj)
@@ -56,20 +56,20 @@ namespace Service.Services
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            this.AppContext.HomeOfficeOptions.Add(obj);
+            AppContext.HomeOfficeOptions.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> UpdateAsync(HomeOfficeOption obj)
         {
-            var homeOfficeOption = this.AppContext.HomeOfficeOptions.Find(obj.ID);
+            var homeOfficeOption = AppContext.HomeOfficeOptions.Find(obj.ID);
 
             if (homeOfficeOption == null)
             {
@@ -77,24 +77,24 @@ namespace Service.Services
             }
 
             // fire event
-            this.OnUpdate(obj, homeOfficeOption);
+            OnUpdate(obj, homeOfficeOption);
 
             // set code name
             obj.CodeName = obj.GetCodeName();
 
             // update log
-            this.AppContext.Entry(homeOfficeOption).CurrentValues.SetValues(obj);
+            AppContext.Entry(homeOfficeOption).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(homeOfficeOption);
+            TouchUpdateKeys(homeOfficeOption);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<HomeOfficeOption>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

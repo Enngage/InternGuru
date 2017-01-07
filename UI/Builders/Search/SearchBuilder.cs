@@ -5,9 +5,9 @@ using System.Data.Entity;
 using System;
 
 using Core.Extensions;
-using Service.Context;
-using Entity;
+using Entity.Base;
 using UI.Base;
+using UI.Builders.Search.Models;
 using UI.Builders.Services;
 using UI.Builders.Shared.Models;
 
@@ -47,7 +47,7 @@ namespace UI.Builders.Search
         public async Task<IEnumerable<SearchCityModel>> GetSearchCitiesAsync(string searchForCities)
         {
             var cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<SearchCityModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<SearchCityModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
@@ -55,10 +55,10 @@ namespace UI.Builders.Search
                 EntityKeys.KeyUpdateAny<Entity.Internship>()
             };
 
-            var citiesQuery = this.Services.InternshipService.GetAll()
+            var citiesQuery = Services.InternshipService.GetAll()
                 .GroupBy(m => new
                 {
-                    City = m.City,
+                    m.City,
                     CountryCode = m.Country.CodeName
                 })
                 .Select(m => new SearchCityModel()
@@ -69,7 +69,7 @@ namespace UI.Builders.Search
                 });
 
             // load and cache all cities. Search in memory by ling
-            var allCities = await this.Services.CacheService.GetOrSet(async () => await citiesQuery.ToListAsync(), cacheSetup);
+            var allCities = await Services.CacheService.GetOrSet(async () => await citiesQuery.ToListAsync(), cacheSetup);
 
             return allCities.Where(m => m.City.Contains(searchForCities.Trim(), StringComparison.OrdinalIgnoreCase));
         }
@@ -82,7 +82,7 @@ namespace UI.Builders.Search
         public async Task<IEnumerable<SearchInternshipTitleModel>> GetInternshipTitleKeywords(string search)
         {
             var cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<SearchInternshipTitleModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<SearchInternshipTitleModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
@@ -90,19 +90,19 @@ namespace UI.Builders.Search
                 EntityKeys.KeyUpdateAny<Entity.Internship>()
             };
 
-            var internshipQuery = this.Services.InternshipService.GetAll()
+            var internshipQuery = Services.InternshipService.GetAll()
                 .GroupBy(m => new
                 {
-                    Title = m.Title,
+                    m.Title,
                 })
                 .Select(m => new
                 {
-                    Title = m.Key.Title,
+                    m.Key.Title,
                     InternshipCount = m.Count()
                 });
 
 
-            var internshipsKeywords = await this.Services.CacheService.GetOrSet(async () => await internshipQuery.ToListAsync(), cacheSetup);
+            var internshipsKeywords = await Services.CacheService.GetOrSet(async () => await internshipQuery.ToListAsync(), cacheSetup);
 
             // split title of all internship
             var keywordList = new List<SearchInternshipTitleModel>();
@@ -142,7 +142,7 @@ namespace UI.Builders.Search
         public async Task<IEnumerable<SearchThesisKeywordModel>> GetThesisNameKeywords(string search)
         {
             var cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<SearchThesisKeywordModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<SearchThesisKeywordModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Thesis>(),
@@ -150,19 +150,19 @@ namespace UI.Builders.Search
                 EntityKeys.KeyUpdateAny<Entity.Thesis>()
             };
 
-            var thesisQuery = this.Services.ThesisService.GetAll()
+            var thesisQuery = Services.ThesisService.GetAll()
                 .GroupBy(m => new
                 {
-                    ThesisName = m.ThesisName,
+                    m.ThesisName,
                 })
                 .Select(m => new
                 {
-                    ThesisName = m.Key.ThesisName,
+                    m.Key.ThesisName,
                     ThesisCount = m.Count()
                 });
 
 
-            var thesisNames = await this.Services.CacheService.GetOrSet(async () => await thesisQuery.ToListAsync(), cacheSetup);
+            var thesisNames = await Services.CacheService.GetOrSet(async () => await thesisQuery.ToListAsync(), cacheSetup);
 
             // split name
             var keywordList = new List<SearchThesisKeywordModel>();

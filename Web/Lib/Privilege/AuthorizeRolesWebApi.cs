@@ -1,8 +1,7 @@
-﻿
+﻿using System.Web.Http;
 using Core.Helpers.Privilege;
-using System.Web.Http;
 
-namespace Web.Lib.Authorize
+namespace Web.Lib.Privilege
 {
     /// <summary>
     /// AuthorizeRoles attribute used for Web API
@@ -11,7 +10,7 @@ namespace Web.Lib.Authorize
     {
         public AuthorizeRolesWebApi(params PrivilegeLevel[] roles)
         {
-            this.Roles = string.Join(",", roles);
+            Roles = string.Join(",", roles);
         }
     }
 }

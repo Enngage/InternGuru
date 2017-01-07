@@ -1,5 +1,4 @@
 ﻿using PagedList;
-using UI.Builders.Master.Views;
 using UI.Builders.System.Models;
 
 namespace UI.Builders.System.Views

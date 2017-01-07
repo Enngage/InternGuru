@@ -1,5 +1,5 @@
 ﻿
-namespace Core.Loc.Ninject
+namespace Core.Loc
 {
     public enum NinjectKernelType
     {

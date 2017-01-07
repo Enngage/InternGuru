@@ -1,41 +1,36 @@
-﻿using System;
-
-namespace Core.Helpers
+﻿namespace Core.Helpers
 {
     public static class ConvertHelper
     {
         /// <summary>
         /// Formats bytes to MB/KB/GB so that size is easy to read
         /// </summary>
-        /// <param name="Bytes">Bytes to convert</param>
+        /// <param name="bytes">Bytes to convert</param>
         /// <returns>Formatted string with size</returns>
-        public static string FormatBytes(int Bytes)
+        public static string FormatBytes(int bytes)
         {
-            if (Bytes >= 1073741824)
+            if (bytes >= 1073741824)
             {
-                decimal size = decimal.Divide(Bytes, 1073741824);
-                return String.Format("{0:##.##} GB", size);
+                var size = decimal.Divide(bytes, 1073741824);
+                return $"{size:##.##} GB";
             }
-            else if (Bytes >= 1048576)
+            if (bytes >= 1048576)
             {
-                decimal size = decimal.Divide(Bytes, 1048576);
-                return String.Format("{0:##.##} MB", size);
+                var size = decimal.Divide(bytes, 1048576);
+                return $"{size:##.##} MB";
             }
-            else if (Bytes >= 1024)
+            if (bytes >= 1024)
             {
-                decimal size = decimal.Divide(Bytes, 1024);
-                return String.Format("{0:##.##} KB", size);
+                var size = decimal.Divide(bytes, 1024);
+                return $"{size:##.##} KB";
 
             }
-            else if (Bytes > 0 & Bytes < 1024)
+            if (bytes > 0 & bytes < 1024)
             {
-                decimal size = Bytes;
-                return String.Format("{0:##.##} Bytes", size);
+                decimal size = bytes;
+                return $"{size:##.##} Bytes";
             }
-            else
-            {
-                return String.Format("0 Bytes");
-            }
+            return "0 Bytes";
         }
     }
 }

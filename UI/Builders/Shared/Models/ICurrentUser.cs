@@ -1,7 +1,7 @@
-﻿using Core.Helpers.Privilege;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Core.Helpers.Privilege;
 
-namespace UI.Builders.Shared
+namespace UI.Builders.Shared.Models
 {
     /// <summary>
     /// Represent current user

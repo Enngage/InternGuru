@@ -11,11 +11,11 @@
     else
     {
         <div>
-            @foreach (AuthenticationDescription p in loginProviders)
+            @foreach (var p in loginProviders)
             {
                 if (p.AuthenticationType == "Google")
                 {
-                    using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "x-display-inline" }))
+                    using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "x-display-inline" }))
                     {
                         @Html.AntiForgeryToken()
                         <button name="provider" class="ui google plus button" value="@p.AuthenticationType">
@@ -26,7 +26,7 @@
                 }
                 else if (p.AuthenticationType == "Facebook")
                 {
-                    using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "x-display-inline" }))
+                    using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "x-display-inline" }))
                     {
                         @Html.AntiForgeryToken()
                         <button name="provider" class="ui facebook button w-margin-top-10" value="@p.AuthenticationType">
@@ -37,7 +37,7 @@
                 }
                 else
                 {
-                    using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "x-display-inline" }))
+                    using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "x-display-inline" }))
                     {
                         <button name="provider" class="ui big blue labeled icon button w-margin-top-10" value="@p.AuthenticationType">
                             <i class="star  icon"></i>

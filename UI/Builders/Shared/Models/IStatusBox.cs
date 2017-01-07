@@ -1,5 +1,5 @@
 ﻿
-namespace UI.Builders.Shared
+namespace UI.Builders.Shared.Models
 {
     /// <summary>
     /// Represent status of current user

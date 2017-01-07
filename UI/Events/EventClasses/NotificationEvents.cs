@@ -1,20 +1,19 @@
-﻿using Entity;
-using System.Data.Entity;
-using System.Linq;
-using System;
-using UI.Builders.Services;
+﻿using System;
 using System.Collections.Generic;
-using UI.UIServices.Models;
-using EmailProvider;
+using System.Linq;
 using Core.Config;
+using EmailProvider;
+using Entity;
+using UI.Builders.Services;
+using UI.UIServices.Models;
 
-namespace UI.Events
+namespace UI.Events.EventClasses
 {
     public class NotificationEvents
     {
         #region Config
 
-        private const string NEW_MESSAGE_TO_RECIPIENT_TEMPLATE = "Notification_NewMessageToRecipient.html";
+        private const string NewMessageToRecipientTemplate = "Notification_NewMessageToRecipient.html";
 
         #endregion
 
@@ -67,11 +66,11 @@ namespace UI.Events
                 },
             };
 
-            var emailHtmlTemplate = Services.EmailTemplateService.GetTemplateHTML(NEW_MESSAGE_TO_RECIPIENT_TEMPLATE, replacements);
+            var emailHtmlTemplate = Services.EmailTemplateService.GetTemplateHtml(NewMessageToRecipientTemplate, replacements);
 
             if (string.IsNullOrEmpty(emailHtmlTemplate))
             {
-                throw new ArgumentNullException($"E-mail šablona {NEW_MESSAGE_TO_RECIPIENT_TEMPLATE} je nevalidní");
+                throw new ArgumentNullException($"E-mail šablona {NewMessageToRecipientTemplate} je nevalidní");
             }
 
             // send e-mail
@@ -84,7 +83,7 @@ namespace UI.Events
                 To = recipient.Email
             };
 
-            this.Services.EmailProvider.SendEmail(email);
+            Services.EmailProvider.SendEmail(email);
         }
     }
 }

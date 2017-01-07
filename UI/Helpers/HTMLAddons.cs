@@ -1,6 +1,6 @@
 ﻿namespace UI.Helpers
 {
-    public static class HTMLAddons
+    public static class HtmlAddons
     {
         /// <summary>
         /// Replaces end lines with "<br />"

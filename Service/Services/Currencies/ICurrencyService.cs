@@ -1,6 +1,6 @@
 ﻿using Entity;
 
-namespace Service.Services
+namespace Service.Services.Currencies
 {
     public interface ICurrencyService : IService<Currency>
     {

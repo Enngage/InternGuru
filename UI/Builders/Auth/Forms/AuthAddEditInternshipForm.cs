@@ -101,7 +101,7 @@ namespace UI.Builders.Auth.Forms
 
         public bool GetHasFlexibleHours()
         {
-            if (String.IsNullOrEmpty(HasFlexibleHours))
+            if (string.IsNullOrEmpty(HasFlexibleHours))
             {
                 return false;
             }
@@ -111,7 +111,7 @@ namespace UI.Builders.Auth.Forms
 
         public bool GetIsPaid()
         {
-            if (String.IsNullOrEmpty(IsPaid))
+            if (string.IsNullOrEmpty(IsPaid))
             {
                 return false;
             }
@@ -121,7 +121,7 @@ namespace UI.Builders.Auth.Forms
 
         public bool GetIsActive()
         {
-            if (String.IsNullOrEmpty(IsActive))
+            if (string.IsNullOrEmpty(IsActive))
             {
                 return false;
             }

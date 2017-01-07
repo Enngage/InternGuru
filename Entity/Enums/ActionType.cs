@@ -1,5 +1,5 @@
 ﻿
-namespace Entity
+namespace Entity.Enums
 {
     internal sealed class ActionType
     {

@@ -1,5 +1,4 @@
 ﻿using UI.Base;
-using Service.Context;
 using UI.Builders.Master.Models;
 using UI.Builders.Services;
 using UI.Builders.Shared.Models;
@@ -25,16 +24,14 @@ namespace UI.Builders.Master
         {
             return new MasterModel()
             {
-                CurrentUser = this.CurrentUser,
-                CurrentCompany = this.CurrentCompany,
-                StatusBox = this.StatusBox,
-                UIHeader = this.UIHeader
+                CurrentUser = CurrentUser,
+                CurrentCompany = CurrentCompany,
+                StatusBox = StatusBox,
+                UiHeader = UiHeader
             };
         }
 
         #endregion
-
-        
 
     }
 }

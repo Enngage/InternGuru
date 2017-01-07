@@ -1,8 +1,7 @@
-﻿using Entity;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Entity;
 
-namespace Service.Services
+namespace Service.Services.Messages
 {
     public interface IMessageService : IService<Message>
     {

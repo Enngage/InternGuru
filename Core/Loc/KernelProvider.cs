@@ -4,18 +4,10 @@ namespace Core.Loc
 {
     public static class KernelProvider
     {
-        private static IKernel _kernel;
-
         /// <summary>
         /// Kernel with mapped classes
         /// </summary>
-        public static IKernel Kernel
-        {
-            get
-            {
-                return _kernel;
-            }
-        }
+        public static IKernel Kernel { get; private set; }
 
         /// <summary>
         /// Sets static kernel with mapped classes. 
@@ -24,7 +16,7 @@ namespace Core.Loc
         /// <param name="kernel">kernel to register</param>
         public static void SetKernel(IKernel kernel)
         {
-            _kernel = kernel;
+            Kernel = kernel;
         }
     }
 }

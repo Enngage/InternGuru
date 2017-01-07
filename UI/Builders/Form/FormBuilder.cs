@@ -1,22 +1,22 @@
-﻿using Service.Context;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using UI.Base;
-using UI.Builders.Company.Views;
 using System.Threading.Tasks;
-using UI.Builders.Services;
-using System;
-using UI.Exceptions;
 using Entity;
+using Entity.Base;
+using Service.Exceptions;
+using Service.Services.Activities.Enums;
+using Service.Services.Thesis.Enums;
+using UI.Base;
+using UI.Builders.Form.Forms;
 using UI.Builders.Form.Models;
 using UI.Builders.Form.Views;
-using System.Collections.Generic;
-using UI.Builders.Form.Forms;
-using Service.Services.Enums;
-using Service.Exceptions;
+using UI.Builders.Services;
 using UI.Builders.Shared.Models;
+using UI.Exceptions;
 
-namespace UI.Builders.Company
+namespace UI.Builders.Form
 {
     public class FormBuilder : BaseBuilder
     {
@@ -83,7 +83,7 @@ namespace UI.Builders.Company
         {
             try
             {
-                if (!this.CurrentUser.IsAuthenticated)
+                if (!CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can send message
                     throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
@@ -107,7 +107,7 @@ namespace UI.Builders.Company
 
                 var message = new Message()
                 {
-                    SenderApplicationUserId = this.CurrentUser.Id,
+                    SenderApplicationUserId = CurrentUser.Id,
                     RecipientCompanyID = thesis.CompanyID,
                     RecipientApplicationUserId = companyUserID,
                     MessageText = form.Message,
@@ -115,7 +115,7 @@ namespace UI.Builders.Company
                     IsRead = false,
                 };
 
-                return await this.Services.MessageService.InsertAsync(message);
+                return await Services.MessageService.InsertAsync(message);
             }
             catch (ValidationException ex)
             {
@@ -123,7 +123,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -131,7 +131,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -139,7 +139,7 @@ namespace UI.Builders.Company
         {
             try
             {
-                if (!this.CurrentUser.IsAuthenticated)
+                if (!CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can send message
                     throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
@@ -163,7 +163,7 @@ namespace UI.Builders.Company
 
                 var message = new Message()
                 {
-                    SenderApplicationUserId = this.CurrentUser.Id,
+                    SenderApplicationUserId = CurrentUser.Id,
                     RecipientCompanyID = internship.CompanyID,
                     RecipientApplicationUserId = companyUserID,
                     MessageText = form.Message,
@@ -171,7 +171,14 @@ namespace UI.Builders.Company
                     IsRead = false,
                 };
 
-                return await this.Services.MessageService.InsertAsync(message);
+                var messageID = await Services.MessageService.InsertAsync(message);
+
+                // log activity if we got this far
+                var activityCurrentUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
+                await this.Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitInternship, internship.CompanyID, activityCurrentUserId, internship.InternshipID);
+
+                // return message id
+                return messageID;
             }
             catch (ValidationException ex)
             {
@@ -179,7 +186,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -187,7 +194,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -202,8 +209,8 @@ namespace UI.Builders.Company
         /// <returns>Internship model</returns>
         private async Task<FormThesisModel> GetThesisModelAsync(int thesisID)
         {
-            int cacheMinutes = 30;
-            var cacheSetup = this.Services.CacheService.GetSetup<FormThesisModel>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 30;
+            var cacheSetup = Services.CacheService.GetSetup<FormThesisModel>(GetSource(), cacheMinutes);
             cacheSetup.ObjectID = thesisID;
             cacheSetup.Dependencies = new List<string>()
             {
@@ -211,19 +218,19 @@ namespace UI.Builders.Company
                 EntityKeys.KeyDelete<Entity.Thesis>(thesisID),
             };
 
-            var thesisQuery = this.Services.ThesisService.GetSingle(thesisID)
+            var thesisQuery = Services.ThesisService.GetSingle(thesisID)
                 .Select(m => new FormThesisModel()
                 {
                     CompanyID = m.Company.ID,
                     ThesisCodeName = m.ThesisType.CodeName,
                     CompanyName = m.Company.CompanyName,
                     ID = m.ID,
-                    CompanyGuid = m.Company.CompanyGUID,
+                    CompanyGuid = m.Company.CompanyGuid,
                     ThesisName = m.ThesisName,
                     ThesisTypeName = m.ThesisType.Name
                 });
 
-            var thesis = await this.Services.CacheService.GetOrSetAsync(async () => await thesisQuery.FirstOrDefaultAsync(), cacheSetup);
+            var thesis = await Services.CacheService.GetOrSetAsync(async () => await thesisQuery.FirstOrDefaultAsync(), cacheSetup);
 
             if (thesis == null)
             {
@@ -231,7 +238,7 @@ namespace UI.Builders.Company
             }
 
             // thesis name
-            thesis.ThesisTypeNameConverted = thesis.ThesisCodeName.Equals(ThesisTypeEnum.all.ToString(), StringComparison.OrdinalIgnoreCase) ? string.Join("/", (await GetAllThesisTypesAsync())) : thesis.ThesisTypeName;
+            thesis.ThesisTypeNameConverted = thesis.ThesisCodeName.Equals(ThesisTypeEnum.All.ToString(), StringComparison.OrdinalIgnoreCase) ? string.Join("/", (await GetAllThesisTypesAsync())) : thesis.ThesisTypeName;
 
             return thesis;
         }
@@ -242,8 +249,8 @@ namespace UI.Builders.Company
         /// <returns></returns>
         private async Task<List<string>> GetAllThesisTypesAsync()
         {
-            return (await this.Services.ThesisTypeService.GetAllCachedAsync())
-                .Where(m => !m.CodeName.Equals(ThesisTypeEnum.all.ToString(), StringComparison.OrdinalIgnoreCase))
+            return (await Services.ThesisTypeService.GetAllCachedAsync())
+                .Where(m => !m.CodeName.Equals(ThesisTypeEnum.All.ToString(), StringComparison.OrdinalIgnoreCase))
                 .Select(m => m.Name)
                 .ToList();
         }
@@ -255,8 +262,8 @@ namespace UI.Builders.Company
         /// <returns>Internship model</returns>
         private async Task<FormInternshipModel> GetInternshipModelAsync(int internshipID)
         {
-            int cacheMinutes = 30;
-            var cacheSetup = this.Services.CacheService.GetSetup<FormInternshipModel>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 30;
+            var cacheSetup = Services.CacheService.GetSetup<FormInternshipModel>(GetSource(), cacheMinutes);
             cacheSetup.ObjectID = internshipID;
             cacheSetup.Dependencies = new List<string>()
             {
@@ -264,17 +271,17 @@ namespace UI.Builders.Company
                 EntityKeys.KeyDelete<Entity.Internship>(internshipID),
             };
 
-            var internshipQuery = this.Services.InternshipService.GetSingle(internshipID)
+            var internshipQuery = Services.InternshipService.GetSingle(internshipID)
                 .Select(m => new FormInternshipModel()
                 {
                     CompanyID = m.CompanyID,
-                    CompanyGuid = m.Company.CompanyGUID,
+                    CompanyGuid = m.Company.CompanyGuid,
                     CompanyName = m.Company.CompanyName,
                     InternshipID = m.ID,
                     InternshipTitle = m.Title
                 });
 
-            return await this.Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
+            return await Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
         }
 
         /// <summary>
@@ -284,7 +291,7 @@ namespace UI.Builders.Company
         /// <returns>ID of user who created company</returns>
         private async Task<string> GetIDOfCompanyUserAsync(int companyID)
         {
-            return await this.Services.CompanyService.GetSingle(companyID)
+            return await Services.CompanyService.GetSingle(companyID)
                 .Select(m => m.ApplicationUserId)
                 .FirstOrDefaultAsync();
         }

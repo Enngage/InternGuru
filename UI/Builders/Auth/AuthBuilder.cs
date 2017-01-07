@@ -1,28 +1,28 @@
-﻿using System.Threading.Tasks;
-using System.Data.Entity;
-using System.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using PagedList;
-using PagedList.EntityFramework;
-
-using UI.Base;
-using UI.Builders.Auth.Views;
-using UI.Builders.Auth.Forms;
-using UI.Builders.Auth.Models;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using Core.Config;
 using Core.Helpers;
-using UI.Exceptions;
 using Core.Helpers.Internship;
-using UI.Builders.Services;
-using Service.Exceptions;
 using Entity;
-using UI.UIServices;
+using Entity.Base;
+using PagedList;
+using PagedList.EntityFramework;
+using Service.Exceptions;
+using UI.Base;
+using UI.Builders.Auth.Forms;
+using UI.Builders.Auth.Models;
+using UI.Builders.Auth.Views;
+using UI.Builders.Services;
 using UI.Builders.Shared.Models;
-using System.Web;
-using System.IO;
+using UI.Exceptions;
+using UI.UIServices;
 
-namespace UI.Builders.Company
+namespace UI.Builders.Auth
 {
     public class AuthBuilder : BaseBuilder
     {
@@ -39,10 +39,13 @@ namespace UI.Builders.Company
 
         public async Task<AuthMasterModel> GetAuthMasterModelAsync()
         {
-            if (!this.CurrentUser.IsAuthenticated)
+            if (!CurrentUser.IsAuthenticated)
             {
                 return null;
             }
+
+            // NOTE: Inneficient - call only when user is created in future
+            PrepareUserDirectories(CurrentUser.Id);
 
             return new AuthMasterModel()
             {
@@ -85,11 +88,11 @@ namespace UI.Builders.Company
                 return null;
             }
 
-            var currentApplicationUser = await this.Services.IdentityService.GetSingle(this.CurrentUser.Id).FirstOrDefaultAsync();
+            var currentApplicationUser = await Services.IdentityService.GetSingle(CurrentUser.Id).FirstOrDefaultAsync();
 
             if (currentApplicationUser == null)
             {
-                throw new UIException(string.Format("Uživatel s ID {0} nebyl nalezen", this.CurrentUser.Id));
+                throw new UiException($"Uživatel s ID {CurrentUser.Id} nebyl nalezen");
             }
 
             var form = new AuthEditProfileForm()
@@ -169,6 +172,7 @@ namespace UI.Builders.Company
         public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync(AuthAddEditCompanyForm form)
         {
             var authMaster = await GetAuthMasterModelAsync();
+            var companyCreated = false;
 
             if (authMaster == null)
             {
@@ -180,6 +184,10 @@ namespace UI.Builders.Company
                 // user haven't created any company yet
                 form = new AuthAddEditCompanyForm();
             }
+            else
+            {
+                companyCreated = true;
+            }
 
             // add countries, categories and company sizes
             form.Countries = await FormGetCountriesAsync();
@@ -187,16 +195,16 @@ namespace UI.Builders.Company
             form.CompanyCategories = await FormGetCompanyCategories();
 
             // add guid
-            if (this.CurrentCompany.IsAvailable)
+            if (CurrentCompany.IsAvailable)
             {
-                form.CompanyGuid = this.CurrentCompany.CompanyGUID;
+                form.CompanyGuid = CurrentCompany.CompanyGuid;
             }
 
             return new AuthRegisterCompanyView()
             {
                 AuthMaster = authMaster,
                 CompanyForm = form,
-                CompanyIsCreated = form != null
+                CompanyIsCreated = companyCreated
             };
         }
 
@@ -221,9 +229,9 @@ namespace UI.Builders.Company
             form.CompanyCategories = await FormGetCompanyCategories();
 
             // add guid
-            if (this.CurrentCompany.IsAvailable)
+            if (CurrentCompany.IsAvailable)
             {
-                form.CompanyGuid = this.CurrentCompany.CompanyGUID;
+                form.CompanyGuid = CurrentCompany.CompanyGuid;
             }
 
             return new AuthEditCompanyView()
@@ -242,7 +250,7 @@ namespace UI.Builders.Company
                 return null;
             }
 
-            var currentUserId = this.CurrentUser.Id;
+            var currentUserId = CurrentUser.Id;
 
             // get company assigned to user
             var company = await Services.CompanyService.GetAll()
@@ -260,7 +268,7 @@ namespace UI.Builders.Company
                     CountryName = m.Country.CountryName,
                     Facebook = m.Facebook,
                     ID = m.ID,
-                    CompanyGuid = m.CompanyGUID,
+                    CompanyGuid = m.CompanyGuid,
                     Lat = m.Lat,
                     Lng = m.Lng,
                     LinkedIn = m.LinkedIn,
@@ -294,13 +302,14 @@ namespace UI.Builders.Company
         public async Task<AuthRegisterCompanyView> BuildRegisterCompanyViewAsync()
         {
             var authMaster = await GetAuthMasterModelAsync();
+            var comapnyIsCreated = false;
 
             if (authMaster == null)
             {
                 return null;
-
             }
-            var currentUserId = this.CurrentUser.Id;
+
+            var currentUserId = CurrentUser.Id;
 
             // get company assigned to user
             var company = await Services.CompanyService.GetAll()
@@ -317,7 +326,7 @@ namespace UI.Builders.Company
                     CountryCode = m.Country.CountryCode,
                     Facebook = m.Facebook,
                     ID = m.ID,
-                    CompanyGuid = m.CompanyGUID,
+                    CompanyGuid = m.CompanyGuid,
                     Lat = m.Lat,
                     Lng = m.Lng,
                     LinkedIn = m.LinkedIn,
@@ -332,8 +341,11 @@ namespace UI.Builders.Company
 
             if (company == null)
             {
-                // user haven't created any company yet
                 company = new AuthAddEditCompanyForm();
+            }
+            else
+            {
+                comapnyIsCreated = true;
             }
 
             // add countries, categories and company sizes
@@ -345,7 +357,7 @@ namespace UI.Builders.Company
             {
                 AuthMaster = authMaster,
                 CompanyForm = company,
-                CompanyIsCreated = company != null
+                CompanyIsCreated = comapnyIsCreated
             };
         }
 
@@ -362,7 +374,7 @@ namespace UI.Builders.Company
                 return null;
             }
 
-            var thesisQuery = this.Services.ThesisService.GetAll()
+            var thesisQuery = Services.ThesisService.GetAll()
                 .Where(m => m.ID == thesisID)
                 .Select(m => new AuthAddEditThesisForm()
                 {
@@ -418,7 +430,7 @@ namespace UI.Builders.Company
             {
                 AuthMaster = authMaster,
                 ThesisForm = form,
-                CanCreateThesis = this.CurrentCompany.IsAvailable
+                CanCreateThesis = CurrentCompany.IsAvailable
             };
         }
 
@@ -459,7 +471,7 @@ namespace UI.Builders.Company
             {
                 AuthMaster = authMaster,
                 ThesisForm = form,
-                CanCreateThesis = this.CurrentCompany.IsAvailable
+                CanCreateThesis = CurrentCompany.IsAvailable
             };
         }
 
@@ -478,7 +490,7 @@ namespace UI.Builders.Company
 
             var companyIDOfCurrentUser = await GetCompanyIDOfCurrentUserAsync();
 
-            var internshipQuery = this.Services.InternshipService.GetSingle(internshipID)
+            var internshipQuery = Services.InternshipService.GetSingle(internshipID)
                 .Where(m => m.CompanyID == companyIDOfCurrentUser) // only user assigned to company can edit the internship (otherwise other users could edit the internship)
                 .Select(m => new AuthAddEditInternshipForm()
                 {
@@ -595,7 +607,7 @@ namespace UI.Builders.Company
             {
                 AuthMaster = authMaster,
                 InternshipForm = form,
-                CanCreateInternship = this.CurrentCompany.IsAvailable, // user can create internship only if he created company before
+                CanCreateInternship = CurrentCompany.IsAvailable, // user can create internship only if he created company before
             };
         }
 
@@ -670,7 +682,7 @@ namespace UI.Builders.Company
             };
 
             // don't show anything if recipient == current user. It should always be the other user
-            if (otherUserId.Equals(this.CurrentUser.Id, StringComparison.OrdinalIgnoreCase))
+            if (otherUserId.Equals(CurrentUser.Id, StringComparison.OrdinalIgnoreCase))
             {
                 // to do maybe
             }
@@ -690,9 +702,9 @@ namespace UI.Builders.Company
             var lastMessage = messages.FirstOrDefault();
             if (lastMessage != null)
             {
-                if (lastMessage.RecipientApplicationUserId.Equals(this.CurrentUser.Id, StringComparison.OrdinalIgnoreCase))
+                if (lastMessage.RecipientApplicationUserId.Equals(CurrentUser.Id, StringComparison.OrdinalIgnoreCase))
                 {
-                    await this.Services.MessageService.MarkMessagesAsRead(this.CurrentUser.Id, otherUserId);
+                    await Services.MessageService.MarkMessagesAsRead(CurrentUser.Id, otherUserId);
 
                     // mark all loaded messages as read
                     foreach (var message in messages)
@@ -709,10 +721,10 @@ namespace UI.Builders.Company
                 ConversationUser = otherUser,
                 Me = new AuthMessageUserModel()
                 {
-                    FirstName = this.CurrentUser.FirstName,
-                    LastName = this.CurrentUser.LastName,
-                    UserID = this.CurrentUser.Id,
-                    UserName = this.CurrentUser.UserName
+                    FirstName = CurrentUser.FirstName,
+                    LastName = CurrentUser.LastName,
+                    UserID = CurrentUser.Id,
+                    UserName = CurrentUser.UserName
                 },
                 MessageForm = messageForm == null ? defaultMessageForm : messageForm
             };
@@ -732,15 +744,15 @@ namespace UI.Builders.Company
             try
             {
                 // verify company
-                if (!this.CurrentCompany.IsAvailable)
+                if (!CurrentCompany.IsAvailable)
                 {
                     throw new ValidationException($"Pro přidání práce musíte prvně vytvořit firmu");
                 }
 
                 var thesis = new Entity.Thesis
                 {
-                    ApplicationUserId = this.CurrentUser.Id,
-                    CompanyID = this.CurrentCompany.CompanyID,
+                    ApplicationUserId = CurrentUser.Id,
+                    CompanyID = CurrentCompany.CompanyID,
                     Amount = form.Amount ?? 0,
                     CurrencyID = form.CurrencyID,
                     Description = form.Description,
@@ -761,7 +773,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -769,7 +781,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -782,7 +794,7 @@ namespace UI.Builders.Company
             try
             {
                 // verify company
-                if (!this.CurrentCompany.IsAvailable)
+                if (!CurrentCompany.IsAvailable)
                 {
                     throw new ValidationException($"Pro přidání práce musíte prvně vytvořit firmu");
                 }
@@ -790,8 +802,8 @@ namespace UI.Builders.Company
                 var thesis = new Entity.Thesis
                 {
                     ID = form.ID,
-                    ApplicationUserId = this.CurrentUser.Id,
-                    CompanyID = this.CurrentCompany.CompanyID,
+                    ApplicationUserId = CurrentUser.Id,
+                    CompanyID = CurrentCompany.CompanyID,
                     Amount = form.Amount ?? 0,
                     CurrencyID = form.CurrencyID,
                     Description = form.Description,
@@ -811,7 +823,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -819,7 +831,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -827,7 +839,7 @@ namespace UI.Builders.Company
         {
             try
             {
-                if (!this.CurrentUser.IsAuthenticated)
+                if (!CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can send messages
                     throw new ValidationException("Pro odeslání zprávy se přihlašte");
@@ -835,7 +847,7 @@ namespace UI.Builders.Company
 
                 var message = new Message()
                 {
-                    SenderApplicationUserId = this.CurrentUser.Id,
+                    SenderApplicationUserId = CurrentUser.Id,
                     RecipientCompanyID = form.CompanyID,
                     RecipientApplicationUserId = form.RecipientApplicationUserId,
                     MessageText = form.Message,
@@ -843,7 +855,7 @@ namespace UI.Builders.Company
                     IsRead = false,
                 };
 
-                return await this.Services.MessageService.InsertAsync(message);
+                return await Services.MessageService.InsertAsync(message);
             }
             catch (ValidationException ex)
             {
@@ -851,7 +863,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -859,7 +871,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -871,23 +883,23 @@ namespace UI.Builders.Company
         {
             try
             {
-                if (!this.CurrentUser.IsAuthenticated)
+                if (!CurrentUser.IsAuthenticated)
                 {
-                    throw new ValidationException($"Uživatel není přihlášen");
+                    throw new ValidationException("Uživatel není přihlášen");
                 }
 
-                var applicationUser = await this.Services.IdentityService.GetAsync(this.CurrentUser.Id);
+                var applicationUser = await Services.IdentityService.GetAsync(CurrentUser.Id);
 
                 if (applicationUser == null)
                 {
-                    throw new ValidationException($"Uživatel s ID { this.CurrentUser.Id} nebyl nalezen");
+                    throw new ValidationException($"Uživatel s ID { CurrentUser.Id} nebyl nalezen");
                 }
 
                 // set object properties
                 applicationUser.FirstName = form.FirstName;
                 applicationUser.LastName = form.LastName;
 
-                await this.Services.IdentityService.UpdateAsync(applicationUser);
+                await Services.IdentityService.UpdateAsync(applicationUser);
             }
             catch (ValidationException ex)
             {
@@ -895,7 +907,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -903,7 +915,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -914,21 +926,22 @@ namespace UI.Builders.Company
         /// <returns>ID of new company</returns>
         public async Task<int> CreateCompany(AuthAddEditCompanyForm form)
         {
+            var companyGuidShared = Guid.Empty;
+
             // Create company in transaction because files require CompanyID
-            using (var transaction = this.AppContext.BeginTransaction())
+            using (var transaction = AppContext.BeginTransaction())
             {
                 try
                 {
-
                     // verify company URL
                     if (!StringHelper.IsValidUrl(form.Web))
                     {
-                        throw new ValidationException($"Zadejte validní URL webu");
+                        throw new ValidationException("URL webu není validní. (zkontrolujte protokol)");
                     }
 
                     var company = new Entity.Company
                     {
-                        ApplicationUserId = this.CurrentUser.Id,
+                        ApplicationUserId = CurrentUser.Id,
                         Address = form.Address,
                         City = form.City,
                         CompanyName = form.CompanyName,
@@ -943,20 +956,24 @@ namespace UI.Builders.Company
                         Twitter = form.Twitter,
                         Web = form.Web,
                         YearFounded = form.YearFounded,
-                        CompanyCategoryID = form.CompanyCategoryID
+                        CompanyCategoryID = form.CompanyCategoryID,
                     };
 
                     await Services.CompanyService.InsertAsync(company);
 
+                    // prepare company folder
+                    PrepareCompanyDirectories(company.CompanyGuid);
+                    companyGuidShared = company.CompanyGuid;
+
                     // upload files
                     if (form.Banner != null)
                     {
-                        Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(company.CompanyGUID), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
+                        Services.FileProvider.SaveImage(form.Banner, Entity.Company.GetCompanyBannerFolderPath(company.CompanyGuid), Entity.Company.GetBannerFileName(), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
                     }
 
                     if (form.Logo != null)
                     {
-                        Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(company.CompanyGUID), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                        Services.FileProvider.SaveImage(form.Logo, Entity.Company.GetCompanyLogoFolderPath(company.CompanyGuid), Entity.Company.GetLogoFileName(), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
                     }
 
                     // commit transaction
@@ -969,44 +986,68 @@ namespace UI.Builders.Company
                     // rollback
                     transaction.Rollback();
 
+                    // cleanup directory
+                    if (companyGuidShared != Guid.Empty)
+                    {
+                        CleanupCompanyDirectories(companyGuidShared);
+                    }
+
                     // log erros
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException($"{ex.Message}", ex);
+                    throw new UiException($"{ex.Message}", ex);
                 }
                 catch (CodeNameNotUniqueException ex)
                 {
                     // rollback
                     transaction.Rollback();
 
+                    // cleanup directory
+                    if (companyGuidShared != Guid.Empty)
+                    {
+                        CleanupCompanyDirectories(companyGuidShared);
+                    }
+
                     // log error
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException($"{form.CompanyName} je již v databázi", ex);
+                    throw new UiException($"{form.CompanyName} je již v databázi", ex);
                 }
                 catch (ValidationException ex)
                 {
                     // rollback
                     transaction.Rollback();
 
+                    // cleanup directory
+                    if (companyGuidShared != Guid.Empty)
+                    {
+                        CleanupCompanyDirectories(companyGuidShared);
+                    }
+
                     // log error
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException(ex.Message, ex);
+                    throw new UiException(ex.Message, ex);
                 }
                 catch (Exception ex)
                 {
                     // rollback
                     transaction.Rollback();
 
+                    // cleanup directory
+                    if (companyGuidShared != Guid.Empty)
+                    {
+                        CleanupCompanyDirectories(companyGuidShared);
+                    }
+
                     // log error
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                    throw new UiException(UiExceptionEnum.SaveFailure, ex);
                 }
             }
         }
@@ -1018,11 +1059,11 @@ namespace UI.Builders.Company
         /// <param name="form">form</param>
         public async Task EditCompany(AuthAddEditCompanyForm form)
         {
-            using (var transaction = this.AppContext.BeginTransaction())
+            using (var transaction = AppContext.BeginTransaction())
             {
                 try
                 {
-                    if (!this.CurrentCompany.IsAvailable)
+                    if (!CurrentCompany.IsAvailable)
                     {
                         throw new ValidationException($"Firma, kterou chcete editovat nebyla nalezena");
                     }
@@ -1036,17 +1077,17 @@ namespace UI.Builders.Company
                     // upload files if they are provided
                     if (form.Banner != null)
                     {
-                        Services.FileProvider.SaveImage(form.Banner, FileConfig.BannerFolderPath, Entity.Company.GetBannerFileName(this.CurrentCompany.CompanyGUID), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
+                        Services.FileProvider.SaveImage(form.Banner, Entity.Company.GetCompanyBannerFolderPath(CurrentCompany.CompanyGuid), Entity.Company.GetBannerFileName(), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
                     }
                     if (form.Logo != null)
                     {
-                        Services.FileProvider.SaveImage(form.Logo, FileConfig.LogoFolderPath, Entity.Company.GetLogoFileName(this.CurrentCompany.CompanyGUID), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                        Services.FileProvider.SaveImage(form.Logo, Entity.Company.GetCompanyLogoFolderPath(CurrentCompany.CompanyGuid), Entity.Company.GetLogoFileName(), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
                     }
 
                     var company = new Entity.Company
                     {
                         ID = form.ID,
-                        ApplicationUserId = this.CurrentUser.Id,
+                        ApplicationUserId = CurrentUser.Id,
                         Address = form.Address,
                         City = form.City,
                         CompanyName = form.CompanyName,
@@ -1078,7 +1119,7 @@ namespace UI.Builders.Company
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException($"{ex.Message}", ex);
+                    throw new UiException($"{ex.Message}", ex);
                 }
                 catch (CodeNameNotUniqueException ex)
                 {
@@ -1089,7 +1130,7 @@ namespace UI.Builders.Company
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException($"Firma {form.CompanyName} je již v databázi", ex);
+                    throw new UiException($"Firma {form.CompanyName} je již v databázi", ex);
                 }
                 catch (ValidationException ex)
                 {
@@ -1100,7 +1141,7 @@ namespace UI.Builders.Company
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException(ex.Message, ex);
+                    throw new UiException(ex.Message, ex);
                 }
                 catch (Exception ex)
                 {
@@ -1111,7 +1152,7 @@ namespace UI.Builders.Company
                     Services.LogService.LogException(ex);
 
                     // re-throw
-                    throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                    throw new UiException(UiExceptionEnum.SaveFailure, ex);
                 }
             }
         }
@@ -1133,7 +1174,7 @@ namespace UI.Builders.Company
                     throw new ValidationException("Stáž musí být přiřazena k firmě");
                 }
 
-                if (!this.CurrentUser.IsAuthenticated)
+                if (!CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can create internship
                     throw new ValidationException("Nelze vytvořit stáž bez příhlášení");
@@ -1165,7 +1206,7 @@ namespace UI.Builders.Company
                     MinDurationTypeID = form.MinDurationTypeID,
                     MaxDurationTypeID = form.MaxDurationTypeID,
                     IsActive = form.GetIsActive(),
-                    ApplicationUserId = this.CurrentUser.Id,
+                    ApplicationUserId = CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
                     WorkingHours = form.WorkingHours,
                     Requirements = form.Requirements,
@@ -1184,7 +1225,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -1192,7 +1233,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -1212,7 +1253,7 @@ namespace UI.Builders.Company
                     throw new ValidationException("Nelze vytvořit stáž bez firmy");
                 }
 
-                if (!this.CurrentUser.IsAuthenticated)
+                if (!CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can create internship
                     throw new ValidationException("Nelze vytvořit stáž bez příhlášení");
@@ -1245,7 +1286,7 @@ namespace UI.Builders.Company
                     MinDurationTypeID = form.MinDurationTypeID,
                     MaxDurationTypeID = form.MaxDurationTypeID,
                     IsActive = form.GetIsActive(),
-                    ApplicationUserId = this.CurrentUser.Id,
+                    ApplicationUserId = CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
                     WorkingHours = form.WorkingHours,
                     Requirements = form.Requirements,
@@ -1262,7 +1303,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -1270,7 +1311,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -1278,23 +1319,20 @@ namespace UI.Builders.Company
         {
             try
             {
-                if (!this.CurrentCompany.IsAvailable)
+                if (!CurrentCompany.IsAvailable)
                 {
                     throw new ValidationException("Firma není dostupná");
                 }
 
-                for (int i = 0; i < request.Files.Count; i++)
+                for (var i = 0; i < request.Files.Count; i++)
                 {
-                    HttpPostedFileBase file = request.Files[i];
+                    var file = request.Files[i];
 
-                    var folderPath = Entity.Company.GetCompanyGalleryFolderPath(this.CurrentCompany.CompanyGUID);
+                    var galleryPath = Entity.Company.GetCompanyGalleryFolderPath(CurrentCompany.CompanyGuid);
                     var fileNameToSave = Entity.Company.GetCompanyGalleryFileName(Guid.NewGuid()); // generate new guid for new images
 
-                    var fileSystemPath = SystemConfig.ServerRootPath + "\\" + FileConfig.CompanyalleryImagesPath + "\\" + this.CurrentCompany.CompanyGUID;
-                    CreateCompanyDirectory(fileSystemPath);
-
                     // save file
-                    Services.FileProvider.SaveImage(file, folderPath, fileNameToSave);
+                    Services.FileProvider.SaveImage(file, galleryPath, fileNameToSave);
                 }
             }
             catch (ValidationException ex)
@@ -1303,7 +1341,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -1311,7 +1349,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -1325,15 +1363,15 @@ namespace UI.Builders.Company
             {
                 if (form?.Avatar == null)
                 {
-                    throw new ValidationException("Nelze nahrát prázdný avatar");
+                    throw new ValidationException("Nelze nahrát prázdný soubor");
                 }
 
-                if (!this.CurrentUser.IsAuthenticated)
+                if (!CurrentUser.IsAuthenticated)
                 {
-                    throw new ValidationException(UIExceptionEnum.NotAuthenticated.ToString());
+                    throw new ValidationException(UiExceptionEnum.NotAuthenticated.ToString());
                 }
 
-                Services.FileProvider.SaveImage(form.Avatar, FileConfig.AvatarFolderPath, Entity.ApplicationUser.GetAvatarFileName(this.CurrentUser.UserName), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
+                Services.FileProvider.SaveImage(form.Avatar, ApplicationUser.GetAvatarFolderPath(CurrentUser.Id), ApplicationUser.GetAvatarFileName(), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
             }
             catch (FileUploadException ex)
             {
@@ -1341,7 +1379,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (ValidationException ex)
             {
@@ -1349,7 +1387,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(ex.Message, ex);
+                throw new UiException(ex.Message, ex);
             }
             catch (Exception ex)
             {
@@ -1357,7 +1395,7 @@ namespace UI.Builders.Company
                 Services.LogService.LogException(ex);
 
                 // re-throw
-                throw new UIException(UIExceptionEnum.SaveFailure, ex);
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
         }
 
@@ -1365,21 +1403,58 @@ namespace UI.Builders.Company
 
         #region Helper methods
 
-        private void CreateCompanyDirectory(string path)
+        /// <summary>
+        /// Note: This method is inneficiently called each time an account page is accessed
+        /// </summary>
+        /// <param name="applicationUserId"></param>
+        private void PrepareUserDirectories(string applicationUserId)
         {
-            // Determine whether the directory exists.
-            if (Directory.Exists(path))
-            {
-                return;
-            }
+            // create base folder
+            var baseFolderPath = SystemConfig.ServerRootPath + "\\" + ApplicationUser.GetUserBaseFolderPath(applicationUserId);
+            Directory.CreateDirectory(baseFolderPath);
 
-            // Try to create the directory.
-            DirectoryInfo di = Directory.CreateDirectory(path);
+            // create avatars folder
+            var avatarsFolderPath = SystemConfig.ServerRootPath + "\\" + ApplicationUser.GetAvatarFolderPath(applicationUserId);
+            Directory.CreateDirectory(avatarsFolderPath);
+        }
+
+        private void PrepareCompanyDirectories(Guid companyGuid)
+        {
+            // create base folder
+            var baseFolderPath = SystemConfig.ServerRootPath + "\\" + Entity.Company.GetCompanyBaseFolderPath(companyGuid);
+            Directory.CreateDirectory(baseFolderPath);
+
+            // gallery folder
+            var galleryPath = SystemConfig.ServerRootPath + "\\" + Entity.Company.GetCompanyGalleryFolderPath(companyGuid);
+            Directory.CreateDirectory(galleryPath);
+
+            // logo folder
+            var logoPath = SystemConfig.ServerRootPath + "\\" + Entity.Company.GetCompanyLogoFolderPath(companyGuid);
+            Directory.CreateDirectory(logoPath);
+
+            // banner 
+            var bannerPath = SystemConfig.ServerRootPath + "\\" + Entity.Company.GetCompanyBannerFolderPath(companyGuid);
+            Directory.CreateDirectory(bannerPath);
+        }
+
+        private void CleanupCompanyDirectories(Guid companyGuid)
+        {
+            // delete base folder
+            try
+            {
+                var baseFolderPath = SystemConfig.ServerRootPath + "\\" + Entity.Company.GetCompanyBaseFolderPath(companyGuid);
+                Directory.Delete(baseFolderPath, true);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // nothing is needed to do here
+            }
+        
         }
 
         private async Task<IEnumerable<AuthInternshipHomeOfficeOptionModel>> FormGetAllHomeOfficeOptions()
         {
-            return (await this.Services.HomeOfficeOptionService.GetAllCachedAsync())
+            return (await Services.HomeOfficeOptionService.GetAllCachedAsync())
                 .Select(m => new AuthInternshipHomeOfficeOptionModel()
                 {
                     CodeName = m.CodeName,
@@ -1390,7 +1465,7 @@ namespace UI.Builders.Company
 
         private async Task<IEnumerable<AuthInternshipStudentStatusOptionModel>> FormGetAllStudentStatusOptions()
         {
-            return (await this.Services.StudentStatusOptionService.GetAllCachedAsync())
+            return (await Services.StudentStatusOptionService.GetAllCachedAsync())
                 .Select(m => new AuthInternshipStudentStatusOptionModel()
                 {
                     CodeName = m.CodeName,
@@ -1401,7 +1476,7 @@ namespace UI.Builders.Company
 
         private async Task<AuthInternshipDurationType> GetDurationTypeAsync(int durationID)
         {
-            var durationTypes = await this.FormGetInternshipDurationsAsync();
+            var durationTypes = await FormGetInternshipDurationsAsync();
             return durationTypes
                 .Where(m => m.ID == durationID)
                 .SingleOrDefault();
@@ -1409,7 +1484,7 @@ namespace UI.Builders.Company
 
         private async Task<IEnumerable<AuthInternshipAmountType>> FormGetInternshipAmountTypesAsync()
         {
-            var internshipAmountTypes = await this.Services.InternshipAmountTypeService.GetAllCachedAsync();
+            var internshipAmountTypes = await Services.InternshipAmountTypeService.GetAllCachedAsync();
 
             return internshipAmountTypes.Select(m => new AuthInternshipAmountType()
             {
@@ -1421,7 +1496,7 @@ namespace UI.Builders.Company
 
         private async Task<IEnumerable<AuthInternshipDurationType>> FormGetInternshipDurationsAsync()
         {
-            var durationTypes = await this.Services.InternshipDurationTypeService.GetAllCachedAsync();
+            var durationTypes = await Services.InternshipDurationTypeService.GetAllCachedAsync();
 
             return durationTypes.Select(m => new AuthInternshipDurationType()
             {
@@ -1434,7 +1509,7 @@ namespace UI.Builders.Company
 
         private async Task<IEnumerable<AuthThesisTypeModel>> FormGetThesisTypesAsync()
         {
-            var thesisTypes = await this.Services.ThesisTypeService.GetAllCachedAsync();
+            var thesisTypes = await Services.ThesisTypeService.GetAllCachedAsync();
 
             return thesisTypes.Select(m => new AuthThesisTypeModel()
             {
@@ -1445,7 +1520,7 @@ namespace UI.Builders.Company
 
         private async Task<IEnumerable<AuthCurrencyModel>> FormGetCurrenciesAsync()
         {
-            var currencies = await this.Services.CurrencyService.GetAllCachedAsync();
+            var currencies = await Services.CurrencyService.GetAllCachedAsync();
 
             return currencies.Select(m => new AuthCurrencyModel()
             {
@@ -1457,9 +1532,10 @@ namespace UI.Builders.Company
 
         private async Task<IEnumerable<AuthInternshipLanguageModel>> FormGetLanguagesAsync()
         {
-            var languages = await this.Services.LanguageService.GetAllCachedAsync();
+            var languages = await Services.LanguageService.GetAllCachedAsync();
 
-            return languages.Select(m => new AuthInternshipLanguageModel() {
+            return languages.Select(m => new AuthInternshipLanguageModel()
+            {
                 CodeName = m.CodeName,
                 LanguageName = m.LanguageName
             });
@@ -1467,7 +1543,7 @@ namespace UI.Builders.Company
 
         private async Task<IEnumerable<AuthCountryModel>> FormGetCountriesAsync()
         {
-            var countries = await this.Services.CountryService.GetAllCachedAsync();
+            var countries = await Services.CountryService.GetAllCachedAsync();
 
             return countries.Select(m => new AuthCountryModel()
             {
@@ -1480,7 +1556,7 @@ namespace UI.Builders.Company
 
         private async Task<IEnumerable<AuthCompanySize>> FormGetCompanySizesAsync()
         {
-            var companySizes = await this.Services.CompanySizeService.GetAllCachedAsync();
+            var companySizes = await Services.CompanySizeService.GetAllCachedAsync();
 
             return companySizes.Select(m => new AuthCompanySize()
             {
@@ -1491,32 +1567,6 @@ namespace UI.Builders.Company
         }
 
         /// <summary>
-        /// Gets total number of not read messages of current user
-        /// </summary>
-        /// <param name="userID">ID of user whose messages will be retrieved</param>
-        /// <returns>Number of not read messages</returns>
-        private async Task<int> GetNotReadMessagesOfCurrentUserAsync()
-        {
-            var messagesQuery = this.Services.MessageService.GetAll()
-               .Where(m => m.RecipientApplicationUserId == this.CurrentUser.Id && !m.IsRead)
-               .Select(m => m.ID);
-
-            int cacheMinutes = 30;
-            var cacheSetup = this.Services.CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
-            cacheSetup.Dependencies = new List<string>()
-            {
-                EntityKeys.KeyUpdateAny<Entity.Message>(),
-                EntityKeys.KeyDeleteAny<Entity.Message>(),
-                EntityKeys.KeyCreateAny<Entity.Message>(),
-            };
-            cacheSetup.ObjectStringID = this.CurrentUser.Id;
-
-            var result = await this.Services.CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetup);
-
-            return result.Count();
-        }
-
-        /// <summary>
         /// Gets conversations for current user
         /// </summary>
         /// <param name="otherUserId">ID of the other user (NEVER current user)</param>
@@ -1524,12 +1574,12 @@ namespace UI.Builders.Company
         /// <returns>Collection of messages of current user with other user</returns>
         private async Task<IPagedList<AuthMessageModel>> GetConversationMessagesAsync(string otherUserId, int? page)
         {
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
+            var pageSize = 10;
+            var pageNumber = (page ?? 1);
 
-            var messagesQuery = this.Services.MessageService.GetAll()
+            var messagesQuery = Services.MessageService.GetAll()
                .Where(m =>
-                    (m.RecipientApplicationUserId == this.CurrentUser.Id || m.SenderApplicationUserId == this.CurrentUser.Id)
+                    (m.RecipientApplicationUserId == CurrentUser.Id || m.SenderApplicationUserId == CurrentUser.Id)
                     &&
                     (m.RecipientApplicationUserId == otherUserId || m.SenderApplicationUserId == otherUserId))
                .OrderByDescending(m => m.MessageCreated)
@@ -1544,7 +1594,7 @@ namespace UI.Builders.Company
                    CompanyID = m.RecipientCompanyID,
                    CompanyName = m.Company.CompanyName,
                    MessageText = m.MessageText,
-                   CurrentUserId = this.CurrentUser.Id,
+                   CurrentUserId = CurrentUser.Id,
                    IsRead = m.IsRead,
                    SenderFirstName = m.SenderApplicationUser.FirstName,
                    SenderLastName = m.SenderApplicationUser.LastName,
@@ -1553,19 +1603,19 @@ namespace UI.Builders.Company
                    Subject = m.Subject,
                });
 
-            int cacheMinutes = 30;
-            var cacheSetup = this.Services.CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 30;
+            var cacheSetup = Services.CacheService.GetSetup<AuthMessageModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                EntityKeys.KeyUpdateAny<Entity.Message>(),
-                EntityKeys.KeyDeleteAny<Entity.Message>(),
-                EntityKeys.KeyCreateAny<Entity.Message>(),
+                EntityKeys.KeyUpdateAny<Message>(),
+                EntityKeys.KeyDeleteAny<Message>(),
+                EntityKeys.KeyCreateAny<Message>(),
             };
-            cacheSetup.ObjectStringID = this.CurrentUser.Id + "_" + otherUserId;
+            cacheSetup.ObjectStringID = CurrentUser.Id + "_" + otherUserId;
             cacheSetup.PageNumber = pageNumber;
             cacheSetup.PageSize = pageSize;
 
-            return await this.Services.CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+            return await Services.CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
         }
 
         /// <summary>
@@ -1575,15 +1625,15 @@ namespace UI.Builders.Company
         /// <returns>Name of given user</returns>
         private async Task<AuthMessageUserModel> GetMessageUserAsync(string applicationUserId)
         {
-            int cacheMinutes = 30;
-            var cacheSetup = this.Services.CacheService.GetSetup<AuthMessageUserModel>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 30;
+            var cacheSetup = Services.CacheService.GetSetup<AuthMessageUserModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                EntityKeys.KeyUpdateAny<Entity.Message>(),
+                EntityKeys.KeyUpdateAny<Message>(),
             };
             cacheSetup.ObjectStringID = applicationUserId;
 
-            var userQuery = this.Services.IdentityService.GetSingle(applicationUserId)
+            var userQuery = Services.IdentityService.GetSingle(applicationUserId)
                 .Select(m => new AuthMessageUserModel()
                 {
                     FirstName = m.FirstName,
@@ -1592,13 +1642,12 @@ namespace UI.Builders.Company
                     UserName = m.UserName
                 });
 
-            return await this.Services.CacheService.GetOrSet(async () => await userQuery.FirstOrDefaultAsync(), cacheSetup);
+            return await Services.CacheService.GetOrSet(async () => await userQuery.FirstOrDefaultAsync(), cacheSetup);
         }
 
         /// <summary>
         /// Gets messages of current user
         /// </summary>
-        /// <param name="page">Page number</param>
         /// <param name="topN">Top N</param>
         /// <returns>Collection of messages of current user</returns>
         private async Task<IEnumerable<AuthConversationModel>> GetConversationsAsync(int topN)
@@ -1610,17 +1659,16 @@ namespace UI.Builders.Company
         /// Gets messages of current user
         /// </summary>
         /// <param name="page">Page number</param>
-        /// <param name="topN">Top N</param>
         /// <returns>Collection of messages of current user</returns>
         private async Task<IPagedList<AuthConversationModel>> GetConversationsAsync(int? page)
         {
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
+            var pageSize = 10;
+            var pageNumber = (page ?? 1);
 
             // get both incoming and outgoming messages as well as messages targeted for given company
-            var messagesQuery = this.Services.MessageService.GetAll()
+            var messagesQuery = Services.MessageService.GetAll()
                    .Where(m =>
-                    (m.RecipientApplicationUserId == this.CurrentUser.Id || m.SenderApplicationUserId == this.CurrentUser.Id))
+                    (m.RecipientApplicationUserId == CurrentUser.Id || m.SenderApplicationUserId == CurrentUser.Id))
                .OrderByDescending(m => m.MessageCreated)
                .Select(m => new AuthMessageModel()
                {
@@ -1633,7 +1681,7 @@ namespace UI.Builders.Company
                    CompanyID = m.RecipientCompanyID,
                    CompanyName = m.Company.CompanyName,
                    MessageText = m.MessageText,
-                   CurrentUserId = this.CurrentUser.Id,
+                   CurrentUserId = CurrentUser.Id,
                    IsRead = m.IsRead,
                    SenderFirstName = m.SenderApplicationUser.FirstName,
                    SenderLastName = m.SenderApplicationUser.LastName,
@@ -1642,30 +1690,30 @@ namespace UI.Builders.Company
                    Subject = m.Subject,
                });
 
-            int cacheMinutes = 60;
-            var cacheSetupMessages = this.Services.CacheService.GetSetup<AuthMessageModel>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 60;
+            var cacheSetupMessages = Services.CacheService.GetSetup<AuthMessageModel>(GetSource(), cacheMinutes);
             cacheSetupMessages.Dependencies = new List<string>()
             {
-                EntityKeys.KeyUpdateAny<Entity.Message>(),
-                EntityKeys.KeyDeleteAny<Entity.Message>(),
-                EntityKeys.KeyCreateAny<Entity.Message>(),
+                EntityKeys.KeyUpdateAny<Message>(),
+                EntityKeys.KeyDeleteAny<Message>(),
+                EntityKeys.KeyCreateAny<Message>(),
             };
-            cacheSetupMessages.ObjectStringID = this.CurrentUser.Id;
+            cacheSetupMessages.ObjectStringID = CurrentUser.Id;
 
             // get all messages for this user
-            var allMessages = await this.Services.CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetupMessages);
+            var allMessages = await Services.CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetupMessages);
 
             // get conversations from messages
-            var cacheSetupConversations = this.Services.CacheService.GetSetup<AuthConversationModel>(this.GetSource(), cacheMinutes);
+            var cacheSetupConversations = Services.CacheService.GetSetup<AuthConversationModel>(GetSource(), cacheMinutes);
             cacheSetupConversations.Dependencies = new List<string>()
             {
-                EntityKeys.KeyUpdateAny<Entity.Message>(),
-                EntityKeys.KeyDeleteAny<Entity.Message>(),
-                EntityKeys.KeyCreateAny<Entity.Message>(),
+                EntityKeys.KeyUpdateAny<Message>(),
+                EntityKeys.KeyDeleteAny<Message>(),
+                EntityKeys.KeyCreateAny<Message>(),
             };
-            cacheSetupConversations.ObjectStringID = this.CurrentUser.Id;
+            cacheSetupConversations.ObjectStringID = CurrentUser.Id;
 
-            var conversations = this.Services.CacheService.GetOrSet(() => FilterConversationMessages(allMessages), cacheSetupConversations);
+            var conversations = Services.CacheService.GetOrSet(() => FilterConversationMessages(allMessages), cacheSetupConversations);
 
             return conversations.ToPagedList(pageNumber, pageSize);
         }
@@ -1681,7 +1729,7 @@ namespace UI.Builders.Company
 
             foreach (var message in messages)
             {
-                var existingConversationMessage = conversationList.Where(m => m.RecipientApplicationUserId == this.CurrentUser.Id || m.SenderApllicationUserId == this.CurrentUser.Id)
+                var existingConversationMessage = conversationList.Where(m => m.RecipientApplicationUserId == CurrentUser.Id || m.SenderApllicationUserId == CurrentUser.Id)
                     .FirstOrDefault();
 
                 if (existingConversationMessage == null)
@@ -1689,7 +1737,7 @@ namespace UI.Builders.Company
                     // add message to conversations
                     conversationList.Add(new AuthConversationModel()
                     {
-                        CurrentUserId = this.CurrentUser.Id,
+                        CurrentUserId = CurrentUser.Id,
                         ID = message.ID,
                         RecipientFirstName = message.RecipientFirstName,
                         RecipientLastName = message.RecipientLastName,
@@ -1716,7 +1764,7 @@ namespace UI.Builders.Company
         /// <returns>Collection of internships of current user</returns>
         private async Task<IEnumerable<AuthInternshipListingModel>> GetInternshipsAsync()
         {
-            var internshipsQuery = this.Services.InternshipService.GetAll()
+            var internshipsQuery = Services.InternshipService.GetAll()
                      .Select(m => new AuthInternshipListingModel()
                      {
                          ID = m.ID,
@@ -1728,28 +1776,28 @@ namespace UI.Builders.Company
                          ApplicationUserId = m.ApplicationUserId
                      });
 
-            if (this.CurrentCompany.IsAvailable)
+            if (CurrentCompany.IsAvailable)
             {
-                internshipsQuery = internshipsQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id || m.CompanyID == this.CurrentCompany.CompanyID);
+                internshipsQuery = internshipsQuery.Where(m => m.ApplicationUserId == CurrentUser.Id || m.CompanyID == CurrentCompany.CompanyID);
             }
             else
             {
-                internshipsQuery = internshipsQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id);
+                internshipsQuery = internshipsQuery.Where(m => m.ApplicationUserId == CurrentUser.Id);
             }
 
             internshipsQuery = internshipsQuery.OrderByDescending(m => m.Created);
 
-            int cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<AuthInternshipListingModel>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 60;
+            var cacheSetup = Services.CacheService.GetSetup<AuthInternshipListingModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Internship>(),
                 EntityKeys.KeyDeleteAny<Entity.Internship>(),
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
             };
-            cacheSetup.ObjectStringID = this.CurrentUser.Id + "_" + this.CurrentCompany.CompanyID;
+            cacheSetup.ObjectStringID = CurrentUser.Id + "_" + CurrentCompany.CompanyID;
 
-            return await this.Services.CacheService.GetOrSet(async () => await internshipsQuery.ToListAsync(), cacheSetup);
+            return await Services.CacheService.GetOrSet(async () => await internshipsQuery.ToListAsync(), cacheSetup);
         }
 
         /// <summary>
@@ -1758,7 +1806,7 @@ namespace UI.Builders.Company
         /// <returns>Collection of internships</returns>
         private async Task<IEnumerable<AuthThesisListingModel>> GetThesesListingsAsync()
         {
-            var thesisQuery = this.Services.ThesisService.GetAll()
+            var thesisQuery = Services.ThesisService.GetAll()
                 .Select(m => new AuthThesisListingModel()
                 {
                     ID = m.ID,
@@ -1770,28 +1818,28 @@ namespace UI.Builders.Company
                     CompanyID = m.CompanyID
                 });
 
-            if (this.CurrentCompany.IsAvailable)
+            if (CurrentCompany.IsAvailable)
             {
-                thesisQuery = thesisQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id || m.CompanyID == this.CurrentCompany.CompanyID);
+                thesisQuery = thesisQuery.Where(m => m.ApplicationUserId == CurrentUser.Id || m.CompanyID == CurrentCompany.CompanyID);
             }
             else
             {
-                thesisQuery = thesisQuery.Where(m => m.ApplicationUserId == this.CurrentUser.Id);
+                thesisQuery = thesisQuery.Where(m => m.ApplicationUserId == CurrentUser.Id);
             }
 
             thesisQuery = thesisQuery.OrderByDescending(m => m.Created);
 
-            int cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<AuthThesisListingModel>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 60;
+            var cacheSetup = Services.CacheService.GetSetup<AuthThesisListingModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Thesis>(),
                 EntityKeys.KeyDeleteAny<Entity.Thesis>(),
                 EntityKeys.KeyCreateAny<Entity.Thesis>(),
             };
-            cacheSetup.ObjectStringID = this.CurrentUser.Id + "_" + this.CurrentCompany.CompanyID;
+            cacheSetup.ObjectStringID = CurrentUser.Id + "_" + CurrentCompany.CompanyID;
 
-            return await this.Services.CacheService.GetOrSet(async () => await thesisQuery.ToListAsync(), cacheSetup);
+            return await Services.CacheService.GetOrSet(async () => await thesisQuery.ToListAsync(), cacheSetup);
         }
 
         /// <summary>
@@ -1800,25 +1848,25 @@ namespace UI.Builders.Company
         /// <returns>CompanyID of current user or 0 if user is not logged or hasn't created any company</returns>
         private async Task<int> GetCompanyIDOfCurrentUserAsync()
         {
-            if (!this.CurrentUser.IsAuthenticated)
+            if (!CurrentUser.IsAuthenticated)
             {
                 return 0;
             }
 
             var companyQuery = Services.CompanyService.GetAll()
-                .Where(m => m.ApplicationUserId == this.CurrentUser.Id)
+                .Where(m => m.ApplicationUserId == CurrentUser.Id)
                 .Take(1)
                 .Select(m => m.ID);
 
-            int cacheMinutes = 30;
-            var cacheSetup = this.Services.CacheService.GetSetup<int>(GetSource(), cacheMinutes);
+            var cacheMinutes = 30;
+            var cacheSetup = Services.CacheService.GetSetup<int>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Company>(),
                 EntityKeys.KeyDeleteAny<Entity.Company>(),
             };
 
-            var company = await this.Services.CacheService.GetOrSet(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
+            var company = await Services.CacheService.GetOrSet(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
 
             return company;
         }
@@ -1830,22 +1878,22 @@ namespace UI.Builders.Company
         private async Task<IEnumerable<AuthCompanyCategoryModel>> FormGetCompanyCategories()
         {
             var cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<AuthCompanyCategoryModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<AuthCompanyCategoryModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                EntityKeys.KeyCreateAny<Entity.CompanyCategory>(),
-                EntityKeys.KeyDeleteAny<Entity.CompanyCategory>(),
-                EntityKeys.KeyUpdateAny<Entity.CompanyCategory>(),
+                EntityKeys.KeyCreateAny<CompanyCategory>(),
+                EntityKeys.KeyDeleteAny<CompanyCategory>(),
+                EntityKeys.KeyUpdateAny<CompanyCategory>(),
             };
 
-            var companyCategoriesQuery = this.Services.CompanyCategoryService.GetAll()
+            var companyCategoriesQuery = Services.CompanyCategoryService.GetAll()
                 .Select(m => new AuthCompanyCategoryModel()
                 {
                     CompanyCategoryID = m.ID,
                     CompanyCategoryName = m.Name
                 });
 
-            var companyCategories = await this.Services.CacheService.GetOrSetAsync(async () => await companyCategoriesQuery.ToListAsync(), cacheSetup);
+            var companyCategories = await Services.CacheService.GetOrSetAsync(async () => await companyCategoriesQuery.ToListAsync(), cacheSetup);
 
             return companyCategories;
         }
@@ -1857,27 +1905,27 @@ namespace UI.Builders.Company
         private async Task<IEnumerable<AuthInternshipCategoryModel>> FormGetInternshipCategoriesAsync()
         {
             var cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<AuthInternshipCategoryModel>(this.GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<AuthInternshipCategoryModel>(GetSource(), cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
             {
-                EntityKeys.KeyCreateAny<Entity.InternshipCategory>(),
-                EntityKeys.KeyDeleteAny<Entity.InternshipCategory>(),
-                EntityKeys.KeyUpdateAny<Entity.InternshipCategory>(),
+                EntityKeys.KeyCreateAny<InternshipCategory>(),
+                EntityKeys.KeyDeleteAny<InternshipCategory>(),
+                EntityKeys.KeyUpdateAny<InternshipCategory>(),
             };
 
-            var internshipCategoriesQuery = this.Services.InternshipCategoryService.GetAll()
+            var internshipCategoriesQuery = Services.InternshipCategoryService.GetAll()
                 .Select(m => new AuthInternshipCategoryModel()
                 {
                     InternshipCategoryID = m.ID,
                     InternshipCategoryName = m.Name
                 });
 
-            var internshipCategories = await this.Services.CacheService.GetOrSetAsync(async () => await internshipCategoriesQuery.ToListAsync(), cacheSetup);
+            var internshipCategories = await Services.CacheService.GetOrSetAsync(async () => await internshipCategoriesQuery.ToListAsync(), cacheSetup);
 
             return internshipCategories;
         }
 
-    
+
 
         #endregion
     }

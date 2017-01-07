@@ -1,6 +1,4 @@
-﻿
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Core.Helpers.Privilege
 {
@@ -14,7 +12,7 @@ namespace Core.Helpers.Privilege
         /// <returns>According privilege level</returns>
         public static PrivilegeLevel GetPrivilegeLevel(string role)
         {
-            return EnumHelper.ParseEnum<PrivilegeLevel>(role, PrivilegeLevel.Public);
+            return EnumHelper.ParseEnum(role, PrivilegeLevel.Public);
         }
 
         /// <summary>

@@ -8,18 +8,26 @@ namespace Core.Config
     public static class AppConfig
     {
 
+        #region Cache
+
+        /// <summary>
+        /// Default cache minutes
+        /// </summary>
+        public static int DefaultCacheMinutes => Convert.ToInt32(ConfigurationManager.AppSettings["DefaultCacheMinutes"]);
+
+        /// <summary>
+        /// Indicates if cache is enabled
+        /// </summary>
+        public static bool DisableCaching => ConfigurationManager.AppSettings["DisableCaching"] == "1";
+
+        #endregion
+
         #region E-mail
 
         /// <summary>
         /// From e-mail address
         /// </summary>
-        public static string NoReplyEmailAddress
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["NoReplyEmailAddress"];
-            }
-        }
+        public static string NoReplyEmailAddress => ConfigurationManager.AppSettings["NoReplyEmailAddress"];
 
         #endregion
 
@@ -28,13 +36,7 @@ namespace Core.Config
         /// <summary>
         /// Maximum file size for upload
         /// </summary>
-        public static int MaximumFileSize
-        {
-            get
-            {
-                return Convert.ToInt32(ConfigurationManager.AppSettings["MaximumFileSize"]);
-            }
-        }
+        public static int MaximumFileSize => Convert.ToInt32(ConfigurationManager.AppSettings["MaximumFileSize"]);
 
         #endregion
 
@@ -43,13 +45,7 @@ namespace Core.Config
         /// <summary>
         /// Represents site name
         /// </summary>
-        public static string SiteName
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["SiteName"];
-            }
-        }
+        public static string SiteName => ConfigurationManager.AppSettings["SiteName"];
 
         #endregion
 
@@ -58,35 +54,17 @@ namespace Core.Config
         /// <summary>
         /// Represents Facebook AppID
         /// </summary>
-        public static string FacebookAppID
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["FacebookAppID"];
-            }
-        }
+        public static string FacebookAppID => ConfigurationManager.AppSettings["FacebookAppID"];
 
         /// <summary>
         /// Represents Facebook AppSecret
         /// </summary>
-        public static string FacebookAppSecret
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["FacebookAppSecret"];
-            }
-        }
+        public static string FacebookAppSecret => ConfigurationManager.AppSettings["FacebookAppSecret"];
 
         /// <summary>
         /// Represents Facebook page URL (www.facebook.com/elmonosdb ...)
         /// </summary>
-        public static string FacebookAppUrl
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["FacebookAppUrl"];
-            }
-        }
+        public static string FacebookAppUrl => ConfigurationManager.AppSettings["FacebookAppUrl"];
 
         #endregion
 
@@ -95,35 +73,17 @@ namespace Core.Config
         /// <summary>
         /// Represents Google API KEY
         /// </summary>
-        public static string GoogleApiKey
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["GoogleApiKey"];
-            }
-        }
+        public static string GoogleApiKey => ConfigurationManager.AppSettings["GoogleApiKey"];
 
         /// <summary>
         /// Represents Google client ID 
         /// </summary>
-        public static string GoogleClientID
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["GoogleClientID"];
-            }
-        }
+        public static string GoogleClientID => ConfigurationManager.AppSettings["GoogleClientID"];
 
         /// <summary>
         /// Represents Google client secret 
         /// </summary>
-        public static string GoogleClientSecret
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["GoogleClientSecret"];
-            }
-        }
+        public static string GoogleClientSecret => ConfigurationManager.AppSettings["GoogleClientSecret"];
 
         #endregion
 
@@ -132,13 +92,7 @@ namespace Core.Config
         /// <summary>
         /// Represents Twitter url
         /// </summary>
-        public static string TwitterAppUrl
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["TwitterAppUrl"];
-            }
-        }
+        public static string TwitterAppUrl => ConfigurationManager.AppSettings["TwitterAppUrl"];
 
         #endregion
 
@@ -157,14 +111,11 @@ namespace Core.Config
                 {
                     return EnvironmentEnum.Live;
                 }
-                else if (value.Equals("0", StringComparison.OrdinalIgnoreCase))
+                if (value.Equals("0", StringComparison.OrdinalIgnoreCase))
                 {
                     return EnvironmentEnum.Dev;
                 }
-                else
-                {
-                    throw new Exception("Invalid environment. Review 'Environment' web.config key");
-                }
+                throw new Exception("Invalid environment. Review 'Environment' web.config key");
             }
         }
 
@@ -172,13 +123,7 @@ namespace Core.Config
 
         #region Cookie names
 
-        public static CookieConfigWrapper CookieNames
-        {
-            get
-            {
-                return new CookieConfigWrapper();
-            }
-        }
+        public static CookieConfigWrapper CookieNames => new CookieConfigWrapper();
 
         #endregion
 

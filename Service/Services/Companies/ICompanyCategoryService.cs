@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using Entity;
+﻿using Entity;
 
-namespace Service.Services
+namespace Service.Services.Companies
 {
     public interface ICompanyCategoryService : IService<CompanyCategory>
     {

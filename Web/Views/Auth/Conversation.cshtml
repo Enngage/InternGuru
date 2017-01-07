@@ -18,12 +18,12 @@
             @Html.AntiForgeryToken()
 
             @Html.Hidden("RecipientApplicationUserId", Model.ConversationUser.UserID)
-            @Html.Hidden("CompanyID", Model.LastMessage != null ? Model.LastMessage.CompanyID : 0)
+            @Html.Hidden("CompanyID", Model.LastMessage?.CompanyID ?? 0)
 
             @Html.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess, "Odesláno")
 
             <h1>
-                @($"Konverzace s {Model.ConversationUser.DisplayName}")
+                @($"{Model.ConversationUser.DisplayName}")
             </h1>
 
             <div class="ui reply form">
@@ -31,22 +31,26 @@
                     <textarea name="Message">@Model.MessageForm.Message</textarea>
                 </div>
 
-                <button class="ui blue labeled submit icon button">
+                <button class="ui blue labeled icon button">
                     <i class="icon edit"></i> Odeslat
                 </button>
             </div>
         }
 
         <div class="ui divided items">
-
             @foreach (var message in Model.Messages)
             {
                 var segmentClass = message.WrittenByCurrentUser ? "" : "w-segment-dark basic";
-                var senderName = (!string.IsNullOrEmpty(message.SenderFirstName) ? message.SenderFirstName + " " + message.SenderLastName : message.SenderApplicationUserName);
                 <div class="ui segment padded @segmentClass">
-                    <div class="item w-body-item-highlighted">
+                    <div class="item">
                         <div class="content">
                             <div class="extra w-body-text-right w-font-size-small">
+                                @if (!string.IsNullOrEmpty(message.Subject))
+                                {
+                                    <span>
+                                        @message.Subject |&nbsp;
+                                    </span>
+                                }
                                 <i class="calendar icon"></i>@DateHelper.FormatTime(message.MessageCreated)
                                 @if (message.SenderApllicationUserId.Equals(message.CurrentUserId, StringComparison.OrdinalIgnoreCase))
                                 {
@@ -63,7 +67,7 @@
                             </div>
                             <div class="description">
                                 <p>
-                                    @HTMLAddons.AddLineBreaks(message.MessageText)
+                                    @HtmlAddons.AddLineBreaks(message.MessageText)
                                 </p>
                             </div>
                         </div>

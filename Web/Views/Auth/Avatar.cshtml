@@ -15,7 +15,7 @@
         Nahrajte avatar
     </h1>
 
-    @Html.RenderInfoMessage(string.Format("Avatar bude automaticky zmenšen na {0}x{0} px", Core.Config.FileConfig.AvatarSideSize))
+    @Html.RenderInfoMessage($"Avatar bude automaticky zmenšen na {Core.Config.FileConfig.AvatarSideSize}x{Core.Config.FileConfig.AvatarSideSize} px")
 
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet six wide computer column">
@@ -24,7 +24,7 @@
 
 
             <div>
-                <img class="ui image tiny" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.UserName)" />
+                <img class="ui image tiny" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" />
             </div>
 
             <div class="ui form w-margin-top-10">
@@ -32,7 +32,7 @@
                     <input type="file" name="Avatar">
                 </div>
 
-                <button class="ui button submit primary" type="submit">
+                <button class="ui button primary" type="submit">
                     Nahrát
                 </button>
             </div>

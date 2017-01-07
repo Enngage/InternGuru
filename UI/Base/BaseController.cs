@@ -11,10 +11,8 @@ namespace UI.Base
     {
         #region Variables
 
-        private IAppContext appContext;
-        private IModelState modelStateWrapper;
-        private MasterBuilder masterBuilder;
-        private IServiceEvents serviceEvents;
+        private IModelState _modelStateWrapper;
+        private readonly MasterBuilder _masterBuilder;
 
         #endregion
 
@@ -23,24 +21,12 @@ namespace UI.Base
         /// <summary>
         /// AppContext 
         /// </summary>
-        public IAppContext AppContext
-        {
-            get
-            {
-                return this.appContext;
-            }
-        }
+        public IAppContext AppContext { get; }
 
         /// <summary>
         /// Service events 
         /// </summary>
-        public IServiceEvents ServiceEvents
-        {
-            get
-            {
-                return this.serviceEvents;
-            }
-        }
+        public IServiceEvents ServiceEvents { get; }
 
         /// <summary>
         /// Model state 
@@ -49,13 +35,13 @@ namespace UI.Base
         {
             get
             {
-                if (this.modelStateWrapper == null)
+                if (_modelStateWrapper == null)
                 {
-                    var modelStateWrapper = new ModelStateWrapper(this.ModelState);
-                    this.modelStateWrapper = modelStateWrapper;
+                    var modelStateWrapper = new ModelStateWrapper(ModelState);
+                    _modelStateWrapper = modelStateWrapper;
                     return modelStateWrapper;
                 }
-                return this.modelStateWrapper;
+                return _modelStateWrapper;
             }
         }
 
@@ -65,9 +51,9 @@ namespace UI.Base
 
         public BaseController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder)
         {
-            this.appContext = appContext;
-            this.masterBuilder = masterBuilder;
-            this.serviceEvents = serviceEvents;
+            AppContext = appContext;
+            _masterBuilder = masterBuilder;
+            ServiceEvents = serviceEvents;
         }
 
         #endregion
@@ -77,7 +63,7 @@ namespace UI.Base
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             // Register service events
-            this.ServiceEvents.RegisterEvents();
+            ServiceEvents.RegisterEvents();
         }
 
         /// <summary>
@@ -93,14 +79,14 @@ namespace UI.Base
             if (model != null)
             {
                 // set master property of an existing model
-                model.Master = this.masterBuilder.GetMasterModel();
+                model.Master = _masterBuilder.GetMasterModel();
             }
             else
             {
                 // create new master model
                 var masterView = new MasterView()
                 {
-                    Master = this.masterBuilder.GetMasterModel()
+                    Master = _masterBuilder.GetMasterModel()
                 };
 
                 // set model
@@ -116,7 +102,7 @@ namespace UI.Base
         {
             if (disposing)
             {
-                appContext.Dispose();
+                AppContext.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -1,15 +1,14 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Companies
 {
     public class CompanyCategoryService : BaseService<CompanyCategory>, ICompanyCategoryService
     {
@@ -18,21 +17,21 @@ namespace Service.Services
 
         public Task<int> DeleteAsync(int id)
         {
-            var category = this.AppContext.CompanyCategories.Find(id);
+            var category = AppContext.CompanyCategories.Find(id);
 
             if (category != null)
             {
                 // delete category
-                this.AppContext.CompanyCategories.Remove(category);
+                AppContext.CompanyCategories.Remove(category);
 
                 // touch cache keys
-                this.TouchDeleteKeys(category);
+                TouchDeleteKeys(category);
 
                 // fire event
-                this.OnDelete(category);
+                OnDelete(category);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -40,57 +39,57 @@ namespace Service.Services
 
         public Task<CompanyCategory> GetAsync(int id)
         {
-            return this.AppContext.CompanyCategories.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.CompanyCategories.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<CompanyCategory> GetAll()
         {
-            return this.AppContext.CompanyCategories;
+            return AppContext.CompanyCategories;
         }
 
         public IQueryable<CompanyCategory> GetSingle(int id)
         {
-            return this.AppContext.CompanyCategories.Where(m => m.ID == id).Take(1);
+            return AppContext.CompanyCategories.Where(m => m.ID == id).Take(1);
         }
 
         public Task<int> InsertAsync(CompanyCategory obj)
         {
-            this.AppContext.CompanyCategories.Add(obj);
+            AppContext.CompanyCategories.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> UpdateAsync(CompanyCategory obj)
         {
-            var category = this.AppContext.CompanyCategories.Find(obj.ID);
+            var category = AppContext.CompanyCategories.Find(obj.ID);
 
             if (category == null)
             {
-                throw new NotFoundException(string.Format("CompanyCategory with ID: {0} not found", category.ID));
+                throw new NotFoundException($"CompanyCategory with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, category);
+            OnUpdate(obj, category);
 
             // update log
-            this.AppContext.Entry(category).CurrentValues.SetValues(obj);
+            AppContext.Entry(category).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(category);
+            TouchUpdateKeys(category);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CompanyCategory>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

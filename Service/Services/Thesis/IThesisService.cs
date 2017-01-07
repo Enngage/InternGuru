@@ -1,8 +1,6 @@
-﻿using Entity;
-
-namespace Service.Services
+﻿namespace Service.Services.Thesis
 {
-    public interface IThesisService : IService<Thesis>
+    public interface IThesisService : IService<Entity.Thesis>
     {
     }
 }

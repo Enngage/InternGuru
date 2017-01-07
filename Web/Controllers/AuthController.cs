@@ -1,11 +1,9 @@
 ﻿using Service.Context;
-using System;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using UI.Base;
+using UI.Builders.Auth;
 using UI.Builders.Auth.Forms;
-using UI.Builders.Company;
 using UI.Builders.Master;
 using UI.Events;
 using UI.Exceptions;
@@ -18,7 +16,7 @@ namespace Web.Controllers
 
         #region Builder
 
-        AuthBuilder authBuilder;
+        readonly AuthBuilder _authBuilder;
 
         #endregion
 
@@ -26,7 +24,7 @@ namespace Web.Controllers
 
         public AuthController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, AuthBuilder authBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
-            this.authBuilder = authBuilder;
+            _authBuilder = authBuilder;
         }
 
         #endregion
@@ -35,21 +33,21 @@ namespace Web.Controllers
 
         public async Task<ActionResult> Index(int? page)
         {
-            var model = await authBuilder.BuildIndexViewAsync(page);
+            var model = await _authBuilder.BuildIndexViewAsync(page);
 
             return View(model);
         }
 
         public async Task<ActionResult> RegisterCompany()
         {
-            var model = await authBuilder.BuildRegisterCompanyViewAsync();
+            var model = await _authBuilder.BuildRegisterCompanyViewAsync();
 
             return View(model);
         }
 
         public async Task<ActionResult> EditCompany()
         {
-            var model = await authBuilder.BuildEditCompanyViewAsync();
+            var model = await _authBuilder.BuildEditCompanyViewAsync();
 
             if (model == null)
             {
@@ -62,7 +60,7 @@ namespace Web.Controllers
 
         public async Task<ActionResult> NewInternship()
         {
-            var model = await authBuilder.BuildNewInternshipViewAsync();
+            var model = await _authBuilder.BuildNewInternshipViewAsync();
 
             return View(model);
         }
@@ -74,7 +72,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await authBuilder.BuildEditInternshipViewAsync(id ?? 0);
+            var model = await _authBuilder.BuildEditInternshipViewAsync((int) id);
 
             // internship was not found
             if (model == null)
@@ -87,7 +85,7 @@ namespace Web.Controllers
 
         public async Task<ActionResult> NewThesis()
         {
-            var model = await authBuilder.BuildNewThesisViewAsync();
+            var model = await _authBuilder.BuildNewThesisViewAsync();
 
             return View(model);
         }
@@ -99,7 +97,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await authBuilder.BuildEditThesisViewAsync(id ?? 0);
+            var model = await _authBuilder.BuildEditThesisViewAsync((int) id);
 
             // thesis was not found
             if (model == null)
@@ -112,21 +110,21 @@ namespace Web.Controllers
 
         public async Task<ActionResult> EditProfile()
         {
-            var model = await authBuilder.BuildEditProfileViewAsync();
+            var model = await _authBuilder.BuildEditProfileViewAsync();
 
             return View(model);
         }
 
         public async Task<ActionResult> Avatar()
         {
-            var model = await authBuilder.BuildAvatarViewAsync();
+            var model = await _authBuilder.BuildAvatarViewAsync();
 
             return View(model);
         }
 
         public async Task<ActionResult> CompanyGallery()
         {
-            var model = await authBuilder.BuildCompanyGalleryViewAsync();
+            var model = await _authBuilder.BuildCompanyGalleryViewAsync();
 
             return View(model);
         }
@@ -138,7 +136,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await authBuilder.BuildConversationViewAsync(id, page);
+            var model = await _authBuilder.BuildConversationViewAsync(id, page);
 
             if (model == null)
             {
@@ -157,16 +155,16 @@ namespace Web.Controllers
         public async Task<ActionResult> Conversation(AuthMessageForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                return View(await authBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form));
+                return View(await _authBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form));
             }
 
             try
             {
-                await authBuilder.CreateMessage(form);
+                await _authBuilder.CreateMessage(form);
 
-                var model = await authBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form);
+                var model = await _authBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form);
 
                 // set form status
                 model.MessageForm.FormResult.IsSuccess = true;
@@ -176,11 +174,11 @@ namespace Web.Controllers
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                return View(await authBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form));
+                return View(await _authBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form));
             }
         }
 
@@ -189,26 +187,26 @@ namespace Web.Controllers
         public async Task<ActionResult> Avatar(AuthAvatarUploadForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                return View(await authBuilder.BuildAvatarViewAsync());
+                return View(await _authBuilder.BuildAvatarViewAsync());
             }
 
             try
             {
-                this.authBuilder.UploadAvatar(form);
+                _authBuilder.UploadAvatar(form);
 
-                var model = await authBuilder.BuildAvatarViewAsync();
+                var model = await _authBuilder.BuildAvatarViewAsync();
 
                 model.AvatarForm.FormResult.IsSuccess = true;
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                return View(await authBuilder.BuildAvatarViewAsync());
+                return View(await _authBuilder.BuildAvatarViewAsync());
             }
         }
 
@@ -216,7 +214,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CompanyGallery(AuthCompanyGalleryUploadForm form)
         {
-            var model = await authBuilder.BuildCompanyGalleryViewAsync();
+            var model = await _authBuilder.BuildCompanyGalleryViewAsync();
 
             if (model == null)
             {
@@ -226,13 +224,13 @@ namespace Web.Controllers
             try
             {
                 // upload files
-                authBuilder.UploadCompanyGalleryFiles(Request);
+                _authBuilder.UploadCompanyGalleryFiles(Request);
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
                 return View(model);
             }
@@ -243,28 +241,28 @@ namespace Web.Controllers
         public async Task<ActionResult> EditProfile(AuthEditProfileForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                return View(await authBuilder.BuildEditProfileViewAsync(form));
+                return View(await _authBuilder.BuildEditProfileViewAsync(form));
             }
 
             try
             {
                 // edit profile
-                await authBuilder.EditProfile(form);
+                await _authBuilder.EditProfile(form);
 
-                var model = await authBuilder.BuildEditProfileViewAsync(form);
+                var model = await _authBuilder.BuildEditProfileViewAsync(form);
 
                 // set form status
                 model.ProfileForm.FormResult.IsSuccess = true;
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                return View(await authBuilder.BuildEditProfileViewAsync(form));
+                return View(await _authBuilder.BuildEditProfileViewAsync(form));
             }
         }
 
@@ -273,17 +271,17 @@ namespace Web.Controllers
         public async Task<ActionResult> NewInternship(AuthAddEditInternshipForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                return View(await authBuilder.BuildNewInternshipViewAsync(form));
+                return View(await _authBuilder.BuildNewInternshipViewAsync(form));
             }
 
             try
             {
                 // create internship
-                var internshipID = await authBuilder.CreateInternship(form);
+                var internshipID = await _authBuilder.CreateInternship(form);
 
-                var model = await authBuilder.BuildEditInternshipViewAsync(form);
+                var model = await _authBuilder.BuildEditInternshipViewAsync(form);
 
                 // set form status
                 model.InternshipForm.FormResult.IsSuccess = true;
@@ -296,11 +294,11 @@ namespace Web.Controllers
 
                 return View(editView, model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                return View(await authBuilder.BuildNewInternshipViewAsync(form));
+                return View(await _authBuilder.BuildNewInternshipViewAsync(form));
             }
         }
 
@@ -309,28 +307,28 @@ namespace Web.Controllers
         public async Task<ActionResult> EditInternship(AuthAddEditInternshipForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                return View(await authBuilder.BuildEditInternshipViewAsync(form));
+                return View(await _authBuilder.BuildEditInternshipViewAsync(form));
             }
 
             try
             {
                 // edit internship
-                await authBuilder.EditInternship(form);
+                await _authBuilder.EditInternship(form);
 
-                var model = await authBuilder.BuildEditInternshipViewAsync(form);
+                var model = await _authBuilder.BuildEditInternshipViewAsync(form);
 
                 // set form status
                 model.InternshipForm.FormResult.IsSuccess = true;
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                return View(await authBuilder.BuildEditInternshipViewAsync(form));
+                return View(await _authBuilder.BuildEditInternshipViewAsync(form));
             }
         }
 
@@ -339,17 +337,17 @@ namespace Web.Controllers
         public async Task<ActionResult> RegisterCompany(AuthAddEditCompanyForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                return View(await authBuilder.BuildRegisterCompanyViewAsync(form));
+                return View(await _authBuilder.BuildRegisterCompanyViewAsync(form));
             }
 
             try
             {
                 // create company
-                var companyID = await authBuilder.CreateCompany(form);
+                var companyID = await _authBuilder.CreateCompany(form);
 
-                var model = await authBuilder.BuildRegisterCompanyViewAsync(form);
+                var model = await _authBuilder.BuildRegisterCompanyViewAsync(form);
 
                 // set form status
                 model.CompanyForm.FormResult.IsSuccess = true;
@@ -359,11 +357,11 @@ namespace Web.Controllers
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                return View(await authBuilder.BuildRegisterCompanyViewAsync(form));
+                return View(await _authBuilder.BuildRegisterCompanyViewAsync(form));
             }
         }
 
@@ -372,28 +370,28 @@ namespace Web.Controllers
         public async Task<ActionResult> EditCompany(AuthAddEditCompanyForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                return View(await authBuilder.BuildEditCompanyViewAsync(form));
+                return View(await _authBuilder.BuildEditCompanyViewAsync(form));
             }
 
             try
             {
                 // edit company
-                await authBuilder.EditCompany(form);
+                await _authBuilder.EditCompany(form);
 
-                var model = await authBuilder.BuildEditCompanyViewAsync(form);
+                var model = await _authBuilder.BuildEditCompanyViewAsync(form);
 
                 // set form status
                 model.CompanyForm.FormResult.IsSuccess = true;
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                return View(await authBuilder.BuildEditCompanyViewAsync(form));
+                return View(await _authBuilder.BuildEditCompanyViewAsync(form));
             }
         }
 
@@ -402,17 +400,17 @@ namespace Web.Controllers
         public async Task<ActionResult> NewThesis(AuthAddEditThesisForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                return View(await authBuilder.BuildNewThesisViewAsync(form));
+                return View(await _authBuilder.BuildNewThesisViewAsync(form));
             }
 
             try
             {
                 // create thesis
-                var thesisID = await authBuilder.CreateThesis(form);
+                var thesisID = await _authBuilder.CreateThesis(form);
 
-                var model = await authBuilder.BuildNewThesisViewAsync(form);
+                var model = await _authBuilder.BuildNewThesisViewAsync(form);
 
                 // set form status
                 model.ThesisForm.FormResult.IsSuccess = true;
@@ -422,11 +420,11 @@ namespace Web.Controllers
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                return View(await authBuilder.BuildNewThesisViewAsync(form));
+                return View(await _authBuilder.BuildNewThesisViewAsync(form));
             }
         }
 
@@ -435,28 +433,28 @@ namespace Web.Controllers
         public async Task<ActionResult> EditThesis(AuthAddEditThesisForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                return View(await authBuilder.BuildEditThesisViewAsync(form));
+                return View(await _authBuilder.BuildEditThesisViewAsync(form));
             }
 
             try
             {
                 // edit thesis
-                await authBuilder.EditThesis(form);
+                await _authBuilder.EditThesis(form);
 
-                var model = await authBuilder.BuildEditThesisViewAsync(form);
+                var model = await _authBuilder.BuildEditThesisViewAsync(form);
 
                 // set form status
                 model.ThesisForm.FormResult.IsSuccess = true;
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                return View(await authBuilder.BuildEditThesisViewAsync(form));
+                return View(await _authBuilder.BuildEditThesisViewAsync(form));
             }
         }
 

@@ -10,11 +10,11 @@ namespace Web.Controllers
 {
     public class ThesesController : BaseController
     {
-        ThesisBuilder thesisBuilder;
+        readonly ThesisBuilder _thesisBuilder;
 
         public ThesesController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, ThesisBuilder thesisBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
-            this.thesisBuilder = thesisBuilder;
+            _thesisBuilder = thesisBuilder;
         }
 
         #region Actions
@@ -22,7 +22,7 @@ namespace Web.Controllers
 
         public async Task<ActionResult> Index(int? page, string category, string search)
         {
-            var model = await thesisBuilder.BuildBrowseViewAsync(search, page, category);
+            var model = await _thesisBuilder.BuildBrowseViewAsync(search, page, category);
 
             if (model == null)
             {

@@ -1,14 +1,14 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Internships
 {
     public class InternshipAmountTypeService :  BaseService<InternshipAmountType>, IInternshipAmountTypeService
     {
@@ -17,21 +17,21 @@ namespace Service.Services
 
         public Task<int> DeleteAsync(int id)
         {
-            var amountType = this.AppContext.InternshipAmountTypes.Find(id);
+            var amountType = AppContext.InternshipAmountTypes.Find(id);
 
             if (amountType != null)
             {
                 // delete amountType
-                this.AppContext.InternshipAmountTypes.Remove(amountType);
+                AppContext.InternshipAmountTypes.Remove(amountType);
 
                 // touch cache keys
-                this.TouchDeleteKeys(amountType);
+                TouchDeleteKeys(amountType);
 
                 // fire event
-                this.OnDelete(amountType);
+                OnDelete(amountType);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -39,17 +39,17 @@ namespace Service.Services
 
         public Task<InternshipAmountType> GetAsync(int id)
         {
-            return this.AppContext.InternshipAmountTypes.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.InternshipAmountTypes.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<InternshipAmountType> GetAll()
         {
-            return this.AppContext.InternshipAmountTypes;
+            return AppContext.InternshipAmountTypes;
         }
 
         public IQueryable<InternshipAmountType> GetSingle(int id)
         {
-            return this.AppContext.InternshipAmountTypes.Where(m => m.ID == id).Take(1);
+            return AppContext.InternshipAmountTypes.Where(m => m.ID == id).Take(1);
         }
 
         public Task<int> InsertAsync(InternshipAmountType obj)
@@ -57,45 +57,45 @@ namespace Service.Services
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            this.AppContext.InternshipAmountTypes.Add(obj);
+            AppContext.InternshipAmountTypes.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> UpdateAsync(InternshipAmountType obj)
         {
-            var amountType = this.AppContext.InternshipAmountTypes.Find(obj.ID);
+            var amountType = AppContext.InternshipAmountTypes.Find(obj.ID);
 
             if (amountType == null)
             {
-                throw new NotFoundException(string.Format("Amount type with ID: {0} not found", obj.ID));
+                throw new NotFoundException($"Amount type with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, amountType);
+            OnUpdate(obj, amountType);
 
             // set code name
             obj.CodeName = obj.GetCodeName();
 
             // update log
-            this.AppContext.Entry(amountType).CurrentValues.SetValues(obj);
+            AppContext.Entry(amountType).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(amountType);
+            TouchUpdateKeys(amountType);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<InternshipAmountType>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

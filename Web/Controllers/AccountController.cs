@@ -22,23 +22,23 @@ namespace Web.Controllers
 
         #region Services
 
-        private ApplicationSignInManager signInManager;
-        private ApplicationUserManager userManager;
-        private AccountBuilder accountBuilder;
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+        private readonly AccountBuilder _accountBuilder;
 
         #endregion
 
         public AccountController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, ApplicationUserManager userManager, ApplicationSignInManager signInManager, AccountBuilder accountBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.accountBuilder = accountBuilder;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _accountBuilder = accountBuilder;
         }
 
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            var model = accountBuilder.BuildLoginView();
+            var model = _accountBuilder.BuildLoginView();
 
             ViewBag.ReturnUrl = returnUrl;
 
@@ -57,7 +57,7 @@ namespace Web.Controllers
         public async Task<ActionResult> Login(LoginForm form, string returnUrl)
         {
             // get model
-            var model = accountBuilder.BuildLoginView();
+            var model = _accountBuilder.BuildLoginView();
 
             // set submitted values
             model.LoginForm.UserName = form.UserName;
@@ -68,11 +68,11 @@ namespace Web.Controllers
             }
 
             // Prevent users with not confirmed e-mail address from logging in
-            var user = userManager.FindByName(form.UserName);
+            var user = _userManager.FindByName(form.UserName);
 
             if (user != null)
             {
-                if (!userManager.IsEmailConfirmed(user.Id))
+                if (!_userManager.IsEmailConfirmed(user.Id))
                 {
                     return View("EmailNotConfirmed");
                 }
@@ -80,7 +80,7 @@ namespace Web.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await signInManager.PasswordSignInAsync(form.UserName, form.Password, true, shouldLockout: false);
+            var result = await _signInManager.PasswordSignInAsync(form.UserName, form.Password, true, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -89,7 +89,6 @@ namespace Web.Controllers
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
-                case SignInStatus.Failure:
                 default:
                     ModelStateWrapper.AddError("Přihlášení se nezdařilo");
                     return View(model);
@@ -99,7 +98,7 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var model = this.accountBuilder.BuildRegisterView();
+            var model = _accountBuilder.BuildRegisterView();
 
             return View(model);
         }
@@ -115,14 +114,14 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterForm form)
         {
-            var model = accountBuilder.BuildRegisterView();
+            var model = _accountBuilder.BuildRegisterView();
             model.RegisterForm.Email = form.Email;
 
             if (ModelState.IsValid)
             {
                 // User name = e-mail
                 var user = new ApplicationUser { UserName = form.Email, Email = form.Email };
-                var result = await userManager.CreateAsync(user, form.Password);
+                var result = await _userManager.CreateAsync(user, form.Password);
                 if (result.Succeeded)
                 {
                     // do not log user - he needs to confirm e-mail first
@@ -135,8 +134,8 @@ namespace Web.Controllers
                     return RedirectToAction("ConfirmEmailSent");
                 }
 
-                bool unknownErrorAdded = false;
-                bool emailTakenErrorAdded = false;
+                var unknownErrorAdded = false;
+                var emailTakenErrorAdded = false;
 
                 foreach (var error in result.Errors)
                 {
@@ -145,7 +144,7 @@ namespace Web.Controllers
                     {
                         if (!emailTakenErrorAdded)
                         {
-                            this.ModelStateWrapper.AddError(string.Format("E-mail {0} je již zaregistrován", form.Email));
+                            ModelStateWrapper.AddError($"E-mail {form.Email} je již zaregistrován");
                             emailTakenErrorAdded = true;
                         }
                     }
@@ -154,7 +153,7 @@ namespace Web.Controllers
                         // other errors
                         if (!unknownErrorAdded)
                         {
-                            this.ModelStateWrapper.AddError("Nastala neočekavá chyba, opakujte prosím akci");
+                            ModelStateWrapper.AddError("Nastala neočekavá chyba, opakujte prosím akci");
                             unknownErrorAdded = true;
                         }
                     }
@@ -174,7 +173,7 @@ namespace Web.Controllers
             {
                 return View("Error");
             }
-            var result = await userManager.ConfirmEmailAsync(userId, code);
+            var result = await _userManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
@@ -183,7 +182,7 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            var model = accountBuilder.BuildForgotPasswordView();
+            var model = _accountBuilder.BuildForgotPasswordView();
 
             return View(model);
         }
@@ -193,12 +192,12 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordForm form)
         {
-            var model = accountBuilder.BuildForgotPasswordView();
+            var model = _accountBuilder.BuildForgotPasswordView();
 
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByNameAsync(form.Email);
-                if (user == null || !(await userManager.IsEmailConfirmedAsync(user.Id)))
+                var user = await _userManager.FindByNameAsync(form.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -206,12 +205,12 @@ namespace Web.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                string code = await userManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code }, protocol: Request?.Url?.Scheme);
 
-                var email = accountBuilder.GetForgottenPasswordEmail(callbackUrl);
+                var email = _accountBuilder.GetForgottenPasswordEmail(callbackUrl);
 
-                await userManager.SendEmailAsync(user.Id, email.Subject, email.Body);
+                await _userManager.SendEmailAsync(user.Id, email.Subject, email.Body);
 
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -233,7 +232,7 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            var model = accountBuilder.BuildResetPasswordView();
+            var model = _accountBuilder.BuildResetPasswordView();
 
             if (string.IsNullOrEmpty(code))
             {
@@ -255,7 +254,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordForm form)
         {
-            var model = accountBuilder.BuildResetPasswordView();
+            var model = _accountBuilder.BuildResetPasswordView();
             model.ResetPasswordForm.Email = form.Email;
             model.ResetPasswordForm.Code = form.Code;
 
@@ -265,14 +264,14 @@ namespace Web.Controllers
             }
 
             // get user by email/username
-            var user = await userManager.FindByNameAsync(model.ResetPasswordForm.Email);
+            var user = await _userManager.FindByNameAsync(model.ResetPasswordForm.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                this.ModelStateWrapper.AddError("Zadali jste neexistujícího uživatele");
+                ModelStateWrapper.AddError("Zadali jste neexistujícího uživatele");
                 return View();
             }
-            var result = await userManager.ResetPasswordAsync(user.Id, form.Code, form.Password);
+            var result = await _userManager.ResetPasswordAsync(user.Id, form.Code, form.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
@@ -299,20 +298,20 @@ namespace Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
-            var model = accountBuilder.BuildExternalLoginConfirmationView();
+            var model = _accountBuilder.BuildExternalLoginConfirmationView();
 
             ViewBag.ReturnUrl = returnUrl;
 
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
-                var loginModel = accountBuilder.BuildLoginView();
-                this.ModelStateWrapper.AddError("Autentizace nebyla úspěšná");
+                var loginModel = _accountBuilder.BuildLoginView();
+                ModelStateWrapper.AddError("Autentizace nebyla úspěšná");
                 return View("Login", loginModel);
             }
 
             // Sign in the user with this external login provider if the user already has a login
-            var result = await signInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            var result = await _signInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -321,7 +320,6 @@ namespace Web.Controllers
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
                 default:
                     // If we got here it means the user does not have local account
                     var email = loginInfo.Email;
@@ -330,13 +328,13 @@ namespace Web.Controllers
                     if (!string.IsNullOrEmpty(email))
                     {
                         var user = new ApplicationUser { UserName = email, Email = email };
-                        var resultUser = await userManager.CreateAsync(user);
+                        var resultUser = await _userManager.CreateAsync(user);
                         if (resultUser.Succeeded)
                         {
-                            resultUser = await userManager.AddLoginAsync(user.Id, loginInfo.Login);
+                            resultUser = await _userManager.AddLoginAsync(user.Id, loginInfo.Login);
                             if (resultUser.Succeeded)
                             {
-                                await signInManager.SignInAsync(user, isPersistent: true, rememberBrowser: true);
+                                await _signInManager.SignInAsync(user, isPersistent: true, rememberBrowser: true);
 
                                 // Send confirmation e-mail
                                 await SendRegistrationEmail(user.Id);
@@ -346,7 +344,9 @@ namespace Web.Controllers
                         }
                         AddErrors(resultUser);
 
-                        return View(model);
+                        // something wrong happened and user could not be signed in
+                        var loginModel = _accountBuilder.BuildLoginView();
+                        return View("Login", loginModel);
                     }
                     else
                     {
@@ -364,7 +364,7 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationForm form, string returnUrl)
         {
-            var model = accountBuilder.BuildExternalLoginConfirmationView();
+            var model = _accountBuilder.BuildExternalLoginConfirmationView();
             model.ConfirmationForm.Email = form.Email;
 
             if (User.Identity.IsAuthenticated)
@@ -381,13 +381,13 @@ namespace Web.Controllers
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser { UserName = form.Email, Email = form.Email };
-                var result = await userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await userManager.AddLoginAsync(user.Id, info.Login);
+                    result = await _userManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
-                        await signInManager.SignInAsync(user, isPersistent: true, rememberBrowser: false);
+                        await _signInManager.SignInAsync(user, isPersistent: true, rememberBrowser: false);
 
                         // send confirmation e-mail
                         await SendRegistrationEmail(user.Id);
@@ -420,16 +420,16 @@ namespace Web.Controllers
         {
             if (disposing)
             {
-                if (userManager != null)
+                if (_userManager != null)
                 {
-                    userManager.Dispose();
-                    userManager = null;
+                    _userManager.Dispose();
+                    _userManager = null;
                 }
 
-                if (signInManager != null)
+                if (_signInManager != null)
                 {
-                    signInManager.Dispose();
-                    signInManager = null;
+                    _signInManager.Dispose();
+                    _signInManager = null;
                 }
             }
 
@@ -471,12 +471,12 @@ namespace Web.Controllers
         {
             // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
             // Send an email with this link
-            string code = await userManager.GenerateEmailConfirmationTokenAsync(userId);
-            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(userId);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new {userId, code }, protocol: Request?.Url?.Scheme);
 
-            var registrationEmail = accountBuilder.GetRegistrationEmail(callbackUrl);
+            var registrationEmail = _accountBuilder.GetRegistrationEmail(callbackUrl);
 
-            await userManager.SendEmailAsync(userId, registrationEmail.Subject, registrationEmail.Body);
+            await _userManager.SendEmailAsync(userId, registrationEmail.Subject, registrationEmail.Body);
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
@@ -508,5 +508,10 @@ namespace Web.Controllers
             }
         }
         #endregion
+
+        public ActionResult SendCode(string returnurl)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

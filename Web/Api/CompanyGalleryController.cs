@@ -1,23 +1,21 @@
-﻿
-
-using Service.Context;
-using System;
+﻿using System;
 using System.Web.Http;
+using Service.Context;
 using UI.Base;
-using UI.Builders.Company;
+using UI.Builders.CompanyGallery;
 using UI.Builders.CompanyGallery.Models;
 using UI.Builders.Master;
 using UI.Events;
 
-namespace Web.Api.Controllers
+namespace Web.Api
 {
     public class CompanyGalleryController : BaseApiController
     {
-        CompanyGalleryBuilder companyGalleryBuilder;
+        readonly CompanyGalleryBuilder _companyGalleryBuilder;
 
         public CompanyGalleryController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, CompanyGalleryBuilder companyGalleryBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
-            this.companyGalleryBuilder = companyGalleryBuilder;
+            _companyGalleryBuilder = companyGalleryBuilder;
         }
 
         #region Actions
@@ -27,7 +25,7 @@ namespace Web.Api.Controllers
         {
             try
             {
-                companyGalleryBuilder.DeleteImage(query.CompanyGuid, query.FileName);
+                _companyGalleryBuilder.DeleteImage(query.CompanyGuid, query.FileName);
 
                 return Ok();
             }

@@ -31,7 +31,7 @@
 <div id="_InternshipMenuWrapper" class="w-internship-fixed-wrapper">
     <div class="ui container">
         <div class="ui vertical segment w-internship-menu-wrapper">
-            <img alt="Company logo" class="ui avatar image w-internship-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Internship.Company.CompanyGuid)">
+            <img alt="Company logo" class="ui tiny image w-internship-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Internship.Company.CompanyGuid)">
 
             <h1>
                 @Model.Internship.Title
@@ -44,7 +44,7 @@
                     </div>
                 </a>
             </div>
-
+            
             <div class="w-body-clear"></div>
         </div>
     </div>
@@ -55,11 +55,17 @@
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
             <div class="ui segment">
+                
+                @if (Model.Internship.ActivityStats.InternshipSubmissionsCount > 0)
+                {
+                    <div class="ui red label left ribbon">@StringHelper.GetPluralWord(Model.Internship.ActivityStats.InternshipSubmissionsCount, "-", "1 zájemce", "{count} zájemci", "již {count} zájemců")</div>
+                }
+
                 <div class="w-body-text-center">
                     <div class="ui horizontal list">
                         <div class="item">
                             <div class="content">
-                                @Html.RenderIcon("home") <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
+                                @Html.RenderIcon("home") <a href="@Url.Action("Index", "Company", new {codeName = Model.Internship.Company.CompanyCodeName})">
                                     @Model.Internship.Company.CompanyName
                                 </a>
                             </div>
@@ -78,11 +84,13 @@
                             <div class="content">
                                 @if (Model.Internship.IsPaid)
                                 {
-                                    @Html.RenderIcon("money green") <span>@(CurrencyHelper.DisplayCurrencyValue(Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
+                                    @Html.RenderIcon("money green")
+                                    <span>@(CurrencyHelper.DisplayCurrencyValue(Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
                                 }
                                 else
                                 {
-                                    @Html.RenderIcon("money red") <span>Neplaceno</span>
+                                    @Html.RenderIcon("money red")
+                                    <span>Neplaceno</span>
                                 }
                             </div>
                         </div>
@@ -95,11 +103,13 @@
                             <div class="content">
                                 @if (Model.Internship.HasFlexibleHours)
                                 {
-                                    @Html.RenderIcon("wait") <span>Flexibilní pracovní doba <i class="checkmark green icon"></i></span>
+                                    @Html.RenderIcon("wait")
+                                    <span>Flexibilní pracovní doba <i class="checkmark green icon"></i></span>
                                 }
                                 else
                                 {
-                                    @Html.RenderIcon("wait") <span>@Model.Internship.WorkingHours</span>
+                                    @Html.RenderIcon("wait")
+                                    <span>@Model.Internship.WorkingHours</span>
                                 }
                             </div>
                         </div>
@@ -166,7 +176,7 @@
             </div>
         </div>
         <div class="ui grid">
-            <div class="tablet only mobily only sixteen wide mobile eight wide tablet column">
+            <div class="tablet only mobile only sixteen wide mobile eight wide tablet column">
                 <div class="ui list">
                     @foreach (var requiredLanguage in Model.Internship.RequiredLanguages)
                     {
@@ -178,7 +188,7 @@
                         </div>
                     }
                 </div>
-                <div class="tablet only mobily only sixteen wide mobile eight wide tablet column">
+                <div class="tablet only mobile only sixteen wide mobile eight wide tablet column">
                     <h3>
                         Student
                     </h3>
@@ -186,7 +196,7 @@
                         @Html.RenderIcon(Model.Internship.StudentStatusOption.IconClass) @Model.Internship.StudentStatusOption.StudentStatusName
                     </p>
                 </div>
-                <div class="tablet only mobily only sixteen wide mobile sixteen wide tablet column">
+                <div class="tablet only mobile only sixteen wide mobile sixteen wide tablet column">
                     <h3>
                         Home office
                     </h3>
@@ -208,7 +218,7 @@
         </div>
     </div>
 
-    @if (galleryImages.Count() > 0)
+    @if (galleryImages.Any())
     {
         <div class="ui segment w-margin-top-30">
             @Html.Partial("~/Views/Gallery/Base.cshtml", new GalleryView()

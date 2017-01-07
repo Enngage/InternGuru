@@ -10,11 +10,11 @@ namespace Web.Controllers
 {
     public class InternshipController : BaseController
     {
-        InternshipBuilder internshipBuilder;
+        readonly InternshipBuilder _internshipBuilder;
 
         public InternshipController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, InternshipBuilder internshipBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
-            this.internshipBuilder = internshipBuilder;
+            _internshipBuilder = internshipBuilder;
         }
 
         #region Actions
@@ -27,7 +27,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await internshipBuilder.BuildDetailViewAsync(id ?? 0);
+            var model = await _internshipBuilder.BuildDetailViewAsync((int) id);
 
             if (model == null)
             {

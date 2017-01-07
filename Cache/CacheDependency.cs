@@ -7,27 +7,12 @@ namespace Cache
     internal static class CacheDependency
     {
 
-        #region Variables
-
-        /// <summary>
-        /// Static dictionary where all cache items are stored
-        /// </summary>
-        private static Dictionary<String, ICacheSetup> cacheSetupList = new Dictionary<String, ICacheSetup>();
-
-        #endregion
-
         #region Properties
 
         /// <summary>
         /// Dictionary where all cache items are stored
         /// </summary>
-        public static Dictionary<String, ICacheSetup> CacheSetupList
-        {
-            get
-            {
-                return cacheSetupList;
-            }
-        }
+        public static Dictionary<string, ICacheSetup> CacheSetupList => new Dictionary<string, ICacheSetup>();
 
         #endregion
 
@@ -38,21 +23,21 @@ namespace Cache
         /// </summary>
         public static void ClearAll()
         {
-            cacheSetupList.Clear();  
+            CacheSetupList.Clear();  
         }
 
         /// <summary>
         /// Touches given key (removes cacheSetup from list if the key exists in its dependencies)
         /// </summary>
         /// <param name="key">Key</param>
-        public static void TouchKey(String key)
+        public static void TouchKey(string key)
         {
-            foreach (var dict in cacheSetupList.ToList())
+            foreach (var dict in CacheSetupList.ToList())
             {
                 if (CacheSetupDependsOnKey(key, dict.Value))
                 {
                     // remove cache setup from cache
-                    cacheSetupList.Remove(dict.Key);
+                    CacheSetupList.Remove(dict.Key);
                 }
             }
         }
@@ -74,14 +59,14 @@ namespace Cache
         /// <param name="cacheSetup">cacheSetup</param>
         public static void AddCacheSetup(ICacheSetup cacheSetup)
         {
-            if (!cacheSetupList.ContainsKey(cacheSetup.CacheKey))
+            if (!CacheSetupList.ContainsKey(cacheSetup.CacheKey))
             {
                 cacheSetup.SetUpdated(DateTime.Now); 
-                cacheSetupList.Add(cacheSetup.CacheKey, cacheSetup);
+                CacheSetupList.Add(cacheSetup.CacheKey, cacheSetup);
             }
             else
             {
-                cacheSetupList[cacheSetup.CacheKey].SetUpdated(DateTime.Now);
+                CacheSetupList[cacheSetup.CacheKey].SetUpdated(DateTime.Now);
             }
         }
 
@@ -92,7 +77,7 @@ namespace Cache
         /// <returns>True if data should be retrieved from cache, false otherwise</returns>
         public static bool GetDataFromCache(ICacheSetup cacheSetup)
         {
-            if (cacheSetupList.ContainsKey(cacheSetup.CacheKey))
+            if (CacheSetupList.ContainsKey(cacheSetup.CacheKey))
             {
                 return true;
             }
@@ -106,7 +91,7 @@ namespace Cache
         public static List<ICacheSetup> GetAll()
         {
             var list = new List<ICacheSetup>();
-            foreach (var cacheSetup in cacheSetupList){
+            foreach (var cacheSetup in CacheSetupList){
                 list.Add(cacheSetup.Value);
             }
             return list;

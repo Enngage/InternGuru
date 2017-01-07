@@ -1,58 +1,57 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
-using Entity;
-
-using Service.Context;
 using Cache;
+using Service.Context;
 using Service.Exceptions;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Thesis
 {
-    public class ThesisService :  BaseService<Thesis>, IThesisService
+    public class ThesisService :  BaseService<Entity.Thesis>, IThesisService
     {
 
         public ThesisService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
 
         public Task<int> DeleteAsync(int id)
         {
-            var thesis = this.AppContext.Theses.Find(id);
+            var thesis = AppContext.Theses.Find(id);
 
             if (thesis != null)
             {
-                this.AppContext.Theses.Remove(thesis);
+                AppContext.Theses.Remove(thesis);
 
                 // touch cache keys
-                this.TouchDeleteKeys(thesis);
+                TouchDeleteKeys(thesis);
 
                 // fire event
-                this.OnDelete(thesis);
+                OnDelete(thesis);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
         }
 
-        public Task<Thesis> GetAsync(int id)
+        public Task<Entity.Thesis> GetAsync(int id)
         {
-            return this.AppContext.Theses.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.Theses.FirstOrDefaultAsync(m => m.ID == id);
         }
 
-        public IQueryable<Thesis> GetAll()
+        public IQueryable<Entity.Thesis> GetAll()
         {
-            return this.AppContext.Theses;
+            return AppContext.Theses;
         }
 
-        public IQueryable<Thesis> GetSingle(int id)
+        public IQueryable<Entity.Thesis> GetSingle(int id)
         {
-            return this.AppContext.Theses.Where(m => m.ID == id).Take(1);
+            return AppContext.Theses.Where(m => m.ID == id).Take(1);
         }
 
-        public Task<int> InsertAsync(Thesis obj)
+        public Task<int> InsertAsync(Entity.Thesis obj)
         {
             // set code name
             obj.CodeName = obj.GetCodeName();
@@ -61,28 +60,28 @@ namespace Service.Services
             obj.Created = DateTime.Now;
             obj.Updated = DateTime.Now;
 
-            this.AppContext.Theses.Add(obj);
+            AppContext.Theses.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
-        public Task<int> UpdateAsync(Thesis obj)
+        public Task<int> UpdateAsync(Entity.Thesis obj)
         {
-            var thesis = this.AppContext.Theses.Find(obj.ID);
+            var thesis = AppContext.Theses.Find(obj.ID);
 
             if (thesis == null)
             {
-                throw new NotFoundException(string.Format("Thesis with ID: {0} not found", obj.ID));
+                throw new NotFoundException($"Thesis with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, thesis);
+            OnUpdate(obj, thesis);
 
             // set code name
             obj.CodeName = obj.GetCodeName();
@@ -92,18 +91,18 @@ namespace Service.Services
             obj.Created = thesis.Created;
 
             // update log
-            this.AppContext.Entry(thesis).CurrentValues.SetValues(obj);
+            AppContext.Entry(thesis).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(thesis);
+            TouchUpdateKeys(thesis);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Thesis>> GetAllCachedAsync()
+        public async Task<IEnumerable<Entity.Thesis>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

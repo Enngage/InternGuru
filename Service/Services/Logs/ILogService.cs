@@ -1,9 +1,8 @@
-﻿using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 using Entity;
-using System;
 
-namespace Service.Services
+namespace Service.Services.Logs
 {
     public interface ILogService : IService<Log>
     {

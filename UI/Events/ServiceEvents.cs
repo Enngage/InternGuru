@@ -1,4 +1,5 @@
 ﻿using UI.Builders.Services;
+using UI.Events.EventClasses;
 
 namespace UI.Events
 {
@@ -20,8 +21,8 @@ namespace UI.Events
 
         public ServiceEvents(IServicesLoader servicesLoader, NotificationEvents notificationEvents)
         {
-            this.Services = servicesLoader;
-            this.NotificationEvents = notificationEvents;
+            Services = servicesLoader;
+            NotificationEvents = notificationEvents;
         }
 
         #endregion
@@ -34,7 +35,7 @@ namespace UI.Events
         public void RegisterEvents()
         {
             // ----- Registered events ------ //
-            this.Services.MessageService.OnInsertObject += MessageService_OnInsertObject;
+            Services.MessageService.OnInsertObject += MessageService_OnInsertObject;
         }
 
         #endregion

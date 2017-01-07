@@ -23,7 +23,7 @@ namespace UI.UIServices
             if (cookie == null)
             {
                 // create new cookie
-                HttpCookie newCookie = new HttpCookie(cookieName);
+                var newCookie = new HttpCookie(cookieName);
                 newCookie.Value = value;
                 newCookie.Expires = expires;
                 newCookie.Path = "/";
@@ -49,21 +49,15 @@ namespace UI.UIServices
             if (cookie != null)
             {
                 cookie.Expires = DateTime.Now.AddYears(-1);
+                HttpContext.Current.Response.Cookies.Set(cookie);
             }
-
-            HttpContext.Current.Response.Cookies.Set(cookie);
         }
 
         public string GetCookieValue(string cookieName)
         {
             var cookie = HttpContext.Current.Request.Cookies.Get(cookieName);
 
-            if (cookie != null)
-            {
-                return cookie.Value;
-            }
-
-            return null;
+            return cookie?.Value;
         }
     }
 }

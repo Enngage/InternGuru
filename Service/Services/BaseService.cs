@@ -2,19 +2,16 @@
 using System.Threading.Tasks;
 using Service.Context;
 using Cache;
-using Entity;
 using Service.Events;
 using System.Collections.Generic;
+using Entity.Base;
+using Service.Services.Logs;
 
 namespace Service.Services
 {
     public class BaseService<T> : IDisposable where T : class, IEntity
     {
         #region Variables
-
-        private IAppContext appContext;
-        private ICacheService cacheService;
-        private ILogService logService;
 
         #endregion
 
@@ -23,35 +20,17 @@ namespace Service.Services
         /// <summary>
         /// AppContext 
         /// </summary>
-        protected IAppContext AppContext
-        {
-            get
-            {
-                return this.appContext;
-            }
-        }
+        protected IAppContext AppContext { get; private set; }
 
         /// <summary>
         /// Cache service
         /// </summary>
-        protected ICacheService CacheService
-        {
-            get
-            {
-                return this.cacheService;
-            }
-        }
+        protected ICacheService CacheService { get; }
 
         /// <summary>
         /// Log service
         /// </summary>
-        protected ILogService LogService
-        {
-            get
-            {
-                return this.logService;
-            }
-        }
+        protected ILogService LogService { get; }
 
         #endregion
 
@@ -65,9 +44,9 @@ namespace Service.Services
         /// <param name="logService">Log service (can be null because of cyclic ILogService)</param>
         public BaseService(IAppContext appContext, ICacheService cacheService, ILogService logService = null)
         {
-            this.appContext = appContext;
-            this.cacheService = cacheService;
-            this.logService = logService;
+            AppContext = appContext;
+            CacheService = cacheService;
+            LogService = logService;
         }
 
         #endregion
@@ -76,9 +55,9 @@ namespace Service.Services
 
         public void Dispose()
         {
-            if (this.appContext != null)
+            if (AppContext != null)
             {
-                this.appContext.Dispose();
+                AppContext.Dispose();
             }
         }
 
@@ -94,14 +73,14 @@ namespace Service.Services
         {
             try
             {
-                return this.appContext.SaveChanges();
+                return AppContext.SaveChanges();
             }
             catch (Exception ex)
             {
                 // log event
-                if (logService != null)
+                if (LogService != null)
                 {
-                    logService.LogException(ex);
+                    LogService.LogException(ex);
                 }
 
                 // re-throw
@@ -117,14 +96,14 @@ namespace Service.Services
         {
             try
             {
-                return this.appContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 // log event
-                if (logService != null)
+                if (LogService != null)
                 {
-                    logService.LogException(ex);
+                    LogService.LogException(ex);
                 }
 
                 // re-throw
@@ -143,7 +122,6 @@ namespace Service.Services
         /// <summary>
         /// Insert event action
         /// </summary>
-        /// <param name="e"></param>
         protected void OnInsert(T obj)
         {
             var args = new InsertEventArgs<T>()
@@ -156,7 +134,6 @@ namespace Service.Services
         /// <summary>
         /// Update event action
         /// </summary>
-        /// <param name="e"></param>
         protected void OnUpdate(T obj, T originalObj)
         {
             var args = new UpdateEventArgs<T>()
@@ -170,7 +147,6 @@ namespace Service.Services
         /// <summary>
         /// Delete event action
         /// </summary>
-        /// <param name="e"></param>
         protected void OnDelete(T obj)
         {
             var args = new DeleteEventArgs<T>()
@@ -189,7 +165,7 @@ namespace Service.Services
         /// </summary>
         public virtual void TouchKey(string key)
         {
-            cacheService.TouchKey(key);
+            CacheService.TouchKey(key);
         }
 
         /// <summary>
@@ -197,7 +173,7 @@ namespace Service.Services
         /// </summary>
         public virtual void TouchInsertKeys(T obj)
         {
-            cacheService.TouchKey(EntityKeys.KeyCreateAny<T>());
+            CacheService.TouchKey(EntityKeys.KeyCreateAny<T>());
         }
 
         /// <summary>
@@ -206,9 +182,9 @@ namespace Service.Services
         /// <param name="obj">Object</param>
         public virtual void TouchUpdateKeys(T obj)
         {
-            cacheService.TouchKey(EntityKeys.KeyUpdateAny<T>());
-            cacheService.TouchKey(EntityKeys.KeyUpdateCodeName<T>(obj.GetCodeName()));
-            cacheService.TouchKey(EntityKeys.KeyUpdate<T>(obj.GetObjectID().ToString()));
+            CacheService.TouchKey(EntityKeys.KeyUpdateAny<T>());
+            CacheService.TouchKey(EntityKeys.KeyUpdateCodeName<T>(obj.GetCodeName()));
+            CacheService.TouchKey(EntityKeys.KeyUpdate<T>(obj.GetObjectID().ToString()));
         }
 
 
@@ -218,9 +194,9 @@ namespace Service.Services
         /// <param name="obj">Object</param>
         public virtual void TouchDeleteKeys(T obj)
         {
-            cacheService.TouchKey(EntityKeys.KeyDeleteAny<T>());
-            cacheService.TouchKey(EntityKeys.KeyDeleteCodeName<T>(obj.GetCodeName()));
-            cacheService.TouchKey(EntityKeys.KeyDelete<T>(obj.GetObjectID().ToString()));
+            CacheService.TouchKey(EntityKeys.KeyDeleteAny<T>());
+            CacheService.TouchKey(EntityKeys.KeyDeleteCodeName<T>(obj.GetCodeName()));
+            CacheService.TouchKey(EntityKeys.KeyDelete<T>(obj.GetObjectID().ToString()));
         }
 
         /// <summary>
@@ -234,7 +210,7 @@ namespace Service.Services
             Dispose();
 
             // assign new context
-            this.appContext = appContext;
+            AppContext = appContext;
         }
 
         #endregion
@@ -247,7 +223,7 @@ namespace Service.Services
         /// <returns>Cache setup</returns>
         protected ICacheSetup GetCacheAllCacheSetup()
         {
-            int cacheMinutes = 120;
+            var cacheMinutes = 120;
             var cacheKey = $"GetCacheAllCacheSetup";
 
             var cacheSetup = CacheService.GetSetup<T>(cacheKey, cacheMinutes);
@@ -257,7 +233,7 @@ namespace Service.Services
                 EntityKeys.KeyDeleteAny<T>(),
                 EntityKeys.KeyCreateAny<T>(),
             };
-            cacheSetup.ObjectStringID = this.GetType().Name;
+            cacheSetup.ObjectStringID = GetType().Name;
 
             return cacheSetup;
         }

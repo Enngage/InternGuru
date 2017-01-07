@@ -1,5 +1,5 @@
-﻿using Entity;
-using System;
+﻿using System;
+using Entity.Base;
 
 namespace Service.Events
 {

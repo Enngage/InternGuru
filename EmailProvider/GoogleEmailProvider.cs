@@ -8,55 +8,27 @@ namespace EmailProvider
 {
     public class GoogleEmailProvider : IEmailProvider
     {
-        public string GmailUsername
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["GmailUsername"];
-            }
-        }
+        public string GmailUsername => ConfigurationManager.AppSettings["GmailUsername"];
 
-        public int GmailPort
-        {
-            get
-            {
-                return Convert.ToInt32(ConfigurationManager.AppSettings["GmailPort"]);
-            }
-        }
+        public int GmailPort => Convert.ToInt32(ConfigurationManager.AppSettings["GmailPort"]);
 
-        public string GmailPassword
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["GmailPassword"];
-            }
-        }
+        public string GmailPassword => ConfigurationManager.AppSettings["GmailPassword"];
 
-        public string GmailHost
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["GmailHost"];
-            }
-        }
+        public string GmailHost => ConfigurationManager.AppSettings["GmailHost"];
 
-        public bool GmailSSL
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["GmailSSL"].Equals("true", StringComparison.OrdinalIgnoreCase) ? true : false;
-            }
-        }
+        public bool GmailSsl => ConfigurationManager.AppSettings["GmailSSL"].Equals("true", StringComparison.OrdinalIgnoreCase);
 
         public void SendEmail(IEmail email)
         {
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = GmailHost;
-            smtp.Port = GmailPort;
-            smtp.EnableSsl = GmailSSL;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential(GmailUsername, GmailPassword);
+            var smtp = new SmtpClient
+            {
+                Host = GmailHost,
+                Port = GmailPort,
+                EnableSsl = GmailSsl,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(GmailUsername, GmailPassword)
+            };
 
             using (var mailMessage = new MailMessage(GmailUsername, email.To))
             {
@@ -69,10 +41,10 @@ namespace EmailProvider
 
         public async Task SendEmailAsync(IEmail email)
         {
-            SmtpClient smtp = new SmtpClient();
+            var smtp = new SmtpClient();
             smtp.Host = GmailHost;
             smtp.Port = GmailPort;
-            smtp.EnableSsl = GmailSSL;
+            smtp.EnableSsl = GmailSsl;
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new NetworkCredential(GmailUsername, GmailPassword);

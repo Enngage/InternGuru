@@ -1,6 +1,5 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
 @using UI.Helpers;
-@using Core.Helpers;
 @using UI.Extensions;
 @{
     ViewBag.Title = Model.Company.CompanyName;
@@ -147,7 +146,7 @@
 
         <div class="sixteen wide mobile ten wide tablet eleven wide computer column">
            
-            <div class="ui tab segment @aboutTabClass" data-tab="about">
+            <div class="ui tab @aboutTabClass" data-tab="about">
                 @Html.Partial("Tabs/About", Model)
             </div>
 

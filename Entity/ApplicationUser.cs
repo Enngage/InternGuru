@@ -1,10 +1,10 @@
-﻿using Core.Helpers;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Entity.Base;
 
 namespace Entity
 {
@@ -19,13 +19,7 @@ namespace Entity
         public string LastName { get; set; }
 
         [NotMapped]
-        public virtual string FullName
-        {
-            get
-            {
-                return string.Format("{0} {1}", FirstName, LastName);
-            }
-        }
+        public virtual string FullName => $"{FirstName} {LastName}";
 
         #endregion
 
@@ -39,19 +33,42 @@ namespace Entity
             return userIdentity;
         }
 
-        /// <summary>
-        /// Gets file name of user's avatar
-        /// </summary>
-        /// <param name="userName">User name</param>
-        /// <returns>Filename used for user's avatar</returns>
-        public static string GetAvatarFileName(string userName)
-        {
-            return StringHelper.GetCodeName(userName);
-        }
-
         #endregion
 
         #region Virtual properties
+
+        #endregion
+
+        #region Files - Avatar
+
+        /// <summary>
+        /// Gets file name of user's avatar
+        /// </summary>
+        /// <returns>Filename used for user's avatar</returns>
+        public static string GetAvatarFileName()
+        {
+            return Core.Config.FileConfig.DefaultAvatarName;
+        }
+
+        /// <summary>
+        /// Gets avatar folder path
+        /// </summary>
+        /// <param name="applicationUserId">applicationUserId</param>
+        /// <returns>Path for user avatars</returns>
+        public static string GetAvatarFolderPath(string applicationUserId)
+        {
+            return GetUserBaseFolderPath(applicationUserId) + "/" + Core.Config.FileConfig.AvatarFolderName;
+        }
+
+        /// <summary>
+        /// Base user folder path
+        /// </summary>
+        /// <param name="applicationUserId">applicationUserId</param>
+        /// <returns>Path to base user folder</returns>
+        public static string GetUserBaseFolderPath(string applicationUserId)
+        {
+            return Core.Config.FileConfig.BaseUserFolderPath + "/" + applicationUserId;
+        }
 
         #endregion
 
@@ -59,12 +76,12 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return this.UserName;
+            return UserName;
         }
 
         public object GetObjectID()
         {
-            return this.Id;
+            return Id;
         }
 
         #endregion

@@ -9,22 +9,22 @@ namespace Core.Helpers
         /// <summary>
         /// Store version hash in static property so that it doesn't need to re-calculated all over again
         /// </summary>
-        private static string versionHash = null;
+        private static string _versionHash;
 
         /// <summary>
         ///  Gets hash using current version information
         /// </summary>
         public static string GetVersionHash()
         {
-            if (string.IsNullOrEmpty(versionHash))
+            if (string.IsNullOrEmpty(_versionHash))
             {
                 // initialize hash
                 var version = VersionInfo.Version;
 
-                versionHash = HashHelper.GetHashString(version.Major.ToString() + version.Minor.ToString());
+                _versionHash = GetHashString(version.Major.ToString() + version.Minor.ToString());
             }
 
-            return versionHash;
+            return _versionHash;
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace Core.Helpers
         /// <returns>Hashed string</returns>
         public static string GetHashString(string inputString)
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (byte b in GetHash(inputString))
+            var sb = new StringBuilder();
+            foreach (var b in GetHash(inputString))
                 sb.Append(b.ToString("X2"));
 
             return sb.ToString();

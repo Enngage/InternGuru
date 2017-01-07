@@ -6,10 +6,10 @@ namespace UI.Builders.System.Models
     {
         public int ID { get; set; }
         public DateTime Created { get; set; }
-        public String Url { get; set; }
-        public String ExceptionMessage { get; set; }
-        public String InnerException { get; set; }
-        public String Stacktrace { get; set; }
-        public String ApplicationUserName { get; set; }
+        public string Url { get; set; }
+        public string ExceptionMessage { get; set; }
+        public string InnerException { get; set; }
+        public string Stacktrace { get; set; }
+        public string ApplicationUserName { get; set; }
     }
 }

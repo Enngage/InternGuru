@@ -7,11 +7,11 @@ namespace Identity
 {
     public class EmailService : IIdentityMessageService
     {
-        private IEmailProvider emailProvider;
+        private readonly IEmailProvider _emailProvider;
 
         public EmailService(IEmailProvider emailProvider)
         {
-            this.emailProvider = emailProvider;
+            _emailProvider = emailProvider;
         }
 
         public Task SendAsync(IdentityMessage message)
@@ -24,7 +24,7 @@ namespace Identity
             email.IsHtml = true;
             email.HtmlBody = message.Body;
 
-            return emailProvider.SendEmailAsync(email);
+            return _emailProvider.SendEmailAsync(email);
         }
     }
 

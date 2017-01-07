@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using UI.Base;
-using UI.Builders.Company;
+using UI.Builders.Form;
 using UI.Builders.Form.Forms;
 using UI.Builders.Master;
 using UI.Events;
@@ -13,11 +13,11 @@ namespace Web.Controllers
     [Authorize]
     public class FormController : BaseController
     {
-        FormBuilder formBuilder;
+        readonly FormBuilder _formBuilder;
 
         public FormController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, FormBuilder formBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
-            this.formBuilder = formBuilder;
+            _formBuilder = formBuilder;
         }
 
         #region Actions
@@ -29,7 +29,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await formBuilder.BuildInternshipViewAsync(id ?? 0);
+            var model = await _formBuilder.BuildInternshipViewAsync((int) id);
 
             if (model == null)
             {
@@ -46,7 +46,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await formBuilder.BuildThesisViewAsync(id ?? 0);
+            var model = await _formBuilder.BuildThesisViewAsync((int) id);
 
             if (model == null)
             {
@@ -65,29 +65,29 @@ namespace Web.Controllers
         public async Task<ActionResult> Internship(FormInternshipForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                var model = await formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
+                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
 
                 return View(model);
             }
 
             try
             {
-                await formBuilder.SaveInternshipForm(form);
+                await _formBuilder.SaveInternshipForm(form);
 
-                var model = await formBuilder.BuildInternshipViewAsync(form.InternshipID, null);
+                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID);
 
                 // set form status
                 model.InternshipForm.FormResult.IsSuccess = true;
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                var model = await formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
+                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
 
                 return View(model);
             }
@@ -98,29 +98,29 @@ namespace Web.Controllers
         public async Task<ActionResult> Thesis(FormThesisForm form)
         {
             // validate form
-            if (!this.ModelStateWrapper.IsValid)
+            if (!ModelStateWrapper.IsValid)
             {
-                var model = await formBuilder.BuildThesisViewAsync(form.ThesisID, form);
+                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
 
                 return View(model);
             }
 
             try
             {
-                await formBuilder.SaveThesisForm(form);
+                await _formBuilder.SaveThesisForm(form);
 
-                var model = await formBuilder.BuildThesisViewAsync(form.ThesisID, null);
+                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID);
 
                 // set form status
                 model.ThesisForm.FormResult.IsSuccess = true;
 
                 return View(model);
             }
-            catch (UIException ex)
+            catch (UiException ex)
             {
-                this.ModelStateWrapper.AddError(ex.Message);
+                ModelStateWrapper.AddError(ex.Message);
 
-                var model = await formBuilder.BuildThesisViewAsync(form.ThesisID, form);
+                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
 
                 return View(model);
             }

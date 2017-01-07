@@ -1,7 +1,7 @@
 ﻿
 namespace UI.Exceptions
 {
-    public enum UIExceptionEnum
+    public enum UiExceptionEnum
     {
         SaveFailure,
         NotAuthenticated,

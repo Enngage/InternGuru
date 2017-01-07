@@ -1,14 +1,14 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Internships
 {
     public class InternshipDurationTypeService :  BaseService<InternshipDurationType>, IInternshipDurationTypeService
     {
@@ -17,21 +17,21 @@ namespace Service.Services
 
         public Task<int> DeleteAsync(int id)
         {
-            var durationType = this.AppContext.InternshipDurationTypes.Find(id);
+            var durationType = AppContext.InternshipDurationTypes.Find(id);
 
             if (durationType != null)
             {
                 // delete durationType
-                this.AppContext.InternshipDurationTypes.Remove(durationType);
+                AppContext.InternshipDurationTypes.Remove(durationType);
 
                 // touch cache keys
-                this.TouchDeleteKeys(durationType);
+                TouchDeleteKeys(durationType);
 
                 // fire event
-                this.OnDelete(durationType);
+                OnDelete(durationType);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -39,17 +39,17 @@ namespace Service.Services
 
         public Task<InternshipDurationType> GetAsync(int id)
         {
-            return this.AppContext.InternshipDurationTypes.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.InternshipDurationTypes.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<InternshipDurationType> GetAll()
         {
-            return this.AppContext.InternshipDurationTypes;
+            return AppContext.InternshipDurationTypes;
         }
 
         public IQueryable<InternshipDurationType> GetSingle(int id)
         {
-            return this.AppContext.InternshipDurationTypes.Where(m => m.ID == id).Take(1);
+            return AppContext.InternshipDurationTypes.Where(m => m.ID == id).Take(1);
         }
 
         public Task<int> InsertAsync(InternshipDurationType obj)
@@ -57,45 +57,45 @@ namespace Service.Services
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            this.AppContext.InternshipDurationTypes.Add(obj);
+            AppContext.InternshipDurationTypes.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> UpdateAsync(InternshipDurationType obj)
         {
-            var durationType = this.AppContext.InternshipDurationTypes.Find(obj.ID);
+            var durationType = AppContext.InternshipDurationTypes.Find(obj.ID);
 
             if (durationType == null)
             {
-                throw new NotFoundException(string.Format("InternshipDurationType with ID: {0} not found", obj.ID));
+                throw new NotFoundException($"InternshipDurationType with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, durationType);
+            OnUpdate(obj, durationType);
 
             // set code name
             obj.CodeName = obj.GetCodeName();
 
             // update log
-            this.AppContext.Entry(durationType).CurrentValues.SetValues(obj);
+            AppContext.Entry(durationType).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(durationType);
+            TouchUpdateKeys(durationType);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<InternshipDurationType>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

@@ -1,25 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Linq;
-
+using Core.Helpers;
 using Service.Context;
 using UI.Base;
 using UI.Builders.Master;
 using UI.Builders.Search;
-using Core.Helpers;
-using UI.Helpers;
+using UI.Builders.Search.Autocomplete;
+using UI.Builders.Search.Models;
 using UI.Events;
+using UI.Helpers;
 
-namespace Web.Api.Controllers
+namespace Web.Api
 {
     public class SearchController : BaseApiController
     {
-        SearchBuilder searchBuilder;
+        readonly SearchBuilder _searchBuilder;
 
         public SearchController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, SearchBuilder searchBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
-            this.searchBuilder = searchBuilder;
+            _searchBuilder = searchBuilder;
         }
 
         #region Actions
@@ -29,17 +31,19 @@ namespace Web.Api.Controllers
         {
             try
             {
-                var cities = (await searchBuilder.GetSearchCitiesAsync(query.q))
+                var cities = (await _searchBuilder.GetSearchCitiesAsync(query.Q))
                     .Select(m => new SearchAutocompleteItemModel()
                     {
                         Description = $"{CountryHelper.GetCountryIcon(m.CountryCode)} | {m.InternshipCount} {StringHelper.GetPluralWord(m.InternshipCount, "žádné nabídky", "nabídka", "nabídky", "nabídek")}",
                         Title = m.City.Trim()
                     });
 
+                var searchAutocompleteItemModels = cities as IList<SearchAutocompleteItemModel> ?? cities.ToList();
+
                 return Ok(new SearchAutocompleteResultModel()
                 {
-                    Count = cities.Count(),
-                    Items = cities
+                    Count = searchAutocompleteItemModels.Count(),
+                    Items = searchAutocompleteItemModels
                 });
             }
             catch (Exception ex)
@@ -53,7 +57,7 @@ namespace Web.Api.Controllers
         {
             try
             {
-                var keywords = (await searchBuilder.GetThesisNameKeywords(query.q))
+                var keywords = (await _searchBuilder.GetThesisNameKeywords(query.Q))
                     .OrderByDescending(m => m.ThesisCount)
                     .Select(m => new SearchAutocompleteItemModel()
                     {
@@ -61,10 +65,11 @@ namespace Web.Api.Controllers
                         Title = m.ThesisKeyword.Trim()
                     });
 
+                var searchAutocompleteItemModels = keywords as IList<SearchAutocompleteItemModel> ?? keywords.ToList();
                 return Ok(new SearchAutocompleteResultModel()
                 {
-                    Count = keywords.Count(),
-                    Items = keywords
+                    Count = searchAutocompleteItemModels.Count(),
+                    Items = searchAutocompleteItemModels
                 });
             }
             catch (Exception ex)
@@ -79,7 +84,7 @@ namespace Web.Api.Controllers
         {
             try
             {
-                var keywords = (await searchBuilder.GetInternshipTitleKeywords(query.q))
+                var keywords = (await _searchBuilder.GetInternshipTitleKeywords(query.Q))
                     .OrderByDescending(m => m.InternshipCount)
                     .Select(m => new SearchAutocompleteItemModel()
                     {
@@ -87,10 +92,11 @@ namespace Web.Api.Controllers
                         Title = m.TitleKeyword.Trim()
                     });
 
+                var searchAutocompleteItemModels = keywords as IList<SearchAutocompleteItemModel> ?? keywords.ToList();
                 return Ok(new SearchAutocompleteResultModel()
                 {
-                    Count = keywords.Count(),
-                    Items = keywords
+                    Count = searchAutocompleteItemModels.Count(),
+                    Items = searchAutocompleteItemModels
                 });
             }
             catch (Exception ex)

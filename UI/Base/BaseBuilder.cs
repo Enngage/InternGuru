@@ -6,14 +6,14 @@ using Service.Context;
 using System.Web;
 using System.Collections.Generic;
 using Entity;
-using UI.Builders.Shared;
 using UI.Builders.Services;
 using Core.Helpers.Privilege;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using UI.Builders.Shared.Models;
 using Identity;
 using Core.Config;
+using Entity.Base;
+using UI.Builders.Shared.Enums;
 
 namespace UI.Base
 {
@@ -22,16 +22,7 @@ namespace UI.Base
 
         #region Variables
 
-        private IAppContext appContext;
-        private ICurrentUser currentUser;
-        private ICurrentCompany currentCompany;
-        private IStatusBox statusBox;
-        private IUIHeader uiHeader;
-
-        private ApplicationUserManager userManager;
-        private ApplicationSignInManager signInManager;
-
-        private IServicesLoader services;
+        private readonly ApplicationUserManager _userManager;
 
         #endregion
 
@@ -40,70 +31,34 @@ namespace UI.Base
         /// <summary>
         /// AppContext 
         /// </summary>
-        protected IAppContext AppContext
-        {
-            get
-            {
-                return this.appContext;
-            }
-        }
+        protected IAppContext AppContext { get; }
 
         /// <summary>
         /// Header
         /// </summary>
-        public IUIHeader UIHeader
-        {
-            get
-            {
-                return this.uiHeader;
-            }
-        }
+        public IUiHeader UiHeader { get; private set; }
 
         /// <summary>
         /// Current user
         /// </summary>
-        public ICurrentUser CurrentUser
-        {
-            get
-            {
-                return this.currentUser;
-            }
-        }
+        public ICurrentUser CurrentUser { get; private set; }
 
         /// <summary>
         /// Company of current user
         /// </summary>
-        public ICurrentCompany CurrentCompany
-        {
-            get
-            {
-                return this.currentCompany;
-            }
-        }
+        public ICurrentCompany CurrentCompany { get; private set; }
 
 
         /// <summary>
         /// Status box of current user
         /// </summary>
-        public IStatusBox StatusBox
-        {
-            get
-            {
-                return this.statusBox;
-            }
-        }
+        public IStatusBox StatusBox { get; private set; }
 
 
         /// <summary>
         /// List of all available services
         /// </summary>
-        protected IServicesLoader Services
-        {
-            get
-            {
-                return this.services;
-            }
-        }
+        protected IServicesLoader Services { get; }
 
         #endregion
 
@@ -116,10 +71,9 @@ namespace UI.Base
         /// <param name="servicesLoader">services loader used to initialize all services</param>
         public BaseBuilder(ISystemContext systemContext, IServicesLoader servicesLoader)
         {
-            this.appContext = systemContext.AppContext;
-            this.services = servicesLoader;
-            this.userManager = systemContext.ApplicationUserManager;
-            this.signInManager = systemContext.ApplicationSignInManager;
+            AppContext = systemContext.AppContext;
+            Services = servicesLoader;
+            _userManager = systemContext.ApplicationUserManager;
 
             // Initialize current user
             InitializeCurrentUser();
@@ -127,17 +81,17 @@ namespace UI.Base
             // Initialize company of current user if user is authenticated
             if (CurrentUser.IsAuthenticated)
             {
-                InitializeCurrentCompany(this.CurrentUser.UserName, this.CurrentUser.Id);
+                InitializeCurrentCompany(CurrentUser.UserName, CurrentUser.Id);
             }
 
             // Initialize status box
             if (CurrentUser.IsAuthenticated)
             {
-                InitializeStatusBox(this.CurrentUser.Id);
+                InitializeStatusBox(CurrentUser.Id);
             }
 
             // Initialize header
-            InitializeUIHeader();
+            InitializeUiHeader();
 
         }
 
@@ -150,9 +104,9 @@ namespace UI.Base
         /// </summary>
         public void Dispose()
         {
-            if (this.appContext != null)
+            if (AppContext != null)
             {
-                this.Dispose();
+                Dispose();
             }
         }
 
@@ -173,7 +127,7 @@ namespace UI.Base
         /// </summary>
         private void InitializeCurrentUser()
         {
-            this.currentUser = GetCurrentuser();
+            CurrentUser = GetCurrentuser();
 
         }
 
@@ -189,17 +143,17 @@ namespace UI.Base
                 NewEventLogCount = GetNumberOfNewLogs()
             };
 
-            this.statusBox = statusBox;
+            StatusBox = statusBox;
         }
 
         /// <summary>
         /// Initializes header
         /// </summary>
-        private void InitializeUIHeader()
+        private void InitializeUiHeader()
         {
-            this.uiHeader = new UIHeader()
+            UiHeader = new UiHeader()
             {
-                Type = UIHeaderType.none,
+                Type = UiHeaderType.None,
                 Title = string.Empty
             };
         }
@@ -212,7 +166,7 @@ namespace UI.Base
         /// <param name="userName">UserName</param>
         private void InitializeCurrentCompany(string userName, string userId)
         {
-            this.currentCompany = GetCompanyOfUser(userName, userId);
+            CurrentCompany = GetCompanyOfUser(userName, userId);
         }
 
         private ICurrentUser GetCurrentuser()
@@ -221,7 +175,7 @@ namespace UI.Base
             {
                 if (HttpContext.Current.User != null)
                 {
-                    if (HttpContext.Current.User.Identity.IsAuthenticated != false)
+                    if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
                         var currentIdentity = HttpContext.Current.User.Identity;
 
@@ -229,8 +183,8 @@ namespace UI.Base
                         {
                             // ----- Process current user ------- //
                             var cacheKey = "BuilderAbstract.GetCurrentUser";
-                            int cacheMinutes = 60;
-                            var cacheSetup = this.Services.CacheService.GetSetup<ICurrentUser>(cacheKey, cacheMinutes);
+                            var cacheMinutes = 60;
+                            var cacheSetup = Services.CacheService.GetSetup<ICurrentUser>(cacheKey, cacheMinutes);
                             cacheSetup.Dependencies = new List<string>()
                             {
                                 EntityKeys.KeyUpdate<ApplicationUser>(currentIdentity.Name),
@@ -238,7 +192,7 @@ namespace UI.Base
                             };
                             cacheSetup.ObjectStringID = currentIdentity.Name;
 
-                            var user = this.Services.CacheService.GetOrSet<ICurrentUser>(() => GetApplicationUser(currentIdentity.Name, currentIdentity.AuthenticationType), cacheSetup);
+                            var user = Services.CacheService.GetOrSet(() => GetApplicationUser(currentIdentity.Name, currentIdentity.AuthenticationType), cacheSetup);
 
                             if (user == null)
                             {
@@ -272,7 +226,7 @@ namespace UI.Base
         /// <returns>ApplicationUser</returns>
         private ICurrentUser GetApplicationUser(string userName, string authenticationType)
         {
-            var user = this.services.IdentityService.GetAll()
+            var user = Services.IdentityService.GetAll()
                 .Where(m => m.UserName == userName)
                 .Select(m => new CurrentUser()
                 {
@@ -291,7 +245,7 @@ namespace UI.Base
             }
 
             // get roles of user
-            user.Roles = userManager.GetRoles(user.Id);
+            user.Roles = _userManager.GetRoles(user.Id);
 
             // set privilege level
             user.Privilege = PrivilegeHelper.GetPrivilegeLevel(user.Roles, PrivilegeLevel.Authenticated);
@@ -304,11 +258,10 @@ namespace UI.Base
         /// Gets company of current user or null if it doesnt exist
         /// </summary>
         /// <param name="applicationUserId">applicationUserId</param>
-        /// <param name="authenticationType">Authentication type</param>
         /// <returns>Company of current user or null if not found</returns>
         private ICurrentCompany GetCompanyOfUserInternal(string applicationUserId)
         {
-            var company = this.services.CompanyService.GetAll()
+            var company = Services.CompanyService.GetAll()
                 .Where(m => m.ApplicationUserId == applicationUserId)
                 .Select(m => new CurrentCompany()
                 {
@@ -316,7 +269,7 @@ namespace UI.Base
                     CompanyName = m.CompanyName,
                     CompanyCreatedByApplicationUserId = m.ApplicationUser.Id,
                     CompanyCreatedByApplicationUserName = m.ApplicationUser.UserName,
-                    CompanyGUID = m.CompanyGUID
+                    CompanyGuid = m.CompanyGuid
                 })
                 .FirstOrDefault();
 
@@ -333,16 +286,16 @@ namespace UI.Base
         private ICurrentCompany GetCompanyOfUser(string userName, string applicationUserId)
         {
             var cacheKey = "BuilderAbstract.GetCompanyOfUserFromCache." + userName; // key under which company of user will be stored
-            int cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<ICurrentCompany>(cacheKey, cacheMinutes);
+            var cacheMinutes = 60;
+            var cacheSetup = Services.CacheService.GetSetup<ICurrentCompany>(cacheKey, cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
                             {
-                                EntityKeys.KeyDeleteAny<Entity.Company>(),
-                                EntityKeys.KeyCreateAny<Entity.Company>(),
-                                EntityKeys.KeyUpdateAny<Entity.Company>(),
+                                EntityKeys.KeyDeleteAny<Company>(),
+                                EntityKeys.KeyCreateAny<Company>(),
+                                EntityKeys.KeyUpdateAny<Company>(),
                             };
 
-            var company = this.Services.CacheService.GetOrSet<ICurrentCompany>(() => GetCompanyOfUserInternal(applicationUserId), cacheSetup);
+            var company = Services.CacheService.GetOrSet(() => GetCompanyOfUserInternal(applicationUserId), cacheSetup);
 
             if (company != null)
             {
@@ -360,17 +313,17 @@ namespace UI.Base
         private int GetNumberOfNewMessages(string applicationUserId)
         {
             var cacheKey = "BuilderAbstract.GetStatusBox";
-            int cacheMinutes = 60;
-            var cacheSetup = this.Services.CacheService.GetSetup<IStatusBox>(cacheKey, cacheMinutes);
+            var cacheMinutes = 60;
+            var cacheSetup = Services.CacheService.GetSetup<IStatusBox>(cacheKey, cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
                             {
-                                EntityKeys.KeyUpdateAny<Entity.Message>(),
-                                EntityKeys.KeyDeleteAny<Entity.Message>(),
-                                EntityKeys.KeyCreateAny<Entity.Message>(),
+                                EntityKeys.KeyUpdateAny<Message>(),
+                                EntityKeys.KeyDeleteAny<Message>(),
+                                EntityKeys.KeyCreateAny<Message>(),
                             };
             cacheSetup.ObjectStringID = applicationUserId;
 
-            var newMessages = this.Services.CacheService.GetOrSet<IntWrapper>(() => GetNumberOfNewMessagesInternal(applicationUserId), cacheSetup);
+            var newMessages = Services.CacheService.GetOrSet(() => GetNumberOfNewMessagesInternal(applicationUserId), cacheSetup);
 
             return newMessages.Value;
         }
@@ -383,11 +336,11 @@ namespace UI.Base
         private IntWrapper GetNumberOfNewMessagesInternal(string applicationUserId)
         {
             // ---------- messages -------- //
-            var newMessagesQuery = this.Services.MessageService.GetAll()
+            var newMessagesQuery = Services.MessageService.GetAll()
                 .Where(m => m.RecipientApplicationUserId == applicationUserId && !m.IsRead)
                 .Select(m => new
                 {
-                    ID = m.ID
+                    m.ID
                 });
 
             return new IntWrapper()
@@ -404,7 +357,7 @@ namespace UI.Base
         {
             var latestReadLogIDCookieName = AppConfig.CookieNames.LatestReadLogID;
 
-            var latestReadLogID = this.Services.CookieService.GetCookieValue(latestReadLogIDCookieName);
+            var latestReadLogID = Services.CookieService.GetCookieValue(latestReadLogIDCookieName);
             if (string.IsNullOrEmpty(latestReadLogID))
             {
                 // cookie was not yet initialized, get all events
@@ -416,11 +369,11 @@ namespace UI.Base
 
         private int GetNumberOfEventsByThreshold(int logIDThreshold)
         {
-            int cacheMinutes = 1; // cache only for 1 minute
-            var cacheSetup = this.Services.CacheService.GetSetup<IntWrapper>(this.GetSource(), cacheMinutes);
+            var cacheMinutes = 1; // cache only for 1 minute
+            var cacheSetup = Services.CacheService.GetSetup<IntWrapper>(GetSource(), cacheMinutes);
             cacheSetup.ObjectID = logIDThreshold;
 
-            var eventsQuery = this.Services.LogService.GetAll()
+            var eventsQuery = Services.LogService.GetAll()
                .Where(m => m.ID > logIDThreshold)
                .Select(m => new IntWrapper()
                {
@@ -428,7 +381,7 @@ namespace UI.Base
                })
                .OrderByDescending(m => m);
 
-            var events = this.Services.CacheService.GetOrSet(() => eventsQuery.ToList(), cacheSetup);
+            var events = Services.CacheService.GetOrSet(() => eventsQuery.ToList(), cacheSetup);
 
             return events.Count;
         }

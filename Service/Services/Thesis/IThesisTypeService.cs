@@ -1,6 +1,6 @@
 ﻿using Entity;
 
-namespace Service.Services
+namespace Service.Services.Thesis
 {
     public interface IThesisTypeService : IService<ThesisType>
     {

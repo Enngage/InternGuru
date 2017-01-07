@@ -2,11 +2,12 @@
 @using UI.Helpers;
 @using UI.Extensions;
 @using Core.Helpers;
+@using UI.Builders.Shared.Enums
 @{
     ViewBag.Title = "Přehled firem";
     ViewBag.Description = "";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
-    Model.Master.UIHeader.SetHeader(UI.Builders.Shared.UIHeaderType.blue, ViewBag.Title);
+    Model.Master.UiHeader.SetHeader(UiHeaderType.Blue, ViewBag.Title);
 }
 
 @Html.RequireScript("/scripts/views/company/browse")
@@ -30,7 +31,7 @@
             <div class="ui segment basic padded w-margin-none w-body-text-left">
                 <div class="ui items">
                     <div class="item">
-                        <img class="ui image tiny w-image-tiny" alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(company.CompanyGUID)" />
+                        <img class="ui image tiny w-image-tiny" alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(company.CompanyGuid)" />
                         <div class="middle aligned content">
                             <div class="header">
                                 <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
@@ -38,19 +39,19 @@
                                 </a>
                             </div>
                             <div class="meta">
-                                @Html.Raw(company.CountryIconHTML) @company.City
+                                @Html.Raw(company.CountryIconHtml) @company.City
                                 |
                                 <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships })">
                                     @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáže")
                                 </a>
-                                | <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Theses })">@company.ThesesCount @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
+                                | <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Theses })"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
-                <img class="ui image w-company-browse-banner" alt="@company.CompanyName logo" data-src="@ImageHelper.GetCompanyBanner(company.CompanyGUID)" src="@ImageHelper.GetTransparentImage()" />
+                <img class="ui image w-company-browse-banner" alt="@company.CompanyName logo" data-src="@ImageHelper.GetCompanyBanner(company.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" />
             </a>
         </div>
     }

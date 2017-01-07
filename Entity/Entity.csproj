@@ -89,6 +89,7 @@
     <Compile Include="Base\EntityKeys.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="HomeOfficeOption.cs" />
+    <Compile Include="Activity.cs" />
     <Compile Include="StudentStatusOption.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="ThesisType.cs" />

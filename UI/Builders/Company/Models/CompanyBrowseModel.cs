@@ -7,7 +7,7 @@ namespace UI.Builders.Company.Models
     public class CompanyBrowseModel
     {
         public int ID { get; set; }
-        public Guid CompanyGUID { get; set; }
+        public Guid CompanyGuid { get; set; }
         public string CodeName { get; set; }
         public string CompanyName { get; set; }
         public string City { get; set; }
@@ -24,7 +24,7 @@ namespace UI.Builders.Company.Models
         public string PluralInternshipsCountWord { get; set; }
         public string PluralThesesCountWord { get; set; }
 
-        public string CountryIconHTML
+        public string CountryIconHtml
         {
             get
             {

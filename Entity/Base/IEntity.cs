@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Entity
+﻿namespace Entity.Base
 {
     public interface IEntity
     {

@@ -1,6 +1,6 @@
 ﻿
 
-namespace UI.Builders.Search
+namespace UI.Builders.Search.Autocomplete
 {
     public class SearchAutocompleteItemModel
     {

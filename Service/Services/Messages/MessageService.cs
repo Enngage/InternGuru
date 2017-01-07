@@ -1,15 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
-
 using Cache;
+using Entity;
 using Service.Context;
 using Service.Exceptions;
-using Entity;
-using System;
-using System.Collections.Generic;
 
-namespace Service.Services
+namespace Service.Services.Messages
 {
     public class MessageService : BaseService<Message>, IMessageService
     {
@@ -26,35 +25,35 @@ namespace Service.Services
                 throw new ValidationException($"Nelze odeslat sám sobě");
             }
 
-            this.AppContext.Messages.Add(obj);
+            AppContext.Messages.Add(obj);
 
             obj.MessageCreated = DateTime.Now;
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> DeleteAsync(int id)
         {
-            var message = this.AppContext.Messages.Find(id);
+            var message = AppContext.Messages.Find(id);
 
             if (message != null)
             {
-                this.AppContext.Messages.Remove(message);
+                AppContext.Messages.Remove(message);
 
                 // touch cache keys
-                this.TouchDeleteKeys(message);
+                TouchDeleteKeys(message);
 
                 // fire event
-                this.OnDelete(message);
+                OnDelete(message);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
 
             }
 
@@ -63,47 +62,47 @@ namespace Service.Services
 
         public Task<int> UpdateAsync(Message obj)
         {
-            var message = this.AppContext.Messages.Find(obj.ID);
+            var message = AppContext.Messages.Find(obj.ID);
 
             if (message == null)
             {
-                throw new NotFoundException(string.Format("Message with ID: {0} not found", obj.ID));
+                throw new NotFoundException($"Message with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, message);
+            OnUpdate(obj, message);
 
             // keep the created date
             obj.MessageCreated = message.MessageCreated;
 
             // update
-            this.AppContext.Entry(message).CurrentValues.SetValues(obj);
+            AppContext.Entry(message).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(message);
+            TouchUpdateKeys(message);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public IQueryable<Message> GetAll()
         {
-            return this.AppContext.Messages;
+            return AppContext.Messages;
         }
 
         public IQueryable<Message> GetSingle(int id)
         {
-            return this.AppContext.Messages.Where(m => m.ID == id).Take(1);
+            return AppContext.Messages.Where(m => m.ID == id).Take(1);
         }
 
         public Task<Message> GetAsync(int id)
         {
-            return this.AppContext.Messages.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.Messages.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public async Task<int> MarkMessagesAsRead(string recipientUserId, string senderUserId)
         {
-            var messages = await this.GetAll()
+            var messages = await GetAll()
                 .Where(m => (m.RecipientApplicationUserId == recipientUserId && m.SenderApplicationUserId == senderUserId) && m.IsRead == false)
                 .ToListAsync();
 
@@ -113,10 +112,10 @@ namespace Service.Services
                 message.IsRead = true;
 
                 // update
-                this.AppContext.Entry(message).CurrentValues.SetValues(message);
+                AppContext.Entry(message).CurrentValues.SetValues(message);
 
                 // touch cache keys
-                this.TouchUpdateKeys(message);
+                TouchUpdateKeys(message);
             }
 
             return await SaveChangesAsync();
@@ -124,7 +123,7 @@ namespace Service.Services
 
         public async Task<IEnumerable<Message>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 

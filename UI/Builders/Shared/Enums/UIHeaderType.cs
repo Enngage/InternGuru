@@ -1,11 +1,11 @@
 ﻿
-namespace UI.Builders.Shared
+namespace UI.Builders.Shared.Enums
 {
-    public enum UIHeaderType
+    public enum UiHeaderType
     {
-        none,
-        blue,
-        violet,
-        green,
+        None,
+        Blue,
+        Violet,
+        Green,
     }
 }

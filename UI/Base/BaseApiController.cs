@@ -1,23 +1,22 @@
 ﻿using Service.Context;
-using UI.Builders.Master;
-using UI.ModelState;
 using System.Web.Http;
 using UI.Events;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
+using UI.Builders.Master;
 
 namespace UI.Base
 {
     public abstract class BaseApiController: ApiController
     {
-        #region Variables
+        #region Master builder
 
-        private IAppContext appContext;
-        private IModelState modelStateWrapper;
-        private MasterBuilder masterBuilder;
-        private IServiceEvents serviceEvents;
+        /// <summary>
+        /// Master Builder 
+        /// </summary>
+        public MasterBuilder MasterBuilder { get; }
 
         #endregion
 
@@ -26,34 +25,22 @@ namespace UI.Base
         /// <summary>
         /// AppContext 
         /// </summary>
-        public IAppContext AppContext
-        {
-            get
-            {
-                return this.appContext;
-            }
-        }
+        public IAppContext AppContext { get; }
 
         /// <summary>
         /// ServiceEvents 
         /// </summary>
-        public IServiceEvents ServiceEvents
-        {
-            get
-            {
-                return this.serviceEvents;
-            }
-        }
+        public IServiceEvents ServiceEvents { get; }
 
         #endregion
 
         #region Constructors
 
-        public BaseApiController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder)
+        protected BaseApiController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder)
         {
-            this.appContext = appContext;
-            this.masterBuilder = masterBuilder;
-            this.serviceEvents = serviceEvents;
+            AppContext = appContext;
+            ServiceEvents = serviceEvents;
+            MasterBuilder = masterBuilder;
         }
 
         #endregion
@@ -64,7 +51,7 @@ namespace UI.Base
         {
             if (disposing)
             {
-                appContext.Dispose();
+                AppContext.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -76,7 +63,7 @@ namespace UI.Base
         public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
         {
             // register service events
-            this.ServiceEvents.RegisterEvents();
+            ServiceEvents.RegisterEvents();
 
             return base.ExecuteAsync(controllerContext, cancellationToken);
         }

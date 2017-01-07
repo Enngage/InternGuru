@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UI.Builders.Auth.Models;
+﻿using UI.Builders.Auth.Models;
 using UI.Builders.Master.Views;
 
 namespace UI.Builders.Auth.Views

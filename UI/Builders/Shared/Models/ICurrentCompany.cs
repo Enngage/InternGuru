@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace UI.Builders.Shared
+namespace UI.Builders.Shared.Models
 {
     /// <summary>
     /// Represent company of current user
@@ -36,6 +36,6 @@ namespace UI.Builders.Shared
         /// <summary>
         /// GUID of company
         /// </summary>
-        Guid CompanyGUID { get; }
+        Guid CompanyGuid { get; }
     }
 }

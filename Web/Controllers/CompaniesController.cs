@@ -10,11 +10,11 @@ namespace Web.Controllers
 {
     public class CompaniesController : BaseController
     {
-        CompanyBuilder companyBuilder;
+        readonly CompanyBuilder _companyBuilder;
 
         public CompaniesController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, CompanyBuilder companyBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
-            this.companyBuilder = companyBuilder;
+            _companyBuilder = companyBuilder;
         }
 
         #region Actions
@@ -22,7 +22,7 @@ namespace Web.Controllers
 
         public async Task<ActionResult> Index(int? page)
         {
-            var model = await companyBuilder.BuildBrowseViewAsync(page);
+            var model = await _companyBuilder.BuildBrowseViewAsync(page);
 
             return View(model);
         }

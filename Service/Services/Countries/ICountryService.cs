@@ -1,6 +1,6 @@
 ﻿using Entity;
 
-namespace Service.Services
+namespace Service.Services.Countries
 {
     public interface ICountryService : IService<Country>
     {

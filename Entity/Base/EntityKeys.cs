@@ -1,7 +1,8 @@
 ﻿
 using System;
+using Entity.Enums;
 
-namespace Entity
+namespace Entity.Base
 {
     public static class EntityKeys
     {
@@ -35,7 +36,7 @@ namespace Entity
         /// <returns>Cache key for deleting an object of current class</returns>
         public static string KeyDelete<T>(string objectID) where T : class
         {
-            return ConstructKey(typeof(T), ActionType.Delete, objectID.ToString());
+            return ConstructKey(typeof(T), ActionType.Delete, objectID);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Entity
         /// <returns>Cache key for updating an object</returns>
         public static string KeyUpdate<T>(string objectID) where T : class
         {
-            return ConstructKey(typeof(T), ActionType.Update, objectID.ToString());
+            return ConstructKey(typeof(T), ActionType.Update, objectID);
         }
 
         /// <summary>
@@ -107,7 +108,7 @@ namespace Entity
         /// <returns></returns>
         private static string ConstructKey(Type type, ActionType actionType)
         {
-            return string.Format("{0}.{1}", type.FullName, actionType.Value);
+            return $"{type.FullName}.{actionType.Value}";
         }
 
         /// <summary>
@@ -119,7 +120,7 @@ namespace Entity
         /// <returns></returns>
         private static string ConstructKey(Type type, ActionType actionType, string objectID)
         {
-            return string.Format("{0}.{1}[{2}]", type.FullName, actionType.Value, objectID);
+            return $"{type.FullName}.{actionType.Value}[{objectID}]";
         }
 
         #endregion

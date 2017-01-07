@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace UI.ModelState
@@ -9,7 +8,7 @@ namespace UI.ModelState
 
         #region Variables
 
-        private ModelStateDictionary modelState;
+        private readonly ModelStateDictionary _modelState;
 
         #endregion
 
@@ -17,7 +16,7 @@ namespace UI.ModelState
 
         public ModelStateWrapper(ModelStateDictionary modelState)
         {
-            this.modelState = modelState;
+            _modelState = modelState;
         }
 
         #endregion
@@ -26,24 +25,24 @@ namespace UI.ModelState
 
         public void AddError(string key, string errorMessage)
         {
-            this.modelState.AddModelError(key, errorMessage);
+            _modelState.AddModelError(key, errorMessage);
         }
 
         public void AddError(string errorMessage)
         {
-            this.modelState.AddModelError(string.Empty, errorMessage);
+            _modelState.AddModelError(string.Empty, errorMessage);
         }
 
         public bool IsValid
         {
-            get { return this.modelState.IsValid; }
+            get { return _modelState.IsValid; }
         }
 
-        public void AddErrors(IEnumerable<String> errorMessages)
+        public void AddErrors(IEnumerable<string> errorMessages)
         {
             foreach (var error in errorMessages)
             {
-                this.modelState.AddModelError("", error);
+                _modelState.AddModelError("", error);
             }
         }
 

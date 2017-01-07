@@ -219,13 +219,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Images\icons\caution.png" />
-    <Content Include="Content\Images\icons\defaultAvatar.png" />
-    <Content Include="Content\Images\icons\defaultCompanyBanner.png" />
-    <Content Include="Content\Images\icons\defaultCompanyLogo.png" />
+    <Content Include="Content\Images\Base\caution.png" />
+    <Content Include="Content\Images\Default\defaultAvatar.png" />
+    <Content Include="Content\Images\Default\defaultCompanyBanner.png" />
+    <Content Include="Content\Images\Default\defaultCompanyLogo.png" />
     <Content Include="Content\Images\teaser.jpg" />
     <Content Include="Content\Images\teaser_cropped.jpg" />
-    <Content Include="Content\Images\transparent.png" />
+    <Content Include="Content\Images\Base\transparent.png" />
     <Content Include="EmailTemplates\Notification_NewMessageToRecipient.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -2398,8 +2398,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_MasterLayout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -2493,9 +2491,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Avatars\" />
-    <Folder Include="Content\Company\Banners\" />
-    <Folder Include="Content\Company\Gallery\" />
-    <Folder Include="Content\Company\Logos\" />
+    <Folder Include="Content\Company\" />
+    <Folder Include="Content\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -3,13 +3,12 @@ using System.Runtime.Serialization;
 
 namespace UI.Exceptions
 {
-    public class UIException : Exception
+    public class UiException : Exception
     {
         /// <summary>
         /// Just create the exception
         /// </summary>
-        public UIException()
-            : base()
+        public UiException()
         {
         }
 
@@ -17,7 +16,7 @@ namespace UI.Exceptions
         /// Create the exception using given type
         /// </summary>
         /// <param name="exceptionType">Exception type</param>
-        public UIException(string message)
+        public UiException(string message)
             : base(message)
         {
         }
@@ -27,7 +26,7 @@ namespace UI.Exceptions
         /// </summary>
         /// <param name="exceptionType">Exception type</param>
         /// <param name="innerException">Inner exception</param>
-        public UIException(string message, Exception innerException)
+        public UiException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
@@ -37,8 +36,8 @@ namespace UI.Exceptions
         /// Create the exception using given type
         /// </summary>
         /// <param name="exceptionType">Exception type</param>
-        public UIException(UIExceptionEnum exceptionType)
-            : base(UIExceptionHelper.GetExceptionMessage(exceptionType))
+        public UiException(UiExceptionEnum exceptionType)
+            : base(UiExceptionHelper.GetExceptionMessage(exceptionType))
         {
         }
 
@@ -47,8 +46,8 @@ namespace UI.Exceptions
         /// </summary>
         /// <param name="exceptionType">Exception type</param>
         /// <param name="innerException">Exception inner cause</param>
-        public UIException(UIExceptionEnum exceptionType, Exception innerException)
-            : base(UIExceptionHelper.GetExceptionMessage(exceptionType), innerException)
+        public UiException(UiExceptionEnum exceptionType, Exception innerException)
+            : base(UiExceptionHelper.GetExceptionMessage(exceptionType), innerException)
         {
         }
 
@@ -59,7 +58,7 @@ namespace UI.Exceptions
         /// </summary>
         /// <param name="info">Serialization info</param>
         /// <param name="context">Serialization context</param>
-        protected UIException(SerializationInfo info, StreamingContext context)
+        protected UiException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

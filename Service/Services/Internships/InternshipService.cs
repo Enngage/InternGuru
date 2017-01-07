@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Service.Context;
-using Entity;
 using Cache;
+using Entity;
+using Service.Context;
 using Service.Exceptions;
-using System.Collections.Generic;
+using Service.Services.Logs;
 
-namespace Service.Services
+namespace Service.Services.Internships
 {
     public class InternshipService : BaseService<Internship>, IInternshipService
     {
@@ -18,21 +18,21 @@ namespace Service.Services
 
         public Task<int> DeleteAsync(int id)
         {
-            var internship = this.AppContext.Internships.Find(id);
+            var internship = AppContext.Internships.Find(id);
 
             if (internship != null)
             {
                 // delete internship
-                this.AppContext.Internships.Remove(internship);
+                AppContext.Internships.Remove(internship);
 
                 // touch cache keys
-                this.TouchDeleteKeys(internship);
+                TouchDeleteKeys(internship);
 
                 // fire event
-                this.OnDelete(internship);
+                OnDelete(internship);
 
                 // save changes
-                return this.AppContext.SaveChangesAsync();
+                return AppContext.SaveChangesAsync();
             }
 
             return Task.FromResult(0);
@@ -40,17 +40,17 @@ namespace Service.Services
 
         public Task<Internship> GetAsync(int id)
         {
-            return this.AppContext.Internships.FirstOrDefaultAsync(m => m.ID == id);
+            return AppContext.Internships.FirstOrDefaultAsync(m => m.ID == id);
         }
 
         public IQueryable<Internship> GetAll()
         {
-            return this.AppContext.Internships;
+            return AppContext.Internships;
         }
 
         public IQueryable<Internship> GetSingle(int id)
         {
-            return this.AppContext.Internships.Where(m => m.ID == id).Take(1);
+            return AppContext.Internships.Where(m => m.ID == id).Take(1);
         }
 
         public Task<int> InsertAsync(Internship obj)
@@ -61,28 +61,28 @@ namespace Service.Services
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            this.AppContext.Internships.Add(obj);
+            AppContext.Internships.Add(obj);
 
             // touch cache keys
-            this.TouchInsertKeys(obj);
+            TouchInsertKeys(obj);
 
             // fire event
-            this.OnInsert(obj);
+            OnInsert(obj);
 
-            return this.SaveChangesAsync();
+            return SaveChangesAsync();
         }
 
         public Task<int> UpdateAsync(Internship obj)
         {
-            var internship = this.AppContext.Internships.Find(obj.ID);
+            var internship = AppContext.Internships.Find(obj.ID);
 
             if (internship == null)
             {
-                throw new NotFoundException(string.Format("Internship with ID: {0} not found", obj.ID));
+                throw new NotFoundException($"Internship with ID: {obj.ID} not found");
             }
 
             // fire event
-            this.OnUpdate(obj, internship);
+            OnUpdate(obj, internship);
 
             obj.Updated = DateTime.Now;
             obj.Created = internship.Created;
@@ -91,18 +91,18 @@ namespace Service.Services
             obj.CodeName = obj.GetCodeName();
 
             // update log
-            this.AppContext.Entry(internship).CurrentValues.SetValues(obj);
+            AppContext.Entry(internship).CurrentValues.SetValues(obj);
 
             // touch cache keys
-            this.TouchUpdateKeys(internship);
+            TouchUpdateKeys(internship);
 
             // save changes
-            return this.AppContext.SaveChangesAsync();
+            return AppContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Internship>> GetAllCachedAsync()
         {
-            return await this.CacheService.GetOrSetAsync(async () => await this.GetAll().ToListAsync(), this.GetCacheAllCacheSetup());
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
     }
 }

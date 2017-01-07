@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace UI.Builders.Shared
+namespace UI.Builders.Shared.Models
 {
     public class CurrentCompany : ICurrentCompany
     {
@@ -40,6 +40,6 @@ namespace UI.Builders.Shared
         /// <summary>
         /// Company GUID
         /// </summary>
-        public Guid CompanyGUID { get; set; }
+        public Guid CompanyGuid { get; set; }
     }
 }

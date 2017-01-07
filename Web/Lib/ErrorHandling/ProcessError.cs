@@ -1,9 +1,8 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 using Ninject;
 using Core.Loc;
-using Service.Services;
+using Service.Services.Logs;
 using UI.Builders.Master.Views;
 using UI.Builders.Master;
 
@@ -25,9 +24,8 @@ namespace Web.Lib.ErrorHandling
             filterContext.ExceptionHandled = true;
 
             // --- log exception ---- //
-            Exception ex = filterContext.Exception;
-            logService.LogException(ex, filterContext.RequestContext.HttpContext.Request.RawUrl, filterContext?.Controller?.ControllerContext?.RequestContext?.HttpContext?.User?.Identity?.Name ?? null);
-            string innerException = ex.InnerException != null ? ex.InnerException.ToString() : null;
+            var ex = filterContext.Exception;
+            logService.LogException(ex, filterContext.RequestContext.HttpContext.Request.RawUrl, filterContext.Controller?.ControllerContext?.RequestContext?.HttpContext?.User?.Identity?.Name);
 
             // create error view
             var errorView = new ErrorView(ex);
