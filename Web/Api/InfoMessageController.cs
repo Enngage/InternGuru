@@ -13,9 +13,9 @@ namespace Web.Api
     {
         readonly InfoMessageBuilder _infoMessageBuilder;
 
-        public InfoMessageController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, InfoMessageBuilder _infoMessageBuilder) : base (appContext, serviceEvents, masterBuilder)
+        public InfoMessageController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, InfoMessageBuilder infoMessageBuilder) : base (appContext, serviceEvents, masterBuilder)
         {
-            this._infoMessageBuilder = _infoMessageBuilder;
+            this._infoMessageBuilder = infoMessageBuilder;
         }
 
         #region Actions
@@ -25,7 +25,7 @@ namespace Web.Api
         {
             try
             {
-                _infoMessageBuilder.ProcessClosableMessage(query.MessageID);
+                _infoMessageBuilder.ProcessClosableMessage(query.MessageID, query.ClosedUntil, query.RememberClosed);
 
                 return Ok(true);
             }

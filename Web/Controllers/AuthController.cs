@@ -270,6 +270,9 @@ namespace Web.Controllers
                 // set form status
                 model.ProfileForm.FormResult.IsSuccess = true;
 
+                // set flag indicating whether user's e-mail is still visible to others or not
+                model.AuthMaster.EmailVisibleForPeople = string.IsNullOrEmpty(form.FirstName);
+
                 return View(model);
             }
             catch (UiException ex)

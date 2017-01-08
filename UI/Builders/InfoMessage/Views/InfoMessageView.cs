@@ -37,6 +37,11 @@ namespace UI.Builders.InfoMessage.Views
         public DateTime RememberClosedUntil { get; set; }
 
         /// <summary>
+        /// Indicates if hidden message will be remembered until the configured expiration
+        /// </summary>
+        public bool RememberClosed => RememberClosedUntil == DateTime.MinValue || DateTime.Now <= RememberClosedUntil;
+
+        /// <summary>
         /// Cookie name used to identify closed messages
         /// </summary>
         public string CookieName => InfoMessageBuilder.GetClosedMessageCookieName(MessageID);

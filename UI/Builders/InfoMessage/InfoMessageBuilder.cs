@@ -25,10 +25,12 @@ namespace UI.Builders.InfoMessage
         /// <summary>
         /// Sets cookie for given message so that it is not displayed until the cookie expires
         /// </summary>
-        /// <param name="messageID">messageID</param>
-        public void ProcessClosableMessage(string messageID)
+        public void ProcessClosableMessage(string messageID, DateTime closedUntil, bool rememberClosed)
         {
-            this.Services.CookieService.SetCookie(GetClosedMessageCookieName(messageID), "1", DateTime.Now.AddDays(1));
+            if (rememberClosed)
+            {
+                this.Services.CookieService.SetCookie(GetClosedMessageCookieName(messageID), "1", closedUntil);
+            }
         }
 
         #endregion

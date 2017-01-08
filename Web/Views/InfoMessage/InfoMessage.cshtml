@@ -23,6 +23,7 @@
         }
     }
 
+    // show message only if the cookie is not set at all, if cookie exists (with any value) it means that user closed message
     var showMessage = Request.Cookies[Model.CookieName] == null;
 }
 
@@ -30,10 +31,10 @@
 {
     @Html.RequireScript("/scripts/views/infoMessage/base")
 
-    <div id="@Model.MessageID" class="ui message _InfoMessageClosable @messageClass">
+    <div id="@Model.MessageID" class="ui message _InfoMessageClosable @messageClass" data-messageid="@Model.MessageID" data-closeduntil="@Model.RememberClosedUntil" data-rememberclosed="@Model.RememberClosed">
         @if (Model.IsClosable)
         {
-            <i class="close icon" data-messageid="@Model.MessageID"></i>
+            <i class="close icon"></i>
         }
         @if (string.IsNullOrEmpty(Model.Title))
         {

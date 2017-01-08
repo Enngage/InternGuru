@@ -5,10 +5,10 @@
 
     var Promise = ExtendedPromise.Promise;
 
-    InfoMessageModule.prototype.processClosableMessage = function (messageID) {
+    InfoMessageModule.prototype.processClosableMessage = function (messageID, closedUntil, rememberclosed) {
         return new Promise(function (resolve, reject) {
-            var postUrl = "/api/infoMessage/processClosableMessage";
-            var data = "{ 'MessageID':'" + messageID + "'}";
+            var postUrl = "/api/infoMessage/ProcessClosableMessage";
+            var data = "{ 'MessageID':'" + messageID + "', 'ClosedUntil':'" + closedUntil + "', 'RememberClosed':'" + rememberclosed + "'}";
 
             $.ajax({
                 url: postUrl,

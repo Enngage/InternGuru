@@ -126,15 +126,20 @@
     </div>
     <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
         
-        @if (Model.Master.CurrentUser.EmailVisibleToOthers)
+        @*Display warning message indicating that other users can see user's e-mail address*@
+        @{
+            // EmailVisibleToOthers from AuthMaster has priority to fix editing user
+            var emailVisible = Model.AuthMaster.EmailVisibleForPeople == null ? Model.Master.CurrentUser.EmailVisibleToOthers : Model.AuthMaster.EmailVisibleForPeople ?? false;
+        }
+        @if (emailVisible)
         {
-            //@Html.RenderWarningMessage("Ostatní uživatelé vidí Váš e-mail. Pro jeho skrytí vyplňte <strong>Jméno / Přezdívku</strong>");
             var infoMessage = new UI.Builders.InfoMessage.Views.InfoMessageView()
             {
                 MessageID = "emailnotice",
-                Message = "Ostatní uživatelé vidí Váš e-mail. Pro jeho skrytí vyplňte <strong>Jméno / Přezdívku</strong>",
+                Message = "Ostatní uživatelé vidí Váš e-mail. Pro jeho skrytí vyplňte <strong>Jméno / Přezdívku</strong> <a href=\"" + Url.Action("EditProfile") + "\">zde</a>",
                 IsClosable = true,
                 MessageType = InfoMessageTypeEnum.Warning,
+                RememberClosedUntil = DateTime.Now.AddDays(1)
             };
             Html.RenderPartial("~/Views/InfoMessage/InfoMessage.cshtml", infoMessage);
         }
