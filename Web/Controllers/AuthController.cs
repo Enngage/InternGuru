@@ -38,6 +38,20 @@ namespace Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> Theses(int? page)
+        {
+            var model = await _authBuilder.BuildThesesVieAsync(page);
+
+            return View(model);
+        }
+
+        public async Task<ActionResult> Internships(int? page)
+        {
+            var model = await _authBuilder.BuildInternshipsViewAsync(page);
+
+            return View(model);
+        }
+
         public async Task<ActionResult> RegisterCompany()
         {
             var model = await _authBuilder.BuildRegisterCompanyViewAsync();

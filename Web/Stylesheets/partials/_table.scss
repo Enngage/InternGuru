@@ -21,6 +21,11 @@
             
         }
 
+        thead > tr:hover{
+            cursor: default;
+            background-color: white;
+        }
+
         td a{
             font-size: $font-size-base;
         }

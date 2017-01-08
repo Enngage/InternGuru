@@ -11,17 +11,22 @@
     @Html.AntiForgeryToken()
 
     <div class="ui grid">
-        <div class="sixteen wide mobile sixteen wide tablet six wide computer column">
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
             <h1>
                 @ViewBag.Title
             </h1>
-
+            
             <div class="ui form">
 
                 @Html.RenderFormValidationResult(Model.ProfileForm.FormResult.IsSuccess)
-
+                
+                <div class="disabled field">
+                    <label>E-mail</label>
+                    <input placeholder="Read Only" disabled="" tabindex="-1" type="text" value="@Model.Master.CurrentUser.Email">
+                </div>
+                
                 <div class="field">
-                    <label>Jméno</label>
+                    <label>Jméno / Přezdívka</label>
                     <input name="FirstName" placeholder="" type="text" value="@Model.ProfileForm.FirstName">
                 </div>
 
@@ -30,7 +35,7 @@
                     <input name="LastName" placeholder="" type="text" value="@Model.ProfileForm.LastName">
                 </div>
 
-                <button class="ui button submit primary" type="submit">
+                <button class="ui button primary" type="submit">
                     Uložit
                 </button>
             </div>

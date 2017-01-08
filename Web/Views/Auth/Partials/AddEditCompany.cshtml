@@ -27,7 +27,7 @@
 
         </div>
 
-        <div class="sixteen wide mobile eight wide tablet eight wide computer column">
+        <div class="sixteen wide mobile eight wide tablet sixteen wide computer column">
 
 
             <h4 class="ui dividing header">
@@ -109,28 +109,8 @@
                 </select>
             </div>
 
-            <div class="field required">
-                <label>
-                    Logo <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyLogoWidth)x@(Core.Config.FileConfig.CompanyLogoHeight) px)</span>
-                </label>
-
-                <img class="ui image small" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
-
-                <input class="w-margin-top-10" type="file" name="Logo">
-            </div>
-
-            <div class="field required">
-                <label>
-                    Banner <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight) px)</span>
-                </label>
-
-                <img class="ui image" data-src="@ImageHelper.GetCompanyBanner(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Banner" />
-
-                <input class="w-margin-top-10" type="file" name="Banner">
-            </div>
-
         </div>
-        <div class="sixteen wide mobile eight wide tablet eight wide computer column">
+        <div class="sixteen wide mobile eight wide tablet sixteen wide computer column">
 
             <h4 class="ui dividing header">
                 Lokace
@@ -181,7 +161,7 @@
             </div>
 
             <h4 class="ui dividing header">
-                Social
+                Sociální sítě a web
             </h4>
 
             <div class="field required">
@@ -202,6 +182,31 @@
             <div class="field">
                 <label>LinkedIn</label>
                 <input name="LinkedIn" placeholder="např. http://linkedin.com/company/myCompany" type="text" value="@(Model.LinkedIn)">
+            </div>
+            
+
+            <h4 class="ui dividing header">
+                Logo & Banner
+            </h4>
+
+            <div class="field required">
+                <label>
+                    Logo <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyLogoWidth)x@(Core.Config.FileConfig.CompanyLogoHeight) px)</span>
+                </label>
+
+                <img class="ui image small" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
+
+                <input class="w-margin-top-10" type="file" name="Logo">
+            </div>
+
+            <div class="field required">
+                <label>
+                    Banner <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight) px)</span>
+                </label>
+
+                <img class="ui image" data-src="@ImageHelper.GetCompanyBanner(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Banner" />
+
+                <input class="w-margin-top-10" type="file" name="Banner">
             </div>
 
             <button class="ui button submit primary" type="submit">

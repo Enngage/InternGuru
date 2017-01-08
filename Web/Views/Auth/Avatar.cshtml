@@ -11,10 +11,6 @@
 {
     @Html.AntiForgeryToken()
 
-    <h1>
-        Nahrajte avatar
-    </h1>
-
     @Html.RenderInfoMessage($"Avatar bude automaticky zmenšen na {Core.Config.FileConfig.AvatarSideSize}x{Core.Config.FileConfig.AvatarSideSize} px")
 
     <div class="ui grid">

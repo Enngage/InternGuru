@@ -1,0 +1,51 @@
+﻿@model UI.Builders.InfoMessage.Views.InfoMessageView
+@using UI.Builders.InfoMessage.Enums
+@using UI.Extensions;
+@{
+    var messageClass = string.Empty;
+    switch (Model.MessageType)
+    {
+        case InfoMessageTypeEnum.Error:
+        {
+            messageClass = "negative";
+            break;
+        }
+        case InfoMessageTypeEnum.Warning:
+        {
+            messageClass = "warning";
+            break;
+        }
+        case InfoMessageTypeEnum.Info:
+        default:
+        {
+            messageClass = "info";
+            break;
+        }
+    }
+
+    var showMessage = Request.Cookies[Model.CookieName] == null;
+}
+
+@if (showMessage)
+{
+    @Html.RequireScript("/scripts/views/infoMessage/base")
+
+    <div id="@Model.MessageID" class="ui message _InfoMessageClosable @messageClass">
+        @if (Model.IsClosable)
+        {
+            <i class="close icon" data-messageid="@Model.MessageID"></i>
+        }
+        @if (string.IsNullOrEmpty(Model.Title))
+        {
+            <div class="header">
+                @Model.Title
+            </div>
+        }
+        <p>@Html.Raw(Model.Message)</p>
+    </div>
+}
+
+
+
+
+

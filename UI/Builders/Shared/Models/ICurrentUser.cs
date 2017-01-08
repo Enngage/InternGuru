@@ -37,7 +37,17 @@ namespace UI.Builders.Shared.Models
         /// Last name of user if available
         /// </summary>
         string LastName { get; }
-        
+
+        /// <summary>
+        /// E-mail of user
+        /// </summary>
+        string Email { get; }
+
+        /// <summary>
+        /// Indicates if e-mail of user is visible to other people
+        /// </summary>
+        bool EmailVisibleToOthers { get; }
+
         /// <summary>
         /// Privilege level
         /// </summary>

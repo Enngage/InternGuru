@@ -21,13 +21,7 @@ namespace UI.Builders.Search
         /// <summary>
         /// Array of characters used for splitting text
         /// </summary>
-        private string[] KeyWordSplitCharacters
-        {
-            get
-            {
-                return new string[] { " ", "/", "-", "\\", "_", "[", "]", ".", "?", "!" };
-            }
-        }
+        private static string[] KeyWordSplitCharacters => new [] { " ", "/", "-", "\\", "_", "[", "]", ".", "?", "!" };
 
         #endregion
 
@@ -46,8 +40,7 @@ namespace UI.Builders.Search
         /// <returns>Cities with the number of available internships</returns>
         public async Task<IEnumerable<SearchCityModel>> GetSearchCitiesAsync(string searchForCities)
         {
-            var cacheMinutes = 60;
-            var cacheSetup = Services.CacheService.GetSetup<SearchCityModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<SearchCityModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
@@ -81,8 +74,7 @@ namespace UI.Builders.Search
         /// <returns>Distinct internship title keywords</returns>
         public async Task<IEnumerable<SearchInternshipTitleModel>> GetInternshipTitleKeywords(string search)
         {
-            var cacheMinutes = 60;
-            var cacheSetup = Services.CacheService.GetSetup<SearchInternshipTitleModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<SearchInternshipTitleModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
@@ -141,8 +133,7 @@ namespace UI.Builders.Search
         /// <returns>Distinct internship title keywords</returns>
         public async Task<IEnumerable<SearchThesisKeywordModel>> GetThesisNameKeywords(string search)
         {
-            var cacheMinutes = 60;
-            var cacheSetup = Services.CacheService.GetSetup<SearchThesisKeywordModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<SearchThesisKeywordModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Thesis>(),

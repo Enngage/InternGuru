@@ -115,7 +115,13 @@ namespace UI.Builders.Form
                     IsRead = false,
                 };
 
-                return await Services.MessageService.InsertAsync(message);
+                var messageID =  await Services.MessageService.InsertAsync(message);
+
+                // log activity if we got this far
+                var activityCurrentUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
+                await this.Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitThesis, thesis.CompanyID, activityCurrentUserId, thesis.ID);
+
+                return messageID;
             }
             catch (ValidationException ex)
             {
@@ -209,8 +215,7 @@ namespace UI.Builders.Form
         /// <returns>Internship model</returns>
         private async Task<FormThesisModel> GetThesisModelAsync(int thesisID)
         {
-            var cacheMinutes = 30;
-            var cacheSetup = Services.CacheService.GetSetup<FormThesisModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<FormThesisModel>(GetSource());
             cacheSetup.ObjectID = thesisID;
             cacheSetup.Dependencies = new List<string>()
             {
@@ -262,8 +267,7 @@ namespace UI.Builders.Form
         /// <returns>Internship model</returns>
         private async Task<FormInternshipModel> GetInternshipModelAsync(int internshipID)
         {
-            var cacheMinutes = 30;
-            var cacheSetup = Services.CacheService.GetSetup<FormInternshipModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<FormInternshipModel>(GetSource());
             cacheSetup.ObjectID = internshipID;
             cacheSetup.Dependencies = new List<string>()
             {

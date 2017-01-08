@@ -1,0 +1,82 @@
+﻿@using UI.Helpers;
+@using UI.Extensions;
+@using Core.Helpers;
+@using PagedList.Mvc
+@model UI.Builders.Auth.Views.AuthIndexView
+
+@{
+    ViewBag.Title = "Moje stáže";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
+
+}
+
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+        <div class="ui segment">
+
+            @if (Model.Master.CurrentCompany.IsAvailable)
+            {
+                if (!Model.AuthMaster.Internships.Any())
+                {
+                    @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné nabídky stáže")
+                }
+                else
+                {
+                    <table class="ui very basic table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Akce
+                                </th>
+                                <th>
+                                    Název stáže
+                                </th>
+                                <th>
+                                    Vytvořeno
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var internship in Model.AuthMaster.Internships)
+                    {
+                                <tr>
+                                    <td class="collapsing w-body-text-center w-mobile-left">
+                                        <a href="@Url.Action("EditInternship", new { id = internship.ID })">
+                                            <i title="Upravit" class="edit icon black"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })">
+                                            @internship.Title
+                                        </a>
+                                    </td>
+                                    <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
+                                        <i title="Vytvořeno" class="calendar icon"></i>
+                                        @DateHelper.FormatDate(internship.Created)
+                                    </td>
+                                    <td class="collapsing w-body-text-right w-mobile-left">
+                                        @if (internship.IsActive)
+                                        {
+                                            <i title="Aktivní" class="checkmark green icon"></i>
+                                        }
+                                        else
+                                        {
+                                            <i title="Neaktivní" class="remove red icon"></i>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            }
+            else
+            {
+                @Html.RenderInfoMessage("Pro přidání inzerátu musíte vytvořit firmu")
+            }
+        </div>
+    </div>
+</div>

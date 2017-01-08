@@ -190,6 +190,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\InfoMessageController.cs" />
     <Compile Include="Api\CompanyGalleryController.cs" />
     <Compile Include="Api\SearchController.cs" />
     <Compile Include="Api\CompanyController.cs" />
@@ -2218,6 +2219,7 @@
     <Content Include="Scripts\addons\unitegallery-master\source\unitegallery\themes\video\ug-theme-video.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modules\companyGalleryModule.js" />
+    <Content Include="Scripts\modules\infoMessageModule.js" />
     <Content Include="Scripts\modules\searchModule.js" />
     <Content Include="Scripts\modules\tableModule.js" />
     <Content Include="Scripts\modules\internshipModule.js" />
@@ -2233,6 +2235,7 @@
     <Content Include="Scripts\views\company\browse.js" />
     <Content Include="Scripts\modules\coreModule.js" />
     <Content Include="Scripts\views\gallery\base.js" />
+    <Content Include="Scripts\views\infoMessage\base.js" />
     <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\internship\detail.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
@@ -2487,6 +2490,9 @@
     <Content Include="Scripts\addons\unitegallery-master\LICENSE" />
     <Content Include="Scripts\addons\unitegallery-master\README.md" />
     <Content Include="Views\Gallery\Base.cshtml" />
+    <Content Include="Views\Auth\Internships.cshtml" />
+    <Content Include="Views\Auth\Theses.cshtml" />
+    <Content Include="Views\InfoMessage\InfoMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

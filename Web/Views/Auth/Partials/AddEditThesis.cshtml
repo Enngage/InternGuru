@@ -2,7 +2,7 @@
 @model UI.Builders.Auth.Forms.AuthAddEditThesisForm
 
 @{
-    ViewBag.Title = Model.ID == 0 ? "Vložit závěrečnou práci" : "Upravit | " + Model.ThesisName;
+    ViewBag.Title = Model.ID == 0 ? "Nová závěrečná práce" : "Upravit | " + Model.ThesisName;
 
     var formAction = Model.IsExistingThesis ? "EditThesis" : "NewThesis";
     var submitButtonText = Model.IsExistingThesis ? "Uložit" : "Přidat";
@@ -24,7 +24,7 @@
     <input type="hidden" name="ID" value="@Model.ID" />
 
     <div class="ui grid">
-        <div class="sixteen wide mobile sixteen wide tablet ten wide computer column">
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
 
             @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
 

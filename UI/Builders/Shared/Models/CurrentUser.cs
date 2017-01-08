@@ -32,7 +32,18 @@ namespace UI.Builders.Shared.Models
         /// Last name of user if available
         /// </summary>
         public string LastName { get; set; }
-        
+
+        /// <summary>
+        /// E-mail of user
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Indicates if user is visible to other people
+        /// </summary>
+        public bool EmailVisibleToOthers => string.IsNullOrEmpty(FirstName);
+           
+
         /// <summary>
         /// Privilege level of current user
         /// </summary>

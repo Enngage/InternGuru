@@ -183,7 +183,7 @@ namespace UI.Base
                         {
                             // ----- Process current user ------- //
                             var cacheKey = "BuilderAbstract.GetCurrentUser";
-                            var cacheMinutes = 60;
+                            var cacheMinutes = 120;
                             var cacheSetup = Services.CacheService.GetSetup<ICurrentUser>(cacheKey, cacheMinutes);
                             cacheSetup.Dependencies = new List<string>()
                             {
@@ -235,7 +235,8 @@ namespace UI.Base
                     AuthenticationType = authenticationType,
                     IsAuthenticated = true,
                     FirstName = m.FirstName,
-                    LastName = m.LastName
+                    LastName = m.LastName,
+                    Email = m.Email
                 })
                 .FirstOrDefault();
             
@@ -286,8 +287,7 @@ namespace UI.Base
         private ICurrentCompany GetCompanyOfUser(string userName, string applicationUserId)
         {
             var cacheKey = "BuilderAbstract.GetCompanyOfUserFromCache." + userName; // key under which company of user will be stored
-            var cacheMinutes = 60;
-            var cacheSetup = Services.CacheService.GetSetup<ICurrentCompany>(cacheKey, cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<ICurrentCompany>(cacheKey);
             cacheSetup.Dependencies = new List<string>()
                             {
                                 EntityKeys.KeyDeleteAny<Company>(),
@@ -313,7 +313,7 @@ namespace UI.Base
         private int GetNumberOfNewMessages(string applicationUserId)
         {
             var cacheKey = "BuilderAbstract.GetStatusBox";
-            var cacheMinutes = 60;
+            var cacheMinutes = 120;
             var cacheSetup = Services.CacheService.GetSetup<IStatusBox>(cacheKey, cacheMinutes);
             cacheSetup.Dependencies = new List<string>()
                             {

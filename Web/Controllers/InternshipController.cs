@@ -34,6 +34,9 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
+            // activity - internship view
+            await _internshipBuilder.LogInternshipViewActivityAsync(model.Internship.ID, model.Internship.Company.CompanyID);
+
             return View(model);
         }
 

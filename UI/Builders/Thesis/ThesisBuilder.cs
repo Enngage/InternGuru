@@ -83,9 +83,7 @@ namespace UI.Builders.Thesis
         /// <returns>Collection of browse models</returns>
         private async Task<IEnumerable<ThesisBrowseModel>> GetAllThesisBrowseModelsAsync()
         {
-            var cacheMinutes = 60;
-     
-            var cacheSetup = Services.CacheService.GetSetup<ThesisBrowseView>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<ThesisBrowseView>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Thesis>(),
@@ -151,9 +149,7 @@ namespace UI.Builders.Thesis
         /// <returns>Thesis categories</returns>
         private async Task<IEnumerable<ThesisCategoryModel>> GetThesisCategoriesAsync()
         {
-            var cacheMinutes = 60;
-
-            var cacheSetup = Services.CacheService.GetSetup<ThesisCategoryModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<ThesisCategoryModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
@@ -197,8 +193,7 @@ namespace UI.Builders.Thesis
                 })
                 .Take(1);
 
-            var cacheMinutes = 120;
-            var cacheSetup = Services.CacheService.GetSetup<int>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<int>(GetSource());
 
             cacheSetup.Dependencies = new List<string>()
             {
@@ -262,8 +257,7 @@ namespace UI.Builders.Thesis
                     ThesisTypeCodeName = m.ThesisType.CodeName
                 });
 
-            var cacheMinutes = 120;
-            var cacheSetup = Services.CacheService.GetSetup<ThesisDetailModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<ThesisDetailModel>(GetSource());
 
             cacheSetup.Dependencies = new List<string>()
             {

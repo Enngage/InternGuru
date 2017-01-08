@@ -5,5 +5,7 @@ namespace UI.Builders.Auth.Views
     public class AuthEditProfileView : AuthMasterView
     {
         public AuthEditProfileForm ProfileForm { get; set; }
+
+        public bool EmailVisibleForPeople => string.IsNullOrEmpty(ProfileForm.FirstName);
     }
 }

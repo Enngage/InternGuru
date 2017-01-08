@@ -12,7 +12,7 @@
 }
 
 <div class="ui grid">
-    <div class="sixteen wide mobile sixteen wide tablet ten wide computer column">
+    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         @using (Html.BeginForm("Conversation", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
@@ -20,11 +20,12 @@
             @Html.Hidden("RecipientApplicationUserId", Model.ConversationUser.UserID)
             @Html.Hidden("CompanyID", Model.LastMessage?.CompanyID ?? 0)
 
-            @Html.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess, "Odesláno")
-
-            <h1>
+            <h1 class="ui header">
+                <img alt="" data-src="@ImageHelper.GetUserAvatar(Model.ConversationUser.UserID)" src="@ImageHelper.GetTransparentImage()" class="ui image">
                 @($"{Model.ConversationUser.DisplayName}")
             </h1>
+
+            @Html.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess, "Odesláno")
 
             <div class="ui reply form">
                 <div class="field">

@@ -224,7 +224,7 @@ namespace Service.Services
         protected ICacheSetup GetCacheAllCacheSetup()
         {
             var cacheMinutes = 120;
-            var cacheKey = $"GetCacheAllCacheSetup";
+            var cacheKey = "GetCacheAllCacheSetup";
 
             var cacheSetup = CacheService.GetSetup<T>(cacheKey, cacheMinutes);
             cacheSetup.Dependencies = new List<string>()

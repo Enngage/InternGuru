@@ -8,8 +8,19 @@
         }
     }
 
+    .w-auth-header-fix h1{
+        margin-top: 0;
+    }
+
+    .w-auth-conversation-div:hover{
+        cursor: pointer;
+        background-color: #f4f4f4;
+    }
+
+    .w-auth-conversation-div:hover a, .w-auth-conversation-div:hover div.meta{
+    }
+
     .w-auth-conversation-text-link{
-        text-decoration: underline;
         color: $color-base;
     }
 

@@ -15,6 +15,7 @@ using Core.Extensions;
 using Core.Helpers;
 using Core.Helpers.Internship;
 using Entity.Base;
+using Service.Services.Activities.Enums;
 
 namespace UI.Builders.Internship
 {
@@ -87,6 +88,27 @@ namespace UI.Builders.Internship
 
         #endregion
 
+        #region Public methods
+
+        /// <summary>
+        /// Logs activity for viewing internship
+        /// </summary>
+        /// <param name="internshipID">internshipID</param>
+        /// <param name="companyID">companyID</param>
+        public async Task<int> LogInternshipViewActivityAsync(int internshipID, int companyID)
+        {
+            if (internshipID == 0)
+            {
+                return 0;
+            }
+
+            var activityUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
+
+            return await this.Services.ActivityService.LogActivity(ActivityTypeEnum.ViewInternshipDetail, companyID, activityUserId, internshipID);
+        }
+
+        #endregion
+
         #region Helper methods
 
         /// <summary>
@@ -95,9 +117,7 @@ namespace UI.Builders.Internship
         /// <returns>Internship categories</returns>
         private async Task<IEnumerable<InternshipCategoryModel>> GetInternshipCategoriesAsync()
         {
-            var cacheMinutes = 60;
-
-            var cacheSetup = Services.CacheService.GetSetup<InternshipCategoryModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<InternshipCategoryModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
@@ -127,9 +147,7 @@ namespace UI.Builders.Internship
         /// <returns>Collection of all internships</returns>
         private async Task<IEnumerable<InternshipBrowseModel>> GetAllInternshipsAsync()
         {
-            var cacheMinutes = 60;
-
-            var cacheSetup = Services.CacheService.GetSetup<InternshipBrowseModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<InternshipBrowseModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Internship>(),
@@ -209,7 +227,7 @@ namespace UI.Builders.Internship
                 })
                 .Take(1);
 
-            var cacheMinutes = 120;
+            const int cacheMinutes = 120;
             var cacheSetup = Services.CacheService.GetSetup<int>(GetSource(), cacheMinutes);
 
             cacheSetup.Dependencies = new List<string>()

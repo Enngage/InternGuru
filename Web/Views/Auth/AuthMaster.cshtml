@@ -1,4 +1,6 @@
-﻿@using UI.Helpers;
+﻿@using UI.Builders.Auth.Enum
+@using UI.Builders.InfoMessage.Enums
+@using UI.Helpers;
 @using UI.Extensions;
 @model UI.Builders.Auth.Views.AuthMasterView
 
@@ -6,184 +8,297 @@
     ViewBag.Title = "";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 
+    // main menu is always enabled
+    Model.Tabs.MainMenu.Display = true;
+
     // configure admin tab
     if (Model.Master.CurrentUser.Privilege == Core.Helpers.Privilege.PrivilegeLevel.Admin)
     {
         Model.Tabs.Admin.Display = true;
     }
 
-    // configure company tab
-    if (Model.Master.CurrentCompany.IsAvailable)
-    {
-        Model.Tabs.Company.Display = true;
-    }
+    // get active menu item
+    var activeMenuItem = Core.Helpers.EnumHelper.ParseEnum<UI.Builders.Auth.Enum.AuthMenuActionEnum>(ViewContext?.RouteData?.Values["action"]?.ToString(), AuthMenuActionEnum.None);
+    var messagesClass = activeMenuItem == AuthMenuActionEnum.Index || activeMenuItem == AuthMenuActionEnum.Conversation ? "active" : string.Empty;
+    var internshipsClass = activeMenuItem == AuthMenuActionEnum.Internships || activeMenuItem == AuthMenuActionEnum.EditInternship ? "active" : string.Empty;
+    var thesesClass = activeMenuItem == AuthMenuActionEnum.Theses || activeMenuItem == AuthMenuActionEnum.EditThesis ? "active" : string.Empty;
+    var newInternshipClass = activeMenuItem == AuthMenuActionEnum.NewInternship ? "active" : string.Empty;
+    var newThesisClass = activeMenuItem == AuthMenuActionEnum.NewThesis ? "active" : string.Empty;
+    var editCompanyClass = activeMenuItem == AuthMenuActionEnum.EditCompany ? "active" : string.Empty;
+    var registerCompanyClass = activeMenuItem == AuthMenuActionEnum.RegisterCompany ? "active" : string.Empty;
+    var companyGalleryClass = activeMenuItem == AuthMenuActionEnum.CompanyGallery ? "active" : string.Empty;
+    var editProfileClass = activeMenuItem == AuthMenuActionEnum.EditProfile ? "active" : string.Empty;
+    var avatarClass = activeMenuItem == AuthMenuActionEnum.Avatar ? "active" : string.Empty;
 }
 
 @Html.RequireScript("/scripts/views/auth/authIndex")
 
-<div class="ui grid">
+<div class="ui grid w-auth-header-fix">
     <div class="six wide tablet only four wide computer only column">
+        
         @foreach (var enabledTab in Model.Tabs.GetOrderedActiveTabs())
         {
-            if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Profile)
+            switch (enabledTab.Tab)
             {
-                <div class="ui segment padded w-body-text-center">
-                    <h3>
-                        @if (string.IsNullOrEmpty(Model.Master.CurrentUser.FirstName))
-                        {
-                            <span>Profil</span>
-                        }
-                        else
-                        {
-                            <span>@Model.Master.CurrentUser.FirstName</span>
-                        }
-                    </h3>
-                    <a href="@Url.Action("Index", "Auth")">
-                        <img alt="avatar" class="ui tiny image w-image-center" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" src="@ImageHelper.GetTransparentImage()">
-                    </a>
-
-                    <div class="w-font-size-small w-margin-top-10">
-
-                        <p>
-                            <a href="@Url.Action("EditProfile", "Auth")">Upravit</a>
-                        </p>
-                        <p>
-                            <a href="@Url.Action("Avatar", "Auth")">Avatar</a>
-                        </p>
-                    </div>
-                </div>
-            }
-            else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Company)
-            {
-                <div class="ui segment padded w-body-text-center">
-                    <h3>
-                        Firma
-                    </h3>
-                    <a href="@Url.Action("EditCompany", "Auth")">
-                        <img alt="company" class="ui tiny image w-image-center" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyGuid)" src="@ImageHelper.GetTransparentImage()">
-                    </a>
-
-                    <div class="w-font-size-small w-margin-top-10">
-
-                        <p>
-                            <a href="@Url.Action("EditCompany", "Auth")">Upravit</a>
-                        </p>
-                        <p>
-                            <a href="@Url.Action("CompanyGallery", "Auth")">Galerie</a>
-                        </p>
-                    </div>
-                </div>
-            }
-            else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Buttons)
-            {
-                <div>
-                    <a class="ui button fluid" href="@Url.Action("NewInternship", "Auth")">
-                        Inzerovat novou stáž
-                    </a>
-
-                    <a class="ui button fluid w-margin-top-10" href="@Url.Action("NewThesis", "Auth")">
-                        Zadat závěrečnou práci
-                    </a>
-
-                    @if (!Model.Master.CurrentCompany.IsAvailable)
-                    {
-                        <a class="ui button fluid w-margin-top-10" href="@Url.Action("RegisterCompany", "Auth")">
-                            Přidat firmu
-                        </a>
-                    }
-                </div>
-            }
-            else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.MyInternships)
-            {
-                if (Model.AuthMaster.Internships.Any())
-                {
-                    <div>
-                        <table class="ui very basic table">
-                            <tbody>
-                            @foreach (var internship in Model.AuthMaster.Internships.Take(10).OrderByDescending(m => m.Created))
-                            {
-                                <tr>
-                                    <td>
-                                        <a href="@Url.Action("EditInternship", new { id = internship.ID })">
-                                            @internship.Title
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-            }
-            else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.MyTheses)
-            {
-                if (Model.AuthMaster.Internships.Any())
-                {
-                    <div>
-                        <table class="ui very basic table">
-                            <tbody>
-                            @foreach (var thesis in Model.AuthMaster.Theses.Take(10).OrderByDescending(m => m.Created))
-                            {
-                                <tr>
-                                    <td>
-                                        <a href="@Url.Action("EditThesis", new { id = thesis.ID })">
-                                            @thesis.ThesisName
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-            }
-            else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.RecentConversations)
-            {
-
-                if (Model.AuthMaster.Conversations.Any())
-                {
-                    <div>
-                        <table class="ui very basic table">
-                            <tbody>
-                            @foreach (var conversation in Model.AuthMaster.Conversations.Take(10).OrderByDescending(m => m.MessageCreated))
-                            {
-                                <tr>
-                                    <td>
-                                        <a href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                                            @conversation.WithApplicationUserName
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-            }
-            else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Admin)
-            {
-                <div class="ui segment padded w-body-text-center">
-                    <h3>
-                        Admin
-                    </h3>
-                    <div class="w-font-size-small w-margin-top-10">
-                        <p>
-                            <a href="@Url.Action("EventLog", "System")">
-                                Event log
-                                @if (Model.Master.StatusBox.NewEventLogCount > 0)
+                case UI.Builders.Auth.Enum.AuthTabEnum.MainMenu:
+                    <div class="ui vertical fluid menu">
+                        <div class="item">
+                            <div class="header">Hlavní menu</div>
+                            <div class="menu">
+                                <a class="item @messagesClass" href="@Url.Action("Index")">
+                                    @if (Model.Master.StatusBox.NewMessagesCount > 0)
+                                    {
+                                        <div class="ui small red label">@Model.Master.StatusBox.NewMessagesCount</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="ui small label">0</div>
+                                    }
+                                    Zprávy
+                                </a>
+                                <a class="item @internshipsClass" href="@Url.Action("Internships")">
+                                    <div class="ui small label">@Model.AuthMaster.Internships.Count()</div>
+                                    Stáže
+                                </a>
+                                <a class="item @thesesClass" href="@Url.Action("Theses")">
+                                    <div class="ui small label">@Model.AuthMaster.Theses.Count()</div>
+                                    Závěrečné práce
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="header">Inzerce</div>
+                            <div class="menu">
+                                <a class="item @newInternshipClass" href="@Url.Action("NewInternship")">Nová stáž</a>
+                                <a class="item @newThesisClass" href="@Url.Action("NewThesis")">Nová závěrečná práce</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="header">Firma</div>
+                            <div class="menu">
+                                @if (Model.Master.CurrentCompany.IsAvailable)
                                 {
-                                    <span>| <span class="w-font-negative">@Model.Master.StatusBox.NewEventLogCount</span></span>
+                                    <a class="item @editCompanyClass" href="@Url.Action("EditCompany")">Upravit</a>
+                                    <a class="item @companyGalleryClass" href="@Url.Action("CompanyGallery")">Galerie</a>
                                 }
-                            </a>
-                        </p>
+                                else
+                                {
+                                    <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany")">Registrovat firmu</a>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="header">Profil</div>
+                            <div class="menu">
+                                <a class="item @editProfileClass" href="@Url.Action("EditProfile")">Základní údaje</a>
+                                <a class="item @avatarClass" href="@Url.Action("Avatar")">Avatar</a>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "_MainLogoutForm"}))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a class="item" href="javascript:document.getElementById('_MainLogoutForm').submit()">
+                                        <i class="sign out icon"></i>
+                                        Odhlásit
+                                    </a>
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    break;
+                case AuthTabEnum.Admin:
+                    <div class="ui vertical fluid menu">
+                        <div class="item">
+                            <div class="header">Admin</div>
+                            <div class="menu">
+                                <a class="item @messagesClass" href="@Url.Action("EventLog", "System")">
+                                    Eventy
+                                    @if (Model.Master.StatusBox.NewEventLogCount > 0)
+                                    {
+                                        <span>| <span class="w-font-negative">@Model.Master.StatusBox.NewEventLogCount</span></span>
+                                    }
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    break;
             }
         }
-
     </div>
     <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
+        
+        @if (Model.Master.CurrentUser.EmailVisibleToOthers)
+        {
+            //@Html.RenderWarningMessage("Ostatní uživatelé vidí Váš e-mail. Pro jeho skrytí vyplňte <strong>Jméno / Přezdívku</strong>");
+            var infoMessage = new UI.Builders.InfoMessage.Views.InfoMessageView()
+            {
+                MessageID = "emailnotice",
+                Message = "Ostatní uživatelé vidí Váš e-mail. Pro jeho skrytí vyplňte <strong>Jméno / Přezdívku</strong>",
+                IsClosable = true,
+                MessageType = InfoMessageTypeEnum.Warning,
+            };
+            Html.RenderPartial("~/Views/InfoMessage/InfoMessage.cshtml", infoMessage);
+        }
+
         @RenderBody()
     </div>
 </div>
+
+
+@*@foreach (var enabledTab in Model.Tabs.GetOrderedActiveTabs())
+    {
+        if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Profile)
+        {
+            <div class="ui segment padded w-body-text-center">
+                <h3>
+                    @if (string.IsNullOrEmpty(Model.Master.CurrentUser.FirstName))
+                    {
+                        <span>Profil</span>
+                    }
+                    else
+                    {
+                        <span>@Model.Master.CurrentUser.FirstName</span>
+                    }
+                </h3>
+                <a href="@Url.Action("Index", "Auth")">
+                    <img alt="avatar" class="ui tiny image w-image-center" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" src="@ImageHelper.GetTransparentImage()">
+                </a>
+
+                <div class="w-font-size-small w-margin-top-10">
+
+                    <p>
+                        <a href="@Url.Action("EditProfile", "Auth")">Upravit</a>
+                    </p>
+                    <p>
+                        <a href="@Url.Action("Avatar", "Auth")">Avatar</a>
+                    </p>
+                </div>
+            </div>
+        }
+        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Company)
+        {
+            <div class="ui segment padded w-body-text-center">
+                <h3>
+                    Firma
+                </h3>
+                <a href="@Url.Action("EditCompany", "Auth")">
+                    <img alt="company" class="ui tiny image w-image-center" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyGuid)" src="@ImageHelper.GetTransparentImage()">
+                </a>
+
+                <div class="w-font-size-small w-margin-top-10">
+
+                    <p>
+                        <a href="@Url.Action("EditCompany", "Auth")">Upravit</a>
+                    </p>
+                    <p>
+                        <a href="@Url.Action("CompanyGallery", "Auth")">Galerie</a>
+                    </p>
+                </div>
+            </div>
+        }
+        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Buttons)
+        {
+            <div>
+                <a class="ui button fluid" href="@Url.Action("NewInternship", "Auth")">
+                    Inzerovat novou stáž
+                </a>
+
+                <a class="ui button fluid w-margin-top-10" href="@Url.Action("NewThesis", "Auth")">
+                    Zadat závěrečnou práci
+                </a>
+
+                @if (!Model.Master.CurrentCompany.IsAvailable)
+                {
+                    <a class="ui button fluid w-margin-top-10" href="@Url.Action("RegisterCompany", "Auth")">
+                        Přidat firmu
+                    </a>
+                }
+            </div>
+        }
+        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.MyInternships)
+        {
+            if (Model.AuthMaster.Internships.Any())
+            {
+                <div>
+                    <table class="ui very basic table">
+                        <tbody>
+                        @foreach (var internship in Model.AuthMaster.Internships.Take(10).OrderByDescending(m => m.Created))
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("EditInternship", new {id = internship.ID})">
+                                        @internship.Title
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.MyTheses)
+        {
+            if (Model.AuthMaster.Internships.Any())
+            {
+                <div>
+                    <table class="ui very basic table">
+                        <tbody>
+                        @foreach (var thesis in Model.AuthMaster.Theses.Take(10).OrderByDescending(m => m.Created))
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("EditThesis", new {id = thesis.ID})">
+                                        @thesis.ThesisName
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.RecentConversations)
+        {
+
+            if (Model.AuthMaster.Conversations.Any())
+            {
+                <div>
+                    <table class="ui very basic table">
+                        <tbody>
+                        @foreach (var conversation in Model.AuthMaster.Conversations.Take(10).OrderByDescending(m => m.MessageCreated))
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Conversation", new {id = conversation.ConversationID})">
+                                        @conversation.WithApplicationUserName
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Admin)
+        {
+            <div class="ui segment padded w-body-text-center">
+                <h3>
+                    Admin
+                </h3>
+                <div class="w-font-size-small w-margin-top-10">
+                    <p>
+                        <a href="@Url.Action("EventLog", "System")">
+                            Event log
+                            @if (Model.Master.StatusBox.NewEventLogCount > 0)
+                            {
+                                <span>| <span class="w-font-negative">@Model.Master.StatusBox.NewEventLogCount</span></span>
+                            }
+                        </a>
+                    </p>
+                </div>
+            </div>
+        }
+    }*@
 

@@ -1,0 +1,75 @@
+﻿@using UI.Helpers;
+@using UI.Extensions;
+@using Core.Helpers;
+@using PagedList.Mvc
+@model UI.Builders.Auth.Views.AuthIndexView
+
+@{
+    ViewBag.Title = "Moje závěrečné práce";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
+
+}
+
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+        <div class="ui segment">
+            @if (!Model.AuthMaster.Theses.Any())
+            {
+                @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné práce")
+            }
+            else
+            {
+                <table class="ui very basic table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Akce
+                            </th>
+                            <th>
+                                Název práce
+                            </th>
+                            <th>
+                                Vytvořeno
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var thesis in Model.AuthMaster.Theses)
+                {
+                            <tr>
+                                <td class="collapsing w-body-text-center w-mobile-left">
+                                    <a href="@Url.Action("EditThesis", new { id = thesis.ID })">
+                                        <i title="Upravit" class="edit icon black"></i>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName })">
+                                        @thesis.ThesisName
+                                    </a>
+                                </td>
+                                <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
+                                    <i class="calendar icon"></i>
+                                    @DateHelper.FormatDate(thesis.Created)
+                                </td>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    @if (thesis.IsActive)
+                                    {
+                                        <i title="Aktivní" class="checkmark green icon"></i>
+                                    }
+                                    else
+                                    {
+                                        <i title="Neaktivní" class="remove red icon"></i>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

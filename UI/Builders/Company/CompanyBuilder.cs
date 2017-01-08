@@ -15,6 +15,7 @@ using UI.Builders.Shared.Models;
 using PagedList;
 using Core.Extensions;
 using Entity.Base;
+using Service.Services.Activities.Enums;
 
 namespace UI.Builders.Company
 {
@@ -47,9 +48,7 @@ namespace UI.Builders.Company
 
         public async Task<CompanyDetailView> BuildDetailViewAsync(string codeName, CompanyContactUsForm contactUsForm = null)
         {
-            var cacheMinutes = 60;
-
-            var cacheSetup = Services.CacheService.GetSetup<CompanyDetailModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<CompanyDetailModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateCodeName<Entity.Company>(codeName),
@@ -143,6 +142,22 @@ namespace UI.Builders.Company
 
         #region Public methods
 
+        /// <summary>
+        /// Logs activity for viewing company profile
+        /// </summary>
+        /// <param name="companyID">companyID</param>
+        public async Task<int> LogCompanyProfileViewActivityAsync(int companyID)
+        {
+            if (companyID == 0)
+            {
+                return 0;
+            }
+
+            var activityUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
+
+            return await this.Services.ActivityService.LogActivity(ActivityTypeEnum.ViewCompanyProfile, companyID, activityUserId, companyID);
+        }
+
         public async Task<int> CreateMessage(CompanyContactUsForm form)
         {
             try
@@ -218,10 +233,8 @@ namespace UI.Builders.Company
  
         private async Task<IList<CompanyBrowseModel>> GetCompaniesAsync(int pageNumber, string search)
         {
-            var cacheMinutes = 60;
-
             // get companies from db/cache
-            var cacheSetup = Services.CacheService.GetSetup<CompanyBrowseModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<CompanyBrowseModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Company>(),

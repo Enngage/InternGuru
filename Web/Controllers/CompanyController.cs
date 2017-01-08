@@ -16,7 +16,7 @@ namespace Web.Controllers
     {
         readonly CompanyBuilder _companyBuilder;
 
-        public CompanyController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, CompanyBuilder companyBuilder) : base (appContext, serviceEvents, masterBuilder)
+        public CompanyController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, CompanyBuilder companyBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
             _companyBuilder = companyBuilder;
         }
@@ -40,6 +40,9 @@ namespace Web.Controllers
             // set tab if possible
             var activeTab = EnumHelper.ParseEnum(tab, CompanyDetailMenuEnum.About);
             model.ActiveTab = activeTab;
+
+            // log company profile view activity
+            await _companyBuilder.LogCompanyProfileViewActivityAsync(model.Company.ID);
 
             return View(model);
         }

@@ -6,52 +6,38 @@ namespace UI.Builders.Auth.Models
 {
     public class AuthTabs
     {
-        public AuthTab Buttons { get; set; } = new AuthTab()
-        {
-            Display = true,
-            Priority = 2,
-            Tab = AuthTabEnum.Buttons
-        };
-
-        public AuthTab Company { get; set; } = new AuthTab()
+        public AuthTab MainMenu { get; set; } = new AuthTab()
         {
             Display = false,
-            Priority = 3,
-            Tab = AuthTabEnum.Company
-        };
-
-        public AuthTab Profile { get; set; } = new AuthTab()
-        {
-            Display = true,
             Priority = 1,
-            Tab = AuthTabEnum.Profile
+            Tab = AuthTabEnum.MainMenu
         };
 
         public AuthTab MyInternships { get; set; } = new AuthTab()
         {
             Display = false,
-            Priority = 0,
+            Priority = 2,
             Tab = AuthTabEnum.MyInternships
         };
 
         public AuthTab MyTheses { get; set; } = new AuthTab()
         {
             Display = false,
-            Priority = 0,
+            Priority = 2,
             Tab = AuthTabEnum.MyTheses
         };
 
         public AuthTab RecentConversations { get; set; } = new AuthTab()
         {
             Display = false,
-            Priority = 0,
+            Priority = 2,
             Tab = AuthTabEnum.RecentConversations
         };
 
         public AuthTab Admin { get; set; } = new AuthTab()
         {
             Display = false,
-            Priority = 0,
+            Priority = 3,
             Tab = AuthTabEnum.Admin
         };
 
@@ -65,13 +51,11 @@ namespace UI.Builders.Auth.Models
         {
             return new List<AuthTab>()
             {
-                Buttons,
-                Profile,
+                MainMenu,
                 MyInternships,
                 MyTheses,
                 RecentConversations,
                 Admin,
-                Company
             };
         }
 

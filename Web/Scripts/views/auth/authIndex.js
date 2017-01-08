@@ -1,10 +1,11 @@
-﻿require(['jquery', 'modules/tableModule', 'semantic'], function ($, TableModule) {
+﻿require(['jquery', 'semantic'], function ($) {
     // DOM ready
     $(function () {
-        var tableModule = new TableModule();
+        var conversationDiv = "_ConversationItem";
+        $("." + conversationDiv).click(function () {
+            var dataUrl = $(this).data("link");
 
-        $('.menu .item').tab();
-
-        tableModule.initializeListingTable("_ConversationListingTable");
+            window.location.replace(dataUrl);
+        });
     });
 });

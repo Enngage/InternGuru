@@ -51,7 +51,8 @@ namespace UI.Builders.Auth
             {
                 Internships = await GetInternshipsAsync(),
                 Conversations = await GetConversationsAsync(10),
-                Theses = await GetThesesListingsAsync()
+                Theses = await GetThesesListingsAsync(),
+                
             };
         }
 
@@ -98,7 +99,7 @@ namespace UI.Builders.Auth
             var form = new AuthEditProfileForm()
             {
                 FirstName = currentApplicationUser.FirstName,
-                LastName = currentApplicationUser.LastName
+                LastName = currentApplicationUser.LastName,
             };
 
             return new AuthEditProfileView()
@@ -122,6 +123,24 @@ namespace UI.Builders.Auth
                 AuthMaster = authMaster,
                 ProfileForm = form
             };
+        }
+
+        #endregion
+
+        #region Internships
+
+        public async Task<AuthIndexView> BuildInternshipsViewAsync(int? page)
+        {
+            return await BuildIndexViewAsync(page);
+        }
+
+        #endregion
+
+        #region Theses
+
+        public async Task<AuthIndexView> BuildThesesVieAsync(int? page)
+        {
+            return await BuildIndexViewAsync(page);
         }
 
         #endregion
@@ -161,6 +180,7 @@ namespace UI.Builders.Auth
 
             return new AuthAvatarView()
             {
+                AuthMaster =  authMaster,
                 AvatarForm = avatarForm
             };
         }
@@ -726,7 +746,7 @@ namespace UI.Builders.Auth
                     UserID = CurrentUser.Id,
                     UserName = CurrentUser.UserName
                 },
-                MessageForm = messageForm == null ? defaultMessageForm : messageForm
+                MessageForm = messageForm ?? defaultMessageForm
             };
         }
 
@@ -1603,8 +1623,7 @@ namespace UI.Builders.Auth
                    Subject = m.Subject,
                });
 
-            var cacheMinutes = 30;
-            var cacheSetup = Services.CacheService.GetSetup<AuthMessageModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<AuthMessageModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Message>(),
@@ -1625,8 +1644,7 @@ namespace UI.Builders.Auth
         /// <returns>Name of given user</returns>
         private async Task<AuthMessageUserModel> GetMessageUserAsync(string applicationUserId)
         {
-            var cacheMinutes = 30;
-            var cacheSetup = Services.CacheService.GetSetup<AuthMessageUserModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<AuthMessageUserModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Message>(),
@@ -1690,8 +1708,7 @@ namespace UI.Builders.Auth
                    Subject = m.Subject,
                });
 
-            var cacheMinutes = 60;
-            var cacheSetupMessages = Services.CacheService.GetSetup<AuthMessageModel>(GetSource(), cacheMinutes);
+            var cacheSetupMessages = Services.CacheService.GetSetup<AuthMessageModel>(GetSource());
             cacheSetupMessages.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Message>(),
@@ -1704,7 +1721,7 @@ namespace UI.Builders.Auth
             var allMessages = await Services.CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetupMessages);
 
             // get conversations from messages
-            var cacheSetupConversations = Services.CacheService.GetSetup<AuthConversationModel>(GetSource(), cacheMinutes);
+            var cacheSetupConversations = Services.CacheService.GetSetup<AuthConversationModel>(GetSource());
             cacheSetupConversations.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Message>(),
@@ -1787,8 +1804,7 @@ namespace UI.Builders.Auth
 
             internshipsQuery = internshipsQuery.OrderByDescending(m => m.Created);
 
-            var cacheMinutes = 60;
-            var cacheSetup = Services.CacheService.GetSetup<AuthInternshipListingModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<AuthInternshipListingModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Internship>(),
@@ -1829,8 +1845,7 @@ namespace UI.Builders.Auth
 
             thesisQuery = thesisQuery.OrderByDescending(m => m.Created);
 
-            var cacheMinutes = 60;
-            var cacheSetup = Services.CacheService.GetSetup<AuthThesisListingModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<AuthThesisListingModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyUpdateAny<Entity.Thesis>(),
@@ -1858,8 +1873,7 @@ namespace UI.Builders.Auth
                 .Take(1)
                 .Select(m => m.ID);
 
-            var cacheMinutes = 30;
-            var cacheSetup = Services.CacheService.GetSetup<int>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<int>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<Entity.Company>(),
@@ -1877,8 +1891,7 @@ namespace UI.Builders.Auth
         /// <returns>Collection of company categories</returns>
         private async Task<IEnumerable<AuthCompanyCategoryModel>> FormGetCompanyCategories()
         {
-            var cacheMinutes = 60;
-            var cacheSetup = Services.CacheService.GetSetup<AuthCompanyCategoryModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<AuthCompanyCategoryModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<CompanyCategory>(),
@@ -1904,8 +1917,7 @@ namespace UI.Builders.Auth
         /// <returns>Collection of internship categories</returns>
         private async Task<IEnumerable<AuthInternshipCategoryModel>> FormGetInternshipCategoriesAsync()
         {
-            var cacheMinutes = 60;
-            var cacheSetup = Services.CacheService.GetSetup<AuthInternshipCategoryModel>(GetSource(), cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<AuthInternshipCategoryModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
                 EntityKeys.KeyCreateAny<InternshipCategory>(),

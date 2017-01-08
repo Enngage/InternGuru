@@ -7,7 +7,7 @@
 
     TableModule.prototype.initializeListingTable = function initializeListingTable(tableClassName) {
         // redirect on row click
-        $("." + tableClassName + " tr").click(function () {
+        $("." + tableClassName + "> tbody > tr").click(function () {
             var dataUrl = $(this).data("link");
 
             window.location.replace(dataUrl);

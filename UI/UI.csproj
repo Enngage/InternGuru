@@ -158,6 +158,7 @@
     <Compile Include="Builders\Account\Views\LoginViewModel.cs" />
     <Compile Include="Builders\Account\Views\RegisterViewModel.cs" />
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
+    <Compile Include="Builders\Auth\Enum\AuthMenuActionEnum.cs" />
     <Compile Include="Builders\Auth\Enum\AuthTabEnum.cs" />
     <Compile Include="Builders\Auth\Forms\AuthCompanyGalleryUploadForm.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipHomeOfficeOptionModel.cs" />
@@ -203,6 +204,10 @@
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
     <Compile Include="Builders\Gallery\Views\GalleryView.cs" />
     <Compile Include="Builders\Gallery\Models\GalleryImage.cs" />
+    <Compile Include="Builders\InfoMessage\InfoMessageBuilder.cs" />
+    <Compile Include="Builders\InfoMessage\Enums\InfoMessageTypeEnum.cs" />
+    <Compile Include="Builders\InfoMessage\Models\InfoMessageProcessClosableMessageQuery.cs" />
+    <Compile Include="Builders\InfoMessage\Views\InfoMessageView.cs" />
     <Compile Include="Builders\Internship\Models\InternshipActivityStats.cs" />
     <Compile Include="Builders\Internship\Models\InternshipHomeOfficeOptionModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipStudentStatusOptionModel.cs" />
