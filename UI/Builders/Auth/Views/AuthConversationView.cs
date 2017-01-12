@@ -7,13 +7,7 @@ namespace UI.Builders.Auth.Views
 {
     public class AuthConversationView : AuthMasterView
     {
-        public AuthMessageModel LastMessage
-        {
-            get
-            {
-                return Messages.FirstOrDefault();
-            }
-        }
+        public AuthMessageModel LastMessage => Messages.FirstOrDefault();
         public AuthMessageUserModel ConversationUser { get; set; }
         public AuthMessageUserModel Me { get; set; }
         public IPagedList<AuthMessageModel> Messages { get; set; }

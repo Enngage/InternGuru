@@ -29,6 +29,7 @@
     var companyGalleryClass = activeMenuItem == AuthMenuActionEnum.CompanyGallery ? "active" : string.Empty;
     var editProfileClass = activeMenuItem == AuthMenuActionEnum.EditProfile ? "active" : string.Empty;
     var avatarClass = activeMenuItem == AuthMenuActionEnum.Avatar ? "active" : string.Empty;
+    var eventLogClass = activeMenuItem == AuthMenuActionEnum.EventLog ? "active" : string.Empty;
 }
 
 @Html.RequireScript("/scripts/views/auth/authIndex")
@@ -45,7 +46,7 @@
                         <div class="item">
                             <div class="header">Hlavní menu</div>
                             <div class="menu">
-                                <a class="item @messagesClass" href="@Url.Action("Index")">
+                                <a class="item @messagesClass" href="@Url.Action("Index", "Auth")">
                                     @if (Model.Master.StatusBox.NewMessagesCount > 0)
                                     {
                                         <div class="ui small red label">@Model.Master.StatusBox.NewMessagesCount</div>
@@ -56,11 +57,11 @@
                                     }
                                     Zprávy
                                 </a>
-                                <a class="item @internshipsClass" href="@Url.Action("Internships")">
+                                <a class="item @internshipsClass" href="@Url.Action("Internships", "Auth")">
                                     <div class="ui small label">@Model.AuthMaster.Internships.Count()</div>
                                     Stáže
                                 </a>
-                                <a class="item @thesesClass" href="@Url.Action("Theses")">
+                                <a class="item @thesesClass" href="@Url.Action("Theses", "Auth")">
                                     <div class="ui small label">@Model.AuthMaster.Theses.Count()</div>
                                     Závěrečné práce
                                 </a>
@@ -69,8 +70,8 @@
                         <div class="item">
                             <div class="header">Inzerce</div>
                             <div class="menu">
-                                <a class="item @newInternshipClass" href="@Url.Action("NewInternship")">Nová stáž</a>
-                                <a class="item @newThesisClass" href="@Url.Action("NewThesis")">Nová závěrečná práce</a>
+                                <a class="item @newInternshipClass" href="@Url.Action("NewInternship", "Auth")">Nová stáž</a>
+                                <a class="item @newThesisClass" href="@Url.Action("NewThesis", "Auth")">Nová závěrečná práce</a>
                             </div>
                         </div>
                         <div class="item">
@@ -78,12 +79,12 @@
                             <div class="menu">
                                 @if (Model.Master.CurrentCompany.IsAvailable)
                                 {
-                                    <a class="item @editCompanyClass" href="@Url.Action("EditCompany")">Upravit</a>
-                                    <a class="item @companyGalleryClass" href="@Url.Action("CompanyGallery")">Galerie</a>
+                                    <a class="item @editCompanyClass" href="@Url.Action("EditCompany", "Auth")">Upravit</a>
+                                    <a class="item @companyGalleryClass" href="@Url.Action("CompanyGallery", "Auth")">Galerie</a>
                                 }
                                 else
                                 {
-                                    <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany")">Registrovat firmu</a>
+                                    <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany", "Auth")">Registrovat firmu</a>
                                 }
 
                             </div>
@@ -91,8 +92,8 @@
                         <div class="item">
                             <div class="header">Profil</div>
                             <div class="menu">
-                                <a class="item @editProfileClass" href="@Url.Action("EditProfile")">Základní údaje</a>
-                                <a class="item @avatarClass" href="@Url.Action("Avatar")">Avatar</a>
+                                <a class="item @editProfileClass" href="@Url.Action("EditProfile", "Auth")">Základní údaje</a>
+                                <a class="item @avatarClass" href="@Url.Action("Avatar", "Auth")">Avatar</a>
                                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "_MainLogoutForm"}))
                                 {
                                     @Html.AntiForgeryToken()
@@ -110,7 +111,7 @@
                         <div class="item">
                             <div class="header">Admin</div>
                             <div class="menu">
-                                <a class="item @messagesClass" href="@Url.Action("EventLog", "System")">
+                                <a class="item @eventLogClass" href="@Url.Action("EventLog", "System")">
                                     Eventy
                                     @if (Model.Master.StatusBox.NewEventLogCount > 0)
                                     {

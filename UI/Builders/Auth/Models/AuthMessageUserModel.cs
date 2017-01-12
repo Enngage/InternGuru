@@ -1,4 +1,6 @@
 ﻿
+using UI.Helpers;
+
 namespace UI.Builders.Auth.Models
 {
     public class AuthMessageUserModel
@@ -7,13 +9,8 @@ namespace UI.Builders.Auth.Models
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Nickname { get; set; }
 
-        public string DisplayName
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(FirstName) || !string.IsNullOrEmpty(LastName) ? $"{FirstName} {LastName}" : UserName;
-            }
-        }
+        public string DisplayName => UserHelper.GetDisplayName(FirstName, LastName, Nickname, UserName);
     }
 }

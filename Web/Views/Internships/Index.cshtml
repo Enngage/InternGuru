@@ -103,10 +103,7 @@
                 <table class="ui very basic table w-table-listing _InternshipsListingTable">
                     <thead>
                         <tr>
-                            <th class="collapsing">
-                                Firma
-                            </th>
-                            <th>
+                            <th colspan="2">
                                 Pozice
                             </th>
                             <th>
@@ -122,7 +119,7 @@
                     {
                         <tr data-link="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
                             <td class="collapsing">
-                                <img class="ui tiny image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyGuid)"/>
+                                <img class="ui mini image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyGuid)"/>
                             </td>
                             <td>
                                 <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">

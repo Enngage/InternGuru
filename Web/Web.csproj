@@ -227,6 +227,9 @@
     <Content Include="Content\Images\teaser.jpg" />
     <Content Include="Content\Images\teaser_cropped.jpg" />
     <Content Include="Content\Images\Base\transparent.png" />
+    <Content Include="EmailTemplates\EmailTemplatesOverview.txt" />
+    <Content Include="EmailTemplates\Files\logo-2.jpg" />
+    <Content Include="EmailTemplates\Files\video-1.jpg" />
     <Content Include="EmailTemplates\Notification_NewMessageToRecipient.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

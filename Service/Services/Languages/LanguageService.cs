@@ -105,7 +105,7 @@ namespace Service.Services.Languages
 
             if (string.IsNullOrEmpty(languagesCodeString))
             {
-                throw new ArgumentException("Invalid languages code string, a comma separated string with langauge code names was expected");
+                return result;
             }
 
             foreach (var languageCodeName in languagesCodeString.Split(','))

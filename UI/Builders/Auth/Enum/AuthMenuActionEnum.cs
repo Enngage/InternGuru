@@ -19,6 +19,7 @@ namespace UI.Builders.Auth.Enum
         CompanyGallery,
         EditProfile,
         Avatar,
-        Conversation
+        Conversation,
+        EventLog
     }
 }

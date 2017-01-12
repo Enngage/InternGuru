@@ -4,11 +4,9 @@
 
 @if (Request.IsAuthenticated)
 {
-    var displayName = string.IsNullOrEmpty(Model.Master.CurrentUser.FirstName) ? Model.Master.CurrentUser.UserName : Model.Master.CurrentUser.FirstName;
-
     <a class="item w-menu-right-item" href="@Url.Action("Index", "Auth")">
         <img alt="" class="ui avatar image" src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)">
-        &nbsp;<span>@displayName</span>
+        &nbsp;<span>@Model.Master.CurrentUser.UserDisplayName</span>
         @if (Model.Master.StatusBox.NewMessagesCount > 0)
         {
             <span class="w-color-secondary">&nbsp;(@Model.Master.StatusBox.NewMessagesCount)</span>

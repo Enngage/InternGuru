@@ -35,17 +35,20 @@
                                     Vytvořeno
                                 </th>
                                 <th>
-                                    Status
+                                    Aktivní
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var internship in Model.AuthMaster.Internships)
-                    {
+                            {
                                 <tr>
                                     <td class="collapsing w-body-text-center w-mobile-left">
                                         <a href="@Url.Action("EditInternship", new { id = internship.ID })">
                                             <i title="Upravit" class="edit icon black"></i>
+                                        </a>
+                                        <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })">
+                                            <i title="Zobrazit" class="unhide icon black"></i>
                                         </a>
                                     </td>
                                     <td>

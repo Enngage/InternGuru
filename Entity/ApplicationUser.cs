@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,9 +18,8 @@ namespace Entity
         public string FirstName { get; set; }
         [MaxLength(150)]
         public string LastName { get; set; }
-
-        [NotMapped]
-        public virtual string FullName => $"{FirstName} {LastName}";
+        [MaxLength(30)]
+        public string Nickname { get; set; }
 
         #endregion
 
@@ -33,9 +33,40 @@ namespace Entity
             return userIdentity;
         }
 
+        /// <summary>
+        /// Gets display name of user based on first name, last name , user name and nickname
+        /// </summary>
+        /// <param name="firstName">firstName</param>
+        /// <param name="lastName">lastName</param>
+        /// <param name="nickname">nickname</param>
+        /// <param name="userName">userName</param>
+        /// <returns>Display name of user</returns>
+        public static string GetDisplayName(string firstName, string lastName, string nickname, string userName)
+        {
+            if (!string.IsNullOrEmpty(nickname))
+            {
+                return nickname;
+            }
+
+            if (!string.IsNullOrEmpty(firstName))
+            {
+                return $"{firstName} {lastName}";
+            }
+
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentNullException(nameof(userName));
+            }
+
+            return userName;
+        }
+
         #endregion
 
         #region Virtual properties
+
+        [NotMapped]
+        public virtual string FullName => $"{FirstName} {LastName}";
 
         #endregion
 

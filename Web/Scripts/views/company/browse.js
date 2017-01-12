@@ -130,7 +130,7 @@
         html += '<div class="ui segment basic padded w-margin-none w-body-text-left">';
         html += '<div class="ui items">';
         html += '<div class="item">';
-        html += '<img class="ui image tiny w-company-logo" alt="Logo ' + company.CompanyName + '"  src="' + company.LogoImageUrl + '" />';
+        html += '<a class="ui image tiny" href="' + company.Url + '"><img class="w-company-logo" alt="Logo ' + company.CompanyName + '"  src="' + company.LogoImageUrl + '" /></a>';
         html += '  <div class="middle aligned content">';
         html += '         <div class="header">';
         html += '              <a href="' + company.Url + '">';
@@ -138,7 +138,7 @@
         html += '               </a>';
         html += '            </div>';
         html += '            <div class="meta">';
-        html += '               ' + company.CountryIconHTML + ' ' + company.City + ' | <a href="' + company.UrlToInternships + '">' + company.PluralInternshipsCountWord + '</a>';
+        html += '               ' + company.CountryIconHtml + ' ' + company.City + ' | <a href="' + company.UrlToInternships + '">' + company.PluralInternshipsCountWord + '</a>';
         html += '               | <a href="' + company.UrlToTheses + '">' + company.PluralThesesCountWord + '</a>'
         html += '            </div>';
         html += '        </div>';

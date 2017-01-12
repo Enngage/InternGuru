@@ -31,20 +31,22 @@
             <div class="ui segment basic padded w-margin-none w-body-text-left">
                 <div class="ui items">
                     <div class="item">
-                        <img class="ui image tiny w-image-tiny" alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(company.CompanyGuid)" />
+                        <a class="ui image tiny" href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
+                            <img class="ui image w-image-tiny" alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(company.CompanyGuid)" />
+                        </a>
                         <div class="middle aligned content">
                             <div class="header">
-                                <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
+                                <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
                                     @company.CompanyName
                                 </a>
                             </div>
                             <div class="meta">
                                 @Html.Raw(company.CountryIconHtml) @company.City
                                 |
-                                <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships })">
+                                <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships})">
                                     @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáže")
                                 </a>
-                                | <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Theses })"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
+                                | <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Theses})"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
                             </div>
                         </div>
                     </div>

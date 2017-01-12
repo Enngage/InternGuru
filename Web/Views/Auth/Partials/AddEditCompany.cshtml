@@ -22,14 +22,10 @@
 
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-
           @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
-
         </div>
 
         <div class="sixteen wide mobile eight wide tablet sixteen wide computer column">
-
-
             <h4 class="ui dividing header">
                 Obecné informace
             </h4>
@@ -194,7 +190,7 @@
                     Logo <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyLogoWidth)x@(Core.Config.FileConfig.CompanyLogoHeight) px)</span>
                 </label>
 
-                <img class="ui image small" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
+                <img class="ui image tiny" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
 
                 <input class="w-margin-top-10" type="file" name="Logo">
             </div>
@@ -209,7 +205,7 @@
                 <input class="w-margin-top-10" type="file" name="Banner">
             </div>
 
-            <button class="ui button submit primary" type="submit">
+            <button class="ui button primary" type="submit">
                 @submitButtonText
             </button>
 

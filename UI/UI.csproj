@@ -281,6 +281,7 @@
     <Compile Include="Exceptions\UIExceptionHelper.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Extensions\HtmlRequireExtensions.cs" />
+    <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="UIServices\CookieService.cs" />
     <Compile Include="UIServices\EmailTemplateService.cs" />
     <Compile Include="UIServices\FileUploadException.cs" />

@@ -17,7 +17,7 @@
         <div class="ui segment">
             @if (!Model.AuthMaster.Conversations.Any())
             {
-                @Html.RenderInfoMessage("Dosud nemáš žádné zprávy")
+                @Html.RenderInfoMessage("Nejsou zde žádné zprávy")
             }
             else
             {
@@ -30,14 +30,7 @@
                             </a>
                             <div class="content">
                                 <a class="header" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                                    @if (conversation.WrittenByCurrentUser)
-                                    {
-                                        <span>@(!string.IsNullOrEmpty(conversation.RecipientFirstName) ? conversation.RecipientFirstName + " " + conversation.RecipientLastName : conversation.RecipientApplicationUserName)</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@(!string.IsNullOrEmpty(conversation.SenderFirstName) ? conversation.SenderFirstName + " " + conversation.SenderLastName : conversation.SenderApplicationUserName)</span>
-                                    }
+                                    @conversation.WithApplicationDisplayName
                                 </a>
                                 <div class="meta w-font-size-small">
                                     <i class="calendar icon"></i>@DateHelper.FormatTime(conversation.MessageCreated) |

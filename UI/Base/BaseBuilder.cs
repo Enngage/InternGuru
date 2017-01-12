@@ -236,7 +236,8 @@ namespace UI.Base
                     IsAuthenticated = true,
                     FirstName = m.FirstName,
                     LastName = m.LastName,
-                    Email = m.Email
+                    Email = m.Email,
+                    Nickname = m.Nickname
                 })
                 .FirstOrDefault();
             

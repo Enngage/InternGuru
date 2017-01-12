@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Helpers.Privilege;
+using Entity;
+using UI.Helpers;
 
 namespace UI.Builders.Shared.Models
 {
@@ -39,10 +41,19 @@ namespace UI.Builders.Shared.Models
         public string Email { get; set; }
 
         /// <summary>
+        /// Nickname of user
+        /// </summary>
+        public string Nickname { get; set; }
+
+        /// <summary>
         /// Indicates if user is visible to other people
         /// </summary>
-        public bool EmailVisibleToOthers => string.IsNullOrEmpty(FirstName);
-           
+        public bool EmailVisibleToOthers => string.IsNullOrEmpty(FirstName) && string.IsNullOrEmpty(Nickname);
+
+        /// <summary>
+        /// Gets display name of user
+        /// </summary>
+        public string UserDisplayName => UserHelper.GetDisplayName(FirstName, LastName, Nickname, UserName);
 
         /// <summary>
         /// Privilege level of current user

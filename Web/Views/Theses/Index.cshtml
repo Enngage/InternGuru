@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="four wide mobile two wide tablet two wide computer column">
-                        <button class="ui button submit primary fluid" type="submit">
+                        <button class="ui button primary fluid" type="submit">
                             Hledat
                         </button>
                     </div>
@@ -109,7 +109,7 @@
                     {
                         <tr data-link="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
                             <td class="collapsing">
-                                <img class="ui tiny image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)"/>
+                                <img class="ui mini image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)"/>
                             </td>
                             <td>
                                 <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">

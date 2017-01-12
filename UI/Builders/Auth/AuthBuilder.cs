@@ -100,6 +100,7 @@ namespace UI.Builders.Auth
             {
                 FirstName = currentApplicationUser.FirstName,
                 LastName = currentApplicationUser.LastName,
+                Nickname = currentApplicationUser.Nickname
             };
 
             return new AuthEditProfileView()
@@ -744,7 +745,8 @@ namespace UI.Builders.Auth
                     FirstName = CurrentUser.FirstName,
                     LastName = CurrentUser.LastName,
                     UserID = CurrentUser.Id,
-                    UserName = CurrentUser.UserName
+                    UserName = CurrentUser.UserName,
+                    Nickname = CurrentUser.Nickname
                 },
                 MessageForm = messageForm ?? defaultMessageForm
             };
@@ -918,6 +920,7 @@ namespace UI.Builders.Auth
                 // set object properties
                 applicationUser.FirstName = form.FirstName;
                 applicationUser.LastName = form.LastName;
+                applicationUser.Nickname = form.Nickname;
 
                 await Services.IdentityService.UpdateAsync(applicationUser);
             }
@@ -1617,6 +1620,8 @@ namespace UI.Builders.Auth
                    CurrentUserId = CurrentUser.Id,
                    IsRead = m.IsRead,
                    SenderFirstName = m.SenderApplicationUser.FirstName,
+                   SenderNickname = m.SenderApplicationUser.Nickname,
+                   RecipientNickname = m.RecipientApplicationUser.Nickname,
                    SenderLastName = m.SenderApplicationUser.LastName,
                    RecipientFirstName = m.RecipientApplicationUser.FirstName,
                    RecipientLastName = m.RecipientApplicationUser.LastName,
@@ -1657,7 +1662,8 @@ namespace UI.Builders.Auth
                     FirstName = m.FirstName,
                     LastName = m.LastName,
                     UserID = m.Id,
-                    UserName = m.UserName
+                    UserName = m.UserName,
+                    Nickname = m.Nickname
                 });
 
             return await Services.CacheService.GetOrSet(async () => await userQuery.FirstOrDefaultAsync(), cacheSetup);
@@ -1703,6 +1709,8 @@ namespace UI.Builders.Auth
                    IsRead = m.IsRead,
                    SenderFirstName = m.SenderApplicationUser.FirstName,
                    SenderLastName = m.SenderApplicationUser.LastName,
+                   SenderNickname = m.SenderApplicationUser.Nickname,
+                   RecipientNickname = m.RecipientApplicationUser.Nickname,
                    RecipientFirstName = m.RecipientApplicationUser.FirstName,
                    RecipientLastName = m.RecipientApplicationUser.LastName,
                    Subject = m.Subject,
@@ -1758,6 +1766,8 @@ namespace UI.Builders.Auth
                         ID = message.ID,
                         RecipientFirstName = message.RecipientFirstName,
                         RecipientLastName = message.RecipientLastName,
+                        RecipientNickname = message.RecipientNickname,
+                        SenderNickname = message.SenderNickname,
                         SenderFirstName = message.SenderFirstName,
                         SenderLastName = message.SenderLastName,
                         IsRead = message.IsRead,

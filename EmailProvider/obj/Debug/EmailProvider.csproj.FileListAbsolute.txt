@@ -19,3 +19,11 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\EmailProvider\obj\Debug\EmailProvider.p
 C:\inetpub\wwwroot\InternGuru\EmailProvider\bin\Debug\Core.dll
 C:\inetpub\wwwroot\InternGuru\EmailProvider\bin\Debug\Ninject.dll
 C:\inetpub\wwwroot\InternGuru\EmailProvider\bin\Debug\Core.pdb
+C:\inetpub\wwwroot\InternGuru-master\EmailProvider\bin\Debug\EmailProvider.dll
+C:\inetpub\wwwroot\InternGuru-master\EmailProvider\bin\Debug\EmailProvider.pdb
+C:\inetpub\wwwroot\InternGuru-master\EmailProvider\bin\Debug\Core.dll
+C:\inetpub\wwwroot\InternGuru-master\EmailProvider\bin\Debug\Ninject.dll
+C:\inetpub\wwwroot\InternGuru-master\EmailProvider\bin\Debug\Core.pdb
+C:\inetpub\wwwroot\InternGuru-master\EmailProvider\obj\Debug\EmailProvider.csprojResolveAssemblyReference.cache
+C:\inetpub\wwwroot\InternGuru-master\EmailProvider\obj\Debug\EmailProvider.dll
+C:\inetpub\wwwroot\InternGuru-master\EmailProvider\obj\Debug\EmailProvider.pdb

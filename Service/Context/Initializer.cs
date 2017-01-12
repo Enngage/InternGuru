@@ -23,7 +23,7 @@ namespace Service.Context
 
             // create admin user
             const string adminUserName = "admin@admin.com";
-            const string adminDefaultPassword = "admin";
+            const string adminDefaultPassword = "adminadmin";
 
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
@@ -31,10 +31,10 @@ namespace Service.Context
             {
                 UserName = adminUserName,
                 Email = adminUserName,
-                EmailConfirmed = true,
+                EmailConfirmed = true
             };
 
-            userManager.Create(newUser, adminDefaultPassword);
+            var userResult = userManager.Create(newUser, adminDefaultPassword);
 
             // get this user
             var user = userManager.FindByName(adminUserName);

@@ -10,67 +10,37 @@ namespace Core.Config
         /// <summary>
         /// Base folder for storing files
         /// </summary>
-        public static string BaseFolderName
-        {
-            get
-            {
-                return "Content";
-            }
-        }
+        public static string BaseFolderName => "Content";
 
         /// <summary>
         /// Path to error icon
         /// </summary>
-        public static string ErrorIconFilePath
-        {
-            get
-            {
-                return $"{BaseFolderName}/Images/Base/Caution.png";
-            }
-        }
+        public static string ErrorIconFilePath => $"{BaseFolderName}/Images/Base/Caution.png";
 
         /// <summary>
         /// Path to transparent image
         /// </summary>
-        public static string TransparentImagePath
-        {
-            get
-            {
-                return $"{BaseFolderName}/Images/Base/transparent.png";
-            }
-        }
+        public static string TransparentImagePath => $"{BaseFolderName}/Images/Base/transparent.png";
 
-        public static IEnumerable<string> AllowedImageExtensions
+        public static IEnumerable<string> AllowedImageExtensions => new List<string>()
         {
-            get
-            {
-                return new List<string>()
-                {
-                    ".jpg",
-                    ".jpeg",
-                    ".png",
-                    ".gif",
-                };
-            }
-        }
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".gif",
+        };
 
-        public static IEnumerable<string> AllowedFileExtensions
+        public static IEnumerable<string> AllowedFileExtensions => new List<string>()
         {
-            get
-            {
-                return new List<string>()
-                {
-                    ".jpg",
-                    ".jpeg",
-                    ".png",
-                    ".gif",
-                    ".xls",
-                    ".xml",
-                    ".doc",
-                    ".docx"
-                };
-            }
-        }
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".gif",
+            ".xls",
+            ".xml",
+            ".doc",
+            ".docx"
+        };
 
         #endregion
 
@@ -79,134 +49,62 @@ namespace Core.Config
         /// <summary>
         /// Base path for Company files
         /// </summary>
-        public static string CompanyBaseFolderPath
-        {
-            get
-            {
-                return $"{BaseFolderName}/Company";
-            }
-        }
+        public static string CompanyBaseFolderPath => $"{BaseFolderName}/Company";
 
         /// <summary>
         /// Path where company gallery images are stored
         /// </summary>
-        public static string CompanyGalleryFolderName
-        {
-            get
-            {
-                return "Gallery";
-            }
-        }
+        public static string CompanyGalleryFolderName => "Gallery";
 
         /// <summary>
         /// Company logo width in px
         /// </summary>
-        public static int CompanyLogoWidth
-        {
-            get
-            {
-                return 200;
-            }
-        }
+        public static int CompanyLogoWidth => 80;
 
         /// <summary>
         /// Company logo height in px
         /// </summary>
-        public static int CompanyLogoHeight
-        {
-            get
-            {
-                return 80;
-            }
-        }
+        public static int CompanyLogoHeight => 80;
 
         /// <summary>
         /// Company banner width in px
         /// </summary>
-        public static int CompanyBannerWidth
-        {
-            get
-            {
-                return 1280;
-            }
-        }
+        public static int CompanyBannerWidth => 1280;
 
         /// <summary>
         /// Company banner height in px
         /// </summary>
-        public static int CompanyBannerHeight
-        {
-            get
-            {
-                return 280;
-            }
-        }
+        public static int CompanyBannerHeight => 280;
 
         /// <summary>
         /// Path where banners will be stored
         /// </summary>
-        public static string BannerFolderName
-        {
-            get
-            {
-                return "Banner";
-            }
-        }
+        public static string BannerFolderName => "Banner";
 
         /// <summary>
         /// Default file name for company banner
         /// </summary>
-        public static string BannerFileName
-        {
-            get
-            {
-                return "Banner";
-            }
-        }
+        public static string BannerFileName => "Banner";
 
         /// <summary>
         /// Path where logos will be stored
         /// </summary>
-        public static string LogoFolderName
-        {
-            get
-            {
-                return "Logo";
-            }
-        }
+        public static string LogoFolderName => "Logo";
 
         /// <summary>
         /// Default file name for company logo
         /// </summary>
-        public static string LogoFileName
-        {
-            get
-            {
-                return "Logo";
-            }
-        }
+        public static string LogoFileName => "Logo";
 
         /// <summary>
         /// Path to default company path
         /// </summary>
-        public static string DefaultCompanyLogoPath
-        {
-            get
-            {
-                return $"{BaseFolderName}/Images/Default/defaultCompanyLogo.png";
-            }
-        }
+        public static string DefaultCompanyLogoPath => $"{BaseFolderName}/Images/Default/defaultCompanyLogo.png";
 
         /// <summary>
         /// Path to default company banner path
         /// </summary>
-        public static string DefaultCompanyLogoBanner
-        {
-            get
-            {
-                return $"{BaseFolderName}/Images/Default/defaultCompanyBanner.png";
-            }
-        }
+        public static string DefaultCompanyLogoBanner => $"{BaseFolderName}/Images/Default/defaultCompanyBanner.png";
 
         #endregion
 
@@ -215,60 +113,29 @@ namespace Core.Config
         /// <summary>
         /// Path of base user folder
         /// </summary>
-        public static string BaseUserFolderPath
-        {
-            get
-            {
-                return $"{BaseFolderName}/User";
-            }
-        }
+        public static string BaseUserFolderPath => $"{BaseFolderName}/User";
 
         /// <summary>
         /// Path where avatars are stored
         /// </summary>
-        public static string AvatarFolderName
-        {
-            get
-            {
-                return "Avatar";
-            }
-        }
+        public static string AvatarFolderName => "Avatar";
 
         /// <summary>
         /// Default avatar file name
         /// </summary>
-        public static string DefaultAvatarName
-        {
-            get
-            {
-                return "avatar";
-            }
-        }
+        public static string DefaultAvatarName => "avatar";
 
         /// <summary>
         /// Side size of users avatar (avatar is squared) in pixels
         /// </summary>
-        public static int AvatarSideSize
-        {
-            get
-            {
-                return 80;
-            }
-        }
+        public static int AvatarSideSize => 80;
 
         /// <summary>
         /// Path to default avatar
         /// </summary>
-        public static string DefaultAvatarPath
-        {
-            get
-            {
-                return $"{BaseFolderName}/Images/Default/defaultAvatar.png";
-            }
-        }
+        public static string DefaultAvatarPath => $"{BaseFolderName}/Images/Default/defaultAvatar.png";
 
         #endregion
-
 
     }
 }

@@ -13,9 +13,11 @@ namespace UI.Builders.Auth.Models
         public string RecipientApplicationUserId { get; set; }
         public string RecipientApplicationUserName { get; set; }
         public string RecipientFirstName { get; set; }
+        public string RecipientNickname { get; set; }
         public string RecipientLastName { get; set; }
         public string SenderFirstName { get; set; }
         public string SenderLastName { get; set; }
+        public string SenderNickname { get; set; }
         public int CompanyID { get; set; }
         public string CompanyName { get; set; }
         public string CurrentUserId { get; set; }

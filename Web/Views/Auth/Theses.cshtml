@@ -32,20 +32,22 @@
                                 Vytvořeno
                             </th>
                             <th>
-                                Status
+                                Aktivní
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var thesis in Model.AuthMaster.Theses)
-                {
+                        {
                             <tr>
                                 <td class="collapsing w-body-text-center w-mobile-left">
                                     <a href="@Url.Action("EditThesis", new { id = thesis.ID })">
                                         <i title="Upravit" class="edit icon black"></i>
                                     </a>
+                                    <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName })">
+                                        <i title="Zobrazit" class="unhide icon black"></i>
+                                    </a>
                                 </td>
-
                                 <td>
                                     <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName })">
                                         @thesis.ThesisName
