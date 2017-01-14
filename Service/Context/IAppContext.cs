@@ -26,6 +26,7 @@ namespace Service.Context
         IDbSet<HomeOfficeOption> HomeOfficeOptions { get; }
         IDbSet<StudentStatusOption> StudentStatusOptions { get; }
         IDbSet<Activity> Activities { get; }
+        IDbSet<Email> Emails { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync();

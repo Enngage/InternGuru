@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Core.Config;
 using EmailProvider;
 using Entity;
 using UI.Builders.Services;
+using UI.Emails;
 using UI.UIServices.Models;
 
 namespace UI.Events.EventClasses
 {
     public class NotificationEvents
     {
-        #region Config
-
-        private const string NewMessageToRecipientTemplate = "Notification_NewMessageToRecipient.html";
-
-        #endregion
-
         #region Services
 
         private IServicesLoader Services { get; set; }
@@ -32,11 +28,13 @@ namespace UI.Events.EventClasses
 
         #endregion
 
+        #region Notification messages
+
         /// <summary>
         /// Sends e-mail notification that a new message was received
         /// </summary>
         /// <param name="message">Message</param>
-        public void SendMessageNotifications(Message message)
+        public void SendMessageNotificationToRecipient(Message message)
         {
             // get recipient
             var recipient = Services.IdentityService.GetSingle(message.RecipientApplicationUserId).FirstOrDefault();
@@ -66,24 +64,29 @@ namespace UI.Events.EventClasses
                 },
             };
 
-            var emailHtmlTemplate = Services.EmailTemplateService.GetTemplateHtml(NewMessageToRecipientTemplate, replacements);
-
-            if (string.IsNullOrEmpty(emailHtmlTemplate))
+            try
             {
-                throw new ArgumentNullException($"E-mail šablona {NewMessageToRecipientTemplate} je nevalidní");
+                var emailHtml = Services.EmailTemplateService.GetTemplateHtml(EmailTypeEnum.NotificationNewMessageToRecipient, replacements);
+
+                if (string.IsNullOrEmpty(emailHtml))
+                {
+                    var error = $"E-mail šablona {EmailTypeEnum.NotificationNewMessageToRecipient} je prázdná";
+
+                    this.Services.EmailService.LogFailedEmail(recipient.Email, $"Nová zpráva: {message.Subject}", string.Join(",", replacements), error);
+
+                    throw new ArgumentNullException(error);
+                }
+
+                // send e-mail
+                this.Services.EmailService.SendEmail(recipient.Email, $"Nová zpráva: {message.Subject}", emailHtml);
             }
-
-            // send e-mail
-            var email = new Email()
+            catch (FileNotFoundException ex)
             {
-                From = AppConfig.NoReplyEmailAddress,
-                HtmlBody = emailHtmlTemplate,
-                IsHtml = true,
-                Subject = $"Nová zpráva: {message.Subject}",
-                To = recipient.Email
-            };
-
-            Services.EmailProvider.SendEmail(email);
+                // e-mail could not be send because the template was not found
+                this.Services.EmailService.LogFailedEmail(recipient.Email, $"Nová zpráva: {message.Subject}", string.Join(",", replacements), ex.Message);
+            }
         }
     }
+
+    #endregion
 }

@@ -7,7 +7,7 @@ using UI.ModelState;
 
 namespace UI.Base
 {
-    public abstract class BaseController: Controller
+    public abstract class BaseController : Controller
     {
         #region Variables
 
@@ -49,7 +49,7 @@ namespace UI.Base
 
         #region Constructors
 
-        public BaseController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder)
+        protected BaseController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder)
         {
             AppContext = appContext;
             _masterBuilder = masterBuilder;
@@ -63,7 +63,7 @@ namespace UI.Base
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             // Register service events
-            ServiceEvents.RegisterEvents();
+            ServiceEvents.RegisterEvents(this._masterBuilder.CurrentUser, filterContext?.HttpContext?.Request?.Url?.ToString());
         }
 
         /// <summary>

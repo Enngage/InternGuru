@@ -26,6 +26,7 @@ namespace Service.Context
         public IDbSet<HomeOfficeOption> HomeOfficeOptions { get; set; }
         public IDbSet<StudentStatusOption> StudentStatusOptions { get; set; }
         public IDbSet<Activity> Activities { get; set; }
+        public IDbSet<Email> Emails { get; set; }
 
         #endregion
 
@@ -59,7 +60,7 @@ namespace Service.Context
 
         #endregion
 
-        #region IAppContext
+        #region IAppContext methods
 
         public DbContextTransaction BeginTransaction()
         {

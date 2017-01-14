@@ -11,19 +11,9 @@ namespace UI.Base
         /// <summary>
         /// Result of the form
         /// </summary>
-        public FormResult FormResult
+        public FormResult FormResult => _formResult ?? (_formResult = new FormResult()
         {
-            get
-            {
-                if (_formResult == null)
-                {
-                    _formResult = new FormResult()
-                    {
-                        IsSuccess = false
-                    };
-                }
-                return _formResult;
-            }
-        }
+            IsSuccess = false
+        });
     }
 }

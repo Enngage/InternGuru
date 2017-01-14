@@ -18,7 +18,7 @@ namespace EmailProvider
 
         public bool GmailSsl => ConfigurationManager.AppSettings["GmailSSL"].Equals("true", StringComparison.OrdinalIgnoreCase);
 
-        public void SendEmail(IEmail email)
+        public void SendEmail(IEmailMessage emailMessage)
         {
             var smtp = new SmtpClient
             {
@@ -30,16 +30,16 @@ namespace EmailProvider
                 Credentials = new NetworkCredential(GmailUsername, GmailPassword)
             };
 
-            using (var mailMessage = new MailMessage(GmailUsername, email.To))
+            using (var mailMessage = new MailMessage(GmailUsername, emailMessage.To))
             {
-                mailMessage.Subject = email.Subject;
-                mailMessage.Body = email.HtmlBody;
-                mailMessage.IsBodyHtml = email.IsHtml;
+                mailMessage.Subject = emailMessage.Subject;
+                mailMessage.Body = emailMessage.HtmlBody;
+                mailMessage.IsBodyHtml = emailMessage.IsHtml;
                 smtp.Send(mailMessage);
             }
         }
 
-        public async Task SendEmailAsync(IEmail email)
+        public async Task SendEmailAsync(IEmailMessage emailMessage)
         {
             var smtp = new SmtpClient();
             smtp.Host = GmailHost;
@@ -49,11 +49,11 @@ namespace EmailProvider
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new NetworkCredential(GmailUsername, GmailPassword);
 
-            using (var mailMessage = new MailMessage(GmailUsername, email.To))
+            using (var mailMessage = new MailMessage(GmailUsername, emailMessage.To))
             {
-                mailMessage.Subject = email.Subject;
-                mailMessage.Body = email.HtmlBody;
-                mailMessage.IsBodyHtml = email.IsHtml;
+                mailMessage.Subject = emailMessage.Subject;
+                mailMessage.Body = emailMessage.HtmlBody;
+                mailMessage.IsBodyHtml = emailMessage.IsHtml;
                 await smtp.SendMailAsync(mailMessage);
             }
         }

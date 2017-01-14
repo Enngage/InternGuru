@@ -2,7 +2,15 @@
 This file contains names of e-mail templates used by system and macros that can be used in the template
 ///
 
-Notification_NewMessageToRecipient.html 
+///List of macros that can be used on every template:
+SiteName
+Address
+City
+Country
+WebUrl
+///
+
+Notification_NewMessageToRecipient 
 	{RecipientEmail}
 	{MessageText}
 

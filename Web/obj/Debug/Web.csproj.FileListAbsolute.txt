@@ -335,7 +335,6 @@ C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.Owin.Security.OAuth.x
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\bin\PagedList.EntityFramework.xml
 C:\Users\Yazoo\Dropbox\InternGuru-master\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache

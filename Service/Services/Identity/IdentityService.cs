@@ -2,18 +2,15 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Cache;
 using Entity;
-using Service.Context;
 using Service.Exceptions;
-using Service.Services.Logs;
 
 namespace Service.Services.Identity
 {
     public class Identityservice : BaseService<ApplicationUser>, IIdentityService 
     {
 
-        public Identityservice(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
+        public Identityservice(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
         public Task<ApplicationUser> GetAsync(string applicationUserId)
         {

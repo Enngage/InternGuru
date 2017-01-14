@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Cache;
 using Entity;
-using Service.Context;
 using Service.Exceptions;
 
 namespace Service.Services.Logs
@@ -13,7 +11,7 @@ namespace Service.Services.Logs
     public class LogService : BaseService<Log>, ILogService
     {
 
-        public LogService(IAppContext appContext, ICacheService cacheService) : base(appContext, cacheService) { }
+        public LogService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
         #region IService members
 

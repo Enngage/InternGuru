@@ -8,6 +8,7 @@ namespace UI.Builders.Form.Models
         public int CompanyID { get; set; }
         public Guid CompanyGuid { get; set; }
         public string CompanyName { get; set; }
+        public string CompanyCodeName { get; set; }
         public int InternshipID { get; set; }
         public string InternshipTitle { get; set; }
 

@@ -68,6 +68,10 @@
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
+    <Compile Include="Migrations\201701141130490_Email.cs" />
+    <Compile Include="Migrations\201701141130490_Email.Designer.cs">
+      <DependentUpon>201701141130490_Email.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Activities\ActivityService.cs" />
@@ -83,6 +87,8 @@
     <Compile Include="Services\Countries\ICountryService.cs" />
     <Compile Include="Services\Currencies\ICurrencyService.cs" />
     <Compile Include="Services\Currencies\CurrencyService.cs" />
+    <Compile Include="Services\Emails\EmailService.cs" />
+    <Compile Include="Services\Emails\IEmailService.cs" />
     <Compile Include="Services\Identity\IIdentityService.cs" />
     <Compile Include="Services\Identity\IdentityService.cs" />
     <Compile Include="Services\Internships\StudentStatusOptionService.cs" />
@@ -98,6 +104,7 @@
     <Compile Include="Services\Internships\InternshipCategoryService.cs" />
     <Compile Include="Services\Internships\InternshipService.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\IServiceDependencies.cs" />
     <Compile Include="Services\Languages\LanguageService.cs" />
     <Compile Include="Services\Languages\ILanguageService.cs" />
     <Compile Include="Services\Logs\ILogService.cs" />
@@ -105,6 +112,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\Messages\IMessageService.cs" />
     <Compile Include="Services\Messages\MessageService.cs" />
+    <Compile Include="Services\ServiceDependencies.cs" />
     <Compile Include="Services\Thesis\Enums\ThesisTypeEnum.cs" />
     <Compile Include="Services\Thesis\IThesisTypeService.cs" />
     <Compile Include="Services\Thesis\ThesisTypeService.cs" />
@@ -124,10 +132,19 @@
       <Project>{24af2251-6e38-4919-aa21-d506b26a5aa9}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EmailProvider\EmailProvider.csproj">
+      <Project>{4464d180-77b3-42fb-8d07-14165f74f6cb}</Project>
+      <Name>EmailProvider</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201701141130490_Email.resx">
+      <DependentUpon>201701141130490_Email.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -63,7 +63,7 @@ namespace UI.Base
         public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
         {
             // register service events
-            ServiceEvents.RegisterEvents();
+            ServiceEvents.RegisterEvents(this.MasterBuilder.CurrentUser, controllerContext.Request?.RequestUri?.ToString());
 
             return base.ExecuteAsync(controllerContext, cancellationToken);
         }

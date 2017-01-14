@@ -274,8 +274,11 @@
     <Compile Include="Builders\Shared\Models\StatusBox.cs" />
     <Compile Include="Builders\Shared\Models\IStatusBox.cs" />
     <Compile Include="Builders\Shared\Models\ICurrentUser.cs" />
+    <Compile Include="Emails\EmailTypeEnum.cs" />
     <Compile Include="Events\EventClasses\NotificationEvents.cs" />
+    <Compile Include="Events\IEventsLoader.cs" />
     <Compile Include="Events\IServiceEvents.cs" />
+    <Compile Include="Events\EventsLoader.cs" />
     <Compile Include="Exceptions\UIException.cs" />
     <Compile Include="Exceptions\UIExceptionEnum.cs" />
     <Compile Include="Exceptions\UIExceptionHelper.cs" />

@@ -8,6 +8,39 @@ namespace Core.Config
     public static class AppConfig
     {
 
+        #region Web
+
+        /// <summary>
+        /// Represents main url of website
+        /// </summary>
+        public static string WebUrl => ConfigurationManager.AppSettings["WebUrl"];
+
+        #endregion
+
+        #region General
+
+        /// <summary>
+        /// Represents site name
+        /// </summary>
+        public static string SiteName => ConfigurationManager.AppSettings["SiteName"];
+
+        /// <summary>
+        /// Address
+        /// </summary>
+        public static string Address => ConfigurationManager.AppSettings["Address"];
+
+        /// <summary>
+        /// City
+        /// </summary>
+        public static string City => ConfigurationManager.AppSettings["City"];
+
+        /// <summary>
+        /// Country
+        /// </summary>
+        public static string Country => ConfigurationManager.AppSettings["Country"];
+
+        #endregion
+
         #region Cache
 
         /// <summary>
@@ -25,9 +58,20 @@ namespace Core.Config
         #region E-mail
 
         /// <summary>
+        /// Text used when subject is null or empty
+        /// </summary>
+        public static string NoSubjectText => ConfigurationManager.AppSettings["NoSubjectText"];
+
+        /// <summary>
         /// From e-mail address
         /// </summary>
-        public static string NoReplyEmailAddress => ConfigurationManager.AppSettings["NoReplyEmailAddress"];
+        public static string FromEmailAddress => ConfigurationManager.AppSettings["FromEmailAddress"];
+        
+
+        /// <summary>
+        /// Name of folder where e-mail templates are stored
+        /// </summary>
+        public static string EmailTemplatesFolder => ConfigurationManager.AppSettings["EmailTemplatesFolder"];
 
         #endregion
 
@@ -37,15 +81,6 @@ namespace Core.Config
         /// Maximum file size for upload
         /// </summary>
         public static int MaximumFileSize => Convert.ToInt32(ConfigurationManager.AppSettings["MaximumFileSize"]);
-
-        #endregion
-
-        #region Site
-
-        /// <summary>
-        /// Represents site name
-        /// </summary>
-        public static string SiteName => ConfigurationManager.AppSettings["SiteName"];
 
         #endregion
 

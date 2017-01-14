@@ -41,9 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Email.cs" />
+    <Compile Include="EmailMessage.cs" />
     <Compile Include="GoogleEmailProvider.cs" />
-    <Compile Include="IEmail.cs" />
+    <Compile Include="IEmailMessage.cs" />
     <Compile Include="IEmailProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

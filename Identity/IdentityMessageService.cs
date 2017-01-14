@@ -1,39 +1,30 @@
-﻿using Core.Config;
-using EmailProvider;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using Service.Services.Emails;
 
 namespace Identity
 {
-    public class EmailService : IIdentityMessageService
+    public class IdentityMessageService : IIdentityMessageService
     {
-        private readonly IEmailProvider _emailProvider;
+        private readonly IEmailService _emailService;
 
-        public EmailService(IEmailProvider emailProvider)
+        public IdentityMessageService(IEmailService emailService)
         {
-            _emailProvider = emailProvider;
+            _emailService = emailService;
         }
 
         public Task SendAsync(IdentityMessage message)
         {
-            var email = new Email();
-
-            email.From = AppConfig.NoReplyEmailAddress;
-            email.To = message.Destination;
-            email.Subject = message.Subject;
-            email.IsHtml = true;
-            email.HtmlBody = message.Body;
-
-            return _emailProvider.SendEmailAsync(email);
+            return _emailService.SendEmailAsync(message.Destination, message.Subject, message.Body);
         }
     }
 
-    public class SmsService : IIdentityMessageService
-    {
-        public Task SendAsync(IdentityMessage message)
-        {
-            // Plug in your SMS service here to send a text message.
-            return Task.FromResult(0); // not implemented
-        }
-    }
+    //public class SmsService : IIdentityMessageService
+    //{
+    //    public Task SendAsync(IdentityMessage message)
+    //    {
+    //        // Plug in your SMS service here to send a text message.
+    //        return Task.FromResult(0); // not implemented
+    //    }
+    //}
 }

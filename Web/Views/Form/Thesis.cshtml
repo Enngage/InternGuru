@@ -37,7 +37,7 @@
                     if (!Model.ThesisForm.FormResult.IsSuccess)
                     {
                         <p>
-                            Zpráva bude doručena firmě <strong>@Model.Thesis.CompanyName</strong>
+                            U firmy <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.CompanyCodeName})">@Model.Thesis.CompanyName</a>
                         </p>
 
                             <div class="ui reply form">

@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Cache;
 using Entity;
-using Service.Context;
 using Service.Exceptions;
-using Service.Services.Logs;
 
 namespace Service.Services.Companies
 {
     public class CompanyService : BaseService<Company>, ICompanyService
     {
 
-        public CompanyService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
+        public CompanyService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
         public Task<int> DeleteAsync(int id)
         {

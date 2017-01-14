@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Entity;
 using Service.Services.Activities.Enums;

@@ -5,7 +5,7 @@ namespace EmailProvider
 {
     public interface IEmailProvider
     {
-        Task SendEmailAsync(IEmail email);
-        void SendEmail(IEmail email);
+        Task SendEmailAsync(IEmailMessage emailMessage);
+        void SendEmail(IEmailMessage emailMessage);
     }
 }

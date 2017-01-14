@@ -42,8 +42,6 @@ C:\inetpub\wwwroot\InternGuru\Service\obj\Debug\Service.dll
 C:\inetpub\wwwroot\InternGuru\Service\obj\Debug\Service.pdb
 C:\inetpub\wwwroot\InternGuru\Service\obj\Debug\Service.Migrations.IntAmountInternship.resources
 C:\inetpub\wwwroot\InternGuru\Service\obj\Debug\Service.csproj.GenerateResource.Cache
-C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.Migrations.Activities.resources
-C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.csproj.GenerateResource.Cache
 C:\inetpub\wwwroot\InternGuru-master\Service\bin\Debug\Service.dll.config
 C:\inetpub\wwwroot\InternGuru-master\Service\bin\Debug\Service.dll
 C:\inetpub\wwwroot\InternGuru-master\Service\bin\Debug\Service.pdb
@@ -65,3 +63,7 @@ C:\inetpub\wwwroot\InternGuru-master\Service\bin\Debug\Microsoft.AspNet.Identity
 C:\inetpub\wwwroot\InternGuru-master\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 C:\inetpub\wwwroot\InternGuru-master\Service\obj\Debug\Service.dll
 C:\inetpub\wwwroot\InternGuru-master\Service\obj\Debug\Service.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\EmailProvider.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\EmailProvider.pdb
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.Migrations.Email.resources
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.csproj.GenerateResource.Cache

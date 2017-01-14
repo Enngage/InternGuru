@@ -37,7 +37,7 @@
                     if (!Model.InternshipForm.FormResult.IsSuccess)
                     {
                         <p>
-                            Zpráva bude doručena firmě <strong>@Model.Internship.CompanyName</strong>
+                            U firmy <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.CompanyCodeName})">@Model.Internship.CompanyName</a>
                         </p>
 
                             <div class="ui reply form">

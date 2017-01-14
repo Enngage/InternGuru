@@ -229,6 +229,7 @@ namespace UI.Builders.Form
                     CompanyID = m.Company.ID,
                     ThesisCodeName = m.ThesisType.CodeName,
                     CompanyName = m.Company.CompanyName,
+                    CompanyCodeName = m.Company.CodeName,
                     ID = m.ID,
                     CompanyGuid = m.Company.CompanyGuid,
                     ThesisName = m.ThesisName,
@@ -282,7 +283,8 @@ namespace UI.Builders.Form
                     CompanyGuid = m.Company.CompanyGuid,
                     CompanyName = m.Company.CompanyName,
                     InternshipID = m.ID,
-                    InternshipTitle = m.Title
+                    InternshipTitle = m.Title,
+                    CompanyCodeName = m.CodeName,
                 });
 
             return await Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);

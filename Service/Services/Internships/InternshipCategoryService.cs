@@ -2,18 +2,15 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Cache;
 using Entity;
-using Service.Context;
 using Service.Exceptions;
-using Service.Services.Logs;
 
 namespace Service.Services.Internships
 {
     public class InternshipCategoryService : BaseService<InternshipCategory>, IInternshipCategoryService
     {
 
-        public InternshipCategoryService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
+        public InternshipCategoryService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
         public Task<int> DeleteAsync(int id)
         {

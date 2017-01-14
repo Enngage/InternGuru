@@ -4,6 +4,8 @@ using Service.Context;
 using Cache;
 using Service.Events;
 using System.Collections.Generic;
+using Core.Loc;
+using EmailProvider;
 using Entity.Base;
 using Service.Services.Logs;
 
@@ -13,6 +15,11 @@ namespace Service.Services
     {
         #region Variables
 
+        /// <summary>
+        /// Service dependencies
+        /// </summary>
+        protected IServiceDependencies ServiceDependencies { get; }
+
         #endregion
 
         #region Properties
@@ -20,17 +27,21 @@ namespace Service.Services
         /// <summary>
         /// AppContext 
         /// </summary>
-        protected IAppContext AppContext { get; private set; }
+        protected IAppContext AppContext
+        {
+            get { return ServiceDependencies.AppContext; }
+            set { ServiceDependencies.AppContext = value; }
+        }
 
         /// <summary>
         /// Cache service
         /// </summary>
-        protected ICacheService CacheService { get; }
+        protected ICacheService CacheService => ServiceDependencies.CacheService;
 
         /// <summary>
-        /// Log service
+        /// Email provider used to send e-mails out into the world
         /// </summary>
-        protected ILogService LogService { get; }
+        protected IEmailProvider EmailProvider => ServiceDependencies.EmailProvider;
 
         #endregion
 
@@ -39,14 +50,10 @@ namespace Service.Services
         /// <summary>
         /// Initializes service abstract instance
         /// </summary>
-        /// <param name="appContext">AppContext</param>
-        /// <param name="cacheService">Cache service</param>
-        /// <param name="logService">Log service (can be null because of cyclic ILogService)</param>
-        public BaseService(IAppContext appContext, ICacheService cacheService, ILogService logService = null)
+        /// <param name="serviceDependencies">serviceDependencies</param>
+        public BaseService(IServiceDependencies serviceDependencies)
         {
-            AppContext = appContext;
-            CacheService = cacheService;
-            LogService = logService;
+            ServiceDependencies = serviceDependencies;
         }
 
         #endregion
@@ -55,10 +62,7 @@ namespace Service.Services
 
         public void Dispose()
         {
-            if (AppContext != null)
-            {
-                AppContext.Dispose();
-            }
+            AppContext?.Dispose();
         }
 
         #endregion
@@ -77,11 +81,11 @@ namespace Service.Services
             }
             catch (Exception ex)
             {
+                // get log service
+                var logService = KernelProvider.Get<ILogService>();
+
                 // log event
-                if (LogService != null)
-                {
-                    LogService.LogException(ex);
-                }
+                logService?.LogException(ex);
 
                 // re-throw
                 throw;
@@ -100,11 +104,11 @@ namespace Service.Services
             }
             catch (Exception ex)
             {
+                // get log service
+                var logService = KernelProvider.Get<ILogService>();
+
                 // log event
-                if (LogService != null)
-                {
-                    LogService.LogException(ex);
-                }
+                logService?.LogException(ex);
 
                 // re-throw
                 throw;
@@ -223,8 +227,8 @@ namespace Service.Services
         /// <returns>Cache setup</returns>
         protected ICacheSetup GetCacheAllCacheSetup()
         {
-            var cacheMinutes = 120;
-            var cacheKey = "GetCacheAllCacheSetup";
+            const int cacheMinutes = 120;
+            const string cacheKey = "GetCacheAllCacheSetup";
 
             var cacheSetup = CacheService.GetSetup<T>(cacheKey, cacheMinutes);
             cacheSetup.Dependencies = new List<string>()

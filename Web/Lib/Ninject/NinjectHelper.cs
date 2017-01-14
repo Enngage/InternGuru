@@ -16,10 +16,12 @@ using UI.Events;
 using UI.UIServices;
 using UI.Builders.Shared.Models;
 using Identity;
+using Service.Services;
 using Service.Services.Activities;
 using Service.Services.Companies;
 using Service.Services.Countries;
 using Service.Services.Currencies;
+using Service.Services.Emails;
 using Service.Services.Identity;
 using Service.Services.Internships;
 using Service.Services.Languages;
@@ -46,14 +48,11 @@ namespace Web.Lib.Ninject
                 {
                     return InitializeHangfireKernel(kernel);
                 }
-                else if (kernelType == NinjectKernelType.Web)
+                if (kernelType == NinjectKernelType.Web)
                 {
                     return InitializeWebKernel(kernel);
                 }
-                else
-                {
-                    throw new Exception("Invalid Kernel type");
-                }
+                throw new Exception("Invalid Kernel type");
             }
             catch (Exception)
             {
@@ -102,7 +101,7 @@ namespace Web.Lib.Ninject
             // Services - they need to be in RequestScope, otherwise they may throw infinite recursion exceptions when a service is used inside another service
             kernel.Bind<ILogService>().To<LogService>().InRequestScope();
             kernel.Bind<IEmailProvider>().To<GoogleEmailProvider>().InRequestScope();
-            kernel.Bind<IEmail>().To<Email>().InRequestScope();
+            kernel.Bind<IEmailMessage>().To<EmailMessage>().InRequestScope();
             kernel.Bind<ICompanyService>().To<CompanyService>().InRequestScope();
             kernel.Bind<ICompanyCategoryService>().To<CompanyCategoryService>().InRequestScope();
             kernel.Bind<IInternshipService>().To<InternshipService>().InRequestScope();
@@ -121,12 +120,15 @@ namespace Web.Lib.Ninject
             kernel.Bind<IEmailTemplateService>().To<EmailTemplateService>().InRequestScope();
             kernel.Bind<IServiceEvents>().To<ServiceEvents>().InRequestScope();
             kernel.Bind<ISystemContext>().To<SystemContext>().InRequestScope();
-            kernel.Bind<IIdentityMessageService>().To<EmailService>().InRequestScope();
+            kernel.Bind<IIdentityMessageService>().To<IdentityMessageService>().InRequestScope();
             kernel.Bind<ICookieService>().To<CookieService>().InRequestScope();
             kernel.Bind<ILanguageService>().To<LanguageService>().InRequestScope();
             kernel.Bind<IHomeOfficeOptionService>().To<HomeOfficeOptionService>().InRequestScope();
             kernel.Bind<IStudentStatusOptionService>().To<StudentStatusOptionService>().InRequestScope();
             kernel.Bind<IActivityService>().To<ActivityService>().InRequestScope();
+            kernel.Bind<IEmailService>().To<EmailService>().InRequestScope();
+            kernel.Bind<IEventsLoader>().To<EventsLoader>().InRequestScope();
+            kernel.Bind<IServiceDependencies>().To<ServiceDependencies>().InRequestScope();
 
             return kernel;
         }

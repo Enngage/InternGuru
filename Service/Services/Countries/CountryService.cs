@@ -2,18 +2,15 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Cache;
 using Entity;
-using Service.Context;
 using Service.Exceptions;
-using Service.Services.Logs;
 
 namespace Service.Services.Countries
 {
     public class CountryService :  BaseService<Country>, ICountryService
     {
 
-        public CountryService(IAppContext appContext, ICacheService cacheService, ILogService logService) : base(appContext, cacheService, logService) { }
+        public CountryService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
         public Task<int> DeleteAsync(int id)
         {

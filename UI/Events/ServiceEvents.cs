@@ -1,5 +1,6 @@
-﻿using UI.Builders.Services;
-using UI.Events.EventClasses;
+﻿using System;
+using UI.Builders.Services;
+using UI.Builders.Shared.Models;
 
 namespace UI.Events
 {
@@ -11,18 +12,21 @@ namespace UI.Events
 
         #region Properties
 
-        private NotificationEvents NotificationEvents { get; set; }
+        private IEventsLoader EventsLoader { get; }
 
-        private IServicesLoader Services { get; set; }
+        private IServicesLoader Services { get; }
+
+        private ICurrentUser CurrentUser { get; set; }
+        private string CurrentUrl { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public ServiceEvents(IServicesLoader servicesLoader, NotificationEvents notificationEvents)
+        public ServiceEvents(IServicesLoader servicesLoader, IEventsLoader eventsLoader)
         {
             Services = servicesLoader;
-            NotificationEvents = notificationEvents;
+            EventsLoader = eventsLoader;
         }
 
         #endregion
@@ -30,11 +34,17 @@ namespace UI.Events
         #region Event registration
 
         /// <summary>
-        /// Used to register events
+        /// Use to register events
+        /// This methods needs to initialize CurrentUser & CurrentUrl properties
         /// </summary>
-        public void RegisterEvents()
+        /// <param name="currentUser">>Instance of current user in order to give service classes context</param>
+        /// <param name="url">Url of current request</param>
+        /// 
+        public void RegisterEvents(ICurrentUser currentUser, string url)
         {
-            // ----- Registered events ------ //
+            CurrentUser = currentUser;
+            CurrentUrl = url;
+
             Services.MessageService.OnInsertObject += MessageService_OnInsertObject;
         }
 
@@ -49,7 +59,16 @@ namespace UI.Events
         /// <param name="e"></param>
         private void MessageService_OnInsertObject(object sender, Service.Events.InsertEventArgs<Entity.Message> e)
         {
-            NotificationEvents.SendMessageNotifications(e.Obj);
+            try
+            {
+                EventsLoader.NotificationEvents.SendMessageNotificationToRecipient(e.Obj);
+            }
+            catch (Exception ex)
+            {
+                Services.LogService.LogException(ex, CurrentUrl, CurrentUser?.UserName);
+
+            }
+
         }
 
         #endregion

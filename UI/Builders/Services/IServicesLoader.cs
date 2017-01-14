@@ -4,6 +4,7 @@ using Service.Services.Activities;
 using Service.Services.Companies;
 using Service.Services.Countries;
 using Service.Services.Currencies;
+using Service.Services.Emails;
 using Service.Services.Identity;
 using Service.Services.Internships;
 using Service.Services.Languages;
@@ -38,12 +39,12 @@ namespace UI.Builders.Services
         IThesisService ThesisService { get; }
         IThesisTypeService ThesisTypeService { get; }
         IEmailTemplateService EmailTemplateService { get; }
-        IEmailProvider EmailProvider { get; }
         ICookieService CookieService { get; }
         ILanguageService LanguageService { get; }
         IHomeOfficeOptionService HomeOfficeOptionService { get; }
         IStudentStatusOptionService StudentStatusOptionService { get; }
         IActivityService ActivityService { get; }
+        IEmailService EmailService { get; }
 
         #endregion
     }

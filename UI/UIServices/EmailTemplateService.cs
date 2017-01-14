@@ -1,25 +1,23 @@
 ﻿using Core.Config;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
+using UI.Emails;
 using UI.UIServices.Models;
 
 namespace UI.UIServices
 {
     public class EmailTemplateService : IEmailTemplateService
     {
-        private const string EmailTemplateFolder = "EmailTemplates";
+        private readonly string _emailTemplateFolder = AppConfig.EmailTemplatesFolder;
+        private readonly string _emailTemplatesExtension = ".html";
 
-        private string ServerEmailTemplateFolderPath
-        {
-            get
-            {
-                return SystemConfig.ServerRootPath + EmailTemplateFolder + "\\";
-            }
-        }
+        public string ServerEmailTemplateFolderPath => SystemConfig.ServerRootPath + _emailTemplateFolder + "\\";
+
         public string GetTemplateHtml(string fileName)
         {
             // construct file path
-            var templatePath = ServerEmailTemplateFolderPath + fileName;
+            var templatePath = ServerEmailTemplateFolderPath + fileName + _emailTemplatesExtension;
 
             // get file
             if (!File.Exists(templatePath))
@@ -28,12 +26,14 @@ namespace UI.UIServices
             }
 
             // read html
-            return File.ReadAllText(templatePath);
+            return ReplaceMacros(File.ReadAllText(templatePath), GetDefaultMacroReplacemens());
         }
 
         public string GetTemplateHtml(string fileName, IEnumerable<MacroReplacement> replacements)
         {
-            return ReplaceMacros(GetTemplateHtml(fileName), replacements);
+            var defaultReplacements = replacements?.Concat(GetDefaultMacroReplacemens()) ?? GetDefaultMacroReplacemens();
+
+            return ReplaceMacros(GetTemplateHtml(fileName), defaultReplacements);
         }
 
         public string ReplaceMacros(string text, IEnumerable<MacroReplacement> replacements)
@@ -49,6 +49,51 @@ namespace UI.UIServices
             }
 
             return text;
+        }
+
+        public string GetTemplateHtml(EmailTypeEnum emailType)
+        {
+            return GetTemplateHtml(emailType, null);
+        }
+
+        public string GetTemplateHtml(EmailTypeEnum emailType, IEnumerable<MacroReplacement> replacements)
+        {
+            var fileName = emailType.ToString();
+            var defaultReplacements = replacements?.Concat(GetDefaultMacroReplacemens()) ?? GetDefaultMacroReplacemens();
+
+            return GetTemplateHtml(fileName, defaultReplacements);
+        }
+
+        public IEnumerable<MacroReplacement> GetDefaultMacroReplacemens()
+        {
+            return new List<MacroReplacement>()
+            {
+                new MacroReplacement()
+                {
+                    MacroName = "SiteName",
+                    Value = AppConfig.SiteName
+                },
+                new MacroReplacement()
+                {
+                    MacroName = "Address",
+                    Value = AppConfig.Address
+                },
+                new MacroReplacement()
+                {
+                    MacroName = "City",
+                    Value = AppConfig.City
+                },
+                new MacroReplacement()
+                {
+                    MacroName = "Country",
+                    Value = AppConfig.Country
+                },
+                  new MacroReplacement()
+                {
+                    MacroName = "WebUrl",
+                    Value = AppConfig.WebUrl
+                },
+            };
         }
     }
 }

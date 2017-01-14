@@ -69,7 +69,7 @@ namespace UI.Base
         /// </summary>
         /// <param name="systemContext">systemContext</param>
         /// <param name="servicesLoader">services loader used to initialize all services</param>
-        public BaseBuilder(ISystemContext systemContext, IServicesLoader servicesLoader)
+        protected BaseBuilder(ISystemContext systemContext, IServicesLoader servicesLoader)
         {
             AppContext = systemContext.AppContext;
             Services = servicesLoader;

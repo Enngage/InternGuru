@@ -33,7 +33,7 @@
 
 <div class="ui three column grid _CompanyGalleryCards w-margin-top-14">
     @foreach (var image in ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGuid))
-        {
+    {
         <div class="column">
             <div class="ui fluid card">
                 <div class="blurring dimmable image">
@@ -44,25 +44,16 @@
                             </div>
                         </div>
                     </div>
-                    <img src="@image.Value">
+                    <img alt="" src="@image.Value">
                 </div>
             </div>
         </div>
     }
 </div>
 
+@Html.RenderWarningMessage("U FireFoxu negunfuje drag & drop a je nutno kliknout do okna a vybrat soubory")
 
 
-@*<div class="ui grid w-margin-top-14">
-        @foreach (var image in ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGUID))
-        {
-            <div class="sixteen wide mobile eight wide tablet five wide computer column w-auth-gallery-column">
-                <div class="w-auth-gallery-image-wrapper">
-                    <img class="image" src="@image.Value" />
-                </div>
-            </div>
-        }
-    </div>*@
 
 
 

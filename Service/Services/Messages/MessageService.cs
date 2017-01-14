@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Cache;
 using Entity;
-using Service.Context;
 using Service.Exceptions;
 
 namespace Service.Services.Messages
@@ -13,7 +11,7 @@ namespace Service.Services.Messages
     public class MessageService : BaseService<Message>, IMessageService
     {
 
-        public MessageService(IAppContext appContext, ICacheService cacheService) : base(appContext, cacheService) { }
+        public MessageService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
         #region IService members
 

@@ -16,5 +16,10 @@ namespace UI.UIServices.Models
         /// Replacement value
         /// </summary>
         public string Value { get; set; }
+
+        public override string ToString()
+        {
+            return $"Macro: {MacroName}: {Value}";
+        }
     }
 }

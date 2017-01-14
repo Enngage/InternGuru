@@ -458,7 +458,8 @@
   #w-body-wrapper .w-company-social-icons a {
     color: #828282 !important; }
   #w-body-wrapper .w-company-detail-banner {
-    height: 247px; }
+    height: 247px;
+    width: 100%; }
   #w-body-wrapper .w-company-segment .column {
     margin-top: 30px; }
   #w-body-wrapper .w-company-segment .column .w-company-browse-banner {

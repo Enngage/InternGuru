@@ -18,5 +18,13 @@ namespace Core.Loc
         {
             Kernel = kernel;
         }
+
+        /// <summary>
+        /// Gets an instance of the specified service
+        /// </summary>
+        public static T Get<T>()
+        {
+            return Kernel.Get<T>();
+        }
     }
 }
