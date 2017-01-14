@@ -8,6 +8,41 @@ namespace Core.Config
     public static class AppConfig
     {
 
+        #region Environment
+
+        /// <summary>
+        /// Default cache minutes
+        /// </summary>
+        public static int DefaultCacheMinutes => Convert.ToInt32(ConfigurationManager.AppSettings["DefaultCacheMinutes"]);
+
+        /// <summary>
+        /// Indicates if cache is enabled
+        /// </summary>
+        public static bool DisableCaching => ConfigurationManager.AppSettings["DisableCaching"] == "1";
+
+        /// <summary>
+        /// Represents evironment of current instance (based on web.config key)
+        /// </summary>
+        public static EnvironmentEnum Environment
+        {
+            get
+            {
+                var value = ConfigurationManager.AppSettings["Environment"];
+
+                if (value.Equals("1", StringComparison.OrdinalIgnoreCase))
+                {
+                    return EnvironmentEnum.Live;
+                }
+                if (value.Equals("0", StringComparison.OrdinalIgnoreCase))
+                {
+                    return EnvironmentEnum.Dev;
+                }
+                throw new Exception("Invalid environment. Review 'Environment' web.config key");
+            }
+        }
+
+        #endregion
+
         #region Web
 
         /// <summary>
@@ -41,17 +76,12 @@ namespace Core.Config
 
         #endregion
 
-        #region Cache
+        #region Files
 
         /// <summary>
-        /// Default cache minutes
+        /// Maximum file size for upload
         /// </summary>
-        public static int DefaultCacheMinutes => Convert.ToInt32(ConfigurationManager.AppSettings["DefaultCacheMinutes"]);
-
-        /// <summary>
-        /// Indicates if cache is enabled
-        /// </summary>
-        public static bool DisableCaching => ConfigurationManager.AppSettings["DisableCaching"] == "1";
+        public static int MaximumFileSize => Convert.ToInt32(ConfigurationManager.AppSettings["MaximumFileSize"]);
 
         #endregion
 
@@ -75,16 +105,21 @@ namespace Core.Config
 
         #endregion
 
-        #region Maximum file size
+        #region Email provider
 
-        /// <summary>
-        /// Maximum file size for upload
-        /// </summary>
-        public static int MaximumFileSize => Convert.ToInt32(ConfigurationManager.AppSettings["MaximumFileSize"]);
+        public static string GmailUserName => ConfigurationManager.AppSettings["GmailUsername"];
+
+        public static int GmailPort => Convert.ToInt32(ConfigurationManager.AppSettings["GmailPort"]);
+
+        public static string GmailPassword => ConfigurationManager.AppSettings["GmailPassword"];
+
+        public static string GmailHost => ConfigurationManager.AppSettings["GmailHost"];
+
+        public static bool GmailSsl => ConfigurationManager.AppSettings["GmailSSL"].Equals("true", StringComparison.OrdinalIgnoreCase);
 
         #endregion
 
-        #region Facebook
+        #region Social
 
         /// <summary>
         /// Represents Facebook AppID
@@ -101,10 +136,6 @@ namespace Core.Config
         /// </summary>
         public static string FacebookAppUrl => ConfigurationManager.AppSettings["FacebookAppUrl"];
 
-        #endregion
-
-        #region Google
-
         /// <summary>
         /// Represents Google API KEY
         /// </summary>
@@ -120,39 +151,10 @@ namespace Core.Config
         /// </summary>
         public static string GoogleClientSecret => ConfigurationManager.AppSettings["GoogleClientSecret"];
 
-        #endregion
-
-        #region Twitter
-
         /// <summary>
         /// Represents Twitter url
         /// </summary>
         public static string TwitterAppUrl => ConfigurationManager.AppSettings["TwitterAppUrl"];
-
-        #endregion
-
-        #region Environment
-
-        /// <summary>
-        /// Represents evironment of current instance (based on web.config key)
-        /// </summary>
-        public static EnvironmentEnum Environment
-        {
-            get
-            {
-                var value = ConfigurationManager.AppSettings["Environment"];
-
-                if (value.Equals("1", StringComparison.OrdinalIgnoreCase))
-                {
-                    return EnvironmentEnum.Live;
-                }
-                if (value.Equals("0", StringComparison.OrdinalIgnoreCase))
-                {
-                    return EnvironmentEnum.Dev;
-                }
-                throw new Exception("Invalid environment. Review 'Environment' web.config key");
-            }
-        }
 
         #endregion
 

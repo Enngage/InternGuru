@@ -6,6 +6,6 @@ namespace UI.Emails
     /// </summary>
     public enum EmailTypeEnum
     {
-        NotificationNewMessageToRecipient
+        BasicEmail
     }
 }

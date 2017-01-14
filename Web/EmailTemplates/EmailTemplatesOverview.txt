@@ -3,15 +3,18 @@ This file contains names of e-mail templates used by system and macros that can 
 ///
 
 ///List of macros that can be used on every template:
-SiteName
-Address
-City
-Country
-WebUrl
+{SiteName}
+{Address}
+{City}
+{Country}
+{WebUrl}
+{Year}
 ///
 
-Notification_NewMessageToRecipient 
+BasicEmail 
+	{Title}
 	{RecipientEmail}
 	{MessageText}
-
-
+	{Preheader}
+	{ButtonText}
+	{ButtonUrl}

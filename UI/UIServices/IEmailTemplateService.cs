@@ -58,5 +58,17 @@ namespace UI.UIServices
         /// </summary>
         /// <returns>Collection of default macro replacements</returns>
         IEnumerable<MacroReplacement> GetDefaultMacroReplacemens();
+
+        /// <summary>
+        /// Gets basic e-mail using default data
+        /// </summary>
+        /// <param name="recipient">E-mail address of recipient</param>
+        /// <param name="title">Title of e-mail</param>
+        /// <param name="text">Text of e-mail</param>
+        /// <param name="preheader">Preheader - will be displayed in e-mail preview</param>
+        /// <param name="buttonUrl">Url of the button</param>
+        /// <param name="buttonText">Text of the button</param>
+        /// <returns></returns>
+        string GetBasicTemplate(string recipient, string title, string text, string preheader , string buttonUrl, string buttonText);
     }
 }

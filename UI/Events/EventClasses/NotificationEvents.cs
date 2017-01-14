@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Core.Config;
-using EmailProvider;
 using Entity;
 using UI.Builders.Services;
-using UI.Emails;
-using UI.UIServices.Models;
+using UI.Helpers;
 
 namespace UI.Events.EventClasses
 {
@@ -41,52 +37,52 @@ namespace UI.Events.EventClasses
 
             if (recipient == null)
             {
-                throw new ArgumentNullException($"Nelze odeslat e-mail protože uživatel s ID {message.RecipientApplicationUserId} neexistuje");
+                throw new ArgumentNullException($"Nelze odeslat e-mail protože uživatel s ID = {message.RecipientApplicationUserId} neexistuje");
             }
 
-            // get email template
-            var replacements = new List<MacroReplacement>()
+            // get sender
+            var sender = Services.IdentityService.GetSingle(message.SenderApplicationUserId).FirstOrDefault();
+            if (sender == null)
             {
-                new MacroReplacement()
-                {
-                    MacroName = "RecipientEmail",
-                    Value = recipient.Email
-                },
-                new MacroReplacement()
-                {
-                    MacroName = "MessageText",
-                    Value = message.MessageText
-                },
-                new MacroReplacement()
-                {
-                    MacroName = "Subject",
-                    Value = message.Subject
-                },
-            };
+                throw new ArgumentException($"Nelze odeslat e-mail od uživatele s ID = {message.SenderApplicationUserId} protože neexistuje");
+            }
+
+            const int previewCharLength = 120;
+            const string subject = "Nová zpráva";
+            var title = $"Zpráva od {UserHelper.GetDisplayName(sender.FirstName, sender.LastName, sender.Nickname, sender.UserName)}";
+            var preheader = message.MessageText.Length > previewCharLength
+                ? message.MessageText.Substring(0, previewCharLength - 1)
+                : message.MessageText;
+            var emailHtml = Services.EmailTemplateService.GetBasicTemplate(recipient.Email, title, message.MessageText, preheader, GetConversationUrl(message.SenderApplicationUserId), "Odepsat");
 
             try
             {
-                var emailHtml = Services.EmailTemplateService.GetTemplateHtml(EmailTypeEnum.NotificationNewMessageToRecipient, replacements);
-
-                if (string.IsNullOrEmpty(emailHtml))
-                {
-                    var error = $"E-mail šablona {EmailTypeEnum.NotificationNewMessageToRecipient} je prázdná";
-
-                    this.Services.EmailService.LogFailedEmail(recipient.Email, $"Nová zpráva: {message.Subject}", string.Join(",", replacements), error);
-
-                    throw new ArgumentNullException(error);
-                }
-
                 // send e-mail
-                this.Services.EmailService.SendEmail(recipient.Email, $"Nová zpráva: {message.Subject}", emailHtml);
+                this.Services.EmailService.SendEmail(recipient.Email, subject, emailHtml);
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex)
             {
                 // e-mail could not be send because the template was not found
-                this.Services.EmailService.LogFailedEmail(recipient.Email, $"Nová zpráva: {message.Subject}", string.Join(",", replacements), ex.Message);
+                var emailText = $"{message.MessageText}";
+
+                this.Services.EmailService.LogFailedEmail(recipient.Email, subject, emailText, ex.Message);
             }
         }
-    }
 
-    #endregion
+        #endregion
+
+        #region Url helper methods
+
+        /// <summary>
+        /// Gets url to Conversation page used in e-mail notification
+        /// </summary>
+        /// <param name="senderApplicationId">ID of the sender user</param>
+        /// <returns>URL of the conversation</returns>
+        private static string GetConversationUrl(string senderApplicationId)
+        {
+            return $"{AppConfig.WebUrl}Auth/Conversation/{senderApplicationId}";
+        }
+
+        #endregion
+    }
 }

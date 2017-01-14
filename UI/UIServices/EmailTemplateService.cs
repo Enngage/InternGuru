@@ -1,4 +1,5 @@
-﻿using Core.Config;
+﻿using System;
+using Core.Config;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,12 +89,54 @@ namespace UI.UIServices
                     MacroName = "Country",
                     Value = AppConfig.Country
                 },
-                  new MacroReplacement()
+                new MacroReplacement()
                 {
                     MacroName = "WebUrl",
                     Value = AppConfig.WebUrl
                 },
+                new MacroReplacement()
+                {
+                    MacroName = "Year",
+                    Value = DateTime.Now.Year.ToString()
+                },
             };
+        }
+
+        public string GetBasicTemplate(string recipient, string title, string text, string preheader, string buttonUrl, string buttonText)
+        {
+            return GetTemplateHtml(EmailTypeEnum.BasicEmail, new List<MacroReplacement>()
+            {
+                new MacroReplacement()
+                {
+                    MacroName = "Title",
+                    Value = title
+                },
+                new MacroReplacement()
+                {
+                    MacroName = "RecipientEmail",
+                    Value = recipient
+                },
+                new MacroReplacement()
+                {
+                    MacroName = "MessageText",
+                    Value = text
+                },
+                new MacroReplacement()
+                {
+                    MacroName = "Preheader",
+                    Value = preheader
+                },
+                 new MacroReplacement()
+                {
+                    MacroName = "ButtonText",
+                    Value = buttonText
+                },
+                  new MacroReplacement()
+                {
+                    MacroName = "ButtonUrl",
+                    Value = buttonUrl
+                },
+            });
         }
     }
 }

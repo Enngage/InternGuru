@@ -230,7 +230,7 @@
     <Content Include="EmailTemplates\EmailTemplatesOverview.txt" />
     <Content Include="EmailTemplates\Files\logo-2.jpg" />
     <Content Include="EmailTemplates\Files\video-1.jpg" />
-    <Content Include="EmailTemplates\NotificationNewMessageToRecipient.html" />
+    <Content Include="EmailTemplates\BasicEmail.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">

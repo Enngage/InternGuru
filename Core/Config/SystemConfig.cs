@@ -8,13 +8,7 @@ namespace Core.Config
         /// <summary>
         /// Represents default connection string
         /// </summary>
-        public static string DefaultConnectionStringName
-        {
-            get
-            {
-                return "DefaultConnection";
-            }
-        }
+        public static string DefaultConnectionStringName => "DefaultConnection";
 
         #endregion
 
