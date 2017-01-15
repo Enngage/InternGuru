@@ -20,6 +20,7 @@ namespace UI.Builders.Auth.Enum
         EditProfile,
         Avatar,
         Conversation,
-        EventLog
+        EventLog,
+        EmailLog
     }
 }

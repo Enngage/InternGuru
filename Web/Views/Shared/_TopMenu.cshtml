@@ -26,14 +26,14 @@
             {
                 <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
             }
-            @if (controller.Equals("meetups", StringComparison.OrdinalIgnoreCase))
+            @*@if (controller.Equals("meetups", StringComparison.OrdinalIgnoreCase))
             {
                 <a href="@Url.Action("Index", "Meetups")" class="item active">Meetups</a>
             }
             else
             {
                 <a href="@Url.Action("Index", "meetups")" class="item">Meetups</a>
-            }
+            }*@
             @if (controller.Equals("theses", StringComparison.OrdinalIgnoreCase))
             {
                 <a href="@Url.Action("Index", "Theses")" class="item active">Závěrečné práce</a>
@@ -56,10 +56,9 @@
                 @*<img alt="Logo" class="logo" src="@ImageHelper.GetImageUrl("content/images/general/logos/profile.png")">*@
                 <a href="@Url.Action("Index", "Home")">@Core.Config.AppConfig.SiteName</a>
             </div>
-            <a href="@Url.Action("Index", "Forum")" class="item">Forum</a>
-            <a href="@Url.Action("Index", "Browse")" class="item">Channels</a>
-            <a href="@Url.Action("Index", "Videos")" class="item">Videos</a>
-            <a href="@Url.Action("Index", "Chart")" class="item">Charts</a>
+            <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
+            <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
+            <a href="@Url.Action("Index", "Theses")" class="item">Závěrečné práce</a>
 
             <div class="right menu">
                 @Html.Partial("_LoginPartial")
@@ -82,11 +81,9 @@
         </div>
     </div>
     <div class="ui vertical menu fluid w-menu-mobile">
-        @Html.ActionLink("Channels", "Index", "Browse", null, new { @class = "item" })
-        @Html.ActionLink("Videos", "Index", "Videos", null, new { @class = "item" })
-        @Html.ActionLink("Charts", "Index", "Chart", null, new { @class = "item" })
-        @Html.ActionLink("Forum", "Index", "Forum", new { }, new { @class = "item" })
-        @Html.ActionLink("Blog", "Index", "Blog", new { }, new { @class = "item" })
+        <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
+        <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
+        <a href="@Url.Action("Index", "Theses")" class="item">Závěrečné práce</a>
         @Html.Partial("_LoginPartialMobile")
     </div>
 </div>

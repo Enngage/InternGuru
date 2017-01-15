@@ -55,7 +55,12 @@ namespace Core.Config
         #region General
 
         /// <summary>
-        /// Represents site name
+        /// E-mail of main contact (me)
+        /// </summary>
+        public static string MainContactEmail => ConfigurationManager.AppSettings["MainContactEmail"];
+
+        /// <summary>
+        /// Site name
         /// </summary>
         public static string SiteName => ConfigurationManager.AppSettings["SiteName"];
 

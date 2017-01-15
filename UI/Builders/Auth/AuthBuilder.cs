@@ -719,21 +719,8 @@ namespace UI.Builders.Auth
             // get messages 
             var messages = await GetConversationMessagesAsync(otherUserId, page);
 
-            // mark messages as read if the last message's recipient is current user
-            var lastMessage = messages.FirstOrDefault();
-            if (lastMessage != null)
-            {
-                if (lastMessage.RecipientApplicationUserId.Equals(CurrentUser.Id, StringComparison.OrdinalIgnoreCase))
-                {
-                    await Services.MessageService.MarkMessagesAsRead(CurrentUser.Id, otherUserId);
-
-                    // mark all loaded messages as read
-                    foreach (var message in messages)
-                    {
-                        message.IsRead = true;
-                    }
-                }
-            }
+            // mark all received messaged for current user as read
+            await Services.MessageService.MarkMessagesAsRead(CurrentUser.Id, otherUserId);
 
             return new AuthConversationView()
             {

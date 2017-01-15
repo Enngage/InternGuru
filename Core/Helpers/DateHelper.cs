@@ -21,14 +21,7 @@ namespace Core.Helpers
         /// <returns>Formatted time</returns>
         public static string FormatTime(DateTime date)
         {
-            if (DateTime.Now.AddDays(-1) > date)
-            {
-                return FormatDate(date);
-            }
-            else
-            {
-                return date.ToString("H:m");
-            }
+            return DateTime.Now.AddDays(-1) > date ? FormatDate(date) : date.ToString("H:m");
         }
     }
 }

@@ -25,10 +25,10 @@
                     @foreach (var conversation in Model.AuthMaster.Conversations)
                     {
                         <div class="item w-auth-conversation-div w-override-padding-all _ConversationItem" data-link="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                            <a class="ui tiny image w-mobile-margin-0" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                                <img alt="" class="ui tiny image" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(conversation.WithApplicationUserId)">
+                            <a class="ui tiny image w-mobile-margin-0 w-mobile-hide" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
+                                <img alt="" class="ui image tiny" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetUserAvatar(conversation.WithApplicationUserId)">
                             </a>
-                            <div class="content">
+                            <div class="content w-mobile-padding-0">
                                 <a class="header" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
                                     @conversation.WithApplicationDisplayName
                                 </a>

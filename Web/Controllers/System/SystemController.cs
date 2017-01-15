@@ -49,5 +49,17 @@ namespace Web.Controllers.System
 
             return View(model);
         }
+
+        public async Task<ActionResult> EmailLog(int? page, bool? onlyunsent)
+        {
+            var model = await _systemBuilder.BuildEmailLogViewAsync(page, onlyunsent ?? false);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(model);
+        }
     }
 }

@@ -1,0 +1,43 @@
+﻿@using UI.Extensions
+@model UI.Builders.Home.Views.HomeContactUsView
+
+@{
+    ViewBag.Title = "Kontakt";
+    Layout = "~/Views/Shared/Body/Light.cshtml";
+}
+
+
+
+@using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="ui grid">
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+            <h1>
+                @ViewBag.Title
+            </h1>
+
+            <div class="ui form">
+
+                @Html.RenderFormValidationResult(Model.ContactUsForm.FormResult.IsSuccess)
+
+
+                <div class="field required">
+                    <label>E-mail</label>
+                    <input name="Email" placeholder="Zadejte e-mail" type="text" value="@Model.ContactUsForm.Email">
+                </div>
+
+                <div class="field required">
+                    <label>Zpráva</label>
+                    <textarea name="Message">@Model.ContactUsForm.Message</textarea>
+                </div>
+
+                <button class="ui button primary" type="submit">
+                    Odeslat
+                </button>
+            </div>
+        </div>
+    </div>
+}
+

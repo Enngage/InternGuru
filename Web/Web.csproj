@@ -2241,12 +2241,15 @@
     <Content Include="Scripts\modules\coreModule.js" />
     <Content Include="Scripts\views\gallery\base.js" />
     <Content Include="Scripts\views\infoMessage\base.js" />
+    <Content Include="Scripts\views\internship\notFound.js" />
     <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\internship\detail.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
+    <Content Include="Scripts\views\system\emailLog.js" />
     <Content Include="Scripts\views\system\eventLog.js" />
     <Content Include="Scripts\views\thesis\browseTheses.js" />
     <Content Include="Scripts\views\thesis\detail.js" />
+    <Content Include="Scripts\views\thesis\notFound.js" />
     <Content Include="Semantic\dist\components\accordion.css" />
     <Content Include="Semantic\dist\components\accordion.js" />
     <Content Include="Semantic\dist\components\accordion.min.css" />
@@ -2498,6 +2501,13 @@
     <Content Include="Views\Auth\Internships.cshtml" />
     <Content Include="Views\Auth\Theses.cshtml" />
     <Content Include="Views\InfoMessage\InfoMessage.cshtml" />
+    <Content Include="Views\Internship\NotFound.cshtml" />
+    <Content Include="Views\Thesis\NotFound.cshtml" />
+    <Content Include="Views\Home\Info.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Pricing.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\System\EmailLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

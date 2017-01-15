@@ -204,6 +204,9 @@
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
     <Compile Include="Builders\Gallery\Views\GalleryView.cs" />
     <Compile Include="Builders\Gallery\Models\GalleryImage.cs" />
+    <Compile Include="Builders\Home\Forms\HomeContactUsForm.cs" />
+    <Compile Include="Builders\Home\HomeBuilder.cs" />
+    <Compile Include="Builders\Home\Views\HomeContactUsView.cs" />
     <Compile Include="Builders\InfoMessage\InfoMessageBuilder.cs" />
     <Compile Include="Builders\InfoMessage\Enums\InfoMessageTypeEnum.cs" />
     <Compile Include="Builders\InfoMessage\Models\InfoMessageProcessClosableMessageQuery.cs" />
@@ -212,8 +215,10 @@
     <Compile Include="Builders\Internship\Models\InternshipHomeOfficeOptionModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipStudentStatusOptionModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipLanguageModel.cs" />
+    <Compile Include="Builders\Internship\Views\InternshipNotFoundView.cs" />
     <Compile Include="Builders\Shared\Models\IntWrapper.cs" />
-    <Compile Include="Builders\System\Views\SystemAuthModel.cs" />
+    <Compile Include="Builders\System\Models\SystemEmailModel.cs" />
+    <Compile Include="Builders\System\Views\SystemAuthView.cs" />
     <Compile Include="Builders\System\Models\SystemEventModel.cs" />
     <Compile Include="Builders\System\SystemBuilder.cs" />
     <Compile Include="Builders\Form\Forms\FormThesisForm.cs" />
@@ -225,6 +230,7 @@
     <Compile Include="Builders\Shared\Models\UIHeader.cs" />
     <Compile Include="Builders\Shared\Models\IUIHeader.cs" />
     <Compile Include="Builders\Shared\Models\SystemContext.cs" />
+    <Compile Include="Builders\System\Views\SystemEmailLogView.cs" />
     <Compile Include="Builders\System\Views\SystemEventLogView.cs" />
     <Compile Include="Builders\Thesis\Models\ThesisCategoryModel.cs" />
     <Compile Include="Builders\Thesis\Models\ThesisBrowseModel.cs" />
@@ -274,6 +280,7 @@
     <Compile Include="Builders\Shared\Models\StatusBox.cs" />
     <Compile Include="Builders\Shared\Models\IStatusBox.cs" />
     <Compile Include="Builders\Shared\Models\ICurrentUser.cs" />
+    <Compile Include="Builders\Thesis\Views\ThesisNotFoundView.cs" />
     <Compile Include="Emails\EmailTypeEnum.cs" />
     <Compile Include="Events\EventClasses\NotificationEvents.cs" />
     <Compile Include="Events\IEventsLoader.cs" />
@@ -332,6 +339,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Builders\Home\Models\" />
     <Folder Include="Builders\Shared\Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

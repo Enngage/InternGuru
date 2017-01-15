@@ -30,13 +30,14 @@
     var editProfileClass = activeMenuItem == AuthMenuActionEnum.EditProfile ? "active" : string.Empty;
     var avatarClass = activeMenuItem == AuthMenuActionEnum.Avatar ? "active" : string.Empty;
     var eventLogClass = activeMenuItem == AuthMenuActionEnum.EventLog ? "active" : string.Empty;
+    var emailLogClass = activeMenuItem == AuthMenuActionEnum.EmailLog ? "active" : string.Empty;
 }
 
 @Html.RequireScript("/scripts/views/auth/authIndex")
 
 <div class="ui grid w-auth-header-fix">
     <div class="six wide tablet only four wide computer only column">
-        
+
         @foreach (var enabledTab in Model.Tabs.GetOrderedActiveTabs())
         {
             switch (enabledTab.Tab)
@@ -94,7 +95,7 @@
                             <div class="menu">
                                 <a class="item @editProfileClass" href="@Url.Action("EditProfile", "Auth")">Základní údaje</a>
                                 <a class="item @avatarClass" href="@Url.Action("Avatar", "Auth")">Avatar</a>
-                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "_MainLogoutForm"}))
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "_MainLogoutForm" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <a class="item" href="javascript:document.getElementById('_MainLogoutForm').submit()">
@@ -118,6 +119,9 @@
                                         <span>| <span class="w-font-negative">@Model.Master.StatusBox.NewEventLogCount</span></span>
                                     }
                                 </a>
+                                <a class="item @emailLogClass" href="@Url.Action("EmailLog", "System")">
+                                    E-maily
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -126,7 +130,7 @@
         }
     </div>
     <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
-        
+
         @*Display warning message indicating that other users can see user's e-mail address*@
         @{
             // EmailVisibleToOthers from AuthMaster has priority to fix editing user
@@ -137,7 +141,7 @@
             var infoMessage = new UI.Builders.InfoMessage.Views.InfoMessageView()
             {
                 MessageID = "emailnotice",
-                Message = "Ostatní uživatelé vidí Váš e-mail. Pro jeho skrytí vyplňte <strong>Jméno / Přezdívku</strong> <a href=\"" + Url.Action("EditProfile") + "\">zde</a>",
+                Message = $"Ostatní uživatelé vidí část Vašeho e-mailu (bez domény) - <strong>'{Model.Master.CurrentUser.UserDisplayName}'</strong>. Pro úplné skrytí vyplňte <strong>Jméno</strong> nebo <strong>Přezdívku</strong> <a href=\"{Url.Action("EditProfile")}\">zde</a>",
                 IsClosable = true,
                 MessageType = InfoMessageTypeEnum.Warning,
                 RememberClosedUntil = DateTime.Now.AddDays(1)
@@ -146,6 +150,98 @@
         }
 
         @RenderBody()
+    </div>
+    <div class="sixteen wide mobile only column">
+        @foreach (var enabledTab in Model.Tabs.GetOrderedActiveTabs())
+        {
+            switch (enabledTab.Tab)
+            {
+                case UI.Builders.Auth.Enum.AuthTabEnum.MainMenu:
+                    <div class="ui vertical fluid menu">
+                        <div class="item">
+                            <div class="header">Hlavní menu</div>
+                            <div class="menu">
+                                <a class="item @messagesClass" href="@Url.Action("Index", "Auth")">
+                                    @if (Model.Master.StatusBox.NewMessagesCount > 0)
+                                    {
+                                        <div class="ui small red label">@Model.Master.StatusBox.NewMessagesCount</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="ui small label">0</div>
+                                    }
+                                    Zprávy
+                                </a>
+                                <a class="item @internshipsClass" href="@Url.Action("Internships", "Auth")">
+                                    <div class="ui small label">@Model.AuthMaster.Internships.Count()</div>
+                                    Stáže
+                                </a>
+                                <a class="item @thesesClass" href="@Url.Action("Theses", "Auth")">
+                                    <div class="ui small label">@Model.AuthMaster.Theses.Count()</div>
+                                    Závěrečné práce
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="header">Inzerce</div>
+                            <div class="menu">
+                                <a class="item @newInternshipClass" href="@Url.Action("NewInternship", "Auth")">Nová stáž</a>
+                                <a class="item @newThesisClass" href="@Url.Action("NewThesis", "Auth")">Nová závěrečná práce</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="header">Firma</div>
+                            <div class="menu">
+                                @if (Model.Master.CurrentCompany.IsAvailable)
+                                {
+                                    <a class="item @editCompanyClass" href="@Url.Action("EditCompany", "Auth")">Upravit</a>
+                                    <a class="item @companyGalleryClass" href="@Url.Action("CompanyGallery", "Auth")">Galerie</a>
+                                }
+                                else
+                                {
+                                    <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany", "Auth")">Registrovat firmu</a>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="header">Profil</div>
+                            <div class="menu">
+                                <a class="item @editProfileClass" href="@Url.Action("EditProfile", "Auth")">Základní údaje</a>
+                                <a class="item @avatarClass" href="@Url.Action("Avatar", "Auth")">Avatar</a>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "_MainLogoutForm_Mobile" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a class="item" href="javascript:document.getElementById('_MainLogoutForm_Mobile').submit()">
+                                        <i class="sign out icon"></i>
+                                        Odhlásit
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    break;
+                case AuthTabEnum.Admin:
+                    <div class="ui vertical fluid menu">
+                        <div class="item">
+                            <div class="header">Admin</div>
+                            <div class="menu">
+                                <a class="item @eventLogClass" href="@Url.Action("EventLog", "System")">
+                                    Eventy
+                                    @if (Model.Master.StatusBox.NewEventLogCount > 0)
+                                    {
+                                        <span>| <span class="w-font-negative">@Model.Master.StatusBox.NewEventLogCount</span></span>
+                                    }
+                                </a>
+                                <a class="item @emailLogClass" href="@Url.Action("EmailLog", "System")">
+                                    E-maily
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    break;
+            }
+        }
     </div>
 </div>
 

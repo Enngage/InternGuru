@@ -90,7 +90,7 @@
   border: none;
   border-radius: 0; }
   #w-body-wrapper .w-menu-mobile-wrapper .ui.vertical.menu .item:last-of-type {
-    margin-bottom: 13px;
+    margin-bottom: 0;
     /* fix margin*/ }
 
 #w-body-wrapper .w-menu-sticky-left {
@@ -234,6 +234,10 @@
   #w-body-wrapper .w-mobile-margin-0 {
     margin: 0; } }
 
+@media (max-width: 767px) {
+  #w-body-wrapper .w-mobile-padding-0 {
+    padding: 0; } }
+
 @media (min-width: 991px) {
   #w-body-wrapper .w-computer-hide {
     display: none; } }
@@ -260,7 +264,7 @@
   font-size: 30px; }
 
 #w-body-wrapper .w-font-size-footer-social-icons {
-  font-size: 50px; }
+  font-size: inherit; }
 
 #w-body-wrapper .w-font-positive {
   color: #108f00; }

@@ -30,6 +30,14 @@ namespace UI.Builders.Internship
 
         #region Actions
 
+        public async Task<InternshipNotFoundView> BuildNotFoundViewAsync()
+        {
+            return new InternshipNotFoundView()
+            {
+                LatestInternships = (await GetAllInternshipsAsync()).OrderByDescending(m => m.ID).Take(10) // take 10 latest internships
+            };
+        }
+
         public async Task<InternshipBrowseView> BuildBrowseViewAsync(int? page, string category, string search, string city)
         {
             var pageSize = 30;
@@ -339,6 +347,12 @@ namespace UI.Builders.Internship
             cacheSetup.ObjectID = internshipID;
 
             var internship = await Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
+
+            // return null if internship was not found
+            if (internship == null)
+            {
+                return null;
+            }
 
             // set default duration
             internship.MinDurationType = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MinDurationTypeCodeName);

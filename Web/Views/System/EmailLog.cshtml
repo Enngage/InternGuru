@@ -1,0 +1,193 @@
+﻿@model UI.Builders.System.Views.SystemEmailLogView
+@using Core.Helpers;
+@using UI.Extensions;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = $"E-mail log";
+    ViewBag.Description = $"E-mail log";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
+
+    var onlyUnsentParam = this.Request.Params["onlyUnsent"] ?? string.Empty;
+    var onlyUnsentValue = onlyUnsentParam.Equals("true", StringComparison.OrdinalIgnoreCase);
+}
+
+@Html.RequireScript("/scripts/views/system/emailLog")
+
+<div class="ui grid">
+    <div class="sixteen wide column">
+        <div class="ui segment">
+            <h1>
+                @ViewBag.Title
+            </h1>
+
+            @if (!onlyUnsentValue)
+            {
+                <a href="@Url.Action("EmailLog", "System", new { onlyUnsent = true})">
+                    <div class="ui button secondary">Pouze neodeslané</div>
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("EmailLog", "System", new { onlyUnsent = false})">
+                    <div class="ui button secondary">Zobrazit všechny</div>
+                </a>
+            }
+
+            @foreach (var email in Model.Emails)
+            {
+                <div class="ui modal" id="_Modal_@email.ID">
+                    <div class="header">Detaily</div>
+                    <div class="content">
+                        <table class="ui celled table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <strong>ID:</strong>
+                                    </td>
+                                    <td>
+                                        @email.ID
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Subject:</strong>
+                                    </td>
+                                    <td>
+                                        @email.Subject
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>From:</strong>
+                                    </td>
+                                    <td>
+                                        @email.From
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>To:</strong>
+                                    </td>
+                                    <td>
+                                        @email.To
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Error/result:</strong>
+                                    </td>
+                                    <td>
+                                        @email.Result
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Vytvořeno:</strong>
+                                    </td>
+                                    <td>
+                                        @email.Created
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Odesláno:</strong>
+                                    </td>
+                                    <td>
+                                        @if (email.IsSent)
+                                        {
+                                            <i title="Ano" class="checkmark green icon"></i>
+                                        }
+                                        else
+                                        {
+                                            <i title="Ne" class="remove red icon"></i>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Čas odeslání:</strong>
+                                    </td>
+                                    <td>
+                                        @email.Sent
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Text:</strong>
+                                    </td>
+                                    <td class="w-body-dont-break">
+                                        @StringHelper.StripTagsRegex(email.HtmlBody)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>HTML Raw:</strong>
+                                    </td>
+                                    <td class="w-body-dont-break">
+                                        @email.HtmlBody
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            <table class="ui very basic table">
+                <thead>
+                    <tr>
+                        <th class="collapsing">
+                            #
+                        </th>
+                        <th>
+                            To
+                        </th>
+                        <th>
+                            Subject
+                        </th>
+                        <th>
+                            Vytvořeno
+                        </th>
+                        <th>
+                            Odesláno
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var email in Model.Emails)
+                {
+                    <tr>
+                        <td class="collapsing">
+                            <a href="#" class="_ShowLogModal" data-emailid="@email.ID"><i title="Zobrazit" class="unhide icon black"></i></a>
+                        </td>
+                        <td>
+                            @email.To
+                        </td>
+                        <td class="w-body-dont-break">
+                            @email.Subject
+                        </td>
+                        <td>
+                            @email.Created
+                        </td>
+                        <td>
+                            @if (email.IsSent)
+                            {
+                                <i title="Ano" class="checkmark green icon"></i>
+                            }
+                            else
+                            {
+                                <i title="Ne" class="remove red icon"></i>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+
+            <div class="w-margin-top-10">
+                @if (Model.Emails.PageCount > 1)
+                {
+                    @Html.PagedListPager(Model.Emails, page => Url.Action("EmailLog", "System", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
+                }
+            </div>
+        </div>
+    </div>
+</div>

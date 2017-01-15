@@ -21,7 +21,7 @@
             @Html.Hidden("CompanyID", Model.LastMessage?.CompanyID ?? 0)
 
             <h1 class="ui header">
-                <img alt="" data-src="@ImageHelper.GetUserAvatar(Model.ConversationUser.UserID)" src="@ImageHelper.GetTransparentImage()" class="ui image">
+                <img alt="" data-src="@ImageHelper.GetUserAvatar(Model.ConversationUser.UserID)" src="@ImageHelper.GetTransparentImage()" class="ui image tiny">
                 @($"{Model.ConversationUser.DisplayName}")
             </h1>
 

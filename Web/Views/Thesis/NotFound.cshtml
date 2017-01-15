@@ -1,0 +1,80 @@
+﻿@using UI.Helpers;
+@using Core.Helpers;
+@using UI.Extensions;
+@using UI.Builders.Shared.Enums
+@using Core.Config;
+@model UI.Builders.Thesis.Views.ThesisNotFoundView
+
+@{
+    ViewBag.Title = "Práce nenalezena";
+    ViewBag.Description = "Požadováná nabídka na vypracování diplomové nebo bakalářské práce nebyla nalezena";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+<div class="ui sixteen column grid">
+    <div class="centered row w-margin-top-30">
+        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column">
+
+            <h1>
+                Práce <span class="ui header red">nebyla</span> nalezena
+            </h1>
+
+        </div>
+    </div>
+    <div class="centered row">
+        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column w-body-text-left">
+            <div class="ui very padded segment">
+                <p>
+                    Nabídka bakalářské nebo diplomové práce, kterou hledáte neexistuje, expirovala nebo již není aktivní.
+                </p>
+            </div>
+
+            @if (Model.LatestTheses.Any())
+            {
+                <h3>
+                    Mohlo by Vás zajímat
+                </h3>
+
+                <div class="ui segment">
+                    <table class="ui very basic table w-table-listing _ThesesListingTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Firma
+                                </th>
+                                <th>
+                                    Název práce (odměna)
+                                </th>
+                                <th>
+                                    Typ práce
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var thesis in Model.LatestTheses)
+                            {
+                                <tr data-link="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
+                                    <td class="collapsing">
+                                        <img class="ui mini image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)" />
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
+                                            @thesis.ThesisName
+                                        </a>
+                                        @if (thesis.IsPaid)
+                                        {
+                                            <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
+                                        }
+                                    </td>
+                                    <td class="collapsing w-body-text-right w-mobile-left">
+                                        @thesis.ThesisTypeNameConverted
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

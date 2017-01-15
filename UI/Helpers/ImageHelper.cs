@@ -57,8 +57,9 @@ namespace UI.Helpers
         /// Gets url to company banner
         /// </summary>
         /// <param name="companyGuid">companyGUID</param>
+        /// <param name="includeTimeHash">Indicates if time hash is added to URL - forces browsers to reload image</param>
         /// <returns>Url to company banner</returns>
-        public static string GetCompanyBanner(Guid companyGuid)
+        public static string GetCompanyBanner(Guid companyGuid, bool includeTimeHash = false)
         {
             var imagePath = AbsolutePath + Entity.Company.GetCompanyBannerFolderPath(companyGuid);
 
@@ -69,18 +70,16 @@ namespace UI.Helpers
                 // use default logo
                 return AbsolutePath + FileConfig.DefaultCompanyLogoBanner;
             }
-            else
-            {
-                return banner;
-            }
+            return includeTimeHash ? AddTimeHashToUrl(banner) : banner;
         }
 
         /// <summary>
         /// Gets url to company logo
         /// </summary>
         /// <param name="companyGuid">companyGUID</param>
+        /// <param name="includeTimeHash">Indicates if time hash is added to URL - forces browsers to reload image</param>
         /// <returns>Url to company logo</returns>
-        public static string GetCompanyLogo(Guid companyGuid)
+        public static string GetCompanyLogo(Guid companyGuid, bool includeTimeHash = false)
         {
             var imagePath = AbsolutePath + Entity.Company.GetCompanyLogoFolderPath(companyGuid);
 
@@ -91,10 +90,7 @@ namespace UI.Helpers
                 // use default logo
                 return AbsolutePath + FileConfig.DefaultCompanyLogoPath;
             }
-            else
-            {
-                return logo;
-            }
+            return includeTimeHash ? AddTimeHashToUrl(logo) : logo;
         }
 
         /// <summary>
@@ -106,7 +102,7 @@ namespace UI.Helpers
         {
             // get all files in given folder
             var galleryFiles = GetFilesFromFolder(Entity.Company.GetCompanyGalleryFolderPath(companyGuid));
-            return galleryFiles == null ? new Dictionary<string, string>() : galleryFiles;
+            return galleryFiles ?? new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -125,10 +121,7 @@ namespace UI.Helpers
                 // use default avatar if user's avatar is not found
                 return AbsolutePath + FileConfig.DefaultAvatarPath;
             }
-            else
-            {
-                return avatar;
-            }
+            return avatar;
         }
 
         /// <summary>
@@ -152,6 +145,17 @@ namespace UI.Helpers
                 return systemAbsolutePath;
             }
             return null;
+        }
+
+
+        /// <summary>
+        /// Adds time hash to url in order to force browsers to reload image
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <returns>URL with time hash</returns>
+        public static string AddTimeHashToUrl(string url)
+        {
+            return $"{url}?t={HashHelper.GetHash(DateTime.Now.ToShortTimeString())}";
         }
 
         #region Helper methods

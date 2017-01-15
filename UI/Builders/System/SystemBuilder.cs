@@ -42,12 +42,24 @@ namespace UI.Builders.System
 
         public async Task<SystemEventLogView> BuildEventLogViewAsync(int? page)
         {
-            var pageSize = 30;
+            const int pageSize = 30;
 
             return new SystemEventLogView()
             {
                 AuthMaster = await GetAuthMaster(),
                 Events = await GetEvents(page, pageSize)
+            };
+        }
+
+
+        public async Task<SystemEmailLogView> BuildEmailLogViewAsync(int? page, bool showOnlyUnsentEmails)
+        {
+            const int pageSize = 30;
+
+            return new SystemEmailLogView()
+            {
+                AuthMaster = await GetAuthMaster(),
+                Emails = await GetEmails(page, pageSize, showOnlyUnsentEmails)
             };
         }
 
@@ -83,6 +95,34 @@ namespace UI.Builders.System
                 .OrderByDescending(m => m.ID);
 
             return await eventsQuery.ToPagedListAsync(pageNumber, pageSize);
+        }
+
+        private async Task<IPagedList<SystemEmailModel>> GetEmails(int? page, int pageSize, bool showOnlyUnsentEmails)
+        {
+            var pageNumber = (page ?? 1);
+
+            var emailsQuery = Services.EmailService.GetAll()
+                .Select(m => new SystemEmailModel()
+                {
+                    Created = m.Created,
+                    ID = m.ID,
+                    To = m.To,
+                    Subject = m.Subject,
+                    HtmlBody = m.HtmlBody,
+                    From = m.From,
+                    Result = m.Result,
+                    IsSent = m.IsSent,
+                    Sent = m.Sent
+                });
+
+            if (showOnlyUnsentEmails)
+            {
+                emailsQuery = emailsQuery.Where(m => !m.IsSent);
+            }
+
+            emailsQuery = emailsQuery.OrderByDescending(m => m.ID);
+
+            return await emailsQuery.ToPagedListAsync(pageNumber, pageSize);
         }
 
         #endregion

@@ -26,6 +26,14 @@ namespace UI.Builders.Thesis
 
         #region Actions
 
+        public async Task<ThesisNotFoundView> BuildNotFoundViewAsync()
+        {
+            return new ThesisNotFoundView()
+            {
+                LatestTheses = (await GetAllThesisBrowseModelsAsync()).OrderByDescending(m => m.ID).Take(10)
+            };
+        }
+
         public async Task<ThesisDetailView> BuildDetailViewAsync(int thesisID)
         {
             var thesis = await GetThesisDetailModelAsync(thesisID);
@@ -78,7 +86,7 @@ namespace UI.Builders.Thesis
         #region Helper methods
 
         /// <summary>
-        /// Gets all browse models
+        /// Gets all browse models from DB or cache
         /// </summary>
         /// <returns>Collection of browse models</returns>
         private async Task<IEnumerable<ThesisBrowseModel>> GetAllThesisBrowseModelsAsync()

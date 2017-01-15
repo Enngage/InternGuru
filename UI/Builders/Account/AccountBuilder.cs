@@ -1,5 +1,4 @@
 ﻿using UI.Base;
-using System.Text;
 using Core.Config;
 using UI.Builders.Account.Views;
 using UI.Builders.Services;
@@ -69,33 +68,29 @@ namespace UI.Builders.Account
 
         public AccountEmail GetForgottenPasswordEmail(string callbackUrl)
         {
-            var emailHtml = new StringBuilder();
-            emailHtml.AppendFormat("<h1>{0}</h1>", AppConfig.SiteName);
-            emailHtml.AppendFormat("<p>Pro resetování hesla použijte následující odkaz:<p>");
-            emailHtml.AppendFormat("<p><br /><a href=\"{0}\">{0}</a></p>", callbackUrl);
-            emailHtml.AppendFormat("<p><br />Děkujeme,</p>");
-            emailHtml.AppendFormat("<p>{0} tým</p>", AppConfig.SiteName);
+            var emailTemplate = Services.EmailTemplateService.GetBasicTemplate(null, "Obnova hesla",
+        "Pro tento účet byla vyžádána obnova hesla. Změnu hesla můžete provést odkazem níže. V opačném případě tento e-mail ignorujte.",
+        "Obnovení hesla", callbackUrl,
+        "Obnovit heslo");
 
             return new AccountEmail()
             {
-                Body = emailHtml.ToString(),
-                Subject = "Zapomenuté heslo"
+                Body = emailTemplate,
+                Subject = $"Obnova hesla - {AppConfig.SiteName}"
             };
         }
 
         public AccountEmail GetRegistrationEmail(string callbackUrl)
         {
-            var emailHtml = new StringBuilder();
-            emailHtml.AppendFormat("<h1>{0}</h1>", AppConfig.SiteName);
-            emailHtml.AppendFormat("<p>Pro potvrzení e-mailové adresy použijte následující odkaz:<p>");
-            emailHtml.AppendFormat("<p><br /><a href=\"{0}\">{0}</a></p>", callbackUrl);
-            emailHtml.AppendFormat("<p><br />Děkujeme,</p>");
-            emailHtml.AppendFormat("<p>{0} tým</p>", AppConfig.SiteName);
+            var emailTemplate = Services.EmailTemplateService.GetBasicTemplate(null, "Registrace",
+                "Pro dokončení registrace potvrďte Váš e-mail pomocí odkazu níže.",
+                "Potvrzení e-mailové adresy a dokončení registrace", callbackUrl,
+                "Potvrdit e-mail");
 
             return new AccountEmail()
             {
-                Body = emailHtml.ToString(),
-                Subject = "Potvrzení e-mailové adresy"
+                Body = emailTemplate,
+                Subject = $"Registrace - {AppConfig.SiteName}"
             };
         }
 

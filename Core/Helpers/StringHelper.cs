@@ -67,26 +67,20 @@ namespace Core.Helpers
         {
             var modCount = count % 10;
 
-            Func<string, string> replaceCount = (version) =>
-               {
-                   return version.Replace("{count}", count.ToString());
-               };
+            Func<string, string> replaceCount = (version) => version.Replace("{count}", count.ToString());
             
-            if (modCount == 0)
+            switch (modCount)
             {
-                return replaceCount(version0);
-            }
-            else if (modCount == 1)
-            {
-                return replaceCount(version1);
-            }
-            else if (modCount > 1 && modCount < 5)
-            {
-                return replaceCount(version2);
-            }
-            else
-            {
-                return replaceCount(version5);
+                case 0:
+                    return replaceCount(version0);
+                case 1:
+                    return replaceCount(version1);
+                default:
+                    if (modCount > 1 && modCount < 5)
+                    {
+                        return replaceCount(version2);
+                    }
+                    return replaceCount(version5);
             }
         }
 
@@ -115,47 +109,45 @@ namespace Core.Helpers
         /// <returns>Code name from given text</returns>
         public static string GetCodeName(string text)
         {
-            if (!string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text)) return null;
+
+            // replace all spaces with a dash
+            var formattedText = text.Replace(" ", "-");
+
+            // remove all non-alphanumeric or dash chars
+            var rgx = new Regex("[^a-zA-Z0-9 -]");
+
+            formattedText = rgx.Replace(formattedText, "");
+
+            // remove dash if there are 2 dashes next to each other
+            var counter = 0;
+            var codeName = "";
+            foreach (var character in formattedText)
             {
-                // replace all spaces with a dash
-                var formattedText = text.Replace(" ", "-");
-
-                // remove all non-alphanumeric or dash chars
-                var rgx = new Regex("[^a-zA-Z0-9 -]");
-
-                formattedText = rgx.Replace(formattedText, "");
-
-                // remove dash if there are 2 dashes next to each other
-                var counter = 0;
-                var codeName = "";
-                foreach (var character in formattedText)
+                if (character == '-')
                 {
-                    if (character == '-')
-                    {
-                        counter++;
+                    counter++;
 
-                        if (counter == 1)
-                        {
-                            codeName += character;
-                        }
-                        if (counter >= 2)
-                        {
-                            // don't add the character
-                        }
-                    }
-                    else
+                    if (counter == 1)
                     {
-                        // add character to string
                         codeName += character;
-
-                        // reset counter
-                        counter = 0;
+                    }
+                    if (counter >= 2)
+                    {
+                        // don't add the character
                     }
                 }
+                else
+                {
+                    // add character to string
+                    codeName += character;
 
-                return codeName;
+                    // reset counter
+                    counter = 0;
+                }
             }
-            return null;
+
+            return codeName;
         }
 
         /// <summary>
@@ -189,6 +181,29 @@ namespace Core.Helpers
         public static string FormatNumber(int number)
         {
             return FormatNumber((double)number);
+        }
+
+        /// <summary>
+        /// Removes everything after "@" in a e-mail address
+        /// test@email.com becomes "test"
+        /// </summary>
+        /// <param name="email">E-mail address</param>
+        /// <returns>E-mail address without domain</returns>
+        public static string RemoveDomainFromEmailAddress(string email)
+        {
+            var index = email.IndexOf("@", StringComparison.Ordinal);
+            if (index > 0)
+                email = email.Substring(0, index);
+
+            return email;
+        }
+
+        /// <summary>
+        /// Remove HTML from string with Regex.
+        /// </summary>
+        public static string StripTagsRegex(string source)
+        {
+            return Regex.Replace(source, "<.*?>", string.Empty);
         }
     }
 }

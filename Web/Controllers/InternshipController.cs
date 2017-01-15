@@ -19,19 +19,24 @@ namespace Web.Controllers
 
         #region Actions
 
-
         public async Task<ActionResult> Index(int? id)
         {
+            const string notFoundView = "~/Views/Internship/NotFound.cshtml";
+
             if (id == null)
             {
-                return HttpNotFound();
+                // internship was not found
+                var notFoundModel = await _internshipBuilder.BuildNotFoundViewAsync();
+                return View(notFoundView, notFoundModel);
             }
 
             var model = await _internshipBuilder.BuildDetailViewAsync((int) id);
 
             if (model == null)
             {
-                return HttpNotFound();
+                // internship was not found
+                var notFoundModel = await _internshipBuilder.BuildNotFoundViewAsync();
+                return View(notFoundView, notFoundModel);
             }
 
             // activity - internship view

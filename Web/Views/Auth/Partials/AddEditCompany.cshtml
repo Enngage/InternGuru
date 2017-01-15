@@ -1,4 +1,5 @@
-﻿@using UI.Helpers;
+﻿@using Core.Helpers
+@using UI.Helpers;
 @using UI.Extensions;
 @model UI.Builders.Auth.Forms.AuthAddEditCompanyForm
 
@@ -190,7 +191,7 @@
                     Logo <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyLogoWidth)x@(Core.Config.FileConfig.CompanyLogoHeight) px)</span>
                 </label>
 
-                <img class="ui image tiny" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
+                <img class="ui image tiny" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyGuid, true)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
 
                 <input class="w-margin-top-10" type="file" name="Logo">
             </div>
@@ -200,7 +201,7 @@
                     Banner <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight) px)</span>
                 </label>
 
-                <img class="ui image w-company-detail-banner" data-src="@ImageHelper.GetCompanyBanner(Model.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" alt="Banner" />
+                <img class="ui image w-company-detail-banner" data-src="@ImageHelper.GetCompanyBanner(Model.CompanyGuid, true)" src="@ImageHelper.GetTransparentImage()" alt="Banner" />
 
                 <input class="w-margin-top-10" type="file" name="Banner">
             </div>

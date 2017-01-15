@@ -284,7 +284,7 @@ namespace UI.Builders.Form
                     CompanyName = m.Company.CompanyName,
                     InternshipID = m.ID,
                     InternshipTitle = m.Title,
-                    CompanyCodeName = m.CodeName,
+                    CompanyCodeName = m.Company.CodeName,
                 });
 
             return await Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);

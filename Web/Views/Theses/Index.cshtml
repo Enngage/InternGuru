@@ -26,7 +26,7 @@
         <div class="sixteen wide column">
             <div class="ui segment padded">
                 <div class="ui grid">
-                    <div class="twelve wide mobile fourteen wide tablet fourteen wide computer column">
+                    <div class="sixteen wide mobile fourteen wide tablet fourteen wide computer column">
                         <div class="ui search _ThesesNameAutocomplete">
                             <div class="ui fluid icon input">
                                 <input class="prompt" name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
@@ -35,7 +35,7 @@
                             <div class="results"></div>
                         </div>
                     </div>
-                    <div class="four wide mobile two wide tablet two wide computer column">
+                    <div class="sixteen wide mobile two wide tablet two wide computer column">
                         <button class="ui button primary fluid" type="submit">
                             Hledat
                         </button>
@@ -87,53 +87,55 @@
 
                 @if (!Model.Theses.Any())
                 {
-                    @Html.RenderWarningMessage("Žádné závěrečné práce nebyly nalezenyy")
+                    @Html.RenderWarningMessage("Žádné závěrečné práce nebyly nalezeny")
                 }
-
-                <table class="ui very basic table w-table-listing _ThesesListingTable">
-                    <thead>
-                    <tr>
-                        <th>
-                            Firma
-                        </th>
-                        <th>
-                            Název práce (odměna)
-                        </th>
-                        <th>
-                            Typ práce
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var thesis in Model.Theses)
-                    {
-                        <tr data-link="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
-                            <td class="collapsing">
-                                <img class="ui mini image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)"/>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
-                                    @thesis.ThesisName
-                                </a>
-                                @if (thesis.IsPaid)
-                                {
-                                    <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
-                                }
-                            </td>
-                            <td class="collapsing w-body-text-right w-mobile-left">
-                                @thesis.ThesisTypeNameConverted
-                            </td>
+                else
+                {
+                    <table class="ui very basic table w-table-listing _ThesesListingTable">
+                        <thead>
+                        <tr>
+                            <th>
+                                Firma
+                            </th>
+                            <th>
+                                Název práce (odměna)
+                            </th>
+                            <th>
+                                Typ práce
+                            </th>
                         </tr>
-                    }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @foreach (var thesis in Model.Theses)
+                        {
+                            <tr data-link="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
+                                <td class="collapsing">
+                                    <img class="ui mini image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)"/>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
+                                        @thesis.ThesisName
+                                    </a>
+                                    @if (thesis.IsPaid)
+                                    {
+                                        <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
+                                    }
+                                </td>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    @thesis.ThesisTypeNameConverted
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
 
-                <div class="w-margin-top-10">
-                    @if (Model.Theses.PageCount > 1)
-                    {
-                        @Html.PagedListPager(Model.Theses, page => Url.Action("Index", "Theses", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
-                    }
-                </div>
+                    <div class="w-margin-top-10">
+                        @if (Model.Theses.PageCount > 1)
+                        {
+                            @Html.PagedListPager(Model.Theses, page => Url.Action("Index", "Theses", new {page}), new PagedListRenderOptions() {MaximumPageNumbersToDisplay = 6})
+                        }
+                    </div>
+                }
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
@@ -35,6 +36,7 @@ namespace Entity
 
         /// <summary>
         /// Gets display name of user based on first name, last name , user name and nickname
+        /// Note: E-mail address is always modified to remove domain (everything after "@")
         /// </summary>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
@@ -58,7 +60,7 @@ namespace Entity
                 throw new ArgumentNullException(nameof(userName));
             }
 
-            return userName;
+            return StringHelper.RemoveDomainFromEmailAddress(userName);
         }
 
         #endregion
@@ -67,6 +69,9 @@ namespace Entity
 
         [NotMapped]
         public virtual string FullName => $"{FirstName} {LastName}";
+
+        [NotMapped]
+        public virtual string DisplayName => GetDisplayName(FirstName, LastName, Nickname, UserName);
 
         #endregion
 

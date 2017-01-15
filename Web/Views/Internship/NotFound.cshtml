@@ -1,0 +1,82 @@
+﻿@using UI.Helpers;
+@using Core.Helpers;
+@using UI.Extensions;
+@using UI.Builders.Shared.Enums
+@using Core.Config;
+@model UI.Builders.Internship.Views.InternshipNotFoundView
+
+@{
+    ViewBag.Title = "Stáž nenalezena";
+    ViewBag.Description = "Požadována stáž nebyla nalezena.";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+@Html.RequireScript("/scripts/views/internship/notFound")
+
+<div class="ui sixteen column grid">
+    <div class="centered row w-margin-top-30">
+        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column">
+
+            <h1>
+                Stáž <span class="ui header red">nebyla</span> nalezena
+            </h1>
+
+        </div>
+    </div>
+    <div class="centered row">
+        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column w-body-text-left">
+            <div class="ui very padded segment">
+                <p>
+                    Stáž, kterou hledáte neexistuje, expirovala nebo již není aktivní.
+                </p>
+            </div>
+
+            @if (Model.LatestInternships.Any())
+            {
+                <h3>
+                    Mohlo by Vás zajímat
+                </h3>
+
+                <div class="ui segment">
+                    <table class="ui very basic table w-table-listing _InternshipsListingTable">
+                        <thead>
+                            <tr>
+                                <th colspan="2">
+                                    Pozice
+                                </th>
+                                <th>
+                                    Místo
+                                </th>
+                                <th>
+                                    Délka stáže
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var internship in Model.LatestInternships)
+                            {
+                                <tr data-link="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
+                                    <td class="collapsing">
+                                        <img class="ui mini image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyGuid)" />
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
+                                            @internship.Title
+                                        </a>
+                                        <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
+                                    </td>
+                                    <td>
+                                        @Html.Raw(CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
+                                    </td>
+                                    <td class="collapsing w-body-text-right w-mobile-left">
+                                        @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

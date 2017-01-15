@@ -9,7 +9,7 @@
     ViewBag.Description = "Najdi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 
-    var currentCategory = ViewContext.RouteData.Values["category"] != null ? ViewContext.RouteData.Values["category"].ToString() : string.Empty;
+    var currentCategory = ViewContext.RouteData.Values["category"]?.ToString() ?? string.Empty;
     var searchVal = HttpContext.Current.Request.QueryString["search"] ?? string.Empty;
     var cityVal = HttpContext.Current.Request.QueryString["city"] ?? string.Empty;
 
@@ -27,7 +27,7 @@
         <div class="sixteen wide column">
             <div class="ui segment padded">
                 <div class="ui grid">
-                    <div class="eight wide mobile seven wide tablet seven wide computer column">
+                    <div class="sixteen wide mobile seven wide tablet seven wide computer column">
                         <div class="ui search _InternshipTitleAutocomplete">
                             <div class="ui fluid icon input">
                                 <input class="prompt" name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
@@ -36,7 +36,7 @@
                             <div class="results"></div>
                         </div>
                     </div>
-                    <div class="eight wide mobile seven wide tablet seven wide computer column">
+                    <div class="sixteen wide mobile seven wide tablet seven wide computer column">
                         <div class="ui search _CitiesAutocomplete">
                             <div class="ui fluid icon input">
                                 <input class="prompt" name="city" placeholder="Město" type="text" value="@cityVal" autocomplete="off">
@@ -99,9 +99,10 @@
                 {
                     @Html.RenderWarningMessage("Žádné stáže nebyly nalezeny")
                 }
-
-                <table class="ui very basic table w-table-listing _InternshipsListingTable">
-                    <thead>
+                else
+                {
+                    <table class="ui very basic table w-table-listing _InternshipsListingTable">
+                        <thead>
                         <tr>
                             <th colspan="2">
                                 Pozice
@@ -113,37 +114,38 @@
                                 Délka stáže
                             </th>
                         </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var internship in Model.Internships)
-                    {
-                        <tr data-link="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
-                            <td class="collapsing">
-                                <img class="ui mini image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyGuid)"/>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
-                                    @internship.Title
-                                </a>
-                                <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
-                            </td>
-                            <td>
-                                @Html.Raw(CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
-                            </td>
-                            <td class="collapsing w-body-text-right w-mobile-left">
-                                @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @foreach (var internship in Model.Internships)
+                        {
+                            <tr data-link="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
+                                <td class="collapsing">
+                                    <img class="ui mini image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyGuid)"/>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
+                                        @internship.Title
+                                    </a>
+                                    <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
+                                </td>
+                                <td>
+                                    @Html.Raw(CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
+                                </td>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
 
-                <div class="w-margin-top-10">
-                    @if (Model.Internships.PageCount > 1)
-                    {
-                        @Html.PagedListPager(Model.Internships, page => Url.Action("Index", "Internships", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
-                    }
-                </div>
+                    <div class="w-margin-top-10">
+                        @if (Model.Internships.PageCount > 1)
+                        {
+                            @Html.PagedListPager(Model.Internships, page => Url.Action("Index", "Internships", new {page}), new PagedListRenderOptions() {MaximumPageNumbersToDisplay = 6})
+                        }
+                    </div>
+                }
             </div>
         </div>
     </div>

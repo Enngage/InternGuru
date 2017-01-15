@@ -1,13 +1,20 @@
 ﻿@using Microsoft.AspNet.Identity
+@model UI.Builders.Master.Views.MasterView
 
 @if (Request.IsAuthenticated)
 {
-    @Html.ActionLink(User.Identity.GetUserName(), "index", "MyProfile", routeValues: null, htmlAttributes: new { @class = "item" })
+    <a class="item" href="@Url.Action("index", "Auth")">
+        @Model.Master.CurrentUser.UserDisplayName
+    </a>
 }
 else
 {
-    @Html.ActionLink("Log In", "Login", "Account", null, new { @class = "item" })
+    <a class="item" href="@Url.Action("Login", "Account")">
+        Přihlásit
+    </a>
     <a class="item" href="@Url.Action("Register", "Account")">
-        <div class="ui primary button">Sign up</div>
+        <div class="ui primary button">
+            Registrovat
+        </div>
     </a>
 }
