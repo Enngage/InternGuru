@@ -247,3 +247,5 @@ C:\inetpub\wwwroot\InternGuru-master\UI\bin\Debug\System.Web.WebPages.Razor.xml
 C:\inetpub\wwwroot\InternGuru-master\UI\obj\Debug\UI.csprojResolveAssemblyReference.cache
 C:\inetpub\wwwroot\InternGuru-master\UI\obj\Debug\UI.dll
 C:\inetpub\wwwroot\InternGuru-master\UI\obj\Debug\UI.pdb
+C:\inetpub\wwwroot\InternGuru-master\UI\bin\Debug\NLipsum.Core.dll
+C:\inetpub\wwwroot\InternGuru-master\UI\bin\Debug\NLipsum.Core.xml

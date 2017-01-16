@@ -121,6 +121,8 @@ namespace UI.Builders.Internship
 
         /// <summary>
         /// Gets internship categories
+        /// Gets only caregories that are not empty
+        /// Orderes categories by the number of internships in them
         /// </summary>
         /// <returns>Internship categories</returns>
         private async Task<IEnumerable<InternshipCategoryModel>> GetInternshipCategoriesAsync()
@@ -144,7 +146,8 @@ namespace UI.Builders.Internship
                     CodeName = m.CodeName,
                     InternshipCount = m.Internships.Where(s => s.IsActive).Count()
                 })
-                .OrderBy(m => m.CategoryName);
+                .Where(m => m.InternshipCount > 0)
+                .OrderByDescending(m => m.InternshipCount);
 
             return await Services.CacheService.GetOrSetAsync(async () => await categoriesQuery.ToListAsync(), cacheSetup);
         }

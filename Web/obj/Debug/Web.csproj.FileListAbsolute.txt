@@ -431,7 +431,6 @@ C:\inetpub\wwwroot\InternGuru-master\Web\bin\Ninject.Web.Common.OwinHost.xml
 C:\inetpub\wwwroot\InternGuru-master\Web\bin\Ninject.Web.Mvc.xml
 C:\inetpub\wwwroot\InternGuru-master\Web\bin\Ninject.Web.WebApi.xml
 C:\inetpub\wwwroot\InternGuru-master\Web\bin\Ninject.Web.WebApi.WebHost.xml
-C:\inetpub\wwwroot\InternGuru-master\Web\bin\PagedList.xml
 C:\inetpub\wwwroot\InternGuru-master\Web\bin\System.Web.Helpers.xml
 C:\inetpub\wwwroot\InternGuru-master\Web\bin\System.Web.Mvc.xml
 C:\inetpub\wwwroot\InternGuru-master\Web\bin\System.Web.Razor.xml
@@ -460,3 +459,5 @@ C:\inetpub\wwwroot\InternGuru-master\Web\bin\PagedList.EntityFramework.xml
 C:\inetpub\wwwroot\InternGuru-master\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\inetpub\wwwroot\InternGuru-master\Web\obj\Debug\Web.dll
 C:\inetpub\wwwroot\InternGuru-master\Web\obj\Debug\Web.pdb
+C:\inetpub\wwwroot\InternGuru-master\Web\bin\NLipsum.Core.dll
+C:\inetpub\wwwroot\InternGuru-master\Web\bin\NLipsum.Core.xml

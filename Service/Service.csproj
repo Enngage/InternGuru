@@ -46,6 +46,10 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NLipsum.Core, Version=1.0.1.0, Culture=neutral, PublicKeyToken=593e1df460e1bda0, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLipsum.1.0.1\lib\net20\NLipsum.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -68,10 +72,6 @@
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\201701141130490_Email.cs" />
-    <Compile Include="Migrations\201701141130490_Email.Designer.cs">
-      <DependentUpon>201701141130490_Email.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Activities\ActivityService.cs" />
@@ -140,11 +140,6 @@
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701141130490_Email.resx">
-      <DependentUpon>201701141130490_Email.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

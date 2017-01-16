@@ -153,6 +153,8 @@ namespace UI.Builders.Thesis
 
         /// <summary>
         /// Gets thesis categories
+        /// Only categories with > 0 theses are returned
+        /// Categories are ordered by the number of theses
         /// </summary>
         /// <returns>Thesis categories</returns>
         private async Task<IEnumerable<ThesisCategoryModel>> GetThesisCategoriesAsync()
@@ -176,7 +178,8 @@ namespace UI.Builders.Thesis
                     CodeName = m.CodeName,
                     ThesesCount = m.Theses.Where(s => s.IsActive).Count()
                 })
-                .OrderBy(m => m.CategoryName);
+                .Where(m => m.ThesesCount > 0)
+                .OrderByDescending(m => m.ThesesCount);
 
             return await Services.CacheService.GetOrSetAsync(async () => await categoriesQuery.ToListAsync(), cacheSetup);
         }

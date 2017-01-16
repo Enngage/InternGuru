@@ -1,8 +1,16 @@
-﻿using Core.Helpers.Internship;
+﻿using System;
+using Core.Helpers.Internship;
 using Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Runtime.InteropServices;
+using Core.Extensions;
+using Core.Helpers;
+using NLipsum.Core;
+using Service.Services.Languages;
 using Service.Services.Thesis.Enums;
 
 namespace Service.Context
@@ -16,15 +24,17 @@ namespace Service.Context
 
         private void RunSeed(AppContext context)
         {
+            // basic setup
+            const string adminRoleName = "Admin";
+            const string adminUserName = "yazoo@email.cz";
+            const string adminDefaultPassword = "101154";
+
             // create admin role
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var adminRole = new IdentityRole {Name = "Admin"};
+            var adminRole = new IdentityRole { Name = adminRoleName };
             roleManager.Create(adminRole);
 
             // create admin user
-            const string adminUserName = "admin@admin.com";
-            const string adminDefaultPassword = "adminadmin";
-
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
             var newUser = new ApplicationUser()
@@ -47,13 +57,58 @@ namespace Service.Context
             {
                 new CompanyCategory()
                 {
-                    CodeName = "Technology",
-                    Name= "Technologická"
+                    CodeName = "Ecommerce",
+                    Name= "E-commerce"
+                },
+                new CompanyCategory()
+                {
+                    CodeName = "Startup",
+                    Name= "Startup"
                 },
                  new CompanyCategory()
                 {
-                    CodeName = "IT",
-                    Name= "IT"
+                    CodeName = "Technology",
+                    Name= "Technologie"
+                },
+                new CompanyCategory()
+                {
+                    CodeName = "Travel",
+                    Name= "Cestování"
+                },
+                new CompanyCategory()
+                {
+                    CodeName = "Finance",
+                    Name= "Finance"
+                },
+                new CompanyCategory()
+                {
+                    CodeName = "Media",
+                    Name= "Media"
+                },
+                new CompanyCategory()
+                {
+                    CodeName = "Food",
+                    Name= "Jídlo"
+                },
+                new CompanyCategory()
+                {
+                    CodeName = "SocialNetworks",
+                    Name= "Sociální sítě"
+                },
+               new CompanyCategory()
+                {
+                    CodeName = "Others",
+                    Name= "Jiné"
+                },
+                new CompanyCategory()
+                {
+                    CodeName = "Games",
+                    Name= "Hry a zábava"
+                },
+                  new CompanyCategory()
+                {
+                    CodeName = "Services",
+                    Name= "Služby"
                 },
             };
 
@@ -67,13 +122,168 @@ namespace Service.Context
             {
                 new InternshipCategory()
                 {
-                    CodeName = "Technology2",
-                    Name= "Technologická2"
+                    CodeName = "Javascript",
+                    Name= "Javascript "
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "PHP",
+                    Name= "PHP"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "HTML5",
+                    Name= "HTML"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Java",
+                    Name= "Java"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "CSharp",
+                    Name= "C#"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "CPlusPlus",
+                    Name= "C++"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Analyst",
+                    Name= "Analytik"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "SolutionArchitect",
+                    Name= "Solution Architect"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "iOS",
+                    Name= "iOS"
                 },
                  new InternshipCategory()
                 {
-                    CodeName = "IT2",
-                    Name= "IT2"
+                    CodeName = "Manager",
+                    Name= "Manager"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Android",
+                    Name= "Android"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "ITAdmin",
+                    Name= "IT administrátor"
+                },
+               new InternshipCategory()
+                {
+                    CodeName = "Python",
+                    Name= "Python"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Ruby",
+                    Name= "Ruby"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Graphic",
+                    Name= "Grafik"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "UX",
+                    Name= "UX"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "DOTNET",
+                    Name= ".NET"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "DB",
+                    Name= "Databázový specialista"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "HW",
+                    Name= "HW"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Linux",
+                    Name= "Linux"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Support",
+                    Name= "Support"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Sales",
+                    Name = "Obchodník"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Translater",
+                    Name= "Překladatel"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "HR",
+                    Name= "HR"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Finance",
+                    Name= "Finance"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Tester",
+                    Name= "Tester"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Administration",
+                    Name= "Administrace"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "ProductOwner",
+                    Name= "Product Owner"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Trainer",
+                    Name= "Trenér"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Perl",
+                    Name= "Perl"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "OSX",
+                    Name= "OS X"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Flash",
+                    Name= "Flash"
+                },
+                new InternshipCategory()
+                {
+                    CodeName = "Others",
+                    Name= "Jiné"
                 },
             };
 
@@ -92,26 +302,61 @@ namespace Service.Context
                     CodeName = "cz",
                     Icon = "cz",
                 },
-                 new Country()
+                new Country()
                 {
                     CountryName = "Slovensko",
                     CountryCode = "sk",
                     CodeName = "sk",
                     Icon = "sk",
                 },
-                  new Country()
+                new Country()
                 {
                     CountryName = "Germany",
                     CountryCode = "de",
                     CodeName = "de",
                     Icon = "de",
                 },
-                   new Country()
+                new Country()
                 {
                     CountryName = "United Kingdom",
                     CountryCode = "gb",
                     CodeName = "gb",
                     Icon = "gb",
+                },
+                new Country()
+                {
+                    CountryName = "United States",
+                    CountryCode = "us",
+                    CodeName = "us",
+                    Icon = "us",
+                },
+                new Country()
+                {
+                    CountryName = "Australia",
+                    CountryCode = "au",
+                    CodeName = "au",
+                    Icon = "au",
+                },
+                new Country()
+                {
+                    CountryName = "Canada",
+                    CountryCode = "ca",
+                    CodeName = "ca",
+                    Icon = "ca",
+                },
+                new Country()
+                {
+                    CountryName = "France",
+                    CountryCode = "fr",
+                    CodeName = "fr",
+                    Icon = "fr",
+                },
+                new Country()
+                {
+                    CountryName = "Spain",
+                    CountryCode = "es",
+                    CodeName = "es",
+                    Icon = "es",
                 },
             };
 
@@ -186,16 +431,22 @@ namespace Service.Context
                     CodeName = "CZK",
                     ShowSignOnLeft = false
                 },
-                  new Currency()
+                new Currency()
                 {
                     CurrencyName = "$",
                     CodeName = "USD",
                     ShowSignOnLeft = true
                 },
-                    new Currency()
+                new Currency()
                 {
                     CurrencyName = "€",
                     CodeName = "EUR",
+                    ShowSignOnLeft = false
+                },
+                new Currency()
+                {
+                    CurrencyName = "£",
+                    CodeName = "GBP",
                     ShowSignOnLeft = false
                 },
             };
@@ -205,7 +456,6 @@ namespace Service.Context
             {
                 context.Currencies.Add(currency);
             }
-
 
             var companySizes = new List<CompanySize>()
             {
@@ -312,6 +562,18 @@ namespace Service.Context
                     LanguageName = "Čínština",
                     IconClass = "cn",
                 },
+                new Language()
+                {
+                    CodeName = "ru",
+                    LanguageName = "Ruština",
+                    IconClass = "ru",
+                },
+                new Language()
+                {
+                    CodeName = "Other",
+                    LanguageName = "Jiný",
+                    IconClass = "",
+                },
             };
 
             // add to context
@@ -385,8 +647,299 @@ namespace Service.Context
                 context.StudentStatusOptions.Add(studentStatusOption);
             }
 
+            // fill test data 
+            FillTestData(context, userManager);
+
             // save data
             context.SaveChanges();
         }
+
+        private void FillTestData(AppContext context, UserManager<ApplicationUser> userManager)
+        {
+            // define genereated data 
+            const int internshipsCount = 250;
+            const int companyCount = 50;
+            const int thesesCount = 100;
+            const string userPassword = "adminadmin";
+
+            // generate companies
+            for (var i = 0; i < companyCount; i++)
+            {
+                var userName = $"{GetLoremIpsumName(true)}@{GetLoremIpsumName(true)}.com";
+                // create user for each company first
+                var newUser = new ApplicationUser()
+                {
+                    Nickname = GetLoremIpsumName(),
+                    UserName = userName,
+                    Email = userName,
+                };
+
+                var userResult = userManager.Create(newUser, userPassword);
+
+                // get just created user
+                var user = userManager.FindByEmail(newUser.Email);
+
+                var company = new Company()
+                {
+                    ApplicationUserId = user.Id,
+                    CompanyCategory = context.CompanyCategories.RandomItem(),
+                    City = GetLoremIpsumName(),
+                    CompanyName = GetLoremIpsumName(),
+                    CompanySize = context.CompanySizes.RandomItem(),
+                    Country = context.Countries.RandomItem(),
+                    Web = $"http://www.{GetLoremIpsumName(true)}.com",
+                    Address = GetLoremIpsumName(),
+                    Lat = GetRandomLattitude(),
+                    Lng = GetRandomLongtitude(),
+                    LongDescription = GetLoremIpsumtText(),
+                    PublicEmail = $"{GetLoremIpsumName(true)}@email.com",
+                    YearFounded = GetRandomYear(),
+                };
+
+                context.Companies.Add(company);
+            }
+
+            // genereate internships
+            for (var i = 0; i < internshipsCount; i++)
+            {
+                // get random company for this internship
+                var company = context.Companies.RandomItem();
+
+                // duration
+                var minDuration = context.InternshipDurationTypes.RandomItem();
+                var maxDuration = context.InternshipDurationTypes.RandomItem();
+
+                var minDurationValue = GetRandomDurationValue();
+                var maxDurationValue = GetRandomDurationValue(minDurationValue);
+
+                var internship = new Internship()
+                {
+                    ApplicationUser = company.ApplicationUser,
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now,
+                    Company = company,
+                    AmountType = context.InternshipAmountTypes.RandomItem(),
+                    City = GetLoremIpsumName(),
+                    Country = context.Countries.RandomItem(),
+                    Currency = context.Currencies.RandomItem(),
+                    Amount = GetRandomInternshipAmout(),
+                    Description = GetLoremIpsumtText(),
+                    HasFlexibleHours = GetRandomBool(),
+                    WorkingHours = GetRandomWorkingHours(),
+                    HomeOfficeOption = context.HomeOfficeOptions.RandomItem(),
+                    InternshipCategory = context.InternshipCategories.RandomItem(),
+                    IsActive = true,
+                    IsPaid = GetRandomBool(),
+                    Languages = GetRandomLanguages(context),
+                    MaxDurationType = maxDuration,
+                    MinDurationType = minDuration,
+                    MaxDurationInDays = GetDurationInDays(maxDuration.DurationTypeEnum, maxDurationValue),
+                    MaxDurationInWeeks = GetDurationInWeeks(maxDuration.DurationTypeEnum, maxDurationValue),
+                    MaxDurationInMonths = GetDurationInMonths(maxDuration.DurationTypeEnum, maxDurationValue),
+                    MinDurationInDays = GetDurationInDays(minDuration.DurationTypeEnum, minDurationValue),
+                    MinDurationInWeeks = GetDurationInWeeks(minDuration.DurationTypeEnum, minDurationValue),
+                    MinDurationInMonths = GetDurationInMonths(minDuration.DurationTypeEnum, minDurationValue),
+                    Requirements = GetLoremIpsumtText(),
+                    Title = GetLoremIpsumName(),
+                    StudentStatusOption = context.StudentStatusOptions.RandomItem(),
+                    StartDate = GetRandomDate(),
+                };
+
+                internship.CodeName = StringHelper.GetCodeName(internship.Title);
+
+                context.Internships.Add(internship);
+            }
+
+            for (var i = 0; i < thesesCount; i++)
+            {
+                var company = context.Companies.RandomItem();
+
+                var thesis = new Thesis()
+                {
+                    Amount = GetRandomInternshipAmout(),
+                    ApplicationUser = company.ApplicationUser,
+                    Company = company,
+                    Currency = context.Currencies.RandomItem(),
+                    Description = GetLoremIpsumtText(),
+                    InternshipCategory = context.InternshipCategories.RandomItem(),
+                    IsActive = true,
+                    IsPaid = GetRandomBool(),
+                    ThesisName = GetLoremIpsumName(),
+                    ThesisType = context.ThesisTypes.RandomItem(),
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now,
+                };
+
+                thesis.CodeName = StringHelper.GetCodeName(thesis.ThesisName);
+
+                context.Theses.Add(thesis);
+            }
+        }
+
+        #region Random methods
+
+        private DateTime GetRandomDate()
+        {
+            var gen = new Random();
+            var start = DateTime.Now;
+            var range = (DateTime.Now.AddMonths(12) - start).Days;
+            return start.AddDays(gen.Next(range));
+        }
+
+        private int GetRandomDurationValue(int minValue)
+        {
+            var random = new Random();
+            return random.Next(minValue, 15);
+        }
+
+        private int GetRandomDurationValue()
+        {
+            var random = new Random();
+            return random.Next(1, 10);
+        }
+
+        private string GetRandomLanguages(AppContext context)
+        {
+            var random = new Random();
+            return string.Join(LanguageService.InternshipLanguageStringSeparator.ToString(), context.Languages.Take(random.Next(0, context.Languages.Count())));
+        }
+
+        private string GetRandomWorkingHours()
+        {
+            var random = new Random();
+
+            return $"{random.Next(4, 12)}:00 - {random.Next(12, 24)}:00";
+        }
+
+        private bool GetRandomBool()
+        {
+            var random = new Random();
+            return random.Next(0, 1) == 1;
+        }
+
+        private int GetRandomParagraphsCount()
+        {
+            var random = new Random();
+            return random.Next(1, 10);
+        }
+
+        private int GetRandomInternshipAmout()
+        {
+            var random = new Random();
+            return random.Next(1, 100000);
+        }
+
+        private int GetRandomYear()
+        {
+            var random = new Random();
+            return random.Next(1950, DateTime.Now.Year);
+        }
+
+        private float GetRandomLongtitude()
+        {
+            var random = new Random();
+            return random.Next(-180, 180);
+        }
+
+        private float GetRandomLattitude()
+        {
+            var random = new Random();
+            return random.Next(-90, 90);
+        }
+
+        private string GetLoremIpsumName(bool oneWordOnly = false)
+        {
+            var lipsumGenerator = new LipsumGenerator();
+            var random = new Random();
+
+            return oneWordOnly ? string.Join(" ", lipsumGenerator.GenerateWords(1)) :string.Join(" ", lipsumGenerator.GenerateWords(random.Next(1, 3)));
+        }
+
+        private string GetLoremIpsumtText()
+        {
+            var lipsumGenerator = new LipsumGenerator();
+            var random = new Random();
+
+            return string.Join(" ", lipsumGenerator.GenerateParagraphs(random.Next(1, 9)));
+        }
+
+        #endregion
+
+        #region Duration helper - Copy from InternshipDurationService
+
+        /// <summary>
+        /// Gets duration in weeks from given duration type
+        /// </summary>
+        /// <param name="durationType">Duration type (month, day, week..)</param>
+        /// <param name="duration">Duration</param>
+        /// <returns>Duration in weeks</returns>
+        private int GetDurationInWeeks(InternshipDurationTypeEnum durationType, int duration)
+        {
+            switch (durationType)
+            {
+                case InternshipDurationTypeEnum.Weeks:
+                    // no need to convert
+                    return duration;
+                case InternshipDurationTypeEnum.Days:
+                    // convert Days to Weeks
+                    return (int)duration / 7;
+                case InternshipDurationTypeEnum.Months:
+                    // convert Months to Weeks
+                    return (int)duration * 4;
+                default:
+                    throw new ArgumentException("Invalid duration type");
+            }
+
+        }
+
+        /// <summary>
+        /// Gets duration in days from given duration type
+        /// </summary>
+        /// <param name="durationType">Duration type (month, day, week..)</param>
+        /// <param name="duration">Duration</param>
+        /// <returns>Duration in days</returns>
+        private int GetDurationInDays(InternshipDurationTypeEnum durationType, int duration)
+        {
+            switch (durationType)
+            {
+                case InternshipDurationTypeEnum.Weeks:
+                    // convert weeks to days
+                    return duration * 7;
+                case InternshipDurationTypeEnum.Days:
+                    // no need to convert
+                    return duration;
+                case InternshipDurationTypeEnum.Months:
+                    // convert Months to Days
+                    return duration * 30;
+                default:
+                    throw new ArgumentException("Invalid duration type");
+            }
+        }
+
+        /// <summary>
+        /// Gets duration in months from given duration type
+        /// </summary>
+        /// <param name="durationType">Duration type (month, day, week..)</param>
+        /// <param name="duration">Duration</param>
+        /// <returns>Duration in months</returns>
+        private int GetDurationInMonths(InternshipDurationTypeEnum durationType, int duration)
+        {
+            switch (durationType)
+            {
+                case InternshipDurationTypeEnum.Weeks:
+                    // convert weeks to monts
+                    return (int)duration / 4;
+                case InternshipDurationTypeEnum.Days:
+                    // convert Days to Months
+                    return (int)duration / 30;
+                case InternshipDurationTypeEnum.Months:
+                    // no need to convert
+                    return duration;
+                default:
+                    throw new ArgumentException("Invalid duration type");
+            }
+        }
+
+        #endregion
     }
 }

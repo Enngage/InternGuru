@@ -10,6 +10,7 @@ namespace Service.Services.Languages
 {
     public class LanguageService :  BaseService<Language>, ILanguageService
     {
+        public static readonly char InternshipLanguageStringSeparator = ',';
 
         public LanguageService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
@@ -105,7 +106,7 @@ namespace Service.Services.Languages
                 return result;
             }
 
-            foreach (var languageCodeName in languagesCodeString.Split(','))
+            foreach (var languageCodeName in languagesCodeString.Split(InternshipLanguageStringSeparator))
             {
                 // ReSharper disable once PossibleMultipleEnumeration
                 var existingLanguage = allLanguages.FirstOrDefault(m => m.CodeName.Equals(languageCodeName, StringComparison.OrdinalIgnoreCase));

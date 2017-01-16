@@ -44,26 +44,26 @@ namespace Core.Helpers
                 switch (type)
                 {
                     case InternshipDurationTypeEnum.Days:
-                        return StringHelper.GetPluralWord(duration, "den", "den", "dny", "dnů");
+                        return StringHelper.GetPluralWord(duration, "0 dnů", "den", "dny", "dnů");
                     case InternshipDurationTypeEnum.Weeks:
-                        return StringHelper.GetPluralWord(duration, "týden", "týden", "týdny", "týdnů");
+                        return StringHelper.GetPluralWord(duration, "0 týdnů", "týden", "týdny", "týdnů");
                     // ReSharper disable once RedundantCaseLabel
                     case InternshipDurationTypeEnum.Months:
                     default:
-                        return StringHelper.GetPluralWord(duration, "měsíc", "měsíc", "měsíce", "měsíců");
+                        return StringHelper.GetPluralWord(duration, "0 měsíců", "měsíc", "měsíce", "měsíců");
                 }
             };
 
             if (minDurationType == maxDurationType && minValue == maxValue)
             {
                 // min and max value are exactly the same - the internship has a fixed length (eg. 7-7 days)
-                return $"{minValue} {translate(minDurationType, maxValue)}";
+                return $"{minValue} {translate(maxDurationType, maxValue)}";
             }
 
             if (minDurationType == maxDurationType)
             {
                 // types are same, but min and max value are different (eg. 4-7 days)
-                return $"{minValue} - {maxValue} {translate(minDurationType, maxValue)}";
+                return $"{minValue} - {maxValue} {translate(maxDurationType, maxValue)}";
             }
 
             return $"{minValue} {translate(minDurationType, minValue)} - {maxValue} {translate(maxDurationType, maxValue)}";

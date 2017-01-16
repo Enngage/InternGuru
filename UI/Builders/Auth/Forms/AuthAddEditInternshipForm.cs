@@ -91,22 +91,11 @@ namespace UI.Builders.Auth.Forms
         /// <summary>
         /// Indicates whether the model represents existing internship (based on ID)
         /// </summary>
-        public bool IsExistingInternship
-        {
-            get
-            {
-                return ID != 0;
-            }
-        }
+        public bool IsExistingInternship => ID != 0;
 
         public bool GetHasFlexibleHours()
         {
-            if (string.IsNullOrEmpty(HasFlexibleHours))
-            {
-                return false;
-            }
-
-            return HasFlexibleHours.Equals("on", StringComparison.OrdinalIgnoreCase);
+            return !string.IsNullOrEmpty(HasFlexibleHours) && HasFlexibleHours.Equals("on", StringComparison.OrdinalIgnoreCase);
         }
 
         public bool GetIsPaid()
@@ -121,100 +110,10 @@ namespace UI.Builders.Auth.Forms
 
         public bool GetIsActive()
         {
-            if (string.IsNullOrEmpty(IsActive))
-            {
-                return false;
-            }
-
-            return IsActive.Equals("on", StringComparison.OrdinalIgnoreCase);
+            return !string.IsNullOrEmpty(IsActive) && IsActive.Equals("on", StringComparison.OrdinalIgnoreCase);
         }
 
-        /// <summary>
-        /// Gets duration in weeks from given duration type
-        /// </summary>
-        /// <param name="durationType">Duration type (month, day, week..)</param>
-        /// <param name="duration">Duration</param>
-        /// <returns>Duration in weeks</returns>
-        public int GetDurationInWeeks(InternshipDurationTypeEnum durationType, int duration)
-        {
-            if (durationType == InternshipDurationTypeEnum.Weeks)
-            {
-                // no need to convert
-                return duration;
-            }
-
-            if (durationType == InternshipDurationTypeEnum.Days)
-            {
-                // convert Days to Weeks
-                return (int)duration / 7;
-            }
-
-            if (durationType == InternshipDurationTypeEnum.Months)
-            {
-                // convert Months to Weeks
-                return (int)duration * 4;
-            }
-
-            throw new ArgumentException("Invalid duration type");
-        }
-
-        /// <summary>
-        /// Gets duration in days from given duration type
-        /// </summary>
-        /// <param name="durationType">Duration type (month, day, week..)</param>
-        /// <param name="duration">Duration</param>
-        /// <returns>Duration in days</returns>
-        public int GetDurationInDays(InternshipDurationTypeEnum durationType, int duration)
-        {
-            if (durationType == InternshipDurationTypeEnum.Weeks)
-            {
-                // convert weeks to days
-                return duration * 7;
-            }
-
-            if (durationType == InternshipDurationTypeEnum.Days)
-            {
-                // no need to convert
-                return duration;
-            }
-
-            if (durationType == InternshipDurationTypeEnum.Months)
-            {
-                // convert Months to Days
-                return duration * 30;
-            }
-
-            throw new ArgumentException("Invalid duration type");
-        }
-
-        /// <summary>
-        /// Gets duration in months from given duration type
-        /// </summary>
-        /// <param name="durationType">Duration type (month, day, week..)</param>
-        /// <param name="duration">Duration</param>
-        /// <returns>Duration in months</returns>
-        public int GetDurationInMonths(InternshipDurationTypeEnum durationType, int duration)
-        {
-            if (durationType == InternshipDurationTypeEnum.Weeks)
-            {
-                // convert weeks to monts
-                return (int)duration / 4;
-            }
-
-            if (durationType == InternshipDurationTypeEnum.Days)
-            {
-                // convert Days to Months
-                return (int)duration / 30;
-            }
-
-            if (durationType == InternshipDurationTypeEnum.Months)
-            {
-                // no need to convert
-                return duration;
-            }
-
-            throw new ArgumentException("Invalid duration type");
-        }
+       
 
     }
 }

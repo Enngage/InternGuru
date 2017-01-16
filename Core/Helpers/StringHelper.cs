@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Core.Helpers
@@ -68,7 +69,7 @@ namespace Core.Helpers
             var modCount = count % 10;
 
             Func<string, string> replaceCount = (version) => version.Replace("{count}", count.ToString());
-            
+
             switch (modCount)
             {
                 case 0:
@@ -205,5 +206,43 @@ namespace Core.Helpers
         {
             return Regex.Replace(source, "<.*?>", string.Empty);
         }
+
+
+        /// <summary>
+        /// Generates Lorem Ipsum text
+        /// </summary>
+        /// <param name="minWords">Minimum words</param>
+        /// <param name="maxWords">Maximum words</param>
+        /// <param name="minSentences">Minimium sentences</param>
+        /// <param name="maxSentences">Maximum sentences></param>
+        /// <param name="numLines">Number of lines</param>
+        /// <returns></returns>
+        private static string LoremIpsum(int minWords, int maxWords, int minSentences, int maxSentences, int numLines)
+        {
+            var words = new[] { "lorem", "ipsum", "dolor", "sit", "amet", "consectetuer", "adipiscing", "elit", "sed", "diam", "nonummy", "nibh", "euismod", "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat" };
+
+            var rand = new Random();
+            int numSentences = rand.Next(maxSentences - minSentences)
+                + minSentences + 1;
+            int numWords = rand.Next(maxWords - minWords) + minWords + 1;
+
+            var sb = new StringBuilder();
+            for (int p = 0; p < numLines; p++)
+            {
+                for (int s = 0; s < numSentences; s++)
+                {
+                    for (int w = 0; w < numWords; w++)
+                    {
+                        if (w > 0) { sb.Append(" "); }
+                        sb.Append(words[rand.Next(words.Length)]);
+                    }
+                    sb.Append(". ");
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
+
     }
 }
