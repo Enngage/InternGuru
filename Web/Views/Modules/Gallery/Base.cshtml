@@ -6,7 +6,7 @@
 
 <div id="_GalleryID" data-id="@Model.GalleryID"></div>
 
-@if (Model.Images.Count() > 0) // generate gallery only if there are some images
+@if (Model.Images.Any()) // generate gallery only if there are some images
 {
     <div class="ui segment">
         <div id="@Model.GalleryID" class="w-body-hide">

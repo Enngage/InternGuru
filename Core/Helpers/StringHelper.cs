@@ -73,11 +73,11 @@ namespace Core.Helpers
             switch (modCount)
             {
                 case 0:
-                    return replaceCount(version0);
+                    return count == 0 ? replaceCount(version0) : replaceCount(version5); 
                 case 1:
-                    return replaceCount(version1);
+                    return count == 1 ? replaceCount(version1) : replaceCount(version5);
                 default:
-                    if (modCount > 1 && modCount < 5)
+                    if (modCount > 1 && modCount < 5 && count < 5)
                     {
                         return replaceCount(version2);
                     }

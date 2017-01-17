@@ -44,8 +44,8 @@ version = (npmPackage && npmPackage.version !== undefined && npmPackage.name == 
 
 module.exports = {
 
-  title      : 'Semantic UI',
-  repository : 'https://github.com/Semantic-Org/Semantic-UI',
+  title      : 'Semantic Helpers',
+  repository : 'https://github.com/Semantic-Org/Semantic-Helpers',
   url        : 'http://www.semantic-ui.com/',
 
   banner: ''

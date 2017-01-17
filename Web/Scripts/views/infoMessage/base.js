@@ -14,15 +14,15 @@
 
                 // make sure that closable message is not show again if necessary
                 var messageID = $(this).closest(uiMessageClass).data("messageid");
-                var closedUntil = $(this).closest(uiMessageClass).data("closeduntil");
+                var ClosedForDaysCount = $(this).closest(uiMessageClass).data("closedfordayscount");
                 var rememberClosed = $(this).closest(uiMessageClass).data("rememberclosed");
 
                 // process request
-                processClosableMessage(messageID, closedUntil, rememberClosed);
+                processClosableMessage(messageID, ClosedForDaysCount, rememberClosed);
             });
 
-    function processClosableMessage(messageID, closedUntil, rememberClosed) {
-        infoMessageModule.processClosableMessage(messageID, closedUntil, rememberClosed).then(function () {
+        function processClosableMessage(messageID, ClosedForDaysCount, rememberClosed) {
+            infoMessageModule.processClosableMessage(messageID, ClosedForDaysCount, rememberClosed).then(function () {
             console.log("Message " + messageID + " closed");
         }, function (error) {
             console.error("Failed!", error);

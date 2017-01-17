@@ -32,7 +32,7 @@
                 <div class="ui items">
                     <div class="item">
                         <a class="ui image tiny" href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
-                            <img class="ui image w-image-tiny" alt="" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(company.CompanyGuid)" />
+                            <img class="ui image w-image-tiny" alt="" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(company.CompanyGuid)" />
                         </a>
                         <div class="middle aligned content">
                             <div class="header">
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
-                <img class="ui image w-company-browse-banner" alt="@company.CompanyName logo" data-src="@ImageHelper.GetCompanyBanner(company.CompanyGuid)" src="@ImageHelper.GetTransparentImage()" />
+                <img class="ui image w-company-browse-banner" alt="@company.CompanyName logo" data-src="@Helpers.ImageHelper.GetCompanyBanner(company.CompanyGuid)" src="@Helpers.ImageHelper.GetTransparentImage()" />
             </a>
         </div>
     }

@@ -81,9 +81,11 @@ namespace Cache
         public async Task<int> GetOrSetAsync(Func<Task<int>> getItemCallback, ICacheSetup cacheSetup)
         {
             var item = _memoryCache.Get(cacheSetup.CacheKey);
+
             if (item == null)
             {
-                var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.CacheMinutes));
+                var cacheExpires = GetCacheExpires(cacheSetup.CacheMinutes);
+
                 item = await getItemCallback();
 
                 var cacheItemPolicy = new CacheItemPolicy()
@@ -93,8 +95,12 @@ namespace Cache
 
                 if (item == null)
                 {
+                    // add dependency back to list
+                    CacheDependency.AddCacheSetup(cacheSetup);
                     return 0;
                 }
+
+                // add result to cache
                 _memoryCache.Add(cacheSetup.CacheKey, item, cacheItemPolicy);
             }
             else
@@ -110,6 +116,8 @@ namespace Cache
 
                     if (item == null)
                     {
+                        // add dependency back to list
+                        CacheDependency.AddCacheSetup(cacheSetup);
                         return 0;
                     }
 
@@ -118,13 +126,13 @@ namespace Cache
                         AbsoluteExpiration = cacheExpires
                     };
 
+                    // add result to cache
                     _memoryCache.Add(cacheSetup.CacheKey, item, cacheItemPolicy);
                 }
             }
 
-            // add dependency back to list
+            // add dependency and return item
             CacheDependency.AddCacheSetup(cacheSetup);
-
             return (int)item;
         }
 
@@ -137,10 +145,19 @@ namespace Cache
         /// <returns>Result of the delegated method</returns>
         public async Task<T> GetOrSetAsync<T>(Func<Task<T>> getItemCallback, ICacheSetup cacheSetup) where T : class
         {
-            var item = _memoryCache.Get(cacheSetup.CacheKey) as T;
+            // try to get item from cache
+            var item = GetItem<T>(cacheSetup.CacheKey);
+
             if (item == null)
             {
-                var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.CacheMinutes));
+                // check if empty object is stored in cache
+                if (EmptyObjectIsCached(cacheSetup))
+                {
+                    return null;
+                }
+
+                var cacheExpires = GetCacheExpires(cacheSetup.CacheMinutes);
+
                 item = await getItemCallback();
 
                 var cacheItemPolicy = new CacheItemPolicy()
@@ -150,6 +167,9 @@ namespace Cache
 
                 if (item == null)
                 {
+                    // add dependency back to list
+                    CacheDependency.AddCacheSetup(cacheSetup);
+                    AddEmptyObjectToCache(cacheSetup);
                     return null;
                 }
                 _memoryCache.Add(cacheSetup.CacheKey, item, cacheItemPolicy);
@@ -162,11 +182,16 @@ namespace Cache
                     // remove item from cache
                     _memoryCache.Remove(cacheSetup.CacheKey);
 
-                    var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.CacheMinutes));
+                    var cacheExpires = GetCacheExpires(cacheSetup.CacheMinutes);
+
+                    // execute function
                     item = await getItemCallback();
 
                     if (item == null)
                     {
+                        // add dependency back to list
+                        CacheDependency.AddCacheSetup(cacheSetup);
+                        AddEmptyObjectToCache(cacheSetup);
                         return null;
                     }
 
@@ -175,18 +200,19 @@ namespace Cache
                         AbsoluteExpiration = cacheExpires
                     };
 
+                    // add result to cache
                     _memoryCache.Add(cacheSetup.CacheKey, item, cacheItemPolicy);
                 }
             }
 
-            // add dependency back to list
+            // add dependency and return item
             CacheDependency.AddCacheSetup(cacheSetup);
             return item;
         }
 
         #endregion
 
-        #region GetOrSet without resolving
+        #region GetOrSet
 
         /// <summary>
         /// Gets and/or sets the result of given method to cache
@@ -196,14 +222,29 @@ namespace Cache
         /// <returns>Result of the delegated method</returns>
         public T GetOrSet<T>(Func<T> getItemCallback, ICacheSetup cacheSetup) where T : class
         {
-            var item = _memoryCache.Get(cacheSetup.CacheKey) as T;
+            // try to get item from cache
+            var item = GetItem<T>(cacheSetup.CacheKey);
+
             if (item == null)
             {
-                var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.CacheMinutes));
+                // check if empty object is stored in cache
+                if (EmptyObjectIsCached(cacheSetup))
+                {
+                    return null;
+                }
+
+                // determine when cache expires
+                var cacheExpires = GetCacheExpires(cacheSetup.CacheMinutes);
+
+                // execute callback method
                 item = getItemCallback();
 
+                // check the result
                 if (item == null)
                 {
+                    // executed function returned null
+                    CacheDependency.AddCacheSetup(cacheSetup);
+                    AddEmptyObjectToCache(cacheSetup);
                     return null;
                 }
 
@@ -212,6 +253,7 @@ namespace Cache
                     AbsoluteExpiration = cacheExpires
                 };
 
+                // add result to cache
                 _memoryCache.Add(cacheSetup.CacheKey, item, cacheItemPolicy);
             }
             else
@@ -227,6 +269,9 @@ namespace Cache
 
                     if (item == null)
                     {
+                        // add dependency back to list
+                        CacheDependency.AddCacheSetup(cacheSetup);
+                        AddEmptyObjectToCache(cacheSetup);
                         return null;
                     }
 
@@ -239,7 +284,7 @@ namespace Cache
                 }
             }
 
-            // add dependency back to list
+            // add dependency and return item
             CacheDependency.AddCacheSetup(cacheSetup);
             return item;
         }
@@ -270,11 +315,7 @@ namespace Cache
         public object GetItem(string cacheKey)
         {
             var item = _memoryCache.GetCacheItem(cacheKey);
-            if (item != null)
-            {
-                return item.Value;
-            }
-            return null;
+            return item?.Value;
         }
 
         #endregion
@@ -342,6 +383,41 @@ namespace Cache
         private int GetCacheMinutes(int cacheMinutes)
         {
             return _forceDisableCaching ? 0 : cacheMinutes;
+        }
+
+        /// <summary>
+        /// Checks if empty object is stored in cache
+        /// Used when object to be stored in cache is null because it is not possible to store null it cache
+        /// </summary>
+        /// <param name="cacheSetup">CacheSetup</param>
+        /// <returns>True if empty object is stored in cache, false otherwise</returns>
+        private bool EmptyObjectIsCached(ICacheSetup cacheSetup)
+        {
+            var item = _memoryCache.Get(cacheSetup.CacheKey) as EmptyItem;
+
+            return item != null;
+        }
+
+        /// <summary>
+        /// Ads empty object to cache in case the "real" object is null 
+        /// This prevents execution of SQL queries if object is null and therefore not stored in cache
+        /// </summary>
+        /// <param name="cacheSetup">cacheSetup</param>
+        private void AddEmptyObjectToCache(ICacheSetup cacheSetup)
+        {
+            var cacheExpires = DateTime.Now.AddMinutes(GetCacheMinutes(cacheSetup.CacheMinutes));
+
+            var cacheItemPolicy = new CacheItemPolicy()
+            {
+                AbsoluteExpiration = cacheExpires
+            };
+
+            _memoryCache.Add(cacheSetup.CacheKey, new EmptyItem(), cacheItemPolicy);
+        }
+
+        private DateTime GetCacheExpires(int cacheMinutes)
+        {
+            return DateTime.Now.AddMinutes(GetCacheMinutes(cacheMinutes));
         }
 
 

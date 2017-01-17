@@ -1,9 +1,9 @@
 
 Package.describe({
   name    : 'semantic:ui-{component}',
-  summary : 'Semantic UI - {Component}: Single component release',
+  summary : 'Semantic Helpers - {Component}: Single component release',
   version : '{version}',
-  git     : 'git://github.com/Semantic-Org/UI-{Component}.git',
+  git     : 'git://github.com/Semantic-Org/Helpers-{Component}.git',
 });
 
 Package.onUse(function(api) {

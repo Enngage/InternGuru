@@ -1,9 +1,9 @@
-﻿using UI.Base;
+﻿using System;
+using UI.Base;
 using UI.Builders.Services;
-using System;
 using UI.Builders.Shared.Models;
 
-namespace UI.Builders.InfoMessage
+namespace UI.Modules.InfoMessage
 {
     public class InfoMessageBuilder : BaseBuilder
     {
@@ -25,11 +25,11 @@ namespace UI.Builders.InfoMessage
         /// <summary>
         /// Sets cookie for given message so that it is not displayed until the cookie expires
         /// </summary>
-        public void ProcessClosableMessage(string messageID, DateTime closedUntil, bool rememberClosed)
+        public void ProcessClosableMessage(string messageID, int closedForDaysCount, bool rememberClosed)
         {
             if (rememberClosed)
             {
-                this.Services.CookieService.SetCookie(GetClosedMessageCookieName(messageID), "1", closedUntil);
+                Services.CookieService.SetCookie(GetClosedMessageCookieName(messageID), "1", DateTime.Now.AddDays(closedForDaysCount));
             }
         }
 

@@ -2,10 +2,10 @@
 using System.Web.Http;
 using Service.Context;
 using UI.Base;
-using UI.Builders.InfoMessage;
-using UI.Builders.InfoMessage.Models;
 using UI.Builders.Master;
 using UI.Events;
+using UI.Modules.InfoMessage;
+using UI.Modules.InfoMessage.Models;
 
 namespace Web.Api
 {
@@ -25,7 +25,7 @@ namespace Web.Api
         {
             try
             {
-                _infoMessageBuilder.ProcessClosableMessage(query.MessageID, query.ClosedUntil, query.RememberClosed);
+                _infoMessageBuilder.ProcessClosableMessage(query.MessageID, query.ClosedForDaysCount, query.RememberClosed);
 
                 return Ok(true);
             }

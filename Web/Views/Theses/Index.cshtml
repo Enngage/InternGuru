@@ -110,7 +110,7 @@
                         {
                             <tr data-link="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
                                 <td class="collapsing">
-                                    <img class="ui mini image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)"/>
+                                    <img class="ui mini image" alt="@thesis.ThesisName" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)"/>
                                 </td>
                                 <td>
                                     <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
@@ -130,10 +130,7 @@
                     </table>
 
                     <div class="w-margin-top-10">
-                        @if (Model.Theses.PageCount > 1)
-                        {
-                            @Html.PagedListPager(Model.Theses, page => Url.Action("Index", "Theses", new {page}), new PagedListRenderOptions() {MaximumPageNumbersToDisplay = 6})
-                        }
+                       @Helpers.PagerHelper.GetPager(Model.Theses)
                     </div>
                 }
             </div>

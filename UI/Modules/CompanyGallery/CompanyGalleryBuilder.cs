@@ -6,7 +6,7 @@ using UI.Builders.Shared.Models;
 using UI.Exceptions;
 using UI.Helpers;
 
-namespace UI.Builders.CompanyGallery
+namespace UI.Modules.CompanyGallery
 {
     public class CompanyGalleryBuilder : BaseBuilder
     {
@@ -26,7 +26,7 @@ namespace UI.Builders.CompanyGallery
             {
                 // check if file exists
                 var relativePath = Entity.Company.GetCompanyGalleryFilePath(companyGuid, fileName);
-                var systemFilePath = ImageHelper.GetSystemPathToFile(relativePath);
+                var systemFilePath = ImageHelper.GetSystemPathToFileStatic(relativePath);
 
                 if (File.Exists(systemFilePath))
                 {
@@ -45,11 +45,7 @@ namespace UI.Builders.CompanyGallery
 
         public bool UserCanManageImages(Guid companyGuid)
         {
-            if (CurrentCompany.CompanyGuid == companyGuid)
-            {
-                return true;
-            }
-            return false;
+            return CurrentCompany.CompanyGuid == companyGuid;
         }
 
         #endregion

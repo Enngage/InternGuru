@@ -41,7 +41,7 @@ namespace UI.Builders.Auth.Models
         /// <summary>
         /// Represent the display name of other user (opposite to current user)
         /// </summary>
-        public string WithApplicationDisplayName => WrittenByCurrentUser ? UserHelper.GetDisplayName(RecipientFirstName, RecipientLastName, RecipientNickname, RecipientApplicationUserName) : UserHelper.GetDisplayName(SenderFirstName, SenderLastName, SenderNickname, SenderApplicationUserName);
+        public string WithApplicationDisplayName => WrittenByCurrentUser ? UserHelper.GetDisplayNameStatic(RecipientFirstName, RecipientLastName, RecipientNickname, RecipientApplicationUserName) : UserHelper.GetDisplayNameStatic(SenderFirstName, SenderLastName, SenderNickname, SenderApplicationUserName);
 
         /// <summary>
         /// Indicates if the message was sent by current user (outgoing message) or incoming

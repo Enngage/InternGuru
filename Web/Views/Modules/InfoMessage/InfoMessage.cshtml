@@ -1,6 +1,6 @@
-﻿@model UI.Builders.InfoMessage.Views.InfoMessageView
-@using UI.Builders.InfoMessage.Enums
+﻿@model UI.Modules.InfoMessage.Views.InfoMessageView
 @using UI.Extensions;
+@using UI.Modules.InfoMessage.Enums
 @{
     var messageClass = string.Empty;
     switch (Model.MessageType)
@@ -31,7 +31,7 @@
 {
     @Html.RequireScript("/scripts/views/infoMessage/base")
 
-    <div id="@Model.MessageID" class="ui message _InfoMessageClosable @messageClass" data-messageid="@Model.MessageID" data-closeduntil="@Model.RememberClosedUntil" data-rememberclosed="@Model.RememberClosed">
+    <div id="@Model.MessageID" class="ui message _InfoMessageClosable @messageClass" data-messageid="@Model.MessageID" data-closedfordayscount="@Model.ClosedForDaysCount" data-rememberclosed="@Model.RememberClosed">
         @if (Model.IsClosable)
         {
             <i class="close icon"></i>

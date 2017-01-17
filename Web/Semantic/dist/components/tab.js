@@ -132,7 +132,7 @@ $.fn.tab = function(parameters) {
           if(settings.context === 'parent') {
             if($module.closest(selector.ui).length > 0) {
               $reference = $module.closest(selector.ui);
-              module.verbose('Using closest UI element as parent', $reference);
+              module.verbose('Using closest Helpers element as parent', $reference);
             }
             else {
               $reference = $module;

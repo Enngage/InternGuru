@@ -11,6 +11,6 @@ namespace UI.Builders.Auth.Models
         public string LastName { get; set; }
         public string Nickname { get; set; }
 
-        public string DisplayName => UserHelper.GetDisplayName(FirstName, LastName, Nickname, UserName);
+        public string DisplayName => UserHelper.GetDisplayNameStatic(FirstName, LastName, Nickname, UserName);
     }
 }

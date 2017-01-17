@@ -1,16 +1,25 @@
 ﻿
+using System.Web.Mvc;
+using UI.Base;
+
 namespace UI.Helpers
 {
-    public static class CountryHelper
+    public class CountryHelper : HelperBase
     {
-        public static string GetCountryIcon(string countryIconClass)
-        {
-            if (string.IsNullOrEmpty(countryIconClass))
-            {
-                return "<i class=\"flag icon\"></i>";
-            }
+        public CountryHelper(WebViewPage webViewPage) : base(webViewPage) { }
 
-            return $"<i class=\"{countryIconClass.Trim()} flag\"></i>";
+        public string GetCountryIcon(string countryIconClass)
+        {
+            return GetCountryIconStatic(countryIconClass);
         }
+
+        #region Static methods
+
+        public static string GetCountryIconStatic(string countryIconClass)
+        {
+            return string.IsNullOrEmpty(countryIconClass) ? "<i class=\"flag icon\"></i>" : $"<i class=\"{countryIconClass.Trim()} flag\"></i>";
+        }
+
+        #endregion
     }
 }

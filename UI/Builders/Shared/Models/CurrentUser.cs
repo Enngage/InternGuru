@@ -53,7 +53,7 @@ namespace UI.Builders.Shared.Models
         /// <summary>
         /// Gets display name of user
         /// </summary>
-        public string UserDisplayName => UserHelper.GetDisplayName(FirstName, LastName, Nickname, UserName);
+        public string UserDisplayName => UserHelper.GetDisplayNameStatic(FirstName, LastName, Nickname, UserName);
 
         /// <summary>
         /// Privilege level of current user

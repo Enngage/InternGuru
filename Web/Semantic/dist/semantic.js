@@ -497,7 +497,7 @@ $.extend($.expr[ ":" ], {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Form Validation
+ * # Semantic Helpers 2.2.2 - Form Validation
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -2050,7 +2050,7 @@ $.fn.form.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Accordion
+ * # Semantic Helpers 2.2.2 - Accordion
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -2661,7 +2661,7 @@ $.extend( $.easing, {
 
 
 /*!
- * # Semantic UI 2.2.2 - Checkbox
+ * # Semantic Helpers 2.2.2 - Checkbox
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -3493,7 +3493,7 @@ $.fn.checkbox.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Dimmer
+ * # Semantic Helpers 2.2.2 - Dimmer
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -4202,7 +4202,7 @@ $.fn.dimmer.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Dropdown
+ * # Semantic Helpers 2.2.2 - Dropdown
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -4543,7 +4543,7 @@ $.fn.dropdown = function(parameters) {
             }
             // see if select is placed correctly already
             if($input.parent(selector.dropdown).length > 0) {
-              module.debug('UI dropdown already exists. Creating dropdown menu only');
+              module.debug('Helpers dropdown already exists. Creating dropdown menu only');
               $module = $input.closest(selector.dropdown);
               if( !module.has.menu() ) {
                 module.create.menu();
@@ -7764,7 +7764,7 @@ $.fn.dropdown.settings = {
     method          : 'The method you called is not defined.',
     noAPI           : 'The API module is required to load resources remotely',
     noStorage       : 'Saving remote data requires session storage',
-    noTransition    : 'This module requires ui transitions <https://github.com/Semantic-Org/UI-Transition>'
+    noTransition    : 'This module requires ui transitions <https://github.com/Semantic-Org/Helpers-Transition>'
   },
 
   regExp : {
@@ -7920,7 +7920,7 @@ $.fn.dropdown.settings.templates = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Embed
+ * # Semantic Helpers 2.2.2 - Embed
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -8617,7 +8617,7 @@ $.fn.embed.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Modal
+ * # Semantic Helpers 2.2.2 - Modal
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -9508,7 +9508,7 @@ $.fn.modal.settings = {
     modal    : '.ui.modal'
   },
   error : {
-    dimmer    : 'UI Dimmer, a required component is not included in this page',
+    dimmer    : 'Helpers Dimmer, a required component is not included in this page',
     method    : 'The method you called is not defined.',
     notFound  : 'The element you specified could not be found'
   },
@@ -9525,7 +9525,7 @@ $.fn.modal.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Nag
+ * # Semantic Helpers 2.2.2 - Nag
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -10033,7 +10033,7 @@ $.extend( $.easing, {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Popup
+ * # Semantic Helpers 2.2.2 - Popup
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -11431,7 +11431,7 @@ $.fn.popup.settings = {
     invalidPosition : 'The position you specified is not a valid position',
     cannotPlace     : 'Popup does not fit within the boundaries of the viewport',
     method          : 'The method you called is not defined.',
-    noTransition    : 'This module requires ui transitions <https://github.com/Semantic-Org/UI-Transition>',
+    noTransition    : 'This module requires ui transitions <https://github.com/Semantic-Org/Helpers-Transition>',
     notFound        : 'The target or popup you specified does not exist on the page'
   },
 
@@ -11507,7 +11507,7 @@ $.fn.popup.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Progress
+ * # Semantic Helpers 2.2.2 - Progress
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -12418,7 +12418,7 @@ $.fn.progress.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Rating
+ * # Semantic Helpers 2.2.2 - Rating
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -12927,7 +12927,7 @@ $.fn.rating.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Search
+ * # Semantic Helpers 2.2.2 - Search
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -14326,7 +14326,7 @@ $.fn.search.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Shape
+ * # Semantic Helpers 2.2.2 - Shape
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -15248,7 +15248,7 @@ $.fn.shape.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Sidebar
+ * # Semantic Helpers 2.2.2 - Sidebar
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -16285,7 +16285,7 @@ $.fn.sidebar.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Sticky
+ * # Semantic Helpers 2.2.2 - Sticky
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -17222,7 +17222,7 @@ $.fn.sticky.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Tab
+ * # Semantic Helpers 2.2.2 - Tab
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -17355,7 +17355,7 @@ $.fn.tab = function(parameters) {
           if(settings.context === 'parent') {
             if($module.closest(selector.ui).length > 0) {
               $reference = $module.closest(selector.ui);
-              module.verbose('Using closest UI element as parent', $reference);
+              module.verbose('Using closest Helpers element as parent', $reference);
             }
             else {
               $reference = $module;
@@ -18151,7 +18151,7 @@ $.fn.tab.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Transition
+ * # Semantic Helpers 2.2.2 - Transition
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -19242,7 +19242,7 @@ $.fn.transition.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - API
+ * # Semantic Helpers 2.2.2 - API
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -20410,7 +20410,7 @@ $.api.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - State
+ * # Semantic Helpers 2.2.2 - State
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -21119,7 +21119,7 @@ $.fn.state.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.2.2 - Visibility
+ * # Semantic Helpers 2.2.2 - Visibility
  * http://github.com/semantic-org/semantic-ui/
  *
  *

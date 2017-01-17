@@ -57,7 +57,7 @@
                             {
                                 <tr data-link="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
                                     <td class="collapsing">
-                                        <img class="ui mini image" alt="@internship.Title" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(internship.CompanyGuid)" />
+                                        <img class="ui mini image" alt="@internship.Title" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(internship.CompanyGuid)" />
                                     </td>
                                     <td>
                                         <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
@@ -66,7 +66,7 @@
                                         <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
                                     </td>
                                     <td>
-                                        @Html.Raw(CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
+                                        @Html.Raw(Helpers.CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
                                     </td>
                                     <td class="collapsing w-body-text-right w-mobile-left">
                                         @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)

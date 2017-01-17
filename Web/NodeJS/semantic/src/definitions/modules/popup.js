@@ -1397,7 +1397,7 @@ $.fn.popup.settings = {
     invalidPosition : 'The position you specified is not a valid position',
     cannotPlace     : 'Popup does not fit within the boundaries of the viewport',
     method          : 'The method you called is not defined.',
-    noTransition    : 'This module requires ui transitions <https://github.com/Semantic-Org/UI-Transition>',
+    noTransition    : 'This module requires ui transitions <https://github.com/Semantic-Org/Helpers-Transition>',
     notFound        : 'The target or popup you specified does not exist on the page'
   },
 

@@ -24,12 +24,6 @@ namespace UI.Builders.Company.Models
         public string PluralInternshipsCountWord { get; set; }
         public string PluralThesesCountWord { get; set; }
 
-        public string CountryIconHtml
-        {
-            get
-            {
-                return CountryHelper.GetCountryIcon(CountryIcon);
-            }
-        }
+        public string CountryIconHtml => CountryHelper.GetCountryIconStatic(CountryIcon);
     }
 }

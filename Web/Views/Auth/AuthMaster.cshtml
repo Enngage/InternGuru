@@ -1,7 +1,8 @@
 ﻿@using UI.Builders.Auth.Enum
-@using UI.Builders.InfoMessage.Enums
 @using UI.Helpers;
 @using UI.Extensions;
+@using UI.Modules.InfoMessage.Enums
+@using UI.Modules.InfoMessage.Views
 @model UI.Builders.Auth.Views.AuthMasterView
 
 @{
@@ -138,15 +139,15 @@
         }
         @if (emailVisible)
         {
-            var infoMessage = new UI.Builders.InfoMessage.Views.InfoMessageView()
+            var infoMessage = new InfoMessageView()
             {
                 MessageID = "emailnotice",
                 Message = $"Ostatní uživatelé vidí část Vašeho e-mailu (bez domény) - <strong>'{Model.Master.CurrentUser.UserDisplayName}'</strong>. Pro úplné skrytí vyplňte <strong>Jméno</strong> nebo <strong>Přezdívku</strong> <a href=\"{Url.Action("EditProfile")}\">zde</a>",
                 IsClosable = true,
                 MessageType = InfoMessageTypeEnum.Warning,
-                RememberClosedUntil = DateTime.Now.AddDays(1)
+                ClosedForDaysCount = 1
             };
-            Html.RenderPartial("~/Views/InfoMessage/InfoMessage.cshtml", infoMessage);
+            Html.RenderPartial("~/Views/Modules/InfoMessage/InfoMessage.cshtml", infoMessage);
         }
 
         @RenderBody()
@@ -248,7 +249,7 @@
 
 @*@foreach (var enabledTab in Model.Tabs.GetOrderedActiveTabs())
     {
-        if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Profile)
+        if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.Profile)
         {
             <div class="ui segment padded w-body-text-center">
                 <h3>
@@ -276,7 +277,7 @@
                 </div>
             </div>
         }
-        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Company)
+        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.Company)
         {
             <div class="ui segment padded w-body-text-center">
                 <h3>
@@ -297,7 +298,7 @@
                 </div>
             </div>
         }
-        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Buttons)
+        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.Buttons)
         {
             <div>
                 <a class="ui button fluid" href="@Url.Action("NewInternship", "Auth")">
@@ -316,7 +317,7 @@
                 }
             </div>
         }
-        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.MyInternships)
+        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.MyInternships)
         {
             if (Model.AuthMaster.Internships.Any())
             {
@@ -338,7 +339,7 @@
                 </div>
             }
         }
-        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.MyTheses)
+        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.MyTheses)
         {
             if (Model.AuthMaster.Internships.Any())
             {
@@ -360,7 +361,7 @@
                 </div>
             }
         }
-        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.RecentConversations)
+        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.RecentConversations)
         {
 
             if (Model.AuthMaster.Conversations.Any())
@@ -383,7 +384,7 @@
                 </div>
             }
         }
-        else if (enabledTab.Tab == UI.Builders.Auth.Enum.AuthTabEnum.Admin)
+        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.Admin)
         {
             <div class="ui segment padded w-body-text-center">
                 <h3>

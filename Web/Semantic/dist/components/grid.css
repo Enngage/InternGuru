@@ -997,7 +997,7 @@
   padding-right: 2.5rem;
 }
 
-/* Coupling with UI Divider */
+/* Coupling with Helpers Divider */
 .ui.relaxed.grid .row + .ui.divider,
 .ui.grid .relaxed.row + .ui.divider {
   margin-left: 1.5rem;

@@ -1,5 +1,5 @@
 ﻿
-namespace UI.Builders.GoogleMaps.Views
+namespace UI.Modules.GoogleMaps.Views
 {
     public class GoogleMapView
     {

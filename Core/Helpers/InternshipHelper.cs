@@ -44,13 +44,13 @@ namespace Core.Helpers
                 switch (type)
                 {
                     case InternshipDurationTypeEnum.Days:
-                        return StringHelper.GetPluralWord(duration, "0 dnů", "den", "dny", "dnů");
+                        return StringHelper.GetPluralWord(duration, "dnů", "den", "dny", "dnů");
                     case InternshipDurationTypeEnum.Weeks:
-                        return StringHelper.GetPluralWord(duration, "0 týdnů", "týden", "týdny", "týdnů");
+                        return StringHelper.GetPluralWord(duration, "týdnů", "týden", "týdny", "týdnů");
                     // ReSharper disable once RedundantCaseLabel
                     case InternshipDurationTypeEnum.Months:
                     default:
-                        return StringHelper.GetPluralWord(duration, "0 měsíců", "měsíc", "měsíce", "měsíců");
+                        return StringHelper.GetPluralWord(duration, "měsíců", "měsíc", "měsíce", "měsíců");
                 }
             };
 

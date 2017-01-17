@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UI.Builders.CompanyGallery.Models
+namespace UI.Modules.CompanyGallery.Models
 {
     public class CompanyGalleryDeleteFileQuery
     {

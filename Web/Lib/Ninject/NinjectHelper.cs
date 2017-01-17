@@ -10,6 +10,7 @@ using Ninject;
 using Ninject.Web.Common;
 using System;
 using System.Web;
+using System.Web.Mvc;
 using Core.Loc;
 using UI.Builders.Services;
 using UI.Events;
@@ -28,6 +29,7 @@ using Service.Services.Languages;
 using Service.Services.Logs;
 using Service.Services.Messages;
 using Service.Services.Thesis;
+using UI.RazorExtensions;
 
 namespace Web.Lib.Ninject
 {
@@ -97,6 +99,9 @@ namespace Web.Lib.Ninject
 
             // Cache service needs additional parameters and can be used as singleton
             kernel.Bind<ICacheService>().ToMethod(m => new CacheService(Core.Config.AppConfig.DisableCaching, Core.Config.AppConfig.DefaultCacheMinutes)).InSingletonScope();
+
+            // Helpers Helpers - request scope
+            kernel.Bind<IUIHelpers>().To<UIHelpers>().InRequestScope();
 
             // Services - they need to be in RequestScope, otherwise they may throw infinite recursion exceptions when a service is used inside another service
             kernel.Bind<ILogService>().To<LogService>().InRequestScope();

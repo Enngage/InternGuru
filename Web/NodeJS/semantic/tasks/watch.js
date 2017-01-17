@@ -112,7 +112,7 @@ module.exports = function(callback) {
       isDefinition    = (file.path.indexOf(source.definitions) !== -1);
 
       if(isConfig) {
-        console.info('Rebuilding all UI');
+        console.info('Rebuilding all Helpers');
         // impossible to tell which file was updated in theme.config, rebuild all
         gulp.start('build-css');
         return;
@@ -179,7 +179,7 @@ module.exports = function(callback) {
         ;
       }
       else {
-        console.log('Cannot find UI definition at path', lessPath);
+        console.log('Cannot find Helpers definition at path', lessPath);
       }
     })
   ;

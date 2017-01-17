@@ -169,7 +169,7 @@ module.exports = function(callback) {
 
       }
       else {
-        console.log('Cannot find UI definition at path', lessPath);
+        console.log('Cannot find Helpers definition at path', lessPath);
       }
     })
   ;

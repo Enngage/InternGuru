@@ -55,7 +55,7 @@ gulp.task('version', 'Displays current version of Semantic', version);
 
 /*
   Lets you serve files to a local documentation instance
-  https://github.com/Semantic-Org/Semantic-UI-Docs/
+  https://github.com/Semantic-Org/Semantic-Helpers-Docs/
 */
 
 gulp.task('serve-docs', 'Serve file changes to SUI Docs', serveDocs);

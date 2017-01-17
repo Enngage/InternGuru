@@ -13,7 +13,7 @@
     <div class="ui container w-margin-top-20">
         <div class="ui grid">
             <div class="sixteen wide column">
-                <img alt="@Model.Internship.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Internship.CompanyGuid)" class="ui image fluid w-company-detail-banner" />
+                <img alt="@Model.Internship.CompanyName banner" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.Internship.CompanyGuid)" class="ui image fluid w-company-detail-banner" />
             </div>
         </div>
     </div>
@@ -45,7 +45,7 @@
                                     <textarea name="Message" @Model.InternshipForm.Message></textarea>
                                 </div>
 
-                                <button class="ui button submit primary" type="submit">
+                                <button class="ui button primary" type="submit">
                                     Odeslat
                                 </button>
                             </div>

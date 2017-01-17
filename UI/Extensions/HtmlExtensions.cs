@@ -11,16 +11,12 @@ namespace UI.Extensions
         /// Renders icon using given class 
         /// See http://semantic-ui.com/elements/icon.html for icon class names
         /// </summary>
+        /// <param name="html">html</param>
         /// <param name="className">Class name (see Semantic-ui icons) without "icon"</param>
         /// <returns>Icon</returns>
         public static IHtmlString RenderIcon(this HtmlHelper html, string className)
         {
-            if (string.IsNullOrEmpty(className))
-            {
-                return null;
-            }
-
-            return html.Raw($"<i class=\"{className} icon\"></i>");
+            return string.IsNullOrEmpty(className) ? null : html.Raw($"<i class=\"{className} icon\"></i>");
         }
 
         /// <summary>

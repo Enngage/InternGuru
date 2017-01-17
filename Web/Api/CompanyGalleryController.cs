@@ -2,10 +2,10 @@
 using System.Web.Http;
 using Service.Context;
 using UI.Base;
-using UI.Builders.CompanyGallery;
-using UI.Builders.CompanyGallery.Models;
 using UI.Builders.Master;
 using UI.Events;
+using UI.Modules.CompanyGallery;
+using UI.Modules.CompanyGallery.Models;
 
 namespace Web.Api
 {

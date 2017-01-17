@@ -12,7 +12,7 @@ namespace Cache
         /// <summary>
         /// Dictionary where all cache items are stored
         /// </summary>
-        public static Dictionary<string, ICacheSetup> CacheSetupList => new Dictionary<string, ICacheSetup>();
+        private static readonly Dictionary<string, ICacheSetup> CacheSetupList = new Dictionary<string, ICacheSetup>();
 
         #endregion
 
@@ -59,9 +59,10 @@ namespace Cache
         /// <param name="cacheSetup">cacheSetup</param>
         public static void AddCacheSetup(ICacheSetup cacheSetup)
         {
+
             if (!CacheSetupList.ContainsKey(cacheSetup.CacheKey))
             {
-                cacheSetup.SetUpdated(DateTime.Now); 
+                cacheSetup.SetUpdated(DateTime.Now);
                 CacheSetupList.Add(cacheSetup.CacheKey, cacheSetup);
             }
             else
@@ -91,7 +92,8 @@ namespace Cache
         public static List<ICacheSetup> GetAll()
         {
             var list = new List<ICacheSetup>();
-            foreach (var cacheSetup in CacheSetupList){
+            foreach (var cacheSetup in CacheSetupList)
+            {
                 list.Add(cacheSetup.Value);
             }
             return list;

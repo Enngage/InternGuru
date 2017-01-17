@@ -133,10 +133,7 @@
             </table>
 
             <div class="w-margin-top-10">
-                @if (Model.Events.PageCount > 1)
-            {
-                    @Html.PagedListPager(Model.Events, page => Url.Action("EventLog", "System", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
-                }
+                @Helpers.PagerHelper.GetPager(Model.Events)
             </div>
         </div>
     </div>

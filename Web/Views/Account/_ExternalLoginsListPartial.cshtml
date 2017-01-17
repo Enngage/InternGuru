@@ -4,7 +4,7 @@
 
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-    if (loginProviders.Count() == 0)
+    if (!loginProviders.Any())
     {
         //External logins are not registered
     }
@@ -15,7 +15,7 @@
             {
                 if (p.AuthenticationType == "Google")
                 {
-                    using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "x-display-inline" }))
+                    using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "" }))
                     {
                         @Html.AntiForgeryToken()
                         <button name="provider" class="ui google plus button" value="@p.AuthenticationType">
@@ -26,7 +26,7 @@
                 }
                 else if (p.AuthenticationType == "Facebook")
                 {
-                    using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "x-display-inline" }))
+                    using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "" }))
                     {
                         @Html.AntiForgeryToken()
                         <button name="provider" class="ui facebook button w-margin-top-10" value="@p.AuthenticationType">
@@ -37,7 +37,7 @@
                 }
                 else
                 {
-                    using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "x-display-inline" }))
+                    using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "" }))
                     {
                         <button name="provider" class="ui big blue labeled icon button w-margin-top-10" value="@p.AuthenticationType">
                             <i class="star  icon"></i>

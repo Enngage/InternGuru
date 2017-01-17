@@ -4,9 +4,7 @@ using Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Core.Extensions;
 using Core.Helpers;
 using NLipsum.Core;
@@ -679,12 +677,14 @@ namespace Service.Context
                 // get just created user
                 var user = userManager.FindByEmail(newUser.Email);
 
+                var companyName = GetLoremIpsumName();
+
                 var company = new Company()
                 {
                     ApplicationUserId = user.Id,
                     CompanyCategory = context.CompanyCategories.RandomItem(),
                     City = GetLoremIpsumName(),
-                    CompanyName = GetLoremIpsumName(),
+                    CompanyName = companyName,
                     CompanySize = context.CompanySizes.RandomItem(),
                     Country = context.Countries.RandomItem(),
                     Web = $"http://www.{GetLoremIpsumName(true)}.com",
@@ -694,6 +694,7 @@ namespace Service.Context
                     LongDescription = GetLoremIpsumtText(),
                     PublicEmail = $"{GetLoremIpsumName(true)}@email.com",
                     YearFounded = GetRandomYear(),
+                    CodeName = StringHelper.GetCodeName(companyName)
                 };
 
                 context.Companies.Add(company);

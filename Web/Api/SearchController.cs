@@ -34,7 +34,7 @@ namespace Web.Api
                 var cities = (await _searchBuilder.GetSearchCitiesAsync(query.Q))
                     .Select(m => new SearchAutocompleteItemModel()
                     {
-                        Description = $"{CountryHelper.GetCountryIcon(m.CountryCode)} | {m.InternshipCount} {StringHelper.GetPluralWord(m.InternshipCount, "žádné nabídky", "nabídka", "nabídky", "nabídek")}",
+                        Description = $"{CountryHelper.GetCountryIconStatic(m.CountryCode)} | {m.InternshipCount} {StringHelper.GetPluralWord(m.InternshipCount, "žádné nabídky", "nabídka", "nabídky", "nabídek")}",
                         Title = m.City.Trim()
                     });
 

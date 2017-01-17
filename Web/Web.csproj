@@ -2466,7 +2466,7 @@
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Companies\Index.cshtml" />
     <Content Include="Stylesheets\partials\_company.scss" />
-    <Content Include="Views\GoogleMaps\GoogleMap.cshtml" />
+    <Content Include="Views\Modules\GoogleMaps\GoogleMap.cshtml" />
     <Content Include="Stylesheets\partials\_googleMaps.scss" />
     <Content Include="Views\Internships\Index.cshtml" />
     <Content Include="Stylesheets\partials\_internship.scss" />
@@ -2497,10 +2497,10 @@
     <Content Include="Scripts\addons\unitegallery-master\bower.json" />
     <Content Include="Scripts\addons\unitegallery-master\LICENSE" />
     <Content Include="Scripts\addons\unitegallery-master\README.md" />
-    <Content Include="Views\Gallery\Base.cshtml" />
+    <Content Include="Views\Modules\Gallery\Base.cshtml" />
     <Content Include="Views\Auth\Internships.cshtml" />
     <Content Include="Views\Auth\Theses.cshtml" />
-    <Content Include="Views\InfoMessage\InfoMessage.cshtml" />
+    <Content Include="Views\Modules\InfoMessage\InfoMessage.cshtml" />
     <Content Include="Views\Internship\NotFound.cshtml" />
     <Content Include="Views\Thesis\NotFound.cshtml" />
     <Content Include="Views\Home\Info.cshtml" />

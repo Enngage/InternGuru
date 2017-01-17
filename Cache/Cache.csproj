@@ -47,6 +47,7 @@
     <Compile Include="Interfaces\ICacheService.cs" />
     <Compile Include="Interfaces\ICacheSetup.cs" />
     <Compile Include="Models\CacheSetup.cs" />
+    <Compile Include="Models\EmptyItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

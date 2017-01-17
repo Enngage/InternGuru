@@ -32,7 +32,7 @@
 
 
 <div class="ui three column grid _CompanyGalleryCards w-margin-top-14">
-    @foreach (var image in ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGuid))
+    @foreach (var image in Helpers.ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGuid))
     {
         <div class="column">
             <div class="ui fluid card">

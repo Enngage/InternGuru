@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @model UI.Builders.Master.Views.MasterView
 
-@if (Request.IsAuthenticated)
+@if (Model.Master.CurrentUser.IsAuthenticated)
 {
     <a class="item" href="@Url.Action("index", "Auth")">
         @Model.Master.CurrentUser.UserDisplayName

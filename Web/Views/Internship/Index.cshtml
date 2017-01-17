@@ -4,13 +4,14 @@
 @using UI.Builders.Gallery.Views;
 @using UI.Extensions;
 @using UI.Builders.Gallery.Models;
+@using UI.Modules.GoogleMaps.Views
 @{
     ViewBag.Title = $"{Model.Internship.Title} | Stáž";
     ViewBag.Description = $"Informace o stáži {Model.Internship.Title} u firmy {Model.Internship.Company.CompanyName}";
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 
     // get gallery images
-    var galleryImages = ImageHelper.GetCompanyGalleryImages(Model.Internship.Company.CompanyGuid).Select(m => new GalleryImage()
+    var galleryImages = Helpers.ImageHelper.GetCompanyGalleryImages(Model.Internship.Company.CompanyGuid).Select(m => new GalleryImage()
     {
         Url = m.Value
     });
@@ -22,7 +23,7 @@
     <div class="ui grid">
         <div class="sixteen wide column w-padding-bottom-0">
             <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
-                <img alt="@Model.Internship.Company.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid)" class="ui image fluid w-internship-detail-banner" />
+                <img alt="@Model.Internship.Company.CompanyName banner" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid)" class="ui image fluid w-internship-detail-banner" />
             </a>
         </div>
     </div>
@@ -31,7 +32,7 @@
 <div id="_InternshipMenuWrapper" class="w-internship-fixed-wrapper">
     <div class="ui container">
         <div class="ui vertical segment w-internship-menu-wrapper">
-            <img alt="Company logo" class="ui mini image w-internship-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Internship.Company.CompanyGuid)">
+            <img alt="Company logo" class="ui mini image w-internship-icon" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Internship.Company.CompanyGuid)">
 
             <h1>
                 @Model.Internship.Title
@@ -72,7 +73,7 @@
                         </div>
                         <div class="item">
                             <div class="content">
-                                @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.CountryCode)) @Model.Internship.CountryName
+                                @Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Internship.CountryCode)) @Model.Internship.CountryName
                             </div>
                         </div>
                         <div class="item">
@@ -151,7 +152,7 @@
                     {
                         <div class="item">
                             <div class="content">
-                                @Html.Raw(CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
+                                @Html.Raw(Helpers.CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
                                 @requiredLanguage.LanguageName
                             </div>
                         </div>
@@ -182,7 +183,7 @@
                     {
                         <div class="item">
                             <div class="content">
-                                @Html.Raw(CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
+                                @Html.Raw(Helpers.CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
                                 @requiredLanguage.LanguageName
                             </div>
                         </div>
@@ -221,7 +222,7 @@
     @if (galleryImages.Any())
     {
         <div class="ui segment w-margin-top-30">
-            @Html.Partial("~/Views/Gallery/Base.cshtml", new GalleryView()
+            @Html.Partial("~/Views/Modules/Gallery/Base.cshtml", new GalleryView()
        {
            GalleryID = "_CompanyGallery",
            Images = galleryImages
@@ -252,7 +253,7 @@
                     </div>
                     <div class="item">
                         <div class="content">
-                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Internship.Company.CountryCode)) @Model.Internship.Company.CountryName
+                            @Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Internship.Company.CountryCode)) @Model.Internship.Company.CountryName
                         </div>
                     </div>
                     <div class="item">
@@ -304,8 +305,8 @@
             </div>
 
             <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
-                @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
-                    new UI.Builders.GoogleMaps.Views.GoogleMapView()
+                @Html.Partial("~/Views/Modules/GoogleMaps/GoogleMap.cshtml",
+                    new GoogleMapView()
                     {
                         Zoom = 15,
                         Lat = Model.Internship.Company.Lat,

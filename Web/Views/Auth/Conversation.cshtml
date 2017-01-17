@@ -21,7 +21,7 @@
             @Html.Hidden("CompanyID", Model.LastMessage?.CompanyID ?? 0)
 
             <h1 class="ui header">
-                <img alt="" data-src="@ImageHelper.GetUserAvatar(Model.ConversationUser.UserID)" src="@ImageHelper.GetTransparentImage()" class="ui image tiny">
+                <img alt="" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.ConversationUser.UserID)" src="@Helpers.ImageHelper.GetTransparentImage()" class="ui image tiny">
                 @($"{Model.ConversationUser.DisplayName}")
             </h1>
 
@@ -68,7 +68,7 @@
                             </div>
                             <div class="description">
                                 <p>
-                                    @Html.Raw(HtmlAddons.AddLineBreaks(message.MessageText))
+                                    @Html.Raw(Helpers.HtmlHelper.AddLineBreaks(message.MessageText))
                                 </p>
                             </div>
                         </div>
@@ -77,10 +77,9 @@
             }
         </div>
 
-        @if (Model.Messages.PageCount > 1)
-        {
-            @Html.PagedListPager(Model.Messages, page => Url.Action("Conversation", "Auth", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
-        }
+        <div class="w-margin-top-10">
+            @Helpers.PagerHelper.GetPager(Model.Messages)
+        </div>
 
     </div>
 </div>

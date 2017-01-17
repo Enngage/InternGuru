@@ -28,7 +28,7 @@ module.exports = {
   },
 
   org         : 'Semantic-Org',
-  repo        : 'Semantic-UI',
+  repo        : 'Semantic-Helpers',
 
   // files created for package managers
   files: {
@@ -39,10 +39,10 @@ module.exports = {
   },
 
   // root name for distribution repos
-  distRepoRoot      : 'Semantic-UI-',
+  distRepoRoot      : 'Semantic-Helpers-',
 
   // root name for single component repos
-  componentRepoRoot : 'UI-',
+  componentRepoRoot : 'Helpers-',
 
   // root name for package managers
   packageRoot          : 'semantic-ui-',

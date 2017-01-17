@@ -183,10 +183,7 @@
             </table>
 
             <div class="w-margin-top-10">
-                @if (Model.Emails.PageCount > 1)
-                {
-                    @Html.PagedListPager(Model.Emails, page => Url.Action("EmailLog", "System", new { page }), new PagedListRenderOptions() { MaximumPageNumbersToDisplay = 6 })
-                }
+                @Helpers.PagerHelper.GetPager(Model.Emails)
             </div>
         </div>
     </div>

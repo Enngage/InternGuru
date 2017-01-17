@@ -106,7 +106,7 @@ if(currentConfig && manager.name === 'NPM') {
 
     // perform update if new version
     if(currentConfig.version !== release.version) {
-      console.log('Updating Semantic UI from ' + currentConfig.version + ' to ' + release.version);
+      console.log('Updating Semantic Helpers from ' + currentConfig.version + ' to ' + release.version);
 
       console.info('Updating ui definitions...');
       wrench.copyDirSyncRecursive(source.definitions, updatePaths.definition, settings.wrench.overwrite);
@@ -151,7 +151,7 @@ if(currentConfig && manager.name === 'NPM') {
       return;
     }
     else {
-      console.log('Current version of Semantic UI already installed');
+      console.log('Current version of Semantic Helpers already installed');
       return;
     }
 
@@ -296,10 +296,10 @@ gulp.task('create install files', function(callback) {
 
     console.log('Installing to \x1b[92m' + answers.semanticRoot + '\x1b[0m');
 
-    console.info('Copying UI definitions');
+    console.info('Copying Helpers definitions');
     wrench.copyDirSyncRecursive(source.definitions, installPaths.definition, settings.wrench.overwrite);
 
-    console.info('Copying UI themes');
+    console.info('Copying Helpers themes');
     wrench.copyDirSyncRecursive(source.themes, installPaths.theme, settings.wrench.merge);
     wrench.copyDirSyncRecursive(source.defaultTheme, installPaths.defaultTheme, settings.wrench.overwrite);
 

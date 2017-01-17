@@ -5,7 +5,7 @@
 
 @{
     // get gallery images
-    var galleryImages = ImageHelper.GetCompanyGalleryImages(Model.Company.CompanyGuid).Select(m => new GalleryImage()
+    var galleryImages = Helpers.ImageHelper.GetCompanyGalleryImages(Model.Company.CompanyGuid).Select(m => new GalleryImage()
     {
         Url = m.Value
     });
@@ -22,7 +22,7 @@
 
 </div>
 
-@if (galleryImages.Count() > 0)
+@if (galleryImages.Any())
 {
     <div class="ui segment w-margin-top-30">
         @Html.Partial("~/Views/Gallery/Base.cshtml", new GalleryView()

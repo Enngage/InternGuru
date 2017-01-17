@@ -1,4 +1,6 @@
-﻿using Ninject;
+﻿using System.Linq;
+using Ninject;
+using Ninject.Parameters;
 
 namespace Core.Loc
 {
@@ -24,7 +26,18 @@ namespace Core.Loc
         /// </summary>
         public static T Get<T>()
         {
+
             return Kernel.Get<T>();
         }
+
+        /// <summary>Gets an instance of the specified service.</summary>
+        /// <typeparam name="T">The service to resolve.</typeparam>
+        /// <param name="parameters">The parameters to pass to the request.</param>
+        /// <returns>An instance of the service.</returns>
+        public static T Get<T>(params ConstructorParameter[] parameters)
+        {
+            return Kernel.Get<T>(parameters.Select(m => new ConstructorArgument(m.ParamName, m.Value)).ToArray<IParameter>());
+        }
+
     }
 }

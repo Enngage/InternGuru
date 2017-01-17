@@ -287,23 +287,19 @@ namespace UI.Base
         /// <returns>Company of current user (emnpty object is returned if company does not exist)</returns>
         private ICurrentCompany GetCompanyOfUser(string userName, string applicationUserId)
         {
-            var cacheKey = "BuilderAbstract.GetCompanyOfUserFromCache." + userName; // key under which company of user will be stored
-            var cacheSetup = Services.CacheService.GetSetup<ICurrentCompany>(cacheKey);
+            var cacheSetup = Services.CacheService.GetSetup<ICurrentCompany>(GetSource());
             cacheSetup.Dependencies = new List<string>()
                             {
                                 EntityKeys.KeyDeleteAny<Company>(),
                                 EntityKeys.KeyCreateAny<Company>(),
                                 EntityKeys.KeyUpdateAny<Company>(),
+                                EntityKeys.KeyUpdate<ApplicationUser>(applicationUserId)
                             };
+            cacheSetup.ObjectStringID = userName; // identify company of user based on UserName
 
             var company = Services.CacheService.GetOrSet(() => GetCompanyOfUserInternal(applicationUserId), cacheSetup);
 
-            if (company != null)
-            {
-                return company;
-            }
-
-            return new CurrentCompany();
+            return company ?? new CurrentCompany();
         }
 
         /// <summary>
@@ -313,9 +309,7 @@ namespace UI.Base
         /// <returns>Status box</returns>
         private int GetNumberOfNewMessages(string applicationUserId)
         {
-            var cacheKey = "BuilderAbstract.GetStatusBox";
-            var cacheMinutes = 120;
-            var cacheSetup = Services.CacheService.GetSetup<IStatusBox>(cacheKey, cacheMinutes);
+            var cacheSetup = Services.CacheService.GetSetup<IStatusBox>(GetSource());
             cacheSetup.Dependencies = new List<string>()
                             {
                                 EntityKeys.KeyUpdateAny<Message>(),
@@ -356,6 +350,12 @@ namespace UI.Base
 
         private int GetNumberOfNewLogs()
         {
+            // only admins can access log
+            if (CurrentUser.Privilege != PrivilegeLevel.Admin)
+            {
+                return 0;
+            }
+
             var latestReadLogIDCookieName = AppConfig.CookieNames.LatestReadLogID;
 
             var latestReadLogID = Services.CookieService.GetCookieValue(latestReadLogIDCookieName);

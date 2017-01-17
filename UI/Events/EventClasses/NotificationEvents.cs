@@ -49,7 +49,7 @@ namespace UI.Events.EventClasses
 
             const int previewCharLength = 120;
             const string subject = "Nová zpráva";
-            var title = $"Zpráva od {UserHelper.GetDisplayName(sender.FirstName, sender.LastName, sender.Nickname, sender.UserName)}";
+            var title = $"Zpráva od {UserHelper.GetDisplayNameStatic(sender.FirstName, sender.LastName, sender.Nickname, sender.UserName)}";
             var preheader = message.MessageText.Length > previewCharLength
                 ? message.MessageText.Substring(0, previewCharLength - 1)
                 : message.MessageText;

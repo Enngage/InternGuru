@@ -1,5 +1,5 @@
 ﻿
-namespace UI.Builders.InfoMessage.Enums
+namespace UI.Modules.InfoMessage.Enums
 {
     public enum InfoMessageTypeEnum
     {

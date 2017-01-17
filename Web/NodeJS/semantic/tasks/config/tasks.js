@@ -99,7 +99,7 @@ module.exports = {
               if(element) {
                 console.error('Missing theme.config value for ', element);
               }
-              console.error('Most likely new UI was added in an update. You will need to add missing elements from theme.config.example');
+              console.error('Most likely new Helpers was added in an update. You will need to add missing elements from theme.config.example');
             }
             if(error.line == 46) {
               element = regExp.element.exec(error.message)[1];

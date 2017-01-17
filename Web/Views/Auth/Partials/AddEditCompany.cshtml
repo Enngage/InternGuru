@@ -135,11 +135,11 @@
                         {
                             if (country.ID.Equals(Model.CountryID))
                             {
-                                <div class="item active" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
+                                <div class="item active" data-value="@country.ID">@Html.Raw(Helpers.CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
                             }
                             else
                             {
-                                <div class="item" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
+                                <div class="item" data-value="@country.ID">@Html.Raw(Helpers.CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
                             }
                         }
 
@@ -191,7 +191,7 @@
                     Logo <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyLogoWidth)x@(Core.Config.FileConfig.CompanyLogoHeight) px)</span>
                 </label>
 
-                <img class="ui image tiny" data-src="@ImageHelper.GetCompanyLogo(Model.CompanyGuid, true)" src="@ImageHelper.GetTransparentImage()" alt="Logo" />
+                <img class="ui image tiny" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.CompanyGuid, true)" src="@Helpers.ImageHelper.GetTransparentImage()" alt="Logo" />
 
                 <input class="w-margin-top-10" type="file" name="Logo">
             </div>
@@ -201,7 +201,7 @@
                     Banner <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight) px)</span>
                 </label>
 
-                <img class="ui image w-company-detail-banner" data-src="@ImageHelper.GetCompanyBanner(Model.CompanyGuid, true)" src="@ImageHelper.GetTransparentImage()" alt="Banner" />
+                <img class="ui image w-company-detail-banner" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.CompanyGuid, true)" src="@Helpers.ImageHelper.GetTransparentImage()" alt="Banner" />
 
                 <input class="w-margin-top-10" type="file" name="Banner">
             </div>

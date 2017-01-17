@@ -890,7 +890,7 @@ $.fn.modal.settings = {
     modal    : '.ui.modal'
   },
   error : {
-    dimmer    : 'UI Dimmer, a required component is not included in this page',
+    dimmer    : 'Helpers Dimmer, a required component is not included in this page',
     method    : 'The method you called is not defined.',
     notFound  : 'The element you specified could not be found'
   },

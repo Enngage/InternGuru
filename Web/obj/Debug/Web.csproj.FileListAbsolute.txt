@@ -461,3 +461,5 @@ C:\inetpub\wwwroot\InternGuru-master\Web\obj\Debug\Web.dll
 C:\inetpub\wwwroot\InternGuru-master\Web\obj\Debug\Web.pdb
 C:\inetpub\wwwroot\InternGuru-master\Web\bin\NLipsum.Core.dll
 C:\inetpub\wwwroot\InternGuru-master\Web\bin\NLipsum.Core.xml
+C:\inetpub\wwwroot\InternGuru-master\Web\bin\PagedList.Mvc.dll
+C:\inetpub\wwwroot\InternGuru-master\Web\bin\PagedList.Mvc.xml

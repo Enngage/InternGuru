@@ -12,11 +12,7 @@ namespace Core.Helpers
         /// <returns></returns>
         public static string DisplayCurrencyValue(double value, string currencyName, bool showSignOnLeft)
         {
-            if (showSignOnLeft)
-            {
-                return $"{currencyName}{StringHelper.FormatNumber(value)}";
-            }
-            return $"{StringHelper.FormatNumber(value)}{currencyName}";
+            return showSignOnLeft ? $"{currencyName}{StringHelper.FormatNumber(value)}" : $"{StringHelper.FormatNumber(value)}{currencyName}";
         }
     }
 }

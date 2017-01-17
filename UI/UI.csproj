@@ -74,6 +74,10 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
@@ -199,18 +203,18 @@
     <Compile Include="Builders\Auth\Views\AuthIndexView.cs" />
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
-    <Compile Include="Builders\CompanyGallery\CompanyGalleryBuilder.cs" />
-    <Compile Include="Builders\CompanyGallery\Models\CompanyGalleryDeleteFileQuery.cs" />
+    <Compile Include="Modules\CompanyGallery\CompanyGalleryBuilder.cs" />
+    <Compile Include="Modules\CompanyGallery\Models\CompanyGalleryDeleteFileQuery.cs" />
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
     <Compile Include="Builders\Gallery\Views\GalleryView.cs" />
     <Compile Include="Builders\Gallery\Models\GalleryImage.cs" />
     <Compile Include="Builders\Home\Forms\HomeContactUsForm.cs" />
     <Compile Include="Builders\Home\HomeBuilder.cs" />
     <Compile Include="Builders\Home\Views\HomeContactUsView.cs" />
-    <Compile Include="Builders\InfoMessage\InfoMessageBuilder.cs" />
-    <Compile Include="Builders\InfoMessage\Enums\InfoMessageTypeEnum.cs" />
-    <Compile Include="Builders\InfoMessage\Models\InfoMessageProcessClosableMessageQuery.cs" />
-    <Compile Include="Builders\InfoMessage\Views\InfoMessageView.cs" />
+    <Compile Include="Modules\InfoMessage\InfoMessageBuilder.cs" />
+    <Compile Include="Modules\InfoMessage\Enums\InfoMessageTypeEnum.cs" />
+    <Compile Include="Modules\InfoMessage\Models\InfoMessageProcessClosableMessageQuery.cs" />
+    <Compile Include="Modules\InfoMessage\Views\InfoMessageView.cs" />
     <Compile Include="Builders\Internship\Models\InternshipActivityStats.cs" />
     <Compile Include="Builders\Internship\Models\InternshipHomeOfficeOptionModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipStudentStatusOptionModel.cs" />
@@ -258,7 +262,7 @@
     <Compile Include="Builders\Form\Forms\FormInternshipForm.cs" />
     <Compile Include="Builders\Form\Models\FormInternshipCompanyModel.cs" />
     <Compile Include="Builders\Form\Views\FormInternshipView.cs" />
-    <Compile Include="Builders\GoogleMaps\Views\GoogleMapView.cs" />
+    <Compile Include="Modules\GoogleMaps\Views\GoogleMapView.cs" />
     <Compile Include="Builders\Internship\InternshipBuilder.cs" />
     <Compile Include="Builders\Internship\Models\InternshipBrowseModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipCategoryModel.cs" />
@@ -291,7 +295,13 @@
     <Compile Include="Exceptions\UIExceptionHelper.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Extensions\HtmlRequireExtensions.cs" />
+    <Compile Include="Base\BaseHelper.cs" />
+    <Compile Include="Helpers\PagerHelper.cs" />
+    <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
+    <Compile Include="RazorExtensions\UIHelpersWebViewPage.cs" />
+    <Compile Include="RazorExtensions\IUIHelpers.cs" />
+    <Compile Include="RazorExtensions\UIHelpers.cs" />
     <Compile Include="UIServices\CookieService.cs" />
     <Compile Include="UIServices\EmailTemplateService.cs" />
     <Compile Include="UIServices\FileUploadException.cs" />
@@ -300,7 +310,7 @@
     <Compile Include="UIServices\IEmailTemplateService.cs" />
     <Compile Include="UIServices\IFileProvider.cs" />
     <Compile Include="Helpers\CountryHelper.cs" />
-    <Compile Include="Helpers\HTMLAddons.cs" />
+    <Compile Include="Helpers\HtmlHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="ModelState\IModelState.cs" />
     <Compile Include="ModelState\ModelStateWrapper.cs" />
@@ -341,6 +351,9 @@
   <ItemGroup>
     <Folder Include="Builders\Home\Models\" />
     <Folder Include="Builders\Shared\Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RazorExtensions\readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

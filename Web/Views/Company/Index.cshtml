@@ -1,6 +1,7 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
 @using UI.Helpers;
 @using UI.Extensions;
+@using UI.Modules.GoogleMaps.Views
 @{
     ViewBag.Title = Model.Company.CompanyName;
     ViewBag.Description = $"Profil společnosti {Model.Company.CompanyName}. Jdi na stáž této firmy nebo pro ni napiš svou závěrečnou práci a připrav se na svou budoucnost";
@@ -23,7 +24,7 @@
 <div class="ui container w-margin-top-20">
     <div class="ui grid">
         <div id="_CompanyScrollAnchor" class="sixteen wide column w-padding-bottom-0">
-            <img alt="@Model.Company.CompanyName banner" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid)" class="ui image fluid w-company-detail-banner" />
+            <img alt="@Model.Company.CompanyName banner" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid)" class="ui image fluid w-company-detail-banner" />
         </div>
     </div>
 </div>
@@ -31,7 +32,7 @@
 <div id="_CompanyMenuWrapper" class="w-company-fixed-wrapper">
     <div class="ui container">
         <div class="ui vertical segment w-company-menu-wrapper">
-            <img alt="Company logo" class="ui mini image w-company-icon" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(Model.Company.CompanyGuid)">
+            <img alt="Company logo" class="ui mini image w-company-icon" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Company.CompanyGuid)">
 
             <h1>
                 @Model.Company.CompanyName
@@ -62,8 +63,8 @@
 <div class="ui container w-margin-top-20 w-padding-bottom-30">
     <div class="ui grid">
         <div class="sixteen wide mobile six wide tablet five wide computer column">
-            @Html.Partial("~/Views/GoogleMaps/GoogleMap.cshtml",
-            new UI.Builders.GoogleMaps.Views.GoogleMapView()
+            @Html.Partial("~/Views/Modules/GoogleMaps/GoogleMap.cshtml",
+            new GoogleMapView()
             {
                 Zoom = 15,
                 Lat = Model.Company.Lat,
@@ -75,7 +76,7 @@
                 <div class="ui list w-font-size-small">
                     <div class="item">
                         <div class="content">
-                            @Html.Raw(CountryHelper.GetCountryIcon(Model.Company.CountryCode))
+                            @Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Company.CountryCode))
                             @{
                                 <strong>@Model.Company.CountryName</strong>
                             }

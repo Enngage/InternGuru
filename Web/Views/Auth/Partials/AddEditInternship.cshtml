@@ -130,11 +130,11 @@
                             {
                                 if (country.ID.Equals(Model.CountryID))
                                 {
-                                    <div class="item active" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
+                                    <div class="item active" data-value="@country.ID">@Html.Raw(Helpers.CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
                                 }
                                 else
                                 {
-                                    <div class="item" data-value="@country.ID">@Html.Raw(CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
+                                    <div class="item" data-value="@country.ID">@Html.Raw(Helpers.CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
                                 }
                             }
 
