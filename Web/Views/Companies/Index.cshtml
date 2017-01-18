@@ -4,10 +4,10 @@
 @using Core.Helpers;
 @using UI.Builders.Shared.Enums
 @{
-    ViewBag.Title = "Přehled firem";
-    ViewBag.Description = "";
+    Model.Metadata.BasicMetadata.Title = "Přehled firem";
+    Model.Metadata.BasicMetadata.Description = "";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
-    Model.Master.UiHeader.SetHeader(UiHeaderType.Blue, ViewBag.Title);
+    Model.Master.UiHeader.SetHeader(UiHeaderType.Blue, Model.Metadata.BasicMetadata.Title);
 }
 
 @Html.RequireScript("/scripts/views/company/browse")

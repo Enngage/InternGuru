@@ -6,8 +6,8 @@
 @model UI.Builders.Thesis.Views.ThesisNotFoundView
 
 @{
-    ViewBag.Title = "Práce nenalezena";
-    ViewBag.Description = "Požadováná nabídka na vypracování diplomové nebo bakalářské práce nebyla nalezena";
+    Model.Metadata.BasicMetadata.Title = "Práce nenalezena";
+    Model.Metadata.BasicMetadata.Description = "Požadováná nabídka na vypracování diplomové nebo bakalářské práce nebyla nalezena";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 
@@ -55,7 +55,7 @@
                             {
                                 <tr data-link="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
                                     <td class="collapsing">
-                                        <img class="ui mini image" alt="@thesis.ThesisName" src="@ImageHelper.GetTransparentImage()" data-src="@ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)" />
+                                        <img class="ui mini image" alt="@thesis.ThesisName" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)" />
                                     </td>
                                     <td>
                                         <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">

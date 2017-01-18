@@ -5,7 +5,6 @@ namespace UI.Helpers
 {
     public class HtmlHelper : HelperBase
     {
-
         public HtmlHelper(WebViewPage webViewPage) : base(webViewPage) { }
 
         /// <summary>

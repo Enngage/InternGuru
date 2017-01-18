@@ -224,6 +224,7 @@
     <Content Include="Content\Images\Default\defaultAvatar.png" />
     <Content Include="Content\Images\Default\defaultCompanyBanner.png" />
     <Content Include="Content\Images\Default\defaultCompanyLogo.png" />
+    <Content Include="Content\Images\Metadata\kryten.jpg" />
     <Content Include="Content\Images\teaser.jpg" />
     <Content Include="Content\Images\teaser_cropped.jpg" />
     <Content Include="Content\Images\Base\transparent.png" />
@@ -2489,7 +2490,7 @@
     <Content Include="Views\Thesis\Index.cshtml" />
     <Content Include="Views\Theses\Index.cshtml" />
     <Content Include="Stylesheets\partials\_header.scss" />
-    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Modules\Header\Header.cshtml" />
     <Content Include="Views\Auth\AuthMaster.cshtml" />
     <Content Include="Views\Auth\Index.cshtml" />
     <Content Include="Views\System\EventLog.cshtml" />
@@ -2519,7 +2520,7 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
-    <Content Include="Views\Shared\Social\_MetadataSnippets.cshtml" />
+    <Content Include="Views\Shared\Social\_SocialMetadata.cshtml" />
     <Content Include="Views\Shared\Social\_FacebookAPI.cshtml" />
     <Content Include="Views\Shared\Social\_GoogleAnalytics.cshtml" />
     <Content Include="Views\Shared\_TopMenu.cshtml" />

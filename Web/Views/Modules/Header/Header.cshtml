@@ -4,11 +4,11 @@
 
 @if ((Model?.Master?.UiHeader?.Type ?? UiHeaderType.None) != UiHeaderType.None)
 {
-    var headerClassName = $"w-header {Model.Master.UiHeader.Type.ToString().ToLower()}";
+    var headerClassName = $"w-header {Model?.Master?.UiHeader?.Type.ToString().ToLower()}";
     <div class="@headerClassName">
         <div class="ui container">
             <h1>
-                @Model.Master.UiHeader.Title
+                @(Model?.Master?.UiHeader?.Title)
             </h1>
         </div>
     </div>

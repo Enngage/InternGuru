@@ -1,6 +1,6 @@
 ﻿@{
-    var controller = ViewContext.RouteData.Values["controller"].ToString() ?? "";
-    var action = ViewContext.RouteData.Values["action"].ToString() ?? "";
+    var controller = Helpers.UrlHelper.CurrentController ?? string.Empty;
+    var action = Helpers.UrlHelper.CurrentAction ?? string.Empty;
 }
 
 <div class="w-computer-show">

@@ -5,17 +5,17 @@
 @using PagedList.Mvc;
 @using UI.Builders.Shared.Enums
 @{
-    ViewBag.Title = "Závěrečné práce";
-    ViewBag.Description = "Najdi si závěrečnou práci (diplomová práce nebo bakalářská práce) z uvedené nabídky, získej odměnu za svou práci, nauč se něčemu nového a hlavně pracuj na něčem, co dává smysl.";
+    Model.Metadata.BasicMetadata.Title = "Závěrečné práce";
+    Model.Metadata.BasicMetadata.Description = "Najdi si závěrečnou práci (diplomová práce nebo bakalářská práce) z uvedené nabídky, získej odměnu za svou práci, nauč se něčemu nového a hlavně pracuj na něčem, co dává smysl.";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 
-    var currentCategory = ViewContext.RouteData.Values["category"] != null ? ViewContext.RouteData.Values["category"].ToString() : string.Empty;
-    var searchVal = HttpContext.Current.Request.QueryString["search"] ?? string.Empty;
+    var currentCategory = Helpers.UrlHelper.GetRouteParam("category", string.Empty);
+    var searchVal = Helpers.UrlHelper.GetQueryString("search", string.Empty);
 
     var totalThesesCount = Model.ThesisCategories.Sum(m => m.ThesesCount);
 
     //header
-    Model.Master.UiHeader.SetHeader(UiHeaderType.Violet, ViewBag.Title);
+    Model.Master.UiHeader.SetHeader(UiHeaderType.Violet, Model.Metadata.BasicMetadata.Title);
 }
 
 @Html.RequireScript("/scripts/views/thesis/browseTheses")

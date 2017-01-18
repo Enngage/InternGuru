@@ -14,6 +14,7 @@ using Identity;
 using Core.Config;
 using Entity.Base;
 using UI.Builders.Shared.Enums;
+using UI.Modules.Header;
 
 namespace UI.Base
 {

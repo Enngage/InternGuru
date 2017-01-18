@@ -1,7 +1,7 @@
 ﻿@model UI.Builders.Account.Views.LoginViewModel
 @{
-    ViewBag.Title = "Přihlášení";
-    ViewBag.Description = "";
+    Model.Metadata.BasicMetadata.Title = "Přihlášení";
+    Model.Metadata.BasicMetadata.Description = "";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 
@@ -10,7 +10,7 @@
     <div class="ui two column middle aligned relaxed fitted stackable grid">
         <div class="column">
 
-            <h1>@ViewBag.Title</h1>
+            <h1>@Model.Metadata.BasicMetadata.Title</h1>
 
             @using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl }, FormMethod.Post, null))
             {
@@ -41,7 +41,7 @@
                             <i class="lock icon"></i>
                         </div>
                     </div>
-                    <input type="submit" class="ui submit button primary" value="Přihlásit" />
+                    <input type="submit" class="ui button primary" value="Přihlásit" />
                 </div>
                         }
 

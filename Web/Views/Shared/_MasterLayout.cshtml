@@ -1,24 +1,18 @@
-﻿@using Core.Config;
-@using UI.Extensions;
+﻿@using UI.Extensions;
 @model UI.Builders.Master.Views.MasterView
-
-@{ 
-    var title = string.IsNullOrEmpty(ViewBag.Title) ? AppConfig.SiteName : ViewBag.Title + " | " + AppConfig.SiteName;
-    var description = string.IsNullOrEmpty(ViewBag.Description) ? AppConfig.SiteName : ViewBag.Description + " | " + AppConfig.SiteName;
-}
 
 <!DOCTYPE html>
 
 <html lang="cs">
 <head>
-    @* Title + charset *@
+    @* Basic metadata + charset *@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="@description" />
-    <title>@title</title>
+    <meta name="description" content="@Model.Metadata.BasicMetadata.ShortenTitle(Model.Metadata.BasicMetadata.Description)" />
+    <title>@Model.Metadata.BasicMetadata.ShortenDescription(Model.Metadata.BasicMetadata.Title)</title>
 
     @* Metadata *@
-    @Html.Partial("Social/_MetadataSnippets")
+    @Html.Partial("Social/_SocialMetadata")
 
     @* CSS *@
     @Html.RequireCss("/Semantic/dist/semantic.min", 100)
@@ -30,7 +24,7 @@
     @Html.Partial("_TopMenu")
 
     @* Header *@
-    @Html.Partial("_Header")
+    @Html.Partial("~/Views/Modules/Header/Header.cshtml")
 
     @* Main body *@
     @RenderBody()

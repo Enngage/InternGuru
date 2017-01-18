@@ -1,6 +1,7 @@
 ﻿@model UI.Builders.Auth.Views.AuthEditCompanyView
 
 @{
+    Model.Metadata.BasicMetadata.Title = $"Editovat | {(Model.CompanyForm.IsExistingCompany ? Model.CompanyForm.CompanyName : string.Empty)}";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 

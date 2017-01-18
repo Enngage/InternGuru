@@ -49,6 +49,7 @@
     <Compile Include="Config\Enums\CookieConfigWrapper.cs" />
     <Compile Include="Config\Enums\CookieEnum.cs" />
     <Compile Include="Config\FileConfig.cs" />
+    <Compile Include="Config\MetadataConfig.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ConvertHelper.cs" />

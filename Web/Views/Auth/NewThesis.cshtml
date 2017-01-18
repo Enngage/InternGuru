@@ -2,6 +2,7 @@
 @model UI.Builders.Auth.Views.AuthNewThesisView
 
 @{
+    Model.Metadata.BasicMetadata.Title = "Vytvořit stáž";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
     // tabs
     Model.Tabs.MyTheses.Set(true, 2);

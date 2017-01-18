@@ -277,7 +277,7 @@ namespace Web.Controllers
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
-            return View();
+            return View(model);
         }
 
         [AllowAnonymous]
@@ -395,7 +395,34 @@ namespace Web.Controllers
                         return RedirectToLocal(returnUrl);
                     }
                 }
-                AddErrors(result);
+                 
+                // check for name already taken errors (ending with "taken.") and translate them
+                bool nameTakenErrorProcessed = false;
+                foreach (var error in result.Errors)
+                {
+                    if (string.IsNullOrEmpty(error))
+                    {
+                        continue;
+                    }
+
+                    if (error.EndsWith("taken.", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!nameTakenErrorProcessed)
+                        {
+                            ModelStateWrapper.AddError($"E-mail {form.Email} je již zaregistrován.");
+                            nameTakenErrorProcessed = true;
+                        }
+                    }
+                }
+
+                // add generic error if it wasnt the already registered name
+                if (!nameTakenErrorProcessed)
+                {
+                    ModelStateWrapper.AddError("Nastala neočekáváná chyba, kterou jsme zaznamenali a brzy se na ni podíváme.");
+
+                    // log error to investigate
+                    this._accountBuilder.LogLoginError(string.Join(",", result.Errors));
+                }
             }
 
             ViewBag.ReturnUrl = returnUrl;

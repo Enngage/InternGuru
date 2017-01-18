@@ -1,7 +1,7 @@
 ﻿@model UI.Builders.Auth.Views.AuthEditInternshipView
 
 @{
-    ViewBag.Title = "Editovat | " +(Model.InternshipExists ? Model.InternshipForm.Title : "");
+    Model.Metadata.BasicMetadata.Title = "Editovat | " +(Model.InternshipExists ? Model.InternshipForm.Title : "");
     Layout = "~/Views/Auth/AuthMaster.cshtml";
     // tabs
     Model.Tabs.MyInternships.Set(true, 2);

@@ -4,11 +4,11 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = $"E-mail log";
-    ViewBag.Description = $"E-mail log";
+    Model.Metadata.BasicMetadata.Title = $"E-mail log";
+    Model.Metadata.BasicMetadata.Description = $"E-mail log";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
 
-    var onlyUnsentParam = this.Request.Params["onlyUnsent"] ?? string.Empty;
+    var onlyUnsentParam = Helpers.UrlHelper.GetRouteParam("onlyUnsent", string.Empty);
     var onlyUnsentValue = onlyUnsentParam.Equals("true", StringComparison.OrdinalIgnoreCase);
 }
 
@@ -18,7 +18,7 @@
     <div class="sixteen wide column">
         <div class="ui segment">
             <h1>
-                @ViewBag.Title
+                @Model.Metadata.BasicMetadata.Title
             </h1>
 
             @if (!onlyUnsentValue)

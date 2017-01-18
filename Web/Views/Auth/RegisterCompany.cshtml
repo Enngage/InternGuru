@@ -1,6 +1,7 @@
 ﻿@model UI.Builders.Auth.Views.AuthRegisterCompanyView
 
 @{
+    Model.Metadata.BasicMetadata.Title = Model.CompanyForm.ID == 0 ? "Registrovat firmu" : "Upravit firmu";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 

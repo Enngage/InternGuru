@@ -5,7 +5,7 @@
 @model UI.Builders.Auth.Views.AuthConversationView
 
 @{
-    ViewBag.Title = "Konverzace | " + Model.ConversationUser.DisplayName;
+    Model.Metadata.BasicMetadata.Title = "Konverzace | " + Model.ConversationUser.DisplayName;
     Layout = "~/Views/Auth/AuthMaster.cshtml";
     // tabs
     Model.Tabs.RecentConversations.Set(true, 4);

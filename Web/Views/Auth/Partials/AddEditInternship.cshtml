@@ -3,8 +3,6 @@
 @using UI.Extensions;
 
 @{
-    ViewBag.Title = Model.ID == 0 ? "Nová stáž" : "Upravit stáž | " + Model.Title;
-
     var formAction = Model.IsExistingInternship ? "EditInternship" : "NewInternship";
     var submitButtonText = Model.ID == 0 ? "Vložit nabídku" : "Uložit";
     var defaultCurrency = Model.Currencies.FirstOrDefault();
@@ -14,13 +12,13 @@
     var defaultHomeOfficeOption = Model.HomeOfficeOptions.FirstOrDefault();
     var defaultStudentStatusOption = Model.StudentStatusOptions.FirstOrDefault();
 
-    var minDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration.ID : Model.MinDurationTypeID;
-    var maxDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration.ID : Model.MaxDurationTypeID;
-    var currencyVal = Model.CurrencyID == 0 ? defaultCurrency.ID : Model.CurrencyID;
-    var amountTypeVal = Model.AmountTypeID == 0 ? defaultAmountType.ID : Model.AmountTypeID;
-    var countryVal = Model.CountryID == 0 ? defaultCountry.ID : Model.CountryID;
-    var homeOfficeOptionVal = Model.HomeOfficeOptionID == 0 ? defaultHomeOfficeOption.ID : Model.HomeOfficeOptionID;
-    var studentStatusOptionVal = Model.StudentStatusOptionID == 0 ? defaultStudentStatusOption.ID : Model.StudentStatusOptionID;
+    var minDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration?.ID : Model.MinDurationTypeID;
+    var maxDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration?.ID : Model.MaxDurationTypeID;
+    var currencyVal = Model.CurrencyID == 0 ? defaultCurrency?.ID : Model.CurrencyID;
+    var amountTypeVal = Model.AmountTypeID == 0 ? defaultAmountType?.ID : Model.AmountTypeID;
+    var countryVal = Model.CountryID == 0 ? defaultCountry?.ID : Model.CountryID;
+    var homeOfficeOptionVal = Model.HomeOfficeOptionID == 0 ? defaultHomeOfficeOption?.ID : Model.HomeOfficeOptionID;
+    var studentStatusOptionVal = Model.StudentStatusOptionID == 0 ? defaultStudentStatusOption?.ID : Model.StudentStatusOptionID;
 
     var minDurationVal = Model.MinDuration == 0 ? null : Model.MinDuration.ToString();
     var maxDurationVal = Model.MaxDuration == 0 ? null : Model.MaxDuration.ToString();
@@ -46,7 +44,7 @@
 @Html.RequireCss("/scripts/addons/datepicker-master/dist/datepicker.min")
 
 <h1>
-    @ViewBag.Title
+    @Model.Title
 </h1>
 
 @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))

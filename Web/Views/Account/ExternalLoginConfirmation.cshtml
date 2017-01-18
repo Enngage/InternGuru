@@ -1,13 +1,13 @@
 ﻿@model UI.Builders.Account.Views.ExternalLoginConfirmationViewModel
 @{
-    ViewBag.Title = "Potvrzení e-mailu";
+    Model.Metadata.BasicMetadata.Title = "Potvrzení e-mailu";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 
 <div class="ui middle aligned center aligned sixteen column grid">
     <div class="row">
         <div class="five wide computer sixteen wide tablet sixteen wide mobile column">
-            <h1>@ViewBag.Title</h1>
+            <h1>@Model.Metadata.BasicMetadata.Title</h1>
 
             @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new {ViewBag.ReturnUrl }, FormMethod.Post, null))
             {

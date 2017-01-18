@@ -1,5 +1,4 @@
 ﻿using Cache;
-using EmailProvider;
 using Service.Services.Activities;
 using Service.Services.Companies;
 using Service.Services.Countries;

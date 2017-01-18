@@ -3,7 +3,7 @@
 @model UI.Builders.Auth.Views.AuthAvatarView
 
 @{
-    ViewBag.Title = "Avatar";
+    Model.Metadata.BasicMetadata.Title = "Avatar";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 
@@ -20,7 +20,7 @@
 
 
             <div>
-                <img class="ui image tiny" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" />
+                <img alt="" class="ui image tiny" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" />
             </div>
 
             <div class="ui form w-margin-top-10">

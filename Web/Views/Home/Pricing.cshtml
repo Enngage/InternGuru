@@ -1,11 +1,11 @@
 ﻿@model UI.Builders.Master.Views.MasterView
 
 @{
-    ViewBag.Title = "Ceník";
+    Model.Metadata.BasicMetadata.Title = "Ceník";
     Layout = "~/Views/Shared/Body/Light.cshtml";
 }
 
 <h1>
-    @ViewBag.Title
+    @Model.Metadata.BasicMetadata.Title
 </h1>
 

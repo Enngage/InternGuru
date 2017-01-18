@@ -6,7 +6,6 @@
 @model UI.Builders.Auth.Views.AuthMasterView
 
 @{
-    ViewBag.Title = "";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 
     // main menu is always enabled
@@ -19,7 +18,8 @@
     }
 
     // get active menu item
-    var activeMenuItem = Core.Helpers.EnumHelper.ParseEnum<UI.Builders.Auth.Enum.AuthMenuActionEnum>(ViewContext?.RouteData?.Values["action"]?.ToString(), AuthMenuActionEnum.None);
+    var activeMenuItem = Core.Helpers.EnumHelper.ParseEnum<UI.Builders.Auth.Enum.AuthMenuActionEnum>(Helpers.UrlHelper.CurrentAction, AuthMenuActionEnum.None);
+
     var messagesClass = activeMenuItem == AuthMenuActionEnum.Index || activeMenuItem == AuthMenuActionEnum.Conversation ? "active" : string.Empty;
     var internshipsClass = activeMenuItem == AuthMenuActionEnum.Internships || activeMenuItem == AuthMenuActionEnum.EditInternship ? "active" : string.Empty;
     var thesesClass = activeMenuItem == AuthMenuActionEnum.Theses || activeMenuItem == AuthMenuActionEnum.EditThesis ? "active" : string.Empty;

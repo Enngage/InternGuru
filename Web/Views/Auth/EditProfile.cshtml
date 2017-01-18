@@ -2,7 +2,7 @@
 @model UI.Builders.Auth.Views.AuthEditProfileView
 
 @{
-    ViewBag.Title = "Upravit profil";
+    Model.Metadata.BasicMetadata.Title = "Upravit profil";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 
@@ -13,7 +13,7 @@
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
             <h1>
-                @ViewBag.Title
+                @Model.Metadata.BasicMetadata.Title
             </h1>
             
             <div class="ui form">

@@ -1,7 +1,7 @@
 ﻿@model UI.Builders.Account.Views.RegisterViewModel
 @{
-    ViewBag.Title = "Registrace";
-    ViewBag.Description = "Zaregistruj se a získej přístup ke všem nabídkám stáží (internship)";
+    Model.Metadata.BasicMetadata.Title = "Registrace";
+    Model.Metadata.BasicMetadata.Description = "Zaregistruj se a získej přístup ke všem nabídkám stáží (internship)";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 
@@ -10,7 +10,7 @@
     <div class="ui two column middle aligned relaxed fitted stackable grid">
         <div class="column">
 
-            <h1>@ViewBag.Title</h1>
+            <h1>@Model.Metadata.BasicMetadata.Title</h1>
 
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, null))
             {
@@ -47,12 +47,15 @@
                             <i class="lock icon"></i>
                         </div>
                     </div>
-                    <input type="submit" class="ui submit button primary" value="Registrovat" />
+                    <input type="submit" class="ui button primary" value="Registrovat" />
                 </div>
                         }
 
             <div class="w-margin-top-30 w-font-size-small">
                 Už más účet? @Html.ActionLink("Přihlas se", "Login", "Account")
+                <div>
+                    @Html.ActionLink("Zapomenuté heslo", "ForgotPassword")
+                </div>
             </div>
 
         </div>

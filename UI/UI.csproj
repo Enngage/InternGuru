@@ -203,6 +203,13 @@
     <Compile Include="Builders\Auth\Views\AuthIndexView.cs" />
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
+    <Compile Include="Builders\Master\Enums\OpenGraphType.cs" />
+    <Compile Include="Builders\Master\Models\MasterAppleMetadata.cs" />
+    <Compile Include="Builders\Master\Models\MasterBasicMetadata.cs" />
+    <Compile Include="Builders\Master\Models\MasterGooglePlusMetadata.cs" />
+    <Compile Include="Builders\Master\Models\MasterMetadata.cs" />
+    <Compile Include="Builders\Master\Models\MasterOpenGraphMetadata.cs" />
+    <Compile Include="Builders\Master\Models\MasterSocial.cs" />
     <Compile Include="Modules\CompanyGallery\CompanyGalleryBuilder.cs" />
     <Compile Include="Modules\CompanyGallery\Models\CompanyGalleryDeleteFileQuery.cs" />
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
@@ -231,7 +238,7 @@
     <Compile Include="Builders\Search\Models\SearchThesisKeywordModel.cs" />
     <Compile Include="Builders\Shared\Enums\UIHeaderType.cs" />
     <Compile Include="Builders\Shared\Models\ISystemContext.cs" />
-    <Compile Include="Builders\Shared\Models\UIHeader.cs" />
+    <Compile Include="Modules\Header\UIHeader.cs" />
     <Compile Include="Builders\Shared\Models\IUIHeader.cs" />
     <Compile Include="Builders\Shared\Models\SystemContext.cs" />
     <Compile Include="Builders\System\Views\SystemEmailLogView.cs" />

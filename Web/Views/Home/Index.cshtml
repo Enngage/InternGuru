@@ -1,7 +1,8 @@
 ﻿@model UI.Builders.Master.Views.MasterView
 
 @{
-    ViewBag.Title = @Core.Config.AppConfig.SiteName + " | Stáže v IT a technologických firmách";
+    Model.Metadata.BasicMetadata.Title = "Stáže v IT a technologických firmách";
+    Model.Metadata.BasicMetadata.Description = "Stáže v IT a technologických firmých. Přihlaš se a získat potřebnou praxi a zkušenosti";
     Layout = "~/Views/Shared/Body/Light.cshtml";
 }
 

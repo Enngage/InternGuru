@@ -1,4 +1,5 @@
-﻿using UI.Base;
+﻿using System;
+using UI.Base;
 using Core.Config;
 using UI.Builders.Account.Views;
 using UI.Builders.Services;
@@ -94,6 +95,15 @@ namespace UI.Builders.Account
             };
         }
 
+
+        /// <summary>
+        /// Logs login error
+        /// </summary>
+        /// <param name="errorMessage">Error message</param>
+        public void LogLoginError(string errorMessage)
+        {
+            Services.LogService.LogException(new Exception(errorMessage, null));
+        }
         #endregion
 
         #region E-mail model

@@ -1,21 +1,19 @@
 ﻿@using UI.Extensions;
 @model UI.Builders.Auth.Forms.AuthAddEditThesisForm
 
-@{
-    ViewBag.Title = Model.ID == 0 ? "Nová závěrečná práce" : "Upravit | " + Model.ThesisName;
-
+@{   
     var formAction = Model.IsExistingThesis ? "EditThesis" : "NewThesis";
     var submitButtonText = Model.IsExistingThesis ? "Uložit" : "Přidat";
 
     var defaultCurrency = Model.Currencies.FirstOrDefault();
 
-    var currencyVal = Model.CurrencyID == 0 ? defaultCurrency.ID : Model.CurrencyID;
+    var currencyVal = Model.CurrencyID == 0 ? defaultCurrency?.ID : Model.CurrencyID;
 }
 
 @Html.RequireScript("/scripts/views/auth/addEditThesis")
 
 <h1>
-    @ViewBag.Title
+    @(Model.IsExistingThesis ? Model.ThesisName : "Nová nabídka")
 </h1>
 
 @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", id = "_ThesisForm", @class = "ui form" }))

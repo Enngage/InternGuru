@@ -4,8 +4,6 @@
 @model UI.Builders.Auth.Forms.AuthAddEditCompanyForm
 
 @{
-    ViewBag.Title = Model.ID == 0 ? "Registrovat firmu" : "Upravit firmu";
-
     var formAction = Model.IsExistingCompany ? "EditCompany" : "RegisterCompany";
     var submitButtonText = Model.IsExistingCompany ? "Uložit" : "Přidat firmu";
 }
@@ -13,7 +11,7 @@
 @Html.RequireScript("/scripts/views/auth/addEditCompany")
 
 <h1>
-    @ViewBag.Title
+    @(Model.IsExistingCompany ? Model.CompanyName : "Registrovat firmu")
 </h1>
 
 @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", id = "_RegisterCompanyForm", @class = "ui form" }))

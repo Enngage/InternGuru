@@ -1,0 +1,18 @@
+﻿@using Core.Config
+@model UI.Builders.Master.Views.MasterView
+
+<!-- Apple touch icon -->
+<link rel="apple-touch-icon" href="@Helpers.UrlHelper.GetAbsoluteUrl(Model.Metadata.Social.AppleMetadata.AppleTouchIconPath ?? MetadataConfig.AppleTouchIconPath)">    
+
+<!-- Schema.org markup for Google+ -->
+<meta itemprop="name" content="@(Model.Metadata.Social.GoogleMetadata.ShortenName(Model.Metadata.Social.GoogleMetadata.Name ?? Model.Metadata.BasicMetadata.Title ?? MetadataConfig.DefaultTitle))">
+<meta itemprop="description" content="@(Model.Metadata.Social.GoogleMetadata.ShortenDescription(Model.Metadata.Social.GoogleMetadata.Description ?? Model.Metadata.BasicMetadata.Description ?? MetadataConfig.DefaultDescription))">
+<meta itemprop="image" content="@Helpers.UrlHelper.GetAbsoluteUrl(Model.Metadata.Social.GoogleMetadata.Image ?? MetadataConfig.DefaultImagePath)">
+
+<!-- Open Graph data -->
+<meta property="og:title" content="@(Model.Metadata.Social.OpenGraphMetadata.ShortenTitle(Model.Metadata.Social.OpenGraphMetadata.Title ?? Model.Metadata.BasicMetadata.Title ?? MetadataConfig.DefaultTitle))" />
+<meta property="og:description" content="@(Model.Metadata.Social.OpenGraphMetadata.ShortenDescription(Model.Metadata.Social.OpenGraphMetadata.Description ?? Model.Metadata.BasicMetadata.Description ?? MetadataConfig.DefaultDescription))" />
+<meta property="og:type" content="@(Model.Metadata.Social.OpenGraphMetadata.Type.ToString())" />
+<meta property="og:url" content="@(Helpers.UrlHelper.CurrentUrl)" />
+<meta property="og:image" content="@(Helpers.UrlHelper.GetAbsoluteUrl(Model.Metadata.Social.OpenGraphMetadata.Image ?? MetadataConfig.DefaultImagePath))" />
+<meta property="og:site_name" content="@(Model.Metadata.Social.OpenGraphMetadata.SiteName)" />

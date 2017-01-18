@@ -1,8 +1,7 @@
-﻿
+﻿using UI.Builders.Shared.Enums;
+using UI.Builders.Shared.Models;
 
-using UI.Builders.Shared.Enums;
-
-namespace UI.Builders.Shared.Models
+namespace UI.Modules.Header
 {
     /// <summary>
     /// Represents header used in shared layouts

@@ -2,7 +2,7 @@
 @model UI.Builders.Home.Views.HomeContactUsView
 
 @{
-    ViewBag.Title = "Kontakt";
+    Model.Metadata.BasicMetadata.Title = "Kontakt";
     Layout = "~/Views/Shared/Body/Light.cshtml";
 }
 
@@ -15,7 +15,7 @@
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
             <h1>
-                @ViewBag.Title
+                @Model.Metadata.BasicMetadata.Title
             </h1>
 
             <div class="ui form">
