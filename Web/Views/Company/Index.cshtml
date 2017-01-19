@@ -1,25 +1,17 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
-@using UI.Helpers;
+@using UI.Builders.Company.Enum
 @using UI.Extensions;
 @using UI.Modules.GoogleMaps.Views
 @{
-    Model.Metadata.BasicMetadata.Title = Model.Company.CompanyName;
-    Model.Metadata.BasicMetadata.Description = Model.Company.LongDescription;
     Model.Metadata.Social.GoogleMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid);
     Model.Metadata.Social.OpenGraphMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid);
 
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 
-    // determins which tabs are active
-    var aboutTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.About;
-    var internshipTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships;
-    var contactTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Contact;
-    var thesisTabActive = Model.ActiveTab == UI.Builders.Company.Enums.CompanyDetailMenuEnum.Theses;
-
-    var aboutTabClass = aboutTabActive ? "active" : null;
-    var internshipTabClass = internshipTabActive ? "active" : null;
-    var contactTabClass = contactTabActive ? "active" : null;
-    var thesisTabClass = thesisTabActive ? "active" : null;
+    var aboutTabClass = Model.ActiveTab == CompanyDetailMenuEnum.About ? "active" : null;
+    var internshipTabClass = Model.ActiveTab == CompanyDetailMenuEnum.Internships ? "active" : null;
+    var contactTabClass = Model.ActiveTab == CompanyDetailMenuEnum.Contact ? "active" : null;
+    var thesisTabClass = Model.ActiveTab == CompanyDetailMenuEnum.Theses ? "active" : null;
 }
 
 @Html.RequireScript("/scripts/views/company/detail")
@@ -35,25 +27,25 @@
 <div id="_CompanyMenuWrapper" class="w-company-fixed-wrapper">
     <div class="ui container">
         <div class="ui vertical segment w-company-menu-wrapper">
-            <img alt="Company logo" class="ui mini image w-company-icon" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Company.CompanyGuid)">
+            <img alt="Logo" class="ui mini image w-company-icon" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Company.CompanyGuid)">
 
             <h1>
                 @Model.Company.CompanyName
             </h1>
 
             <div id="_CompanyRightMenu" class="ui secondary pointing menu w-company-menu">
-                <a class="item @aboutTabClass" data-tab="about">
+                <a class="item @aboutTabClass" href="@Url.Action("Index", "Company", new { codeName = Model.Company.CodeName})">
                     O nás
                 </a>
-                <a class="item @internshipTabClass" data-tab="internships">
+                <a class="item @internshipTabClass" href="@Url.Action("Internships", "Company", new { codeName = Model.Company.CodeName})">
                     Stáže
                     <span class="w-font-light">&nbsp;(@Model.Company.Internships.Count())</span>
                 </a>
-                <a class="item @thesisTabClass" data-tab="thesis">
+                <a class="item @thesisTabClass" href="@Url.Action("Theses", "Company", new { codeName = Model.Company.CodeName})">
                     Závěrečné práce
                     <span class="w-font-light">&nbsp;(@Model.Company.Theses.Count())</span>
                 </a>
-                <a class="item @contactTabClass" data-tab="contact">
+                <a class="item @contactTabClass" href="@Url.Action("Contact", "Company", new { codeName = Model.Company.CodeName})">
                     Kontakt
                 </a>
             </div>
@@ -150,21 +142,10 @@
 
         <div class="sixteen wide mobile ten wide tablet eleven wide computer column">
            
-            <div class="ui tab @aboutTabClass" data-tab="about">
-                @Html.Partial("Tabs/About", Model)
+            <div>
+                @RenderBody()
             </div>
 
-            <div class="ui tab segment w-margin-top-0 @internshipTabClass" data-tab="internships">
-                @Html.Partial("Tabs/Internships", Model)
-            </div>
-
-            <div class="ui tab segment w-margin-top-0 @thesisTabClass" data-tab="thesis">
-                @Html.Partial("Tabs/Theses", Model)
-            </div>
-
-            <div class="ui tab segment w-margin-top-0 @contactTabClass" data-tab="contact">
-                @Html.Partial("Tabs/Contact", Model)
-            </div>
         </div>
     </div>
 </div>

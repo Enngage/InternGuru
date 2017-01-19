@@ -7,7 +7,7 @@
     Model.Tabs.MyInternships.Set(true, 2);
 }
 
-@if (Model.InternshipExists)
+@if (Model.Master.CurrentCompany.IsAvailable)
 {
     @Html.Partial("Partials/AddEditInternship", Model.InternshipForm)
 }
@@ -19,7 +19,7 @@ else
 
     <a href="@Url.Action("RegisterCompany")">
         <div class="ui large button primary">
-            Vytvořit firmu
+            Registrovat firmu
         </div>
     </a>
 }

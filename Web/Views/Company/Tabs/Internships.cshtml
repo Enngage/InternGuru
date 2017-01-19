@@ -1,12 +1,19 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
 @using Core.Helpers;
+@{
+    Model.Metadata.BasicMetadata.Title = $"{Model.Company.CompanyName} | Stáže";
+    Model.Metadata.BasicMetadata.Description = $"{Model.Company.LongDescription}";
+    Layout = "~/Views/Company/Index.cshtml";
+}
 
-<h2>
-    Aktuální nabídky
-</h2>
 
-<table class="ui very basic table">
-    <tbody>
+<div class="ui segment">
+    <h2>
+        Aktuální nabídky
+    </h2>
+
+    <table class="ui very basic table">
+        <tbody>
         @foreach (var internship in Model.Company.Internships)
         {
             <tr>
@@ -29,6 +36,6 @@
                 </td>
             </tr>
         }
-    </tbody>
-</table>
-
+        </tbody>
+    </table>
+</div>

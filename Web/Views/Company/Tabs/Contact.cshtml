@@ -1,27 +1,34 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
 @using UI.Extensions;
-
-<h2>
-    Napiš nám
-</h2>
-
-@using (Html.BeginForm("Index", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-
-    @Html.AntiForgeryToken()
-
-    @Html.RenderFormValidationResult(Model.ContactUsForm.FormResult.IsSuccess, "Zpráva byla odeslána")
-
-    @Html.Hidden("CompanyCodeName", Model.ContactUsForm.CompanyCodeName)
-    @Html.Hidden("CompanyID", Model.ContactUsForm.CompanyID)
-
-    <div class="ui reply form">
-        <div class="field">
-            <textarea name="Message" @Model.ContactUsForm.Message></textarea>
-        </div>
-
-        <button class="ui button submit primary" type="submit">
-            Odeslat
-        </button>
-    </div>
+@{
+    Model.Metadata.BasicMetadata.Title = $"{Model.Company.CompanyName} | Kontakt";
+    Model.Metadata.BasicMetadata.Description = $"{Model.Company.LongDescription}";
+    Layout = "~/Views/Company/Index.cshtml";
 }
+
+<div class="ui segment">
+    <h2>
+        Napiš nám
+    </h2>
+
+    @using (Html.BeginForm("Index", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        @Html.AntiForgeryToken()
+
+        @Html.RenderFormValidationResult(Model.ContactUsForm.FormResult.IsSuccess, "Zpráva byla odeslána")
+
+        @Html.Hidden("CompanyCodeName", Model.ContactUsForm.CompanyCodeName)
+        @Html.Hidden("CompanyID", Model.ContactUsForm.CompanyID)
+
+        <div class="ui reply form">
+            <div class="field">
+                <textarea name="Message" @Model.ContactUsForm.Message></textarea>
+            </div>
+
+            <button class="ui button primary" type="submit">
+                Odeslat
+            </button>
+        </div>
+    }
+</div>

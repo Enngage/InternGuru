@@ -87,16 +87,20 @@ namespace Web
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            var fbOptions = new FacebookAuthenticationOptions();
-            fbOptions.AppId = AppConfig.FacebookAppID;
-            fbOptions.AppSecret = AppConfig.FacebookAppSecret;
+            var fbOptions = new FacebookAuthenticationOptions
+            {
+                AppId = AppConfig.FacebookAppID,
+                AppSecret = AppConfig.FacebookAppSecret
+            };
             fbOptions.Scope.Add("email");
             app.UseFacebookAuthentication(fbOptions);
 
 
-            var gOptions = new GoogleOAuth2AuthenticationOptions();
-            gOptions.ClientId = AppConfig.GoogleClientID;
-            gOptions.ClientSecret = AppConfig.GoogleClientSecret;
+            var gOptions = new GoogleOAuth2AuthenticationOptions
+            {
+                ClientId = AppConfig.GoogleClientID,
+                ClientSecret = AppConfig.GoogleClientSecret
+            };
             gOptions.Scope.Add("email");
             app.UseGoogleAuthentication(gOptions);
         }

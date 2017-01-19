@@ -203,6 +203,7 @@
     <Compile Include="Builders\Auth\Views\AuthIndexView.cs" />
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
+    <Compile Include="Builders\Company\Enum\CompanyDetailMenuEnum.cs" />
     <Compile Include="Builders\Master\Enums\OpenGraphType.cs" />
     <Compile Include="Builders\Master\Models\MasterAppleMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterBasicMetadata.cs" />
@@ -257,7 +258,6 @@
     <Compile Include="Builders\Search\SearchBuilder.cs" />
     <Compile Include="Builders\Search\Models\SearchCityModel.cs" />
     <Compile Include="Builders\Company\CompanyBuilder.cs" />
-    <Compile Include="Builders\Company\Enums\CompanyDetailMenuEnum.cs" />
     <Compile Include="Builders\Company\Forms\CompanyContactUsForm.cs" />
     <Compile Include="Builders\Company\Models\CompanyDetailInternshipModel.cs" />
     <Compile Include="Builders\Company\Models\CompanyDetailModel.cs" />

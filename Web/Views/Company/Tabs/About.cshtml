@@ -1,9 +1,12 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
-@using UI.Helpers;
 @using UI.Builders.Gallery.Views;
 @using UI.Builders.Gallery.Models;
 
 @{
+    Model.Metadata.BasicMetadata.Title = $"{Model.Company.CompanyName} | O firmě";
+    Model.Metadata.BasicMetadata.Description = $"{Model.Company.LongDescription}";
+    Layout = "~/Views/Company/Index.cshtml";
+
     // get gallery images
     var galleryImages = Helpers.ImageHelper.GetCompanyGalleryImages(Model.Company.CompanyGuid).Select(m => new GalleryImage()
     {
@@ -25,7 +28,7 @@
 @if (galleryImages.Any())
 {
     <div class="ui segment w-margin-top-30">
-        @Html.Partial("~/Views/Gallery/Base.cshtml", new GalleryView()
+        @Html.Partial("~/Views/Modules/Gallery/Base.cshtml", new GalleryView()
    {
        GalleryID = "_CompanyGallery",
        Images = galleryImages

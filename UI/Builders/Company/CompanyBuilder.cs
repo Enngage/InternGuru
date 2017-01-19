@@ -67,6 +67,7 @@ namespace UI.Builders.Company
                 .Take(1)
                 .Select(m => new CompanyDetailModel()
                 {
+                    CodeName = m.CodeName,
                     Address = m.Address,
                     CompanyCategoryID = m.CompanyCategoryID,
                     CompanyCategoryName = m.CompanyCategory.Name,
@@ -153,9 +154,9 @@ namespace UI.Builders.Company
                 return 0;
             }
 
-            var activityUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
+            var activityUserId = CurrentUser.IsAuthenticated ? CurrentUser.Id : null;
 
-            return await this.Services.ActivityService.LogActivity(ActivityTypeEnum.ViewCompanyProfile, companyID, activityUserId, companyID);
+            return await Services.ActivityService.LogActivity(ActivityTypeEnum.ViewCompanyProfile, companyID, activityUserId, companyID);
         }
 
         public async Task<int> CreateMessage(CompanyContactUsForm form)

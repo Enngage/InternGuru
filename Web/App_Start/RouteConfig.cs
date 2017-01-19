@@ -11,7 +11,7 @@ namespace Web
 
             routes.MapRoute(
                 name: "Company",
-                url: "Company/{codeName}",
+                url: "Company/{codeName}/{action}",
                 defaults: new { controller = "Company", action = "Index", codeName = UrlParameter.Optional }
             );
 

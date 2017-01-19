@@ -5,6 +5,7 @@ namespace UI.Builders.Company.Models
 {
     public class CompanyDetailModel
     {
+        public string CodeName { get; set; }
         public string CompanyName { get; set; }
         public Guid CompanyGuid { get; set; }
         public int YearFounded { get; set; }

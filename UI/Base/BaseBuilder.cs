@@ -294,7 +294,8 @@ namespace UI.Base
                                 EntityKeys.KeyDeleteAny<Company>(),
                                 EntityKeys.KeyCreateAny<Company>(),
                                 EntityKeys.KeyUpdateAny<Company>(),
-                                EntityKeys.KeyUpdate<ApplicationUser>(applicationUserId)
+                                EntityKeys.KeyUpdate<ApplicationUser>(applicationUserId),
+                                EntityKeys.KeyUpdate<ApplicationUser>(userName),
                             };
             cacheSetup.ObjectStringID = userName; // identify company of user based on UserName
 

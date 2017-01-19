@@ -13,13 +13,7 @@ namespace UI.Builders.Shared.Models
         /// <summary>
         /// Indicates if current user created company
         /// </summary>
-        public bool IsAvailable
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(CompanyName);
-            }
-        }
+        public bool IsAvailable => !string.IsNullOrEmpty(CompanyName);
 
         /// <summary>
         /// ID of company

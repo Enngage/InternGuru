@@ -1,10 +1,9 @@
-﻿using Core.Helpers;
-using Service.Context;
+﻿using Service.Context;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using UI.Base;
 using UI.Builders.Company;
-using UI.Builders.Company.Enums;
+using UI.Builders.Company.Enum;
 using UI.Builders.Company.Forms;
 using UI.Builders.Master;
 using UI.Events;
@@ -23,7 +22,7 @@ namespace Web.Controllers
 
         #region Actions
 
-        public async Task<ActionResult> Index(string codeName, string tab)
+        public async Task<ActionResult> Index(string codeName)
         {
             if (string.IsNullOrEmpty(codeName))
             {
@@ -37,14 +36,82 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            // set tab if possible
-            var activeTab = EnumHelper.ParseEnum(tab, CompanyDetailMenuEnum.About);
-            model.ActiveTab = activeTab;
+            // set tab
+            model.ActiveTab = CompanyDetailMenuEnum.About;
 
             // log company profile view activity
             await _companyBuilder.LogCompanyProfileViewActivityAsync(model.Company.ID);
 
-            return View(model);
+            return View("~/Views/Company/Tabs/About.cshtml", model);
+        }
+
+        public async Task<ActionResult> Internships(string codeName)
+        {
+            if (string.IsNullOrEmpty(codeName))
+            {
+                return HttpNotFound();
+            }
+
+            var model = await _companyBuilder.BuildDetailViewAsync(codeName);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            // set tab
+            model.ActiveTab = CompanyDetailMenuEnum.Internships;
+
+            // log company profile view activity
+            await _companyBuilder.LogCompanyProfileViewActivityAsync(model.Company.ID);
+
+            return View("~/Views/Company/Tabs/Internships.cshtml", model);
+        }
+
+        public async Task<ActionResult> Theses(string codeName)
+        {
+            if (string.IsNullOrEmpty(codeName))
+            {
+                return HttpNotFound();
+            }
+
+            var model = await _companyBuilder.BuildDetailViewAsync(codeName);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            // set tab
+            model.ActiveTab = CompanyDetailMenuEnum.Theses;
+
+            // log company profile view activity
+            await _companyBuilder.LogCompanyProfileViewActivityAsync(model.Company.ID);
+
+            return View("~/Views/Company/Tabs/Theses.cshtml", model);
+        }
+
+        public async Task<ActionResult> Contact(string codeName)
+        {
+            if (string.IsNullOrEmpty(codeName))
+            {
+                return HttpNotFound();
+            }
+
+            var model = await _companyBuilder.BuildDetailViewAsync(codeName);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            // set tab
+            model.ActiveTab = CompanyDetailMenuEnum.Contact;
+
+            // log company profile view activity
+            await _companyBuilder.LogCompanyProfileViewActivityAsync(model.Company.ID);
+
+            return View("~/Views/Company/Tabs/Contact.cshtml", model);
         }
 
         #endregion
@@ -55,16 +122,15 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(CompanyContactUsForm form)
         {
-            // active tab (indicates which right menu is active)
-            var activeTab = CompanyDetailMenuEnum.Contact;
+            const string contactView = "~/Views/Company/Tabs/Contact.cshtml";
+            const CompanyDetailMenuEnum activeTab = CompanyDetailMenuEnum.Contact;
 
             // validate form
             if (!ModelStateWrapper.IsValid)
             {
                 var model = await _companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form);
                 model.ActiveTab = activeTab;
-
-                return View(model);
+                return View(contactView, model);
             }
 
             try
@@ -79,7 +145,7 @@ namespace Web.Controllers
                 // set form status
                 model.ContactUsForm.FormResult.IsSuccess = true;
 
-                return View(model);
+                return View(contactView, model);
             }
             catch (UiException ex)
             {
@@ -88,7 +154,7 @@ namespace Web.Controllers
                 var model = await _companyBuilder.BuildDetailViewAsync(form.CompanyCodeName, form);
                 model.ActiveTab = activeTab;
 
-                return View(model);
+                return View(contactView, model);
             }
         }
 

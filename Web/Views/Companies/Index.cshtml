@@ -1,7 +1,7 @@
 ﻿@model UI.Builders.Company.Views.CompanyBrowseView
-@using UI.Helpers;
 @using UI.Extensions;
 @using Core.Helpers;
+@using UI.Builders.Company.Enum
 @using UI.Builders.Shared.Enums
 @{
     Model.Metadata.BasicMetadata.Title = "Přehled firem";
@@ -43,10 +43,10 @@
                             <div class="meta">
                                 @Html.Raw(company.CountryIconHtml) @company.City
                                 |
-                                <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Internships})">
+                                <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
                                     @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáže")
                                 </a>
-                                | <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, tab = UI.Builders.Company.Enums.CompanyDetailMenuEnum.Theses})"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
+                                | <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName})"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
                             </div>
                         </div>
                     </div>

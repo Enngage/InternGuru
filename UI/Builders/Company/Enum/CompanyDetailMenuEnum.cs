@@ -1,5 +1,4 @@
-﻿
-namespace UI.Builders.Company.Enums
+﻿namespace UI.Builders.Company.Enum
 {
     public enum CompanyDetailMenuEnum
     {

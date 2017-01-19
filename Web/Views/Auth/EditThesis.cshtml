@@ -7,4 +7,19 @@
     Model.Tabs.MyTheses.Set(true, 2);
 }
 
-@Html.Partial("Partials/AddEditThesis", Model.ThesisForm)
+@if (Model.Master.CurrentCompany.IsAvailable)
+{
+    @Html.Partial("Partials/AddEditThesis", Model.ThesisForm)
+}
+else
+{
+    <div class="ui info message">
+        Vložit závěrečnou práci lze jen po zaregistrování firmy
+    </div>
+
+    <a href="@Url.Action("RegisterCompany")">
+        <div class="ui large button primary">
+            Registrovat firmu
+        </div>
+    </a>
+}
