@@ -148,14 +148,8 @@ namespace Cache
             // try to get item from cache
             var item = GetItem<T>(cacheSetup.CacheKey);
 
-            if (item == null)
+            if (item == null && !EmptyObjectIsCached(cacheSetup))
             {
-                // check if empty object is stored in cache
-                if (EmptyObjectIsCached(cacheSetup))
-                {
-                    return null;
-                }
-
                 var cacheExpires = GetCacheExpires(cacheSetup.CacheMinutes);
 
                 item = await getItemCallback();
@@ -225,14 +219,8 @@ namespace Cache
             // try to get item from cache
             var item = GetItem<T>(cacheSetup.CacheKey);
 
-            if (item == null)
+            if (item == null && !EmptyObjectIsCached(cacheSetup))
             {
-                // check if empty object is stored in cache
-                if (EmptyObjectIsCached(cacheSetup))
-                {
-                    return null;
-                }
-
                 // determine when cache expires
                 var cacheExpires = GetCacheExpires(cacheSetup.CacheMinutes);
 

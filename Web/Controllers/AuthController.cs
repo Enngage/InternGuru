@@ -5,6 +5,7 @@ using UI.Base;
 using UI.Builders.Auth;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Master;
+using UI.Builders.Shared.Models;
 using UI.Events;
 using UI.Exceptions;
 

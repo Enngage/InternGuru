@@ -79,17 +79,11 @@ namespace UI.Base
             // Initialize current user
             InitializeCurrentUser();
 
-            // Initialize company of current user if user is authenticated
-            if (CurrentUser.IsAuthenticated)
-            {
-                InitializeCurrentCompany(CurrentUser.UserName, CurrentUser.Id);
-            }
+            // Initialize company of current user if user is authenticated          
+            InitializeCurrentCompany(CurrentUser.Id);
 
             // Initialize status box
-            if (CurrentUser.IsAuthenticated)
-            {
-                InitializeStatusBox(CurrentUser.Id);
-            }
+             InitializeStatusBox(CurrentUser.Id);
 
             // Initialize header
             InitializeUiHeader();
@@ -124,6 +118,16 @@ namespace UI.Base
         }
 
         /// <summary>
+        /// Re-initializes company of current user
+        /// Call when current company is changed/deleted/created
+        /// </summary>
+        /// <param name="applicationUserId">applicationUserId</param>
+        protected void ReInitializeCurrentCompany(string applicationUserId)
+        {
+            InitializeCurrentCompany(applicationUserId);
+        }
+
+        /// <summary>
         /// Initializes current user
         /// </summary>
         private void InitializeCurrentUser()
@@ -138,13 +142,15 @@ namespace UI.Base
         /// <param name="applicationUserId">UserId</param>
         private void InitializeStatusBox(string applicationUserId)
         {
-            var statusBox = new StatusBox()
-            {
-                NewMessagesCount = GetNumberOfNewMessages(applicationUserId),
-                NewEventLogCount = GetNumberOfNewLogs()
-            };
+            if (CurrentUser.IsAuthenticated) { 
+                var statusBox = new StatusBox()
+                {
+                    NewMessagesCount = GetNumberOfNewMessages(applicationUserId),
+                    NewEventLogCount = GetNumberOfNewLogs()
+                };
 
             StatusBox = statusBox;
+            }
         }
 
         /// <summary>
@@ -161,13 +167,15 @@ namespace UI.Base
 
         /// <summary>
         /// Initializes current company
-        /// Call ONLY if user is already initialized and IS authenticated
         /// </summary>
-        /// <param name="userId">UserId</param>
-        /// <param name="userName">UserName</param>
-        private void InitializeCurrentCompany(string userName, string userId)
+        /// <param name="applicationUserId">applicationUserId</param>
+        private void InitializeCurrentCompany(string applicationUserId)
         {
-            CurrentCompany = GetCompanyOfUser(userName, userId);
+
+            if (CurrentUser.IsAuthenticated)
+            {
+                CurrentCompany = GetCompanyOfUser(applicationUserId);
+            }
         }
 
         private ICurrentUser GetCurrentuser()
@@ -283,10 +291,9 @@ namespace UI.Base
         /// Gets company of current user from cache
         /// Empty company is used if user hasnt created any company yet
         /// </summary>
-        /// <param name="userName">UserName</param>
         /// <param name="applicationUserId">ApplicationUserId</param>
         /// <returns>Company of current user (emnpty object is returned if company does not exist)</returns>
-        private ICurrentCompany GetCompanyOfUser(string userName, string applicationUserId)
+        private ICurrentCompany GetCompanyOfUser(string applicationUserId)
         {
             var cacheSetup = Services.CacheService.GetSetup<ICurrentCompany>(GetSource());
             cacheSetup.Dependencies = new List<string>()
@@ -295,9 +302,8 @@ namespace UI.Base
                                 EntityKeys.KeyCreateAny<Company>(),
                                 EntityKeys.KeyUpdateAny<Company>(),
                                 EntityKeys.KeyUpdate<ApplicationUser>(applicationUserId),
-                                EntityKeys.KeyUpdate<ApplicationUser>(userName),
                             };
-            cacheSetup.ObjectStringID = userName; // identify company of user based on UserName
+            cacheSetup.ObjectStringID = applicationUserId; // identify company of user based on UserName
 
             var company = Services.CacheService.GetOrSet(() => GetCompanyOfUserInternal(applicationUserId), cacheSetup);
 

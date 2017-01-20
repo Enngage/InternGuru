@@ -949,6 +949,12 @@ namespace UI.Builders.Auth
                         throw new ValidationException("URL webu není validní. (zkontrolujte protokol)");
                     }
 
+                    // verify country
+                    if (! await IsValidCountry(form.CountryID))
+                    {
+                        throw new ValidationException("Vyplňte stát");
+                    }
+
                     var company = new Entity.Company
                     {
                         ApplicationUserId = CurrentUser.Id,
@@ -1082,8 +1088,14 @@ namespace UI.Builders.Auth
                     if (!StringHelper.IsValidUrl(form.Web))
                     {
                         throw new ValidationException($"Zadejte validní URL webu");
-
                     }
+
+                    // verify country
+                    if (!await IsValidCountry(form.CountryID))
+                    {
+                        throw new ValidationException("Vyplňte stát");
+                    }
+
                     // upload files if they are provided
                     if (form.Banner != null)
                     {
@@ -1549,6 +1561,11 @@ namespace UI.Builders.Auth
                 CodeName = m.CodeName,
                 LanguageName = m.LanguageName
             });
+        }
+
+        private async Task<bool> IsValidCountry(int countryID)
+        {
+            return (await FormGetCountriesAsync()).FirstOrDefault(m => m.ID == countryID) != null;
         }
 
         private async Task<IEnumerable<AuthCountryModel>> FormGetCountriesAsync()
