@@ -1,11 +1,11 @@
 ﻿using Service.Context;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Core.Helpers;
 using UI.Base;
 using UI.Builders.Auth;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Master;
-using UI.Builders.Shared.Models;
 using UI.Events;
 using UI.Exceptions;
 
@@ -60,7 +60,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> EditCompany()
+        public async Task<ActionResult> EditCompany(string result)
         {
             var model = await _authBuilder.BuildEditCompanyViewAsync();
 
@@ -68,6 +68,14 @@ namespace Web.Controllers
             {
                 // company does not exist
                 return HttpNotFound();
+            }
+
+            // get result
+            var actionResult = EnumHelper.ParseEnum(result, RegisterResult.Unknown);
+            if (actionResult == RegisterResult.Success)
+            {
+                // set flag indicating that company has just been created
+                model.CompanyForm.IsNewlyRegisteredCompany = true;
             }
 
             return View(model);
@@ -373,7 +381,9 @@ namespace Web.Controllers
                 // update CompanyID
                 model.CompanyForm.ID = companyID;
 
-                return View(model);
+                // redirect to edit company 
+                // do not return view because the CurrentCompany would not get updated in this request
+                return RedirectToAction("EditCompany", new { result = RegisterResult.Success });
             }
             catch (UiException ex)
             {
@@ -474,6 +484,17 @@ namespace Web.Controllers
 
                 return View(await _authBuilder.BuildEditThesisViewAsync(form));
             }
+        }
+
+        #endregion
+
+        #region Register company result enum
+
+        private enum RegisterResult
+        {
+            Success,
+            Failure,
+            Unknown
         }
 
         #endregion

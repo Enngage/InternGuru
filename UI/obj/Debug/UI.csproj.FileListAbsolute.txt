@@ -250,3 +250,6 @@ C:\inetpub\wwwroot\InternGuru-master\UI\obj\Debug\UI.pdb
 C:\inetpub\wwwroot\InternGuru-master\UI\bin\Debug\NLipsum.Core.dll
 C:\inetpub\wwwroot\InternGuru-master\UI\bin\Debug\NLipsum.Core.xml
 C:\inetpub\wwwroot\InternGuru-master\UI\bin\Debug\Ninject.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\NLipsum.Core.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\Ninject.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\UI\bin\Debug\NLipsum.Core.xml

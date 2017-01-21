@@ -5,7 +5,7 @@
 
 @{
     var formAction = Model.IsExistingCompany ? "EditCompany" : "RegisterCompany";
-    var submitButtonText = Model.IsExistingCompany ? "Uložit" : "Uložit";
+    var submitButtonText = Model.IsExistingCompany ? "Uložit" : "Registrovat";
 }
 
 @Html.RequireScript("/scripts/views/auth/addEditCompany")
@@ -22,6 +22,11 @@
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
           @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
+            
+          @if (Model.IsNewlyRegisteredCompany)
+          {
+              @Html.RenderSuccessMessage("Firma byla úspěšně zaregistrována")
+          }
         </div>
 
         <div class="sixteen wide mobile eight wide tablet sixteen wide computer column">
@@ -184,7 +189,7 @@
                 Logo & Banner
             </h4>
 
-            <div class="field required">
+            <div class="field">
                 <label>
                     Logo <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyLogoWidth)x@(Core.Config.FileConfig.CompanyLogoHeight) px)</span>
                 </label>
@@ -194,7 +199,7 @@
                 <input class="w-margin-top-10" type="file" name="Logo">
             </div>
 
-            <div class="field required">
+            <div class="field">
                 <label>
                     Banner <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight) px)</span>
                 </label>

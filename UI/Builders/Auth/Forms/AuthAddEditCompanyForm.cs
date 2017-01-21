@@ -69,13 +69,11 @@ namespace UI.Builders.Auth.Forms
         /// <summary>
         /// Indicates whether the model represents existing company (based on ID)
         /// </summary>
-        public bool IsExistingCompany
-        {
-            get
-            {
-                return ID != 0;
-            }
-        }
+        public bool IsExistingCompany => ID != 0;
 
+        /// <summary>
+        /// Indicates if the the company was just registered
+        /// </summary>
+        public bool IsNewlyRegisteredCompany { get; set; }
     }
 }

@@ -80,6 +80,7 @@ namespace UI.Base
             {
                 // set master property of an existing model
                 model.Master = _masterBuilder.GetMasterModel();
+
             }
             else
             {

@@ -65,9 +65,9 @@ C:\inetpub\wwwroot\InternGuru-master\Service\obj\Debug\Service.dll
 C:\inetpub\wwwroot\InternGuru-master\Service\obj\Debug\Service.pdb
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\EmailProvider.dll
 C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\EmailProvider.pdb
-C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.Migrations.Email.resources
-C:\Users\Yazoo\Dropbox\InternGuru-master\Service\obj\Debug\Service.csproj.GenerateResource.Cache
 C:\inetpub\wwwroot\InternGuru-master\Service\bin\Debug\EmailProvider.dll
 C:\inetpub\wwwroot\InternGuru-master\Service\bin\Debug\EmailProvider.pdb
 C:\inetpub\wwwroot\InternGuru-master\Service\bin\Debug\NLipsum.Core.dll
 C:\inetpub\wwwroot\InternGuru-master\Service\bin\Debug\NLipsum.Core.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\NLipsum.Core.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Service\bin\Debug\NLipsum.Core.xml

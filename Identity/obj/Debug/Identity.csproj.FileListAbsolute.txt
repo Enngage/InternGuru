@@ -117,3 +117,5 @@ C:\inetpub\wwwroot\InternGuru-master\Identity\obj\Debug\Identity.dll
 C:\inetpub\wwwroot\InternGuru-master\Identity\obj\Debug\Identity.pdb
 C:\inetpub\wwwroot\InternGuru-master\Identity\bin\Debug\NLipsum.Core.dll
 C:\inetpub\wwwroot\InternGuru-master\Identity\bin\Debug\NLipsum.Core.xml
+C:\Users\Yazoo\Dropbox\InternGuru-master\Identity\bin\Debug\NLipsum.Core.dll
+C:\Users\Yazoo\Dropbox\InternGuru-master\Identity\bin\Debug\NLipsum.Core.xml
