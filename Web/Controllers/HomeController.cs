@@ -28,10 +28,11 @@ namespace Web.Controllers
             _masterBuilder = masterBuilder;
         }
 
-#endregion
+        #endregion
 
         #region Actions
 
+        [Route("")]
         public ActionResult Index()
         {
             var model = _masterBuilder.GetMasterModel();
@@ -39,6 +40,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Cenik")]
         public ActionResult Pricing()
         {
             var model = _masterBuilder.GetMasterModel();
@@ -46,7 +48,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-
+        [Route("Onas")]
         public ActionResult About()
         {
             var model = _masterBuilder.GetMasterModel();
@@ -54,7 +56,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-
+        [Route("Info")]
         public ActionResult Info()
         {
             var model = _masterBuilder.GetMasterModel();
@@ -62,7 +64,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-
+        [Route("Kontakt")]
         public ActionResult Contact()
         {
             var model = _homeBuilder.BuildContactUsView();
@@ -76,6 +78,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Kontakt")]
         public async Task<ActionResult> Contact(HomeContactUsForm form)
         {
             // validate form

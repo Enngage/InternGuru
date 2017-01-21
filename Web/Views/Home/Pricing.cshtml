@@ -1,4 +1,5 @@
-﻿@model UI.Builders.Master.Views.MasterView
+﻿@using System.Threading
+@model UI.Builders.Master.Views.MasterView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Ceník";
@@ -8,4 +9,8 @@
 <h1>
     @Model.Metadata.BasicMetadata.Title
 </h1>
+
+<p>
+    @Thread.CurrentThread.CurrentCulture.Name
+</p>
 

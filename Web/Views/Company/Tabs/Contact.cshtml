@@ -11,7 +11,7 @@
         Napiš nám
     </h2>
 
-    @using (Html.BeginForm("Index", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Contact", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
 
         @Html.AntiForgeryToken()

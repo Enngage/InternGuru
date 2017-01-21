@@ -43,10 +43,10 @@
                             <div class="meta">
                                 @Html.Raw(company.CountryIconHtml) @company.City
                                 |
-                                <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
+                                <a href="@Url.Action("Internships", "Company", new {codeName = company.CodeName})">
                                     @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáže")
                                 </a>
-                                | <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName})"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
+                                | <a href="@Url.Action("Theses", "Company", new {codeName = company.CodeName})"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
                             </div>
                         </div>
                     </div>

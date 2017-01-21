@@ -19,6 +19,7 @@ namespace Web.Controllers
 
         #region Actions
 
+        [Route("ZaverecnaPrace/{id}/{codeName}")]
         public async Task<ActionResult> Index(int? id)
         {
             const string notFoundView = "~/Views/Thesis/NotFound.cshtml";

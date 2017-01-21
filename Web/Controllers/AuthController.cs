@@ -32,6 +32,7 @@ namespace Web.Controllers
 
         #region Actions
 
+        [Route("Uzivatel")]
         public async Task<ActionResult> Index(int? page)
         {
             var model = await _authBuilder.BuildIndexViewAsync(page);
@@ -39,6 +40,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/ZaverecnePrace/{page:int?}")]
         public async Task<ActionResult> Theses(int? page)
         {
             var model = await _authBuilder.BuildThesesVieAsync(page);
@@ -46,6 +48,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/Staze/{page:int?}")]
         public async Task<ActionResult> Internships(int? page)
         {
             var model = await _authBuilder.BuildInternshipsViewAsync(page);
@@ -53,6 +56,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/RegistrovatFirmu")]
         public async Task<ActionResult> RegisterCompany()
         {
             var model = await _authBuilder.BuildRegisterCompanyViewAsync();
@@ -60,6 +64,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/UpravitFirmu")]
         public async Task<ActionResult> EditCompany(string result)
         {
             var model = await _authBuilder.BuildEditCompanyViewAsync();
@@ -81,6 +86,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/NovaStaz")]
         public async Task<ActionResult> NewInternship()
         {
             var model = await _authBuilder.BuildNewInternshipViewAsync();
@@ -88,6 +94,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/UpravitStaz/{id:int}")]
         public async Task<ActionResult> EditInternship(int? id)
         {
             if (id == null)
@@ -106,6 +113,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/NovaZaverecnaPrace")]
         public async Task<ActionResult> NewThesis()
         {
             var model = await _authBuilder.BuildNewThesisViewAsync();
@@ -113,6 +121,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/UpravitZaverecnouPraci/{id:int}")]
         public async Task<ActionResult> EditThesis(int? id)
         {
             if (id == null)
@@ -131,6 +140,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/UpravitProfil")]
         public async Task<ActionResult> EditProfile()
         {
             var model = await _authBuilder.BuildEditProfileViewAsync();
@@ -138,6 +148,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/Avatar")]
         public async Task<ActionResult> Avatar()
         {
             var model = await _authBuilder.BuildAvatarViewAsync();
@@ -145,6 +156,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/FiremniGalerie")]
         public async Task<ActionResult> CompanyGallery()
         {
             var model = await _authBuilder.BuildCompanyGalleryViewAsync();
@@ -152,6 +164,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Uzivatel/Zpravy")]
         public async Task<ActionResult> Conversation(string id, int? page)
         {
             if (string.IsNullOrEmpty(id))
@@ -175,6 +188,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/Zpravy")]
         public async Task<ActionResult> Conversation(AuthMessageForm form)
         {
             // validate form
@@ -207,6 +221,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/Avatar")]
         public async Task<ActionResult> Avatar(AuthAvatarUploadForm form)
         {
             // validate form
@@ -235,6 +250,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/FiremniGalerie")]
         public async Task<ActionResult> CompanyGallery(AuthCompanyGalleryUploadForm form)
         {
             var model = await _authBuilder.BuildCompanyGalleryViewAsync();
@@ -261,6 +277,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/UpravitProfil")]
         public async Task<ActionResult> EditProfile(AuthEditProfileForm form)
         {
             // validate form
@@ -294,6 +311,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/NovaStaz")]
         public async Task<ActionResult> NewInternship(AuthAddEditInternshipForm form)
         {
             // validate form
@@ -330,6 +348,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/UpravitStaz")]
         public async Task<ActionResult> EditInternship(AuthAddEditInternshipForm form)
         {
             // validate form
@@ -360,6 +379,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/RegistrovatFirmu")]
         public async Task<ActionResult> RegisterCompany(AuthAddEditCompanyForm form)
         {
             // validate form
@@ -395,6 +415,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/UpravitFirmu")]
         public async Task<ActionResult> EditCompany(AuthAddEditCompanyForm form)
         {
             // validate form
@@ -425,6 +446,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/NovaZaverecnaPrace")]
         public async Task<ActionResult> NewThesis(AuthAddEditThesisForm form)
         {
             // validate form
@@ -458,6 +480,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Uzivatel/UpravitZaverecnouPraci")]
         public async Task<ActionResult> EditThesis(AuthAddEditThesisForm form)
         {
             // validate form

@@ -78,6 +78,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1" />
+    <Reference Include="RouteLocalization.Mvc, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RouteLocalization.Mvc.2.3.0\lib\net40\RouteLocalization.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -216,6 +220,8 @@
     <Compile Include="Lib\Ninject\NinjectHelper.cs" />
     <Compile Include="Lib\Privilege\AuthorizeRolesMVC.cs" />
     <Compile Include="Lib\Privilege\AuthorizeRolesWebApi.cs" />
+    <Compile Include="Lib\RouteLocalization\RouteTranslations.cs" />
+    <Compile Include="Lib\RouteLocalization\RouteCultures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

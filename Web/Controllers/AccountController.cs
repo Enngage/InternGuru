@@ -36,6 +36,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
+        [Route("Prihlaseni")]
         public ActionResult Login(string returnUrl)
         {
             var model = _accountBuilder.BuildLoginView();
@@ -46,6 +47,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
+        [Route("Ucet/Neaktivni")]
         public ActionResult EmailNotConfirmed()
         {
             return View();
@@ -54,6 +56,7 @@ namespace Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("Prihlaseni")]
         public async Task<ActionResult> Login(LoginForm form, string returnUrl)
         {
             // get model
@@ -96,6 +99,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
+        [Route("Registrace")]
         public ActionResult Register()
         {
             var model = _accountBuilder.BuildRegisterView();
@@ -104,6 +108,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
+        [Route("Ucet/RegistracniEmailOdeslan")]
         public ActionResult ConfirmEmailSent()
         {
             return View();
@@ -112,6 +117,7 @@ namespace Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("Registrace")]
         public async Task<ActionResult> Register(RegisterForm form)
         {
             var model = _accountBuilder.BuildRegisterView();
@@ -167,6 +173,7 @@ namespace Web.Controllers
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
+        [Route("Ucet/PotvrzeniEmailu")]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -180,6 +187,7 @@ namespace Web.Controllers
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
+        [Route("Ucet/ZapomenuteHeslo")]
         public ActionResult ForgotPassword()
         {
             var model = _accountBuilder.BuildForgotPasswordView();
@@ -190,6 +198,7 @@ namespace Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("Ucet/ZapomenuteHeslo")]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordForm form)
         {
             var model = _accountBuilder.BuildForgotPasswordView();
@@ -222,6 +231,7 @@ namespace Web.Controllers
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
+        [Route("Ucet/ObnovaHeslaPotvrzeni")]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
@@ -230,6 +240,7 @@ namespace Web.Controllers
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
+        [Route("Ucet/ObnovaHesla")]
         public ActionResult ResetPassword(string code)
         {
             var model = _accountBuilder.BuildResetPasswordView();
@@ -252,6 +263,7 @@ namespace Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("Ucet/ObnovaHesla")]
         public async Task<ActionResult> ResetPassword(ResetPasswordForm form)
         {
             var model = _accountBuilder.BuildResetPasswordView();
@@ -281,6 +293,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
+        [Route("Ucet/ObnovaHeslaPotvrzeni")]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
@@ -362,6 +375,7 @@ namespace Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("Ucet/PortvrzeniExternihoUctu")]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationForm form, string returnUrl)
         {
             var model = _accountBuilder.BuildExternalLoginConfirmationView();
@@ -438,6 +452,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
+        [Route("Ucet/ExterniUcetNevalidni")]
         public ActionResult ExternalLoginFailure()
         {
             return View();

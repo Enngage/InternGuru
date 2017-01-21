@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using RouteLocalization.Mvc;
 using Web.Lib.ErrorHandling;
 
 namespace Web

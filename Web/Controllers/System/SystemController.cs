@@ -31,6 +31,7 @@ namespace Web.Controllers.System
 
         #endregion
 
+        [Route("System/EventLog")]
         public async Task<ActionResult> EventLog(int? page)
         {
             var model = await _systemBuilder.BuildEventLogViewAsync(page);
@@ -50,6 +51,7 @@ namespace Web.Controllers.System
             return View(model);
         }
 
+        [Route("System/EmailLog")]
         public async Task<ActionResult> EmailLog(int? page, bool? onlyunsent)
         {
             var model = await _systemBuilder.BuildEmailLogViewAsync(page, onlyunsent ?? false);

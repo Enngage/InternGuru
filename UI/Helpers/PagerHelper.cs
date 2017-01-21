@@ -15,13 +15,17 @@ namespace UI.Helpers
         private const int MobilePagesCount = 0;
         private const int StandardPagesCount = 9;
 
+
         /// <summary>
         /// Gets pager for current controller and actions.
         /// Pager is hidden if there are no items
         /// </summary>
         /// <param name="pagedList">Paged list</param>
+        /// <param name="generatePageUrl">function to get page url. Example: 
+        /// page => WebViewPage.Url.Action(action, controller, new { page }
+        /// </param>
         /// <returns>HTML pager</returns>
-        public IHtmlString GetPager(IPagedList pagedList)
+        public IHtmlString GetPager(IPagedList pagedList, Func<int, string> generatePageUrl)
         {
             if (pagedList == null)
             {
@@ -34,22 +38,9 @@ namespace UI.Helpers
             }
 
             var sb = new StringBuilder();
-            var currentAction = WebViewPage.ViewContext.RouteData.Values["action"]?.ToString();
-            var currentController = WebViewPage.ViewContext.RouteData.Values["controller"]?.ToString();
-
-            if (string.IsNullOrEmpty(currentController))
-            {
-                throw new NullReferenceException(nameof(currentController));
-            }
-
-            if (string.IsNullOrEmpty(currentAction))
-            {
-                throw new NullReferenceException(nameof(currentAction));
-            }
-
 
             var standardPager = WebViewPage.Html.PagedListPager(pagedList,
-                page => WebViewPage.Url.Action(currentAction, currentController, new {page}),
+                generatePageUrl,
                 new PagedListRenderOptions()
                 {
                     Display = PagedListDisplayMode.IfNeeded,
@@ -63,7 +54,7 @@ namespace UI.Helpers
                 });
 
             var mobilePager = WebViewPage.Html.PagedListPager(pagedList,
-                page => WebViewPage.Url.Action(currentAction, currentController, new { page }),
+                generatePageUrl,
                 new PagedListRenderOptions()
                 {
                     MaximumPageNumbersToDisplay = MobilePagesCount,
@@ -87,6 +78,30 @@ namespace UI.Helpers
             sb.AppendLine("</div>");
 
             return WebViewPage.Html.Raw(sb.ToString());
+        }
+
+        /// <summary>
+        /// Gets pager for current controller and actions.
+        /// Pager is hidden if there are no items
+        /// </summary>
+        /// <param name="pagedList">Paged list</param>
+        /// <returns>HTML pager</returns>
+        public IHtmlString GetPager(IPagedList pagedList)
+        {
+            var currentAction = WebViewPage.ViewContext.RouteData.Values["action"]?.ToString();
+            var currentController = WebViewPage.ViewContext.RouteData.Values["controller"]?.ToString();
+
+            if (string.IsNullOrEmpty(currentController))
+            {
+                throw new NullReferenceException(nameof(currentController));
+            }
+
+            if (string.IsNullOrEmpty(currentAction))
+            {
+                throw new NullReferenceException(nameof(currentAction));
+            }
+
+            return GetPager(pagedList, page => WebViewPage.Url.Action(currentAction, currentController, new { page }));
         }
     }
 }

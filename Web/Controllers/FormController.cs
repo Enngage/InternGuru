@@ -22,7 +22,8 @@ namespace Web.Controllers
 
         #region Actions
 
-        public async Task<ActionResult> Internship(int? id)
+        [Route("Zajem/Staz/{id}/{codeName}")]
+        public async Task<ActionResult> Internship(int? id, string codeName)
         {
             if (id == null)
             {
@@ -39,7 +40,8 @@ namespace Web.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> Thesis(int? id)
+        [Route("Zajem/ZaverecnaPrace/{id}/{codeName}")]
+        public async Task<ActionResult> Thesis(int? id, string codeName)
         {
             if (id == null)
             {
@@ -62,6 +64,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Zajem/Staz/{id}/{codeName}")]
         public async Task<ActionResult> Internship(FormInternshipForm form)
         {
             // validate form
@@ -95,6 +98,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Zajem/ZaverecnaPrace/{id}/{codeName}")]
         public async Task<ActionResult> Thesis(FormThesisForm form)
         {
             // validate form

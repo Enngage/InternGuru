@@ -1,8 +1,6 @@
 ﻿@model UI.Builders.Internship.Views.InternshipBrowseView
-@using UI.Helpers;
 @using Core.Helpers;
 @using UI.Extensions;
-@using PagedList.Mvc;
 @using UI.Builders.Shared.Enums
 @{
     Model.Metadata.BasicMetadata.Title = "Nabídka stáží";
@@ -10,6 +8,7 @@
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 
     var currentCategory = Helpers.UrlHelper.GetRouteParam("category", string.Empty) ?? string.Empty;
+
     var searchVal = Helpers.UrlHelper.GetQueryString("search", string.Empty);
     var cityVal = Helpers.UrlHelper.GetQueryString("city", string.Empty);
 
@@ -21,7 +20,7 @@
 
 @Html.RequireScript("/scripts/views/internship/browseInternships")
 
-@using (Html.BeginForm("Index", "Internships", FormMethod.Get, null))
+@using (Html.BeginForm("Search", "Internships", FormMethod.Get, null))
 {
     <div class="ui grid">
         <div class="sixteen wide column">
@@ -59,14 +58,14 @@
                 <div class="ui secondary vertical pointing menu w-internship-category-menu ">
                     @if (string.IsNullOrEmpty(currentCategory))
                     {
-                        <a href="@Url.Action("Index", new { category = "" })" class="active item">
+                        <a href="@Url.Action("Index", new { category = "", page = "" })" class="active item">
                             Všechny nabídky
                             <span class="w-body-float-right">@totalInternshipCount</span>
                         </a>
                     }
                     else
                     {
-                        <a href="@Url.Action("Index", new { category = "" })" class="item">
+                        <a href="@Url.Action("Index", new { category = "", page = "" })" class="item">
                             Všechny nabídky
                             <span class="w-body-float-right">@totalInternshipCount</span>
                         </a>
@@ -140,7 +139,7 @@
                     </table>
 
                     <div class="w-margin-top-10">
-                        @Helpers.PagerHelper.GetPager(Model.Internships)
+                        @Helpers.PagerHelper.GetPager(Model.Internships, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new { page, search = searchVal, city = cityVal }))
                     </div>
                 }
             </div>

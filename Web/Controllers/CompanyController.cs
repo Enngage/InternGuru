@@ -13,15 +13,25 @@ namespace Web.Controllers
 {
     public class CompanyController : BaseController
     {
+
+        #region Builder 
+
         readonly CompanyBuilder _companyBuilder;
+
+        #endregion
+
+        #region Controller
 
         public CompanyController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, CompanyBuilder companyBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
             _companyBuilder = companyBuilder;
         }
 
+        #endregion
+
         #region Actions
 
+        [Route("Firma/{codeName}", Name = "CompanyIndex")]
         public async Task<ActionResult> Index(string codeName)
         {
             if (string.IsNullOrEmpty(codeName))
@@ -45,6 +55,7 @@ namespace Web.Controllers
             return View("~/Views/Company/Tabs/About.cshtml", model);
         }
 
+        [Route("Firma/{codeName}/staze", Name = "CompanyInternships")]
         public async Task<ActionResult> Internships(string codeName)
         {
             if (string.IsNullOrEmpty(codeName))
@@ -68,6 +79,7 @@ namespace Web.Controllers
             return View("~/Views/Company/Tabs/Internships.cshtml", model);
         }
 
+        [Route("Firma/{codeName}/zaverecneprace", Name = "CompanyTheses")]
         public async Task<ActionResult> Theses(string codeName)
         {
             if (string.IsNullOrEmpty(codeName))
@@ -91,6 +103,7 @@ namespace Web.Controllers
             return View("~/Views/Company/Tabs/Theses.cshtml", model);
         }
 
+        [Route("Firma/{codeName}/kontakt", Name = "CompanyContact")]
         public async Task<ActionResult> Contact(string codeName)
         {
             if (string.IsNullOrEmpty(codeName))
@@ -120,7 +133,8 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(CompanyContactUsForm form)
+        [Route("Firma/{codeName}/kontakt")]
+        public async Task<ActionResult> Contact(CompanyContactUsForm form)
         {
             const string contactView = "~/Views/Company/Tabs/Contact.cshtml";
             const CompanyDetailMenuEnum activeTab = CompanyDetailMenuEnum.Contact;

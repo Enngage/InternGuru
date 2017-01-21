@@ -20,7 +20,7 @@
 
 @Html.RequireScript("/scripts/views/thesis/browseTheses")
 
-@using (Html.BeginForm("Index", "Theses", FormMethod.Get, null))
+@using (Html.BeginForm("Search", "Theses", FormMethod.Get, null))
 {
     <div class="ui grid">
         <div class="sixteen wide column">
@@ -130,7 +130,7 @@
                     </table>
 
                     <div class="w-margin-top-10">
-                       @Helpers.PagerHelper.GetPager(Model.Theses)
+                       @Helpers.PagerHelper.GetPager(Model.Theses, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new { page, search = searchVal }))
                     </div>
                 }
             </div>

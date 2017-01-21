@@ -19,7 +19,7 @@ namespace Web.Controllers
 
         #region Actions
 
-
+        [Route("Firmy")]
         public async Task<ActionResult> Index(int? page)
         {
             var model = await _companyBuilder.BuildBrowseViewAsync(page);

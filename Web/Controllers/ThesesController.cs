@@ -20,6 +20,9 @@ namespace Web.Controllers
         #region Actions
 
 
+        [Route("ZaverecnePrace/{category:alpha?}/{page:int?}", Order = 1)]
+        [Route("ZaverecnePrace/{page:int}", Order = 2)]
+        [Route("ZaverecnePrace", Order = 3)]
         public async Task<ActionResult> Index(int? page, string category, string search)
         {
             var model = await _thesisBuilder.BuildBrowseViewAsync(search, page, category);
@@ -30,6 +33,20 @@ namespace Web.Controllers
             }
 
             return View(model);
+        }
+
+
+        [Route("ZaverecnePrace/Hledat", Order = 1)]
+        public async Task<ActionResult> Search(int? page, string category, string search)
+        {
+            var model = await _thesisBuilder.BuildBrowseViewAsync(search, page, category);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View("~/Views/Theses/Index.cshtml", model);
         }
 
         #endregion

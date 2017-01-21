@@ -33,9 +33,10 @@ namespace Web.Api
                 // add company URLs and banner image URLs
                 foreach (var company in companies)
                 {
-                    company.Url = Url.Link("Company", new { codeName = company.CodeName, action = "Index" });
-                    company.UrlToInternships = Url.Link("Company", new { codeName = company.CodeName, action = "Internships"});
-                    company.UrlToTheses = Url.Link("Company", new { codeName = company.CodeName, action = "Theses"});
+
+                    company.Url = Url.Link("CompanyIndex", new { controller = "Company", codeName = company.CodeName, action = "Index" });
+                    company.UrlToInternships = Url.Link("CompanyInternships", new { controller = "Company", codeName = company.CodeName, action = "Internships"});
+                    company.UrlToTheses = Url.Link("CompanyTheses", new { controller = "Company", codeName = company.CodeName, action = "Theses"});
                     company.LogoImageUrl = ImageHelper.GetCompanyLogoStatic(company.CompanyGuid);
                     company.BannerImageUrl = ImageHelper.GetCompanyBannerStatic(company.CompanyGuid);
                     company.PluralInternshipsCountWord = StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáže");
