@@ -112,7 +112,8 @@ namespace UI.Builders.System
                     From = m.From,
                     Result = m.Result,
                     IsSent = m.IsSent,
-                    Sent = m.Sent
+                    Sent = m.Sent,
+                    Guid =  m.Guid
                 });
 
             if (showOnlyUnsentEmails)

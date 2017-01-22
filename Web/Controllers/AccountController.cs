@@ -231,7 +231,7 @@ namespace Web.Controllers
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
-        [Route("Ucet/ObnovaHeslaPotvrzeni")]
+        [Route("Ucet/ZapomenuteHesloPotvrzeni")]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();

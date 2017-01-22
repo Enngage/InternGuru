@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Web;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -52,13 +54,16 @@ namespace Web
             // assign data protection for DI
             DataProtectionProvider = app.GetDataProtectionProvider();
 
+            // get url helper so that we can get localized url to a login page
+            var url = new UrlHelper(HttpContext.Current.Request.RequestContext);
+
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             // Configure the sign in cookie
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login"),
+                LoginPath = new PathString(url.Action("Login", "Account")), 
                 Provider = new CookieAuthenticationProvider
                 {
                     // Enables the application to validate the security stamp when the user logs in.

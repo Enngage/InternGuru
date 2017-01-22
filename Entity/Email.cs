@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Entity.Base;
 
 namespace Entity
@@ -8,6 +9,8 @@ namespace Entity
     public class Email : IEntity
     {
         public int ID { get; set; }
+        [Index]
+        public Guid Guid { get; set; }
         [MaxLength(100)]
         public string Subject { get; set; }
         [MaxLength(200)]

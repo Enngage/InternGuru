@@ -164,7 +164,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-        [Route("Uzivatel/Zpravy")]
+        [Route("Uzivatel/Konverzace/{id}/{page:int?}")]
         public async Task<ActionResult> Conversation(string id, int? page)
         {
             if (string.IsNullOrEmpty(id))
@@ -188,7 +188,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Uzivatel/Zpravy")]
+        [Route("Uzivatel/Konverzace/{id}/{page:int?}")]
         public async Task<ActionResult> Conversation(AuthMessageForm form)
         {
             // validate form
@@ -348,7 +348,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Uzivatel/UpravitStaz")]
+        [Route("Uzivatel/UpravitStaz/{id:int}")]
         public async Task<ActionResult> EditInternship(AuthAddEditInternshipForm form)
         {
             // validate form
@@ -480,7 +480,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Uzivatel/UpravitZaverecnouPraci")]
+        [Route("Uzivatel/UpravitZaverecnouPraci/{id:int}")]
         public async Task<ActionResult> EditThesis(AuthAddEditThesisForm form)
         {
             // validate form

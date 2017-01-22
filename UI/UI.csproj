@@ -204,6 +204,9 @@
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
     <Compile Include="Builders\Company\Enum\CompanyDetailMenuEnum.cs" />
+    <Compile Include="Builders\Email\EmailBuilder.cs" />
+    <Compile Include="Builders\Email\Models\EmailPreviewModel.cs" />
+    <Compile Include="Builders\Email\Views\EmailPreviewView.cs" />
     <Compile Include="Builders\Master\Enums\OpenGraphType.cs" />
     <Compile Include="Builders\Master\Models\MasterAppleMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterBasicMetadata.cs" />

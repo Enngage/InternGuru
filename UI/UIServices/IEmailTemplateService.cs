@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using UI.Emails;
 using UI.UIServices.Models;
@@ -68,7 +69,7 @@ namespace UI.UIServices
         /// <param name="preheader">Preheader - will be displayed in e-mail preview</param>
         /// <param name="buttonUrl">Url of the button</param>
         /// <param name="buttonText">Text of the button</param>
-        /// <returns></returns>
+        /// <returns>Template with replaced macros</returns>
         string GetBasicTemplate(string recipient, string title, string text, string preheader , string buttonUrl, string buttonText);
     }
 }

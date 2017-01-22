@@ -1,0 +1,9 @@
+﻿@model UI.Builders.Email.Views.EmailPreviewView
+
+@{
+    Model.Metadata.BasicMetadata.Title = $"Náhled e-mailu | {Model.Email.Subject}";
+    Model.Metadata.BasicMetadata.Description = $"Náhled e-mailu | {Model.Email.Subject}";
+    Layout = "~/Views/_ViewStart.cshtml";
+}
+
+@Html.Raw(Model.Email.EmailBody)

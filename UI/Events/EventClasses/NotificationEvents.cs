@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 using Core.Config;
 using Entity;
 using UI.Builders.Services;
@@ -11,7 +12,13 @@ namespace UI.Events.EventClasses
     {
         #region Services
 
-        private IServicesLoader Services { get; set; }
+        private IServicesLoader Services { get;  }
+        private readonly System.Web.Mvc.UrlHelper _urlHelper = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+
+        /// <summary>
+        /// Url to the main site without actions/params
+        /// </summary>
+        private string SiteUrl => _urlHelper.RequestContext.HttpContext.Request.Url?.Scheme + "://" + _urlHelper.RequestContext.HttpContext.Request.Url?.Authority;
 
         #endregion
 
@@ -78,9 +85,9 @@ namespace UI.Events.EventClasses
         /// </summary>
         /// <param name="senderApplicationId">ID of the sender user</param>
         /// <returns>URL of the conversation</returns>
-        private static string GetConversationUrl(string senderApplicationId)
+        private string GetConversationUrl(string senderApplicationId)
         {
-            return $"{AppConfig.WebUrl}Auth/Conversation/{senderApplicationId}";
+            return SiteUrl + "/" + _urlHelper.Action("Conversation", "Auth", new {id = senderApplicationId});
         }
 
         #endregion

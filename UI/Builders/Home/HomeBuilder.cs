@@ -43,7 +43,7 @@ namespace UI.Builders.Home
         {
             // get basic template
             var basicTemplate = Services.EmailTemplateService.GetBasicTemplate(AppConfig.MainContactEmail,
-                $"Zpráva od - {form.Email}", form.Message, form.Message, AppConfig.WebUrl, "Na web");
+                $"Zpráva od - {form.Email}", form.Message, form.Message, null, "Na web");
 
             // just send e-mail
             await Services.EmailService.SendEmailAsync(AppConfig.MainContactEmail,

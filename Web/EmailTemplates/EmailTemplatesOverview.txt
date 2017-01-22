@@ -18,3 +18,5 @@ BasicEmail
 	{Preheader}
 	{ButtonText}
 	{ButtonUrl}
+	{EmailGuid}
+	{EmailPreviewUrl}

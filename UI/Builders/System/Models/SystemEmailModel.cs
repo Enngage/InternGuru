@@ -4,6 +4,7 @@ namespace UI.Builders.System.Models
     public class SystemEmailModel
     {
         public int ID { get; set; }
+        public Guid Guid { get; set; }
         public string Subject { get; set; }
         public string To { get; set; }
         public string From { get; set; }

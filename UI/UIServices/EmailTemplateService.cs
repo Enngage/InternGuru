@@ -3,6 +3,8 @@ using Core.Config;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 using UI.Emails;
 using UI.UIServices.Models;
 
@@ -12,6 +14,12 @@ namespace UI.UIServices
     {
         private readonly string _emailTemplateFolder = AppConfig.EmailTemplatesFolder;
         private readonly string _emailTemplatesExtension = ".html";
+        private readonly UrlHelper _urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+
+        /// <summary>
+        /// Url to the main site without actions/params
+        /// </summary>
+        private string SiteUrl => _urlHelper.RequestContext.HttpContext.Request.Url?.Scheme + "://" + _urlHelper.RequestContext.HttpContext.Request.Url?.Authority;
 
         public string ServerEmailTemplateFolderPath => SystemConfig.ServerRootPath + _emailTemplateFolder + "\\";
 
@@ -92,7 +100,7 @@ namespace UI.UIServices
                 new MacroReplacement()
                 {
                     MacroName = "WebUrl",
-                    Value = AppConfig.WebUrl
+                    Value = SiteUrl
                 },
                 new MacroReplacement()
                 {
@@ -104,6 +112,8 @@ namespace UI.UIServices
 
         public string GetBasicTemplate(string recipient, string title, string text, string preheader, string buttonUrl, string buttonText)
         {
+           
+
             return GetTemplateHtml(EmailTypeEnum.BasicEmail, new List<MacroReplacement>()
             {
                 new MacroReplacement()
@@ -126,12 +136,12 @@ namespace UI.UIServices
                     MacroName = "Preheader",
                     Value = preheader
                 },
-                 new MacroReplacement()
+                new MacroReplacement()
                 {
                     MacroName = "ButtonText",
                     Value = buttonText
                 },
-                  new MacroReplacement()
+                new MacroReplacement()
                 {
                     MacroName = "ButtonUrl",
                     Value = buttonUrl

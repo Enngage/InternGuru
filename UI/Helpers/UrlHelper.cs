@@ -16,7 +16,7 @@ namespace UI.Helpers
         /// <summary>
         /// Url to the main site without actions/params
         /// </summary>
-        public string SiteUrl =>WebViewPage.Request.Url?.Scheme + "://" + WebViewPage.Request.Url?.Authority;
+        public string SiteUrl => WebViewPage.Request.Url?.Scheme + "://" + WebViewPage.Request.Url?.Authority;
 
         /// <summary>
         /// Action of current request

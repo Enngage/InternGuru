@@ -1,7 +1,6 @@
 ﻿@model UI.Builders.System.Views.SystemEmailLogView
 @using Core.Helpers;
 @using UI.Extensions;
-@using PagedList.Mvc;
 
 @{
     Model.Metadata.BasicMetadata.Title = $"E-mail log";
@@ -47,6 +46,14 @@
                                     </td>
                                     <td>
                                         @email.ID
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Guid:</strong>
+                                    </td>
+                                    <td>
+                                        @email.Guid
                                     </td>
                                 </tr>
                                 <tr>
@@ -157,7 +164,8 @@
                 {
                     <tr>
                         <td class="collapsing">
-                            <a href="#" class="_ShowLogModal" data-emailid="@email.ID"><i title="Zobrazit" class="unhide icon black"></i></a>
+                            <a href="#" class="_ShowLogModal" data-emailid="@email.ID"><i title="Detail" class="zoom icon black"></i></a>
+                            <a href="@Url.Action("Preview", "Email", new { guid = email.Guid})" target="_blank"><i title="Preview" class="unhide icon black"></i></a>
                         </td>
                         <td>
                             @email.To

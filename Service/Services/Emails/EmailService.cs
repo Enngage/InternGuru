@@ -71,6 +71,9 @@ namespace Service.Services.Emails
             // set created date
             obj.Created = DateTime.Now;
 
+            // set guid
+            obj.Guid = Guid.NewGuid();
+
             // touch cache keys
             TouchInsertKeys(obj);
 
@@ -91,6 +94,9 @@ namespace Service.Services.Emails
 
             // fire event
             OnUpdate(obj, email);
+
+            // set guid
+            obj.Guid = email.Guid;
 
             // update log
             AppContext.Entry(email).CurrentValues.SetValues(obj);
@@ -213,6 +219,9 @@ namespace Service.Services.Emails
 
             // set created date
             email.Created = DateTime.Now;
+
+            // set guid
+            email.Guid = Guid.NewGuid();
 
             // touch cache keys
             TouchInsertKeys(email);
