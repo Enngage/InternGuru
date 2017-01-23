@@ -8,7 +8,7 @@ namespace Web.Lib.RouteLocalization
         private readonly string _culture;
 
         public static readonly string en = "en";
-        public static readonly string cz = "cz";
+        public static readonly string cs = "cs";
 
         private RouteCultures(string culture)
         {
