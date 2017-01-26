@@ -1,5 +1,4 @@
 ﻿@model UI.Builders.Internship.Views.InternshipDetailView
-@using UI.Helpers;
 @using Core.Helpers;
 @using UI.Builders.Gallery.Views;
 @using UI.Extensions;
@@ -16,7 +15,7 @@
     var galleryImages = Helpers.ImageHelper.GetCompanyGalleryImages(Model.Internship.Company.CompanyGuid).Select(m => new GalleryImage()
     {
         Url = m.Value
-    });
+    }).ToList();
 }
 
 @Html.RequireScript("/scripts/views/internship/detail")
@@ -47,7 +46,7 @@
                     </div>
                 </a>
             </div>
-            
+
             <div class="w-body-clear"></div>
         </div>
     </div>
@@ -58,7 +57,7 @@
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
             <div class="ui segment">
-                
+
                 @if (Model.Internship.ActivityStats.InternshipSubmissionsCount > 0)
                 {
                     <div class="ui red label left ribbon">@StringHelper.GetPluralWord(Model.Internship.ActivityStats.InternshipSubmissionsCount, "-", "1 zájemce", "{count} zájemci", "již {count} zájemců")</div>
@@ -107,7 +106,7 @@
                                 @if (Model.Internship.HasFlexibleHours)
                                 {
                                     @Html.RenderIcon("wait")
-                                    <span>Flexibilní pracovní doba <i class="checkmark green icon"></i></span>
+                                    <span>Flexibilní pracovní doba</span>
                                 }
                                 else
                                 {
@@ -128,9 +127,7 @@
                     </div>
 
                     <div class="w-margin-top-30">
-
                         @Html.Raw(Model.Internship.Description)
-
                     </div>
 
                 </div>
@@ -139,96 +136,127 @@
         </div>
     </div>
 
-    <div class="ui segment w-margin-top-30 w-body-text-center">
-        <h2>
-            Požadavky
-        </h2>
-
-        <div class="ui equal width grid ">
-            <div class="computer only column">
-                <h3>
-                    Jazyk
-                </h3>
-                <div class="ui list">
-                    @foreach (var requiredLanguage in Model.Internship.RequiredLanguages)
-                    {
-                        <div class="item">
-                            <div class="content">
-                                @Html.Raw(Helpers.CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
-                                @requiredLanguage.LanguageName
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-            <div class="computer only column">
-                <h3>
-                    Student
-                </h3>
-                <p>
-                    @Html.RenderIcon(Model.Internship.StudentStatusOption.IconClass) @Model.Internship.StudentStatusOption.StudentStatusName
-                </p>
-            </div>
-            <div class="computer only column">
-                <h3>
-                    Home office
-                </h3>
-                <p>
-                    @Html.RenderIcon(Model.Internship.StudentStatusOption.IconClass) @Model.Internship.HomeOfficeOption.HomeOfficeName
-                </p>
-            </div>
-        </div>
+    <div class="ui segment w-margin-top-30">
         <div class="ui grid">
-            <div class="tablet only mobile only sixteen wide mobile eight wide tablet column">
-                <div class="ui list">
-                    @foreach (var requiredLanguage in Model.Internship.RequiredLanguages)
-                    {
-                        <div class="item">
-                            <div class="content">
-                                @Html.Raw(Helpers.CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
-                                @requiredLanguage.LanguageName
-                            </div>
-                        </div>
-                    }
-                </div>
-                <div class="tablet only mobile only sixteen wide mobile eight wide tablet column">
-                    <h3>
-                        Student
-                    </h3>
-                    <p>
-                        @Html.RenderIcon(Model.Internship.StudentStatusOption.IconClass) @Model.Internship.StudentStatusOption.StudentStatusName
-                    </p>
-                </div>
-                <div class="tablet only mobile only sixteen wide mobile sixteen wide tablet column">
-                    <h3>
-                        Home office
-                    </h3>
-                    <p>
-                        @Html.RenderIcon(Model.Internship.StudentStatusOption.IconClass) @Model.Internship.HomeOfficeOption.HomeOfficeName
-                    </p>
-                </div>
-            </div>
+            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                <h2>
+                    Základní informace
+                </h2>
 
-            @if (!string.IsNullOrEmpty(Model.Internship.Requirements))
-            {
-                
-                <div class="w-margin-top-14 w-body-text-left">
-                    <p>
-                        @Html.Raw(Model.Internship.Requirements)
-                    </p>
-                </div>
-            }
+                <table class="ui three column very basic table w-body-text-center w-margin-top-30">
+                    <thead>
+                        <tr class="center aligned">
+                            <th>Firma</th>
+                            <th>Místo stáže</th>
+                            <th>Nástup od</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="center aligned">
+                            <td>
+                                <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
+                                    @Model.Internship.Company.CompanyName
+                                </a>    
+                            </td>
+                            <td>@Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Internship.CountryCode)) @Model.Internship.CountryName, @Model.Internship.City</td>
+                            <td>@DateHelper.FormatDate(Model.Internship.StartDate)</td>
+                        </tr>
+                </table>
+
+                <table class="ui three column very basic table w-body-text-center w-margin-top-30">
+                    <thead>
+                        <tr class="center aligned">
+                            <th>Délka stáže</th>
+                            <th>Odměna / mzda</th>
+                            <th>Pracovní doba</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="center aligned">
+                            <td>@InternshipHelper.GetInternshipDurationDisplayValue(Model.Internship.MinDurationType, Model.Internship.MinDurationInDefaultValue, Model.Internship.MaxDurationType, Model.Internship.MaxDurationInDefaultValue)</td>
+                            <td>
+                                @if (Model.Internship.IsPaid)
+                                {
+                                    <span>@(CurrencyHelper.DisplayCurrencyValue(Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
+                                }
+                                else
+                                {
+                                    <span>Neplaceno</span>
+                                }
+                            </td>
+                            <td>
+                                @if (Model.Internship.HasFlexibleHours)
+                                {
+                                    @Html.RenderIcon("wait")
+                                    <span>Flexibilní pracovní doba</span>
+                                }
+                                else
+                                {
+                                    @Html.RenderIcon("wait")
+                                    <span>@Model.Internship.WorkingHours</span>
+                                }
+                            </td>
+                        </tr>
+                </table>
+
+            </div>
         </div>
     </div>
+
+    <div class="ui segment w-margin-top-30">
+        <div class="ui grid">
+            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                <h2>
+                    Požadavky
+                </h2>
+
+                <table class="ui three column very basic table w-body-text-center">
+                    <thead>
+                        <tr class="center aligned">
+                            <th>Jazyk</th>
+                            <th>Pouze pro studenty</th>
+                            <th>Home office</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="center aligned">
+                            <td>
+                                @{
+                                    var languageCount = 0;
+                                }
+                                @foreach (var requiredLanguage in Model.Internship.RequiredLanguages)
+                                {
+                                    @Html.Raw(Helpers.CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
+                                    @requiredLanguage.LanguageName
+                                    if (languageCount != Model.Internship.RequiredLanguages.Count() - 1)
+                                    {
+                                        <br />
+                                    }
+                                    languageCount++;
+                                }
+                            </td>
+                            <td>@Model.Internship.StudentStatusOption.StudentStatusName</td>
+                            <td>@Model.Internship.HomeOfficeOption.HomeOfficeName</td>
+                        </tr>
+                </table>
+
+                <p>
+                    @Html.Raw(Model.Internship.Requirements)
+                </p>
+
+            </div>
+        </div>
+    </div>
+
 
     @if (galleryImages.Any())
     {
         <div class="ui segment w-margin-top-30">
             @Html.Partial("~/Views/Modules/Gallery/Base.cshtml", new GalleryView()
-       {
-           GalleryID = "_CompanyGallery",
-           Images = galleryImages
-       })
+                   {
+                       GalleryID = "_CompanyGallery",
+                       Images = galleryImages
+                   })
         </div>
     }
 

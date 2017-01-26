@@ -9,7 +9,9 @@
         &nbsp;<span>@Model.Master.CurrentUser.UserDisplayName</span>
         @if (Model.Master.StatusBox.NewMessagesCount > 0)
         {
-            <span class="w-color-secondary">&nbsp;(@Model.Master.StatusBox.NewMessagesCount)</span>
+            <span class="ui red label">
+                @Model.Master.StatusBox.NewMessagesCount
+            </span>
         }
     </a>
 }
