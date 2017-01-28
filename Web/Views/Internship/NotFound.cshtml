@@ -1,6 +1,5 @@
 ﻿@using UI.Helpers;
 @using Core.Helpers;
-@using UI.Extensions;
 @using UI.Builders.Shared.Enums
 @using Core.Config;
 @model UI.Builders.Internship.Views.InternshipNotFoundView
@@ -11,7 +10,7 @@
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 }
 
-@Html.RequireScript("/scripts/views/internship/notFound")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/internship/notFound")
 
 <div class="ui sixteen column grid">
     <div class="centered row w-margin-top-30">
@@ -27,7 +26,7 @@
         <div class="ten wide computer sixteen wide tablet sixteen wide mobile column w-body-text-left">
             <div class="ui very padded segment">
                 <p>
-                    Stáž, kterou hledáte neexistuje, expirovala nebo již není aktivní.
+                    Stáž, kterou hledáte neexistuje, expirovala nebo není aktivní.
                 </p>
             </div>
 

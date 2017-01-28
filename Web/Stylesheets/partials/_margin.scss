@@ -1,7 +1,7 @@
 ﻿@import "_base";
 
 #w-body-wrapper {
-    .w-margin-none{
+    .w-margin-none {
         margin: 0;
     }
 
@@ -9,47 +9,55 @@
         margin-top: 0;
     }
 
-    .w-margin-right-0{
+    .w-margin-right-0 {
         margin-right: 0;
     }
 
-    .w-margin-right-10{
+    .w-margin-right-10 {
         margin-right: 10px;
     }
 
-    .w-margin-left-0{
+    .w-margin-left-0 {
         margin-left: 0;
     }
 
-    .w-margin-left-5{
+    .w-margin-left-5 {
         margin-left: 5px;
     }
 
-    .w-margin-top-5{
+    .w-margin-top-5 {
         margin-top: 5px;
     }
 
-    .w-margin-top-10{
+    .w-margin-top-10 {
         margin-top: 10px;
     }
 
-    .w-margin-top-30{
+    .w-margin-top-30 {
         margin-top: 30px;
     }
 
-     .w-margin-top-14{
+    .w-margin-top-50 {
+        margin-top: 50px;
+    }
+
+    .w-margin-top-14 {
         margin-top: 14px;
     }
 
-    .w-margin-top-20{
-        margin-top: 20px;
-    }
-
-     .w-margin-top-70{
+    .w-margin-top-70 {
         margin-top: 70px;
     }
 
-    .w-margin-bottom-30{
+    .w-margin-top-100 {
+        margin-top: 100px;
+    }
+
+    .w-margin-top-20 {
+        margin-top: 20px;
+    }
+
+    .w-margin-bottom-30 {
         margin-bottom: 30px;
     }
 }

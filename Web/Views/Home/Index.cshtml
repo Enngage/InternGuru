@@ -1,19 +1,11 @@
-﻿@model UI.Builders.Master.Views.MasterView
+﻿@using UI.Builders.Shared.Enums
+@model UI.Builders.Master.Views.MasterView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Stáže v IT a technologických firmách";
     Model.Metadata.BasicMetadata.Description = "Stáže v IT a technologických firmých. Přihlaš se a získat potřebnou praxi a zkušenosti";
+    Model.Master.UiHeader.SetHeader(UiHeaderType.BackgroundImage, "Stáže", "/content/images/teaser.jpg","v IT a technologických firmách");
     Layout = "~/Views/Shared/Body/Light.cshtml";
 }
 
-<div>
-    <div class="w-teaser-image">
-        <h1>
-            Najdi si stáž snů
-            <span>
-                v IT a technologických firmách
-            </span>
-        </h1>
-    </div>
-</div>
 

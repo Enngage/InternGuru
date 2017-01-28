@@ -26,14 +26,20 @@
 #w-body-wrapper .w-margin-top-30 {
   margin-top: 30px; }
 
+#w-body-wrapper .w-margin-top-50 {
+  margin-top: 50px; }
+
 #w-body-wrapper .w-margin-top-14 {
   margin-top: 14px; }
 
-#w-body-wrapper .w-margin-top-20 {
-  margin-top: 20px; }
-
 #w-body-wrapper .w-margin-top-70 {
   margin-top: 70px; }
+
+#w-body-wrapper .w-margin-top-100 {
+  margin-top: 100px; }
+
+#w-body-wrapper .w-margin-top-20 {
+  margin-top: 20px; }
 
 #w-body-wrapper .w-margin-bottom-30 {
   margin-bottom: 30px; }
@@ -369,15 +375,6 @@
   color: #FF5733;
   border: 1px solid #2874a6; }
 
-#w-body-wrapper .pagination .PagedList-ellipses {
-  display: none; }
-
-#w-body-wrapper .pagination .PagedList-skipToNext {
-  display: none; }
-
-#w-body-wrapper .pagination .PagedList-skipToPrevious {
-  display: none; }
-
 #w-body-wrapper .w-footer {
   background-color: #232d32; }
 
@@ -387,20 +384,30 @@
   background-size: cover;
   min-height: 398px;
   /* Height of the teaser image */
-  padding-top: 170px;
-  padding-left: 15%;
-  background-image: url("/content/images//teaser.jpg"); }
+  padding-top: 130px;
+  /*padding-left: 15%;*/
+  text-align: center;
+  color: #FFF;
+  /* IMPORTANT */
+  /*background-image: url("/content/images//teaser.jpg");*/
+  /* Url of backround image needs to be configured in UIHeader*/ }
   #w-body-wrapper .w-teaser-image h1 {
-    color: #fff;
     font-family: "Rozha One",serif;
-    font-size: 55px;
+    font-size: 45px;
     font-weight: bold;
-    line-height: 70px;
-    margin: 0 0 17px;
+    line-height: 50px;
+    margin: 0 0 10px;
     text-shadow: 0 0 3px #7a7a7a; }
-    #w-body-wrapper .w-teaser-image h1 span {
-      font-size: 33px;
-      display: block; }
+  #w-body-wrapper .w-teaser-image .w-teaser-image-subtext {
+    font-size: 17px;
+    display: block;
+    font-weight: normal; }
+  #w-body-wrapper .w-teaser-image .w-teaser-image-button {
+    display: block;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 30px;
+    cursor: pointer; }
 
 #w-body-wrapper .w-teaser-boxes .column {
   margin-top: -75px;
@@ -568,6 +575,9 @@
 
 #w-body-wrapper .w-color-background-white {
   background: #ffffff; }
+
+#w-body-wrapper .w-color-background-dark {
+  background: #e8ebeb; }
 
 #w-body-wrapper .w-color-primary {
   color: #2185d0; }

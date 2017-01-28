@@ -1,6 +1,5 @@
 ﻿@model UI.Builders.Auth.Forms.AuthAddEditInternshipForm
 @using UI.Helpers;
-@using UI.Extensions;
 
 @{
     var formAction = Model.IsExistingInternship ? "EditInternship" : "NewInternship";
@@ -40,8 +39,8 @@
 
 }
 
-@Html.RequireScript("/scripts/views/auth/addEditInternship")
-@Html.RequireCss("/scripts/addons/datepicker-master/dist/datepicker.min")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/addEditInternship")
+@Helpers.ScriptHelper.RequireCss("/scripts/addons/datepicker-master/dist/datepicker.min")
 
 <h1>
     @Model.Title
@@ -55,7 +54,7 @@
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
 
-            @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
+            @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
 
             <form id="_InternshipForm" class="ui form">
 

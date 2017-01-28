@@ -1,5 +1,4 @@
 ﻿@using UI.Helpers;
-@using UI.Extensions;
 @model UI.Builders.Auth.Views.AuthAvatarView
 
 @{
@@ -11,12 +10,12 @@
 {
     @Html.AntiForgeryToken()
 
-    @Html.RenderInfoMessage($"Avatar bude automaticky zmenšen na {Core.Config.FileConfig.AvatarSideSize}x{Core.Config.FileConfig.AvatarSideSize} px")
+    @Helpers.MessageHelper.RenderInfoMessage($"Avatar bude automaticky zmenšen na {Core.Config.FileConfig.AvatarSideSize}x{Core.Config.FileConfig.AvatarSideSize} px")
 
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet six wide computer column">
 
-            @Html.RenderFormValidationResult(Model.AvatarForm.FormResult.IsSuccess)
+            @Helpers.MessageHelper.RenderFormValidationResult(Model.AvatarForm.FormResult.IsSuccess)
 
 
             <div>

@@ -1,5 +1,5 @@
 ﻿@model UI.Modules.InfoMessage.Views.InfoMessageView
-@using UI.Extensions;
+@using UI.Helpers
 @using UI.Modules.InfoMessage.Enums
 @{
     var messageClass = string.Empty;
@@ -29,7 +29,7 @@
 
 @if (showMessage)
 {
-    @Html.RequireScript("/scripts/views/infoMessage/base")
+    @Helpers.ScriptHelper.RequireScript("/scripts/views/infoMessage/base")
 
     <div id="@Model.MessageID" class="ui message _InfoMessageClosable @messageClass" data-messageid="@Model.MessageID" data-closedfordayscount="@Model.ClosedForDaysCount" data-rememberclosed="@Model.RememberClosed">
         @if (Model.IsClosable)

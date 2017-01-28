@@ -1,5 +1,4 @@
 ﻿@using UI.Helpers;
-@using UI.Extensions;
 @using Core.Helpers;
 @using PagedList.Mvc
 @model UI.Builders.Auth.Views.AuthIndexView
@@ -10,14 +9,14 @@
 
 }
 
-@Html.RequireScript("/scripts/views/auth/authIndex")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authIndex")
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
             @if (!Model.AuthMaster.Conversations.Any())
             {
-                @Html.RenderInfoMessage("Nejsou zde žádné zprávy")
+                @Helpers.MessageHelper.RenderInfoMessage("Nejsou zde žádné zprávy")
             }
             else
             {

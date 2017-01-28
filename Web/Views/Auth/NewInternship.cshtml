@@ -1,4 +1,4 @@
-﻿@using UI.Extensions;
+﻿@using UI.Helpers
 @model UI.Builders.Auth.Views.AuthNewInternshipView
 
 @{
@@ -14,7 +14,7 @@
 }
 else
 {
-    @Html.RenderWarningMessage("Vložit stáž lze jen pro zaregistrování firmy")
+    @Helpers.MessageHelper.RenderWarningMessage("Vložit stáž lze jen pro zaregistrování firmy")
 
     <a href="@Url.Action("RegisterCompany")">
         <div class="ui large button primary">

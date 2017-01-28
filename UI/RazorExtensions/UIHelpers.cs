@@ -14,10 +14,10 @@ namespace UI.RazorExtensions
         public UserHelper UserHelper { get; }
         public UrlHelper UrlHelper { get; }
         public PagerHelper PagerHelper { get; }
+        public ScriptHelper ScriptHelper { get; }
+        public MessageHelper MessageHelper { get; }
 
-        public UIHelpers(
-            WebViewPage webViewPage
-            )
+        public UIHelpers(WebViewPage webViewPage)
         {
             var webParameter = new ConstructorParameter("webViewPage", webViewPage);
 
@@ -27,6 +27,8 @@ namespace UI.RazorExtensions
             ImageHelper = KernelProvider.Get<ImageHelper>(webParameter);
             UserHelper = KernelProvider.Get<UserHelper>(webParameter);
             PagerHelper = KernelProvider.Get<PagerHelper>(webParameter);
+            ScriptHelper = KernelProvider.Get<ScriptHelper>(webParameter);
+            MessageHelper = KernelProvider.Get<MessageHelper>(webParameter);
         }
     }
 }

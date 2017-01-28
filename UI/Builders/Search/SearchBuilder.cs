@@ -56,7 +56,7 @@ namespace UI.Builders.Search
                 })
                 .Select(m => new SearchCityModel()
                 {
-                    City = m.Key.City,
+                    City = m.Key.City.ToAlphaNumeric(),
                     CountryCode = m.Key.CountryCode,
                     InternshipCount = m.Count()
                 });
@@ -118,7 +118,7 @@ namespace UI.Builders.Search
                     keywordList.Add(new SearchInternshipTitleModel()
                     {
                         InternshipCount = internship.InternshipCount,
-                        TitleKeyword = keyword.Trim()
+                        TitleKeyword = keyword.Trim().ToAlphaNumeric()
                     });
                 }
             }
@@ -177,7 +177,7 @@ namespace UI.Builders.Search
                     keywordList.Add(new SearchThesisKeywordModel()
                     {
                         ThesisCount = thesis.ThesisCount,
-                        ThesisKeyword = keyword.Trim()
+                        ThesisKeyword = keyword.Trim().ToAlphaNumeric()
                     });
                 }
             }

@@ -1,5 +1,4 @@
 ﻿@using UI.Helpers;
-@using UI.Extensions;
 @using Core.Helpers;
 @using PagedList.Mvc
 @model UI.Builders.Auth.Views.AuthIndexView
@@ -18,7 +17,7 @@
             {
                 if (!Model.AuthMaster.Internships.Any())
                 {
-                    @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné nabídky stáže")
+                    @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vystaveny žádné nabídky stáže")
                 }
                 else
                 {
@@ -78,7 +77,7 @@
             }
             else
             {
-                @Html.RenderInfoMessage("Pro přidání inzerátu musíte vytvořit firmu")
+                @Helpers.MessageHelper.RenderInfoMessage("Pro přidání inzerátu musíte vytvořit firmu")
             }
         </div>
     </div>

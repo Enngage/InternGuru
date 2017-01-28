@@ -158,11 +158,7 @@ namespace UI.Base
         /// </summary>
         private void InitializeUiHeader()
         {
-            UiHeader = new UiHeader()
-            {
-                Type = UiHeaderType.None,
-                Title = string.Empty
-            };
+            UiHeader = new UiHeader();
         }
 
         /// <summary>

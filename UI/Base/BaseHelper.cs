@@ -25,7 +25,7 @@ namespace UI.Base
             {
                 if (_webViewPage == null)
                 {
-                    throw new NotSupportedException($"WebViewPage was not initialized. The WebViewPage is available only when helper is initialized via '{typeof(UIHelpersWebViewPage<>).Name}' and inherits from '{typeof(WebViewPage).Name}'");
+                    throw new NotSupportedException($"WebViewPage was not initialized. The WebViewPage is available only when helper is initialized via '{typeof(UIHelpersWebViewPage<>).Name}' and inherits from '{typeof(WebViewPage).Name}'. Make sure that child class contains constructor.");
                 }
                 return _webViewPage;
             }

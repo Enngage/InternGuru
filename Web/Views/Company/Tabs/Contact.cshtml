@@ -1,5 +1,5 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
-@using UI.Extensions;
+@using UI.Helpers
 @{
     Model.Metadata.BasicMetadata.Title = $"{Model.Company.CompanyName} | Kontakt";
     Model.Metadata.BasicMetadata.Description = $"{Model.Company.LongDescription}";
@@ -16,7 +16,7 @@
 
         @Html.AntiForgeryToken()
 
-        @Html.RenderFormValidationResult(Model.ContactUsForm.FormResult.IsSuccess, "Zpráva byla odeslána")
+        @Helpers.MessageHelper.RenderFormValidationResult(Model.ContactUsForm.FormResult.IsSuccess, "Zpráva byla odeslána")
 
         @Html.Hidden("CompanyCodeName", Model.ContactUsForm.CompanyCodeName)
         @Html.Hidden("CompanyID", Model.ContactUsForm.CompanyID)

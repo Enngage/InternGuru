@@ -1,7 +1,7 @@
 ﻿@model UI.Builders.System.Views.SystemEventLogView
 @using Core.Helpers;
-@using UI.Extensions;
 @using PagedList.Mvc;
+@using UI.Helpers
 
 @{
     Model.Metadata.BasicMetadata.Title = $"Event log";
@@ -9,7 +9,7 @@
     Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 
-@Html.RequireScript("/scripts/views/system/eventLog")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/system/eventLog")
 
 <div class="ui grid">
 

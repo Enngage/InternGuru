@@ -1,10 +1,10 @@
 ﻿@model UI.Modules.GoogleMaps.Views.GoogleMapView
-@using UI.Extensions;
+@using UI.Helpers
 @{
     var apiKey = Core.Config.AppConfig.GoogleApiKey;
 }
 
-@Html.RequireScript($"//maps.googleapis.com/maps/api/js?key={apiKey}&amp;callback=initMap", 1, null, false, true, false)
+@Helpers.ScriptHelper.RequireScript($"//maps.googleapis.com/maps/api/js?key={apiKey}&amp;callback=initMap", 1, null, false, true, false)
 
 <script type="text/javascript">
     function initMap() {

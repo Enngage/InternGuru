@@ -1,5 +1,4 @@
 ﻿@using UI.Helpers;
-@using UI.Extensions;
 @using PagedList.Mvc
 @using Core.Helpers;
 @model UI.Builders.Auth.Views.AuthConversationView
@@ -25,7 +24,7 @@
                 @($"{Model.ConversationUser.DisplayName}")
             </h1>
 
-            @Html.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess, "Odesláno")
+            @Helpers.MessageHelper.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess, "Odesláno")
 
             <div class="ui reply form">
                 <div class="field">

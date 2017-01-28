@@ -1,6 +1,5 @@
 ﻿@model UI.Builders.Form.Views.FormInternshipView
 @using UI.Helpers;
-@using UI.Extensions;
 @{
     Model.Metadata.BasicMetadata.Title = $"Zájem | {Model.Internship.InternshipTitle}";
     Model.Metadata.BasicMetadata.Description = $"Zájem o stáž{Model.Internship.InternshipTitle} u firmy {Model.Internship.InternshipTitle}";
@@ -30,7 +29,7 @@
 
                     @Html.AntiForgeryToken()
 
-                    @Html.RenderFormValidationResult(Model.InternshipForm.FormResult.IsSuccess, "Zpráva byla odeslána")
+                    @Helpers.MessageHelper.RenderFormValidationResult(Model.InternshipForm.FormResult.IsSuccess, "Zpráva byla odeslána")
 
                     @Html.Hidden("InternshipID", Model.Internship.InternshipID)
 

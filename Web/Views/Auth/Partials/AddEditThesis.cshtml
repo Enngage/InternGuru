@@ -1,4 +1,4 @@
-﻿@using UI.Extensions;
+﻿@using UI.Helpers
 @model UI.Builders.Auth.Forms.AuthAddEditThesisForm
 
 @{   
@@ -10,7 +10,7 @@
     var currencyVal = Model.CurrencyID == 0 ? defaultCurrency?.ID : Model.CurrencyID;
 }
 
-@Html.RequireScript("/scripts/views/auth/addEditThesis")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/addEditThesis")
 
 <h1>
     @(Model.IsExistingThesis ? Model.ThesisName : "Nová nabídka")
@@ -24,7 +24,7 @@
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
 
-            @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
+            @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
 
             <div class="ui segment blue secondary inverted">
                 <div class="field">

@@ -1,5 +1,4 @@
-﻿@using UI.Extensions;
-@model UI.Builders.Master.Views.MasterView
+﻿@model UI.Builders.Master.Views.MasterView
 
 <!DOCTYPE html>
 
@@ -15,9 +14,9 @@
     @Html.Partial("Social/_SocialMetadata")
 
     @* CSS *@
-    @Html.RequireCss("/Semantic/dist/semantic.min", 100)
-    @Html.RequireCss("/Stylesheets/main.min", 100)
-    @Html.EmitRequiredCss()
+    @Helpers.ScriptHelper.RequireCss("/Semantic/dist/semantic.min", 100)
+    @Helpers.ScriptHelper.RequireCss("/Stylesheets/main.min", 100)
+    @Helpers.ScriptHelper.EmitRequiredCss()
 </head>
 <body id="w-body-wrapper">
     @* Navigation *@
@@ -39,11 +38,11 @@
     @Html.Partial("Social/_GoogleAnalytics")
 
     @* Priority needs to be highest for scripts on master page so that they are included first *@
-    @Html.RequireScript("/scripts/addons/respond.min", 100)
-    @Html.RequireScript("/scripts/requireConfig", 100)
-    @Html.RequireScript("/scripts/require", 100, "data-main=\"main\"")
+    @Helpers.ScriptHelper.RequireScript("/scripts/addons/respond.min", 100)
+    @Helpers.ScriptHelper.RequireScript("/scripts/requireConfig", 100)
+    @Helpers.ScriptHelper.RequireScript("/scripts/require", 100, "data-main=\"main\"")
 
     @* Render all scripts register using "RequireScript" extension method *@
-    @Html.EmitRequiredScripts()
+    @Helpers.ScriptHelper.EmitRequiredScripts()
 </body>
 </html>

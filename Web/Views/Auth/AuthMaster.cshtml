@@ -1,6 +1,5 @@
 ﻿@using UI.Builders.Auth.Enum
 @using UI.Helpers;
-@using UI.Extensions;
 @using UI.Modules.InfoMessage.Enums
 @using UI.Modules.InfoMessage.Views
 @model UI.Builders.Auth.Views.AuthMasterView
@@ -34,7 +33,7 @@
     var emailLogClass = activeMenuItem == AuthMenuActionEnum.EmailLog ? "active" : string.Empty;
 }
 
-@Html.RequireScript("/scripts/views/auth/authIndex")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authIndex")
 
 <div class="ui grid w-auth-header-fix">
     <div class="six wide tablet only four wide computer only column">

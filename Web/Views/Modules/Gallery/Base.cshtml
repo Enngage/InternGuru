@@ -1,8 +1,8 @@
 ﻿@model UI.Builders.Gallery.Views.GalleryView
-@using UI.Extensions;
+@using UI.Helpers
 
-@Html.RequireScript("/scripts/views/gallery/base")
-@Html.RequireCss("/scripts/addons/unitegallery-master/dist/css/unite-gallery")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/gallery/base")
+@Helpers.ScriptHelper.RequireCss("/scripts/addons/unitegallery-master/dist/css/unite-gallery")
 
 <div id="_GalleryID" data-id="@Model.GalleryID"></div>
 

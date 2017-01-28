@@ -1,8 +1,8 @@
 ﻿@model UI.Builders.Internship.Views.InternshipDetailView
 @using Core.Helpers;
 @using UI.Builders.Gallery.Views;
-@using UI.Extensions;
 @using UI.Builders.Gallery.Models;
+@using UI.Helpers
 @using UI.Modules.GoogleMaps.Views
 @{
     Model.Metadata.BasicMetadata.Title = $"{Model.Internship.Title} | Stáž";
@@ -18,7 +18,9 @@
     }).ToList();
 }
 
-@Html.RequireScript("/scripts/views/internship/detail")
+@TODO_HEADER
+
+@Helpers.ScriptHelper.RequireScript("/scripts/views/internship/detail")
 
 <div class="ui container w-margin-top-14">
     <div class="ui grid">
@@ -67,50 +69,50 @@
                     <div class="ui horizontal list">
                         <div class="item">
                             <div class="content">
-                                @Html.RenderIcon("home") <a href="@Url.Action("Index", "Company", new {codeName = Model.Internship.Company.CompanyCodeName})">
+                                @Helpers.MessageHelper.RenderIcon("home") <a href="@Url.Action("Index", "Company", new {codeName = Model.Internship.Company.CompanyCodeName})">
                                     @Model.Internship.Company.CompanyName
                                 </a>
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
-                                @Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Internship.CountryCode)) @Model.Internship.CountryName
+                                @Helpers.CountryHelper.GetCountryIcon(Model.Internship.CountryCode) @Model.Internship.CountryName
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
-                                @Html.RenderIcon("marker") @Model.Internship.City
+                                @Helpers.MessageHelper.RenderIcon("marker") @Model.Internship.City
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
                                 @if (Model.Internship.IsPaid)
                                 {
-                                    @Html.RenderIcon("money green")
+                                    @Helpers.MessageHelper.RenderIcon("money green")
                                     <span>@(CurrencyHelper.DisplayCurrencyValue(Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
                                 }
                                 else
                                 {
-                                    @Html.RenderIcon("money red")
+                                    @Helpers.MessageHelper.RenderIcon("money red")
                                     <span>Neplaceno</span>
                                 }
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
-                                @Html.RenderIcon("calendar") Nástup od @DateHelper.FormatDate(Model.Internship.StartDate)
+                                @Helpers.MessageHelper.RenderIcon("calendar") Nástup od @DateHelper.FormatDate(Model.Internship.StartDate)
                             </div>
                         </div>
                         <div class="item">
                             <div class="content">
                                 @if (Model.Internship.HasFlexibleHours)
                                 {
-                                    @Html.RenderIcon("wait")
+                                    @Helpers.MessageHelper.RenderIcon("wait")
                                     <span>Flexibilní pracovní doba</span>
                                 }
                                 else
                                 {
-                                    @Html.RenderIcon("wait")
+                                    @Helpers.MessageHelper.RenderIcon("wait")
                                     <span>@Model.Internship.WorkingHours</span>
                                 }
                             </div>
@@ -158,7 +160,7 @@
                                     @Model.Internship.Company.CompanyName
                                 </a>    
                             </td>
-                            <td>@Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Internship.CountryCode)) @Model.Internship.CountryName, @Model.Internship.City</td>
+                            <td>@Helpers.CountryHelper.GetCountryIcon(Model.Internship.CountryCode) @Model.Internship.CountryName, @Model.Internship.City</td>
                             <td>@DateHelper.FormatDate(Model.Internship.StartDate)</td>
                         </tr>
                 </table>
@@ -187,12 +189,12 @@
                             <td>
                                 @if (Model.Internship.HasFlexibleHours)
                                 {
-                                    @Html.RenderIcon("wait")
+                                    @Helpers.MessageHelper.RenderIcon("wait")
                                     <span>Flexibilní pracovní doba</span>
                                 }
                                 else
                                 {
-                                    @Html.RenderIcon("wait")
+                                    @Helpers.MessageHelper.RenderIcon("wait")
                                     <span>@Model.Internship.WorkingHours</span>
                                 }
                             </td>
@@ -226,7 +228,7 @@
                                 }
                                 @foreach (var requiredLanguage in Model.Internship.RequiredLanguages)
                                 {
-                                    @Html.Raw(Helpers.CountryHelper.GetCountryIcon(requiredLanguage.IconClass))
+                                    @Helpers.CountryHelper.GetCountryIcon(requiredLanguage.IconClass)
                                     @requiredLanguage.LanguageName
                                     if (languageCount != Model.Internship.RequiredLanguages.Count() - 1)
                                     {
@@ -265,12 +267,12 @@
 
             <div class="sixteen wide mobile six wide tablet four wide computer column">
                 <h2>
-                    O firmě
+                    Firmě
                 </h2>
                 <div class="ui list">
                     <div class="item">
                         <div class="content">
-                            @Html.RenderIcon("building")
+                            @Helpers.MessageHelper.RenderIcon("building")
                             <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
                                 @Model.Internship.Company.CompanyName
                             </a>
@@ -278,22 +280,22 @@
                     </div>
                     <div class="item">
                         <div class="content">
-                            @Html.RenderIcon("map") @Model.Internship.Company.City, @Model.Internship.Company.Address
+                            @Helpers.MessageHelper.RenderIcon("map") @Model.Internship.Company.City, @Model.Internship.Company.Address
                         </div>
                     </div>
                     <div class="item">
                         <div class="content">
-                            @Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Internship.Company.CountryCode)) @Model.Internship.Company.CountryName
+                            @Helpers.CountryHelper.GetCountryIcon(Model.Internship.Company.CountryCode) @Model.Internship.Company.CountryName
                         </div>
                     </div>
                     <div class="item">
                         <div class="content">
-                            @Html.RenderIcon("idea") Založeno @Model.Internship.Company.YearFounded
+                            @Helpers.MessageHelper.RenderIcon("idea") Založeno @Model.Internship.Company.YearFounded
                         </div>
                     </div>
                     <div class="item">
                         <div class="content">
-                            @Html.RenderIcon("users") <span>@Model.Internship.Company.CompanySizeName zaměstnanců</span>
+                            @Helpers.MessageHelper.RenderIcon("users") <span>@Model.Internship.Company.CompanySizeName zaměstnanců</span>
                         </div>
                     </div>
 
@@ -301,7 +303,7 @@
                     {
                         <div class="item">
                             <div class="content">
-                                @Html.RenderIcon("laptop")
+                                @Helpers.MessageHelper.RenderIcon("laptop")
                                 <a href="@Model.Internship.Company.Web">
                                     @Model.Internship.Company.Web
                                 </a>
@@ -315,19 +317,19 @@
                     @if (!string.IsNullOrEmpty(Model.Internship.Company.Facebook))
                     {
                         <a href="@Model.Internship.Company.Facebook">
-                            @Html.RenderIcon("facebook large w-color-facebook")
+                            @Helpers.MessageHelper.RenderIcon("facebook large w-color-facebook")
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.Internship.Company.Twitter))
                     {
                         <a href="@Model.Internship.Company.Twitter">
-                            @Html.RenderIcon("twitter large w-color-twitter")
+                            @Helpers.MessageHelper.RenderIcon("twitter large w-color-twitter")
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.Internship.Company.LinkedIn))
                     {
                         <a href="@Model.Internship.Company.LinkedIn">
-                            @Html.RenderIcon("linkedin large w-color-linkedin")
+                            @Helpers.MessageHelper.RenderIcon("linkedin large w-color-linkedin")
                         </a>
                     }
                 </div>

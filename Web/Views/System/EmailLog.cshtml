@@ -1,6 +1,6 @@
 ﻿@model UI.Builders.System.Views.SystemEmailLogView
 @using Core.Helpers;
-@using UI.Extensions;
+@using UI.Helpers
 
 @{
     Model.Metadata.BasicMetadata.Title = $"E-mail log";
@@ -11,7 +11,7 @@
     var onlyUnsentValue = onlyUnsentParam.Equals("true", StringComparison.OrdinalIgnoreCase);
 }
 
-@Html.RequireScript("/scripts/views/system/emailLog")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/system/emailLog")
 
 <div class="ui grid">
     <div class="sixteen wide column">

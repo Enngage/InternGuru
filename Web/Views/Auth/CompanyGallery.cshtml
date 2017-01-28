@@ -1,5 +1,4 @@
 ﻿@using UI.Helpers;
-@using UI.Extensions;
 @model UI.Builders.Auth.Views.CompanyGalleryView
 
 @{
@@ -7,8 +6,8 @@
     Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 
-@Html.RequireScript("/scripts/views/auth/authCompanyGallery")
-@Html.RequireCss("/scripts/addons/dropzone/dropzone")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authCompanyGallery")
+@Helpers.ScriptHelper.RequireCss("/scripts/addons/dropzone/dropzone")
 
 <div class="w-body-hide" id="_CompanyGalleryGuid" data-guid="@Model.Master.CurrentCompany.CompanyGuid"></div>
 
@@ -16,7 +15,7 @@
     Galerie
 </h1>
 
-@Html.RenderInfoMessage($"Pouze soubory typu <em>{string.Join(", ", Core.Config.FileConfig.AllowedImageExtensions)} </em> do velikosti <em>{Core.Helpers.ConvertHelper.FormatBytes(Core.Config.AppConfig.MaximumFileSize)}</em> budou uloženy")
+@Helpers.MessageHelper.RenderInfoMessage($"Pouze soubory typu <em>{string.Join(", ", Core.Config.FileConfig.AllowedImageExtensions)} </em> do velikosti <em>{Core.Helpers.ConvertHelper.FormatBytes(Core.Config.AppConfig.MaximumFileSize)}</em> budou uloženy")
 
 @using (Html.BeginForm("CompanyGallery", "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "dropzone", id = "_GalleryDropzoneForm" }))
 {
@@ -51,7 +50,7 @@
     }
 </div>
 
-@Html.RenderWarningMessage("Firefox dočasně nepodporuje výše použitý drag & drop a je nutno kliknout do okna pro výběr souborů")
+@Helpers.MessageHelper.RenderWarningMessage("Firefox dočasně nepodporuje výše použitý drag & drop a je nutno kliknout do okna pro výběr souborů")
 
 
 

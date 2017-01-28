@@ -1,7 +1,6 @@
 ﻿@model UI.Builders.Thesis.Views.ThesisBrowseView
 @using UI.Helpers;
 @using Core.Helpers;
-@using UI.Extensions;
 @using PagedList.Mvc;
 @using UI.Builders.Shared.Enums
 @{
@@ -15,10 +14,10 @@
     var totalThesesCount = Model.ThesisCategories.Sum(m => m.ThesesCount);
 
     //header
-    Model.Master.UiHeader.SetHeader(UiHeaderType.Violet, Model.Metadata.BasicMetadata.Title);
+    Model.Master.UiHeader.SetHeader(UiHeaderType.Colored, UIHeaderColor.Violet, Model.Metadata.BasicMetadata.Title);
 }
 
-@Html.RequireScript("/scripts/views/thesis/browseTheses")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/thesis/browseTheses")
 
 @using (Html.BeginForm("Search", "Theses", FormMethod.Get, null))
 {
@@ -87,7 +86,7 @@
 
                 @if (!Model.Theses.Any())
                 {
-                    @Html.RenderWarningMessage("Žádné závěrečné práce nebyly nalezeny")
+                    @Helpers.MessageHelper.RenderWarningMessage("Žádné závěrečné práce nebyly nalezeny")
                 }
                 else
                 {

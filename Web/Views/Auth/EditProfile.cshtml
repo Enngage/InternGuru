@@ -1,4 +1,4 @@
-﻿@using UI.Extensions;
+﻿@using UI.Helpers
 @model UI.Builders.Auth.Views.AuthEditProfileView
 
 @{
@@ -18,7 +18,7 @@
             
             <div class="ui form">
 
-                @Html.RenderFormValidationResult(Model.ProfileForm.FormResult.IsSuccess)
+                @Helpers.MessageHelper.RenderFormValidationResult(Model.ProfileForm.FormResult.IsSuccess)
                 
                 <div class="disabled field">
                     <label>E-mail</label>

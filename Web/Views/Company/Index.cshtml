@@ -1,6 +1,6 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
 @using UI.Builders.Company.Enum
-@using UI.Extensions;
+@using UI.Helpers
 @using UI.Modules.GoogleMaps.Views
 @{
     Model.Metadata.Social.GoogleMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid);
@@ -14,7 +14,7 @@
     var thesisTabClass = Model.ActiveTab == CompanyDetailMenuEnum.Theses ? "active" : null;
 }
 
-@Html.RequireScript("/scripts/views/company/detail")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/company/detail")
 
 <div class="ui container w-margin-top-20">
     <div class="ui grid">
@@ -71,7 +71,7 @@
                 <div class="ui list w-font-size-small">
                     <div class="item">
                         <div class="content">
-                            @Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Company.CountryCode))
+                            @Helpers.CountryHelper.GetCountryIcon(Model.Company.CountryCode)
                             @{
                                 <strong>@Model.Company.CountryName</strong>
                             }

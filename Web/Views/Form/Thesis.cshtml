@@ -1,6 +1,5 @@
 ﻿@model UI.Builders.Form.Views.FormThesisView
 @using UI.Helpers;
-@using UI.Extensions;
 @{
     Model.Metadata.BasicMetadata.Title = $"Zájem | {Model.Thesis.ThesisName}";
     Model.Metadata.BasicMetadata.Description = $"Zájem o závěrečnou práci {Model.Thesis.ThesisName} u firmy {Model.Thesis.CompanyName}";
@@ -30,7 +29,7 @@
 
                     @Html.AntiForgeryToken()
 
-                    @Html.RenderFormValidationResult(Model.ThesisForm.FormResult.IsSuccess, "Zpráva byla odeslána")
+                    @Helpers.MessageHelper.RenderFormValidationResult(Model.ThesisForm.FormResult.IsSuccess, "Zpráva byla odeslána")
 
                     @Html.Hidden("ThesisID", Model.Thesis.ID)
 

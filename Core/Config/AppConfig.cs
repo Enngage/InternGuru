@@ -79,6 +79,26 @@ namespace Core.Config
         /// </summary>
         public static string Country => ConfigurationManager.AppSettings["Country"];
 
+        /// <summary>
+        /// Company name
+        /// </summary>
+        public static string CompanyName => ConfigurationManager.AppSettings["CompanyName"];
+
+        /// <summary>
+        /// Phone Contact (telephone number)
+        /// </summary>
+        public static string PhoneNumber => ConfigurationManager.AppSettings["PhoneNumber"];
+
+        /// <summary>
+        /// Company Lattitude
+        /// </summary>
+        public static double CompanyLat => Convert.ToDouble(ConfigurationManager.AppSettings["CompanyLat"]);
+
+        /// <summary>
+        /// Company Longtitude
+        /// </summary>
+        public static double CompanyLng => Convert.ToDouble(ConfigurationManager.AppSettings["CompanyLng"]);
+
         #endregion
 
         #region Files

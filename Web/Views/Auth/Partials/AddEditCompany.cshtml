@@ -1,6 +1,5 @@
 ﻿@using Core.Helpers
 @using UI.Helpers;
-@using UI.Extensions;
 @model UI.Builders.Auth.Forms.AuthAddEditCompanyForm
 
 @{
@@ -8,7 +7,7 @@
     var submitButtonText = Model.IsExistingCompany ? "Uložit" : "Registrovat";
 }
 
-@Html.RequireScript("/scripts/views/auth/addEditCompany")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/addEditCompany")
 
 <h1>
     @(Model.IsExistingCompany ? Model.CompanyName : "Registrovat firmu")
@@ -21,11 +20,11 @@
 
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-          @Html.RenderFormValidationResult(Model.FormResult.IsSuccess)
+          @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
             
           @if (Model.IsNewlyRegisteredCompany)
           {
-              @Html.RenderSuccessMessage("Firma byla úspěšně zaregistrována")
+              @Helpers.MessageHelper.RenderSuccessMessage("Firma byla úspěšně zaregistrována")
           }
         </div>
 

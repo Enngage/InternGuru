@@ -1,7 +1,7 @@
 ﻿@model UI.Builders.Internship.Views.InternshipBrowseView
 @using Core.Helpers;
-@using UI.Extensions;
 @using UI.Builders.Shared.Enums
+@using UI.Helpers
 @{
     Model.Metadata.BasicMetadata.Title = "Nabídka stáží";
     Model.Metadata.BasicMetadata.Description = "Najdi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
@@ -15,10 +15,10 @@
     var totalInternshipCount = Model.InternshipCategories.Sum(m => m.InternshipCount);
 
     //header
-    Model.Master.UiHeader.SetHeader(UiHeaderType.Green, Model.Metadata.BasicMetadata.Title);
+    Model.Master.UiHeader.SetHeader(UiHeaderType.Colored, UIHeaderColor.Green, Model.Metadata.BasicMetadata.Title);
 }
 
-@Html.RequireScript("/scripts/views/internship/browseInternships")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/internship/browseInternships")
 
 @using (Html.BeginForm("Search", "Internships", FormMethod.Get, null))
 {
@@ -96,7 +96,7 @@
 
                 @if (!Model.Internships.Any())
                 {
-                    @Html.RenderWarningMessage("Žádné stáže nebyly nalezeny")
+                    @Helpers.MessageHelper.RenderWarningMessage("Žádné stáže nebyly nalezeny")
                 }
                 else
                 {
@@ -109,7 +109,7 @@
                             <th>
                                 Město
                             </th>
-                            <th>
+                            <th class="collapsing">
                                 Délka stáže
                             </th>
                         </tr>
@@ -128,7 +128,7 @@
                                     <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
                                 </td>
                                 <td>
-                                    @Html.Raw(Helpers.CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
+                                    @Helpers.CountryHelper.GetCountryIcon(internship.CountryCode) @internship.City
                                 </td>
                                 <td class="collapsing w-body-text-right w-mobile-left">
                                     @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)

@@ -7,6 +7,12 @@ namespace Cache
     internal static class CacheDependency
     {
 
+        #region Variables
+
+        private static readonly object ListLock = new object();
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -32,12 +38,16 @@ namespace Cache
         /// <param name="key">Key</param>
         public static void TouchKey(string key)
         {
-            foreach (var dict in CacheSetupList.ToList())
+            // lock - only 1 thread can access cache list at a time
+            lock (ListLock)
             {
-                if (CacheSetupDependsOnKey(key, dict.Value))
+                foreach (var dict in CacheSetupList.ToList())
                 {
-                    // remove cache setup from cache
-                    CacheSetupList.Remove(dict.Key);
+                    if (CacheSetupDependsOnKey(key, dict.Value))
+                    {
+                        // remove cache setup from cache
+                        CacheSetupList.Remove(dict.Key);
+                    }
                 }
             }
         }
@@ -59,15 +69,23 @@ namespace Cache
         /// <param name="cacheSetup">cacheSetup</param>
         public static void AddCacheSetup(ICacheSetup cacheSetup)
         {
+            // lock - only 1 thread can access cache list at a time
+            lock (ListLock)
+            {
 
-            if (!CacheSetupList.ContainsKey(cacheSetup.CacheKey))
-            {
-                cacheSetup.SetUpdated(DateTime.Now);
-                CacheSetupList.Add(cacheSetup.CacheKey, cacheSetup);
-            }
-            else
-            {
-                CacheSetupList[cacheSetup.CacheKey].SetUpdated(DateTime.Now);
+                if (!CacheSetupList.ContainsKey(cacheSetup.CacheKey))
+                {
+                    cacheSetup.SetUpdated(DateTime.Now);
+
+                    CacheSetupList.Add(cacheSetup.CacheKey, cacheSetup);
+                }
+
+                else
+                {
+                    {
+                        CacheSetupList[cacheSetup.CacheKey].SetUpdated(DateTime.Now);
+                    }
+                }
             }
         }
 
@@ -78,11 +96,7 @@ namespace Cache
         /// <returns>True if data should be retrieved from cache, false otherwise</returns>
         public static bool GetDataFromCache(ICacheSetup cacheSetup)
         {
-            if (CacheSetupList.ContainsKey(cacheSetup.CacheKey))
-            {
-                return true;
-            }
-            return false;
+            return CacheSetupList.ContainsKey(cacheSetup.CacheKey);
         }
 
         /// <summary>

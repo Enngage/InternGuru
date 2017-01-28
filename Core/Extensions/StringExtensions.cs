@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Core.Extensions
 {
@@ -11,6 +12,16 @@ namespace Core.Extensions
                 return false;
             }
             return src.IndexOf(toCheck, comp) >= 0;
+        }
+
+        public static string ToAlphaNumeric(this string src)
+        {
+            return new string(Array.FindAll(src.ToCharArray(), char.IsLetterOrDigit));
+        }
+
+        public static string ToAlphaNumeric(this string src, params char[] allowedCharacters)
+        {
+            return new string(Array.FindAll(src.ToCharArray(), c => char.IsLetterOrDigit(c) || allowedCharacters.Contains(c)));
         }
     }
 }

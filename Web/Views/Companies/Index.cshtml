@@ -1,17 +1,16 @@
 ﻿@model UI.Builders.Company.Views.CompanyBrowseView
-@using UI.Extensions;
 @using Core.Helpers;
 @using UI.Builders.Company.Enum
 @using UI.Builders.Shared.Enums
+@using UI.Helpers
 @{
     Model.Metadata.BasicMetadata.Title = "Přehled firem";
     Model.Metadata.BasicMetadata.Description = "Přehled firem";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
-    Model.Master.UiHeader.SetHeader(UiHeaderType.Blue, Model.Metadata.BasicMetadata.Title);
+    Model.Master.UiHeader.SetHeader(UiHeaderType.Colored, UIHeaderColor.Blue, Model.Metadata.BasicMetadata.Title);
 }
 
-@Html.RequireScript("/scripts/views/company/browse")
-
+@Helpers.ScriptHelper.RequireScript("/scripts/views/company/browse")
 
 <div class="ui centered grid">
     <div class="ui sixteen wide column">
@@ -64,11 +63,11 @@
 </div>
 
 <div id="_AllCompaniesLoaded" class="w-margin-top-20 w-body-text-center">
-    @Html.RenderInfoMessage("Všechny firmy načteny")
+    @Helpers.MessageHelper.RenderInfoMessage("Všechny firmy načteny")
 </div>
 
 <div id="_NoCompaniesFound" class="w-margin-top-20 w-body-text-center">
-    @Html.RenderWarningMessage("Žádné firmy nebyly nalezeny")
+    @Helpers.MessageHelper.RenderWarningMessage("Žádné firmy nebyly nalezeny")
 </div>
 
 

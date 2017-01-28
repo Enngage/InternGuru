@@ -1,7 +1,6 @@
 ﻿@model UI.Builders.Thesis.Views.ThesisDetailView
 @using UI.Helpers;
 @using Core.Helpers;
-@using UI.Extensions;
 @using UI.Modules.GoogleMaps.Views
 
 @{
@@ -12,7 +11,7 @@
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 }
 
-@Html.RequireScript("/scripts/views/thesis/detail")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/thesis/detail")
 
 <div class="ui container w-margin-top-14">
     <div class="ui grid">
@@ -63,7 +62,7 @@
                         </div>
                         <div class="item">
                             <div class="content">
-                                @Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode))
+                                @Helpers.CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode)
                                 @Model.Thesis.Company.CountryName
                             </div>
                         </div>
@@ -121,7 +120,7 @@
                     </div>
                     <div class="item">
                         <div class="content">
-                            @Html.Raw(Helpers.CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode)) @Model.Thesis.Company.CountryName
+                            @Helpers.CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode) @Model.Thesis.Company.CountryName
                         </div>
                     </div>
                     <div class="item">

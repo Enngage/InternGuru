@@ -1,5 +1,4 @@
 ﻿@using UI.Helpers;
-@using UI.Extensions;
 @using Core.Helpers;
 @using PagedList.Mvc
 @model UI.Builders.Auth.Views.AuthIndexView
@@ -15,7 +14,7 @@
         <div class="ui segment">
             @if (!Model.AuthMaster.Theses.Any())
             {
-                @Html.RenderInfoMessage("Dosud nebyly vystaveny žádné práce")
+                @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vystaveny žádné práce")
             }
             else
             {

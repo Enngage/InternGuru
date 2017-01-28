@@ -1,4 +1,5 @@
 ﻿
+using System.Web;
 using System.Web.Mvc;
 using UI.Base;
 
@@ -8,9 +9,9 @@ namespace UI.Helpers
     {
         public CountryHelper(WebViewPage webViewPage) : base(webViewPage) { }
 
-        public string GetCountryIcon(string countryIconClass)
+        public IHtmlString GetCountryIcon(string countryIconClass)
         {
-            return GetCountryIconStatic(countryIconClass);
+            return WebViewPage.Html.Raw(GetCountryIconStatic(countryIconClass));
         }
 
         #region Static methods
