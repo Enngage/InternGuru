@@ -1,5 +1,0 @@
-C:\Users\Yazoo\Dropbox\ytrank\Cache\bin\Release\Cache.dll
-C:\Users\Yazoo\Dropbox\ytrank\Cache\bin\Release\Cache.pdb
-C:\Users\Yazoo\Dropbox\ytrank\Cache\obj\Release\Cache.dll
-C:\Users\Yazoo\Dropbox\ytrank\Cache\obj\Release\Cache.pdb
-C:\Users\Yazoo\Dropbox\ytrank\Cache\obj\Release\Cache.csprojResolveAssemblyReference.cache
