@@ -69,12 +69,12 @@ namespace Core.Config
         /// <summary>
         /// Company banner width in px
         /// </summary>
-        public static int CompanyBannerWidth => 1280;
+        public static int CompanyBannerWidth => 0; // 0 = no resize
 
         /// <summary>
         /// Company banner height in px
         /// </summary>
-        public static int CompanyBannerHeight => 280;
+        public static int CompanyBannerHeight => 0; // 0 = no resize
 
         /// <summary>
         /// Path where banners will be stored

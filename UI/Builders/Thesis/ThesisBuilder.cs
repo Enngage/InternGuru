@@ -97,6 +97,9 @@ namespace UI.Builders.Thesis
                 EntityKeys.KeyCreateAny<Entity.Thesis>(),
                 EntityKeys.KeyUpdateAny<Entity.Thesis>(),
                 EntityKeys.KeyDeleteAny<Entity.Thesis>(),
+                EntityKeys.KeyUpdateAny<Entity.Company>(),
+                EntityKeys.KeyCreateAny<Entity.Company>(),
+                EntityKeys.KeyDeleteAny<Entity.Company>()
             };
 
             var thesesQuery = Services.ThesisService.GetAll()
@@ -138,7 +141,8 @@ namespace UI.Builders.Thesis
                          CompanySizeName = m.Company.CompanySize.CompanySizeName,
                          LongDescription = m.Company.LongDescription, 
                     },
-                });
+                })
+                .OrderByDescending(m => m.ID);
 
             var theses = await Services.CacheService.GetOrSet(async () => await thesesQuery.ToListAsync(), cacheSetup);
 

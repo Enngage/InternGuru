@@ -1,0 +1,53 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+
+    .w-price-column {
+        font-weight: 600;
+
+        .w-price-header-segment {
+            background: #f9f9f9;
+            color: $color-base;
+        }
+
+        .w-price-body-segment {
+            background: #fdfdfd;
+            color: $color-base;
+        }
+
+        .w-price-header-segment.highlighted {
+            background: #0691f2;
+            color: #fff;
+        }
+
+        .w-price-body-segment.highlighted {
+            background: #3ea9f5;
+            color: #fff;
+        }
+
+        .w-price-header-base {
+            .item:first-of-type {
+                margin-top: 0;
+            }
+
+            .item {
+                margin-top: 30px;
+            }
+        }
+
+        .w-price-header-list {
+            @extend .w-price-header-base;
+            font-size: $font-size-huge;
+        }
+
+        .w-price-sublist {
+            @extend .w-price-header-base;
+            font-size: $font-size-large;
+        }
+
+        .w-price-list {
+            @extend .w-price-header-base;
+            font-size: $font-size-base;
+        }
+    }
+}

@@ -1,20 +1,16 @@
 ﻿@model UI.Builders.Thesis.Views.ThesisBrowseView
-@using UI.Helpers;
 @using Core.Helpers;
-@using PagedList.Mvc;
 @using UI.Builders.Shared.Enums
 @{
     Model.Metadata.BasicMetadata.Title = "Závěrečné práce";
     Model.Metadata.BasicMetadata.Description = "Najdi si závěrečnou práci (diplomová práce nebo bakalářská práce) z uvedené nabídky, získej odměnu za svou práci, nauč se něčemu nového a hlavně pracuj na něčem, co dává smysl.";
+    Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Inherit, UIHeaderColorEnum.Violet, Model.Metadata.BasicMetadata.Title);
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 
-    var currentCategory = Helpers.UrlHelper.GetRouteParam("category", string.Empty);
-    var searchVal = Helpers.UrlHelper.GetQueryString("search", string.Empty);
+    var currentCategory = Helpers.UrlHelper.GetRouteParam("category", string.Empty) ?? string.Empty;
+    var searchVal = Helpers.UrlHelper.GetQueryString("search", string.Empty) ?? string.Empty;
 
     var totalThesesCount = Model.ThesisCategories.Sum(m => m.ThesesCount);
-
-    //header
-    Model.Master.UiHeader.SetHeader(UiHeaderType.Colored, UIHeaderColor.Violet, Model.Metadata.BasicMetadata.Title);
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/thesis/browseTheses")
@@ -93,14 +89,14 @@
                     <table class="ui very basic table w-table-listing _ThesesListingTable">
                         <thead>
                         <tr>
-                            <th>
-                                Firma
-                            </th>
-                            <th>
+                            <th colspan="2">
                                 Název práce (odměna)
                             </th>
-                            <th>
+                            <th class="collapsing">
                                 Typ práce
+                            </th>
+                            <th class="collapsing">
+                                Přidáno   
                             </th>
                         </tr>
                         </thead>
@@ -122,6 +118,9 @@
                                 </td>
                                 <td class="collapsing w-body-text-right w-mobile-left">
                                     @thesis.ThesisTypeNameConverted
+                                </td>
+                                <td class="collapsing w-body-text-right w-mobile-left">
+                                    @DateHelper.FormatDate(thesis.Created)
                                 </td>
                             </tr>
                         }

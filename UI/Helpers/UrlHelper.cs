@@ -107,5 +107,34 @@ namespace UI.Helpers
             return WebViewPage.ViewContext.RouteData.Values[name]?.ToString() ?? defaultValue;
         }
 
+        /// <summary>
+        /// Gets URL to Facebook profile based on userName
+        /// </summary>
+        /// <param name="userName">UserName of facebook account</param>
+        /// <returns>URL to Facebook profile</returns>
+        public string GetFacebookUrl(string userName)
+        {
+            return $"https://www.facebook.com/{userName}";
+        }
+
+        /// <summary>
+        /// Gets URL to Twitter profile based on userName
+        /// </summary>
+        /// <param name="userName">UserName of Twitter account</param>
+        /// <returns>URL to Twitter profile</returns>
+        public string GetTwitterUrl(string userName)
+        {
+            return $"https://www.twitter.com/{userName}";
+        }
+
+        /// <summary>
+        /// Gets URL to LinkedIn profile based on userName
+        /// </summary>
+        /// <param name="userName">UserName of LinkedIn account</param>
+        /// <returns>URL to LinkedIn profile</returns>
+        public string GetLinkedInUrl(string userName)
+        {
+            return $"https://www.linkedin.com/company/{userName}";
+        }
     }
 }

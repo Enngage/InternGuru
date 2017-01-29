@@ -1,7 +1,72 @@
 ﻿@import "_base";
 
 #w-body-wrapper {
-    .w-header {
+    /* Base styles */
+    .w-header .w-header-subtext {
+        font-size: $font-size-large;
+        display: block;
+        font-weight: normal;
+    }
+
+    .w-header .w-header-button {
+        display: block;
+        font-weight: normal;
+        text-align: center;
+        margin-top: 30px;
+        cursor: pointer;
+    }
+
+    .w-header-buttons{
+        margin-top: 70px;
+
+        .w-header-button{
+            display: inline;
+            margin: 0 10px;
+        }
+    }
+
+    /* HEADER TEXT ALIGNMENT */
+    .w-header-alignment.left {
+        text-align: left;
+    }
+
+    .w-header-alignment.center {
+        text-align: center;
+    }
+
+    .w-header-alignment.right {
+        text-align: right;
+    }
+    /* HEADER SIZES */
+    .w-header-size.inherit {
+        /* Height is not set - use when elements inside header have their own margin */
+    }
+
+    .w-header-size.small {
+        min-height: 150px; /* Height of the teaser image */
+    }
+
+    .w-header-size.medium {
+        min-height: 250px; /* Height of the teaser image */
+    }
+
+    .w-header-size.large {
+        min-height: 400px; /* Height of the teaser image */
+    }
+    /* COLORED HEADER*/
+    .w-header-size.large.w-header-colored {
+        padding-top: 160px;
+    }
+
+    .w-header-size.medium.w-header-colored {
+        padding-top: 85px;
+    }
+
+    .w-header-size.small.w-header-colored {
+        padding-top: 30px;
+    }
+
+    .w-header-colored {
         padding: 50px 0;
         display: block;
         color: #FFFFFF;
@@ -11,15 +76,50 @@
         }
     }
 
-    .w-header.blue {
+    .w-header-colored.blue {
         background-color: #4a6df7;
     }
 
-    .w-header.green {
+    .w-header-colored.green {
         background-color: #18a836;
     }
 
-    .w-header.violet {
+    .w-header-colored.violet {
         background-color: #852fc4;
+    }
+
+    .w-header-colored.darkblack {
+        background-color: #192023;
+    }
+    /* BACKGROUND IMAGE HEADER */
+    .w-header-size.large.w-header-background-image {
+        padding-top: 160px;
+    }
+
+    .w-header-size.medium.w-header-background-image {
+        padding-top: 85px;
+    }
+
+    .w-header-size.small.w-header-background-image {
+        padding-top: 30px;
+    }
+
+    .w-header-background-image {
+        /* Important - size of the header needs to be set using the w-header-size classes*/
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        text-align: center;
+        color: #FFF;
+        /* IMPORTANT */
+        /*background-image: url("/content/images//teaser.jpg");*/ /* Url of backround image needs to be configured in UIHeader*/
+        h1 {
+            font-family: "Rozha One",serif;
+            font-size: 45px;
+            font-weight: bold;
+            line-height: 50px;
+            margin: 0 0 10px;
+            text-shadow: 0 0 3px #7a7a7a;
+        }
     }
 }

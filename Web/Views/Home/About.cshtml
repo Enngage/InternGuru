@@ -1,11 +1,47 @@
-﻿@model UI.Builders.Master.Views.MasterView
+﻿@using UI.Builders.Shared.Enums
+@model UI.Builders.Master.Views.MasterView
 
 @{
     Model.Metadata.BasicMetadata.Title = "O nás";
+    Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Large, UIHeaderColorEnum.DarkBlack, "We want to help every creator in the world achieve sustainable income.", "some text");
+    Model.Master.UiHeader.SetTextAlignment(UIHeaderTextAlignmentEnum.Center);
+    Model.Master.UiHeader.AddButton("Registrovat firmu", Url.Action("RegisterCompany", "Auth"), UIHeaderButtonTypeEnum.Secondary);
+    Model.Master.UiHeader.AddButton("Procházet stáže", Url.Action("Index", "Internships"), UIHeaderButtonTypeEnum.Primary);
     Layout = "~/Views/Shared/Body/Light.cshtml";
 }
 
-<h1>
-    @Model.Metadata.BasicMetadata.Title
-</h1>
+@Helpers.ScriptHelper.RequireScript("/scripts/views/home/about")
+
+<div class="w-color-background-darkblack">
+    <div class="ui container">
+        <div class="w-body-text-center w-font-white">
+            <div>
+                <h2>
+                    Kdo za webem stojí?
+                </h2>
+                <div class="w-margin-top-50 w-padding-bottom-70">
+                    <div class="ui special centered cards">
+                        <div class="card w-override-card-on-dark-background _AboutUsCard">
+                            <div class="blurring dimmable image">
+                                <div class="ui dimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <a href="https://www.linkedin.com/in/richard-šůstek-8740a9a9">
+                                                <div class="ui inverted button">LinkedIn</div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img alt="" src="/Content/Images/Devs/rs.jpg">
+                            </div>
+                            <div class="content">
+                                <a  href="https://www.linkedin.com/in/richard-šůstek-8740a9a9" class="header">Richard Šůstek</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

@@ -1,10 +1,11 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
 @using UI.Builders.Company.Enum
-@using UI.Helpers
+@using UI.Builders.Shared.Enums
 @using UI.Modules.GoogleMaps.Views
 @{
     Model.Metadata.Social.GoogleMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid);
     Model.Metadata.Social.OpenGraphMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid);
+    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, null, Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid));
 
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 
@@ -16,17 +17,18 @@
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/company/detail")
 
-<div class="ui container w-margin-top-20">
+@*<div class="ui container w-margin-top-20">
     <div class="ui grid">
-        <div id="_CompanyScrollAnchor" class="sixteen wide column w-padding-bottom-0">
+        <div class="sixteen wide column w-padding-bottom-0">
             <img alt="@Model.Company.CompanyName banner" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid)" class="ui image fluid w-company-detail-banner" />
         </div>
     </div>
-</div>
+</div>*@
 
 <div id="_CompanyMenuWrapper" class="w-company-fixed-wrapper">
-    <div class="ui container">
-        <div class="ui vertical segment w-company-menu-wrapper">
+    <div class="ui vertical segment w-company-menu-wrapper">
+        <div class="ui container">
+
             <img alt="Logo" class="ui mini image w-company-icon" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Company.CompanyGuid)">
 
             <h1>
@@ -34,18 +36,18 @@
             </h1>
 
             <div id="_CompanyRightMenu" class="ui secondary pointing menu w-company-menu">
-                <a class="item @aboutTabClass" href="@Url.Action("Index", "Company", new { codeName = Model.Company.CodeName})">
+                <a class="item @aboutTabClass" href="@Url.Action("Index", "Company", new {codeName = Model.Company.CodeName})">
                     O nás
                 </a>
-                <a class="item @internshipTabClass" href="@Url.Action("Internships", "Company", new { codeName = Model.Company.CodeName})">
+                <a class="item @internshipTabClass" href="@Url.Action("Internships", "Company", new {codeName = Model.Company.CodeName})">
                     Stáže
                     <span class="w-font-light">&nbsp;(@Model.Company.Internships.Count())</span>
                 </a>
-                <a class="item @thesisTabClass" href="@Url.Action("Theses", "Company", new { codeName = Model.Company.CodeName})">
+                <a class="item @thesisTabClass" href="@Url.Action("Theses", "Company", new {codeName = Model.Company.CodeName})">
                     Závěrečné práce
                     <span class="w-font-light">&nbsp;(@Model.Company.Theses.Count())</span>
                 </a>
-                <a class="item @contactTabClass" href="@Url.Action("Contact", "Company", new { codeName = Model.Company.CodeName})">
+                <a class="item @contactTabClass" href="@Url.Action("Contact", "Company", new {codeName = Model.Company.CodeName})">
                     Kontakt
                 </a>
             </div>
@@ -113,25 +115,28 @@
                         </div>
                     </div>
                 </div>
-
-                <hr />
+                
+                @if (!string.IsNullOrEmpty(Model.Company.Facebook) || !string.IsNullOrEmpty(Model.Company.Twitter) || !string.IsNullOrEmpty(Model.Company.LinkedIn))
+                {
+                    <hr />
+                }
 
                 <div class="w-company-social-icons">
                     @if (!string.IsNullOrEmpty(Model.Company.Facebook))
                     {
-                        <a href="@Model.Company.Facebook">
+                        <a href="@Helpers.UrlHelper.GetFacebookUrl(Model.Company.Facebook)">
                             <i class="facebook icon w-color-facebook"></i>
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.Company.Twitter))
                     {
-                        <a href="@Model.Company.Twitter">
+                        <a href="@Helpers.UrlHelper.GetTwitterUrl(Model.Company.Twitter)">
                             <i class="twitter icon w-color-facebook"></i>
                         </a>
                     }
                     @if (!string.IsNullOrEmpty(Model.Company.LinkedIn))
                     {
-                        <a href="@Model.Company.LinkedIn">
+                        <a href="@Helpers.UrlHelper.GetLinkedInUrl(Model.Company.LinkedIn)">
                             <i class="linkedin icon w-color-linkedin"></i>
                         </a>
                     }

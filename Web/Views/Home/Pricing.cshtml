@@ -1,16 +1,57 @@
-﻿@using System.Threading
+﻿@using UI.Builders.Shared.Enums
 @model UI.Builders.Master.Views.MasterView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Ceník";
+    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Large, "Ceník", "/content/images/contact-us-hero.jpg", "Mauris auctor, enim at dapibus blandit, sapien metus varius libero, sed cursus sem orci sit amet massa.");
+    Model.Master.UiHeader.UseScrollButton = true;
+    Model.Master.UiHeader.SetTextAlignment(UIHeaderTextAlignmentEnum.Center);
     Layout = "~/Views/Shared/Body/Light.cshtml";
 }
 
-<h1>
-    @Model.Metadata.BasicMetadata.Title
-</h1>
-
-<p>
-    @Thread.CurrentThread.CurrentCulture.Name
-</p>
-
+<div class="ui container w-margin-top-50 w-margin-bottom-50">
+    <div class="ui centered grid">
+        <div class="sixteen wide mobile twelve wide tablet six wide computer column w-price-column">
+            <div class="ui segment vertical very padded w-price-header-segment highlighted">
+                <div>
+                    <div class="ui list w-price-header-list">
+                        <div class="item">Zdarma</div>
+                    </div>
+                    <div class="ui list w-price-header-sublist">
+                        <div class="item">0 Kč</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui segment vertical very padded w-price-body-segment highlighted">
+                <div class="ui list w-price-list">
+                    <div class="item">Registrace firmy zdarma</div>
+                    <div class="item">Neomezeně stáží</div>
+                    <div class="item">Neomezeně závěrečných prací</div>
+                    <div class="item">Jednoduchá správa nabídek</div>
+                    <div class="item">E-mailové notifikace uchazečů</div>
+                    <div class="item">Nabídky okamžitě viditelné v přehledu</div>
+                </div>
+            </div>
+        </div>
+        <div class="sixteen wide mobile twelve wide tablet six wide computer column w-price-column">
+            <div class="ui segment vertical very padded w-price-header-segment w-price-bordered-segment">
+                <div>
+                    <div class="ui list w-price-header-list">
+                        <div class="item">Pro</div>
+                    </div>
+                    <div class="ui list w-price-header-sublist">
+                        <div class="item"><em>V přípravě</em></div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui segment vertical very padded w-price-body-segment w-price-bordered-segment">
+                <div class="ui list w-price-list">
+                    <div class="item">Vše z předchozího balíčku</div>
+                    <div class="item">30 dnů jedna zvýrazněná nabídka</div>
+                    <div class="item">Facebook kampaň</div>
+                    <div class="item"><em>V přípravě další</em></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

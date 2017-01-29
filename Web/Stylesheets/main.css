@@ -29,6 +29,9 @@
 #w-body-wrapper .w-margin-top-50 {
   margin-top: 50px; }
 
+#w-body-wrapper .w-margin-bottom-50 {
+  margin-bottom: 50px; }
+
 #w-body-wrapper .w-margin-top-14 {
   margin-top: 14px; }
 
@@ -43,6 +46,9 @@
 
 #w-body-wrapper .w-margin-bottom-30 {
   margin-bottom: 30px; }
+
+#w-body-wrapper .w-margin-bottom-14 {
+  margin-bottom: 14px; }
 
 #w-body-wrapper .w-menu-main {
   margin-top: 0;
@@ -180,7 +186,9 @@
   /* Segment start*/
   /* Segment end */
   /* Labeled dropdown start*/
-  /* Labeled dropdown end*/ }
+  /* Labeled dropdown end*/
+  /* Semantic Cards*/
+  /* Semantic cards end*/ }
   #w-body-wrapper .w-override-border-radius {
     border-radius: 0.285714rem; }
   #w-body-wrapper .w-override-no-button {
@@ -203,6 +211,8 @@
     #w-body-wrapper .ui.dropdown .menu .item:hover {
       background: #2185d0;
       color: #FFFFFF; }
+  #w-body-wrapper .w-override-card-on-dark-background {
+    box-shadow: none; }
 
 @media (max-width: 991px) and (min-width: 768px) {
   #w-body-wrapper .w-tablet-hide {
@@ -290,6 +300,9 @@
 #w-body-wrapper .w-font-light {
   color: #828282; }
 
+#w-body-wrapper .w-font-white {
+  color: #FFF; }
+
 #w-body-wrapper .w-font-bold {
   font-weight: 700; }
 
@@ -314,6 +327,9 @@
 #w-body-wrapper .w-padding-bottom-30 {
   padding-bottom: 30px; }
 
+#w-body-wrapper .w-padding-bottom-14 {
+  padding-bottom: 14px; }
+
 #w-body-wrapper .w-padding-top-30 {
   padding-top: 30px; }
 
@@ -331,6 +347,12 @@
 
 #w-body-wrapper .w-padding-bottom-0 {
   padding-bottom: 0; }
+
+#w-body-wrapper .w-padding-bottom-70 {
+  padding-bottom: 70px; }
+
+#w-body-wrapper .w-padding-bottom-100 {
+  padding-bottom: 100px; }
 
 #w-body-wrapper .w-padding-all-15 {
   padding: 15px; }
@@ -377,48 +399,6 @@
 
 #w-body-wrapper .w-footer {
   background-color: #232d32; }
-
-#w-body-wrapper .w-teaser-image {
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 398px;
-  /* Height of the teaser image */
-  padding-top: 130px;
-  /*padding-left: 15%;*/
-  text-align: center;
-  color: #FFF;
-  /* IMPORTANT */
-  /*background-image: url("/content/images//teaser.jpg");*/
-  /* Url of backround image needs to be configured in UIHeader*/ }
-  #w-body-wrapper .w-teaser-image h1 {
-    font-family: "Rozha One",serif;
-    font-size: 45px;
-    font-weight: bold;
-    line-height: 50px;
-    margin: 0 0 10px;
-    text-shadow: 0 0 3px #7a7a7a; }
-  #w-body-wrapper .w-teaser-image .w-teaser-image-subtext {
-    font-size: 17px;
-    display: block;
-    font-weight: normal; }
-  #w-body-wrapper .w-teaser-image .w-teaser-image-button {
-    display: block;
-    font-weight: normal;
-    text-align: center;
-    margin-top: 30px;
-    cursor: pointer; }
-
-#w-body-wrapper .w-teaser-boxes .column {
-  margin-top: -75px;
-  font-size: 16px; }
-
-#w-body-wrapper .w-teaser-boxes .column p {
-  color: #828282; }
-
-#w-body-wrapper .w-teaser-box-margin-fix {
-  margin-top: 30px;
-  /* make some space because of the "w-teaser-boxes .column" negative margin */ }
 
 #w-body-wrapper .w-segment-light {
   background-color: #ffffff; }
@@ -519,11 +499,11 @@
   #w-body-wrapper .w-internship-menu-wrapper .w-internship-icon {
     float: left;
     margin-right: 10px;
-    margin-left: 15px;
+    margin-left: 0;
     margin-top: 8px; }
   #w-body-wrapper .w-internship-menu-wrapper .w-internship-menu-right {
     float: right;
-    margin-right: 20px; }
+    margin-right: 0; }
 
 #w-body-wrapper .w-auth-menu .item.active {
   border-bottom: solid 3px #FF5733; }
@@ -576,8 +556,14 @@
 #w-body-wrapper .w-color-background-white {
   background: #ffffff; }
 
+#w-body-wrapper .w-color-background-light {
+  background: #ffffff; }
+
 #w-body-wrapper .w-color-background-dark {
   background: #e8ebeb; }
+
+#w-body-wrapper .w-color-background-darkblack {
+  background: #192023; }
 
 #w-body-wrapper .w-color-primary {
   color: #2185d0; }
@@ -594,19 +580,110 @@
 #w-body-wrapper .w-color-twitter {
   color: #55acee; }
 
-#w-body-wrapper .w-header {
-  padding: 50px 0;
-  display: block;
-  color: #FFFFFF; }
-  #w-body-wrapper .w-header h1 {
+#w-body-wrapper {
+  /* Base styles */
+  /* HEADER TEXT ALIGNMENT */
+  /* HEADER SIZES */
+  /* COLORED HEADER*/
+  /* BACKGROUND IMAGE HEADER */ }
+  #w-body-wrapper .w-header .w-header-subtext {
+    font-size: 17px;
+    display: block;
+    font-weight: normal; }
+  #w-body-wrapper .w-header .w-header-button {
+    display: block;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 30px;
+    cursor: pointer; }
+  #w-body-wrapper .w-header-buttons {
+    margin-top: 70px; }
+    #w-body-wrapper .w-header-buttons .w-header-button {
+      display: inline;
+      margin: 0 10px; }
+  #w-body-wrapper .w-header-alignment.left {
+    text-align: left; }
+  #w-body-wrapper .w-header-alignment.center {
+    text-align: center; }
+  #w-body-wrapper .w-header-alignment.right {
+    text-align: right; }
+  #w-body-wrapper .w-header-size.inherit {
+    /* Height is not set - use when elements inside header have their own margin */ }
+  #w-body-wrapper .w-header-size.small {
+    min-height: 150px;
+    /* Height of the teaser image */ }
+  #w-body-wrapper .w-header-size.medium {
+    min-height: 250px;
+    /* Height of the teaser image */ }
+  #w-body-wrapper .w-header-size.large {
+    min-height: 400px;
+    /* Height of the teaser image */ }
+  #w-body-wrapper .w-header-size.large.w-header-colored {
+    padding-top: 160px; }
+  #w-body-wrapper .w-header-size.medium.w-header-colored {
+    padding-top: 85px; }
+  #w-body-wrapper .w-header-size.small.w-header-colored {
+    padding-top: 30px; }
+  #w-body-wrapper .w-header-colored {
+    padding: 50px 0;
+    display: block;
+    color: #FFFFFF; }
+    #w-body-wrapper .w-header-colored h1 {
+      font-size: 30px; }
+  #w-body-wrapper .w-header-colored.blue {
+    background-color: #4a6df7; }
+  #w-body-wrapper .w-header-colored.green {
+    background-color: #18a836; }
+  #w-body-wrapper .w-header-colored.violet {
+    background-color: #852fc4; }
+  #w-body-wrapper .w-header-colored.darkblack {
+    background-color: #192023; }
+  #w-body-wrapper .w-header-size.large.w-header-background-image {
+    padding-top: 160px; }
+  #w-body-wrapper .w-header-size.medium.w-header-background-image {
+    padding-top: 85px; }
+  #w-body-wrapper .w-header-size.small.w-header-background-image {
+    padding-top: 30px; }
+  #w-body-wrapper .w-header-background-image {
+    /* Important - size of the header needs to be set using the w-header-size classes*/
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    color: #FFF;
+    /* IMPORTANT */
+    /*background-image: url("/content/images//teaser.jpg");*/
+    /* Url of backround image needs to be configured in UIHeader*/ }
+    #w-body-wrapper .w-header-background-image h1 {
+      font-family: "Rozha One",serif;
+      font-size: 45px;
+      font-weight: bold;
+      line-height: 50px;
+      margin: 0 0 10px;
+      text-shadow: 0 0 3px #7a7a7a; }
+
+#w-body-wrapper .w-price-column {
+  font-weight: 600; }
+  #w-body-wrapper .w-price-column .w-price-header-segment {
+    background: #f9f9f9;
+    color: #232d32; }
+  #w-body-wrapper .w-price-column .w-price-body-segment {
+    background: #fdfdfd;
+    color: #232d32; }
+  #w-body-wrapper .w-price-column .w-price-header-segment.highlighted {
+    background: #0691f2;
+    color: #fff; }
+  #w-body-wrapper .w-price-column .w-price-body-segment.highlighted {
+    background: #3ea9f5;
+    color: #fff; }
+  #w-body-wrapper .w-price-column .w-price-header-base .item:first-of-type, #w-body-wrapper .w-price-column .w-price-header-list .item:first-of-type, #w-body-wrapper .w-price-column .w-price-sublist .item:first-of-type, #w-body-wrapper .w-price-column .w-price-list .item:first-of-type {
+    margin-top: 0; }
+  #w-body-wrapper .w-price-column .w-price-header-base .item, #w-body-wrapper .w-price-column .w-price-header-list .item, #w-body-wrapper .w-price-column .w-price-sublist .item, #w-body-wrapper .w-price-column .w-price-list .item {
+    margin-top: 30px; }
+  #w-body-wrapper .w-price-column .w-price-header-list {
     font-size: 30px; }
-
-#w-body-wrapper .w-header.blue {
-  background-color: #4a6df7; }
-
-#w-body-wrapper .w-header.green {
-  background-color: #18a836; }
-
-#w-body-wrapper .w-header.violet {
-  background-color: #852fc4; }
+  #w-body-wrapper .w-price-column .w-price-sublist {
+    font-size: 17px; }
+  #w-body-wrapper .w-price-column .w-price-list {
+    font-size: 14px; }
 

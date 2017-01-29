@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
+using UI.Attributes;
 using UI.Base;
 using UI.Builders.Auth.Models;
 
@@ -54,7 +55,7 @@ namespace UI.Builders.Auth.Forms
 
         public string Facebook { get; set; }
 
-        [Required(ErrorMessage = "Velikost firmy nemůže být prázdná")]
+        [Required(ErrorMessage = "Zvolte velikost firmy")]
         public int CompanySizeID { get; set; }
         public string CompanySizeName { get; set; }
 

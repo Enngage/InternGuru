@@ -214,7 +214,11 @@
     <Compile Include="Builders\Master\Models\MasterMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterOpenGraphMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterSocial.cs" />
-    <Compile Include="Builders\Shared\Enums\UIHeaderColor.cs" />
+    <Compile Include="Builders\Shared\Enums\UIHeaderButtonTypeEnum.cs" />
+    <Compile Include="Builders\Shared\Enums\UIHeaderColorEnum.cs" />
+    <Compile Include="Builders\Shared\Enums\UIHeaderSizeEnum.cs" />
+    <Compile Include="Builders\Shared\Enums\UIHeaderTextAlignmentEnum.cs" />
+    <Compile Include="Builders\Shared\Models\UIHeaderButton.cs" />
     <Compile Include="Helpers\MessageHelper.cs" />
     <Compile Include="Helpers\ScriptHelper.cs" />
     <Compile Include="Modules\CompanyGallery\CompanyGalleryBuilder.cs" />
@@ -243,7 +247,7 @@
     <Compile Include="Builders\Form\Models\FormThesisModel.cs" />
     <Compile Include="Builders\Form\Views\FormThesisView.cs" />
     <Compile Include="Builders\Search\Models\SearchThesisKeywordModel.cs" />
-    <Compile Include="Builders\Shared\Enums\UIHeaderType.cs" />
+    <Compile Include="Builders\Shared\Enums\UIHeaderTypeEnum.cs" />
     <Compile Include="Builders\Shared\Models\ISystemContext.cs" />
     <Compile Include="Modules\Header\UIHeader.cs" />
     <Compile Include="Builders\Shared\Models\IUIHeader.cs" />

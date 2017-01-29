@@ -20,12 +20,12 @@
 
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-          @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
-            
-          @if (Model.IsNewlyRegisteredCompany)
-          {
-              @Helpers.MessageHelper.RenderSuccessMessage("Firma byla úspěšně zaregistrována")
-          }
+            @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
+
+            @if (Model.IsNewlyRegisteredCompany)
+            {
+                @Helpers.MessageHelper.RenderSuccessMessage("Firma byla úspěšně zaregistrována")
+            }
         </div>
 
         <div class="sixteen wide mobile eight wide tablet sixteen wide computer column">
@@ -170,19 +170,22 @@
 
             <div class="field">
                 <label>Facebook</label>
-                <input name="Facebook" placeholder="např. http://facebook.com/myCompany" type="text" value="@(Model.Facebook)">
+                <span class="w-font-size-small"><em>Zadejte název uživatele z URL. Například <strong>Microsoft</strong> dle facebook.com/<strong>Microsoft</strong> </em></span>
+                <input name="Facebook" placeholder="např. Microsoft" type="text" value="@(Model.Facebook)">
             </div>
 
             <div class="field">
                 <label>Twitter</label>
-                <input name="Twitter" placeholder="např. http://twitter.com/myCompany" type="text" value="@(Model.Twitter)">
+                <span class="w-font-size-small"><em>Zadejte název uživatele z URL. Například <strong>NatGeo</strong> dle twitter.com/<strong>NatGeo</strong></em></span>
+                <input name="Twitter" placeholder="např. NatGeo" type="text" value="@(Model.Twitter)">
             </div>
 
             <div class="field">
                 <label>LinkedIn</label>
-                <input name="LinkedIn" placeholder="např. http://linkedin.com/company/myCompany" type="text" value="@(Model.LinkedIn)">
+                <span class="w-font-size-small"><em>Zadejte název uživatele z URL. Například <strong>Apple</strong> dle linkedin.com/company/<strong>apple</strong></em></span>
+                <input name="LinkedIn" placeholder="např. Apple" type="text" value="@(Model.LinkedIn)">
             </div>
-            
+
 
             <h4 class="ui dividing header">
                 Logo & Banner
@@ -200,7 +203,16 @@
 
             <div class="field">
                 <label>
-                    Banner <span class="w-font-weight-base">(ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight) px)</span>
+                    Banner <span class="w-font-weight-base">
+                            @if (Core.Config.FileConfig.CompanyBannerWidth == 0 && Core.Config.FileConfig.CompanyBannerHeight == 0)
+                            {
+                                <span>Ideální šířka je 1080px a výška 250px (obrázek bude přizpůsoben bez změny rozměrů)</span>
+                            }
+                            else
+                            {
+                                <span>ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight)px)</span>
+                            }
+                    </span>
                 </label>
 
                 <img class="ui image w-company-detail-banner" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.CompanyGuid, true)" src="@Helpers.ImageHelper.GetTransparentImage()" alt="Banner" />

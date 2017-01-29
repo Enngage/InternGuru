@@ -5,8 +5,9 @@
 
 @{
     Model.Metadata.BasicMetadata.Title = "Kontakt";
-    Model.Master.UiHeader.SetHeader(UiHeaderType.BackgroundImage, "Kontakt", "/content/images/contact-us-hero.jpg", "Mauris auctor, enim at dapibus blandit, sapien metus varius libero, sed cursus sem orci sit amet massa.");
+    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Large, "Kontakt", "/content/images/contact-us-hero.jpg", "Mauris auctor, enim at dapibus blandit, sapien metus varius libero, sed cursus sem orci sit amet massa.");
     Model.Master.UiHeader.UseScrollButton = true; 
+    Model.Master.UiHeader.SetTextAlignment(UIHeaderTextAlignmentEnum.Center);
     Layout = "~/Views/Shared/Body/Light.cshtml";
 }
 
@@ -115,7 +116,7 @@
                     </div>
                 </div>
             </div>
-            <div class="sixteen wide mobile sixteen wide tablet eight wide computer column w-margin-bottom-30">
+            <div class="sixteen wide mobile sixteen wide tablet eight wide computer column w-margin-bottom-14">
                 @Html.Partial("~/Views/Modules/GoogleMaps/GoogleMap.cshtml",
                     new GoogleMapView()
                     {

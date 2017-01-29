@@ -1,7 +1,7 @@
 ﻿
 namespace UI.Builders.Shared.Enums
 {
-    public enum UiHeaderType
+    public enum UiHeaderTypeEnum
     {
         None,
         BackgroundImage,

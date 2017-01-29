@@ -1,21 +1,14 @@
-﻿@model UI.Builders.Form.Views.FormThesisView
-@using UI.Helpers;
+﻿@using UI.Builders.Shared.Enums
+@model UI.Builders.Form.Views.FormThesisView
 @{
     Model.Metadata.BasicMetadata.Title = $"Zájem | {Model.Thesis.ThesisName}";
     Model.Metadata.BasicMetadata.Description = $"Zájem o závěrečnou práci {Model.Thesis.ThesisName} u firmy {Model.Thesis.CompanyName}";
+    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, null, Helpers.ImageHelper.GetCompanyBanner(Model.Thesis.CompanyGuid));
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 
 }
 
 <div class="w-padding-bottom-30">
-
-    <div class="ui container w-margin-top-20">
-        <div class="ui grid">
-            <div class="sixteen wide column">
-                <img alt="@Model.Thesis.CompanyName banner" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.Thesis.CompanyGuid)" class="ui image fluid w-company-detail-banner" />
-            </div>
-        </div>
-    </div>
 
     <div class="ui container">
         <div class="ui grid">

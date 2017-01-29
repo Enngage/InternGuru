@@ -5,49 +5,75 @@
 
 @{
     var header = Model?.Master?.UiHeader ?? new UiHeader();
+    var baseHeaderClassName = "w-header";
+    var headerSizeClass = $"w-header-size {header.Size.ToString().ToLower()}";
+    var headerAlignmentClass = $"w-header-alignment {header.TextAlignment.ToString().ToLower()}";
 }
 
 @{
     switch (header.Type)
     {
-        case UiHeaderType.Colored:
+        case UiHeaderTypeEnum.Colored:
             {
-                var headerClassName = $"w-header {header.Color.ToString().ToLower()}";
+                var headerClassName = $"w-header-colored {header.Color.ToString().ToLower()} {headerSizeClass} {headerAlignmentClass} {baseHeaderClassName}";
                 <div id="_UIHeaderWrapper">
                     <div class="@headerClassName">
                         <div class="ui container">
                             <h1>
                                 @(header.Title)
                             </h1>
+                            @if (!string.IsNullOrEmpty(header.Text))
+                            {
+                                <span class="w-header-subtext">
+                                    @header.Text
+                                </span>
+                            }
+                            @if (header.Buttons.Any())
+                            {
+                                <div class="w-header-buttons">
+                                    @foreach (var button in header.Buttons)
+                                    {
+                                        <div class="w-header-button">
+                                            <a href="@button.ButtonUrl">
+                                                <div class="ui button @button.Type.ToString().ToLower()">
+                                                    @button.Text
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
                 break;
             }
-        case UiHeaderType.BackgroundImage:
+        case UiHeaderTypeEnum.BackgroundImage:
             {
                 <div id="_UIHeaderWrapper">
-                    <div class="w-teaser-image" style="background-image: url(@header.ImagePath)">
-                        @if (!string.IsNullOrEmpty(header.Title))
-                        {
-                            <h1>
-                                @header.Title
-                            </h1>
-                        }
-                        @if (!string.IsNullOrEmpty(header.Text))
-                        {
-                            <span class="w-teaser-image-subtext">
-                                @header.Text
-                            </span>
-                        }
-                        @if (header.UseScrollButton)
-                        {
-                            //Include script only when scroll button is used
-                            @Helpers.ScriptHelper.RequireScript("/scripts/views/modules/uiHeader")
-                            <span class="w-teaser-image-button _UIHeaderMove">
-                                <i class="angle down icon huge"></i>
-                            </span>
-                        }
+                    <div class="w-header-background-image @(headerSizeClass) @(headerAlignmentClass) @(baseHeaderClassName)" style="background-image: url(@header.ImagePath)">
+                        <div class="ui container">
+                            @if (!string.IsNullOrEmpty(header.Title))
+                            {
+                                <h1>
+                                    @header.Title
+                                </h1>
+                            }
+                            @if (!string.IsNullOrEmpty(header.Text))
+                            {
+                                <span class="w-header-subtext">
+                                    @header.Text
+                                </span>
+                            }
+                            @if (header.UseScrollButton)
+                            {
+                                //Include script only when scroll button is used
+                                @Helpers.ScriptHelper.RequireScript("/scripts/views/modules/uiHeader")
+                                <span class="w-header-button _UIHeaderMove">
+                                    <i class="angle down icon huge"></i>
+                                </span>
+                            }
+                        </div>
                     </div>
                 </div>
                 break;

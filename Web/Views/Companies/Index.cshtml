@@ -1,13 +1,11 @@
 ﻿@model UI.Builders.Company.Views.CompanyBrowseView
 @using Core.Helpers;
-@using UI.Builders.Company.Enum
 @using UI.Builders.Shared.Enums
-@using UI.Helpers
 @{
     Model.Metadata.BasicMetadata.Title = "Přehled firem";
     Model.Metadata.BasicMetadata.Description = "Přehled firem";
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
-    Model.Master.UiHeader.SetHeader(UiHeaderType.Colored, UIHeaderColor.Blue, Model.Metadata.BasicMetadata.Title);
+    Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Inherit, UIHeaderColorEnum.Blue, Model.Metadata.BasicMetadata.Title);
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/company/browse")

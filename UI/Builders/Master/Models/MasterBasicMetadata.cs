@@ -52,7 +52,7 @@
 
         /// <summary>
         /// Basic metadata description
-        /// Description is not limited in size. For shortened version use "DescriptionShortened" property
+        /// Description is not limited in size. 
         /// </summary>
         public string Description { get; set; }
     }

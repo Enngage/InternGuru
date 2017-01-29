@@ -1,10 +1,11 @@
 ﻿@model UI.Builders.Internship.Views.InternshipBrowseView
 @using Core.Helpers;
 @using UI.Builders.Shared.Enums
-@using UI.Helpers
 @{
     Model.Metadata.BasicMetadata.Title = "Nabídka stáží";
     Model.Metadata.BasicMetadata.Description = "Najdi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
+    Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Inherit, UIHeaderColorEnum.Green, Model.Metadata.BasicMetadata.Title);
+
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 
     var currentCategory = Helpers.UrlHelper.GetRouteParam("category", string.Empty) ?? string.Empty;
@@ -13,9 +14,6 @@
     var cityVal = Helpers.UrlHelper.GetQueryString("city", string.Empty);
 
     var totalInternshipCount = Model.InternshipCategories.Sum(m => m.InternshipCount);
-
-    //header
-    Model.Master.UiHeader.SetHeader(UiHeaderType.Colored, UIHeaderColor.Green, Model.Metadata.BasicMetadata.Title);
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/internship/browseInternships")
