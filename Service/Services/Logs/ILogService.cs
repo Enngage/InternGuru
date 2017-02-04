@@ -8,6 +8,6 @@ namespace Service.Services.Logs
     {
         void LogException(Exception ex, string url = null, string userName = null);
         Task LogExceptionAsync(Exception ex);
-        Task LogExceptionAsync(Exception ex, string url = null, string userName = null);
+        Task LogExceptionAsync(Exception ex, string url, string userName);
     }
 }

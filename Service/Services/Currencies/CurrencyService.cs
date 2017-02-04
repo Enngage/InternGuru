@@ -13,54 +13,15 @@ namespace Service.Services.Currencies
 
         public CurrencyService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            var currency = AppContext.Currencies.Find(id);
-
-            if (currency != null)
-            {
-                // delete currency
-                AppContext.Currencies.Remove(currency);
-
-                // touch cache keys
-                TouchDeleteKeys(currency);
-
-                // save changes
-                return SaveChangesAsync(SaveEventType.Delete, currency);
-            }
-
-            return Task.FromResult(0);
-        }
-
-        public Task<Currency> GetAsync(int id)
-        {
-            return AppContext.Currencies.FirstOrDefaultAsync(m => m.ID == id);
-        }
-
-        public IQueryable<Currency> GetAll()
-        {
-            return AppContext.Currencies;
-        }
-
-        public IQueryable<Currency> GetSingle(int id)
-        {
-            return AppContext.Currencies.Where(m => m.ID == id).Take(1);
-        }
-
-        public Task<int> InsertAsync(Currency obj)
+        public override Task<int> InsertAsync(Currency obj)
         {
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            AppContext.Currencies.Add(obj);
-
-            // touch cache keys
-            TouchInsertKeys(obj);
-
-            return SaveChangesAsync(SaveEventType.Insert, obj);
+            return base.InsertAsync(obj);
         }
 
-        public Task<int> UpdateAsync(Currency obj)
+        public override Task<int> UpdateAsync(Currency obj)
         {
             var currency = AppContext.Currencies.Find(obj.ID);
 
@@ -72,19 +33,13 @@ namespace Service.Services.Currencies
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            // update log
-            AppContext.Entry(currency).CurrentValues.SetValues(obj);
-
-            // touch cache keys
-            TouchUpdateKeys(currency);
-
             // save changes
-            return SaveChangesAsync(SaveEventType.Update, obj, currency);
+            return base.UpdateAsync(obj, currency);
         }
 
-        public async Task<IEnumerable<Currency>> GetAllCachedAsync()
+        public override IDbSet<Currency> GetEntitySet()
         {
-            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
+            return this.AppContext.Currencies;
         }
     }
 }

@@ -45,10 +45,10 @@ namespace UI.Events
             CurrentUser = currentUser;
             CurrentUrl = url;
 
-            Services.MessageService.OnInsertAfterObject += MessageService_OnInsertObject;
+            Services.MessageService.OnInsertAfterObject += MessageService_OnInsertAfterObject;
 
-            Services.InternshipService.OnUpdateAfterObject += InternshipService_OnUpdateObject;
-            Services.InternshipService.OnInsertAfterObject += InternshipService_OnInsertObject;
+            Services.InternshipService.OnUpdateAfterObject += InternshipService_OnUpdateAfterObject;
+            Services.InternshipService.OnInsertAfterObject += InternshipService_OnInsertAfterObject;
         }
 
         #endregion
@@ -60,7 +60,7 @@ namespace UI.Events
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MessageService_OnInsertObject(object sender, Service.Events.InsertEventArgs<Entity.Message> e)
+        private void MessageService_OnInsertAfterObject(object sender, Service.Events.InsertEventArgs<Entity.Message> e)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace UI.Events
             }
         }
 
-        private void InternshipService_OnInsertObject(object sender, Service.Events.InsertEventArgs<Entity.Internship> e)
+        private void InternshipService_OnInsertAfterObject(object sender, Service.Events.InsertEventArgs<Entity.Internship> e)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace UI.Events
             }
         }
 
-        private void InternshipService_OnUpdateObject(object sender, Service.Events.UpdateEventArgs<Entity.Internship> e)
+        private void InternshipService_OnUpdateAfterObject(object sender, Service.Events.UpdateEventArgs<Entity.Internship> e)
         {
             try
             {

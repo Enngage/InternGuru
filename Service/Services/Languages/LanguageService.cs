@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
-using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Languages
@@ -15,53 +14,15 @@ namespace Service.Services.Languages
 
         public LanguageService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            var language = AppContext.Languages.Find(id);
-
-            if (language != null)
-            {
-                AppContext.Languages.Remove(language);
-
-                // touch cache keys
-                TouchDeleteKeys(language);
-
-                // save changes
-                return SaveChangesAsync(SaveEventType.Delete, language);
-            }
-
-            return Task.FromResult(0);
-        }
-
-        public Task<Language> GetAsync(int id)
-        {
-            return AppContext.Languages.FirstOrDefaultAsync(m => m.ID == id);
-        }
-
-        public IQueryable<Language> GetAll()
-        {
-            return AppContext.Languages;
-        }
-
-        public IQueryable<Language> GetSingle(int id)
-        {
-            return AppContext.Languages.Where(m => m.ID == id).Take(1);
-        }
-
-        public Task<int> InsertAsync(Language obj)
+        public override Task<int> InsertAsync(Language obj)
         {
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            AppContext.Languages.Add(obj);
-
-            // touch cache keys
-            TouchInsertKeys(obj);
-
-            return SaveChangesAsync(SaveEventType.Insert, obj);
+            return base.InsertAsync(obj);
         }
 
-        public Task<int> UpdateAsync(Language obj)
+        public override Task<int> UpdateAsync(Language obj)
         {
             var language = AppContext.Languages.Find(obj.ID);
 
@@ -73,19 +34,8 @@ namespace Service.Services.Languages
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            // update log
-            AppContext.Entry(language).CurrentValues.SetValues(obj);
-
-            // touch cache keys
-            TouchUpdateKeys(language);
-
             // save changes
-            return SaveChangesAsync(SaveEventType.Update, obj, language);
-        }
-
-        public async Task<IEnumerable<Language>> GetAllCachedAsync()
-        {
-            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
+            return base.UpdateAsync(obj, language);
         }
 
         public async Task<IEnumerable<Language>> GetLanguagesFromCommaSeparatedStringAsync(string languagesCodeString)
@@ -111,6 +61,11 @@ namespace Service.Services.Languages
             }
 
             return result;
+        }
+
+        public override IDbSet<Language> GetEntitySet()
+        {
+            return this.AppContext.Languages;
         }
     }
 }

@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
 using System.Threading.Tasks;
 using Entity;
-using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Internships
@@ -13,53 +10,15 @@ namespace Service.Services.Internships
 
         public HomeOfficeOptionService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            var homeOfficeOption = AppContext.HomeOfficeOptions.Find(id);
-
-            if (homeOfficeOption != null)
-            {
-                AppContext.HomeOfficeOptions.Remove(homeOfficeOption);
-
-                // touch cache keys
-                TouchDeleteKeys(homeOfficeOption);
-
-                // save changes
-                return SaveChangesAsync(SaveEventType.Delete, homeOfficeOption);
-            }
-
-            return Task.FromResult(0);
-        }
-
-        public Task<HomeOfficeOption> GetAsync(int id)
-        {
-            return AppContext.HomeOfficeOptions.FirstOrDefaultAsync(m => m.ID == id);
-        }
-
-        public IQueryable<HomeOfficeOption> GetAll()
-        {
-            return AppContext.HomeOfficeOptions;
-        }
-
-        public IQueryable<HomeOfficeOption> GetSingle(int id)
-        {
-            return AppContext.HomeOfficeOptions.Where(m => m.ID == id).Take(1);
-        }
-
-        public Task<int> InsertAsync(HomeOfficeOption obj)
+        public override Task<int> InsertAsync(HomeOfficeOption obj)
         {
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            AppContext.HomeOfficeOptions.Add(obj);
-
-            // touch cache keys
-            TouchInsertKeys(obj);
-
-            return SaveChangesAsync(SaveEventType.Insert, obj);
+            return base.InsertAsync(obj);
         }
 
-        public Task<int> UpdateAsync(HomeOfficeOption obj)
+        public override Task<int> UpdateAsync(HomeOfficeOption obj)
         {
             var homeOfficeOption = AppContext.HomeOfficeOptions.Find(obj.ID);
 
@@ -71,19 +30,14 @@ namespace Service.Services.Internships
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            // update log
-            AppContext.Entry(homeOfficeOption).CurrentValues.SetValues(obj);
-
-            // touch cache keys
-            TouchUpdateKeys(homeOfficeOption);
-
             // save changes
-            return SaveChangesAsync(SaveEventType.Update, obj, homeOfficeOption);
+            return base.UpdateAsync(obj, homeOfficeOption);
         }
 
-        public async Task<IEnumerable<HomeOfficeOption>> GetAllCachedAsync()
+
+        public override IDbSet<HomeOfficeOption> GetEntitySet()
         {
-            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
+            return this.AppContext.HomeOfficeOptions;
         }
     }
 }

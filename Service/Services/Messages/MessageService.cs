@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
-using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Messages
@@ -16,7 +14,7 @@ namespace Service.Services.Messages
 
         #region IService members
 
-        public Task<int> InsertAsync(Message obj)
+        public override Task<int> InsertAsync(Message obj)
         {
             // do not allow messages to self
             if (obj.SenderApplicationUserId == obj.RecipientApplicationUserId)
@@ -24,35 +22,12 @@ namespace Service.Services.Messages
                 throw new ValidationException($"Nelze odeslat sám sobě");
             }
 
-            AppContext.Messages.Add(obj);
-
             obj.MessageCreated = DateTime.Now;
 
-            // touch cache keys
-            TouchInsertKeys(obj);
-
-            return SaveChangesAsync(SaveEventType.Insert, obj);
+            return base.InsertAsync(obj);
         }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            var message = AppContext.Messages.Find(id);
-
-            if (message != null)
-            {
-                AppContext.Messages.Remove(message);
-
-                // touch cache keys
-                TouchDeleteKeys(message);
-
-                // save changes
-                return SaveChangesAsync(SaveEventType.Delete, message);
-            }
-
-            return Task.FromResult(0);
-        }
-
-        public Task<int> UpdateAsync(Message obj)
+        public override Task<int> UpdateAsync(Message obj)
         {
             var message = AppContext.Messages.Find(obj.ID);
 
@@ -64,29 +39,8 @@ namespace Service.Services.Messages
             // keep the created date
             obj.MessageCreated = message.MessageCreated;
 
-            // update
-            AppContext.Entry(message).CurrentValues.SetValues(obj);
-
-            // touch cache keys
-            TouchUpdateKeys(message);
-
             // save changes
-            return SaveChangesAsync(SaveEventType.Update, obj, message);
-        }
-
-        public IQueryable<Message> GetAll()
-        {
-            return AppContext.Messages;
-        }
-
-        public IQueryable<Message> GetSingle(int id)
-        {
-            return AppContext.Messages.Where(m => m.ID == id).Take(1);
-        }
-
-        public Task<Message> GetAsync(int id)
-        {
-            return AppContext.Messages.FirstOrDefaultAsync(m => m.ID == id);
+            return base.UpdateAsync(obj, message);
         }
 
         public async Task<int> MarkMessagesAsRead(string recipientUserId, string senderUserId)
@@ -110,9 +64,9 @@ namespace Service.Services.Messages
             return await SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Message>> GetAllCachedAsync()
+        public override IDbSet<Message> GetEntitySet()
         {
-            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
+            return this.AppContext.Messages;
         }
     }
 

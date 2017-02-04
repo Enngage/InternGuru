@@ -24,6 +24,19 @@ namespace Entity
 
         #endregion
 
+        #region Not mapped properties
+
+        [NotMapped]
+        public int ID
+        {
+            get
+            {
+                throw new NotSupportedException("User entity does not support int ID");
+            }
+        }
+
+        #endregion
+
         #region Methods
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

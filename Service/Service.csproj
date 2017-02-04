@@ -71,6 +71,7 @@
     <Compile Include="Events\UpdateEventArgs.cs" />
     <Compile Include="Exceptions\CodeNameNotUniqueException.cs" />
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
+    <Compile Include="Exceptions\SaveException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Migrations\201702041038269_ActiveSinceFields.cs" />

@@ -2,7 +2,6 @@
 using Service.Events;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity.Base;
@@ -11,12 +10,6 @@ namespace Service.Services
 {
     public interface IService<T> where T : class, IEntity
     {
-
-        #region
-
-        //IDbSet<T> DbSet { get; }
-
-        #endregion
 
         #region Entity actions 
 
@@ -66,7 +59,7 @@ namespace Service.Services
         /// </summary>
         /// <param name="id">ID of the object</param>
         /// <returns>Object from database</returns>
-        Task<T> GetAsync(int id);
+        Task<T> GetSingleAsync(int id);
 
         #endregion
 

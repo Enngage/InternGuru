@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using Core.Config;
 using EmailProvider;
 using Entity;
-using Service.Events;
-using Service.Exceptions;
 
 namespace Service.Services.Emails
 {
@@ -22,87 +18,21 @@ namespace Service.Services.Emails
 
         public EmailService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            var email = AppContext.Emails.Find(id);
-
-            if (email != null)
-            {
-                // delete email
-                AppContext.Emails.Remove(email);
-
-                // touch cache keys
-                TouchDeleteKeys(email);
-
-                // save changes
-                return SaveChangesAsync(SaveEventType.Delete, email);
-            }
-
-            return Task.FromResult(0);
-        }
-
-        public Task<Email> GetAsync(int id)
-        {
-            return AppContext.Emails.FirstOrDefaultAsync(m => m.ID == id);
-        }
-
-        public IQueryable<Email> GetAll()
-        {
-            return AppContext.Emails;
-        }
-
-        public IQueryable<Email> GetSingle(int id)
-        {
-            return AppContext.Emails.Where(m => m.ID == id).Take(1);
-        }
-
         /// <summary>
         /// Inserts e-mail into database
         /// Does not SEND e-mail
         /// </summary>
         /// <param name="obj">e-mail</param>
         /// <returns></returns>
-        public Task<int> InsertAsync(Email obj)
+        public override Task<int> InsertAsync(Email obj)
         {
-            AppContext.Emails.Add(obj);
-
             // set created date
             obj.Created = DateTime.Now;
 
             // set guid
             obj.Guid = Guid.NewGuid();
 
-            // touch cache keys
-            TouchInsertKeys(obj);
-
-            return SaveChangesAsync(SaveEventType.Insert, obj);
-        }
-
-        public Task<int> UpdateAsync(Email obj)
-        {
-            var email = AppContext.Emails.Find(obj.ID);
-
-            if (email == null)
-            {
-                throw new NotFoundException($"Email with ID: {obj.ID} not found");
-            }
-
-            // set guid
-            obj.Guid = email.Guid;
-
-            // update log
-            AppContext.Entry(email).CurrentValues.SetValues(obj);
-
-            // touch cache keys
-            TouchUpdateKeys(email);
-
-            // save changes
-            return SaveChangesAsync(SaveEventType.Update, obj, email);
-        }
-
-        public async Task<IEnumerable<Email>> GetAllCachedAsync()
-        {
-            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
+            return base.InsertAsync(obj);
         }
 
         public async Task SendEmailAsync(string recipientEmail, string subject, string text)
@@ -207,18 +137,13 @@ namespace Service.Services.Emails
 
         public int Insert(Email email)
         {
-            AppContext.Emails.Add(email);
-
             // set created date
             email.Created = DateTime.Now;
 
             // set guid
             email.Guid = Guid.NewGuid();
 
-            // touch cache keys
-            TouchInsertKeys(email);
-
-            return SaveChanges(SaveEventType.Insert, email);
+            return base.InsertObject(this.AppContext.Emails, email);
         }
 
         public void LogFailedEmail(string recipientEmail, string subject, string text, string result)
@@ -237,6 +162,11 @@ namespace Service.Services.Emails
             };
 
             Insert(newEmail);
+        }
+
+        public override IDbSet<Email> GetEntitySet()
+        {
+            return this.AppContext.Emails;
         }
     }
 }

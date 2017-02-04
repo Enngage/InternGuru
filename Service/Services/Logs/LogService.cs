@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using Entity;
-using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Logs
@@ -16,37 +13,7 @@ namespace Service.Services.Logs
 
         #region IService members
 
-        public Task<int> InsertAsync(Log obj)
-        {
-            AppContext.Logs.Add(obj);
-
-            // touch cache keys
-            TouchInsertKeys(obj);
-
-            return SaveChangesAsync(SaveEventType.Insert, obj);
-        }
-
-        public Task<int> DeleteAsync(int id)
-        {
-            // get log
-            var log = AppContext.Logs.Find(id);
-
-            if (log != null)
-            {
-                // delete log
-                AppContext.Logs.Remove(log);
-
-                // touch cache keys
-                TouchDeleteKeys(log);
-
-                // save changes
-                return SaveChangesAsync(SaveEventType.Delete, log);
-            }
-
-            return Task.FromResult(0);
-        }
-
-        public Task<int> UpdateAsync(Log obj)
+        public override Task<int> UpdateAsync(Log obj)
         {
             // get log
             var log = AppContext.Logs.Find(obj.ID);
@@ -59,29 +26,8 @@ namespace Service.Services.Logs
             // keep the created date
             obj.Created = log.Created;
 
-            // update log
-            AppContext.Entry(log).CurrentValues.SetValues(obj);
-
-            // touch cache keys
-            TouchUpdateKeys(log);
-
             // save changes
-            return SaveChangesAsync(SaveEventType.Update, obj, log);
-        }
-
-        public IQueryable<Log> GetAll()
-        {
-            return AppContext.Logs;
-        }
-
-        public IQueryable<Log> GetSingle(int id)
-        {
-            return AppContext.Logs.Where(m => m.ID == id).Take(1);
-        }
-
-        public Task<Log> GetAsync(int id)
-        {
-            return AppContext.Logs.FirstOrDefaultAsync(m => m.ID == id);
+            return base.UpdateAsync(obj, log);
         }
 
         public Task LogExceptionAsync(Exception ex)
@@ -105,7 +51,7 @@ namespace Service.Services.Logs
             return InsertAsync(log);
         }
 
-        public void LogException(Exception ex, string url, string userName = null)
+        public void LogException(Exception ex, string url, string userName)
         {
             var innerException = ex.InnerException?.ToString() ?? string.Empty;
             var log = new Log()
@@ -118,13 +64,13 @@ namespace Service.Services.Logs
                 Stacktrace = ex.StackTrace,
             };
 
-            AppContext.Logs.Add(log);
-            SaveChanges(SaveEventType.Insert, log);
+            base.InsertObject(this.AppContext.Logs, log); 
         }
 
-        public async Task<IEnumerable<Log>> GetAllCachedAsync()
+
+        public override IDbSet<Log> GetEntitySet()
         {
-            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
+            return this.AppContext.Logs;
         }
     }
 

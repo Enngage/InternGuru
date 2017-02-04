@@ -6,15 +6,16 @@ using Service.Events;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core;
+using System.Linq;
 using Core.Loc;
 using EmailProvider;
-using Entity;
 using Entity.Base;
+using Service.Exceptions;
 using Service.Services.Logs;
 
 namespace Service.Services
 {
-    public class BaseService<TEntity> : IDisposable where TEntity : class, IEntity
+    public abstract class BaseService<TEntity> : IDisposable where TEntity : class, IEntity
     {
         #region Variables
 
@@ -22,6 +23,11 @@ namespace Service.Services
         /// Service dependencies
         /// </summary>
         protected IServiceDependencies ServiceDependencies { get; }
+
+        /// <summary>
+        /// DB set of current entity types
+        /// </summary>
+        private IDbSet<TEntity> _entityDbSet;
 
         #endregion
 
@@ -34,6 +40,28 @@ namespace Service.Services
         {
             get { return ServiceDependencies.AppContext; }
             set { ServiceDependencies.AppContext = value; }
+        }
+
+        /// <summary>
+        /// DB set representing current entity type
+        /// </summary>
+        protected IDbSet<TEntity> EntityDbSet
+        {
+            get
+            {
+                // try to initialize db set
+                if (_entityDbSet == null)
+                {
+                    _entityDbSet = GetEntitySet();
+                }
+
+                if (_entityDbSet == null)
+                {
+                    throw new NotSupportedException($"DBSet of '{nameof(TEntity)}' entity type was not initialized");
+                }
+                return _entityDbSet;
+            }
+            set { _entityDbSet = value; }
         }
 
         /// <summary>
@@ -54,10 +82,20 @@ namespace Service.Services
         /// Initializes service abstract instance
         /// </summary>
         /// <param name="serviceDependencies">serviceDependencies</param>
-        public BaseService(IServiceDependencies serviceDependencies)
+        protected BaseService(IServiceDependencies serviceDependencies)
         {
             ServiceDependencies = serviceDependencies;
         }
+
+        #endregion
+
+        #region Init
+
+        /// <summary>
+        /// Initialized the base service with current db set of entity type
+        /// </summary>
+        /// <returns>DbSet representing current db set</returns>
+        public abstract IDbSet<TEntity> GetEntitySet();
 
         #endregion
 
@@ -79,108 +117,83 @@ namespace Service.Services
         /// state entries for entities and/or relationships. Relationship state entries are created for
         /// many-to-many relationships and relationships where there is no foreign key property
         /// included in the entity class (often referred to as independent associations).</returns>
-        protected int SaveChanges()
+        protected  int SaveChanges()
         {
-            return SaveChanges(SaveEventType.Unknown, null, null);
+            return SaveChangesAsync(SaveEventType.Unknown).Result;
         }
 
+        /// <summary>
+        /// Updates given object in database
+        /// </summary>
+        /// <param name="obj">Object to be modified</param>
+        /// <param name="dbSet">DbSet containing the object</param>
+        /// <returns> The number of state entries written to the underlying database. This can include
+        /// state entries for entities and/or relationships. Relationship state entries are created for
+        /// many-to-many relationships and relationships where there is no foreign key property
+        /// included in the entity class (often referred to as independent associations).</returns>
+        protected int UpdateObject(IDbSet<TEntity> dbSet, TEntity obj)
+        {
+            return UpdateObjectAsync(dbSet, obj).Result;
+        }
+
+        /// <summary>
+        /// Updates given object in database
+        /// </summary>
+        /// <param name="obj">Object to be modified</param>
+        /// <param name="existingObj">Existing object in database</param>
+        /// <param name="dbSet">DbSet containing the object</param>
+        /// <returns> The number of state entries written to the underlying database. This can include
+        /// state entries for entities and/or relationships. Relationship state entries are created for
+        /// many-to-many relationships and relationships where there is no foreign key property
+        /// included in the entity class (often referred to as independent associations).</returns>
+        protected int UpdateObject(IDbSet<TEntity> dbSet, TEntity obj, TEntity existingObj)
+        {
+            return UpdateObjectAsync(dbSet, obj, existingObj).Result;
+        }
+
+        /// <summary>
+        /// Insert new object to database
+        /// </summary>
+        /// <param name="obj">Object to be saved</param>
+        /// <param name="dbSet">DbSet containing the object</param>
+        /// <returns> The number of state entries written to the underlying database. This can include
+        /// state entries for entities and/or relationships. Relationship state entries are created for
+        /// many-to-many relationships and relationships where there is no foreign key property
+        /// included in the entity class (often referred to as independent associations).</returns>
+        protected int InsertObject(IDbSet<TEntity> dbSet, TEntity obj)
+        {
+            return InsertObjectAsync(dbSet, obj).Result;
+        }
+
+        /// <summary>
+        /// Deletes given object from database
+        /// </summary>
+        /// <param name="objectId">ID of the object</param>
+        /// <param name="dbSet">DbSet containing the object</param>
+        /// <returns> The number of state entries written to the underlying database. This can include
+        /// state entries for entities and/or relationships. Relationship state entries are created for
+        /// many-to-many relationships and relationships where there is no foreign key property
+        /// included in the entity class (often referred to as independent associations).</returns>
+        protected int DeleteObject(IDbSet<TEntity> dbSet, int objectId)
+        {
+            return DeleteObjectAsync(dbSet, objectId).Result;
+        }
 
         /// <summary>
         /// Saves all changes made in this context to the underlying database
         /// and executes Entity events
         /// </summary>
         /// <param name="type">Action type</param>
-        /// <param name="entity">New entity</param>
         /// <returns> The number of state entries written to the underlying database. This can include
         /// state entries for entities and/or relationships. Relationship state entries are created for
         /// many-to-many relationships and relationships where there is no foreign key property
         /// included in the entity class (often referred to as independent associations).</returns>
-        protected int SaveChanges(SaveEventType type, TEntity entity)
-        {
-            return SaveChanges(type, entity, null);
-        }
-
-        /// <summary>
-        /// Saves all changes made in this context to the underlying database
-        /// and executes Entity events
-        /// </summary>
-        /// <param name="type">Action type</param>
-        /// <param name="entity">New entity</param>
-        /// <param name="originalEntity">Original entity</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
-        /// state entries for entities and/or relationships. Relationship state entries are created for
-        /// many-to-many relationships and relationships where there is no foreign key property
-        /// included in the entity class (often referred to as independent associations).</returns>
-        protected int SaveChanges(SaveEventType type, TEntity entity, TEntity originalEntity)
+        protected int SaveChanges(SaveEventType type)
         {
             try
             {
-                // before event
-                switch (type)
-                {
-                    case SaveEventType.Delete:
-                        if (entity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because no entity was not provided");
-                        }
-                        OnDeleteBefore(entity);
-                        break;
-                    case SaveEventType.Insert:
-                        if (entity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because no entity was not provided");
-                        }
-                        OnInserBefore(entity);
-                        break;
-                    case SaveEventType.Update:
-                        // check if original entity was provided
-                        if (originalEntity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because original entity was not provided");
-                        }
-                        OnUpdateAfter(entity, originalEntity);
-                        break;
-                    case SaveEventType.Unknown:
-                        // do nothing
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
-                }
-
                 // save changes
                 var result = this.AppContext.SaveChanges();
-
-                // after event
-                switch (type)
-                {
-                    case SaveEventType.Delete:
-                        if (entity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because no entity was not provided");
-                        }
-                        OnDeleteAfter(entity);
-                        break;
-                    case SaveEventType.Insert:
-                        if (entity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because no entity was not provided");
-                        }
-                        OnDeleteAfter(entity);
-                        break;
-                    case SaveEventType.Update:
-                        // check if original entity was provided
-                        if (originalEntity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because original entity was not provided");
-                        }
-                        OnUpdateBefore(entity, originalEntity);
-                        break;
-                    case SaveEventType.Unknown:
-                        // do nothing
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
-                }
 
                 return result;
             }
@@ -189,8 +202,10 @@ namespace Service.Services
                 // get log service
                 var logService = KernelProvider.Get<ILogService>();
 
+                var saveException = new SaveException(GetSaveExceptionText(type), ex);
+
                 // log event
-                logService?.LogException(ex);
+                logService?.LogException(saveException);
 
                 // re-throw
                 throw;
@@ -210,37 +225,97 @@ namespace Service.Services
         /// included in the entity class (often referred to as independent associations).</returns>
         protected async Task<int> SaveChangesAsync()
         {
-            return await SaveChangesAsync(SaveEventType.Unknown, null, null);
+            return await SaveChangesAsync(SaveEventType.Unknown);
         }
 
         /// <summary>
-        /// Saves all changes made in this context to the underlying database
-        /// and executes Entity events
+        /// Updates given object in database
         /// </summary>
-        /// <param name="type">Action type</param>
-        /// <param name="entity">New entity</param>
+        /// <param name="obj">Object to be modified</param>
+        /// <param name="dbSet">DbSet containing the object</param>
         /// <returns> The number of state entries written to the underlying database. This can include
         /// state entries for entities and/or relationships. Relationship state entries are created for
         /// many-to-many relationships and relationships where there is no foreign key property
         /// included in the entity class (often referred to as independent associations).</returns>
-        protected async Task<int> SaveChangesAsync(SaveEventType type, TEntity entity)
+        protected async Task<int> UpdateObjectAsync(IDbSet<TEntity> dbSet, TEntity obj)
         {
-            return await SaveChangesAsync(type, entity, null);
+            return await UpdateObjectAsync(dbSet, obj, dbSet.Find(obj.GetObjectID()));
         }
 
         /// <summary>
-        /// Saves all changes made in this context to the underlying database
-        /// and executes Entity events
+        /// Updates given object in database
+        /// </summary>
+        /// <param name="obj">New object to be modified</param>
+        /// <param name="existingObj">Original object in database</param>
+        /// <param name="dbSet">DbSet containing the object</param>
+        /// <returns> The number of state entries written to the underlying database. This can include
+        /// state entries for entities and/or relationships. Relationship state entries are created for
+        /// many-to-many relationships and relationships where there is no foreign key property
+        /// included in the entity class (often referred to as independent associations).</returns>
+        protected async Task<int> UpdateObjectAsync(IDbSet<TEntity> dbSet, TEntity obj, TEntity existingObj)
+        {
+            if (existingObj == null)
+            {
+                throw new ObjectNotFoundException($"Object of '{nameof(IEntity)}' type with ID = '{obj.GetObjectID()}' was not found.");
+            }
+
+            // before event
+            OnUpdateBefore(obj, existingObj);
+
+            // update existing object with new values
+            AppContext.Entry(existingObj).CurrentValues.SetValues(obj);
+
+            // save changes
+            var result = await SaveChangesAsync(SaveEventType.Update);
+
+            // after event
+            OnUpdateAfter(obj, existingObj);
+            //TODO AUTOMAPPER here to clone object
+            // touch cache keys
+            TouchUpdateKeys(obj);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Insert new object to database
+        /// </summary>
+        /// <param name="obj">Object to be saved</param>
+        /// <param name="dbSet">DbSet containing the object</param>
+        /// <returns> The number of state entries written to the underlying database. This can include
+        /// state entries for entities and/or relationships. Relationship state entries are created for
+        /// many-to-many relationships and relationships where there is no foreign key property
+        /// included in the entity class (often referred to as independent associations).</returns>
+        protected async Task<int> InsertObjectAsync(IDbSet<TEntity> dbSet, TEntity obj)
+        {
+            // before event
+            OnInserBefore(obj);
+
+            // add object to db set
+            dbSet.Add(obj);
+
+            // save changes
+            var result = await SaveChangesAsync(SaveEventType.Insert);
+
+            // touch cache keys
+            TouchInsertKeys(obj);
+
+            // after event
+            OnInsertAfter(obj);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Deletes given object from database
         /// </summary>
         /// <param name="objectId">ID of the object</param>
         /// <param name="dbSet">DbSet containing the object</param>
-        /// <param name="entity">New entity</param>
-        /// <param name="originalEntity">Original entity</param>
         /// <returns> The number of state entries written to the underlying database. This can include
         /// state entries for entities and/or relationships. Relationship state entries are created for
         /// many-to-many relationships and relationships where there is no foreign key property
         /// included in the entity class (often referred to as independent associations).</returns>
-        protected async Task<int> SaveDeleteChanges(IDbSet<TEntity> dbSet, int objectId)
+        protected async Task<int> DeleteObjectAsync(IDbSet<TEntity> dbSet, int objectId)
         {
             // get object
             var obj = dbSet.Find(objectId);
@@ -255,9 +330,18 @@ namespace Service.Services
             OnDeleteBefore(obj);
 
             // delete object
+            dbSet.Remove(obj);
 
+            // save changes
+            var result = await SaveChangesAsync(SaveEventType.Delete);
 
-                
+            // touch cache keys
+            TouchDeleteKeys(obj);
+
+            // after delete event
+            OnDeleteAfter(obj);
+
+            return result;
         }
 
         /// <summary>
@@ -265,82 +349,16 @@ namespace Service.Services
         /// and executes Entity events
         /// </summary>
         /// <param name="type">Action type</param>
-        /// <param name="entity">New entity</param>
-        /// <param name="originalEntity">Original entity</param>
         /// <returns> The number of state entries written to the underlying database. This can include
         /// state entries for entities and/or relationships. Relationship state entries are created for
         /// many-to-many relationships and relationships where there is no foreign key property
         /// included in the entity class (often referred to as independent associations).</returns>
-        protected async Task<int> SaveChangesAsync(SaveEventType type, TEntity entity, TEntity originalEntity)
+        protected async Task<int> SaveChangesAsync(SaveEventType type)
         {
             try
             {
-                // before event
-                switch (type)
-                {
-                    case SaveEventType.Delete:
-                        if (entity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because no entity was not provided");
-                        }
-                        OnDeleteBefore(entity);
-                        break;
-                    case SaveEventType.Insert:
-                        if (entity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because no entity was not provided");
-                        }
-                        OnInserBefore(entity);
-                        break;
-                    case SaveEventType.Update:
-                        // check if original entity was provided
-                        if (originalEntity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because original entity was not provided");
-                        }
-                        OnUpdateAfter(entity, originalEntity);
-                        break;
-                    case SaveEventType.Unknown:
-                        // do nothing
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
-                }
-
                 // save changes
                 var result = await this.AppContext.SaveChangesAsync();
-
-                // after event
-                switch (type)
-                {
-                    case SaveEventType.Delete:
-                        if (entity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because no entity was not provided");
-                        }
-                        OnDeleteAfter(entity);
-                        break;
-                    case SaveEventType.Insert:
-                        if (entity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because no entity was not provided");
-                        }
-                        OnDeleteAfter(entity);
-                        break;
-                    case SaveEventType.Update:
-                        // check if original entity was provided
-                        if (originalEntity == null)
-                        {
-                            throw new NotSupportedException($"Save action '{type}' is not supported because original entity was not provided");
-                        }
-                        OnUpdateBefore(entity, originalEntity);
-                        break;
-                    case SaveEventType.Unknown:
-                        // do nothing
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
-                }
 
                 return result;
             }
@@ -349,12 +367,97 @@ namespace Service.Services
                 // get log service
                 var logService = KernelProvider.Get<ILogService>();
 
+                var saveException = new SaveException(GetSaveExceptionText(type), ex);
+
                 // log event
-                logService?.LogException(ex);
+                logService?.LogException(saveException);
 
                 // re-throw
                 throw;
             }
+        }
+
+        #endregion
+
+        #region IService members
+
+        /// <summary>
+        /// Deletes entity with given ID
+        /// </summary>
+        /// <param name="id">ID of the entity</param>
+        /// <returns></returns>
+        public virtual Task<int> DeleteAsync(int id)
+        {
+            return DeleteObjectAsync(EntityDbSet, id);
+        }
+
+        /// <summary>
+        /// Inserts entity into database
+        /// </summary>
+        /// <param name="obj">Entity to insert</param>
+        /// <returns></returns>
+        public virtual Task<int> InsertAsync(TEntity obj)
+        {
+            return InsertObjectAsync(EntityDbSet, obj);
+        }
+
+        /// <summary>
+        /// Updates given entity in database
+        /// </summary>
+        /// <param name="obj">Entity to edit</param>
+        /// <returns></returns>
+        public virtual Task<int> UpdateAsync(TEntity obj)
+        {
+            return UpdateObjectAsync(EntityDbSet, obj);
+        }
+
+        /// <summary>
+        /// Updates given entity in database
+        /// </summary>
+        /// <param name="obj">New entity to edit</param>
+        /// <param name="existingEntity">Existing entity in db</param>
+        /// <returns></returns>
+        public virtual Task<int> UpdateAsync(TEntity obj, TEntity existingEntity)
+        {
+            return UpdateObjectAsync(EntityDbSet, obj, existingEntity);
+        }
+
+        /// <summary>
+        /// Gets single entity
+        /// </summary>
+        /// <param name="id">EntityID</param>
+        /// <returns>Entity</returns>
+        public virtual Task<TEntity> GetSingleAsync(int id)
+        {
+            return EntityDbSet.FirstOrDefaultAsync(m => m.ID == id);
+        }
+
+        /// <summary>
+        /// Gets query for all entities
+        /// </summary>
+        /// <returns>Query for all entities</returns>
+        public virtual IQueryable<TEntity> GetAll()
+        {
+            return EntityDbSet;
+        }
+
+        /// <summary>
+        /// Gets query for single entity
+        /// </summary>
+        /// <param name="id">EntityID</param>
+        /// <returns>Query for single entity</returns>
+        public virtual IQueryable<TEntity> GetSingle(int id)
+        {
+            return EntityDbSet.Where(m => m.ID == id).Take(1);
+        }
+
+        /// <summary>
+        /// Gets collection of all entities of current type from cache
+        /// </summary>
+        /// <returns>Collection of all entities</returns>
+        public virtual async Task<IEnumerable<TEntity>> GetAllCachedAsync()
+        {
+            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
         }
 
         #endregion
@@ -508,7 +611,7 @@ namespace Service.Services
         /// Gets cache setup used to save all objects of this type to cache
         /// </summary>
         /// <returns>Cache setup</returns>
-        protected ICacheSetup GetCacheAllCacheSetup()
+        private ICacheSetup GetCacheAllCacheSetup()
         {
             const int cacheMinutes = 120;
             const string cacheKey = "GetCacheAllCacheSetup";
@@ -523,6 +626,12 @@ namespace Service.Services
             cacheSetup.ObjectStringID = GetType().Name;
 
             return cacheSetup;
+        }
+
+
+        private string GetSaveExceptionText(SaveEventType type)
+        {
+            return $"Save failed for action '{type}'";
         }
 
         #endregion

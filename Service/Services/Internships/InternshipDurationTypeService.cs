@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using Core.Helpers.Internship;
 using Entity;
-using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Internships
@@ -15,54 +12,15 @@ namespace Service.Services.Internships
 
         public InternshipDurationTypeService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
-        public Task<int> DeleteAsync(int id)
-        {
-            var durationType = AppContext.InternshipDurationTypes.Find(id);
-
-            if (durationType != null)
-            {
-                // delete durationType
-                AppContext.InternshipDurationTypes.Remove(durationType);
-
-                // touch cache keys
-                TouchDeleteKeys(durationType);
-
-                // save changes
-                return SaveChangesAsync(SaveEventType.Delete, durationType);
-            }
-
-            return Task.FromResult(0);
-        }
-
-        public Task<InternshipDurationType> GetAsync(int id)
-        {
-            return AppContext.InternshipDurationTypes.FirstOrDefaultAsync(m => m.ID == id);
-        }
-
-        public IQueryable<InternshipDurationType> GetAll()
-        {
-            return AppContext.InternshipDurationTypes;
-        }
-
-        public IQueryable<InternshipDurationType> GetSingle(int id)
-        {
-            return AppContext.InternshipDurationTypes.Where(m => m.ID == id).Take(1);
-        }
-
-        public Task<int> InsertAsync(InternshipDurationType obj)
+        public override Task<int> InsertAsync(InternshipDurationType obj)
         {
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            AppContext.InternshipDurationTypes.Add(obj);
-
-            // touch cache keys
-            TouchInsertKeys(obj);
-
-            return SaveChangesAsync(SaveEventType.Insert, obj);
+            return base.InsertAsync(obj);
         }
 
-        public Task<int> UpdateAsync(InternshipDurationType obj)
+        public override Task<int> UpdateAsync(InternshipDurationType obj)
         {
             var durationType = AppContext.InternshipDurationTypes.Find(obj.ID);
 
@@ -74,20 +32,10 @@ namespace Service.Services.Internships
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            // update log
-            AppContext.Entry(durationType).CurrentValues.SetValues(obj);
-
-            // touch cache keys
-            TouchUpdateKeys(durationType);
-
             // save changes
-            return SaveChangesAsync(SaveEventType.Update, obj, durationType);
+            return base.UpdateAsync(obj, durationType);
         }
 
-        public async Task<IEnumerable<InternshipDurationType>> GetAllCachedAsync()
-        {
-            return await CacheService.GetOrSetAsync(async () => await GetAll().ToListAsync(), GetCacheAllCacheSetup());
-        }
 
         /// <summary>
         /// Gets duration in weeks from given duration type
@@ -160,6 +108,11 @@ namespace Service.Services.Internships
                 default:
                     throw new ArgumentException("Invalid duration type");
             }
+        }
+
+        public override IDbSet<InternshipDurationType> GetEntitySet()
+        {
+            return this.AppContext.InternshipDurationTypes;
         }
     }
 }
