@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Currencies
@@ -24,11 +25,8 @@ namespace Service.Services.Currencies
                 // touch cache keys
                 TouchDeleteKeys(currency);
 
-                // fire event
-                OnDelete(currency);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, currency);
             }
 
             return Task.FromResult(0);
@@ -59,10 +57,7 @@ namespace Service.Services.Currencies
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(Currency obj)
@@ -74,9 +69,6 @@ namespace Service.Services.Currencies
                 throw new NotFoundException($"Currency with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, currency);
-
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -87,7 +79,7 @@ namespace Service.Services.Currencies
             TouchUpdateKeys(currency);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, currency);
         }
 
         public async Task<IEnumerable<Currency>> GetAllCachedAsync()

@@ -1,13 +1,11 @@
 ﻿@model UI.Builders.System.Views.SystemEmailLogView
 @using Core.Helpers;
-@using UI.Helpers
-
 @{
-    Model.Metadata.BasicMetadata.Title = $"E-mail log";
-    Model.Metadata.BasicMetadata.Description = $"E-mail log";
+    Model.Metadata.BasicMetadata.Title = "E-mail log";
+    Model.Metadata.BasicMetadata.Description = "E-mail log";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
 
-    var onlyUnsentParam = Helpers.UrlHelper.GetRouteParam("onlyUnsent", string.Empty);
+    var onlyUnsentParam = Helpers.UrlHelper.GetQueryString("onlyUnsent", string.Empty);
     var onlyUnsentValue = onlyUnsentParam.Equals("true", StringComparison.OrdinalIgnoreCase);
 }
 

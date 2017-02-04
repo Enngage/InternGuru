@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Messages
@@ -30,10 +31,7 @@ namespace Service.Services.Messages
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> DeleteAsync(int id)
@@ -47,12 +45,8 @@ namespace Service.Services.Messages
                 // touch cache keys
                 TouchDeleteKeys(message);
 
-                // fire event
-                OnDelete(message);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
-
+                return SaveChangesAsync(SaveEventType.Delete, message);
             }
 
             return Task.FromResult(0);
@@ -67,9 +61,6 @@ namespace Service.Services.Messages
                 throw new NotFoundException($"Message with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, message);
-
             // keep the created date
             obj.MessageCreated = message.MessageCreated;
 
@@ -80,7 +71,7 @@ namespace Service.Services.Messages
             TouchUpdateKeys(message);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, message);
         }
 
         public IQueryable<Message> GetAll()

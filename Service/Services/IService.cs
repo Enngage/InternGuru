@@ -2,6 +2,7 @@
 using Service.Events;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity.Base;
@@ -10,6 +11,12 @@ namespace Service.Services
 {
     public interface IService<T> where T : class, IEntity
     {
+
+        #region
+
+        //IDbSet<T> DbSet { get; }
+
+        #endregion
 
         #region Entity actions 
 
@@ -82,9 +89,13 @@ namespace Service.Services
 
         #region Events
 
-        event EventHandler<InsertEventArgs<T>> OnInsertObject;
-        event EventHandler<UpdateEventArgs<T>> OnUpdateObject;
-        event EventHandler<DeleteEventArgs<T>> OnDeleteObject;
+        event EventHandler<InsertEventArgs<T>> OnInsertBeforeObject;
+        event EventHandler<UpdateEventArgs<T>> OnUpdateBeforeObject;
+        event EventHandler<DeleteEventArgs<T>> OnDeleteBeforeObject;
+
+        event EventHandler<InsertEventArgs<T>> OnInsertAfterObject;
+        event EventHandler<UpdateEventArgs<T>> OnUpdateAfterObject;
+        event EventHandler<DeleteEventArgs<T>> OnDeleteAfterObject;
 
         #endregion
 

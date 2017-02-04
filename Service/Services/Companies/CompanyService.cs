@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Companies
@@ -26,11 +27,8 @@ namespace Service.Services.Companies
                 // touch cache keys
                 TouchDeleteKeys(company);
 
-                // fire event
-                OnDelete(company);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, company);
             }
 
             return Task.FromResult(0);
@@ -70,10 +68,7 @@ namespace Service.Services.Companies
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return await SaveChangesAsync();
+            return await SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public async Task<int> UpdateAsync(Company obj)
@@ -97,9 +92,6 @@ namespace Service.Services.Companies
                 throw new CodeNameNotUniqueException($"Company name {obj.CodeName} is not unique");
             }
 
-            // fire event
-            OnUpdate(obj, company);
-
             // update company
             AppContext.Entry(company).CurrentValues.SetValues(obj);
 
@@ -107,7 +99,7 @@ namespace Service.Services.Companies
             TouchUpdateKeys(company);
 
             // save changes
-            return await AppContext.SaveChangesAsync();
+            return await SaveChangesAsync(SaveEventType.Update, obj, company);
         }
 
         public async Task<IEnumerable<Company>> GetAllCachedAsync()

@@ -8,6 +8,8 @@ namespace Service.Context
 {
     public interface IAppContext : IDisposable
     {
+        #region Entities 
+
         IDbSet<Company> Companies { get; }
         IDbSet<ApplicationUser> Users { get; }
         IDbSet<Internship> Internships { get; }
@@ -28,10 +30,21 @@ namespace Service.Context
         IDbSet<Activity> Activities { get; }
         IDbSet<Email> Emails { get; }
 
+        #endregion
+
+        #region Save methods
+
         int SaveChanges();
         Task<int> SaveChangesAsync();
+
+        #endregion
+
+        #region DB methods
+
         DbContextTransaction BeginTransaction();
         DbEntityEntry Entry(object entity);
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+
+        #endregion
     }
 }

@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Identity
@@ -36,9 +37,6 @@ namespace Service.Services.Identity
                 throw new NotFoundException($"User with ID: {obj.Id} was not found");
             }
 
-            // fire event
-            OnUpdate(obj, user);
-
             // update user
             AppContext.Entry(user).CurrentValues.SetValues(obj);
 
@@ -46,7 +44,7 @@ namespace Service.Services.Identity
             TouchUpdateKeys(obj);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, user);
         }
 
         public async Task<IEnumerable<ApplicationUser>> GetAllCachedAsync()

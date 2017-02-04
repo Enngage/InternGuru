@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Thesis
@@ -23,11 +24,8 @@ namespace Service.Services.Thesis
                 // touch cache keys
                 TouchDeleteKeys(thesisType);
 
-                // fire event
-                OnDelete(thesisType);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, thesisType);
             }
 
             return Task.FromResult(0);
@@ -58,10 +56,7 @@ namespace Service.Services.Thesis
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(ThesisType obj)
@@ -73,9 +68,6 @@ namespace Service.Services.Thesis
                 throw new NotFoundException($"ThesisType with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, thesisType);
-
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -86,7 +78,7 @@ namespace Service.Services.Thesis
             TouchUpdateKeys(thesisType);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, thesisType);
         }
 
         public async Task<IEnumerable<ThesisType>> GetAllCachedAsync()

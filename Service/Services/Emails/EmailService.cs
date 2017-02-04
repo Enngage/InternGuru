@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Core.Config;
 using EmailProvider;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Emails
@@ -33,11 +34,8 @@ namespace Service.Services.Emails
                 // touch cache keys
                 TouchDeleteKeys(email);
 
-                // fire event
-                OnDelete(email);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, email);
             }
 
             return Task.FromResult(0);
@@ -77,10 +75,7 @@ namespace Service.Services.Emails
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(Email obj)
@@ -92,9 +87,6 @@ namespace Service.Services.Emails
                 throw new NotFoundException($"Email with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, email);
-
             // set guid
             obj.Guid = email.Guid;
 
@@ -105,7 +97,7 @@ namespace Service.Services.Emails
             TouchUpdateKeys(email);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, email);
         }
 
         public async Task<IEnumerable<Email>> GetAllCachedAsync()
@@ -226,10 +218,7 @@ namespace Service.Services.Emails
             // touch cache keys
             TouchInsertKeys(email);
 
-            // fire event
-            OnInsert(email);
-
-            return SaveChanges();
+            return SaveChanges(SaveEventType.Insert, email);
         }
 
         public void LogFailedEmail(string recipientEmail, string subject, string text, string result)

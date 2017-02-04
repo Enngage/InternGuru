@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Internships
@@ -24,11 +25,8 @@ namespace Service.Services.Internships
                 // touch cache keys
                 TouchDeleteKeys(amountType);
 
-                // fire event
-                OnDelete(amountType);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, amountType);
             }
 
             return Task.FromResult(0);
@@ -59,10 +57,7 @@ namespace Service.Services.Internships
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(InternshipAmountType obj)
@@ -74,9 +69,6 @@ namespace Service.Services.Internships
                 throw new NotFoundException($"Amount type with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, amountType);
-
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -87,7 +79,7 @@ namespace Service.Services.Internships
             TouchUpdateKeys(amountType);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, amountType);
         }
 
         public async Task<IEnumerable<InternshipAmountType>> GetAllCachedAsync()

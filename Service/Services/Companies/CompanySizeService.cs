@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Companies
@@ -24,11 +25,8 @@ namespace Service.Services.Companies
                 // touch cache keys
                 TouchDeleteKeys(companySize);
 
-                // fire event
-                OnDelete(companySize);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, companySize);
             }
 
             return Task.FromResult(0);
@@ -59,10 +57,7 @@ namespace Service.Services.Companies
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(CompanySize obj)
@@ -74,9 +69,6 @@ namespace Service.Services.Companies
                 throw new NotFoundException($"CompanySize with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, companySize);
-
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -87,7 +79,7 @@ namespace Service.Services.Companies
             TouchUpdateKeys(companySize);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, companySize);
         }
 
         public async Task<IEnumerable<CompanySize>> GetAllCachedAsync()

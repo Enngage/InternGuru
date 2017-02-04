@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Helpers.Internship;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Internships
@@ -26,11 +27,8 @@ namespace Service.Services.Internships
                 // touch cache keys
                 TouchDeleteKeys(durationType);
 
-                // fire event
-                OnDelete(durationType);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, durationType);
             }
 
             return Task.FromResult(0);
@@ -61,10 +59,7 @@ namespace Service.Services.Internships
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(InternshipDurationType obj)
@@ -76,9 +71,6 @@ namespace Service.Services.Internships
                 throw new NotFoundException($"InternshipDurationType with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, durationType);
-
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -89,7 +81,7 @@ namespace Service.Services.Internships
             TouchUpdateKeys(durationType);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, durationType);
         }
 
         public async Task<IEnumerable<InternshipDurationType>> GetAllCachedAsync()

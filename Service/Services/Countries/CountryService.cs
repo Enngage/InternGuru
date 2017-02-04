@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Countries
@@ -24,11 +25,8 @@ namespace Service.Services.Countries
                 // touch cache keys
                 TouchDeleteKeys(country);
 
-                // fire event
-                OnDelete(country);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, country);
             }
 
             return Task.FromResult(0);
@@ -59,10 +57,7 @@ namespace Service.Services.Countries
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(Country obj)
@@ -74,9 +69,6 @@ namespace Service.Services.Countries
                 throw new NotFoundException($"Country with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, country);
-
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -87,7 +79,7 @@ namespace Service.Services.Countries
             TouchUpdateKeys(country);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, country);
         }
 
         public async Task<IEnumerable<Country>> GetAllCachedAsync()

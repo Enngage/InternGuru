@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Internships
@@ -12,6 +13,8 @@ namespace Service.Services.Internships
     {
 
         public InternshipService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
+
+        //public IDbSet<Internship> DbSet => this.AppContext.Internships;
 
         public Task<int> DeleteAsync(int id)
         {
@@ -25,11 +28,8 @@ namespace Service.Services.Internships
                 // touch cache keys
                 TouchDeleteKeys(internship);
 
-                // fire event
-                OnDelete(internship);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, internship);
             }
 
             return Task.FromResult(0);
@@ -58,15 +58,15 @@ namespace Service.Services.Internships
             // set code name
             obj.CodeName = obj.GetCodeName();
 
+            // set active since date
+            obj.ActiveSince = obj.IsActive ? DateTime.Now : DateTime.MinValue;
+
             AppContext.Internships.Add(obj);
 
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(Internship obj)
@@ -78,23 +78,23 @@ namespace Service.Services.Internships
                 throw new NotFoundException($"Internship with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, internship);
-
             obj.Updated = DateTime.Now;
             obj.Created = internship.Created;
 
             // set code name
             obj.CodeName = obj.GetCodeName();
 
-            // update log
+            // set active since date if internship was not active before, but is active now
+            obj.ActiveSince = !internship.IsActive && obj.IsActive ? DateTime.Now : internship.ActiveSince;
+
+            // update
             AppContext.Entry(internship).CurrentValues.SetValues(obj);
 
             // touch cache keys
             TouchUpdateKeys(internship);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, internship);
         }
 
         public async Task<IEnumerable<Internship>> GetAllCachedAsync()

@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Internships
@@ -23,11 +24,8 @@ namespace Service.Services.Internships
                 // touch cache keys
                 TouchDeleteKeys(homeOfficeOption);
 
-                // fire event
-                OnDelete(homeOfficeOption);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, homeOfficeOption);
             }
 
             return Task.FromResult(0);
@@ -58,10 +56,7 @@ namespace Service.Services.Internships
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(HomeOfficeOption obj)
@@ -73,9 +68,6 @@ namespace Service.Services.Internships
                 throw new NotFoundException($"HomeOfficeOption with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, homeOfficeOption);
-
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -86,7 +78,7 @@ namespace Service.Services.Internships
             TouchUpdateKeys(homeOfficeOption);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, homeOfficeOption);
         }
 
         public async Task<IEnumerable<HomeOfficeOption>> GetAllCachedAsync()

@@ -45,7 +45,10 @@ namespace UI.Events
             CurrentUser = currentUser;
             CurrentUrl = url;
 
-            Services.MessageService.OnInsertObject += MessageService_OnInsertObject;
+            Services.MessageService.OnInsertAfterObject += MessageService_OnInsertObject;
+
+            Services.InternshipService.OnUpdateAfterObject += InternshipService_OnUpdateObject;
+            Services.InternshipService.OnInsertAfterObject += InternshipService_OnInsertObject;
         }
 
         #endregion
@@ -66,9 +69,31 @@ namespace UI.Events
             catch (Exception ex)
             {
                 Services.LogService.LogException(ex, CurrentUrl, CurrentUser?.UserName);
-
             }
+        }
 
+        private void InternshipService_OnInsertObject(object sender, Service.Events.InsertEventArgs<Entity.Internship> e)
+        {
+            try
+            {
+                EventsLoader.NotificationEvents.SendInternshipActiveNotification(e.Obj);
+            }
+            catch (Exception ex)
+            {
+                Services.LogService.LogException(ex, CurrentUrl, CurrentUser?.UserName);
+            }
+        }
+
+        private void InternshipService_OnUpdateObject(object sender, Service.Events.UpdateEventArgs<Entity.Internship> e)
+        {
+            try
+            {
+                EventsLoader.NotificationEvents.SendInternshipActiveNotification(e.Obj, e.OriginalObj);
+            }
+            catch (Exception ex)
+            {
+                Services.LogService.LogException(ex, CurrentUrl, CurrentUser?.UserName);
+            }
         }
 
         #endregion

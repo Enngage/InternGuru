@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Thesis
@@ -23,11 +24,8 @@ namespace Service.Services.Thesis
                 // touch cache keys
                 TouchDeleteKeys(thesis);
 
-                // fire event
-                OnDelete(thesis);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, thesis);
             }
 
             return Task.FromResult(0);
@@ -59,13 +57,13 @@ namespace Service.Services.Thesis
 
             AppContext.Theses.Add(obj);
 
+            // set active since date
+            obj.ActiveSince = obj.IsActive ? DateTime.Now : DateTime.MinValue;
+
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(Entity.Thesis obj)
@@ -77,9 +75,6 @@ namespace Service.Services.Thesis
                 throw new NotFoundException($"Thesis with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, thesis);
-
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -87,14 +82,17 @@ namespace Service.Services.Thesis
             obj.Updated = DateTime.Now;
             obj.Created = thesis.Created;
 
-            // update log
+            // set active since date if internship was not active before, but is active now
+            obj.ActiveSince = !thesis.IsActive && obj.IsActive ? DateTime.Now : thesis.ActiveSince;
+
+            // update
             AppContext.Entry(thesis).CurrentValues.SetValues(obj);
 
             // touch cache keys
             TouchUpdateKeys(thesis);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, thesis);
         }
 
         public async Task<IEnumerable<Entity.Thesis>> GetAllCachedAsync()

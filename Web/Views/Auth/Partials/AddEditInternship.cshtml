@@ -61,6 +61,7 @@
                 <div class="ui segment blue secondary inverted">
 
                     <div class="field">
+                        @Helpers.MessageHelper.RenderInfoMessage("Aktivní stáže budou po 2 měsících automaticky skryty. Stáž je možné poté znova aktivovat.")
                         @if (Model.GetIsActive())
                         {
                             <div id="_IsActiveCheckbox" class="ui checked checkbox">

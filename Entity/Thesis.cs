@@ -29,6 +29,7 @@ namespace Entity
         public bool IsPaid { get; set; }
         public int ThesisTypeID { get; set; }
         public bool IsActive { get; set; }
+        public DateTime ActiveSince { get; set; }
 
         #region Virtual
 

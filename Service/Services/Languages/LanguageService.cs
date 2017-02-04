@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Languages
@@ -25,11 +26,8 @@ namespace Service.Services.Languages
                 // touch cache keys
                 TouchDeleteKeys(language);
 
-                // fire event
-                OnDelete(language);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, language);
             }
 
             return Task.FromResult(0);
@@ -60,10 +58,7 @@ namespace Service.Services.Languages
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(Language obj)
@@ -75,9 +70,6 @@ namespace Service.Services.Languages
                 throw new NotFoundException($"Languages with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, language);
-
             // set code name
             obj.CodeName = obj.GetCodeName();
 
@@ -88,7 +80,7 @@ namespace Service.Services.Languages
             TouchUpdateKeys(language);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, language);
         }
 
         public async Task<IEnumerable<Language>> GetAllCachedAsync()

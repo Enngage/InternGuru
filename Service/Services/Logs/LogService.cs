@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Logs
@@ -22,10 +23,7 @@ namespace Service.Services.Logs
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> DeleteAsync(int id)
@@ -41,11 +39,8 @@ namespace Service.Services.Logs
                 // touch cache keys
                 TouchDeleteKeys(log);
 
-                // fire event
-                OnDelete(log);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, log);
             }
 
             return Task.FromResult(0);
@@ -61,9 +56,6 @@ namespace Service.Services.Logs
                 throw new NotFoundException($"Log with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, log);
-
             // keep the created date
             obj.Created = log.Created;
 
@@ -74,7 +66,7 @@ namespace Service.Services.Logs
             TouchUpdateKeys(log);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, log);
         }
 
         public IQueryable<Log> GetAll()
@@ -127,7 +119,7 @@ namespace Service.Services.Logs
             };
 
             AppContext.Logs.Add(log);
-            SaveChanges();
+            SaveChanges(SaveEventType.Insert, log);
         }
 
         public async Task<IEnumerable<Log>> GetAllCachedAsync()

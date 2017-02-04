@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Service.Events;
 using Service.Exceptions;
 using Service.Services.Activities.Enums;
 
@@ -26,11 +27,8 @@ namespace Service.Services.Activities
                 // touch cache keys
                 TouchDeleteKeys(activity);
 
-                // fire event
-                OnDelete(activity);
-
                 // save changes
-                return AppContext.SaveChangesAsync();
+                return SaveChangesAsync(SaveEventType.Delete, activity);
             }
 
             return Task.FromResult(0);
@@ -58,10 +56,7 @@ namespace Service.Services.Activities
             // touch cache keys
             TouchInsertKeys(obj);
 
-            // fire event
-            OnInsert(obj);
-
-            return SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Insert, obj);
         }
 
         public Task<int> UpdateAsync(Activity obj)
@@ -73,9 +68,6 @@ namespace Service.Services.Activities
                 throw new NotFoundException($"Activity with ID: {obj.ID} not found");
             }
 
-            // fire event
-            OnUpdate(obj, activity);
-
             // update log
             AppContext.Entry(activity).CurrentValues.SetValues(obj);
 
@@ -83,7 +75,7 @@ namespace Service.Services.Activities
             TouchUpdateKeys(activity);
 
             // save changes
-            return AppContext.SaveChangesAsync();
+            return SaveChangesAsync(SaveEventType.Update, obj, activity);
         }
 
         public async Task<IEnumerable<Activity>> GetAllCachedAsync()
