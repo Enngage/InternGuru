@@ -7,7 +7,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class InternshipDurationType : IEntity
+    public class InternshipDurationType : IEntity, IEntityWithUniqueCodeName
     {
         public int ID { get; set; }
         [MaxLength(50)]
@@ -38,7 +38,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(DurationName);
         }
 
         #endregion

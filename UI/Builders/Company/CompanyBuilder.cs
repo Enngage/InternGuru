@@ -87,7 +87,7 @@ namespace UI.Builders.Company
                     YearFounded = m.YearFounded,
                     City = m.City,
                     CompanyName = m.CompanyName,
-                    CompanyGuid = m.CompanyGuid,
+                    CompanyGuid = m.Guid,
                     ID = m.ID,
                     Internships = m.Internships
                         .Where(v => v.IsActive)
@@ -253,7 +253,7 @@ namespace UI.Builders.Company
                     CountryCode = m.Country.CountryCode,
                     CountryIcon = m.Country.Icon,
                     ID = m.ID,
-                    CompanyGuid = m.CompanyGuid,
+                    CompanyGuid = m.Guid,
                     InternshipCount = m.Internships.Where(s => s.IsActive).Count(),
                     CodeName = m.CodeName,
                     ThesesCount = m.Theses.Count()

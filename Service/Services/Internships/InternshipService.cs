@@ -33,11 +33,11 @@ namespace Service.Services.Internships
                 throw new NotFoundException($"Internship with ID: {obj.ID} not found");
             }
 
-            obj.Updated = DateTime.Now;
-            obj.Created = internship.Created;
+            //obj.Updated = DateTime.Now;
+            //obj.Created = internship.Created;
 
             // set code name
-            obj.CodeName = obj.GetCodeName();
+            //obj.CodeName = obj.GetCodeName();
 
             // set active since date if internship was not active before, but is active now
             obj.ActiveSince = !internship.IsActive && obj.IsActive ? DateTime.Now : internship.ActiveSince;

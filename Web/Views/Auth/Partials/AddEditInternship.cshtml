@@ -1,5 +1,4 @@
 ﻿@model UI.Builders.Auth.Forms.AuthAddEditInternshipForm
-@using UI.Helpers;
 
 @{
     var formAction = Model.IsExistingInternship ? "EditInternship" : "NewInternship";
@@ -43,7 +42,7 @@
 @Helpers.ScriptHelper.RequireCss("/scripts/addons/datepicker-master/dist/datepicker.min")
 
 <h1>
-    @Model.Title
+    @(Model.IsExistingInternship ? Model.Title : "Nová stáž")
 </h1>
 
 @using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))

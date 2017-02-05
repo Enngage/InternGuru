@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
 {
-    public class Language : IEntity
+    public class Language : IEntity, IEntityWithUniqueCodeName
     {
         [Key]
         public int ID { get; set; }
@@ -25,7 +26,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(LanguageName);
         }
 
         #endregion

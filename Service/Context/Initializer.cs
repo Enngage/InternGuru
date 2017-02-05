@@ -56,7 +56,7 @@ namespace Service.Context
                 new CompanyCategory()
                 {
                     CodeName = "Ecommerce",
-                    Name= "E-commerce"
+                    Name= "E-commerce",
                 },
                 new CompanyCategory()
                 {
@@ -694,7 +694,9 @@ namespace Service.Context
                     LongDescription = GetLoremIpsumtText(),
                     PublicEmail = $"{GetLoremIpsumName(true)}@email.com",
                     YearFounded = GetRandomYear(),
-                    CodeName = StringHelper.GetCodeName(companyName)
+                    CodeName = StringHelper.GetCodeName(companyName),
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now
                 };
 
                 context.Companies.Add(company);

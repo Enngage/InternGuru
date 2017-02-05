@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
@@ -8,7 +9,9 @@ namespace Entity
     public class Message : IEntity
     {
         public int ID { get; set; }
-      
+        [Index]
+        [MaxLength(100)]
+        public string CodeName { get; set; }
         public int RecipientCompanyID { get; set; }
         public string SenderApplicationUserId { get; set; }
         public string RecipientApplicationUserId { get; set; }
@@ -37,7 +40,7 @@ namespace Entity
         }
         public string GetCodeName()
         {
-            return ID.ToString();
+            return StringHelper.GetCodeName(ID.ToString());
         }
 
         #endregion

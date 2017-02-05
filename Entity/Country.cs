@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
 {
-    public class Country : IEntity
+    public class Country : IEntity, IEntityWithUniqueCodeName
     {
         [Key]
         public int ID { get; set; }
@@ -36,7 +37,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CountryCode;
+            return StringHelper.GetCodeName(CountryCode);
         }
 
         #endregion

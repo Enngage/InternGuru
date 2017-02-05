@@ -35,6 +35,20 @@ namespace Entity
             }
         }
 
+        [NotMapped]
+        public string CodeName
+        {
+            get
+            {
+                throw new NotSupportedException($"Entity '{this.GetType().Name}' does not support code name");
+            }
+            set
+            {
+                throw new NotSupportedException($"Entity '{this.GetType().Name}' does not support code name");
+            }
+        }
+
+
         #endregion
 
         #region Methods
@@ -123,15 +137,16 @@ namespace Entity
 
         #region IEntity
 
-        public string GetCodeName()
-        {
-            return UserName;
-        }
-
         public object GetObjectID()
         {
             return Id;
         }
+
+        public string GetCodeName()
+        {
+            return CodeName;
+        }
+
 
         #endregion
 

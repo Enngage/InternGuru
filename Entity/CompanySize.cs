@@ -1,11 +1,12 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
 {
-    public class CompanySize : IEntity
+    public class CompanySize : IEntity, IEntityWithUniqueCodeName
     {
         public int ID { get; set; }
         [MaxLength(100)]
@@ -23,7 +24,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(CompanySizeName);
         }
 
         #endregion

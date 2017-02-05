@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using Core.AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -16,6 +18,7 @@ using Ninject.Web.Common.OwinHost;
 using Entity;
 using Microsoft.Owin.Security.DataProtection;
 using Identity;
+using Web.Lib.AutoMapper;
 
 namespace Web
 {
@@ -39,6 +42,9 @@ namespace Web
         /// <param name="app"></param>
         public void InitializeAuth(IAppBuilder app)
         {
+            // Register AutoMapper
+            MapperProvider.SetMapper(GetMapper());
+
             // Register global kernel
             KernelProvider.SetKernel(GetKernel());
 
@@ -113,6 +119,11 @@ namespace Web
         private IKernel GetKernel()
         {
             return NinjectHelper.GetKernel(NinjectKernelType.Web);
+        }
+
+        private IMapper GetMapper()
+        {
+            return AutoMapperHelper.GetMapper();
         }
     }
 }

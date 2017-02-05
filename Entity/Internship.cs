@@ -6,7 +6,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Internship : IEntity
+    public class Internship : BaseEntity<Internship>, IEntity, IEntityWithTimeStamp
     {
         public int ID { get; set; }
         [Required]
@@ -97,6 +97,11 @@ namespace Entity
         {
             return StringHelper.GetCodeName(Title);
         }
+
+        //public IEntity ShallowCopy()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         #endregion
     }

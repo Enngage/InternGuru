@@ -289,7 +289,7 @@ namespace UI.Builders.Auth
                     CountryName = m.Country.CountryName,
                     Facebook = m.Facebook,
                     ID = m.ID,
-                    CompanyGuid = m.CompanyGuid,
+                    CompanyGuid = m.Guid,
                     Lat = m.Lat,
                     Lng = m.Lng,
                     LinkedIn = m.LinkedIn,
@@ -347,7 +347,7 @@ namespace UI.Builders.Auth
                     CountryCode = m.Country.CountryCode,
                     Facebook = m.Facebook,
                     ID = m.ID,
-                    CompanyGuid = m.CompanyGuid,
+                    CompanyGuid = m.Guid,
                     Lat = m.Lat,
                     Lng = m.Lng,
                     LinkedIn = m.LinkedIn,
@@ -978,18 +978,18 @@ namespace UI.Builders.Auth
                     await Services.CompanyService.InsertAsync(company);
 
                     // prepare company folder
-                    PrepareCompanyDirectories(company.CompanyGuid);
-                    companyGuidShared = company.CompanyGuid;
+                    PrepareCompanyDirectories(company.Guid);
+                    companyGuidShared = company.Guid;
 
                     // upload files
                     if (form.Banner != null)
                     {
-                        Services.FileProvider.SaveImage(form.Banner, Entity.Company.GetCompanyBannerFolderPath(company.CompanyGuid), Entity.Company.GetBannerFileName(), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
+                        Services.FileProvider.SaveImage(form.Banner, Entity.Company.GetCompanyBannerFolderPath(company.Guid), Entity.Company.GetBannerFileName(), FileConfig.CompanyBannerWidth, FileConfig.CompanyBannerHeight);
                     }
 
                     if (form.Logo != null)
                     {
-                        Services.FileProvider.SaveImage(form.Logo, Entity.Company.GetCompanyLogoFolderPath(company.CompanyGuid), Entity.Company.GetLogoFileName(), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
+                        Services.FileProvider.SaveImage(form.Logo, Entity.Company.GetCompanyLogoFolderPath(company.Guid), Entity.Company.GetLogoFileName(), FileConfig.CompanyLogoWidth, FileConfig.CompanyLogoHeight);
                     }
 
                     // commit transaction

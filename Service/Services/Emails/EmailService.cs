@@ -18,23 +18,6 @@ namespace Service.Services.Emails
 
         public EmailService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
-        /// <summary>
-        /// Inserts e-mail into database
-        /// Does not SEND e-mail
-        /// </summary>
-        /// <param name="obj">e-mail</param>
-        /// <returns></returns>
-        public override Task<int> InsertAsync(Email obj)
-        {
-            // set created date
-            obj.Created = DateTime.Now;
-
-            // set guid
-            obj.Guid = Guid.NewGuid();
-
-            return base.InsertAsync(obj);
-        }
-
         public async Task SendEmailAsync(string recipientEmail, string subject, string text)
         {
             var emailSubject = string.IsNullOrEmpty(subject) ? _noSubjectText : subject;
@@ -42,7 +25,6 @@ namespace Service.Services.Emails
             // try to send e-mail
             try
             {
-
                 await EmailProvider.SendEmailAsync(new EmailMessage()
                 {
                     From = _fromEmailAddress,

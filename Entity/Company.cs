@@ -9,7 +9,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Company : IEntity
+    public class Company : IEntity, IEntityWithTimeStamp, IEntityWithGuid, IEntityWithUniqueCodeName
     {
         public int ID { get; set; }
         [MaxLength(100)]
@@ -18,7 +18,7 @@ namespace Entity
         [Index]
         [MaxLength(100)]
         public string CodeName { get; set; }
-        public Guid CompanyGuid { get; set; }
+        public Guid Guid { get; set; }
         public int YearFounded { get; set; }
         public string PublicEmail { get; set; }
         public string LongDescription { get; set; }
@@ -36,11 +36,12 @@ namespace Entity
         public string LinkedIn { get; set; }
         [MaxLength(250)]
         public string Facebook { get; set; }
-        
         public int CompanyCategoryID { get; set; }
         public string ApplicationUserId { get; set; }
         public int CountryID { get; set; }
         public int CompanySizeID { get; set; }
+        public DateTime Updated { get; set; }
+        public DateTime Created { get; set; }
 
         #region Virtual properties
 
@@ -67,7 +68,7 @@ namespace Entity
         }
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(CompanyName);
         }
 
         #endregion
@@ -156,18 +157,6 @@ namespace Entity
         }
 
         #endregion
-
-        #region Alias
-
-        /// <summary>
-        /// Gets alias based on Company name 
-        /// </summary>
-        /// <returns></returns>
-        public string GetAlias()
-        {
-            return StringHelper.GetCodeName(CompanyName);
-        }
-
-        #endregion
+    
     }
 }

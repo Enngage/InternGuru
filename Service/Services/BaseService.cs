@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Linq;
+using Core.AutoMapper;
 using Core.Loc;
 using EmailProvider;
 using Entity.Base;
@@ -117,9 +118,9 @@ namespace Service.Services
         /// state entries for entities and/or relationships. Relationship state entries are created for
         /// many-to-many relationships and relationships where there is no foreign key property
         /// included in the entity class (often referred to as independent associations).</returns>
-        protected  int SaveChanges()
+        protected int SaveChanges()
         {
-            return SaveChangesAsync(SaveEventType.Unknown).Result;
+            return SaveChanges(SaveEventType.Unknown);
         }
 
         /// <summary>
@@ -133,7 +134,7 @@ namespace Service.Services
         /// included in the entity class (often referred to as independent associations).</returns>
         protected int UpdateObject(IDbSet<TEntity> dbSet, TEntity obj)
         {
-            return UpdateObjectAsync(dbSet, obj).Result;
+            return UpdateObject(dbSet, obj, dbSet.Find(obj.ID));
         }
 
         /// <summary>
@@ -148,7 +149,39 @@ namespace Service.Services
         /// included in the entity class (often referred to as independent associations).</returns>
         protected int UpdateObject(IDbSet<TEntity> dbSet, TEntity obj, TEntity existingObj)
         {
-            return UpdateObjectAsync(dbSet, obj, existingObj).Result;
+            if (existingObj == null)
+            {
+                throw new ObjectNotFoundException($"Object of '{nameof(IEntity)}' type with ID = '{obj.GetObjectID()}' was not found.");
+            }
+
+            // create clone of existing entity
+            var existingObjectClone = new object() as TEntity;
+            // ---- IMPORTANT ------ // 
+            // In order for cloning to work, Automapper needs to have map from source to target defined like this:
+            // cfg.CreateMap<Internship, Internship>();
+            // END
+            existingObjectClone = MapperProvider.Mapper.Map(existingObj, existingObjectClone);
+
+            // before event
+            OnUpdateBefore(obj, existingObjectClone);
+
+            // handle entity variations and constraints
+            HandleEntityCodeName(obj);
+            HandleEntityVariationFields(obj, existingObjectClone);
+
+            // update existing object with new values
+            AppContext.Entry(existingObj).CurrentValues.SetValues(obj);
+
+            // save changes
+            var result = SaveChanges(SaveEventType.Update);
+
+            // after event
+            OnUpdateAfter(obj, existingObjectClone);
+
+            // touch cache keys
+            TouchUpdateKeys(obj);
+
+            return result;
         }
 
         /// <summary>
@@ -162,7 +195,26 @@ namespace Service.Services
         /// included in the entity class (often referred to as independent associations).</returns>
         protected int InsertObject(IDbSet<TEntity> dbSet, TEntity obj)
         {
-            return InsertObjectAsync(dbSet, obj).Result;
+            // before event
+            OnInserBefore(obj);
+
+            // handle entity variations and constraints
+            HandleEntityCodeName(obj);
+            HandleEntityVariationFields(obj, null);
+
+            // add object to db set
+            dbSet.Add(obj);
+
+            // save changes
+            var result = SaveChanges(SaveEventType.Insert);
+
+            // touch cache keys
+            TouchInsertKeys(obj);
+
+            // after event
+            OnInsertAfter(obj);
+
+            return result;
         }
 
         /// <summary>
@@ -176,8 +228,32 @@ namespace Service.Services
         /// included in the entity class (often referred to as independent associations).</returns>
         protected int DeleteObject(IDbSet<TEntity> dbSet, int objectId)
         {
-            return DeleteObjectAsync(dbSet, objectId).Result;
-        }
+            // get object
+            var obj = dbSet.Find(objectId);
+
+            if (obj == null)
+            {
+                throw new ObjectNotFoundException($"Object of '{nameof(IEntity)}' type with ID = '{objectId}' was not found.");
+
+            }
+
+            // before delete event
+            OnDeleteBefore(obj);
+
+            // delete object
+            dbSet.Remove(obj);
+
+            // save changes
+            var result = SaveChanges(SaveEventType.Delete);
+
+            // touch cache keys
+            TouchDeleteKeys(obj);
+
+            // after delete event
+            OnDeleteAfter(obj);
+
+            return result;
+    }
 
         /// <summary>
         /// Saves all changes made in this context to the underlying database
@@ -259,8 +335,20 @@ namespace Service.Services
                 throw new ObjectNotFoundException($"Object of '{nameof(IEntity)}' type with ID = '{obj.GetObjectID()}' was not found.");
             }
 
+            // create clone of existing entity
+            var existingObjectClone = new object() as TEntity;
+            // ---- IMPORTANT ------ // 
+            // In order for cloning to work, Automapper needs to have map from source to target defined like this:
+            // cfg.CreateMap<Internship, Internship>();
+            // END
+            existingObjectClone = MapperProvider.Mapper.Map(existingObj, existingObjectClone);
+
             // before event
-            OnUpdateBefore(obj, existingObj);
+            OnUpdateBefore(obj, existingObjectClone);
+
+            // handle entity variations and constraints
+            await HandleEntityCodeNameAsync(obj);
+            HandleEntityVariationFields(obj, existingObjectClone);
 
             // update existing object with new values
             AppContext.Entry(existingObj).CurrentValues.SetValues(obj);
@@ -269,8 +357,8 @@ namespace Service.Services
             var result = await SaveChangesAsync(SaveEventType.Update);
 
             // after event
-            OnUpdateAfter(obj, existingObj);
-            //TODO AUTOMAPPER here to clone object
+            OnUpdateAfter(obj, existingObjectClone);
+
             // touch cache keys
             TouchUpdateKeys(obj);
 
@@ -290,6 +378,10 @@ namespace Service.Services
         {
             // before event
             OnInserBefore(obj);
+
+            // handle entity variations and constraints
+            await HandleEntityCodeNameAsync(obj);
+            HandleEntityVariationFields(obj, null);
 
             // add object to db set
             dbSet.Add(obj);
@@ -380,6 +472,59 @@ namespace Service.Services
         #endregion
 
         #region IService members
+
+        /// <summary>
+        /// Touches given cache key in order to clear the item
+        /// </summary>
+        public virtual void TouchKey(string key)
+        {
+            CacheService.TouchKey(key);
+        }
+
+        /// <summary>
+        /// Touches all keys for insert action
+        /// </summary>
+        public virtual void TouchInsertKeys(TEntity obj)
+        {
+            CacheService.TouchKey(EntityKeys.KeyCreateAny<TEntity>());
+        }
+
+        /// <summary>
+        /// Touches all keys for update actions
+        /// </summary>
+        /// <param name="obj">Object</param>
+        public virtual void TouchUpdateKeys(TEntity obj)
+        {
+            CacheService.TouchKey(EntityKeys.KeyUpdateAny<TEntity>());
+            CacheService.TouchKey(EntityKeys.KeyUpdate<TEntity>(obj.GetObjectID().ToString()));
+            CacheService.TouchKey(EntityKeys.KeyUpdateCodeName<TEntity>(obj.GetCodeName()));
+        }
+
+
+        /// <summary>
+        /// Touches all keys for delete actions
+        /// </summary>
+        /// <param name="obj">Object</param>
+        public virtual void TouchDeleteKeys(TEntity obj)
+        {
+            CacheService.TouchKey(EntityKeys.KeyDeleteAny<TEntity>());
+            CacheService.TouchKey(EntityKeys.KeyDelete<TEntity>(obj.GetObjectID().ToString()));
+            CacheService.TouchKey(EntityKeys.KeyDeleteCodeName<TEntity>(obj.GetCodeName()));
+        }
+
+        /// <summary>
+        /// Used for refreshing context may bring better performance when bulk inserting etc. 
+        /// USE WITH CAUTION because the old context is lost
+        /// </summary>
+        /// <param name="appContext"></param>
+        public virtual void RefreshAppContext(IAppContext appContext)
+        {
+            // dispose old context
+            Dispose();
+
+            // assign new context
+            AppContext = appContext;
+        }
 
         /// <summary>
         /// Deletes entity with given ID
@@ -548,64 +693,102 @@ namespace Service.Services
 
         #endregion
 
-        #region IService
-
-        /// <summary>
-        /// Touches given cache key in order to clear the item
-        /// </summary>
-        public virtual void TouchKey(string key)
-        {
-            CacheService.TouchKey(key);
-        }
-
-        /// <summary>
-        /// Touches all keys for insert action
-        /// </summary>
-        public virtual void TouchInsertKeys(TEntity obj)
-        {
-            CacheService.TouchKey(EntityKeys.KeyCreateAny<TEntity>());
-        }
-
-        /// <summary>
-        /// Touches all keys for update actions
-        /// </summary>
-        /// <param name="obj">Object</param>
-        public virtual void TouchUpdateKeys(TEntity obj)
-        {
-            CacheService.TouchKey(EntityKeys.KeyUpdateAny<TEntity>());
-            CacheService.TouchKey(EntityKeys.KeyUpdateCodeName<TEntity>(obj.GetCodeName()));
-            CacheService.TouchKey(EntityKeys.KeyUpdate<TEntity>(obj.GetObjectID().ToString()));
-        }
-
-
-        /// <summary>
-        /// Touches all keys for delete actions
-        /// </summary>
-        /// <param name="obj">Object</param>
-        public virtual void TouchDeleteKeys(TEntity obj)
-        {
-            CacheService.TouchKey(EntityKeys.KeyDeleteAny<TEntity>());
-            CacheService.TouchKey(EntityKeys.KeyDeleteCodeName<TEntity>(obj.GetCodeName()));
-            CacheService.TouchKey(EntityKeys.KeyDelete<TEntity>(obj.GetObjectID().ToString()));
-        }
-
-        /// <summary>
-        /// Used for refreshing context may bring better performance when bulk inserting etc. 
-        /// USE WITH CAUTION because the old context is lost
-        /// </summary>
-        /// <param name="appContext"></param>
-        public virtual void RefreshAppContext(IAppContext appContext)
-        {
-            // dispose old context
-            Dispose();
-
-            // assign new context
-            AppContext = appContext;
-        }
-
-        #endregion
-
         #region Helper methods
+
+        /// <summary>
+        /// Handles code name of the entity
+        /// </summary>
+        /// <param name="newEntity">New entity</param>
+        private async Task HandleEntityCodeNameAsync(TEntity newEntity)
+        {
+            // set entity code name
+            newEntity.CodeName = newEntity.GetCodeName();
+
+            // check unique code name
+            var entityWithUniqueCodeName = newEntity as IEntityWithUniqueCodeName;
+            if (entityWithUniqueCodeName != null)
+            {
+                var result = await EntityDbSet.Select(m => new { ID = m.ID, CodeName = m.CodeName }).FirstOrDefaultAsync(m => m.Equals(newEntity.CodeName) && m.ID != newEntity.ID);
+
+                if (result != null)
+                {
+                    // there is already object with the same code name
+                    throw new CodeNameNotUniqueException($"Name '{newEntity.CodeName}' is not unique.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles code name of the entity
+        /// </summary>
+        /// <param name="newEntity">New entity</param>
+        private void HandleEntityCodeName(TEntity newEntity)
+        {
+            // set entity code name
+            newEntity.CodeName = newEntity.GetCodeName();
+
+            // check unique code name
+            var entityWithUniqueCodeName = newEntity as IEntityWithUniqueCodeName;
+            if (entityWithUniqueCodeName != null)
+            {
+                var result = EntityDbSet.Select(m => new { ID = m.ID, CodeName = m.CodeName }).FirstOrDefault(m => m.Equals(newEntity.CodeName) && m.ID != newEntity.ID);
+
+                if (result != null)
+                {
+                    // there is already object with the same code name
+                    throw new CodeNameNotUniqueException($"Name '{newEntity.CodeName}' is not unique.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets entity specific fields (e.g. guid, created, updated etc..)
+        /// </summary>
+        /// <param name="oldEntity">Existing entity in db</param>
+        /// <param name="newEntity">New entity</param>
+        private void HandleEntityVariationFields(TEntity newEntity, TEntity oldEntity)
+        {
+            var entityWithGuid = newEntity as IEntityWithGuid;
+            if (entityWithGuid != null)
+            {
+                if (oldEntity == null)
+                {
+                    // set new guid
+                    entityWithGuid.Guid = Guid.NewGuid();
+                }
+                else
+                {
+                    var oldEntityWithGuid = oldEntity as IEntityWithGuid;
+                    if (oldEntityWithGuid == null)
+                    {
+                        throw new NotSupportedException($"Cannot set GUID for '{nameof(oldEntity)}' entity");
+                    }
+                    // keep the old guid
+                    entityWithGuid.Guid = oldEntityWithGuid.Guid;
+                }
+            }
+
+            var entityWithTimeStamp = newEntity as IEntityWithTimeStamp;
+            if (entityWithTimeStamp != null)
+            {
+                entityWithTimeStamp.Updated = DateTime.Now;
+                if (oldEntity == null)
+                {
+                    // set new created time
+                    entityWithTimeStamp.Created = DateTime.Now;
+                }
+                else
+                {
+                    // keep the old created time
+                    var oldEntityWithTimeStamp = oldEntity as IEntityWithTimeStamp;
+                    if (oldEntityWithTimeStamp == null)
+                    {
+                        throw new NotSupportedException($"Cannot set timestamp for '{nameof(oldEntity)}' entity");
+                    }
+                    entityWithTimeStamp.Created = oldEntityWithTimeStamp.Created;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets cache setup used to save all objects of this type to cache

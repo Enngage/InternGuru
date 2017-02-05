@@ -6,7 +6,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Thesis : IEntity
+    public class Thesis : IEntity, IEntityWithTimeStamp
     {
         public int ID { get; set; }
         [Required]
@@ -22,6 +22,7 @@ namespace Entity
         public string ApplicationUserId { get; set; }
         public int Amount { get; set; }
         public int CurrencyID { get; set; }
+        [Required]
         public DateTime Created { get; set; }
         [Required]
         public DateTime Updated { get; set; }

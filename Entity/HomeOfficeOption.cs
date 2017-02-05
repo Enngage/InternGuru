@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
@@ -25,7 +26,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(HomeOfficeName);
         }
 
         #endregion

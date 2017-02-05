@@ -1,11 +1,12 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
 {
-    public class Currency : IEntity
+    public class Currency : IEntity, IEntityWithUniqueCodeName
     {
         public int ID { get; set; }
         [MaxLength(50)]
@@ -24,7 +25,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(CurrencyName);
         }
 
         #endregion

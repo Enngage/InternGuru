@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
@@ -6,6 +9,9 @@ namespace Entity
     public class Log : IEntity
     {
         public int ID { get; set; }
+        [Index]
+        [MaxLength(100)]
+        public string CodeName { get; set; }
         public DateTime Created { get; set; }
         public string Url { get; set; }
         public string ExceptionMessage { get; set; }
@@ -22,7 +28,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return ID.ToString();
+            return StringHelper.GetCodeName(ExceptionMessage);
         }
 
         #endregion

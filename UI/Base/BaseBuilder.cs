@@ -276,7 +276,7 @@ namespace UI.Base
                     CompanyName = m.CompanyName,
                     CompanyCreatedByApplicationUserId = m.ApplicationUser.Id,
                     CompanyCreatedByApplicationUserName = m.ApplicationUser.UserName,
-                    CompanyGuid = m.CompanyGuid
+                    CompanyGuid = m.Guid
                 })
                 .FirstOrDefault();
 

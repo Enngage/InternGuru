@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
 {
-    public class ThesisType : IEntity
+    public class ThesisType : IEntity, IEntityWithUniqueCodeName
     {
         [Key]
         public int ID { get; set; }
@@ -31,7 +32,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(Name);
         }
 
         #endregion

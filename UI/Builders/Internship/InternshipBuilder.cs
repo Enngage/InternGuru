@@ -178,7 +178,7 @@ namespace UI.Builders.Internship
                     AmountTypeCode = m.AmountType.CodeName,
                     City = m.City,
                     CompanyID = m.CompanyID,
-                    CompanyGuid = m.Company.CompanyGuid,
+                    CompanyGuid = m.Company.Guid,
                     CompanyName = m.Company.CompanyName,
                     CountryCode = m.Country.CodeName,
                     CurrencyCode = m.Currency.CodeName,
@@ -268,7 +268,7 @@ namespace UI.Builders.Internship
                     {
                         CompanyCodeName = m.Company.CodeName,
                         CompanyID = m.CompanyID,
-                        CompanyGuid = m.Company.CompanyGuid,
+                        CompanyGuid = m.Company.Guid,
                         CompanyName = m.Company.CompanyName,
                         Lat = m.Company.Lat,
                         Lng = m.Company.Lng,

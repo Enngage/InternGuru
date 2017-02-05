@@ -10,6 +10,9 @@ namespace Entity
         public int ID { get; set; }
         [MaxLength(50)]
         public string ActivityType { get; set; }
+        [MaxLength(50)]
+        [Index]
+        public string CodeName { get; set; }
         public string ApplicationUserId { get; set; }
         public DateTime ActivityDateTime { get; set; }
         public int? RelevantCompanyID { get; set; }

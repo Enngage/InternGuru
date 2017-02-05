@@ -9,13 +9,18 @@
         int ID { get; }
 
         /// <summary>
-        /// Gets code name value of object
+        /// Code name of the entity
         /// </summary>
-        string GetCodeName();
+        string CodeName { get; set; }
 
         /// <summary>
         /// Gets value from entity primary key
         /// </summary>
         object GetObjectID();
+
+        /// <summary>
+        /// Gets code name value
+        /// </summary>
+        string GetCodeName();
     }
 }

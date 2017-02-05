@@ -1,11 +1,12 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
 {
-    public class CompanyCategory : IEntity
+    public class CompanyCategory : IEntity, IEntityWithUniqueCodeName
     {
         public int ID { get; set; }
         [Index]
@@ -23,7 +24,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(Name);
         }
 
         #endregion

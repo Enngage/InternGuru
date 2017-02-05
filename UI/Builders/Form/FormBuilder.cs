@@ -231,7 +231,7 @@ namespace UI.Builders.Form
                     CompanyName = m.Company.CompanyName,
                     CompanyCodeName = m.Company.CodeName,
                     ID = m.ID,
-                    CompanyGuid = m.Company.CompanyGuid,
+                    CompanyGuid = m.Company.Guid,
                     ThesisName = m.ThesisName,
                     ThesisTypeName = m.ThesisType.Name
                 });
@@ -280,7 +280,7 @@ namespace UI.Builders.Form
                 .Select(m => new FormInternshipModel()
                 {
                     CompanyID = m.CompanyID,
-                    CompanyGuid = m.Company.CompanyGuid,
+                    CompanyGuid = m.Company.Guid,
                     CompanyName = m.Company.CompanyName,
                     InternshipID = m.ID,
                     InternshipTitle = m.Title,

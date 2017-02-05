@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
 {
-    public class InternshipCategory : IEntity
+    public class InternshipCategory : IEntity, IEntityWithUniqueCodeName
     {
 
         #region DB 
@@ -28,7 +29,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(Name);
         }
 
         #endregion

@@ -1,11 +1,12 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
 {
-    public class StudentStatusOption : IEntity
+    public class StudentStatusOption : IEntity, IEntityWithUniqueCodeName
     {
         public int ID { get; set; }
         [MaxLength(50)]
@@ -25,7 +26,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return CodeName;
+            return StringHelper.GetCodeName(StatusName);
         }
 
         #endregion

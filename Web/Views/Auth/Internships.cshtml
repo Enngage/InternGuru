@@ -12,6 +12,10 @@
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
+            
+            <a href="@Url.Action("NewInternship", "Auth")">
+                <div class="ui button primary">Vytvořit stáž</div>
+            </a>
 
             @if (Model.Master.CurrentCompany.IsAvailable)
             {
