@@ -11,6 +11,7 @@ namespace Entity
         [MaxLength(50)]
         public string ActivityType { get; set; }
         [MaxLength(50)]
+        [Required]
         [Index]
         public string CodeName { get; set; }
         public string ApplicationUserId { get; set; }

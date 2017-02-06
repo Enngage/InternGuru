@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Threading.Tasks;
 using Core.Helpers.Internship;
 using Entity;
-using Service.Exceptions;
 
 namespace Service.Services.Internships
 {
@@ -11,31 +9,6 @@ namespace Service.Services.Internships
     {
 
         public InternshipDurationTypeService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
-
-        public override Task<int> InsertAsync(InternshipDurationType obj)
-        {
-            // set code name
-            obj.CodeName = obj.GetCodeName();
-
-            return base.InsertAsync(obj);
-        }
-
-        public override Task<int> UpdateAsync(InternshipDurationType obj)
-        {
-            var durationType = AppContext.InternshipDurationTypes.Find(obj.ID);
-
-            if (durationType == null)
-            {
-                throw new NotFoundException($"InternshipDurationType with ID: {obj.ID} not found");
-            }
-
-            // set code name
-            obj.CodeName = obj.GetCodeName();
-
-            // save changes
-            return base.UpdateAsync(obj, durationType);
-        }
-
 
         /// <summary>
         /// Gets duration in weeks from given duration type
@@ -112,7 +85,7 @@ namespace Service.Services.Internships
 
         public override IDbSet<InternshipDurationType> GetEntitySet()
         {
-            return this.AppContext.InternshipDurationTypes;
+            return AppContext.InternshipDurationTypes;
         }
     }
 }

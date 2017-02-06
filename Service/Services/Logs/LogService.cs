@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 using Entity;
-using Service.Exceptions;
 
 namespace Service.Services.Logs
 {
@@ -12,23 +11,6 @@ namespace Service.Services.Logs
         public LogService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
         #region IService members
-
-        public override Task<int> UpdateAsync(Log obj)
-        {
-            // get log
-            var log = AppContext.Logs.Find(obj.ID);
-
-            if (log == null)
-            {
-                throw new NotFoundException($"Log with ID: {obj.ID} not found");
-            }
-
-            // keep the created date
-            obj.Created = log.Created;
-
-            // save changes
-            return base.UpdateAsync(obj, log);
-        }
 
         public Task LogExceptionAsync(Exception ex)
         {
@@ -64,13 +46,13 @@ namespace Service.Services.Logs
                 Stacktrace = ex.StackTrace,
             };
 
-            base.InsertObject(this.AppContext.Logs, log); 
+            InsertObject(AppContext.Logs, log); 
         }
 
 
         public override IDbSet<Log> GetEntitySet()
         {
-            return this.AppContext.Logs;
+            return AppContext.Logs;
         }
     }
 

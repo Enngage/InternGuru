@@ -6,16 +6,20 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Message : IEntity
+    public class Message : IEntity, IEntityWithTimeStamp
     {
         public int ID { get; set; }
         [Index]
         [MaxLength(100)]
+        [Required]
         public string CodeName { get; set; }
         public int RecipientCompanyID { get; set; }
         public string SenderApplicationUserId { get; set; }
         public string RecipientApplicationUserId { get; set; }
-        public DateTime MessageCreated { get; set; }
+        [Required]
+        public DateTime Created { get; set; }
+        [Required]
+        public DateTime Updated { get; set; }
         public string MessageText { get; set; }
         public bool IsRead { get; set; }
         [MaxLength(200)]

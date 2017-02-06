@@ -5,6 +5,7 @@ using UI.Base;
 using UI.Builders.Internship;
 using UI.Builders.Master;
 using UI.Events;
+using UI.Helpers;
 
 namespace Web.Controllers
 {
@@ -24,9 +25,9 @@ namespace Web.Controllers
         [Route("Staze/{page:int}", Order = 2)]
         [Route("Staze", Order = 3)]
    
-        public async Task<ActionResult> Index(int? page, string category, string search, string city)
+        public async Task<ActionResult> Index(int? page, string category, string search, string city, string paidonly)
         {
-            var model = await _internshipBuilder.BuildBrowseViewAsync(page, category, search, city);
+            var model = await _internshipBuilder.BuildBrowseViewAsync(page, category, search, city, InputHelper.GetCheckboxValueStatic(paidonly, false));
 
             if (model == null)
             {
@@ -37,9 +38,9 @@ namespace Web.Controllers
         }
 
         [Route("Staze/Hledat", Order = 1)]
-        public async Task<ActionResult> Search(int? page, string category, string search, string city)
+        public async Task<ActionResult> Search(int? page, string category, string search, string city, string paidonly)
         {
-            var model = await _internshipBuilder.BuildBrowseViewAsync(page, category, search, city);
+            var model = await _internshipBuilder.BuildBrowseViewAsync(page, category, search, city, InputHelper.GetCheckboxValueStatic(paidonly, false));
 
             if (model == null)
             {

@@ -15,5 +15,6 @@ namespace UI.RazorExtensions
         PagerHelper PagerHelper { get; }
         ScriptHelper ScriptHelper { get; }
         MessageHelper MessageHelper { get; }
+        InputHelper InputHelper { get; }
     }
 }

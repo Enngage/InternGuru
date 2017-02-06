@@ -6,12 +6,14 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class HomeOfficeOption : IEntity
+    public class HomeOfficeOption : IEntity, IEntityWithUniqueCodeName
     {
         public int ID { get; set; }
         [MaxLength(50)]
+        [Required]
         public string HomeOfficeName { get; set; }
         [Index]
+        [Required]
         [MaxLength(50)]
         public string CodeName { get; set; }
         [MaxLength(50)]

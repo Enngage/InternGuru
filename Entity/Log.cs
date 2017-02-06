@@ -6,12 +6,16 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Log : IEntity
+    public class Log : IEntity, IEntityWithTimeStamp
     {
         public int ID { get; set; }
         [Index]
+        [Required]
         [MaxLength(100)]
         public string CodeName { get; set; }
+        [Required]
+        public DateTime Updated { get; set; }
+        [Required]
         public DateTime Created { get; set; }
         public string Url { get; set; }
         public string ExceptionMessage { get; set; }

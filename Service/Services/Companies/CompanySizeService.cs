@@ -10,7 +10,7 @@ namespace Service.Services.Companies
 
         public override IDbSet<CompanySize> GetEntitySet()
         {
-            return this.AppContext.CompanySizes;
+            return AppContext.CompanySizes;
         }
     }
 }

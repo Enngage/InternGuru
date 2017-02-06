@@ -269,7 +269,7 @@ namespace Service.Services
             try
             {
                 // save changes
-                var result = this.AppContext.SaveChanges();
+                var result = AppContext.SaveChanges();
 
                 return result;
             }
@@ -450,7 +450,7 @@ namespace Service.Services
             try
             {
                 // save changes
-                var result = await this.AppContext.SaveChangesAsync();
+                var result = await AppContext.SaveChangesAsync();
 
                 return result;
             }

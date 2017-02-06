@@ -1,6 +1,4 @@
 ﻿using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
 using Entity;
 
 namespace Service.Services.Companies
@@ -13,10 +11,8 @@ namespace Service.Services.Companies
 
         public override IDbSet<Company> GetEntitySet()
         {
-            return EntitySet;
+            return AppContext.Companies;
         }
-
-        public IDbSet<Company> EntitySet => this.AppContext.Companies;
 
     }
 }

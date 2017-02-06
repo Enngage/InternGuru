@@ -22,7 +22,7 @@ namespace Service.Services.Identity
 
         public override IDbSet<ApplicationUser> GetEntitySet()
         {
-            return this.AppContext.Users;
+            return AppContext.Users;
         }
     }
 }

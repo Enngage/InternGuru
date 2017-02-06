@@ -6,6 +6,7 @@ using UI.Base;
 using UI.Builders.Auth;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Master;
+using UI.Enums;
 using UI.Events;
 using UI.Exceptions;
 
@@ -76,8 +77,8 @@ namespace Web.Controllers
             }
 
             // get result
-            var actionResult = EnumHelper.ParseEnum(result, RegisterResult.Unknown);
-            if (actionResult == RegisterResult.Success)
+            var actionResult = EnumHelper.ParseEnum(result, ActionResultEnum.Unknown);
+            if (actionResult == ActionResultEnum.Success)
             {
                 // set flag indicating that company has just been created
                 model.CompanyForm.IsNewlyRegisteredCompany = true;
@@ -95,7 +96,7 @@ namespace Web.Controllers
         }
 
         [Route("Uzivatel/UpravitStaz/{id:int}")]
-        public async Task<ActionResult> EditInternship(int? id)
+        public async Task<ActionResult> EditInternship(int? id, string result)
         {
             if (id == null)
             {
@@ -110,6 +111,14 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
+            // get result
+            var actionResult = EnumHelper.ParseEnum(result, ActionResultEnum.Unknown);
+            if (actionResult == ActionResultEnum.Success)
+            {
+                // set flag indicating that internship has just been created
+                model.InternshipForm.IsNewlyCreatedInternship = true;
+            }
+
             return View(model);
         }
 
@@ -122,7 +131,7 @@ namespace Web.Controllers
         }
 
         [Route("Uzivatel/UpravitZaverecnouPraci/{id:int}")]
-        public async Task<ActionResult> EditThesis(int? id)
+        public async Task<ActionResult> EditThesis(int? id, string result)
         {
             if (id == null)
             {
@@ -135,6 +144,14 @@ namespace Web.Controllers
             if (model == null)
             {
                 return HttpNotFound();
+            }
+
+            // get result
+            var actionResult = EnumHelper.ParseEnum(result, ActionResultEnum.Unknown);
+            if (actionResult == ActionResultEnum.Success)
+            {
+                // set flag indicating that thesis has just been created
+                model.ThesisForm.IsNewlyCreatedThesis = true;
             }
 
             return View(model);
@@ -333,10 +350,8 @@ namespace Web.Controllers
                 // update InternshipID
                 model.InternshipForm.ID = internshipID;
 
-                // edit view name
-                var editView = "~/Views/Auth/EditInternship.cshtml";
-
-                return View(editView, model);
+                // redirect
+                return RedirectToAction("EditInternship", new {id = internshipID, result = ActionResultEnum.Success});
             }
             catch (UiException ex)
             {
@@ -403,7 +418,7 @@ namespace Web.Controllers
 
                 // redirect to edit company 
                 // do not return view because the CurrentCompany would not get updated in this request
-                return RedirectToAction("EditCompany", new { result = RegisterResult.Success });
+                return RedirectToAction("EditCompany", new { result = ActionResultEnum.Success });
             }
             catch (UiException ex)
             {
@@ -468,7 +483,8 @@ namespace Web.Controllers
                 // update thesis ID
                 model.ThesisForm.ID = thesisID;
 
-                return View(model);
+                // redirect
+                return RedirectToAction("EditThesis", new { id = thesisID, result = ActionResultEnum.Success });
             }
             catch (UiException ex)
             {
@@ -511,15 +527,5 @@ namespace Web.Controllers
 
         #endregion
 
-        #region Register company result enum
-
-        private enum RegisterResult
-        {
-            Success,
-            Failure,
-            Unknown
-        }
-
-        #endregion
     }
 }

@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
-using Service.Exceptions;
 
 namespace Service.Services.Languages
 {
@@ -13,30 +12,6 @@ namespace Service.Services.Languages
         public static readonly char InternshipLanguageStringSeparator = ',';
 
         public LanguageService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
-
-        public override Task<int> InsertAsync(Language obj)
-        {
-            // set code name
-            obj.CodeName = obj.GetCodeName();
-
-            return base.InsertAsync(obj);
-        }
-
-        public override Task<int> UpdateAsync(Language obj)
-        {
-            var language = AppContext.Languages.Find(obj.ID);
-
-            if (language == null)
-            {
-                throw new NotFoundException($"Languages with ID: {obj.ID} not found");
-            }
-
-            // set code name
-            obj.CodeName = obj.GetCodeName();
-
-            // save changes
-            return base.UpdateAsync(obj, language);
-        }
 
         public async Task<IEnumerable<Language>> GetLanguagesFromCommaSeparatedStringAsync(string languagesCodeString)
         {
@@ -65,7 +40,7 @@ namespace Service.Services.Languages
 
         public override IDbSet<Language> GetEntitySet()
         {
-            return this.AppContext.Languages;
+            return AppContext.Languages;
         }
     }
 }

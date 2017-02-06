@@ -404,8 +404,8 @@ namespace UI.Builders.Auth
                     CurrencyID = m.CurrencyID,
                     InternshipCategoryID = m.InternshipCategoryID,
                     Description = m.Description,
-                    IsPaid = m.IsPaid ? "on" : "",
-                    IsActive = m.IsActive ? "on" : "",
+                    IsPaid = m.IsPaid ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
+                    IsActive = m.IsActive ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
                     ThesisName = m.ThesisName,
                     ThesisTypeID = m.ThesisTypeID,
                 });
@@ -444,7 +444,7 @@ namespace UI.Builders.Auth
                 Currencies = await FormGetCurrenciesAsync(),
                 ThesisTypes = await FormGetThesisTypesAsync(),
                 Categories = await FormGetInternshipCategoriesAsync(),
-                IsActive = "on", // thesis is active by default
+                IsActive = Helpers.InputHelper.ValueOfEnabledCheckboxStatic, // thesis is active by default
             };
 
             return new AuthNewThesisView()
@@ -523,7 +523,7 @@ namespace UI.Builders.Auth
                     Description = m.Description,
                     ID = m.ID,
                     InternshipCategoryID = m.InternshipCategoryID,
-                    IsPaid = m.IsPaid ? "on" : "",
+                    IsPaid = m.IsPaid ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
                     MaxDurationTypeID = m.MaxDurationTypeID,
                     MinDurationTypeID = m.MinDurationTypeID,
                     StartDate = m.StartDate,
@@ -534,8 +534,8 @@ namespace UI.Builders.Auth
                     MaxDurationInDays = m.MaxDurationInDays,
                     MaxDurationInMonths = m.MaxDurationInMonths,
                     MaxDurationInWeeks = m.MaxDurationInWeeks,
-                    IsActive = m.IsActive ? "on" : null,
-                    HasFlexibleHours = m.HasFlexibleHours ? "on" : null,
+                    IsActive = m.IsActive ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : null,
+                    HasFlexibleHours = m.HasFlexibleHours ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : null,
                     WorkingHours = m.WorkingHours,
                     Requirements = m.Requirements,
                     MinDurationTypeCodeName = m.MinDurationType.CodeName,
@@ -618,7 +618,7 @@ namespace UI.Builders.Auth
                 DurationTypes = await FormGetInternshipDurationsAsync(),
                 Countries = await FormGetCountriesAsync(),
                 Currencies = await FormGetCurrenciesAsync(),
-                IsActive = "on", // IsActive is enabled by default
+                IsActive = Helpers.InputHelper.ValueOfEnabledCheckboxStatic, // IsActive is enabled by default
                 AllLanguages = await FormGetLanguagesAsync(),
                 StudentStatusOptions = await FormGetAllStudentStatusOptions(),
                 HomeOfficeOptions = await FormGetAllHomeOfficeOptions()
@@ -1609,11 +1609,11 @@ namespace UI.Builders.Auth
                     (m.RecipientApplicationUserId == CurrentUser.Id || m.SenderApplicationUserId == CurrentUser.Id)
                     &&
                     (m.RecipientApplicationUserId == otherUserId || m.SenderApplicationUserId == otherUserId))
-               .OrderByDescending(m => m.MessageCreated)
+               .OrderByDescending(m => m.Created)
                .Select(m => new AuthMessageModel()
                {
                    ID = m.ID,
-                   MessageCreated = m.MessageCreated,
+                   MessageCreated = m.Created,
                    SenderApllicationUserId = m.SenderApplicationUserId,
                    SenderApplicationUserName = m.SenderApplicationUser.UserName,
                    RecipientApplicationUserId = m.RecipientApplicationUserId,
@@ -1697,11 +1697,11 @@ namespace UI.Builders.Auth
             var messagesQuery = Services.MessageService.GetAll()
                    .Where(m =>
                     (m.RecipientApplicationUserId == CurrentUser.Id || m.SenderApplicationUserId == CurrentUser.Id))
-               .OrderByDescending(m => m.MessageCreated)
+               .OrderByDescending(m => m.Created)
                .Select(m => new AuthMessageModel()
                {
                    ID = m.ID,
-                   MessageCreated = m.MessageCreated,
+                   MessageCreated = m.Created,
                    SenderApllicationUserId = m.SenderApplicationUserId,
                    SenderApplicationUserName = m.SenderApplicationUser.UserName,
                    RecipientApplicationUserId = m.RecipientApplicationUserId,

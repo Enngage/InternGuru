@@ -10,9 +10,11 @@ namespace Entity
         [Key]
         public int ID { get; set; }
         [Index]
+        [Required]
         [MaxLength(50)]
         public string CodeName { get; set; }
         [MaxLength(50)]
+        [Required]
         public string LanguageName { get; set; }
         [MaxLength(50)]
         public string IconClass { get; set; }

@@ -219,8 +219,10 @@
     <Compile Include="Builders\Shared\Enums\UIHeaderSizeEnum.cs" />
     <Compile Include="Builders\Shared\Enums\UIHeaderTextAlignmentEnum.cs" />
     <Compile Include="Builders\Shared\Models\UIHeaderButton.cs" />
+    <Compile Include="Enums\ActionResultEnum.cs" />
     <Compile Include="Helpers\MessageHelper.cs" />
     <Compile Include="Helpers\ScriptHelper.cs" />
+    <Compile Include="Helpers\InputHelper.cs" />
     <Compile Include="Modules\CompanyGallery\CompanyGalleryBuilder.cs" />
     <Compile Include="Modules\CompanyGallery\Models\CompanyGalleryDeleteFileQuery.cs" />
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />

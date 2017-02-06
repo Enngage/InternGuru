@@ -16,6 +16,7 @@ namespace UI.RazorExtensions
         public PagerHelper PagerHelper { get; }
         public ScriptHelper ScriptHelper { get; }
         public MessageHelper MessageHelper { get; }
+        public InputHelper InputHelper { get; }
 
         public UIHelpers(WebViewPage webViewPage)
         {
@@ -29,6 +30,7 @@ namespace UI.RazorExtensions
             PagerHelper = KernelProvider.Get<PagerHelper>(webParameter);
             ScriptHelper = KernelProvider.Get<ScriptHelper>(webParameter);
             MessageHelper = KernelProvider.Get<MessageHelper>(webParameter);
+            InputHelper = KernelProvider.Get<InputHelper>(webParameter);
         }
     }
 }

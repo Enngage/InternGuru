@@ -12,13 +12,6 @@ namespace Service.Services.Thesis
 
         public override Task<int> InsertAsync(Entity.Thesis obj)
         {
-            // set code name
-            obj.CodeName = obj.GetCodeName();
-
-            // set dates
-            obj.Created = DateTime.Now;
-            obj.Updated = DateTime.Now;
-
             // set active since date
             obj.ActiveSince = obj.IsActive ? DateTime.Now : DateTime.MinValue;
 
@@ -32,14 +25,7 @@ namespace Service.Services.Thesis
             if (thesis == null)
             {
                 throw new NotFoundException($"Thesis with ID: {obj.ID} not found");
-            }
-
-            // set code name
-            obj.CodeName = obj.GetCodeName();
-
-            // set dates
-            obj.Updated = DateTime.Now;
-            obj.Created = thesis.Created;
+            }        
 
             // set active since date if internship was not active before, but is active now
             obj.ActiveSince = !thesis.IsActive && obj.IsActive ? DateTime.Now : thesis.ActiveSince;
@@ -51,7 +37,7 @@ namespace Service.Services.Thesis
 
         public override IDbSet<Entity.Thesis> GetEntitySet()
         {
-            return this.AppContext.Theses;
+            return AppContext.Theses;
         }
     }
 }

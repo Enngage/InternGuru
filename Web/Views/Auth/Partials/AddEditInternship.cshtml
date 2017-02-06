@@ -54,8 +54,13 @@
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
 
             @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
+            
+            @if (Model.IsNewlyCreatedInternship)
+            {
+                @Helpers.MessageHelper.RenderSuccessMessage("Stáž byla úspěšně vytvořena")
+            }
 
-            <form id="_InternshipForm" class="ui form">
+        <form id="_InternshipForm" class="ui form">
 
                 <div class="ui segment blue secondary inverted">
 

@@ -10,8 +10,10 @@ namespace Entity
     {
         public int ID { get; set; }
         [MaxLength(50)]
+        [Required]
         public string StatusName { get; set; }
         [Index]
+        [Required]
         [MaxLength(50)]
         public string CodeName { get; set; }
         [MaxLength(50)]

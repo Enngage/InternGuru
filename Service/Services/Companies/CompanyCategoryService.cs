@@ -10,7 +10,7 @@ namespace Service.Services.Companies
 
         public override IDbSet<CompanyCategory> GetEntitySet()
         {
-            return this.AppContext.CompanyCategories;
+            return AppContext.CompanyCategories;
         }
     }
 }

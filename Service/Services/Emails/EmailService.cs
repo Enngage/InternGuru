@@ -125,7 +125,7 @@ namespace Service.Services.Emails
             // set guid
             email.Guid = Guid.NewGuid();
 
-            return base.InsertObject(this.AppContext.Emails, email);
+            return InsertObject(AppContext.Emails, email);
         }
 
         public void LogFailedEmail(string recipientEmail, string subject, string text, string result)
@@ -148,7 +148,7 @@ namespace Service.Services.Emails
 
         public override IDbSet<Email> GetEntitySet()
         {
-            return this.AppContext.Emails;
+            return AppContext.Emails;
         }
     }
 }

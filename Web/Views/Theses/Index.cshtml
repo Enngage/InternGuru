@@ -21,7 +21,7 @@
         <div class="sixteen wide column">
             <div class="ui segment padded">
                 <div class="ui grid">
-                    <div class="sixteen wide mobile fourteen wide tablet fourteen wide computer column">
+                    <div class="sixteen wide mobile twelve wide tablet fourteen wide computer column">
                         <div class="ui search _ThesesNameAutocomplete">
                             <div class="ui fluid icon input">
                                 <input class="prompt" name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
@@ -30,7 +30,7 @@
                             <div class="results"></div>
                         </div>
                     </div>
-                    <div class="sixteen wide mobile two wide tablet two wide computer column">
+                    <div class="sixteen wide mobile four wide tablet two wide computer column">
                         <button class="ui button primary fluid" type="submit">
                             Hledat
                         </button>
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="five wide tablet only four wide computer only column">
+        <div class="seven wide tablet only four wide computer only column">
             <div class="ui padded segment">
                 <div class="ui secondary vertical pointing menu w-internship-category-menu ">
                     @if (string.IsNullOrEmpty(currentCategory))
@@ -77,7 +77,7 @@
                 </div>
             </div>
         </div>
-        <div class="sixteen wide mobile eleven wide tablet twelve wide computer column">
+        <div class="sixteen wide mobile nine wide tablet twelve wide computer column">
             <div class="ui padded segment">
 
                 @if (!Model.Theses.Any())
@@ -86,14 +86,17 @@
                 }
                 else
                 {
-                    <table class="ui very basic table w-table-listing _ThesesListingTable">
-                        <thead>
+                    <table class="ui very basic tablet stackable table w-table-listing _ThesesListingTable">
+                        <thead class="w-tablet-hide w-mobile-hide">
                         <tr>
                             <th colspan="2">
                                 Název práce (odměna)
                             </th>
-                            <th class="collapsing">
+                            <th class="collapsing w-body-text-center">
                                 Typ práce
+                            </th>
+                            <th class="collapsing w-body-text-center">
+                                Odměna
                             </th>
                             <th class="collapsing">
                                 Přidáno   
@@ -116,8 +119,18 @@
                                         <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
                                     }
                                 </td>
-                                <td class="collapsing w-body-text-right w-mobile-left">
+                                <td class="collapsing w-body-text-center w-mobile-left">
                                     @thesis.ThesisTypeNameConverted
+                                </td>
+                                <td class="collapsing w-body-text-center w-mobile-left">
+                                    @if (thesis.Amount > 0)
+                                    {
+                                        <span>@(CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
+                                    }
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
                                 </td>
                                 <td class="collapsing w-body-text-right w-mobile-left">
                                     @DateHelper.FormatDate(thesis.Created)

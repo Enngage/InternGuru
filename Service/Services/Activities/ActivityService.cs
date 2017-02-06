@@ -13,17 +13,17 @@ namespace Service.Services.Activities
 
         public IQueryable<Activity> GetActivities(ActivityTypeEnum type)
         {
-            return this.GetAll().Where(m => m.ActivityType.Equals(type.ToString()));
+            return GetAll().Where(m => m.ActivityType.Equals(type.ToString()));
         }
 
         public IQueryable<Activity> GetActivities(ActivityTypeEnum type, int companyID)
         {
-            return this.GetAll().Where(m => m.ActivityType.Equals(type.ToString()) && m.RelevantCompanyID.Equals(companyID));
+            return GetAll().Where(m => m.ActivityType.Equals(type.ToString()) && m.RelevantCompanyID.Equals(companyID));
         }
 
         public IQueryable<Activity> GetActivities(ActivityTypeEnum type, string applicationUserId)
         {
-            return this.GetAll().Where(m => m.ActivityType.Equals(type.ToString()) && m.ApplicationUserId.Equals(applicationUserId));
+            return GetAll().Where(m => m.ActivityType.Equals(type.ToString()) && m.ApplicationUserId.Equals(applicationUserId));
         }
 
         public async Task<int> LogActivity(ActivityTypeEnum type)
@@ -63,7 +63,7 @@ namespace Service.Services.Activities
 
         public override IDbSet<Activity> GetEntitySet()
         {
-            return this.AppContext.Activities;
+            return AppContext.Activities;
         }
     }
 }

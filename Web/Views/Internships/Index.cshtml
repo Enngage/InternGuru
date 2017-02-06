@@ -12,6 +12,7 @@
 
     var searchVal = Helpers.UrlHelper.GetQueryString("search", string.Empty);
     var cityVal = Helpers.UrlHelper.GetQueryString("city", string.Empty);
+    var paidOnly = Helpers.InputHelper.GetCheckboxValue(Helpers.UrlHelper.GetQueryString("paidonly", string.Empty), false);
 
     var totalInternshipCount = Model.InternshipCategories.Sum(m => m.InternshipCount);
 }
@@ -24,7 +25,23 @@
         <div class="sixteen wide column">
             <div class="ui segment padded">
                 <div class="ui grid">
-                    <div class="sixteen wide mobile seven wide tablet seven wide computer column">
+                    <div class="sixteen wide column">
+                        @if (paidOnly)
+                        {
+                            <div class="ui checked checkbox">
+                                <input name="paidonly" type="checkbox" checked="">
+                                <label>Pouze placené stáže</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="ui checkbox">
+                                <input name="paidonly" type="checkbox">
+                                <label>Pouze placené stáže</label>
+                            </div>
+                        }
+                    </div>
+                    <div class="sixteen wide mobile six wide tablet seven wide computer column">
                         <div class="ui search _InternshipTitleAutocomplete">
                             <div class="ui fluid icon input">
                                 <input class="prompt" name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
@@ -33,7 +50,7 @@
                             <div class="results"></div>
                         </div>
                     </div>
-                    <div class="sixteen wide mobile seven wide tablet seven wide computer column">
+                    <div class="sixteen wide mobile six wide tablet seven wide computer column">
                         <div class="ui search _CitiesAutocomplete">
                             <div class="ui fluid icon input">
                                 <input class="prompt" name="city" placeholder="Město" type="text" value="@cityVal" autocomplete="off">
@@ -42,7 +59,7 @@
                             <div class="results"></div>
                         </div>
                     </div>
-                    <div class="sixteen wide mobile two wide tablet two wide computer column">
+                    <div class="sixteen wide mobile four wide tablet two wide computer column">
                         <button class="ui button primary fluid" type="submit">
                             Hledat
                         </button>
@@ -51,12 +68,12 @@
             </div>
         </div>
 
-        <div class="five wide tablet only four wide computer only column">
+        <div class="seven wide tablet only four wide computer only column">
             <div class="ui padded segment">
                 <div class="ui secondary vertical pointing menu w-internship-category-menu ">
                     @if (string.IsNullOrEmpty(currentCategory))
                     {
-                        <a href="@Url.Action("Index", new { category = "", page = "" })" class="active item">
+                        <a href="@Url.Action("Index", new { category = "", page = "", paidonly = paidOnly ? Helpers.InputHelper.ValueOfEnabledCheckbox : ""})" class="active item">
                             Všechny nabídky
                             <span class="w-body-float-right">@totalInternshipCount</span>
                         </a>
@@ -71,16 +88,19 @@
 
                     @foreach (var category in Model.InternshipCategories)
                     {
-                    if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
-                    {
-                            <a href="@Url.Action("Index", new { category = category.CodeName })" class="active item">
+                        var routeObj = paidOnly ? new {category = category.CodeName, paidonly = Helpers.InputHelper.ValueOfEnabledCheckbox} : new {category = category.CodeName, paidonly = string.Empty};
+
+                        if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
+                        {
+
+                            <a href="@Url.Action("Index", routeObj)" class="active item">
                                 @category.CategoryName
                                 <span class="w-font-bold w-body-float-right">@category.InternshipCount</span>
                             </a>
                         }
                         else
                         {
-                            <a href="@Url.Action("Index", new { category = category.CodeName })" class="item">
+                            <a href="@Url.Action("Index", routeObj)" class="item">
                                 @category.CategoryName
                                 <span class="w-body-float-right">@category.InternshipCount</span>
                             </a>
@@ -89,7 +109,7 @@
                 </div>
             </div>
         </div>
-        <div class="sixteen wide mobile eleven wide tablet twelve wide computer column">
+        <div class="sixteen wide mobile nine wide tablet twelve wide computer column">
             <div class="ui padded segment">
 
                 @if (!Model.Internships.Any())
@@ -98,17 +118,21 @@
                 }
                 else
                 {
-                    <table class="ui very basic table w-table-listing _InternshipsListingTable">
-                        <thead>
+                    <table class="ui very basic tablet stackable table w-table-listing _InternshipsListingTable">
+                        <thead class="w-tablet-hide w-mobile-hide">
                         <tr>
                             <th colspan="2">
                                 Pozice
                             </th>
-                            <th>
-                                Město
+                      
+                            <th class="collapsing center aligned w-tablet-show w-mobile-show">
+                                Odměna
                             </th>
-                            <th class="collapsing">
+                            <th class="collapsing center aligned">
                                 Délka stáže
+                            </th>
+                            <th class="right aligned">
+                                Město
                             </th>
                         </tr>
                         </thead>
@@ -123,13 +147,23 @@
                                     <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
                                         @internship.Title
                                     </a>
-                                    <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
                                 </td>
-                                <td>
-                                    @Helpers.CountryHelper.GetCountryIcon(internship.CountryCode) @internship.City
+                              
+                                <td class="w-tablet-show w-mobile-show">
+                                    @if (internship.Amount > 0)
+                                    {
+                                        <span>@(CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft)) / @internship.AmountTypeName</span>
+                                    }
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
                                 </td>
-                                <td class="collapsing w-body-text-right w-mobile-left">
+                                <td class="collapsing center aligned w-mobile-left">
                                     @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
+                                </td>
+                                <td class="collapsing right aligned w-mobile-left">
+                                   @internship.City &nbsp;@Helpers.CountryHelper.GetCountryIcon(internship.CountryCode)
                                 </td>
                             </tr>
                         }
@@ -137,7 +171,7 @@
                     </table>
 
                     <div class="w-margin-top-10">
-                        @Helpers.PagerHelper.GetPager(Model.Internships, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new { page, search = searchVal, city = cityVal }))
+                        @Helpers.PagerHelper.GetPager(Model.Internships, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new { page, search = searchVal, city = cityVal, paidonly = paidOnly ? Helpers.InputHelper.ValueOfEnabledCheckbox : string.Empty }))
                     </div>
                 }
             </div>

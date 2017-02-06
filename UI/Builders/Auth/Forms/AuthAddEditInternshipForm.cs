@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using UI.Attributes;
 using UI.Base;
 using UI.Builders.Auth.Models;
+using UI.Helpers;
 
 namespace UI.Builders.Auth.Forms
 {
@@ -87,6 +88,11 @@ namespace UI.Builders.Auth.Forms
         public int MaxDurationInWeeks { get; set; }
         public int MaxDurationInMonths { get; set; }
 
+        /// <summary>
+        /// Indicates if internship has just been created
+        /// </summary>
+        public bool IsNewlyCreatedInternship { get; set; }
+
 
         /// <summary>
         /// Indicates whether the model represents existing internship (based on ID)
@@ -95,25 +101,17 @@ namespace UI.Builders.Auth.Forms
 
         public bool GetHasFlexibleHours()
         {
-            return !string.IsNullOrEmpty(HasFlexibleHours) && HasFlexibleHours.Equals("on", StringComparison.OrdinalIgnoreCase);
+            return InputHelper.GetCheckboxValueStatic(HasFlexibleHours, false);
         }
 
         public bool GetIsPaid()
         {
-            if (string.IsNullOrEmpty(IsPaid))
-            {
-                return false;
-            }
-
-            return IsPaid.Equals("on", StringComparison.OrdinalIgnoreCase);
+            return InputHelper.GetCheckboxValueStatic(IsPaid, false);
         }
 
         public bool GetIsActive()
         {
-            return !string.IsNullOrEmpty(IsActive) && IsActive.Equals("on", StringComparison.OrdinalIgnoreCase);
+            return InputHelper.GetCheckboxValueStatic(IsActive, false);
         }
-
-       
-
     }
 }

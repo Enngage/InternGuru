@@ -13,11 +13,14 @@ namespace Entity
     {
         public int ID { get; set; }
         [MaxLength(100)]
+        [Required]
         [Index]
         public string CompanyName { get; set; }
         [Index]
+        [Required]
         [MaxLength(100)]
         public string CodeName { get; set; }
+        [Required]
         public Guid Guid { get; set; }
         public int YearFounded { get; set; }
         public string PublicEmail { get; set; }

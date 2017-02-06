@@ -10,7 +10,7 @@ namespace Service.Services.Internships
 
         public override IDbSet<InternshipCategory> GetEntitySet()
         {
-            return this.AppContext.InternshipCategories;
+            return AppContext.InternshipCategories;
         }
     }
 }

@@ -12,12 +12,6 @@ namespace Service.Services.Internships
 
         public override Task<int> InsertAsync(Internship obj)
         {
-            obj.Created = DateTime.Now;
-            obj.Updated = DateTime.Now;
-
-            // set code name
-            obj.CodeName = obj.GetCodeName();
-
             // set active since date
             obj.ActiveSince = obj.IsActive ? DateTime.Now : DateTime.MinValue;
 
@@ -48,7 +42,7 @@ namespace Service.Services.Internships
 
         public override IDbSet<Internship> GetEntitySet()
         {
-            return this.AppContext.Internships;
+            return AppContext.Internships;
         }
     }
 }

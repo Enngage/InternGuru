@@ -9,12 +9,6 @@ namespace UI.Builders.Auth.Views
         /// <summary>
         /// Indicates if internship exists
         /// </summary>
-        public bool InternshipExists
-        {
-            get
-            {
-                return InternshipForm != null;
-            }
-        }
+        public bool InternshipExists => InternshipForm != null;
     }
 }

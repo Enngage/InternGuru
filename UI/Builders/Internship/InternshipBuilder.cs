@@ -38,7 +38,7 @@ namespace UI.Builders.Internship
             };
         }
 
-        public async Task<InternshipBrowseView> BuildBrowseViewAsync(int? page, string category, string search, string city)
+        public async Task<InternshipBrowseView> BuildBrowseViewAsync(int? page, string category, string search, string city, bool paidOnly)
         {
             var pageSize = 30;
             var pageNumber = (page ?? 1);
@@ -46,6 +46,12 @@ namespace UI.Builders.Internship
 
             // get all internships and store them in cache (filtering will be faster)
             var internships = await GetAllInternshipsAsync();
+
+            // paid only filter
+            if (paidOnly)
+            {
+                internships = internships.Where(m => m.IsPaid);
+            }
 
             // filter by category
             if (!string.IsNullOrEmpty(category))

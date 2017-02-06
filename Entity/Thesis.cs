@@ -17,10 +17,14 @@ namespace Entity
         [MaxLength(250)]
         public string ThesisName { get; set; }
         public string Description { get; set; }
+        [Required]
         public int InternshipCategoryID { get; set; }
+        [Required]
         public int CompanyID { get; set; }
+        [Required]
         public string ApplicationUserId { get; set; }
         public int Amount { get; set; }
+        [Required]
         public int CurrencyID { get; set; }
         [Required]
         public DateTime Created { get; set; }
@@ -28,6 +32,7 @@ namespace Entity
         public DateTime Updated { get; set; }
         [Required]
         public bool IsPaid { get; set; }
+        [Required]
         public int ThesisTypeID { get; set; }
         public bool IsActive { get; set; }
         public DateTime ActiveSince { get; set; }

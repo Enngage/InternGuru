@@ -12,6 +12,7 @@ namespace UI.RazorExtensions
             base.InitHelpers();
 
             // pass web view page to all helper classes as argument
+            // webViewPage = param name
             var webParameter = new ConstructorParameter("webViewPage", this);
 
             Helpers = KernelProvider.Get<IUIHelpers>(webParameter);

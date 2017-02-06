@@ -11,8 +11,10 @@ namespace Entity
         [Key]
         public int ID { get; set; }
         [MaxLength(50)]
+        [Required]
         public string Name { get; set; }
         [Index]
+        [Required]
         [MaxLength(50)]
         public string CodeName { get; set; }
 

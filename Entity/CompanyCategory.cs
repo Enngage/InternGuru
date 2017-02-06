@@ -10,9 +10,11 @@ namespace Entity
     {
         public int ID { get; set; }
         [Index]
+        [Required]
         [MaxLength(100)]
         public string CodeName { get; set; }
         [MaxLength(100)]
+        [Required]
         public string Name { get; set; }
 
         #region IEntity members

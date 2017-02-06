@@ -25,6 +25,11 @@
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
 
             @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
+            
+            @if (Model.IsNewlyCreatedThesis)
+            {
+                @Helpers.MessageHelper.RenderSuccessMessage("Závěrečná práce byla úspěšně vytvořena")
+            }
 
             <div class="ui segment blue secondary inverted">
                 <div class="field">

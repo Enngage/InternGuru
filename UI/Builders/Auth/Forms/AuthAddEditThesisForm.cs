@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using UI.Attributes;
 using UI.Base;
 using UI.Builders.Auth.Models;
+using UI.Helpers;
 
 namespace UI.Builders.Auth.Forms
 {
@@ -32,36 +33,24 @@ namespace UI.Builders.Auth.Forms
         public IEnumerable<AuthCurrencyModel> Currencies { get; set; }
         public IEnumerable<AuthInternshipCategoryModel> Categories { get; set; }
 
+        /// <summary>
+        /// Indicates if thesis has just been created
+        /// </summary>
+        public bool IsNewlyCreatedThesis { get; set; }
+
         public bool GetIsActive()
         {
-            if (string.IsNullOrEmpty(IsActive))
-            {
-                return false;
-            }
-
-            return IsActive.Equals("on", StringComparison.OrdinalIgnoreCase);
+            return InputHelper.GetCheckboxValueStatic(IsActive, false);
         }
 
         public bool GetIsPaid()
         {
-            if (string.IsNullOrEmpty(IsPaid))
-            {
-                return false;
-            }
-
-            return IsPaid.Equals("on", StringComparison.OrdinalIgnoreCase);
+            return InputHelper.GetCheckboxValueStatic(IsPaid, false);
         }
 
         /// <summary>
         /// Indicates whether the model represents existing thesis (based on ID)
         /// </summary>
-        public bool IsExistingThesis
-        {
-            get
-            {
-                return ID != 0;
-            }
-        }
-
+        public bool IsExistingThesis => ID != 0;
     }
 }

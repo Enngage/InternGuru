@@ -42,7 +42,7 @@ namespace Service.Context
                 EmailConfirmed = true
             };
 
-            var userResult = userManager.Create(newUser, adminDefaultPassword);
+            userManager.Create(newUser, adminDefaultPassword);
 
             // get this user
             var user = userManager.FindByName(adminUserName);
@@ -672,7 +672,7 @@ namespace Service.Context
                     Email = userName,
                 };
 
-                var userResult = userManager.Create(newUser, userPassword);
+                userManager.Create(newUser, userPassword);
 
                 // get just created user
                 var user = userManager.FindByEmail(newUser.Email);
@@ -696,7 +696,8 @@ namespace Service.Context
                     YearFounded = GetRandomYear(),
                     CodeName = StringHelper.GetCodeName(companyName),
                     Created = DateTime.Now,
-                    Updated = DateTime.Now
+                    Updated = DateTime.Now,
+                    Guid = Guid.NewGuid()
                 };
 
                 context.Companies.Add(company);
@@ -715,6 +716,8 @@ namespace Service.Context
                 var minDurationValue = GetRandomDurationValue();
                 var maxDurationValue = GetRandomDurationValue(minDurationValue);
 
+                var amount = GetRandomInternshipAmout();
+
                 var internship = new Internship()
                 {
                     ApplicationUser = company.ApplicationUser,
@@ -725,7 +728,7 @@ namespace Service.Context
                     City = GetLoremIpsumName(),
                     Country = context.Countries.RandomItem(),
                     Currency = context.Currencies.RandomItem(),
-                    Amount = GetRandomInternshipAmout(),
+                    Amount = amount,
                     Description = GetLoremIpsumtText(),
                     HasFlexibleHours = GetRandomBool(),
                     WorkingHours = GetRandomWorkingHours(),
@@ -733,7 +736,7 @@ namespace Service.Context
                     InternshipCategory = context.InternshipCategories.RandomItem(),
                     IsActive = true,
                     ActiveSince = DateTime.Now,
-                    IsPaid = GetRandomBool(),
+                    IsPaid = amount > 0,
                     Languages = GetRandomLanguages(context),
                     MaxDurationType = maxDuration,
                     MinDurationType = minDuration,
@@ -758,9 +761,11 @@ namespace Service.Context
             {
                 var company = context.Companies.RandomItem();
 
+                var amount = GetRandomInternshipAmout();
+
                 var thesis = new Thesis()
                 {
-                    Amount = GetRandomInternshipAmout(),
+                    Amount = amount,
                     ApplicationUser = company.ApplicationUser,
                     Company = company,
                     Currency = context.Currencies.RandomItem(),
@@ -768,7 +773,7 @@ namespace Service.Context
                     InternshipCategory = context.InternshipCategories.RandomItem(),
                     IsActive = true,
                     ActiveSince = DateTime.Now,
-                    IsPaid = GetRandomBool(),
+                    IsPaid = amount > 0,
                     ThesisName = GetLoremIpsumName(),
                     ThesisType = context.ThesisTypes.RandomItem(),
                     Created = DateTime.Now,
@@ -819,14 +824,9 @@ namespace Service.Context
         private bool GetRandomBool()
         {
             var random = new Random();
-            return random.Next(0, 1) == 1;
+            return random.Next(1, 3) == 2;
         }
 
-        private int GetRandomParagraphsCount()
-        {
-            var random = new Random();
-            return random.Next(1, 10);
-        }
 
         private int GetRandomInternshipAmout()
         {

@@ -13,13 +13,21 @@ namespace Entity
         [MaxLength(250)]
         [Index]
         public string CodeName { get; set; }
+        [Required]
         public int InternshipCategoryID { get; set; }
+        [Required]
         public int CompanyID { get; set; }
+        [Required]
         public string ApplicationUserId { get; set; }
+        [Required]
         public int CountryID { get; set; }
+        [Required]
         public int AmountTypeID { get; set; }
+        [Required]
         public int CurrencyID { get; set; }
+        [Required]
         public int MinDurationTypeID { get; set; }
+        [Required]
         public int MaxDurationTypeID { get; set; }
         [Required]
         [MaxLength(250)]
