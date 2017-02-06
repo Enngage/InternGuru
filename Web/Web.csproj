@@ -2534,6 +2534,7 @@
     <Content Include="Views\System\EmailLog.cshtml" />
     <Content Include="Views\Email\Preview.cshtml" />
     <Content Include="Stylesheets\partials\_price.scss" />
+    <Content Include="Views\Modules\Questionare\CreateQuestionare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

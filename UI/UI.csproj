@@ -214,6 +214,8 @@
     <Compile Include="Builders\Master\Models\MasterMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterOpenGraphMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterSocial.cs" />
+    <Compile Include="Modules\Questionare\Models\QuestionareCreateModel.cs" />
+    <Compile Include="Builders\Questionare\QuestionareBuilder.cs" />
     <Compile Include="Builders\Shared\Enums\UIHeaderButtonTypeEnum.cs" />
     <Compile Include="Builders\Shared\Enums\UIHeaderColorEnum.cs" />
     <Compile Include="Builders\Shared\Enums\UIHeaderSizeEnum.cs" />
@@ -367,6 +369,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Builders\Home\Models\" />
+    <Folder Include="Builders\Questionare\Enums\" />
+    <Folder Include="Builders\Questionare\Interfaces\" />
+    <Folder Include="Builders\Questionare\Models\" />
+    <Folder Include="Builders\Questionare\QuestionTypes\" />
+    <Folder Include="Builders\Questionare\Views\" />
     <Folder Include="Builders\Shared\Extensions\" />
   </ItemGroup>
   <ItemGroup>

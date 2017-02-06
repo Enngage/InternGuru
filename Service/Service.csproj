@@ -126,6 +126,11 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\Messages\IMessageService.cs" />
     <Compile Include="Services\Messages\MessageService.cs" />
+    <Compile Include="Services\Questionaries\IQuestion.cs" />
+    <Compile Include="Services\Questionaries\IQuestionData.cs" />
+    <Compile Include="Services\Questionaries\IQuestionareService.cs" />
+    <Compile Include="Services\Questionaries\IQuestionType.cs" />
+    <Compile Include="Services\Questionaries\QuestionareService.cs" />
     <Compile Include="Services\ServiceDependencies.cs" />
     <Compile Include="Services\Thesis\Enums\ThesisTypeEnum.cs" />
     <Compile Include="Services\Thesis\IThesisTypeService.cs" />
