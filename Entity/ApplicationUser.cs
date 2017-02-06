@@ -11,7 +11,7 @@ using Entity.Base;
 namespace Entity
 {
 
-    public class ApplicationUser : IdentityUser, IEntity
+    public class ApplicationUser : IdentityUser, IEntity, IEntityWithoutCodeName
     {
         #region DB Properties
 
@@ -27,27 +27,20 @@ namespace Entity
         #region Not mapped properties
 
         [NotMapped]
-        public int ID
-        {
-            get
-            {
-                throw new NotSupportedException("User entity does not support int ID");
-            }
-        }
+        public int ID => 0;
 
         [NotMapped]
-        public string CodeName
-        {
+        public string CodeName {
             get
             {
-                throw new NotSupportedException($"Entity '{this.GetType().Name}' does not support code name");
+                return null;
             }
+            // ReSharper disable once ValueParameterNotUsed
             set
             {
-                throw new NotSupportedException($"Entity '{this.GetType().Name}' does not support code name");
-            }
-        }
-
+                // do nothing
+                return;
+            }}
 
         #endregion
 

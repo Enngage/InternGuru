@@ -1,5 +1,8 @@
 ﻿namespace Entity.Base
 {
+    /// <summary>
+    /// Represents Entity object
+    /// </summary>
     public interface IEntity
     {
 

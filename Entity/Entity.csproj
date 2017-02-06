@@ -85,11 +85,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\BaseEntity.cs" />
     <Compile Include="Base\IEntity.cs" />
     <Compile Include="Base\EntityKeys.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Base\IEntityWithGuid.cs" />
+    <Compile Include="Base\IEntityWithoutCodeName.cs" />
     <Compile Include="Base\IEntityWithUniqueCodeName.cs" />
     <Compile Include="Base\IEntityWithTimeStamp.cs" />
     <Compile Include="Email.cs" />

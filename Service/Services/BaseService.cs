@@ -701,6 +701,13 @@ namespace Service.Services
         /// <param name="newEntity">New entity</param>
         private async Task HandleEntityCodeNameAsync(TEntity newEntity)
         {
+            var entityWithoutCodeName = newEntity as IEntityWithoutCodeName;
+            if (entityWithoutCodeName != null)
+            {
+                // do not process entities without code name
+                return;
+            }
+
             // set entity code name
             newEntity.CodeName = newEntity.GetCodeName();
 
@@ -724,6 +731,13 @@ namespace Service.Services
         /// <param name="newEntity">New entity</param>
         private void HandleEntityCodeName(TEntity newEntity)
         {
+            var entityWithoutCodeName = newEntity as IEntityWithoutCodeName;
+            if (entityWithoutCodeName != null)
+            {
+                // do not process entities without code name
+                return;
+            }
+
             // set entity code name
             newEntity.CodeName = newEntity.GetCodeName();
 

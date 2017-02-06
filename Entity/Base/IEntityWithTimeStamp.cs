@@ -2,6 +2,9 @@
 
 namespace Entity.Base
 {
+    /// <summary>
+    /// Represents entities that contain time stamp of their creation and last update
+    /// </summary>
     public interface IEntityWithTimeStamp
     {
         /// <summary>

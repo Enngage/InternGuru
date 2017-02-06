@@ -2,6 +2,9 @@
 
 namespace Entity.Base
 {
+    /// <summary>
+    /// Represents entities with Guid
+    /// </summary>
     public interface IEntityWithGuid
     {
         /// <summary>
