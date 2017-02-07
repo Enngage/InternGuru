@@ -1,6 +1,18 @@
 ﻿define(['jquery'], function ($) {
 
-    function General() {
+    function General() {}
+
+    /// creates random guid
+    General.prototype.guid = function guid() {
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
+    }
+
+    /// Used to get random char
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
     }
 
     General.prototype.numberWithCommas = function numberWithCommas(number) {

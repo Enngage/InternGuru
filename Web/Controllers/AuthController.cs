@@ -1,4 +1,6 @@
-﻿using Service.Context;
+﻿using System;
+using System.Linq;
+using Service.Context;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Core.Helpers;
@@ -9,6 +11,7 @@ using UI.Builders.Master;
 using UI.Enums;
 using UI.Events;
 using UI.Exceptions;
+using UI.Modules.Questionare.Forms;
 
 namespace Web.Controllers
 {
@@ -32,6 +35,14 @@ namespace Web.Controllers
         #endregion
 
         #region Actions
+
+        [Route("Uzivatel/NovyDotaznik")]
+        public async Task<ActionResult> NewQuestionare()
+        {
+            var model = await _authBuilder.BuildIndexViewAsync(1);
+
+            return View(model);
+        }
 
         [Route("Uzivatel")]
         public async Task<ActionResult> Index(int? page)
@@ -523,6 +534,41 @@ namespace Web.Controllers
 
                 return View(await _authBuilder.BuildEditThesisViewAsync(form));
             }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Uzivatel/NovyDotaznik")]
+        public async Task<ActionResult> NewQuestionare(QuestionareCreateForm form)
+        {
+            var fieldPrefix = "data_";
+            var fieldDataSeparator = '_';
+
+            // get all fields
+            foreach (var key in Request.Form.AllKeys.Where(m => m.StartsWith(fieldPrefix, StringComparison.OrdinalIgnoreCase)))
+            {
+                if (string.IsNullOrEmpty(key))
+                {
+                    continue;   
+                }
+
+                var keyValues = key.Split(fieldDataSeparator);
+
+                if (keyValues.Length != 3)
+                {
+                    // invalid number of params
+                    continue;
+                }
+
+                var fieldGuid = keyValues[1];
+                var dataName = keyValues[2];
+                var value = Request.Form[key];
+            }
+
+            var model = await _authBuilder.BuildIndexViewAsync(1);
+
+            return View(model);
         }
 
         #endregion

@@ -2268,6 +2268,7 @@
     <Content Include="Scripts\views\internship\notFound.js" />
     <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\internship\detail.js" />
+    <Content Include="Scripts\views\modules\questionare\createEditQuestionare.js" />
     <Content Include="Scripts\views\modules\uiHeader.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
     <Content Include="Scripts\views\system\emailLog.js" />
@@ -2535,6 +2536,7 @@
     <Content Include="Views\Email\Preview.cshtml" />
     <Content Include="Stylesheets\partials\_price.scss" />
     <Content Include="Views\Modules\Questionare\CreateQuestionare.cshtml" />
+    <Content Include="Views\Auth\NewQuestionare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
