@@ -8,17 +8,12 @@ namespace Service.Services.Questionaries
         /// <summary>
         /// Type of the question
         /// </summary>
-        IQuestionType QuestionType { get; set; }
+        string QuestionType { get; set; }
 
         /// <summary>
         /// Text of the question
         /// </summary>
         string QuestionText { get; set; }
-
-        /// <summary>
-        /// Answer of the question
-        /// </summary>
-        string Answer { get; set; }
 
         /// <summary>
         /// Correct answer of the question

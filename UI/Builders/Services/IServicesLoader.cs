@@ -9,6 +9,7 @@ using Service.Services.Internships;
 using Service.Services.Languages;
 using Service.Services.Logs;
 using Service.Services.Messages;
+using Service.Services.Questionaries;
 using Service.Services.Thesis;
 using UI.UIServices;
 
@@ -44,6 +45,7 @@ namespace UI.Builders.Services
         IStudentStatusOptionService StudentStatusOptionService { get; }
         IActivityService ActivityService { get; }
         IEmailService EmailService { get; }
+        IQuestionareService QuestionareService { get; }
 
         #endregion
     }

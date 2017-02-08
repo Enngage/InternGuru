@@ -17,9 +17,11 @@ using UI.Base;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Auth.Models;
 using UI.Builders.Auth.Views;
+using UI.Builders.Questionare;
 using UI.Builders.Services;
 using UI.Builders.Shared.Models;
 using UI.Exceptions;
+using UI.Modules.Questionare.Forms;
 using UI.UIServices;
 
 namespace UI.Builders.Auth
@@ -27,10 +29,17 @@ namespace UI.Builders.Auth
     public class AuthBuilder : BaseBuilder
     {
 
+        #region Builder
+
+        private readonly QuestionareBuilder _questionareBuilder;
+
+        #endregion
+
         #region Constructor
 
-        public AuthBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader)
+        public AuthBuilder(ISystemContext systemContext, IServicesLoader servicesLoader, QuestionareBuilder questionareBuilder) : base(systemContext, servicesLoader)
         {
+            _questionareBuilder = questionareBuilder;
         }
 
         #endregion
@@ -53,6 +62,49 @@ namespace UI.Builders.Auth
                 Conversations = await GetConversationsAsync(10),
                 Theses = await GetThesesListingsAsync(),
                 
+            };
+        }
+
+        #endregion
+
+        #region Questionare
+
+        public async Task<AuthNewQuestionareView> BuildQuestionareNewViewAsync(QuestionareCreateEditForm form = null)
+        {
+            var authMaster = await GetAuthMasterModelAsync();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+            return new AuthNewQuestionareView()
+            {
+                AuthMaster = authMaster,
+                QuestionareForm = _questionareBuilder.GetForm(form)
+            };
+        }
+
+        public async Task<AuthEditQuestionareView> BuildQuestionareEditViewAsync(int questionareID)
+        {
+            var authMaster = await GetAuthMasterModelAsync();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+            var questionareForm = await _questionareBuilder.GetQuestionareEditFormAsync(questionareID);
+
+            if (questionareForm == null)
+            {
+                return null;
+            }
+
+            return new AuthEditQuestionareView()
+            {
+                AuthMaster = authMaster,
+                QuestionareForm = questionareForm
             };
         }
 

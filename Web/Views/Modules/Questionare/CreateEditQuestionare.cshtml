@@ -1,10 +1,10 @@
-﻿@model UI.Modules.Questionare.Forms.QuestionareCreateForm
+﻿@model UI.Modules.Questionare.Forms.QuestionareCreateEditForm
 @Helpers.ScriptHelper.RequireScript("/scripts/views/modules/questionare/createEditQuestionare")
 
 @{
     var insertTemplateClass = "_InsertTemplate";
     var designerTemplateClass = "_DesignerTemplate";
-    var FieldGuidName = "FieldGuids";
+    var fieldGuidName = "FieldGuids";
 }
 
 <div class="ui modal large" id="_QuestionareModal">
@@ -48,7 +48,7 @@
             <div class="ui form w-margin-top-10">
                 <div class="field required">
                     <label>Název dotazníku</label>
-                    <input type="text" name="FormName">
+                    <input type="text" name="QuestionareName">
                 </div>
             </div>
             
@@ -90,8 +90,10 @@
                 </div>
             </div>
             <div class="@designerTemplateClass">
+                <input type="hidden" class="_QuestionText" />
+                <input type="hidden" class="_QuestionType" />
                 <div class="ui form">
-                    <input type="hidden" class="_FieldGuid" name="@FieldGuidName"/>
+                    <input type="hidden" class="_FieldGuid" name="@fieldGuidName"/>
                     <div class="field">
                         <label>Správná odpověď: </label>
                         <span type="text" class="_TextData" data-name="correct_answer" data-hideempty="1"></span>
@@ -139,7 +141,9 @@
             </div>
             <div class="@designerTemplateClass">
                 <div class="ui form">
-                    <input type="hidden" class="_FieldGuid" name="@FieldGuidName" />
+                    <input type="hidden" class="_FieldGuid" name="@fieldGuidName" />
+                    <input type="hidden" class="_QuestionText"/>
+                    <input type="hidden" class="_QuestionType" />
                     <div class="grouped fields">
                         <div class="field">
                             <div class="ui radio disabled checkbox _RadioButtons">

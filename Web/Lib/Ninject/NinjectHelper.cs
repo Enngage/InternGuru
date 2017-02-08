@@ -28,6 +28,7 @@ using Service.Services.Internships;
 using Service.Services.Languages;
 using Service.Services.Logs;
 using Service.Services.Messages;
+using Service.Services.Questionaries;
 using Service.Services.Thesis;
 using UI.RazorExtensions;
 
@@ -134,6 +135,7 @@ namespace Web.Lib.Ninject
             kernel.Bind<IEmailService>().To<EmailService>().InRequestScope();
             kernel.Bind<IEventsLoader>().To<EventsLoader>().InRequestScope();
             kernel.Bind<IServiceDependencies>().To<ServiceDependencies>().InRequestScope();
+            kernel.Bind<IQuestionareService>().To<QuestionareService>().InRequestScope();
 
             return kernel;
         }

@@ -86,6 +86,10 @@
     <Compile Include="Migrations\201702060935394_EntityFixes.Designer.cs">
       <DependentUpon>201702060935394_EntityFixes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702081124452_Questionare.cs" />
+    <Compile Include="Migrations\201702081124452_Questionare.Designer.cs">
+      <DependentUpon>201702081124452_Questionare.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Activities\ActivityService.cs" />
@@ -130,7 +134,9 @@
     <Compile Include="Services\Questionaries\IQuestionData.cs" />
     <Compile Include="Services\Questionaries\IQuestionareService.cs" />
     <Compile Include="Services\Questionaries\IQuestionType.cs" />
+    <Compile Include="Services\Questionaries\Question.cs" />
     <Compile Include="Services\Questionaries\QuestionareService.cs" />
+    <Compile Include="Services\Questionaries\QuestionData.cs" />
     <Compile Include="Services\ServiceDependencies.cs" />
     <Compile Include="Services\Thesis\Enums\ThesisTypeEnum.cs" />
     <Compile Include="Services\Thesis\IThesisTypeService.cs" />
@@ -166,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702060935394_EntityFixes.resx">
       <DependentUpon>201702060935394_EntityFixes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702081124452_Questionare.resx">
+      <DependentUpon>201702081124452_Questionare.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

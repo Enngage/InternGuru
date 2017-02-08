@@ -1,13 +1,13 @@
 ﻿@using UI.Modules.Questionare.Forms
-@model UI.Builders.Auth.Views.AuthNewQuestionareView
+@model UI.Builders.Auth.Views.AuthEditQuestionareView
 
 @{
-    Model.Metadata.BasicMetadata.Title = "Nový dotazník";
+    Model.Metadata.BasicMetadata.Title = "Upravit dotazník";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
 }
 
 <h1>
-    Nový dotazník
+    Upravit dotazník
 </h1>
 
 @Html.Partial("~/Views/Modules/Questionare/CreateEditQuestionare.cshtml", Model.QuestionareForm)

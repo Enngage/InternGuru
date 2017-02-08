@@ -171,6 +171,8 @@
     <Compile Include="Builders\Auth\Models\AuthTab.cs" />
     <Compile Include="Builders\Auth\Models\AuthTabs.cs" />
     <Compile Include="Builders\Auth\Models\AuthMasterModel.cs" />
+    <Compile Include="Builders\Auth\Views\AuthNewQuestionareView.cs" />
+    <Compile Include="Builders\Auth\Views\AuthEditQuestionareView.cs" />
     <Compile Include="Builders\Auth\Views\AuthCompanyGalleryView.cs" />
     <Compile Include="Builders\Auth\Views\AuthMasterView.cs" />
     <Compile Include="Builders\Auth\Forms\AuthAddEditThesisForm.cs" />
@@ -214,7 +216,8 @@
     <Compile Include="Builders\Master\Models\MasterMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterOpenGraphMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterSocial.cs" />
-    <Compile Include="Modules\Questionare\Forms\QuestionareCreateForm.cs" />
+    <Compile Include="Builders\Questionare\Models\QuestionareModel.cs" />
+    <Compile Include="Modules\Questionare\Forms\QuestionareCreateEditForm.cs" />
     <Compile Include="Builders\Questionare\QuestionareBuilder.cs" />
     <Compile Include="Builders\Shared\Enums\UIHeaderButtonTypeEnum.cs" />
     <Compile Include="Builders\Shared\Enums\UIHeaderColorEnum.cs" />
@@ -371,7 +374,6 @@
     <Folder Include="Builders\Home\Models\" />
     <Folder Include="Builders\Questionare\Enums\" />
     <Folder Include="Builders\Questionare\Interfaces\" />
-    <Folder Include="Builders\Questionare\Models\" />
     <Folder Include="Builders\Questionare\QuestionTypes\" />
     <Folder Include="Builders\Questionare\Views\" />
     <Folder Include="Builders\Shared\Extensions\" />

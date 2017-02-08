@@ -29,6 +29,7 @@ namespace Service.Context
         IDbSet<StudentStatusOption> StudentStatusOptions { get; }
         IDbSet<Activity> Activities { get; }
         IDbSet<Email> Emails { get; }
+        IDbSet<Questionare> Questionares { get; }
 
         #endregion
 

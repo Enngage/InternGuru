@@ -167,12 +167,26 @@
                 // get value of target and set field
                 $(this).val(questionData[target]);
 
-                // set unique field name
-                var fieldPrefix = "data";
+                // set unique field name identifying the field
+                var fieldPrefix = "Data";
                 var uniqueFieldName = fieldPrefix + "_" + questionData.guid + "_" + target;
                 $(this).attr("name", uniqueFieldName);
 
             });
+
+            // set generic question type
+            var questionTypeElem = previewTemplate.find("._QuestionType");
+
+            var questionTypeName = "QuestionType_" + questionData.guid;
+            questionTypeElem.attr("name", questionTypeName);
+            questionTypeElem.val(questionData.questionType);
+
+            // set generic question text
+            var questionTextElem = previewTemplate.find("._QuestionText");
+
+            var questionTextName = "QuestionText_" + questionData.guid;
+            questionTextElem.attr("name", questionTextName);
+            questionTextElem.val(questionData.questionText);
 
             // insert preview template into base template
             baseTemplate.find("._QuestionTypeTemplate").html(previewTemplate.html());
