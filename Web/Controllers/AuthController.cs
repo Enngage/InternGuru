@@ -575,6 +575,12 @@ namespace Web.Controllers
 
                 var questions = new List<IQuestion>();
 
+                if (form.FieldGuids == null)
+                {
+                    // fix for no questions
+                    form.FieldGuids = new List<string>();
+                }
+
                 foreach (var fieldGuid in form.FieldGuids)
                 {
                     // get question specific data from submitted form dadta
@@ -586,9 +592,7 @@ namespace Web.Controllers
                     var questionData = new List<IQuestionData>();
 
                     // get questions data
-                    foreach (
-                        var key in
-                        Request.Form.AllKeys.Where(m => m.StartsWith(dataPrefix, StringComparison.OrdinalIgnoreCase)))
+                    foreach (var key in Request.Form.AllKeys.Where(m => m.StartsWith(dataPrefix, StringComparison.OrdinalIgnoreCase)))
                     {
                         if (string.IsNullOrEmpty(key))
                         {

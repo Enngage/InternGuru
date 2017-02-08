@@ -78,18 +78,6 @@
     <Compile Include="Exceptions\SaveException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\201702060928265_LogUpdate.cs" />
-    <Compile Include="Migrations\201702060928265_LogUpdate.Designer.cs">
-      <DependentUpon>201702060928265_LogUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702060935394_EntityFixes.cs" />
-    <Compile Include="Migrations\201702060935394_EntityFixes.Designer.cs">
-      <DependentUpon>201702060935394_EntityFixes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702081124452_Questionare.cs" />
-    <Compile Include="Migrations\201702081124452_Questionare.Designer.cs">
-      <DependentUpon>201702081124452_Questionare.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Activities\ActivityService.cs" />
@@ -165,17 +153,6 @@
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702060928265_LogUpdate.resx">
-      <DependentUpon>201702060928265_LogUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702060935394_EntityFixes.resx">
-      <DependentUpon>201702060935394_EntityFixes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702081124452_Questionare.resx">
-      <DependentUpon>201702081124452_Questionare.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
