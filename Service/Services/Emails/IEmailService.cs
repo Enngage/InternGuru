@@ -10,8 +10,8 @@ namespace Service.Services.Emails
         /// Does NOT send e-mail
         /// </summary>
         /// <param name="email">E-mail to insert</param>
-        /// <returns>ID of the inserted e-mail</returns>
-        int Insert(Email email);
+        /// <returns>Result of the insert action</returns>
+        IInsertActionResult Insert(Email email);
 
         /// <summary>
         /// Attempts to send e-mail and inserts record in database
@@ -19,7 +19,6 @@ namespace Service.Services.Emails
         /// <param name="recipientEmail">E-mail address of recipient</param>
         /// <param name="subject">Subject of e-mail</param>
         /// <param name="text">Text of e-mail (may contain HTML)</param>
-        /// <returns></returns>
         Task SendEmailAsync(string recipientEmail, string subject, string text);
 
         /// <summary>
@@ -28,7 +27,6 @@ namespace Service.Services.Emails
         /// <param name="recipientEmail">E-mail address of recipient</param>
         /// <param name="subject">Subject of e-mail</param>
         /// <param name="text">Text of e-mail (may contain HTML)</param>
-        /// <returns></returns>
         void SendEmail(string recipientEmail, string subject, string text);
 
         /// <summary>

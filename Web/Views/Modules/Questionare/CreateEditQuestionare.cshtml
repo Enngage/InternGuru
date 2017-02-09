@@ -1,11 +1,64 @@
 ﻿@model UI.Modules.Questionare.Forms.QuestionareCreateEditForm
-@Helpers.ScriptHelper.RequireScript("/scripts/views/modules/questionare/createEditQuestionare")
+@Helpers.ScriptHelper.RequireScript("/scripts/views/modules/questionare/createEditQuestionare")   
 
 @{
     var insertTemplateClass = "_InsertTemplate";
     var designerTemplateClass = "_DesignerTemplate";
     var fieldGuidName = "FieldGuids";
 }
+
+
+
+<div class="dd">
+    <ul class="dd-list" style="list-style-type: none; margin: 0; padding: 0">
+        <li class="dd-item">
+            <div class="dd-handle">
+                <div class="ui segment padded dd-item">
+                    <div class="ui top inverted teal attached label">#</div>
+                    <input type="hidden" class="_QuestionText" />
+                    <input type="hidden" class="_QuestionCorrectAnswer" />
+                    <input type="hidden" class="_QuestionType" />
+                    <input type="hidden" class="_FieldGuid" name="@fieldGuidName" />
+                    <div class="content w-margin-top-20">
+                        <div class="header _QuestionText">Item 1</div>
+                        <div class="_QuestionTypeTemplate"></div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="dd-item">
+            <div class="dd-handle">
+                <div class="ui segment padded dd-item">
+                    <div class="ui top inverted teal attached label">#</div>
+                    <input type="hidden" class="_QuestionText" />
+                    <input type="hidden" class="_QuestionCorrectAnswer" />
+                    <input type="hidden" class="_QuestionType" />
+                    <input type="hidden" class="_FieldGuid" name="@fieldGuidName" />
+                    <div class="content w-margin-top-20">
+                        <div class="header _QuestionText">Item 2</div>
+                        <div class="_QuestionTypeTemplate"></div>
+                    </div>
+                </div></div>
+        </li>
+        <li class="dd-item">
+            <div class="dd-handle">
+                <div class="ui segment padded dd-item">
+                    <div class="ui top inverted teal attached label">#</div>
+                    <input type="hidden" class="_QuestionText" />
+                    <input type="hidden" class="_QuestionCorrectAnswer" />
+                    <input type="hidden" class="_QuestionType" />
+                    <input type="hidden" class="_FieldGuid" name="@fieldGuidName" />
+                    <div class="content w-margin-top-20">
+                        <div class="header _QuestionText">Item 3</div>
+                        <div class="_QuestionTypeTemplate"></div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<input type="hidden" id="_QuestionareInitialState" value="@Model.InitialStateJson" />
 
 <div class="ui modal large" id="_QuestionareModal">
     <div class="header">Vložit otázku</div>
@@ -42,28 +95,28 @@
 
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-            
+
             @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
 
             <div class="ui form w-margin-top-10">
                 <div class="field required">
                     <label>Název dotazníku</label>
-                    <input type="text" name="QuestionareName">
+                    <input type="text" name="QuestionareName" value="@Model.QuestionareName">
                 </div>
             </div>
-            
+
             <div class="w-margin-top-14">
                 <div class="ui button primary" id="_AddQuestion">
                     Přidat otázku
                 </div>
             </div>
         </div>
-        
+
         <div class="sixteen wide column">
             <div id="_Questionare">
             </div>
         </div>
-        
+
         <div class="w-margin-top-14">
             <button class="ui button secondary" type="submit">
                 Uložit
@@ -73,12 +126,28 @@
 }
 
 <div class="w-body-hide">
+    @* Base template - has to contain following fields:
+        _QuestionText
+        _QuestionCorrectAnswer
+        _QuestionType
+        _FieldGuid
+        _QuestionTypeTemplate
+    *@
     <div id="_QuestionPreviewBaseTemplate">
-        <h4 class="_QuestionText"></h4>
-
-        <div class="_QuestionTypeTemplate"></div>
+        <div class="ui segment padded">
+            <div class="ui top inverted teal attached label">#</div>
+            <input type="hidden" class="_QuestionText"/>
+            <input type="hidden" class="_QuestionCorrectAnswer"/>
+            <input type="hidden" class="_QuestionType"/>
+            <input type="hidden" class="_FieldGuid" name="@fieldGuidName"/>
+            <div class="content w-margin-top-20">
+                <div class="header _QuestionText"></div>
+                <div class="_QuestionTypeTemplate"></div>
+            </div>
+        </div>
     </div>
 
+    @* Question types *@
     <div>
         <div class="_QuestionType" id="_SimpleTextBox">
             <div class="@insertTemplateClass">
@@ -90,19 +159,16 @@
                 </div>
             </div>
             <div class="@designerTemplateClass">
-                <input type="hidden" class="_QuestionText" />
-                <input type="hidden" class="_QuestionType" />
                 <div class="ui form">
-                    <input type="hidden" class="_FieldGuid" name="@fieldGuidName"/>
                     <div class="field">
                         <label>Správná odpověď: </label>
                         <span type="text" class="_TextData" data-name="correct_answer" data-hideempty="1"></span>
-                        <input type="hidden" class="_InputField" data-target="correctanswer"/>
+                        <input type="hidden" class="_InputField" data-target="correctanswer" />
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="_QuestionType" id="_RadioButton">
             <div class="@insertTemplateClass">
                 <div class="ui form">
@@ -140,40 +206,37 @@
             </div>
             <div class="@designerTemplateClass">
                 <div class="ui form">
-                    <input type="hidden" class="_FieldGuid" name="@fieldGuidName" />
-                    <input type="hidden" class="_QuestionText"/>
-                    <input type="hidden" class="_QuestionType" />
                     <div class="grouped fields">
                         <div class="field">
                             <div class="ui radio disabled checkbox _RadioButtons">
-                                <input name="a" checked="" tabindex="0" class="hidden _RadioButtonData" type="radio" data-name="option1istrue">
+                                <input name="a" checked="" tabindex="0" class="hidden _RadioButtonData" type="radio" data-name="option1istrue" data-valuesource="option1">
                                 <label class="_TextData" data-name="option1" data-hideempty="1"></label>
-                                <input type="hidden" class="_InputField" data-target="option1istrue"/>
-                                <input type="hidden" class="_InputField" data-target="option1"/>
+                                <input type="hidden" class="_InputField" data-target="option1istrue" />
+                                <input type="hidden" class="_InputField" data-target="option1" />
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui radio disabled checkbox _RadioButtons">
-                                <input name="a" class="hidden _RadioButtonData" type="radio" data-name="option2istrue">
+                                <input name="a" class="hidden _RadioButtonData" type="radio" data-name="option2istrue" data-valuesource="option2">
                                 <label class="_TextData" data-name="option2" data-hideempty="1"></label>
-                                <input type="hidden" class="_InputField" data-target="option2istrue"/>
-                                <input type="hidden" class="_InputField" data-target="option2"/>
+                                <input type="hidden" class="_InputField" data-target="option2istrue" />
+                                <input type="hidden" class="_InputField" data-target="option2" />
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui radio disabled checkbox _RadioButtons">
-                                <input name="a" class="hidden _RadioButtonData" type="radio" data-name="option3istrue">
+                                <input name="a" class="hidden _RadioButtonData" type="radio" data-name="option3istrue" data-valuesource="option3">
                                 <label class="_TextData" data-name="option3" data-hideempty="1"></label>
-                                <input type="hidden" class="_InputField" data-target="option3istrue"/>
-                                <input type="hidden" class="_InputField" data-target="option3"/>
+                                <input type="hidden" class="_InputField" data-target="option3istrue" />
+                                <input type="hidden" class="_InputField" data-target="option3" />
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui radio disabled checkbox _RadioButtons">
-                                <input name="a" class="hidden _RadioButtonData" type="radio" data-name="option4istrue">
+                                <input name="a" class="hidden _RadioButtonData" type="radio" data-name="option4istrue" data-valuesource="option4">
                                 <label class="_TextData" data-name="option4" data-hideempty="1"></label>
-                                <input type="hidden" class="_InputField" data-target="option4istrue"/>
-                                <input type="hidden" class="_InputField" data-target="option4"/>
+                                <input type="hidden" class="_InputField" data-target="option4istrue" />
+                                <input type="hidden" class="_InputField" data-target="option4" />
                             </div>
                         </div>
                     </div>

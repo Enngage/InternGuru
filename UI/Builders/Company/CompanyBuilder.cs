@@ -156,7 +156,9 @@ namespace UI.Builders.Company
 
             var activityUserId = CurrentUser.IsAuthenticated ? CurrentUser.Id : null;
 
-            return await Services.ActivityService.LogActivity(ActivityTypeEnum.ViewCompanyProfile, companyID, activityUserId, companyID);
+            var result = await Services.ActivityService.LogActivity(ActivityTypeEnum.ViewCompanyProfile, companyID, activityUserId, companyID);
+
+            return result.ObjectID;
         }
 
         public async Task<int> CreateMessage(CompanyContactUsForm form)
@@ -187,7 +189,9 @@ namespace UI.Builders.Company
                     IsRead = false,
                 };
 
-                return await Services.MessageService.InsertAsync(message);
+                var result = await Services.MessageService.InsertAsync(message);
+
+                return result.ObjectID;
             }
             catch (ValidationException ex)
             {

@@ -916,7 +916,9 @@ namespace UI.Builders.Auth
                     IsRead = false,
                 };
 
-                return await Services.MessageService.InsertAsync(message);
+                var result = await Services.MessageService.InsertAsync(message);
+
+                return result.ObjectID;
             }
             catch (ValidationException ex)
             {

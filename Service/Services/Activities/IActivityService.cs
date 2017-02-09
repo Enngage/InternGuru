@@ -18,10 +18,10 @@ namespace Service.Services.Activities
         /// <returns></returns>
         IQueryable<Activity> GetInternshipFormSubmissions(int internshipID);
 
-        Task<int> LogActivity(ActivityTypeEnum type);
-        Task<int> LogActivity(ActivityTypeEnum type, int companyID, int objectID = 0);
-        Task<int> LogActivity(ActivityTypeEnum type, string applicationUserId, int objectID = 0);
-        Task<int> LogActivity(ActivityTypeEnum type, int companyID, string applicationUserId, int objectID = 0);
+        Task<IInsertActionResult> LogActivity(ActivityTypeEnum type);
+        Task<IInsertActionResult> LogActivity(ActivityTypeEnum type, int companyID, int objectID = 0);
+        Task<IInsertActionResult> LogActivity(ActivityTypeEnum type, string applicationUserId, int objectID = 0);
+        Task<IInsertActionResult> LogActivity(ActivityTypeEnum type, int companyID, string applicationUserId, int objectID = 0);
 
     }
 }

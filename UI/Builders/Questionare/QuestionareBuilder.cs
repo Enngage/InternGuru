@@ -4,10 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity.Base;
+using Newtonsoft.Json;
 using Service.Exceptions;
+using Service.Services;
 using Service.Services.Questionaries;
 using UI.Base;
-using UI.Builders.Company.Models;
 using UI.Builders.Questionare.Models;
 using UI.Builders.Services;
 using UI.Builders.Shared.Models;
@@ -33,8 +34,18 @@ namespace UI.Builders.Questionare
 
         #region Methods
 
+        public string GetInitialStateJson(IList<IQuestion> questions)
+        {
+            return questions == null ? null : JsonConvert.SerializeObject(questions);
+        }
+
         public QuestionareCreateEditForm GetForm(QuestionareCreateEditForm form = null)
         {
+            if (form?.Questions != null)
+            {
+                // calculate initial state by converting questions to JSON object
+                form.InitialStateJson = GetInitialStateJson(form.Questions);
+            }
             return form ?? new QuestionareCreateEditForm();
         }
 
@@ -59,6 +70,9 @@ namespace UI.Builders.Questionare
 
             // get questions from XML
             questionare.Questions = Services.QuestionareService.GetQuestionsFromXml(questionare.QuestionareXml).ToList();
+
+            // get initial json
+            questionare.InitialStateJson = GetInitialStateJson(questionare.Questions);
 
             return questionare;
         }
@@ -88,7 +102,7 @@ namespace UI.Builders.Questionare
             return questionare;
         } 
 
-        public async Task<int> CreateQuestionareAsync(string questionareName, IList<IQuestion> questions)
+        public async Task<IInsertActionResult> CreateQuestionareAsync(string questionareName, IList<IQuestion> questions)
         {
             try
             {

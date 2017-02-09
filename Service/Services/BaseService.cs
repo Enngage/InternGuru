@@ -128,10 +128,7 @@ namespace Service.Services
         /// </summary>
         /// <param name="obj">Object to be modified</param>
         /// <param name="dbSet">DbSet containing the object</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
-        /// state entries for entities and/or relationships. Relationship state entries are created for
-        /// many-to-many relationships and relationships where there is no foreign key property
-        /// included in the entity class (often referred to as independent associations).</returns>
+        /// <returns>Number of updated rows</returns>
         protected int UpdateObject(IDbSet<TEntity> dbSet, TEntity obj)
         {
             return UpdateObject(dbSet, obj, dbSet.Find(obj.ID));
@@ -143,10 +140,7 @@ namespace Service.Services
         /// <param name="obj">Object to be modified</param>
         /// <param name="existingObj">Existing object in database</param>
         /// <param name="dbSet">DbSet containing the object</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
-        /// state entries for entities and/or relationships. Relationship state entries are created for
-        /// many-to-many relationships and relationships where there is no foreign key property
-        /// included in the entity class (often referred to as independent associations).</returns>
+        /// <returns>Number of updated rows</returns>
         protected int UpdateObject(IDbSet<TEntity> dbSet, TEntity obj, TEntity existingObj)
         {
             if (existingObj == null)
@@ -169,6 +163,18 @@ namespace Service.Services
             HandleEntityCodeName(obj);
             HandleEntityVariationFields(obj, existingObjectClone);
 
+            // validate object
+            var validationResult = ValidateObject(SaveEventType.Update, obj, existingObjectClone);
+
+            if (!validationResult.IsValid)
+            {
+                // custom validation failed
+                throw new ValidationException(validationResult.ErrorMessage);
+            }
+
+            // set additional field's data
+            ExtendObject(SaveEventType.Update, obj, existingObjectClone);
+
             // update existing object with new values
             AppContext.Entry(existingObj).CurrentValues.SetValues(obj);
 
@@ -189,11 +195,8 @@ namespace Service.Services
         /// </summary>
         /// <param name="obj">Object to be saved</param>
         /// <param name="dbSet">DbSet containing the object</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
-        /// state entries for entities and/or relationships. Relationship state entries are created for
-        /// many-to-many relationships and relationships where there is no foreign key property
-        /// included in the entity class (often referred to as independent associations).</returns>
-        protected int InsertObject(IDbSet<TEntity> dbSet, TEntity obj)
+        /// <returns>Result of the insert action</returns>
+        protected IInsertActionResult InsertObject(IDbSet<TEntity> dbSet, TEntity obj)
         {
             // before event
             OnInserBefore(obj);
@@ -202,11 +205,23 @@ namespace Service.Services
             HandleEntityCodeName(obj);
             HandleEntityVariationFields(obj, null);
 
+            // validate object
+            var validationResult = ValidateObject(SaveEventType.Insert, obj);
+
+            if (!validationResult.IsValid)
+            {
+                // custom validation failed
+                throw new ValidationException(validationResult.ErrorMessage);
+            }
+
+            // set additional field's data
+            ExtendObject(SaveEventType.Insert, obj);
+
             // add object to db set
             dbSet.Add(obj);
 
             // save changes
-            var result = SaveChanges(SaveEventType.Insert);
+            var rowsUpdated = SaveChanges(SaveEventType.Insert);
 
             // touch cache keys
             TouchInsertKeys(obj);
@@ -214,7 +229,11 @@ namespace Service.Services
             // after event
             OnInsertAfter(obj);
 
-            return result;
+            return new InsertActionResult()
+            {
+                UpdatedRows = rowsUpdated,
+                ObjectID = obj.ID
+            };
         }
 
         /// <summary>
@@ -222,10 +241,7 @@ namespace Service.Services
         /// </summary>
         /// <param name="objectId">ID of the object</param>
         /// <param name="dbSet">DbSet containing the object</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
-        /// state entries for entities and/or relationships. Relationship state entries are created for
-        /// many-to-many relationships and relationships where there is no foreign key property
-        /// included in the entity class (often referred to as independent associations).</returns>
+        /// <returns>Number of updated rows</returns>
         protected int DeleteObject(IDbSet<TEntity> dbSet, int objectId)
         {
             // get object
@@ -309,10 +325,7 @@ namespace Service.Services
         /// </summary>
         /// <param name="obj">Object to be modified</param>
         /// <param name="dbSet">DbSet containing the object</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
-        /// state entries for entities and/or relationships. Relationship state entries are created for
-        /// many-to-many relationships and relationships where there is no foreign key property
-        /// included in the entity class (often referred to as independent associations).</returns>
+        /// <returns>Number of updated rows</returns>
         protected async Task<int> UpdateObjectAsync(IDbSet<TEntity> dbSet, TEntity obj)
         {
             return await UpdateObjectAsync(dbSet, obj, dbSet.Find(obj.GetObjectID()));
@@ -324,10 +337,7 @@ namespace Service.Services
         /// <param name="obj">New object to be modified</param>
         /// <param name="existingObj">Original object in database</param>
         /// <param name="dbSet">DbSet containing the object</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
-        /// state entries for entities and/or relationships. Relationship state entries are created for
-        /// many-to-many relationships and relationships where there is no foreign key property
-        /// included in the entity class (often referred to as independent associations).</returns>
+        /// <returns>Number of updated rows</returns>
         protected async Task<int> UpdateObjectAsync(IDbSet<TEntity> dbSet, TEntity obj, TEntity existingObj)
         {
             if (existingObj == null)
@@ -350,6 +360,18 @@ namespace Service.Services
             await HandleEntityCodeNameAsync(obj);
             HandleEntityVariationFields(obj, existingObjectClone);
 
+            // validate object
+            var validationResult = ValidateObject(SaveEventType.Update, obj, existingObjectClone);
+
+            if (!validationResult.IsValid)
+            {
+                // custom validation failed
+                throw new ValidationException(validationResult.ErrorMessage);
+            }
+
+            // set additional field's data
+            ExtendObject(SaveEventType.Update, obj, existingObjectClone);
+
             // update existing object with new values
             AppContext.Entry(existingObj).CurrentValues.SetValues(obj);
 
@@ -370,11 +392,8 @@ namespace Service.Services
         /// </summary>
         /// <param name="obj">Object to be saved</param>
         /// <param name="dbSet">DbSet containing the object</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
-        /// state entries for entities and/or relationships. Relationship state entries are created for
-        /// many-to-many relationships and relationships where there is no foreign key property
-        /// included in the entity class (often referred to as independent associations).</returns>
-        protected async Task<int> InsertObjectAsync(IDbSet<TEntity> dbSet, TEntity obj)
+        /// <returns>Result of the insert action</returns>
+        protected async Task<IInsertActionResult> InsertObjectAsync(IDbSet<TEntity> dbSet, TEntity obj)
         {
             // before event
             OnInserBefore(obj);
@@ -383,11 +402,23 @@ namespace Service.Services
             await HandleEntityCodeNameAsync(obj);
             HandleEntityVariationFields(obj, null);
 
+            // validate object
+            var validationResult = ValidateObject(SaveEventType.Insert, obj);
+
+            if (!validationResult.IsValid)
+            {
+                // custom validation failed
+                throw new ValidationException(validationResult.ErrorMessage);
+            }
+
+            // set additional field's data
+            ExtendObject(SaveEventType.Insert, obj);
+
             // add object to db set
             dbSet.Add(obj);
 
             // save changes
-            var result = await SaveChangesAsync(SaveEventType.Insert);
+            var updatedRows = await SaveChangesAsync(SaveEventType.Insert);
 
             // touch cache keys
             TouchInsertKeys(obj);
@@ -395,7 +426,11 @@ namespace Service.Services
             // after event
             OnInsertAfter(obj);
 
-            return result;
+            return new InsertActionResult()
+            {
+                ObjectID = obj.ID,
+                UpdatedRows = updatedRows
+            };
         }
 
         /// <summary>
@@ -403,10 +438,7 @@ namespace Service.Services
         /// </summary>
         /// <param name="objectId">ID of the object</param>
         /// <param name="dbSet">DbSet containing the object</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
-        /// state entries for entities and/or relationships. Relationship state entries are created for
-        /// many-to-many relationships and relationships where there is no foreign key property
-        /// included in the entity class (often referred to as independent associations).</returns>
+        /// <returns>Number of updated rows</returns>
         protected async Task<int> DeleteObjectAsync(IDbSet<TEntity> dbSet, int objectId)
         {
             // get object
@@ -441,7 +473,7 @@ namespace Service.Services
         /// and executes Entity events
         /// </summary>
         /// <param name="type">Action type</param>
-        /// <returns> The number of state entries written to the underlying database. This can include
+        /// <returns>The number of state entries written to the underlying database. This can include
         /// state entries for entities and/or relationships. Relationship state entries are created for
         /// many-to-many relationships and relationships where there is no foreign key property
         /// included in the entity class (often referred to as independent associations).</returns>
@@ -467,6 +499,41 @@ namespace Service.Services
                 // re-throw
                 throw;
             }
+        }
+
+        #endregion
+
+        #region Object edit/insert manipulation methods
+
+        /// <summary>
+        /// Validates object
+        /// Override for custom validation logic
+        /// </summary>
+        /// <param name="eventType">Event type</param>
+        /// <param name="newObj">New object (object with new data)</param>
+        /// <param name="oldObj">Old object (the one currently saved in db). Available only for update event types</param>
+        /// <returns>Validation result</returns>
+        public virtual ValidationResult ValidateObject(SaveEventType eventType, TEntity newObj, TEntity oldObj = null)
+        {
+            // validation is successful by default
+            return new ValidationResult()
+            {
+                ErrorMessage = null,
+                IsValid = true
+            };
+        }
+
+        /// <summary>
+        /// Use to set custom field based on additional logic
+        /// Only properties in "newObj" will be saved
+        /// </summary>
+        /// <param name="eventType">Event type</param>
+        /// <param name="newObj">New object (object with new data). Set properties in this object.</param>
+        /// <param name="oldObj">Old object (the one currently saved in db). Available only for update event types</param>
+        /// <returns>New obj with updated data</returns>
+        public virtual void ExtendObject(SaveEventType eventType, TEntity newObj, TEntity oldObj = null)
+        {
+           // do not change anything by default
         }
 
         #endregion
@@ -540,8 +607,8 @@ namespace Service.Services
         /// Inserts entity into database
         /// </summary>
         /// <param name="obj">Entity to insert</param>
-        /// <returns></returns>
-        public virtual Task<int> InsertAsync(TEntity obj)
+        /// <returns>Result of the insert action</returns>
+        public virtual Task<IInsertActionResult> InsertAsync(TEntity obj)
         {
             return InsertObjectAsync(EntityDbSet, obj);
         }
@@ -550,7 +617,7 @@ namespace Service.Services
         /// Updates given entity in database
         /// </summary>
         /// <param name="obj">Entity to edit</param>
-        /// <returns></returns>
+        /// <returns>Number of updated rows</returns>
         public virtual Task<int> UpdateAsync(TEntity obj)
         {
             return UpdateObjectAsync(EntityDbSet, obj);
@@ -561,7 +628,7 @@ namespace Service.Services
         /// </summary>
         /// <param name="obj">New entity to edit</param>
         /// <param name="existingEntity">Existing entity in db</param>
-        /// <returns></returns>
+        /// <returns>Number of updated rows</returns>
         public virtual Task<int> UpdateAsync(TEntity obj, TEntity existingEntity)
         {
             return UpdateObjectAsync(EntityDbSet, obj, existingEntity);

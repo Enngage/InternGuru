@@ -55,13 +55,20 @@ namespace Web.Controllers
         }
 
         [Route("Uzivatel/UpravitDotaznik/{id:int}")]
-        public async Task<ActionResult> EditQuestionare(int id)
+        public async Task<ActionResult> EditQuestionare(int id, string result)
         {
             var model = await _authBuilder.BuildQuestionareEditViewAsync(id);
 
             if (model == null)
             {
                 return HttpNotFound();
+            }
+
+            var actionResult = EnumHelper.ParseEnum(result, ActionResultEnum.Unknown);
+
+            if (actionResult == ActionResultEnum.Success)
+            {
+                model.QuestionareForm.FormResult.IsSuccess = true;
             }
 
             return View(model);
@@ -626,10 +633,10 @@ namespace Web.Controllers
                 }
 
                 // create questionare
-                var questionareId = await _questionareBuilder.CreateQuestionareAsync(form.QuestionareName, questions);
+                var result = await _questionareBuilder.CreateQuestionareAsync(form.QuestionareName, questions);
 
                 // redirect to edit questionare
-                return RedirectToAction("EditQuestionare", new { id = questionareId, result = ActionResultEnum.Success });
+                return RedirectToAction("EditQuestionare", new { id = result.ObjectID, result = ActionResultEnum.Success });
             }
             catch (UiException ex)
             {

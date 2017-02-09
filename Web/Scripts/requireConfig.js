@@ -12,6 +12,7 @@ var require = {
         "datepicker": { "deps": ['jquery'] }, // datepicker needs to be loaded after jQuery
         "unitegallery": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery
         "unitegallery_theme": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery
+        "jquerynestable": { "deps": ['jquery'] }, // jquery nestsable needs to be loaded after jQuery
     },
     paths: {
         "jquery": "addons/jquery-2.1.4.min",
@@ -23,6 +24,7 @@ var require = {
         "dropzone": "addons/dropzone/dropzone-amd-module", // http://www.dropzonejs.com/#installation
         "unitegallery": "addons/unitegallery-master/dist/js/unitegallery.min", // http://unitegallery.net/index.php?page=tiles-columns
         "unitegallery_theme": "addons/unitegallery-master/dist/themes/tiles/ug-theme-tiles", // http://unitegallery.net/index.php?page=tiles-columns
+        "jquerynestable": "addons/jquery.nestable", // https://github.com/dbushell/Nestable
     },
     packages: [{
         name: "codemirror",

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using Service.Events;
 using Service.Exceptions;
 
 namespace Service.Services.Thesis
@@ -10,30 +11,31 @@ namespace Service.Services.Thesis
 
         public ThesisService(IServiceDependencies serviceDependencies) : base(serviceDependencies) { }
 
-        public override Task<int> InsertAsync(Entity.Thesis obj)
+        public override void ExtendObject(SaveEventType eventType, Entity.Thesis newObj, Entity.Thesis oldObj = null)
         {
-            // set active since date
-            obj.ActiveSince = obj.IsActive ? DateTime.Now : DateTime.MinValue;
-
-            return base.InsertAsync(obj);
-        }
-
-        public override Task<int> UpdateAsync(Entity.Thesis obj)
-        {
-            var thesis = AppContext.Theses.Find(obj.ID);
-
-            if (thesis == null)
+            switch (eventType)
             {
-                throw new NotFoundException($"Thesis with ID: {obj.ID} not found");
-            }        
-
-            // set active since date if internship was not active before, but is active now
-            obj.ActiveSince = !thesis.IsActive && obj.IsActive ? DateTime.Now : thesis.ActiveSince;
-
-            // save changes
-            return base.UpdateAsync(obj, thesis);
+                case SaveEventType.Update:
+                    if (oldObj != null)
+                    {
+                        // set active since date if thesis was not active before, but is active now
+                        if (newObj.IsActive)
+                        {
+                            newObj.ActiveSince = !oldObj.IsActive && newObj.IsActive ? DateTime.Now : oldObj.ActiveSince;
+                        }
+                        else if (!newObj.IsActive)
+                        {
+                            // thesis is not active anymore
+                            newObj.ActiveSince = DateTime.MinValue;
+                        }
+                    }
+                    break;
+                case SaveEventType.Insert:
+                    // set active since date
+                    newObj.ActiveSince = newObj.IsActive ? DateTime.Now : DateTime.MinValue;
+                    break;
+            }
         }
-
 
         public override IDbSet<Entity.Thesis> GetEntitySet()
         {

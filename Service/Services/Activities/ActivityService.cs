@@ -26,22 +26,22 @@ namespace Service.Services.Activities
             return GetAll().Where(m => m.ActivityType.Equals(type.ToString()) && m.ApplicationUserId.Equals(applicationUserId));
         }
 
-        public async Task<int> LogActivity(ActivityTypeEnum type)
+        public async Task<IInsertActionResult> LogActivity(ActivityTypeEnum type)
         {
             return await LogActivity(type, 0, null);
         }
 
-        public async Task<int> LogActivity(ActivityTypeEnum type, int companyID, int objectID = 0)
+        public async Task<IInsertActionResult> LogActivity(ActivityTypeEnum type, int companyID, int objectID = 0)
         {
             return await LogActivity(type, companyID, null, objectID);
         }
 
-        public async Task<int> LogActivity(ActivityTypeEnum type, string applicationUserId, int objectID = 0)
+        public async Task<IInsertActionResult> LogActivity(ActivityTypeEnum type, string applicationUserId, int objectID = 0)
         {
             return await LogActivity(type, 0, applicationUserId, objectID);
         }
 
-        public async Task<int> LogActivity(ActivityTypeEnum type, int companyID, string applicationUserId, int objectID = 0)
+        public async Task<IInsertActionResult> LogActivity(ActivityTypeEnum type, int companyID, string applicationUserId, int objectID = 0)
         {
             var activity = new Activity()
             {

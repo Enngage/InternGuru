@@ -117,7 +117,7 @@ namespace Service.Services.Emails
             }
         }
 
-        public int Insert(Email email)
+        public IInsertActionResult Insert(Email email)
         {
             // set created date
             email.Created = DateTime.Now;

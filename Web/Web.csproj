@@ -1811,6 +1811,7 @@
     <Content Include="Config\AppConfig.config" />
     <None Include="Scripts\addons\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\addons\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\addons\jquery.nestable.js" />
     <Content Include="Scripts\addons\respond.min.js" />
     <Content Include="Scripts\addons\unitegallery-master\dist\css\unite-gallery.css" />
     <Content Include="Scripts\addons\unitegallery-master\dist\images\button-close.png" />

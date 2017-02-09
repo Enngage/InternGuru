@@ -14,6 +14,8 @@ namespace UI.Modules.Questionare.Forms
         public IList<string> FieldGuids { get; set; }
         public IList<IQuestion> Questions { get; set; }
 
+        public string InitialStateJson { get; set; }
+
         public bool IsNewQuestionare => QuestionareID == 0;
 
     }

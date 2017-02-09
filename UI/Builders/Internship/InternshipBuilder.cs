@@ -109,6 +109,7 @@ namespace UI.Builders.Internship
         /// </summary>
         /// <param name="internshipID">internshipID</param>
         /// <param name="companyID">companyID</param>
+        /// <returns>ID of the new activity</returns>
         public async Task<int> LogInternshipViewActivityAsync(int internshipID, int companyID)
         {
             if (internshipID == 0)
@@ -118,7 +119,10 @@ namespace UI.Builders.Internship
 
             var activityUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
 
-            return await this.Services.ActivityService.LogActivity(ActivityTypeEnum.ViewInternshipDetail, companyID, activityUserId, internshipID);
+            var result = await this.Services.ActivityService.LogActivity(ActivityTypeEnum.ViewInternshipDetail, companyID, activityUserId, internshipID);
+
+
+            return result.ObjectID;
         }
 
         #endregion

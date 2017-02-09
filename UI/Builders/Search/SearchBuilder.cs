@@ -56,13 +56,16 @@ namespace UI.Builders.Search
                 })
                 .Select(m => new SearchCityModel()
                 {
-                    City = m.Key.City.ToAlphaNumeric(),
+                    City = m.Key.City,
                     CountryCode = m.Key.CountryCode,
                     InternshipCount = m.Count()
                 });
 
             // load and cache all cities. Search in memory by ling
             var allCities = await Services.CacheService.GetOrSet(async () => await citiesQuery.ToListAsync(), cacheSetup);
+
+            // get only alphanumeric city
+            allCities.ForEach(m => m.City.ToAlphaNumeric());
 
             return allCities.Where(m => m.City.Contains(searchForCities.Trim(), StringComparison.OrdinalIgnoreCase));
         }

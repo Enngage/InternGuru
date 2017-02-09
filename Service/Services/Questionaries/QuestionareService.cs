@@ -24,7 +24,7 @@ namespace Service.Services.Questionaries
             return AppContext.Questionares;
         }
 
-        public Task<int> CreateQuestionare(string questionareName, IEnumerable<IQuestion> questions, string applicationUserId, int companyId)
+        public Task<IInsertActionResult> CreateQuestionare(string questionareName, IEnumerable<IQuestion> questions, string applicationUserId, int companyId)
         {
             if (string.IsNullOrEmpty(questionareName))
             {
@@ -80,11 +80,11 @@ namespace Service.Services.Questionaries
             {
                 var newQuestion = new Question()
                 {
-                    QuestionText = questionElement.SelectSingleNode("//" + QuestionTextXmlElement)?.InnerText,
-                    QuestionType = questionElement.SelectSingleNode("//" + QuestionTypeXmlElement)?.InnerText,
+                    QuestionText = questionElement[QuestionTextXmlElement]?.InnerText,
+                    QuestionType = questionElement[QuestionTypeXmlElement]?.InnerText,
                 };
 
-                var dataNodes = questionElement.SelectSingleNode("//" + QuestionDataXmlElement)?.ChildNodes;
+                var dataNodes = questionElement[QuestionDataXmlElement]?.ChildNodes;
 
                 if (dataNodes == null)
                 {

@@ -115,13 +115,13 @@ namespace UI.Builders.Form
                     IsRead = false,
                 };
 
-                var messageID =  await Services.MessageService.InsertAsync(message);
+                var messageResult =  await Services.MessageService.InsertAsync(message);
 
                 // log activity if we got this far
                 var activityCurrentUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
                 await this.Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitThesis, thesis.CompanyID, activityCurrentUserId, thesis.ID);
 
-                return messageID;
+                return messageResult.ObjectID;
             }
             catch (ValidationException ex)
             {
@@ -177,14 +177,14 @@ namespace UI.Builders.Form
                     IsRead = false,
                 };
 
-                var messageID = await Services.MessageService.InsertAsync(message);
+                var messageResult = await Services.MessageService.InsertAsync(message);
 
                 // log activity if we got this far
                 var activityCurrentUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
                 await this.Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitInternship, internship.CompanyID, activityCurrentUserId, internship.InternshipID);
 
                 // return message id
-                return messageID;
+                return messageResult.ObjectID;
             }
             catch (ValidationException ex)
             {

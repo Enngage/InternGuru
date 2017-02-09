@@ -17,8 +17,8 @@ namespace Service.Services
         /// Inserts object into database
         /// </summary>
         /// <param name="obj">Object to insert</param>
-        /// <returns>The number of objects written to the underlying database</returns>
-        Task<int> InsertAsync(T obj);
+        /// <returns>Result of the insert action</returns>
+        Task<IInsertActionResult> InsertAsync(T obj);
 
         /// <summary>
         /// Deletes object from database

@@ -97,6 +97,8 @@
     <Compile Include="Services\Emails\IEmailService.cs" />
     <Compile Include="Services\Identity\IIdentityService.cs" />
     <Compile Include="Services\Identity\IdentityService.cs" />
+    <Compile Include="Services\IInsertActionResult.cs" />
+    <Compile Include="Services\InsertActionResult.cs" />
     <Compile Include="Services\Internships\StudentStatusOptionService.cs" />
     <Compile Include="Services\Internships\IHomeOfficeOptionService.cs" />
     <Compile Include="Services\Internships\HomeOfficeOptionService.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Services\Internships\InternshipService.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\IServiceDependencies.cs" />
+    <Compile Include="Services\IValidationResult.cs" />
     <Compile Include="Services\Languages\LanguageService.cs" />
     <Compile Include="Services\Languages\ILanguageService.cs" />
     <Compile Include="Services\Logs\ILogService.cs" />
@@ -131,6 +134,7 @@
     <Compile Include="Services\Thesis\ThesisTypeService.cs" />
     <Compile Include="Services\Thesis\ThesisService.cs" />
     <Compile Include="Services\Thesis\IThesisService.cs" />
+    <Compile Include="Services\ValidationResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
