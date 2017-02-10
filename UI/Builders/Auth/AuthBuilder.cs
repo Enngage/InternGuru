@@ -17,11 +17,11 @@ using UI.Base;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Auth.Models;
 using UI.Builders.Auth.Views;
-using UI.Builders.Questionare;
+using UI.Builders.Questionnaire;
 using UI.Builders.Services;
 using UI.Builders.Shared.Models;
 using UI.Exceptions;
-using UI.Modules.Questionare.Forms;
+using UI.Modules.Questionnaire.Forms;
 using UI.UIServices;
 
 namespace UI.Builders.Auth
@@ -31,15 +31,15 @@ namespace UI.Builders.Auth
 
         #region Builder
 
-        private readonly QuestionareBuilder _questionareBuilder;
+        private readonly QuestionnaireBuilder _questionnaireBuilder;
 
         #endregion
 
         #region Constructor
 
-        public AuthBuilder(ISystemContext systemContext, IServicesLoader servicesLoader, QuestionareBuilder questionareBuilder) : base(systemContext, servicesLoader)
+        public AuthBuilder(ISystemContext systemContext, IServicesLoader servicesLoader, QuestionnaireBuilder questionnaireBuilder) : base(systemContext, servicesLoader)
         {
-            _questionareBuilder = questionareBuilder;
+            _questionnaireBuilder = questionnaireBuilder;
         }
 
         #endregion
@@ -61,15 +61,21 @@ namespace UI.Builders.Auth
                 Internships = await GetInternshipsAsync(),
                 Conversations = await GetConversationsAsync(10),
                 Theses = await GetThesesListingsAsync(),
-                
+                Questionnaires = await GetQuestionnairesListingsAsync()
             };
         }
 
         #endregion
 
-        #region Questionare
+        #region Questionnaire
 
-        public async Task<AuthNewQuestionareView> BuildQuestionareNewViewAsync(QuestionareCreateEditForm form = null)
+        public async Task<AuthIndexView> BuildQuestionnairesViewAsync(int? page)
+        {
+            return await BuildIndexViewAsync(page);
+        }
+
+
+        public async Task<AuthNewQuestionnaireView> BuildQuestionnaireNewViewAsync(QuestionnaireCreateEditForm form = null)
         {
             var authMaster = await GetAuthMasterModelAsync();
 
@@ -78,14 +84,14 @@ namespace UI.Builders.Auth
                 return null;
             }
 
-            return new AuthNewQuestionareView()
+            return new AuthNewQuestionnaireView()
             {
                 AuthMaster = authMaster,
-                QuestionareForm = _questionareBuilder.GetForm(form)
+                QuestionnaireForm = _questionnaireBuilder.GetForm(form)
             };
         }
 
-        public async Task<AuthEditQuestionareView> BuildQuestionareEditViewAsync(int questionareID)
+        public async Task<AuthEditQuestionnaireView> BuildEditQuestionnaireViewAsync(int questionnaireID)
         {
             var authMaster = await GetAuthMasterModelAsync();
 
@@ -94,17 +100,38 @@ namespace UI.Builders.Auth
                 return null;
             }
 
-            var questionareForm = await _questionareBuilder.GetQuestionareEditFormAsync(questionareID);
+            var questionnaireForm = await _questionnaireBuilder.GetQuestionnaireEditFormAsync(questionnaireID);
 
-            if (questionareForm == null)
+            if (questionnaireForm == null)
             {
                 return null;
             }
 
-            return new AuthEditQuestionareView()
+            return new AuthEditQuestionnaireView()
             {
                 AuthMaster = authMaster,
-                QuestionareForm = questionareForm
+                QuestionnaireForm = questionnaireForm
+            };
+        }
+
+        public async Task<AuthEditQuestionnaireView> BuildEditQuestionnaireViewAsync(QuestionnaireCreateEditForm questionnaireForm)
+        {
+            var authMaster = await GetAuthMasterModelAsync();
+
+            if (questionnaireForm == null)
+            {
+                return null;
+            }
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+            return new AuthEditQuestionnaireView()
+            {
+                AuthMaster = authMaster,
+                QuestionnaireForm = _questionnaireBuilder.GetForm(questionnaireForm)
             };
         }
 
@@ -1885,9 +1912,9 @@ namespace UI.Builders.Auth
         }
 
         /// <summary>
-        /// Gets internships of current company/user
+        /// Gets theses of current company/user
         /// </summary>
-        /// <returns>Collection of internships</returns>
+        /// <returns>Collection of theses</returns>
         private async Task<IEnumerable<AuthThesisListingModel>> GetThesesListingsAsync()
         {
             var thesisQuery = Services.ThesisService.GetAll()
@@ -1923,6 +1950,50 @@ namespace UI.Builders.Auth
             cacheSetup.ObjectStringID = CurrentUser.Id + "_" + CurrentCompany.CompanyID;
 
             return await Services.CacheService.GetOrSet(async () => await thesisQuery.ToListAsync(), cacheSetup);
+        }
+
+        private async Task<IEnumerable<AuthQuestionnaireListingModel>> GetQuestionnairesListingsAsync()
+        {
+            var questionnairesQuery = Services.QuestionnaireService.GetAll()
+                .Select(m => new AuthQuestionnaireListingModel()
+                {
+                    ID = m.ID,
+                    Updated = m.Updated,
+                    QuestionnaireName = m.QuestionnaireName,
+                    QuestionnaireXml = m.QuestionnaireXml,
+                    CompanyID = m.CompanyID,
+                    ApplicationUserId = m.ApplicationUserId
+                });
+
+            if (CurrentCompany.IsAvailable)
+            {
+                questionnairesQuery = questionnairesQuery.Where(m => m.ApplicationUserId == CurrentUser.Id || m.CompanyID == CurrentCompany.CompanyID);
+            }
+            else
+            {
+                questionnairesQuery = questionnairesQuery.Where(m => m.ApplicationUserId == CurrentUser.Id);
+            }
+
+            questionnairesQuery = questionnairesQuery.OrderByDescending(m => m.Updated);
+
+            var cacheSetup = Services.CacheService.GetSetup<AuthQuestionnaireListingModel>(GetSource());
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdateAny<Entity.Questionnaire>(),
+                EntityKeys.KeyDeleteAny<Entity.Questionnaire>(),
+                EntityKeys.KeyCreateAny<Entity.Questionnaire>(),
+            };
+            cacheSetup.ObjectStringID = CurrentUser.Id;
+
+            var questionnaires = await Services.CacheService.GetOrSetAsync(async () => await questionnairesQuery.ToListAsync(), cacheSetup);
+
+            // set questions 
+            foreach (var questionnaire in questionnaires)
+            {
+                questionnaire.Questions = Services.QuestionnaireService.GetQuestionsFromXml(questionnaire.QuestionnaireXml).ToList();
+            }
+
+            return questionnaires;
         }
 
         /// <summary>

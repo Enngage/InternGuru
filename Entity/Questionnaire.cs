@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Helpers;
 using Entity.Base;
 
 namespace Entity
 {
-    public class Questionare : IEntity
+    public class Questionnaire : IEntity, IEntityWithTimeStamp
     {
         [Key]
         public int ID { get; set; }
@@ -18,9 +19,13 @@ namespace Entity
         [Required]
         public int CompanyID { get; set; }
         [Required]
-        public string QuestionareName { get; set; }
+        public string QuestionnaireName { get; set; }
         [Required]
-        public string QuestionareDefinitionXml { get; set; }
+        public string QuestionnaireXml { get; set; }
+        [Required]
+        public DateTime Created { get; set; }
+        [Required]
+        public DateTime Updated { get; set; }
 
         #region Virtual properties
 
@@ -41,7 +46,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return StringHelper.GetCodeName(QuestionareName);
+            return StringHelper.GetCodeName(QuestionnaireName);
         }
 
         #endregion

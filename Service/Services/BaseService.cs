@@ -342,7 +342,7 @@ namespace Service.Services
         {
             if (existingObj == null)
             {
-                throw new ObjectNotFoundException($"Object of '{nameof(IEntity)}' type with ID = '{obj.GetObjectID()}' was not found.");
+                throw new ObjectNotFoundException($"Object of '{nameof(IEntity)}' type with ID = '{obj.GetObjectID()}' cannot be edited because it does not exist.");
             }
 
             // create clone of existing entity

@@ -1,12 +1,24 @@
-﻿require(['modules/coreModule', 'jquery', 'jquerynestable', 'semantic'], function (CoreModule, $) {
+﻿require(['modules/coreModule', 'jquery', 'sortable', 'semantic'], function (CoreModule, $, Sortable) {
     $(function() {
         var coreModule = new CoreModule();
+
+        // init sortable questions
+        Sortable.create(_Questionnaire,
+        {
+            ghostClass: "w-questionnaire-ghost-class"
+        });
 
         // type dropdown
         $("#_TypeDropdown").dropdown();
 
+        // handle remove question clicks
+        $("body").on("click", "._QuestionDeleteButton", function () {
+            $(this).closest("._QuestionWrapper").remove();
+        });
+
+        // handle add question clicks
         $("#_AddQuestion").click(function() {
-            $('#_QuestionareModal')
+            $('#_QuestionnaireModal')
                 .modal({
                     closable: true,
                     onDeny: function() {
@@ -34,8 +46,8 @@
         // set initial type question
         setDefaultState();
 
-        // init questionare on load
-        initQuestionare();
+        // init on load
+        initQuestionnaire();
 
         // load question types on change
         $("#_TypeDropdown").change(function() {
@@ -44,33 +56,24 @@
             changeQuestionType(typeId);
         });
 
-        function initQuestionare() {
+        // initialize with questions from the initial state
+        function initQuestionnaire() {
             // get JSON with question from hidden input
-            var initialStateJson = coreModule.tryParseJson($("#_QuestionareInitialState").val());
+            var initialStateJson = coreModule.tryParseJson($("#_QuestionnaireInitialState").val());
 
             if (!initialStateJson) {
-                console.log("Questionare has no initial state");
+                console.log("Questionnaire has no initial state");
                 return;
             }
             console.log(initialStateJson);
 
             $.each(initialStateJson, function (i, question) {
-                // add all questions to questionare
+                // add all questions to 
                 addQuestion(question.QuestionText, question.QuestionType, question.Data);
-            });
-
-            $('.dd').nestable({
-                listNodeName: "ul",
-                itemNodeName: "li",
-            });
-            // make questions sortable
-            $('#_Questionare').nestable({
-                listNodeName: "div",
-                itemNodeName: "div",
-                rootClass: "_SortableQuestions"
             });
         }
 
+        // sets default state of modal window with question selection
         function setDefaultState() {
             changeQuestionType("RadioButton");
 
@@ -81,6 +84,7 @@
             $("#_TypeDropdown").dropdown("set selected", "RadioButton");
         }
 
+        // changes question type in the modal window
         function changeQuestionType(typeId) {
             var insertTemplate = loadInsertQuestionTemplate(typeId);
 
@@ -92,7 +96,7 @@
             $("#_QuestionInsertTemplatePlaceholder").html(insertTemplate);
 
             // refresh modal to center it on screen
-            $('#_QuestionareModal').modal('refresh');
+            $('#_QuestionnaireModal').modal('refresh');
 
             // init types
             initTypes();
@@ -145,8 +149,8 @@
 
             var questionHtml = getDesignerTemplate(question);
 
-            // append question to questionare
-            $("#_Questionare").append(questionHtml);
+            // append question to 
+            $("#_Questionnaire").append(questionHtml);
 
             return true;
         }

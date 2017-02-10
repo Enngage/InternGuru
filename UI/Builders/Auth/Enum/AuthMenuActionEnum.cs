@@ -21,6 +21,9 @@ namespace UI.Builders.Auth.Enum
         Avatar,
         Conversation,
         EventLog,
-        EmailLog
+        EmailLog,
+        Questionnaires,
+        EditQuestionnaire,
+        NewQuestionnaire
     }
 }

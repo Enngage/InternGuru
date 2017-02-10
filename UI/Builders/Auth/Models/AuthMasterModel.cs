@@ -7,6 +7,7 @@ namespace UI.Builders.Auth.Models
         public IEnumerable<AuthInternshipListingModel> Internships { get; set; }
         public IEnumerable<AuthThesisListingModel> Theses { get; set; }
         public IEnumerable<AuthConversationModel> Conversations { get; set; }
+        public IEnumerable<AuthQuestionnaireListingModel> Questionnaires { get; set; }
 
         /// <summary>
         /// Indicates if current user e-mail is visible to others

@@ -1809,10 +1809,10 @@
     <Content Include="Scripts\addons\datepicker-master\src\datepicker.scss" />
     <Content Include="Config\ConnectionStrings.config" />
     <Content Include="Config\AppConfig.config" />
-    <None Include="Scripts\addons\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\addons\jquery-2.1.4.min.js" />
-    <Content Include="Scripts\addons\jquery.nestable.js" />
+    <Content Include="Scripts\addons\jquery-3.1.1.min.js" />
     <Content Include="Scripts\addons\respond.min.js" />
+    <Content Include="Scripts\addons\sortable.js" />
     <Content Include="Scripts\addons\unitegallery-master\dist\css\unite-gallery.css" />
     <Content Include="Scripts\addons\unitegallery-master\dist\images\button-close.png" />
     <Content Include="Scripts\addons\unitegallery-master\dist\images\cover-grid.png" />
@@ -2269,7 +2269,7 @@
     <Content Include="Scripts\views\internship\notFound.js" />
     <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\internship\detail.js" />
-    <Content Include="Scripts\views\modules\questionare\createEditQuestionare.js" />
+    <Content Include="Scripts\views\modules\questionnaire\createEditQuestionnaire.js" />
     <Content Include="Scripts\views\modules\uiHeader.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
     <Content Include="Scripts\views\system\emailLog.js" />
@@ -2536,9 +2536,11 @@
     <Content Include="Views\System\EmailLog.cshtml" />
     <Content Include="Views\Email\Preview.cshtml" />
     <Content Include="Stylesheets\partials\_price.scss" />
-    <Content Include="Views\Modules\Questionare\CreateEditQuestionare.cshtml" />
-    <Content Include="Views\Auth\NewQuestionare.cshtml" />
-    <Content Include="Views\Auth\EditQuestionare.cshtml" />
+    <Content Include="Views\Modules\Questionnaire\CreateEditQuestionnaire.cshtml" />
+    <Content Include="Views\Auth\NewQuestionnaire.cshtml" />
+    <Content Include="Views\Auth\EditQuestionnaire.cshtml" />
+    <Content Include="Stylesheets\partials\_questionnaire.scss" />
+    <Content Include="Views\Auth\Questionnaires.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -92,7 +92,7 @@
     <Compile Include="Base\IEntityWithoutCodeName.cs" />
     <Compile Include="Base\IEntityWithUniqueCodeName.cs" />
     <Compile Include="Base\IEntityWithTimeStamp.cs" />
-    <Compile Include="Questionare.cs" />
+    <Compile Include="Questionnaire.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="HomeOfficeOption.cs" />
     <Compile Include="Activity.cs" />

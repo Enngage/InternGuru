@@ -1,0 +1,18 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-questionnaire-question-wrapper {
+        cursor: move;
+    }
+
+    .w-questionnaire-ghost-class {
+        opacity: .5;
+        background: #C8EBFB;
+    }
+
+    .w-questionnaire-delete{
+        cursor: pointer;
+        float: right;
+        color: black
+    }
+}

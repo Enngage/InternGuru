@@ -687,3 +687,15 @@
   #w-body-wrapper .w-price-column .w-price-list {
     font-size: 14px; }
 
+#w-body-wrapper .w-questionnaire-question-wrapper {
+  cursor: move; }
+
+#w-body-wrapper .w-questionnaire-ghost-class {
+  opacity: .5;
+  background: #C8EBFB; }
+
+#w-body-wrapper .w-questionnaire-delete {
+  cursor: pointer;
+  float: right;
+  color: black; }
+

@@ -1,0 +1,74 @@
+﻿@using Core.Helpers;
+@model UI.Builders.Auth.Views.AuthIndexView
+
+@{
+    Model.Metadata.BasicMetadata.Title = "Dotazníky";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
+
+}
+
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+        <div class="ui segment">
+            
+            <a href="@Url.Action("NewQuestionnaire", "Auth")">
+                <div class="ui button primary">Vytvořit dotazník</div>
+            </a>
+
+            @if (Model.Master.CurrentCompany.IsAvailable)
+            {
+                if (!Model.AuthMaster.Questionnaires.Any())
+                {
+                    @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vytvořeny žádné dotazníky")
+                }
+                else
+                {
+                    <table class="ui very basic table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Akce
+                                </th>
+                                <th>
+                                    Název dotazníku
+                                </th>
+                                <th class="center aligned">
+                                    Počet otázek
+                                </th>
+                                <th>
+                                    Upraveno
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var questionnaire in Model.AuthMaster.Questionnaires)
+                            {
+                                <tr>
+                                    <td class="collapsing w-body-text-center w-mobile-left">
+                                        <a href="@Url.Action("EditQuestionnaire", "Auth", new { id = questionnaire.ID })">
+                                            <i title="Upravit" class="edit icon black"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @questionnaire.QuestionnaireName
+                                    </td>
+                                    <td class="center aligned">
+                                        @questionnaire.Questions.Count
+                                    </td>
+                                    <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
+                                        <i title="Vytvořeno" class="calendar icon"></i>
+                                        @DateHelper.FormatDate(questionnaire.Updated)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            }
+            else
+            {
+                @Helpers.MessageHelper.RenderInfoMessage("Pro přidání dotazníku musíte vytvořit firmu")
+            }
+        </div>
+    </div>
+</div>

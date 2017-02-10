@@ -114,10 +114,6 @@
                                     <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
                                         @thesis.ThesisName
                                     </a>
-                                    @if (thesis.IsPaid)
-                                    {
-                                        <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
-                                    }
                                 </td>
                                 <td class="collapsing w-body-text-center w-mobile-left">
                                     @thesis.ThesisTypeNameConverted

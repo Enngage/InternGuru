@@ -9,7 +9,7 @@ using Service.Services.Internships;
 using Service.Services.Languages;
 using Service.Services.Logs;
 using Service.Services.Messages;
-using Service.Services.Questionaries;
+using Service.Services.Questionnaires;
 using Service.Services.Thesis;
 using UI.UIServices;
 
@@ -40,7 +40,7 @@ namespace UI.Builders.Services
         public IStudentStatusOptionService StudentStatusOptionService { get; }
         public IActivityService ActivityService { get; }
         public IEmailService EmailService { get; }
-        public IQuestionareService QuestionareService { get; }
+        public IQuestionnaireService QuestionnaireService { get; }
 
 
         public ServicesLoader(
@@ -67,7 +67,7 @@ namespace UI.Builders.Services
                 IStudentStatusOptionService studentStatusOptionService,
                 IActivityService activityService,
                 IEmailService emailService,
-                IQuestionareService questionareService
+                IQuestionnaireService questionareService
         )
         {
             CacheService = cacheService;
@@ -93,7 +93,7 @@ namespace UI.Builders.Services
             StudentStatusOptionService = studentStatusOptionService;
             ActivityService = activityService;
             EmailService = emailService;
-            QuestionareService = questionareService;
+            QuestionnaireService = questionareService;
         }
     }
 }

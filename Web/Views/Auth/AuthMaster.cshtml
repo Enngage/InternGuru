@@ -31,6 +31,8 @@
     var avatarClass = activeMenuItem == AuthMenuActionEnum.Avatar ? "active" : string.Empty;
     var eventLogClass = activeMenuItem == AuthMenuActionEnum.EventLog ? "active" : string.Empty;
     var emailLogClass = activeMenuItem == AuthMenuActionEnum.EmailLog ? "active" : string.Empty;
+    var questionnaireClass = activeMenuItem == AuthMenuActionEnum.Questionnaires || activeMenuItem == AuthMenuActionEnum.EditQuestionnaire ? "active" : string.Empty;
+
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authIndex")
@@ -66,9 +68,6 @@
                                     <div class="ui small label">@Model.AuthMaster.Theses.Count()</div>
                                     Závěrečné práce
                                 </a>
-                                <a class="item" href="@Url.Action("NewQuestionare", "Auth")">
-                                    Nový dotazník
-                                </a>
                             </div>
                         </div>
                         <div class="item">
@@ -90,7 +89,9 @@
                                 {
                                     <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany", "Auth")">Registrovat firmu</a>
                                 }
-
+                                <a class="item @questionnaireClass" href="@Url.Action("Questionnaires", "Auth")">
+                                    Dotazníky
+                                </a>
                             </div>
                         </div>
                         <div class="item">

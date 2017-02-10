@@ -1,0 +1,202 @@
+﻿@model UI.Modules.Questionnaire.Forms.QuestionnaireCreateEditForm
+@Helpers.ScriptHelper.RequireScript("/scripts/views/modules/questionnaire/createEditQuestionnaire")   
+
+@{
+    var insertTemplateClass = "_InsertTemplate";
+    var designerTemplateClass = "_DesignerTemplate";
+    var fieldGuidName = "FieldGuids";
+    var formAction = Model.IsNewQuestionare ? "NewQuestionnaire" : "EditQuestionnaire";
+}
+
+<input type="hidden" id="_QuestionnaireInitialState" value="@Model.InitialStateJson" />
+
+<div class="ui modal large" id="_QuestionnaireModal">
+    <div class="header">Vložit otázku</div>
+    <div class="content">
+        <div class="ui form">
+            <div class="field required">
+                <label>Otázka</label>
+                <input type="text" id="_QuestionText">
+            </div>
+            <div class="field required">
+                <label>Typ</label>
+                <select id="_TypeDropdown" class="ui dropdown">
+                    <option selected="selected" value="RadioButton">Výběr z možností (radio buttons)</option>
+                    <option value="SimpleTextBox">Text box</option>
+                </select>
+            </div>
+            <div>
+                <div class="field required w-margin-top-14">
+                    <div id="_QuestionInsertTemplatePlaceholder">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui positive button">Přidat</div>
+        <div class="ui negative button">Zrušit</div>
+    </div>
+</div>
+
+@using (Html.BeginForm(formAction, "Auth", FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="QuestionnaireID" value="@Model.QuestionnaireID"/>
+
+    <div class="ui grid">
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+
+            @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
+
+            <div class="ui form w-margin-top-10">
+                <div class="field required">
+                    <label>Název dotazníku</label>
+                    <input type="text" name="QuestionnaireName" value="@Model.QuestionnaireName">
+                </div>
+            </div>
+
+            <div class="w-margin-top-14">
+                <div class="ui button primary" id="_AddQuestion">
+                    Přidat otázku
+                </div>
+            </div>
+        </div>
+
+        <div class="sixteen wide column">
+            <div id="_Questionnaire">
+            </div>
+        </div>
+
+        <div class="w-margin-top-14">
+            <button class="ui button secondary" type="submit">
+                Uložit
+            </button>
+        </div>
+    </div>
+}
+
+<div class="w-body-hide">
+    @* Base template - has to contain following fields:
+        _QuestionText
+        _QuestionCorrectAnswer
+        _QuestionType
+        _FieldGuid
+        _QuestionTypeTemplate
+    *@
+    <div id="_QuestionPreviewBaseTemplate">
+        <div class="ui segment padded w-questionnaire-question-wrapper _QuestionWrapper">
+            <div class="ui top inverted teal attached label"><i class="move icon"></i> <span class="w-questionnaire-delete _QuestionDeleteButton"><i class="remove negative icon"></i></span></div>
+            <input type="hidden" class="_QuestionText"/>
+            <input type="hidden" class="_QuestionCorrectAnswer"/>
+            <input type="hidden" class="_QuestionType"/>
+            <input type="hidden" class="_FieldGuid" name="@fieldGuidName"/>
+            <div class="content w-margin-top-20">
+                <div class="header _QuestionText"></div>
+                <div class="_QuestionTypeTemplate"></div>
+            </div>
+        </div>
+    </div>
+
+    @* Question types *@
+    <div>
+        <div class="_QuestionType" id="_SimpleTextBox">
+            <div class="@insertTemplateClass">
+                <div class="ui form">
+                    <div class="field">
+                        <label>Správná odpověď (nepovinné)</label>
+                        <input type="text" class="_TextData" data-name="correct_answer" placeholder="Nechejte prázdné pokud otázka nemá definovanou odpověď">
+                    </div>
+                </div>
+            </div>
+            <div class="@designerTemplateClass">
+                <div class="ui form">
+                    <div class="field">
+                        <label>Správná odpověď: </label>
+                        <span type="text" class="_TextData" data-name="correct_answer" data-hideempty="1"></span>
+                        <input type="hidden" class="_InputField" data-target="correctanswer" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="_QuestionType" id="_RadioButton">
+            <div class="@insertTemplateClass">
+                <div class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui radio checkbox _RadioButtons">
+                                <input name="ignore" checked="" tabindex="0" class="hidden _RadioButtonData" type="radio" data-name="option1istrue">
+                                <label>Správná odpověď</label>
+                            </div>
+                            <input type="text" class="_TextData" data-name="option1">
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox _RadioButtons">
+                                <input name="ignore" class="hidden _RadioButtonData" type="radio" data-name="option2istrue">
+                                <label>Správná odpověď</label>
+                            </div>
+                            <input type="text" class="_TextData" data-name="option2">
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox _RadioButtons">
+                                <input name="ignore" class="hidden _RadioButtonData" type="radio" data-name="option3istrue">
+                                <label>Správná odpověď</label>
+                            </div>
+                            <input type="text" class="_TextData" data-name="option3">
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox _RadioButtons">
+                                <input name="ignore" class="hidden _RadioButtonData" type="radio" data-name="option4istrue">
+                                <label>Správná odpověď</label>
+                            </div>
+                            <input type="text" class="_TextData" data-name="option4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="@designerTemplateClass">
+                <div class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <div class="ui radio disabled checkbox _RadioButtons">
+                                <input name="a" checked="" tabindex="0" class="hidden _RadioButtonData" type="radio" data-name="option1istrue" data-valuesource="option1">
+                                <label class="_TextData" data-name="option1" data-hideempty="1"></label>
+                                <input type="hidden" class="_InputField" data-target="option1istrue" />
+                                <input type="hidden" class="_InputField" data-target="option1" />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio disabled checkbox _RadioButtons">
+                                <input name="a" class="hidden _RadioButtonData" type="radio" data-name="option2istrue" data-valuesource="option2">
+                                <label class="_TextData" data-name="option2" data-hideempty="1"></label>
+                                <input type="hidden" class="_InputField" data-target="option2istrue" />
+                                <input type="hidden" class="_InputField" data-target="option2" />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio disabled checkbox _RadioButtons">
+                                <input name="a" class="hidden _RadioButtonData" type="radio" data-name="option3istrue" data-valuesource="option3">
+                                <label class="_TextData" data-name="option3" data-hideempty="1"></label>
+                                <input type="hidden" class="_InputField" data-target="option3istrue" />
+                                <input type="hidden" class="_InputField" data-target="option3" />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio disabled checkbox _RadioButtons">
+                                <input name="a" class="hidden _RadioButtonData" type="radio" data-name="option4istrue" data-valuesource="option4">
+                                <label class="_TextData" data-name="option4" data-hideempty="1"></label>
+                                <input type="hidden" class="_InputField" data-target="option4istrue" />
+                                <input type="hidden" class="_InputField" data-target="option4" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,13 @@
+﻿@model UI.Builders.Auth.Views.AuthEditQuestionnaireView
+
+@{
+    Model.Metadata.BasicMetadata.Title = "Upravit dotazník";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
+}
+
+<h1>
+    Upravit dotazník
+</h1>
+
+@Html.Partial("~/Views/Modules/Questionnaire/CreateEditQuestionnaire.cshtml", Model.QuestionnaireForm)
+
