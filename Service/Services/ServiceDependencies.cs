@@ -1,4 +1,5 @@
 ﻿using Cache;
+using Core.Models;
 using EmailProvider;
 using Service.Context;
 
@@ -9,16 +10,19 @@ namespace Service.Services
         public IAppContext AppContext { get; set; }
         public ICacheService CacheService { get; }
         public IEmailProvider EmailProvider { get; }
+        public IUser User { get; }
 
         public ServiceDependencies(
             IAppContext appContext,
             ICacheService cacheService,
-            IEmailProvider emailProvider
+            IEmailProvider emailProvider,
+            IUser user
         )
         {
             AppContext = appContext;
             CacheService = cacheService;
             EmailProvider = emailProvider;
+            User = user;
         }
     }
 }

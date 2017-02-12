@@ -681,7 +681,8 @@ namespace Service.Context
 
                 var company = new Company()
                 {
-                    ApplicationUserId = user.Id,
+                    CreatedByApplicationUserId = user.Id,
+                    UpdatedByApplicationUserId = user.Id,
                     CompanyCategory = context.CompanyCategories.RandomItem(),
                     City = GetLoremIpsumName(),
                     CompanyName = companyName,
@@ -720,7 +721,8 @@ namespace Service.Context
 
                 var internship = new Internship()
                 {
-                    ApplicationUser = company.ApplicationUser,
+                    CreatedByApplicationUser = company.CreatedByApplicationUser,
+                    UpdatedByApplicationUser = company.CreatedByApplicationUser,
                     Created = DateTime.Now,
                     Updated = DateTime.Now,
                     Company = company,
@@ -766,7 +768,8 @@ namespace Service.Context
                 var thesis = new Thesis()
                 {
                     Amount = amount,
-                    ApplicationUser = company.ApplicationUser,
+                    CreatedByApplicationUser = company.CreatedByApplicationUser,
+                    UpdatedByApplicationUser = company.CreatedByApplicationUser,
                     Company = company,
                     Currency = context.Currencies.RandomItem(),
                     Description = GetLoremIpsumtText(),

@@ -1,14 +1,15 @@
-﻿using System;
+﻿
+using System;
 using System.Runtime.Serialization;
 
 namespace Service.Exceptions
 {
-    public class FileNotProvidedException : ServiceException
+    public class ServiceException : Exception
     {
         /// <summary>
         /// Just create the exception
         /// </summary>
-        public FileNotProvidedException()
+        public ServiceException()
         {
         }
 
@@ -16,7 +17,7 @@ namespace Service.Exceptions
         /// Create the exception with description
         /// </summary>
         /// <param name="message">Exception description</param>
-        public FileNotProvidedException(string message)
+        public ServiceException(string message)
             : base(message)
         {
         }
@@ -26,7 +27,7 @@ namespace Service.Exceptions
         /// </summary>
         /// <param name="message">Exception description</param>
         /// <param name="innerException">Exception inner cause</param>
-        public FileNotProvidedException(string message, Exception innerException)
+        public ServiceException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
@@ -38,7 +39,7 @@ namespace Service.Exceptions
         /// </summary>
         /// <param name="info">Serialization info</param>
         /// <param name="context">Serialization context</param>
-        protected FileNotProvidedException(SerializationInfo info, StreamingContext context)
+        protected ServiceException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

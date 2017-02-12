@@ -76,6 +76,17 @@ namespace Service.Context
 
             // disable cascade on following entities:
             // see https://social.msdn.microsoft.com/Forums/en-US/58a4e272-ee28-4245-ba95-ca7edc818e7a/sql-exception-foreign-key-may-cause-multiple-cascade-path-specify-on-delete-no-action?forum=adodotnetentityframework
+            modelBuilder.Entity<Internship>()
+                .HasRequired(p => p.CreatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Internship>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Internship>()
                 .HasRequired(p => p.MinDurationType)
@@ -99,6 +110,56 @@ namespace Service.Context
                 .HasRequired(p => p.Country)
                 .WithMany()
                 .HasForeignKey(p => p.CountryID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Company>()
+                .HasRequired(p => p.CreatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Company>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Thesis>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Thesis>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Email>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Email>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+
+            modelBuilder.Entity<Questionnaire>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+
+            modelBuilder.Entity<Questionnaire>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
                 .WillCascadeOnDelete(false);
 
             // end cascade delete

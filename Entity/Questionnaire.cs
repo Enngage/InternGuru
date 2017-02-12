@@ -6,7 +6,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Questionnaire : IEntity, IEntityWithTimeStamp
+    public class Questionnaire : IEntity, IEntityWithTimeStamp, IEntityWithUserStamp, IEntityWithRestrictedAccess
     {
         [Key]
         public int ID { get; set; }
@@ -15,7 +15,9 @@ namespace Entity
         [MaxLength(50)]
         public string CodeName { get; set; }
         [Required]
-        public string ApplicationUserId { get; set; }
+        public string CreatedByApplicationUserId { get; set; }
+        [Required]
+        public string UpdatedByApplicationUserId { get; set; }
         [Required]
         public int CompanyID { get; set; }
         [Required]
@@ -27,13 +29,18 @@ namespace Entity
         [Required]
         public DateTime Updated { get; set; }
 
+
         #region Virtual properties
 
-        [ForeignKey("ApplicationUserId")]
-        public ApplicationUser ApplicationUser { get; set; }
 
         [ForeignKey("CompanyID")]
         public Company Company { get; set; }
+
+        [ForeignKey("CreatedByApplicationUserId")]
+        public ApplicationUser CreatedByApplicationUser { get; set; }
+
+        [ForeignKey("UpdatedByApplicationUserId")]
+        public ApplicationUser UpdatedByApplicationUser { get; set; }
 
         #endregion
 

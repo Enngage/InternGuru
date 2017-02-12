@@ -161,7 +161,13 @@ namespace Service.Services
 
             // handle entity variations and constraints
             HandleEntityCodeName(obj);
-            HandleEntityVariationFields(obj, existingObjectClone);
+            HandleEntityVariationFields(SaveEventType.Update, obj, existingObjectClone);
+
+            // check security 
+            if (!CanUpdate(obj))
+            {
+                throw new AuthorizationException($"Authorization required for action '{SaveEventType.Update}'");
+            }
 
             // validate object
             var validationResult = ValidateObject(SaveEventType.Update, obj, existingObjectClone);
@@ -203,7 +209,7 @@ namespace Service.Services
 
             // handle entity variations and constraints
             HandleEntityCodeName(obj);
-            HandleEntityVariationFields(obj, null);
+            HandleEntityVariationFields(SaveEventType.Insert, obj, null);
 
             // validate object
             var validationResult = ValidateObject(SaveEventType.Insert, obj);
@@ -250,7 +256,12 @@ namespace Service.Services
             if (obj == null)
             {
                 throw new ObjectNotFoundException($"Object of '{nameof(IEntity)}' type with ID = '{objectId}' was not found.");
+            }
 
+            // check security 
+            if (!CanDelete(obj))
+            {
+                throw new AuthorizationException($"Authorization required for action '{SaveEventType.Delete}'");
             }
 
             // before delete event
@@ -358,7 +369,13 @@ namespace Service.Services
 
             // handle entity variations and constraints
             await HandleEntityCodeNameAsync(obj);
-            HandleEntityVariationFields(obj, existingObjectClone);
+            HandleEntityVariationFields(SaveEventType.Update, obj, existingObjectClone);
+
+            // check security 
+            if (!CanUpdate(obj))
+            {
+                throw new AuthorizationException($"Authorization required for action '{SaveEventType.Update}'");
+            }
 
             // validate object
             var validationResult = ValidateObject(SaveEventType.Update, obj, existingObjectClone);
@@ -400,7 +417,7 @@ namespace Service.Services
 
             // handle entity variations and constraints
             await HandleEntityCodeNameAsync(obj);
-            HandleEntityVariationFields(obj, null);
+            HandleEntityVariationFields(SaveEventType.Insert, obj, null);
 
             // validate object
             var validationResult = ValidateObject(SaveEventType.Insert, obj);
@@ -447,7 +464,12 @@ namespace Service.Services
             if (obj == null)
             {
                 throw new ObjectNotFoundException($"Object of '{nameof(IEntity)}' type with ID = '{objectId}' was not found.");
+            }
 
+            // check security 
+            if (!CanDelete(obj))
+            {
+                throw new AuthorizationException($"Authorization required for action '{SaveEventType.Delete}'");
             }
 
             // before delete event
@@ -760,6 +782,50 @@ namespace Service.Services
 
         #endregion
 
+        #region Security checks
+
+        /// <summary>
+        /// Checks whether current user can update given entity
+        /// </summary>
+        /// <param name="obj">Entity to be updated</param>
+        /// <returns>True if entity can be updated, false otherwise</returns>
+        public virtual bool CanUpdate(TEntity obj)
+        {
+            if (!ServiceDependencies.User.IsAuthenticated)
+            {
+                // not logged users cannot update entities by default
+                return false;
+            }
+
+            var entityAccess = obj as IEntityWithRestrictedAccess;
+
+            if (entityAccess == null)
+            {
+                // entities not marked with restricted access can be updated by default
+                return true;
+            }
+
+            if (string.IsNullOrEmpty(entityAccess.CreatedByApplicationUserId) || string.IsNullOrEmpty(entityAccess.UpdatedByApplicationUserId))
+            {
+                throw new NotSupportedException($"Cannot check security because '{nameof(IEntityWithRestrictedAccess)}' properties are empty");
+            }
+
+            // return true if current user created the entity
+            return entityAccess.CreatedByApplicationUserId.Equals(ServiceDependencies.User?.UserId ?? string.Empty);
+        }
+
+        /// <summary>
+        /// Checks whether current user can delete given entity
+        /// </summary>
+        /// <param name="obj">Entity to be deleted</param>
+        /// <returns>True if entity can be deleted, false otherwise</returns>
+        public virtual bool CanDelete(TEntity obj)
+        {
+            return CanUpdate(obj);
+        }
+
+        #endregion
+
         #region Helper methods
 
         /// <summary>
@@ -825,19 +891,20 @@ namespace Service.Services
         /// <summary>
         /// Sets entity specific fields (e.g. guid, created, updated etc..)
         /// </summary>
+        /// <param name="type">Save event type</param>
         /// <param name="oldEntity">Existing entity in db</param>
         /// <param name="newEntity">New entity</param>
-        private void HandleEntityVariationFields(TEntity newEntity, TEntity oldEntity)
+        private void HandleEntityVariationFields(SaveEventType type, TEntity newEntity, TEntity oldEntity)
         {
             var entityWithGuid = newEntity as IEntityWithGuid;
             if (entityWithGuid != null)
             {
-                if (oldEntity == null)
+                if (type == SaveEventType.Insert)
                 {
                     // set new guid
                     entityWithGuid.Guid = Guid.NewGuid();
                 }
-                else
+                else if (type == SaveEventType.Update)
                 {
                     var oldEntityWithGuid = oldEntity as IEntityWithGuid;
                     if (oldEntityWithGuid == null)
@@ -852,14 +919,15 @@ namespace Service.Services
             var entityWithTimeStamp = newEntity as IEntityWithTimeStamp;
             if (entityWithTimeStamp != null)
             {
-                entityWithTimeStamp.Updated = DateTime.Now;
-                if (oldEntity == null)
+                if (type == SaveEventType.Insert)
                 {
                     // set new created time
                     entityWithTimeStamp.Created = DateTime.Now;
+                    entityWithTimeStamp.Updated = DateTime.Now;
                 }
-                else
+                else if (type == SaveEventType.Update)
                 {
+                    entityWithTimeStamp.Updated = DateTime.Now;
                     // keep the old created time
                     var oldEntityWithTimeStamp = oldEntity as IEntityWithTimeStamp;
                     if (oldEntityWithTimeStamp == null)
@@ -867,6 +935,34 @@ namespace Service.Services
                         throw new NotSupportedException($"Cannot set timestamp for '{nameof(oldEntity)}' entity");
                     }
                     entityWithTimeStamp.Created = oldEntityWithTimeStamp.Created;
+                }
+            }
+
+            var entityWithUserStamp = newEntity as IEntityWithUserStamp;
+            if (entityWithUserStamp != null)
+            {
+                if (!ServiceDependencies.User.IsAuthenticated)
+                {
+                    throw new AuthorizationException($"Authorization required for action '{type}'");
+                }
+
+                if (type == SaveEventType.Insert)
+                {
+                    entityWithUserStamp.CreatedByApplicationUserId = ServiceDependencies.User.UserId;
+                    entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
+                }
+                else if (type == SaveEventType.Update)
+                {
+                    // set updated value
+                    entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
+
+                    var oldEntityWithUserStamp = oldEntity as IEntityWithUserStamp;
+                    if (oldEntityWithUserStamp == null)
+                    {
+                        throw new NotSupportedException($"Cannot set user stamp for '{nameof(oldEntity)}' entity");
+                    }
+                    // keep the created value
+                    entityWithUserStamp.CreatedByApplicationUserId = oldEntityWithUserStamp.CreatedByApplicationUserId;
                 }
             }
         }
@@ -878,7 +974,7 @@ namespace Service.Services
         private ICacheSetup GetCacheAllCacheSetup()
         {
             const int cacheMinutes = 120;
-            const string cacheKey = "GetCacheAllCacheSetup";
+            const string cacheKey = nameof(GetCacheAllCacheSetup);
 
             var cacheSetup = CacheService.GetSetup<TEntity>(cacheKey, cacheMinutes);
             cacheSetup.Dependencies = new List<string>()

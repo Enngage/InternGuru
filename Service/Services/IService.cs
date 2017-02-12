@@ -11,6 +11,24 @@ namespace Service.Services
     public interface IService<T> where T : class, IEntity
     {
 
+        #region Security checks
+
+        /// <summary>
+        /// Checks whether current user can update given entity
+        /// </summary>
+        /// <param name="obj">Entity to be updated</param>
+        /// <returns>True if entity can be updated, false otherwise</returns>
+        bool CanUpdate(T obj);
+
+        /// <summary>
+        /// Checks whether current user can delete given entity
+        /// </summary>
+        /// <param name="obj">Entity to be deleted</param>
+        /// <returns>True if entity can be deleted, false otherwise</returns>
+        bool CanDelete(T obj);
+
+        #endregion
+
         #region Entity actions 
 
         /// <summary>

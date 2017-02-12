@@ -1,4 +1,5 @@
-﻿using Identity;
+﻿using Core.Models;
+using Identity;
 using Service.Context;
 
 namespace UI.Builders.Shared.Models
@@ -8,5 +9,6 @@ namespace UI.Builders.Shared.Models
         IAppContext AppContext { get; }
         ApplicationUserManager ApplicationUserManager { get; }
         ApplicationSignInManager ApplicationSignInManager { get; }
+        IUser CurrentUser { get; }
     }
 }

@@ -33,7 +33,7 @@ namespace Web.Lib.AutoMapper
                 cfg.CreateMap<StudentStatusOption, StudentStatusOption>();
                 cfg.CreateMap<Thesis, Thesis>();
                 cfg.CreateMap<ThesisType, ThesisType>();
-
+                cfg.CreateMap<Questionnaire, Questionnaire>();
             });
 
             return new Mapper(config);

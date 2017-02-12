@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Core.Helpers.Privilege;
-using Entity;
 using UI.Helpers;
 
 namespace UI.Builders.Shared.Models

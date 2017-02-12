@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Service.Services.Questionnaires;
 using UI.Base;
 
@@ -7,7 +7,7 @@ namespace UI.Modules.Questionnaire.Forms
     public class QuestionnaireCreateEditForm : BaseForm
     {
         public int QuestionnaireID { get; set; }
-        public string ApplicationUserID { get; set; }
+        public string CreatedByApplicationUserID { get; set; }
         public int CompanyID { get; set; }
         public string QuestionnaireName { get; set; }
         public string QuesitonnaireXml { get; set; }

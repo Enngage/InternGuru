@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Service.Exceptions
 {
-    public class SaveException : Exception
+    public class SaveException : ServiceException
     {
         /// <summary>
         /// Just create the exception

@@ -52,10 +52,11 @@ namespace UI.Builders.Questionnaire
         public async Task<QuestionnaireCreateEditForm> GetQuestionnaireEditFormAsync(int questionnareID)
         {
             var quesionareQuery = Services.QuestionnaireService.GetSingle(questionnareID)
+                .ForUser(CurrentUser.Id)
                 .Select(m => new QuestionnaireCreateEditForm()
                 {
                     QuestionnaireName = m.QuestionnaireName,
-                    ApplicationUserID = m.ApplicationUserId,
+                    CreatedByApplicationUserID = m.CreatedByApplicationUserId,
                     CompanyID = m.CompanyID,
                     QuestionnaireID = m.ID,
                     QuesitonnaireXml = m.QuestionnaireXml,
@@ -64,6 +65,12 @@ namespace UI.Builders.Questionnaire
             var questionnaire = await quesionareQuery.FirstOrDefaultAsync();
 
             if (questionnaire == null)
+            {
+                return null;
+            }
+
+            // check if current user has access to questionnaire
+            if (!questionnaire.CreatedByApplicationUserID.Equals(CurrentUser.Id) || questionnaire.CompanyID != CurrentCompany.CompanyID)
             {
                 return null;
             }
@@ -87,13 +94,14 @@ namespace UI.Builders.Questionnaire
             };
 
             var questionnaireQuery = Services.QuestionnaireService.GetSingle(questionnaireID)
+                .ForUser(CurrentUser.Id)
                 .Select(m => new QuestionnaireModel()
                 {
                     ID = m.ID,
                     CodeName = m.CodeName,
                     CompanyID = m.CompanyID,
                     QuestionnaireName = m.QuestionnaireName,
-                    ApplicationUserId = m.ApplicationUserId,
+                    CreatedByApplicationUserId = m.CreatedByApplicationUserId,
                     QuestionnaireXml = m.QuestionnaireXml
                 });
 

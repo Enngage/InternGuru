@@ -75,13 +75,11 @@
     <Compile Include="Events\UpdateEventArgs.cs" />
     <Compile Include="Exceptions\CodeNameNotUniqueException.cs" />
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
+    <Compile Include="Exceptions\AuthorizationException.cs" />
     <Compile Include="Exceptions\SaveException.cs" />
+    <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\201702101649303_QuestionnaireChange.cs" />
-    <Compile Include="Migrations\201702101649303_QuestionnaireChange.Designer.cs">
-      <DependentUpon>201702101649303_QuestionnaireChange.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Activities\ActivityService.cs" />
@@ -133,6 +131,7 @@
     <Compile Include="Services\Questionnaires\QuestionnaireService.cs" />
     <Compile Include="Services\Questionnaires\QuestionData.cs" />
     <Compile Include="Services\ServiceDependencies.cs" />
+    <Compile Include="Services\ServicesQueryExtensions.cs" />
     <Compile Include="Services\Thesis\Enums\ThesisTypeEnum.cs" />
     <Compile Include="Services\Thesis\IThesisTypeService.cs" />
     <Compile Include="Services\Thesis\ThesisTypeService.cs" />
@@ -161,11 +160,6 @@
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702101649303_QuestionnaireChange.resx">
-      <DependentUpon>201702101649303_QuestionnaireChange.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

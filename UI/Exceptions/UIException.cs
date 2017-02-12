@@ -15,7 +15,7 @@ namespace UI.Exceptions
         /// <summary>
         /// Create the exception using given type
         /// </summary>
-        /// <param name="exceptionType">Exception type</param>
+        /// <param name="message">Message</param>
         public UiException(string message)
             : base(message)
         {
@@ -24,7 +24,7 @@ namespace UI.Exceptions
         /// <summary>
         /// Create the exception using given type
         /// </summary>
-        /// <param name="exceptionType">Exception type</param>
+        /// <param name="message">Message</param>
         /// <param name="innerException">Inner exception</param>
         public UiException(string message, Exception innerException)
             : base(message, innerException)

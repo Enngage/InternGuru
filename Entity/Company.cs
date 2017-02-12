@@ -9,7 +9,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Company : IEntity, IEntityWithTimeStamp, IEntityWithGuid, IEntityWithUniqueCodeName
+    public class Company : IEntity, IEntityWithTimeStamp, IEntityWithGuid, IEntityWithUniqueCodeName, IEntityWithUserStamp, IEntityWithRestrictedAccess
     {
         public int ID { get; set; }
         [MaxLength(100)]
@@ -40,10 +40,17 @@ namespace Entity
         [MaxLength(250)]
         public string Facebook { get; set; }
         public int CompanyCategoryID { get; set; }
-        public string ApplicationUserId { get; set; }
+        [Required]
+        public string CreatedByApplicationUserId { get; set; }
+        [Required]
+        public string UpdatedByApplicationUserId { get; set; }
+        [Required]
         public int CountryID { get; set; }
+        [Required]
         public int CompanySizeID { get; set; }
+        [Required]
         public DateTime Updated { get; set; }
+        [Required]
         public DateTime Created { get; set; }
 
         #region Virtual properties
@@ -52,8 +59,10 @@ namespace Entity
         public CompanySize CompanySize { get; set; }
         [ForeignKey("CountryID")]
         public Country Country { get; set; }
-        [ForeignKey("ApplicationUserId")]
-        public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("CreatedByApplicationUserId")]
+        public ApplicationUser CreatedByApplicationUser { get; set; }
+        [ForeignKey("UpdatedByApplicationUserId")]
+        public ApplicationUser UpdatedByApplicationUser { get; set; }
         [ForeignKey("CompanyCategoryID")]
         public CompanyCategory CompanyCategory { get; set; }
         public ICollection<Internship> Internships { get; set; }

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Service.Exceptions
 {
-    public class CodeNameNotUniqueException : Exception
+    public class CodeNameNotUniqueException : ServiceException
     {
         /// <summary>
         /// Just create the exception

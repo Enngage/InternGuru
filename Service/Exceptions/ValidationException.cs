@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Service.Exceptions
 {
-    public class ValidationException : Exception
+    public class ValidationException : ServiceException
     {
         /// <summary>
         /// Just create the exception

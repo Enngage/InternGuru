@@ -10,8 +10,8 @@ using Ninject;
 using Ninject.Web.Common;
 using System;
 using System.Web;
-using System.Web.Mvc;
 using Core.Loc;
+using Core.Models;
 using UI.Builders.Services;
 using UI.Events;
 using UI.UIServices;
@@ -31,6 +31,7 @@ using Service.Services.Messages;
 using Service.Services.Questionnaires;
 using Service.Services.Thesis;
 using UI.RazorExtensions;
+using IUser = Core.Models.IUser;
 
 namespace Web.Lib.Ninject
 {
@@ -104,6 +105,13 @@ namespace Web.Lib.Ninject
             // Helpers Helpers - request scope
             kernel.Bind<IUIHelpers>().To<UIHelpers>().InRequestScope();
 
+            // Service dependencies - request scope
+            kernel.Bind<IUser>().To<AuthenticatedUser>().When(ctx => HttpContext.Current.User.Identity.IsAuthenticated).InRequestScope().WithConstructorArgument("identity",
+                context => (HttpContext.Current.User.Identity)).WithConstructorArgument("userId",
+                context => (HttpContext.Current.User.Identity.GetUserId()));
+            kernel.Bind<IUser>().To<GuestUser>().When(ctx => !HttpContext.Current.User.Identity.IsAuthenticated).InRequestScope();
+            kernel.Bind<IServiceDependencies>().To<ServiceDependencies>().InRequestScope();
+
             // Services - they need to be in RequestScope, otherwise they may throw infinite recursion exceptions when a service is used inside another service
             kernel.Bind<ILogService>().To<LogService>().InRequestScope();
             kernel.Bind<IEmailProvider>().To<GoogleEmailProvider>().InRequestScope();
@@ -134,7 +142,6 @@ namespace Web.Lib.Ninject
             kernel.Bind<IActivityService>().To<ActivityService>().InRequestScope();
             kernel.Bind<IEmailService>().To<EmailService>().InRequestScope();
             kernel.Bind<IEventsLoader>().To<EventsLoader>().InRequestScope();
-            kernel.Bind<IServiceDependencies>().To<ServiceDependencies>().InRequestScope();
             kernel.Bind<IQuestionnaireService>().To<QuestionnaireService>().InRequestScope();
 
             return kernel;

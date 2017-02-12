@@ -60,11 +60,11 @@ namespace UI.Events.EventClasses
 
                 // sent notification
                 // get recipient
-                var recipient = Services.IdentityService.GetSingle(internshipNew.ApplicationUserId).FirstOrDefault();
+                var recipient = Services.IdentityService.GetSingle(internshipNew.CreatedByApplicationUserId).FirstOrDefault();
 
                 if (recipient == null)
                 {
-                    throw new ArgumentNullException($"Nelze odeslat e-mail protože uživatel s ID = {internshipNew.ApplicationUserId} neexistuje");
+                    throw new ArgumentNullException($"Nelze odeslat e-mail protože uživatel s ID = {internshipNew.CreatedByApplicationUserId} neexistuje");
                 }
 
                 var subject = $"Stáž {internshipNew.Title} je aktivní";

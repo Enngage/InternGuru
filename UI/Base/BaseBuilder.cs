@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Linq;
-
 using Service.Context;
 using System.Web;
 using System.Collections.Generic;
@@ -13,7 +12,6 @@ using UI.Builders.Shared.Models;
 using Identity;
 using Core.Config;
 using Entity.Base;
-using UI.Builders.Shared.Enums;
 using UI.Modules.Header;
 
 namespace UI.Base
@@ -61,6 +59,12 @@ namespace UI.Base
         /// </summary>
         protected IServicesLoader Services { get; }
 
+
+        /// <summary>
+        /// System context
+        /// </summary>
+        protected ISystemContext SystemContext { get; }
+
         #endregion
 
         #region Constructors
@@ -73,6 +77,7 @@ namespace UI.Base
         protected BaseBuilder(ISystemContext systemContext, IServicesLoader servicesLoader)
         {
             AppContext = systemContext.AppContext;
+            SystemContext = systemContext;
             Services = servicesLoader;
             _userManager = systemContext.ApplicationUserManager;
 
@@ -176,51 +181,38 @@ namespace UI.Base
 
         private ICurrentUser GetCurrentuser()
         {
-            if (HttpContext.Current != null)
+            // user is not authenticated
+            if (!SystemContext.CurrentUser.IsAuthenticated)
             {
-                if (HttpContext.Current.User != null)
+                return new CurrentUser()
                 {
-                    if (HttpContext.Current.User.Identity.IsAuthenticated)
-                    {
-                        var currentIdentity = HttpContext.Current.User.Identity;
-
-                        if (currentIdentity != null)
-                        {
-                            // ----- Process current user ------- //
-                            var cacheKey = "BuilderAbstract.GetCurrentUser";
-                            var cacheMinutes = 120;
-                            var cacheSetup = Services.CacheService.GetSetup<ICurrentUser>(cacheKey, cacheMinutes);
-                            cacheSetup.Dependencies = new List<string>()
+                    IsAuthenticated = false,
+                    Privilege = PrivilegeLevel.Public
+                };
+            }
+            // user is authenticated
+            var cacheMinutes = 120;
+            var cacheSetup = Services.CacheService.GetSetup<ICurrentUser>(GetSource(), cacheMinutes);
+            cacheSetup.Dependencies = new List<string>()
                             {
-                                EntityKeys.KeyUpdate<ApplicationUser>(currentIdentity.Name),
+                                EntityKeys.KeyUpdate<ApplicationUser>(SystemContext.CurrentUser.UserName),
                                 EntityKeys.KeyUpdateAny<ApplicationUser>()
                             };
-                            cacheSetup.ObjectStringID = currentIdentity.Name;
+            cacheSetup.ObjectStringID = SystemContext.CurrentUser.UserName;
 
-                            var user = Services.CacheService.GetOrSet(() => GetApplicationUser(currentIdentity.Name, currentIdentity.AuthenticationType), cacheSetup);
+            var user = Services.CacheService.GetOrSet(() => GetApplicationUser(SystemContext.CurrentUser.UserName, SystemContext.CurrentUser.AuthenticationType), cacheSetup);
 
-                            if (user == null)
-                            {
-                                // user was not found in DB
-                                return new CurrentUser()
-                                {
-                                    IsAuthenticated = false,
-                                    Privilege = PrivilegeLevel.Public
-                                };
-                            }
-
-                            return user;
-                        }
-                    }
-                }
+            if (user == null)
+            {
+                // user was not found in DB
+                return new CurrentUser()
+                {
+                    IsAuthenticated = false,
+                    Privilege = PrivilegeLevel.Public
+                };
             }
 
-            // user is not authenticated if we got this far
-            return new CurrentUser()
-            {
-                IsAuthenticated = false,
-                Privilege = PrivilegeLevel.Public
-            };
+            return user;
         }
 
         /// <summary>
@@ -269,13 +261,13 @@ namespace UI.Base
         private ICurrentCompany GetCompanyOfUserInternal(string applicationUserId)
         {
             var company = Services.CompanyService.GetAll()
-                .Where(m => m.ApplicationUserId == applicationUserId)
+                .Where(m => m.CreatedByApplicationUserId == applicationUserId)
                 .Select(m => new CurrentCompany()
                 {
                     CompanyID = m.ID,
                     CompanyName = m.CompanyName,
-                    CompanyCreatedByApplicationUserId = m.ApplicationUser.Id,
-                    CompanyCreatedByApplicationUserName = m.ApplicationUser.UserName,
+                    CompanyCreatedByApplicationUserId = m.CreatedByApplicationUserId,
+                    CompanyCreatedByApplicationUserName = m.CreatedByApplicationUser.UserName,
                     CompanyGuid = m.Guid
                 })
                 .FirstOrDefault();

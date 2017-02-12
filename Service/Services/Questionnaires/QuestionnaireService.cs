@@ -45,11 +45,6 @@ namespace Service.Services.Questionnaires
                 throw new ObjectNotFoundException($"Questionnaire with ID = '{questionnaireID}' was not found");
             }
 
-            if (!applicationUserId.Equals(questionnaire.ApplicationUserId, StringComparison.OrdinalIgnoreCase) || questionnaire.CompanyID != companyId)
-            {
-                throw new NotSupportedException("Insufficient rights to edit questionare");
-            }
-
             questionnaire.QuestionnaireName = questionnaireName;
             questionnaire.QuestionnaireXml = GetQuestionnaireXml(questions);
 
@@ -82,7 +77,7 @@ namespace Service.Services.Questionnaires
             var questionnaire = new Questionnaire()
             {
                 CompanyID = companyId,
-                ApplicationUserId = applicationUserId,
+                CreatedByApplicationUserId = applicationUserId,
                 QuestionnaireName = questionnaireName,
                 QuestionnaireXml = GetQuestionnaireXml(questions)
             };

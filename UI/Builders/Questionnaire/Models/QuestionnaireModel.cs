@@ -4,7 +4,7 @@
     {
         public int ID { get; set; }
         public string CodeName { get; set; }
-        public string ApplicationUserId { get; set; }
+        public string CreatedByApplicationUserId { get; set; }
         public int CompanyID { get; set; }
         public string QuestionnaireName { get; set; }
         public string QuestionnaireXml { get; set; }

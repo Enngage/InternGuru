@@ -6,7 +6,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Thesis : IEntity, IEntityWithTimeStamp
+    public class Thesis : IEntity, IEntityWithTimeStamp, IEntityWithUserStamp, IEntityWithRestrictedAccess
     {
         public int ID { get; set; }
         [Required]
@@ -22,7 +22,9 @@ namespace Entity
         [Required]
         public int CompanyID { get; set; }
         [Required]
-        public string ApplicationUserId { get; set; }
+        public string CreatedByApplicationUserId { get; set; }
+        [Required]
+        public string UpdatedByApplicationUserId { get; set; }
         public int Amount { get; set; }
         [Required]
         public int CurrencyID { get; set; }
@@ -41,8 +43,10 @@ namespace Entity
 
         [ForeignKey("CurrencyID")]
         public Currency Currency { get; set; }
-        [ForeignKey("ApplicationUserId")]
-        public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("CreatedByApplicationUserId")]
+        public ApplicationUser CreatedByApplicationUser { get; set; }
+        [ForeignKey("UpdatedByApplicationUserId")]
+        public ApplicationUser UpdatedByApplicationUser { get; set; }
         [ForeignKey("InternshipCategoryID")]
         public InternshipCategory InternshipCategory { get; set; }
         [ForeignKey("CompanyID")]

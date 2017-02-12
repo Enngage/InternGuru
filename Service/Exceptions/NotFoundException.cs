@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Service.Exceptions
 {
-    public class NotFoundException : Exception
+    public class NotFoundException : ServiceException
     {
         /// <summary>
         /// Just create the exception

@@ -6,7 +6,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Internship : IEntity, IEntityWithTimeStamp
+    public class Internship : IEntity, IEntityWithTimeStamp, IEntityWithUserStamp, IEntityWithRestrictedAccess
     {
         public int ID { get; set; }
         [Required]
@@ -18,7 +18,9 @@ namespace Entity
         [Required]
         public int CompanyID { get; set; }
         [Required]
-        public string ApplicationUserId { get; set; }
+        public string CreatedByApplicationUserId { get; set; }
+        [Required]
+        public string UpdatedByApplicationUserId { get; set; }
         [Required]
         public int CountryID { get; set; }
         [Required]
@@ -81,8 +83,10 @@ namespace Entity
         public InternshipAmountType AmountType { get; set; }
         [ForeignKey("CountryID")]
         public Country Country { get; set; }
-        [ForeignKey("ApplicationUserId")]
-        public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("CreatedByApplicationUserId")]
+        public ApplicationUser CreatedByApplicationUser { get; set; }
+        [ForeignKey("UpdatedByApplicationUserId")]
+        public ApplicationUser UpdatedByApplicationUser { get; set; }
         [ForeignKey("InternshipCategoryID")]
         public InternshipCategory InternshipCategory { get; set; }
         [ForeignKey("CompanyID")]
@@ -105,11 +109,6 @@ namespace Entity
         {
             return StringHelper.GetCodeName(Title);
         }
-
-        //public IEntity ShallowCopy()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         #endregion
     }

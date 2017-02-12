@@ -13,6 +13,7 @@ using Entity.Base;
 using PagedList;
 using PagedList.EntityFramework;
 using Service.Exceptions;
+using Service.Services;
 using UI.Base;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Auth.Models;
@@ -73,7 +74,6 @@ namespace UI.Builders.Auth
         {
             return await BuildIndexViewAsync(page);
         }
-
 
         public async Task<AuthNewQuestionnaireView> BuildQuestionnaireNewViewAsync(QuestionnaireCreateEditForm form = null)
         {
@@ -236,7 +236,6 @@ namespace UI.Builders.Auth
                 return null;
             }
 
-
             return new CompanyGalleryView()
             {
                 AuthMaster = authMaster
@@ -350,11 +349,9 @@ namespace UI.Builders.Auth
                 return null;
             }
 
-            var currentUserId = CurrentUser.Id;
-
             // get company assigned to user
             var company = await Services.CompanyService.GetAll()
-                .Where(m => m.ApplicationUserId == currentUserId)
+                .ForUser(CurrentUser.Id)
                 .Take(1)
                 .Select(m => new AuthAddEditCompanyForm()
                 {
@@ -409,11 +406,9 @@ namespace UI.Builders.Auth
                 return null;
             }
 
-            var currentUserId = CurrentUser.Id;
-
             // get company assigned to user
             var company = await Services.CompanyService.GetAll()
-                .Where(m => m.ApplicationUserId == currentUserId)
+                .ForUser(CurrentUser.Id)
                 .Take(1)
                 .Select(m => new AuthAddEditCompanyForm()
                 {
@@ -475,6 +470,7 @@ namespace UI.Builders.Auth
             }
 
             var thesisQuery = Services.ThesisService.GetAll()
+                .ForUser(CurrentUser.Id)
                 .Where(m => m.ID == thesisID)
                 .Select(m => new AuthAddEditThesisForm()
                 {
@@ -588,10 +584,8 @@ namespace UI.Builders.Auth
                 return null;
             }
 
-            var companyIDOfCurrentUser = await GetCompanyIDOfCurrentUserAsync();
-
             var internshipQuery = Services.InternshipService.GetSingle(internshipID)
-                .Where(m => m.CompanyID == companyIDOfCurrentUser) // only user assigned to company can edit the internship (otherwise other users could edit the internship)
+                .ForUser(CurrentUser.Id) 
                 .Select(m => new AuthAddEditInternshipForm()
                 {
                     Amount = m.Amount,
@@ -758,7 +752,7 @@ namespace UI.Builders.Auth
             {
                 AuthMaster = authMaster,
                 InternshipForm = form,
-                CanCreateInternship = await GetCompanyIDOfCurrentUserAsync() != 0, // user can create internship only if he created company before
+                CanCreateInternship = CurrentCompany.IsAvailable
             };
         }
 
@@ -839,7 +833,6 @@ namespace UI.Builders.Auth
 
                 var thesis = new Entity.Thesis
                 {
-                    ApplicationUserId = CurrentUser.Id,
                     CompanyID = CurrentCompany.CompanyID,
                     Amount = form.Amount ?? 0,
                     CurrencyID = form.CurrencyID,
@@ -890,7 +883,6 @@ namespace UI.Builders.Auth
                 var thesis = new Entity.Thesis
                 {
                     ID = form.ID,
-                    ApplicationUserId = CurrentUser.Id,
                     CompanyID = CurrentCompany.CompanyID,
                     Amount = form.Amount ?? 0,
                     CurrencyID = form.CurrencyID,
@@ -1038,7 +1030,6 @@ namespace UI.Builders.Auth
 
                     var company = new Entity.Company
                     {
-                        ApplicationUserId = CurrentUser.Id,
                         Address = form.Address,
                         City = form.City,
                         CompanyName = form.CompanyName,
@@ -1190,7 +1181,6 @@ namespace UI.Builders.Auth
                     var company = new Entity.Company
                     {
                         ID = form.ID,
-                        ApplicationUserId = CurrentUser.Id,
                         Address = form.Address,
                         City = form.City,
                         CompanyName = form.CompanyName,
@@ -1269,9 +1259,7 @@ namespace UI.Builders.Auth
         {
             try
             {
-                var companyIDOfCurrentUser = await GetCompanyIDOfCurrentUserAsync();
-
-                if (companyIDOfCurrentUser == 0)
+                if (!CurrentCompany.IsAvailable)
                 {
                     // we cannot create internship without assigned company
                     throw new ValidationException("Stáž musí být přiřazena k firmě");
@@ -1296,7 +1284,7 @@ namespace UI.Builders.Auth
                     StartDate = form.StartDate,
                     Title = form.Title,
                     IsPaid = form.GetIsPaid(),
-                    CompanyID = companyIDOfCurrentUser,
+                    CompanyID = CurrentCompany.CompanyID,
                     InternshipCategoryID = form.InternshipCategoryID,
                     CurrencyID = form.CurrencyID,
                     Description = form.Description,
@@ -1309,7 +1297,6 @@ namespace UI.Builders.Auth
                     MinDurationTypeID = form.MinDurationTypeID,
                     MaxDurationTypeID = form.MaxDurationTypeID,
                     IsActive = form.GetIsActive(),
-                    ApplicationUserId = CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
                     WorkingHours = form.WorkingHours,
                     Requirements = form.Requirements,
@@ -1348,9 +1335,7 @@ namespace UI.Builders.Auth
         {
             try
             {
-                var companyIDOfCurrentUser = await GetCompanyIDOfCurrentUserAsync();
-
-                if (companyIDOfCurrentUser == 0)
+                if (!CurrentCompany.IsAvailable)
                 {
                     // we cannot create internship without assigned company
                     throw new ValidationException("Nelze vytvořit stáž bez firmy");
@@ -1375,8 +1360,8 @@ namespace UI.Builders.Auth
                     CountryID = form.CountryID,
                     StartDate = form.StartDate,
                     Title = form.Title,
-                    IsPaid = form.GetIsPaid(), //TODO
-                    CompanyID = companyIDOfCurrentUser,
+                    IsPaid = form.GetIsPaid(),
+                    CompanyID = CurrentCompany.CompanyID,
                     InternshipCategoryID = form.InternshipCategoryID,
                     CurrencyID = form.CurrencyID,
                     Description = form.Description,
@@ -1389,7 +1374,6 @@ namespace UI.Builders.Auth
                     MinDurationTypeID = form.MinDurationTypeID,
                     MaxDurationTypeID = form.MaxDurationTypeID,
                     IsActive = form.GetIsActive(),
-                    ApplicationUserId = CurrentUser.Id,
                     HasFlexibleHours = form.GetHasFlexibleHours(),
                     WorkingHours = form.WorkingHours,
                     Requirements = form.Requirements,
@@ -1877,6 +1861,7 @@ namespace UI.Builders.Auth
         private async Task<IEnumerable<AuthInternshipListingModel>> GetInternshipsAsync()
         {
             var internshipsQuery = Services.InternshipService.GetAll()
+                     .ForUser(CurrentUser.Id)
                      .Select(m => new AuthInternshipListingModel()
                      {
                          ID = m.ID,
@@ -1885,18 +1870,9 @@ namespace UI.Builders.Auth
                          IsActive = m.IsActive,
                          CodeName = m.CodeName,
                          CompanyID = m.CompanyID,
-                         ApplicationUserId = m.ApplicationUserId
+                         CreatedByApplicationUserId = m.CreatedByApplicationUserId
                      });
-
-            if (CurrentCompany.IsAvailable)
-            {
-                internshipsQuery = internshipsQuery.Where(m => m.ApplicationUserId == CurrentUser.Id || m.CompanyID == CurrentCompany.CompanyID);
-            }
-            else
-            {
-                internshipsQuery = internshipsQuery.Where(m => m.ApplicationUserId == CurrentUser.Id);
-            }
-
+         
             internshipsQuery = internshipsQuery.OrderByDescending(m => m.Created);
 
             var cacheSetup = Services.CacheService.GetSetup<AuthInternshipListingModel>(GetSource());
@@ -1918,6 +1894,7 @@ namespace UI.Builders.Auth
         private async Task<IEnumerable<AuthThesisListingModel>> GetThesesListingsAsync()
         {
             var thesisQuery = Services.ThesisService.GetAll()
+                .ForUser(CurrentUser.Id)
                 .Select(m => new AuthThesisListingModel()
                 {
                     ID = m.ID,
@@ -1925,18 +1902,10 @@ namespace UI.Builders.Auth
                     ThesisName = m.ThesisName,
                     Created = m.Created,
                     CodeName = m.CodeName,
-                    ApplicationUserId = m.ApplicationUserId,
+                    CreatedByApplicationUserId = m.CreatedByApplicationUserId,
                     CompanyID = m.CompanyID
                 });
 
-            if (CurrentCompany.IsAvailable)
-            {
-                thesisQuery = thesisQuery.Where(m => m.ApplicationUserId == CurrentUser.Id || m.CompanyID == CurrentCompany.CompanyID);
-            }
-            else
-            {
-                thesisQuery = thesisQuery.Where(m => m.ApplicationUserId == CurrentUser.Id);
-            }
 
             thesisQuery = thesisQuery.OrderByDescending(m => m.Created);
 
@@ -1955,6 +1924,7 @@ namespace UI.Builders.Auth
         private async Task<IEnumerable<AuthQuestionnaireListingModel>> GetQuestionnairesListingsAsync()
         {
             var questionnairesQuery = Services.QuestionnaireService.GetAll()
+                .ForUser(CurrentUser.Id)
                 .Select(m => new AuthQuestionnaireListingModel()
                 {
                     ID = m.ID,
@@ -1962,17 +1932,8 @@ namespace UI.Builders.Auth
                     QuestionnaireName = m.QuestionnaireName,
                     QuestionnaireXml = m.QuestionnaireXml,
                     CompanyID = m.CompanyID,
-                    ApplicationUserId = m.ApplicationUserId
+                    CreatedByApplicationUserId = m.CreatedByApplicationUserId
                 });
-
-            if (CurrentCompany.IsAvailable)
-            {
-                questionnairesQuery = questionnairesQuery.Where(m => m.ApplicationUserId == CurrentUser.Id || m.CompanyID == CurrentCompany.CompanyID);
-            }
-            else
-            {
-                questionnairesQuery = questionnairesQuery.Where(m => m.ApplicationUserId == CurrentUser.Id);
-            }
 
             questionnairesQuery = questionnairesQuery.OrderByDescending(m => m.Updated);
 
@@ -1994,34 +1955,6 @@ namespace UI.Builders.Auth
             }
 
             return questionnaires;
-        }
-
-        /// <summary>
-        /// Gets company ID of current user
-        /// </summary>
-        /// <returns>CompanyID of current user or 0 if user is not logged or hasn't created any company</returns>
-        private async Task<int> GetCompanyIDOfCurrentUserAsync()
-        {
-            if (!CurrentUser.IsAuthenticated)
-            {
-                return 0;
-            }
-
-            var companyQuery = Services.CompanyService.GetAll()
-                .Where(m => m.ApplicationUserId == CurrentUser.Id)
-                .Take(1)
-                .Select(m => m.ID);
-
-            var cacheSetup = Services.CacheService.GetSetup<int>(GetSource());
-            cacheSetup.Dependencies = new List<string>()
-            {
-                EntityKeys.KeyCreateAny<Entity.Company>(),
-                EntityKeys.KeyDeleteAny<Entity.Company>(),
-            };
-
-            var company = await Services.CacheService.GetOrSet(async () => await companyQuery.FirstOrDefaultAsync(), cacheSetup);
-
-            return company;
         }
 
         /// <summary>

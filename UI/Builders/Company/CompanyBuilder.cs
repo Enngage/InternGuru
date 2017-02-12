@@ -232,7 +232,7 @@ namespace UI.Builders.Company
         private async Task<string> GetIDOfCompanyUserAsync(int companyID)
         {
             return await Services.CompanyService.GetSingle(companyID)
-                .Select(m => m.ApplicationUserId)
+                .Select(m => m.CreatedByApplicationUserId)
                 .FirstOrDefaultAsync();
         }
  

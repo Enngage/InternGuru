@@ -17,10 +17,10 @@ namespace UI.Exceptions
                 case UiExceptionEnum.NotAuthenticated:
                     return "Pro tuto akci musíte být přihlášení";
                 case UiExceptionEnum.NoPermission:
-                    return "Pro tuto akci nemáte dostatek oprávnění";
+                    return "Pro tuto akci nemáte oprávnění";
                 case UiExceptionEnum.Unknown:
                 default:
-                    return "Nastala neznáma chyba";
+                    return "Nastala neznámá chyba";
             }
         }
     }
