@@ -13,7 +13,7 @@ using Entity.Base;
 using PagedList;
 using PagedList.EntityFramework;
 using Service.Exceptions;
-using Service.Services;
+using Service.Extensions;
 using UI.Base;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Auth.Models;

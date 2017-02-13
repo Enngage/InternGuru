@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Entity;
 using Entity.Base;
 using Service.Exceptions;
+using Service.Extensions;
 using Service.Services.Activities.Enums;
 using Service.Services.Thesis.Enums;
 using UI.Base;
@@ -47,7 +48,7 @@ namespace UI.Builders.Form
             return new FormInternshipView()
             {
                 Internship = internship,
-                InternshipForm = form == null ? defaultForm : form
+                InternshipForm = form ?? defaultForm
             };
 
         }
@@ -70,7 +71,7 @@ namespace UI.Builders.Form
             return new FormThesisView()
             {
                 Thesis = thesis,
-                ThesisForm = form == null ? defaultForm : form
+                ThesisForm = form ?? defaultForm
             };
 
         }
@@ -224,6 +225,7 @@ namespace UI.Builders.Form
             };
 
             var thesisQuery = Services.ThesisService.GetSingle(thesisID)
+                .OnlyActive()
                 .Select(m => new FormThesisModel()
                 {
                     CompanyID = m.Company.ID,
@@ -277,6 +279,7 @@ namespace UI.Builders.Form
             };
 
             var internshipQuery = Services.InternshipService.GetSingle(internshipID)
+                .OnlyActive()
                 .Select(m => new FormInternshipModel()
                 {
                     CompanyID = m.CompanyID,

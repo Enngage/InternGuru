@@ -17,6 +17,7 @@ using UI.Events;
 using UI.UIServices;
 using UI.Builders.Shared.Models;
 using Identity;
+using Service.Models;
 using Service.Services;
 using Service.Services.Activities;
 using Service.Services.Companies;

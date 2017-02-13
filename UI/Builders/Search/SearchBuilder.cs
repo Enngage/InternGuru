@@ -6,6 +6,7 @@ using System;
 
 using Core.Extensions;
 using Entity.Base;
+using Service.Extensions;
 using UI.Base;
 using UI.Builders.Search.Models;
 using UI.Builders.Services;
@@ -49,6 +50,7 @@ namespace UI.Builders.Search
             };
 
             var citiesQuery = Services.InternshipService.GetAll()
+                .OnlyActive()
                 .GroupBy(m => new
                 {
                     m.City,
@@ -86,6 +88,7 @@ namespace UI.Builders.Search
             };
 
             var internshipQuery = Services.InternshipService.GetAll()
+                .OnlyActive()
                 .GroupBy(m => new
                 {
                     m.Title,
@@ -145,6 +148,7 @@ namespace UI.Builders.Search
             };
 
             var thesisQuery = Services.ThesisService.GetAll()
+                .OnlyActive()
                 .GroupBy(m => new
                 {
                     m.ThesisName,

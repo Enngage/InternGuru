@@ -6,7 +6,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Internship : IEntity, IEntityWithTimeStamp, IEntityWithUserStamp, IEntityWithRestrictedAccess
+    public class Internship : IEntity, IEntityWithTimeStamp, IEntityWithUserStamp, IEntityWithRestrictedAccess, IEntityWithActiveState
     {
         public int ID { get; set; }
         [Required]

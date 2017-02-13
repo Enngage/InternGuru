@@ -89,6 +89,7 @@
     <Compile Include="Base\EntityKeys.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Base\IEntityWithRestrictedAccess.cs" />
+    <Compile Include="Base\IEntityWithActiveState.cs" />
     <Compile Include="Base\IEntityWithUserStamp.cs" />
     <Compile Include="Base\IEntityWithGuid.cs" />
     <Compile Include="Base\IEntityWithoutCodeName.cs" />

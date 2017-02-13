@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Entity;
 using Service.Events;
+using Service.Models;
 
 namespace Service.Services.Messages
 {

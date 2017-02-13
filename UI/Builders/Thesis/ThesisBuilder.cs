@@ -6,6 +6,7 @@ using PagedList;
 using Entity;
 using System.Data.Entity;
 using Entity.Base;
+using Service.Extensions;
 using UI.Base;
 using Service.Services.Thesis.Enums;
 using UI.Builders.Services;
@@ -103,7 +104,7 @@ namespace UI.Builders.Thesis
             };
 
             var thesesQuery = Services.ThesisService.GetAll()
-                .Where(m => m.IsActive)
+                .OnlyActive()
                 .Select(m => new ThesisBrowseModel()
                 {
                     Amount = m.Amount,
@@ -220,7 +221,7 @@ namespace UI.Builders.Thesis
 
             var category = await Services.CacheService.GetOrSetAsync(async () => await categoryQuery.FirstOrDefaultAsync(), cacheSetup);
 
-            return category == null ? 0 : category.CategoryID;
+            return category?.CategoryID ?? 0;
         }
 
         /// <summary>
@@ -231,7 +232,7 @@ namespace UI.Builders.Thesis
         private async Task<ThesisDetailModel> GetThesisDetailModelAsync(int thesisID)
         {
             var thesisQuery = Services.ThesisService.GetSingle(thesisID)
-                .Where(m => m.IsActive)
+                .OnlyActive()
                 .Select(m => new ThesisDetailModel()
                 {
                     Company = new ThesisDetailCompanyModel()

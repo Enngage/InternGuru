@@ -100,7 +100,7 @@
     <Compile Include="Services\Identity\IIdentityService.cs" />
     <Compile Include="Services\Identity\IdentityService.cs" />
     <Compile Include="Services\IInsertActionResult.cs" />
-    <Compile Include="Services\InsertActionResult.cs" />
+    <Compile Include="Models\InsertActionResult.cs" />
     <Compile Include="Services\Internships\StudentStatusOptionService.cs" />
     <Compile Include="Services\Internships\IHomeOfficeOptionService.cs" />
     <Compile Include="Services\Internships\HomeOfficeOptionService.cs" />
@@ -130,14 +130,14 @@
     <Compile Include="Services\Questionnaires\Question.cs" />
     <Compile Include="Services\Questionnaires\QuestionnaireService.cs" />
     <Compile Include="Services\Questionnaires\QuestionData.cs" />
-    <Compile Include="Services\ServiceDependencies.cs" />
-    <Compile Include="Services\ServicesQueryExtensions.cs" />
+    <Compile Include="Models\ServiceDependencies.cs" />
+    <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="Services\Thesis\Enums\ThesisTypeEnum.cs" />
     <Compile Include="Services\Thesis\IThesisTypeService.cs" />
     <Compile Include="Services\Thesis\ThesisTypeService.cs" />
     <Compile Include="Services\Thesis\ThesisService.cs" />
     <Compile Include="Services\Thesis\IThesisService.cs" />
-    <Compile Include="Services\ValidationResult.cs" />
+    <Compile Include="Models\ValidationResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -161,6 +161,7 @@
       <Name>Entity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

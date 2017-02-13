@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Entity.Base;
 using Newtonsoft.Json;
 using Service.Exceptions;
+using Service.Extensions;
 using Service.Services;
 using Service.Services.Questionnaires;
 using UI.Base;

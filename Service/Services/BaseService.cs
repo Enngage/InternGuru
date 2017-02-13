@@ -12,6 +12,7 @@ using Core.Loc;
 using EmailProvider;
 using Entity.Base;
 using Service.Exceptions;
+using Service.Models;
 using Service.Services.Logs;
 
 namespace Service.Services
@@ -963,6 +964,47 @@ namespace Service.Services
                     }
                     // keep the created value
                     entityWithUserStamp.CreatedByApplicationUserId = oldEntityWithUserStamp.CreatedByApplicationUserId;
+                }
+            }
+
+
+            var entityWithActiveState = newEntity as IEntityWithActiveState;
+            if (entityWithActiveState != null)
+            {
+                if (type == SaveEventType.Insert)
+                {
+                    if (entityWithActiveState.IsActive)
+                    {
+                        entityWithActiveState.ActiveSince = DateTime.Now;
+                    }
+                    else
+                    {
+                        entityWithActiveState.ActiveSince = DateTime.MinValue;
+                    }
+                }
+                else if (type == SaveEventType.Update)
+                {
+                    var oldEntityWithActiveState = oldEntity as IEntityWithActiveState;
+                    if (oldEntityWithActiveState == null)
+                    {
+                        throw new NotSupportedException($"Cannot set active state for '{nameof(oldEntity)}' entity");
+                    }
+
+                    // set active since to current time if entity was not active before, but is active now
+                    if (!oldEntityWithActiveState.IsActive && entityWithActiveState.IsActive)
+                    {
+                        entityWithActiveState.ActiveSince = DateTime.Now;
+                    }
+                    // set active since to min Time if entity was active, but is not anymore
+                    else if (oldEntityWithActiveState.IsActive && !entityWithActiveState.IsActive)
+                    {
+                        entityWithActiveState.ActiveSince = DateTime.MinValue;
+                    }
+                    else
+                    {
+                        // keep the active since if state didn't change
+                        entityWithActiveState.ActiveSince = oldEntityWithActiveState.ActiveSince;
+                    }
                 }
             }
         }

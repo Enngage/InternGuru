@@ -15,6 +15,7 @@ using Core.Extensions;
 using Core.Helpers;
 using Core.Helpers.Internship;
 using Entity.Base;
+using Service.Extensions;
 using Service.Services.Activities.Enums;
 
 namespace UI.Builders.Internship
@@ -44,7 +45,7 @@ namespace UI.Builders.Internship
             var pageNumber = (page ?? 1);
             var isSearchQuery = !string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(city);
 
-            // get all internships and store them in cache (filtering will be faster)
+            // get internships and store them in cache (for filtering)
             var internships = await GetAllInternshipsAsync();
 
             // paid only filter
@@ -177,7 +178,7 @@ namespace UI.Builders.Internship
             };
 
             var internshipsQuery = Services.InternshipService.GetAll()
-                .Where(m => m.IsActive)
+                .OnlyActive()
                 .OrderByDescending(m => m.Created)
                 .Select(m => new InternshipBrowseModel()
                 {
@@ -272,6 +273,7 @@ namespace UI.Builders.Internship
         private async Task<InternshipDetailModel> GetInternshipDetailModelAsync(int internshipID)
         {
             var internshipQuery = Services.InternshipService.GetSingle(internshipID)
+                .OnlyActive()
                 .Select(m => new InternshipDetailModel()
                 {
                     Company = new InternshipDetailCompanyModel()

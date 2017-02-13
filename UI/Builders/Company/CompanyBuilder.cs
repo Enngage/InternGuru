@@ -90,7 +90,7 @@ namespace UI.Builders.Company
                     CompanyGuid = m.Guid,
                     ID = m.ID,
                     Internships = m.Internships
-                        .Where(v => v.IsActive)
+                        .Where(s => s.IsActive)
                         .Select(s => new CompanyDetailInternshipModel()
                         {
                             ID = s.ID,
@@ -104,7 +104,7 @@ namespace UI.Builders.Company
                             CurrencyShowSignOnLeft = s.Currency.ShowSignOnLeft
                         }),
                     Theses = m.Theses
-                        .Where(v => v.IsActive)
+                        .Where(s => s.IsActive)
                         .Select(s => new CompanyThesisModel()
                         {
                             Amount = s.Amount,

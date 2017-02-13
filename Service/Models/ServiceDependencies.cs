@@ -2,8 +2,9 @@
 using Core.Models;
 using EmailProvider;
 using Service.Context;
+using Service.Services;
 
-namespace Service.Services
+namespace Service.Models
 {
     public class ServiceDependencies : IServiceDependencies
     {
