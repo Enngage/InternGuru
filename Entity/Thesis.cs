@@ -37,7 +37,7 @@ namespace Entity
         [Required]
         public int ThesisTypeID { get; set; }
         public bool IsActive { get; set; }
-        public DateTime ActiveSince { get; set; }
+        public DateTime? ActiveSince { get; set; }
 
         #region Virtual
 

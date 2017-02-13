@@ -69,7 +69,7 @@ namespace Entity
         public string Languages { get; set; }
         public int HomeOfficeOptionID { get; set; }
         public int StudentStatusOptionID { get; set; }
-        public DateTime ActiveSince { get; set; }
+        public DateTime? ActiveSince { get; set; }
 
         #region Virtual
 

@@ -979,7 +979,7 @@ namespace Service.Services
                     }
                     else
                     {
-                        entityWithActiveState.ActiveSince = DateTime.MinValue;
+                        entityWithActiveState.ActiveSince = null;
                     }
                 }
                 else if (type == SaveEventType.Update)
@@ -998,7 +998,7 @@ namespace Service.Services
                     // set active since to min Time if entity was active, but is not anymore
                     else if (oldEntityWithActiveState.IsActive && !entityWithActiveState.IsActive)
                     {
-                        entityWithActiveState.ActiveSince = DateTime.MinValue;
+                        entityWithActiveState.ActiveSince = null;
                     }
                     else
                     {
