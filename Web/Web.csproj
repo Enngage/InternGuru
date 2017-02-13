@@ -1783,7 +1783,6 @@
     <Content Include="NodeJS\semantic\tasks\config\admin\templates\package.json" />
     <Content Include="NodeJS\semantic\tasks\config\admin\templates\README.md" />
     <Content Include="NodeJS\semantic\tasks\README.md" />
-    <Content Include="NodeJS\semantic.json" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
