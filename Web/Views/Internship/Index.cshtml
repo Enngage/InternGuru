@@ -21,15 +21,6 @@
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/internship/detail")
 
-@*<div class="ui container w-margin-top-14">
-        <div class="ui grid">
-            <div class="sixteen wide column w-padding-bottom-0">
-                <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
-                    <img alt="@Model.Internship.Company.CompanyName banner" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid)" class="ui image fluid w-internship-detail-banner" />
-                </a>
-            </div>
-        </div>
-    </div>*@
 
 <div id="_InternshipMenuWrapper" class="w-internship-fixed-wrapper">
     <div class="ui vertical segment w-internship-menu-wrapper">
@@ -249,7 +240,6 @@
         </div>
     </div>
 
-
     @if (galleryImages.Any())
     {
         <div class="ui segment w-margin-top-30">
@@ -260,93 +250,6 @@
        })
         </div>
     }
-
-    @*<div class="ui segment">
-            <div class="ui grid">
-
-                <div class="sixteen wide mobile six wide tablet four wide computer column">
-                    <h2>
-                        Firmě
-                    </h2>
-                    <div class="ui list">
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.MessageHelper.RenderIcon("building")
-                                <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
-                                    @Model.Internship.Company.CompanyName
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.MessageHelper.RenderIcon("map") @Model.Internship.Company.City, @Model.Internship.Company.Address
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.CountryHelper.GetCountryIcon(Model.Internship.Company.CountryCode) @Model.Internship.Company.CountryName
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.MessageHelper.RenderIcon("idea") Založeno @Model.Internship.Company.YearFounded
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.MessageHelper.RenderIcon("users") <span>@Model.Internship.Company.CompanySizeName zaměstnanců</span>
-                            </div>
-                        </div>
-
-                        @if (!string.IsNullOrEmpty(Model.Internship.Company.Web))
-                        {
-                            <div class="item">
-                                <div class="content">
-                                    @Helpers.MessageHelper.RenderIcon("laptop")
-                                    <a href="@Model.Internship.Company.Web">
-                                        @Model.Internship.Company.Web
-                                    </a>
-                                </div>
-                            </div>
-                        }
-                    </div>
-
-                    <div class="w-company-social-icons">
-
-                        @if (!string.IsNullOrEmpty(Model.Internship.Company.Facebook))
-                        {
-                            <a href="@Model.Internship.Company.Facebook">
-                                @Helpers.MessageHelper.RenderIcon("facebook large w-color-facebook")
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.Internship.Company.Twitter))
-                        {
-                            <a href="@Model.Internship.Company.Twitter">
-                                @Helpers.MessageHelper.RenderIcon("twitter large w-color-twitter")
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.Internship.Company.LinkedIn))
-                        {
-                            <a href="@Model.Internship.Company.LinkedIn">
-                                @Helpers.MessageHelper.RenderIcon("linkedin large w-color-linkedin")
-                            </a>
-                        }
-                    </div>
-
-                </div>
-
-                <div class="sixteen wide mobile ten wide tablet twelve wide computer column">
-                    @Html.Partial("~/Views/Modules/GoogleMaps/GoogleMap.cshtml",
-                    new GoogleMapView()
-                    {
-                        Zoom = 15,
-                        Lat = Model.Internship.Company.Lat,
-                        Lng = Model.Internship.Company.Lng,
-                        MarkerTitle = Model.Internship.Company.CompanyName
-                    })
-                </div>
-            </div>
-        </div>*@
 </div>
 
 <div class="w-color-background-light">
