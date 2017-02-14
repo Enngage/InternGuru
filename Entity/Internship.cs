@@ -67,7 +67,7 @@ namespace Entity
         public string WorkingHours { get; set; }
         [MaxLength(500)]
         public string Languages { get; set; }
-        public int HomeOfficeOptionID { get; set; }
+        public int MinEducationTypeID { get; set; }
         public int StudentStatusOptionID { get; set; }
         public DateTime? ActiveSince { get; set; }
 
@@ -91,8 +91,8 @@ namespace Entity
         public InternshipCategory InternshipCategory { get; set; }
         [ForeignKey("CompanyID")]
         public Company Company { get; set; }
-        [ForeignKey("HomeOfficeOptionID")]
-        public HomeOfficeOption HomeOfficeOption { get; set; }
+        [ForeignKey("MinEducationTypeID")]
+        public EducationType EducationType { get; set; }
         [ForeignKey("StudentStatusOptionID")]
         public StudentStatusOption StudentStatusOption { get; set; }
 

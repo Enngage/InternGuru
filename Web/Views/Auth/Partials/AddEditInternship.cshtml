@@ -7,7 +7,7 @@
     var defaultDuration = Model.DurationTypes.FirstOrDefault();
     var defaultAmountType = Model.AmountTypes.FirstOrDefault();
     var defaultCountry = Model.Countries.FirstOrDefault();
-    var defaultHomeOfficeOption = Model.HomeOfficeOptions.FirstOrDefault();
+    var defaultMinEducationType = Model.EducationTypes.FirstOrDefault();
     var defaultStudentStatusOption = Model.StudentStatusOptions.FirstOrDefault();
 
     var minDurationTypeVal = Model.MinDurationTypeID == 0 ? defaultDuration?.ID : Model.MinDurationTypeID;
@@ -15,7 +15,7 @@
     var currencyVal = Model.CurrencyID == 0 ? defaultCurrency?.ID : Model.CurrencyID;
     var amountTypeVal = Model.AmountTypeID == 0 ? defaultAmountType?.ID : Model.AmountTypeID;
     var countryVal = Model.CountryID == 0 ? defaultCountry?.ID : Model.CountryID;
-    var homeOfficeOptionVal = Model.HomeOfficeOptionID == 0 ? defaultHomeOfficeOption?.ID : Model.HomeOfficeOptionID;
+    var educationTypeVal = Model.MinEducationTypeID == 0 ? defaultMinEducationType?.ID : Model.MinEducationTypeID;
     var studentStatusOptionVal = Model.StudentStatusOptionID == 0 ? defaultStudentStatusOption?.ID : Model.StudentStatusOptionID;
 
     var minDurationVal = Model.MinDuration == 0 ? null : Model.MinDuration.ToString();
@@ -322,16 +322,16 @@
 
 
                 <div class="field">
-                    <label>Možnosti home office</label>
+                    <label>Minimální vzdělání</label>
 
-                    <div class="ui selection dropdown _HomeOfficeOptionDropdown">
-                        <input name="HomeOfficeOptionID" value="@homeOfficeOptionVal" type="hidden">
+                    <div class="ui selection dropdown _MinEducationTypeDropdown">
+                        <input name="MinEducationTypeID" value="@educationTypeVal" type="hidden">
                         <i class="dropdown icon"></i>
                         <div class="default text">Možnosti</div>
                         <div class="menu">
-                            @foreach (var option in Model.HomeOfficeOptions)
+                            @foreach (var option in Model.EducationTypes)
                             {
-                                <div class="item" data-value="@option.ID">@option.HomeOfficeName</div>
+                                <div class="item" data-value="@option.ID">@option.Name</div>
                             }
                         </div>
                     </div>

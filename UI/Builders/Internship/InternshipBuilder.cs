@@ -331,11 +331,10 @@ namespace UI.Builders.Internship
                     CountryCode = m.Country.CountryCode,
                     CountryName = m.Country.CountryName,
                     Languages = m.Languages,
-                    HomeOfficeOptionID = m.HomeOfficeOptionID,
-                    HomeOfficeOption = new InternshipHomeOfficeOptionModel()
+                    MinEducationTypeID = m.MinEducationTypeID,
+                    MinEducation = new InternshipEducationTypeModel()
                     {
-                       HomeOfficeName = m.HomeOfficeOption.HomeOfficeName,
-                       IconClass = m.HomeOfficeOption.IconClass
+                       Name = m.EducationType.Name
                     },
                     StudentStatusOptionID = m.StudentStatusOptionID,
                     StudentStatusOption = new InternshipStudentStatusOptionModel()

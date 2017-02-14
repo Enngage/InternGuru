@@ -291,7 +291,7 @@ namespace UI.Builders.Auth
             // add countries, categories and company sizes
             form.Countries = await FormGetCountriesAsync();
             form.CompanySizes = await FormGetCompanySizesAsync();
-            form.CompanyCategories = await FormGetCompanyCategories();
+            form.CompanyCategories = await FormGetCompanyCategoriesAsync();
 
             // add guid
             if (CurrentCompany.IsAvailable)
@@ -325,7 +325,7 @@ namespace UI.Builders.Auth
             // add countries, categories and company sizes
             form.Countries = await FormGetCountriesAsync();
             form.CompanySizes = await FormGetCompanySizesAsync();
-            form.CompanyCategories = await FormGetCompanyCategories();
+            form.CompanyCategories = await FormGetCompanyCategoriesAsync();
 
             // add guid
             if (CurrentCompany.IsAvailable)
@@ -387,7 +387,7 @@ namespace UI.Builders.Auth
             // add countries, categories and company sizes
             company.Countries = await FormGetCountriesAsync();
             company.CompanySizes = await FormGetCompanySizesAsync();
-            company.CompanyCategories = await FormGetCompanyCategories();
+            company.CompanyCategories = await FormGetCompanyCategoriesAsync();
 
             return new AuthEditCompanyView()
             {
@@ -446,7 +446,7 @@ namespace UI.Builders.Auth
             // add countries, categories and company sizes
             company.Countries = await FormGetCountriesAsync();
             company.CompanySizes = await FormGetCompanySizesAsync();
-            company.CompanyCategories = await FormGetCompanyCategories();
+            company.CompanyCategories = await FormGetCompanyCategoriesAsync();
 
             return new AuthRegisterCompanyView()
             {
@@ -614,7 +614,7 @@ namespace UI.Builders.Auth
                     MinDurationTypeCodeName = m.MinDurationType.CodeName,
                     MaxDurationTypeCodeName = m.MaxDurationType.CodeName,
                     Languages = m.Languages,
-                    HomeOfficeOptionID = m.HomeOfficeOptionID,
+                    MinEducationTypeID = m.MinEducationTypeID,
                     StudentStatusOptionID = m.StudentStatusOptionID
                 });
 
@@ -635,8 +635,8 @@ namespace UI.Builders.Auth
             internship.Countries = await FormGetCountriesAsync();
             internship.Currencies = await FormGetCurrenciesAsync();
             internship.AllLanguages = await FormGetLanguagesAsync();
-            internship.StudentStatusOptions = await FormGetAllStudentStatusOptions();
-            internship.HomeOfficeOptions = await FormGetAllHomeOfficeOptions();
+            internship.StudentStatusOptions = await FormGetAllStudentStatusOptionsAsync();
+            internship.EducationTypes = await FormGetEducationTypesAsync();
 
             // set default duration
             var minDurationEnum = internship.MinDurationTypeEnum;
@@ -693,8 +693,8 @@ namespace UI.Builders.Auth
                 Currencies = await FormGetCurrenciesAsync(),
                 IsActive = Helpers.InputHelper.ValueOfEnabledCheckboxStatic, // IsActive is enabled by default
                 AllLanguages = await FormGetLanguagesAsync(),
-                StudentStatusOptions = await FormGetAllStudentStatusOptions(),
-                HomeOfficeOptions = await FormGetAllHomeOfficeOptions()
+                StudentStatusOptions = await FormGetAllStudentStatusOptionsAsync(),
+                EducationTypes = await FormGetEducationTypesAsync()
             };
 
             return new AuthNewInternshipView()
@@ -720,8 +720,8 @@ namespace UI.Builders.Auth
             form.Countries = await FormGetCountriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
             form.AllLanguages = await FormGetLanguagesAsync();
-            form.HomeOfficeOptions = await FormGetAllHomeOfficeOptions();
-            form.StudentStatusOptions = await FormGetAllStudentStatusOptions();
+            form.EducationTypes = await FormGetEducationTypesAsync();
+            form.StudentStatusOptions = await FormGetAllStudentStatusOptionsAsync();
 
             return new AuthEditInternshipView()
             {
@@ -745,8 +745,8 @@ namespace UI.Builders.Auth
             form.Countries = await FormGetCountriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
             form.AllLanguages = await FormGetLanguagesAsync();
-            form.StudentStatusOptions = await FormGetAllStudentStatusOptions();
-            form.HomeOfficeOptions = await FormGetAllHomeOfficeOptions();
+            form.StudentStatusOptions = await FormGetAllStudentStatusOptionsAsync();
+            form.EducationTypes = await FormGetEducationTypesAsync();
 
             return new AuthNewInternshipView()
             {
@@ -1301,7 +1301,7 @@ namespace UI.Builders.Auth
                     WorkingHours = form.WorkingHours,
                     Requirements = form.Requirements,
                     Languages = form.Languages,
-                    HomeOfficeOptionID = form.HomeOfficeOptionID,
+                    MinEducationTypeID = form.MinEducationTypeID,
                     StudentStatusOptionID = form.StudentStatusOptionID,
                 };
 
@@ -1378,7 +1378,7 @@ namespace UI.Builders.Auth
                     WorkingHours = form.WorkingHours,
                     Requirements = form.Requirements,
                     Languages = form.Languages,
-                    HomeOfficeOptionID = form.HomeOfficeOptionID,
+                    MinEducationTypeID = form.MinEducationTypeID,
                     StudentStatusOptionID = form.StudentStatusOptionID
                 };
 
@@ -1539,18 +1539,18 @@ namespace UI.Builders.Auth
         
         }
 
-        private async Task<IEnumerable<AuthInternshipHomeOfficeOptionModel>> FormGetAllHomeOfficeOptions()
+        private async Task<IEnumerable<AuthInternshipEducationTypeModel>> FormGetEducationTypesAsync()
         {
-            return (await Services.HomeOfficeOptionService.GetAllCachedAsync())
-                .Select(m => new AuthInternshipHomeOfficeOptionModel()
+            return (await Services.EducationTypeService.GetAllCachedAsync())
+                .Select(m => new AuthInternshipEducationTypeModel()
                 {
                     CodeName = m.CodeName,
-                    HomeOfficeName = m.HomeOfficeName,
+                    Name = m.Name,
                     ID = m.ID
                 });
         }
 
-        private async Task<IEnumerable<AuthInternshipStudentStatusOptionModel>> FormGetAllStudentStatusOptions()
+        private async Task<IEnumerable<AuthInternshipStudentStatusOptionModel>> FormGetAllStudentStatusOptionsAsync()
         {
             return (await Services.StudentStatusOptionService.GetAllCachedAsync())
                 .Select(m => new AuthInternshipStudentStatusOptionModel()
@@ -1961,7 +1961,7 @@ namespace UI.Builders.Auth
         /// Gets company categories and caches the result
         /// </summary>
         /// <returns>Collection of company categories</returns>
-        private async Task<IEnumerable<AuthCompanyCategoryModel>> FormGetCompanyCategories()
+        private async Task<IEnumerable<AuthCompanyCategoryModel>> FormGetCompanyCategoriesAsync()
         {
             var cacheSetup = Services.CacheService.GetSetup<AuthCompanyCategoryModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()

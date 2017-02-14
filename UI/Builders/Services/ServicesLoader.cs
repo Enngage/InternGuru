@@ -3,6 +3,7 @@ using Service.Services.Activities;
 using Service.Services.Companies;
 using Service.Services.Countries;
 using Service.Services.Currencies;
+using Service.Services.Education;
 using Service.Services.Emails;
 using Service.Services.Identity;
 using Service.Services.Internships;
@@ -41,7 +42,7 @@ namespace UI.Builders.Services
         public IActivityService ActivityService { get; }
         public IEmailService EmailService { get; }
         public IQuestionnaireService QuestionnaireService { get; }
-
+        public IEducationTypeService EducationTypeService { get; }
 
         public ServicesLoader(
                 ICacheService cacheService,
@@ -67,7 +68,8 @@ namespace UI.Builders.Services
                 IStudentStatusOptionService studentStatusOptionService,
                 IActivityService activityService,
                 IEmailService emailService,
-                IQuestionnaireService questionareService
+                IQuestionnaireService questionareService,
+                EducationTypeTypeService educationTypeService
         )
         {
             CacheService = cacheService;
@@ -94,6 +96,7 @@ namespace UI.Builders.Services
             ActivityService = activityService;
             EmailService = emailService;
             QuestionnaireService = questionareService;
+            EducationTypeService = educationTypeService;
         }
     }
 }

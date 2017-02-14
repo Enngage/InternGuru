@@ -30,6 +30,7 @@ namespace Service.Context
         IDbSet<Activity> Activities { get; }
         IDbSet<Email> Emails { get; }
         IDbSet<Questionnaire> Questionnaires { get; }
+        IDbSet<EducationType> EducationTypes { get; }
 
         #endregion
 

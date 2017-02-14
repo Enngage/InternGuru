@@ -3,6 +3,7 @@ using Service.Services.Activities;
 using Service.Services.Companies;
 using Service.Services.Countries;
 using Service.Services.Currencies;
+using Service.Services.Education;
 using Service.Services.Emails;
 using Service.Services.Identity;
 using Service.Services.Internships;
@@ -46,6 +47,7 @@ namespace UI.Builders.Services
         IActivityService ActivityService { get; }
         IEmailService EmailService { get; }
         IQuestionnaireService QuestionnaireService { get; }
+        IEducationTypeService EducationTypeService { get; }
 
         #endregion
     }

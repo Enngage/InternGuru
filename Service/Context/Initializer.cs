@@ -645,6 +645,41 @@ namespace Service.Context
                 context.StudentStatusOptions.Add(studentStatusOption);
             }
 
+            // education types
+            var educationTypes = new List<EducationType>()
+            {
+                new EducationType()
+                {
+                    CodeName = "Any",
+                    Name = "Jakékoliv",
+                    ID = 1
+                },
+                 new EducationType()
+                {
+                     CodeName = "HighSchool",
+                     Name = "Středoškolské",
+                     ID = 2
+                },
+                  new EducationType()
+                {
+                    CodeName = "Bachelor",
+                    Name = "Bakalářské",
+                    ID = 3
+                },
+                    new EducationType()
+                {
+                    CodeName = "University",
+                    Name = "Magisterské",
+                    ID = 4
+                },
+            };
+
+            // add to context
+            foreach (var educationType in educationTypes)
+            {
+                context.EducationTypes.Add(educationType);
+            }
+
             // fill test data 
             FillTestData(context, userManager);
 
@@ -734,7 +769,7 @@ namespace Service.Context
                     Description = GetLoremIpsumtText(),
                     HasFlexibleHours = GetRandomBool(),
                     WorkingHours = GetRandomWorkingHours(),
-                    HomeOfficeOption = context.HomeOfficeOptions.RandomItem(),
+                    EducationType = context.EducationTypes.RandomItem(),
                     InternshipCategory = context.InternshipCategories.RandomItem(),
                     IsActive = true,
                     ActiveSince = DateTime.Now,

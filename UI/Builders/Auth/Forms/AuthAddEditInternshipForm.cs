@@ -61,8 +61,8 @@ namespace UI.Builders.Auth.Forms
         public string MaxDurationTypeCodeName { get; set; }
         public string Languages { get; set; }
 
-        [Required(ErrorMessage = "Zadejte možnosti home office")]
-        public int HomeOfficeOptionID { get; set; }
+        [Required(ErrorMessage = "Zadejte požadované minimální vzdělání")]
+        public int MinEducationTypeID { get; set; }
 
         [Required(ErrorMessage = "Zadejte požadovaný status studenta")]
         public int StudentStatusOptionID { get; set; }
@@ -74,7 +74,7 @@ namespace UI.Builders.Auth.Forms
         public IEnumerable<AuthInternshipCategoryModel> InternshipCategories { get; set; }
         public IEnumerable<AuthInternshipLanguageModel> AllLanguages { get; set; }
         public IEnumerable<AuthInternshipStudentStatusOptionModel> StudentStatusOptions { get; set; }
-        public IEnumerable<AuthInternshipHomeOfficeOptionModel> HomeOfficeOptions { get; set; }     
+        public IEnumerable<AuthInternshipEducationTypeModel> EducationTypes { get; set; }     
 
         // duration values
         public InternshipDurationTypeEnum MinDurationTypeEnum { get; set; }

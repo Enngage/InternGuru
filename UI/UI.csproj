@@ -167,7 +167,7 @@
     <Compile Include="Builders\Auth\Enum\AuthTabEnum.cs" />
     <Compile Include="Builders\Auth\Forms\AuthCompanyGalleryUploadForm.cs" />
     <Compile Include="Builders\Auth\Models\AuthQuestionnaireListingModel.cs" />
-    <Compile Include="Builders\Auth\Models\AuthInternshipHomeOfficeOptionModel.cs" />
+    <Compile Include="Builders\Auth\Models\AuthInternshipEducationTypeModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipStudentStatusOptionModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipLanguageModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthTab.cs" />
@@ -244,7 +244,7 @@
     <Compile Include="Modules\InfoMessage\Models\InfoMessageProcessClosableMessageQuery.cs" />
     <Compile Include="Modules\InfoMessage\Views\InfoMessageView.cs" />
     <Compile Include="Builders\Internship\Models\InternshipActivityStats.cs" />
-    <Compile Include="Builders\Internship\Models\InternshipHomeOfficeOptionModel.cs" />
+    <Compile Include="Builders\Internship\Models\InternshipEducationTypeModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipStudentStatusOptionModel.cs" />
     <Compile Include="Builders\Internship\Models\InternshipLanguageModel.cs" />
     <Compile Include="Builders\Internship\Views\InternshipNotFoundView.cs" />
