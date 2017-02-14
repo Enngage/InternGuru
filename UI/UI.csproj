@@ -218,6 +218,7 @@
     <Compile Include="Builders\Master\Models\MasterMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterOpenGraphMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterSocial.cs" />
+    <Compile Include="Builders\Questionnaire\Data\QuestionnaireDeleteQuery.cs" />
     <Compile Include="Builders\Questionnaire\JsonObjects\QuestionnaireQuestionJson.cs" />
     <Compile Include="Builders\Questionnaire\Models\QuestionnaireModel.cs" />
     <Compile Include="Modules\Questionnaire\Forms\QuestionnaireCreateEditForm.cs" />
@@ -375,9 +376,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Builders\Home\Models\" />
-    <Folder Include="Builders\Questionnaire\Enums\" />
-    <Folder Include="Builders\Questionnaire\Interfaces\" />
-    <Folder Include="Builders\Questionnaire\QuestionTypes\" />
     <Folder Include="Builders\Questionnaire\Views\" />
     <Folder Include="Builders\Shared\Extensions\" />
   </ItemGroup>

@@ -27,7 +27,7 @@ namespace Web.Api
             {
                 _companyGalleryBuilder.DeleteImage(query.CompanyGuid, query.FileName);
 
-                return Ok();
+                return Ok(true);
             }
             catch (Exception ex)
             {

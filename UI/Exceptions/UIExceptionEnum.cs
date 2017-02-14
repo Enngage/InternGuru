@@ -6,6 +6,7 @@ namespace UI.Exceptions
         SaveFailure,
         NotAuthenticated,
         NoPermission,
-        Unknown
+        Unknown,
+        DeleteFailure
     }
 }

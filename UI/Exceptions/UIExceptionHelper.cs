@@ -18,6 +18,8 @@ namespace UI.Exceptions
                     return "Pro tuto akci musíte být přihlášení";
                 case UiExceptionEnum.NoPermission:
                     return "Pro tuto akci nemáte oprávnění";
+                case UiExceptionEnum.DeleteFailure:
+                    return "Smazání objektu se nezdařilo";
                 case UiExceptionEnum.Unknown:
                 default:
                     return "Nastala neznámá chyba";

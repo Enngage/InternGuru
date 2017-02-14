@@ -32,8 +32,23 @@ namespace UI.Builders.Questionnaire
 
         #endregion
 
-
         #region Methods
+
+        public async Task DeleteQuestionnaireAsync(int questionnaireID)
+        {
+            try
+            {
+                await Services.QuestionnaireService.DeleteAsync(questionnaireID);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UiException(UiExceptionEnum.DeleteFailure, ex);
+            }
+        }
 
         public string GetInitialStateJson(IList<IQuestion> questions)
         {
