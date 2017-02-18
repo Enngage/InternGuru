@@ -16,5 +16,7 @@ namespace UI.RazorExtensions
         ScriptHelper ScriptHelper { get; }
         MessageHelper MessageHelper { get; }
         InputHelper InputHelper { get; }
+        ModalHelper ModalHelper { get; }
+        ActionHelper ActionHelper { get; }
     }
 }

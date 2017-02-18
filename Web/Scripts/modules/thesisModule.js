@@ -1,14 +1,14 @@
 ﻿define(['modules/coreModule', 'jquery', 'promise'], function (Coremodule, $, ExtendedPromise) {
 
-    function InternshipModule() {
+    function ThesisMdoule() {
     }
 
     var Promise = ExtendedPromise.Promise;
 
-    InternshipModule.prototype.deleteInternship = function (internshipID) {
+    ThesisMdoule.prototype.deleteThesis = function (thesisID) {
         return new Promise(function (resolve, reject) {
-            var postUrl = "/api/internship/DeleteInternship";
-            var data = "{ 'InternshipID':'" + internshipID + "' }";
+            var postUrl = "/api/thesis/DeleteThesis";
+            var data = "{ 'ThesisID':'" + thesisID + "' }";
 
             $.ajax({
                 url: postUrl,
@@ -26,5 +26,5 @@
         });
     }
 
-    return InternshipModule;
+    return ThesisMdoule;
 });

@@ -205,6 +205,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\ThesisController.cs" />
+    <Compile Include="Api\InternshipController.cs" />
     <Compile Include="Api\QuestionnaireController.cs" />
     <Compile Include="Api\InfoMessageController.cs" />
     <Compile Include="Api\CompanyGalleryController.cs" />
@@ -2248,14 +2250,18 @@
     <Content Include="Scripts\addons\unitegallery-master\source\unitegallery\themes\video\ug-theme-video.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modules\companyGalleryModule.js" />
+    <Content Include="Scripts\modules\thesisModule.js" />
     <Content Include="Scripts\modules\questionnaireModule.js" />
     <Content Include="Scripts\modules\infoMessageModule.js" />
     <Content Include="Scripts\modules\searchModule.js" />
+    <Content Include="Scripts\modules\modalModule.js" />
     <Content Include="Scripts\modules\tableModule.js" />
     <Content Include="Scripts\modules\internshipModule.js" />
     <Content Include="Scripts\modules\companyModule.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\requireConfig.js" />
+    <Content Include="Scripts\views\auth\authTheses.js" />
+    <Content Include="Scripts\views\auth\authInternships.js" />
     <Content Include="Scripts\views\auth\authQuestionnaires.js" />
     <Content Include="Scripts\views\auth\authCompanyGallery.js" />
     <Content Include="Scripts\views\auth\addEditThesis.js" />
@@ -2543,6 +2549,7 @@
     <Content Include="Views\Auth\EditQuestionnaire.cshtml" />
     <Content Include="Stylesheets\partials\_questionnaire.scss" />
     <Content Include="Views\Auth\Questionnaires.cshtml" />
+    <Content Include="Views\Modules\Modal\Modal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

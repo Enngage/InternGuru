@@ -1,0 +1,39 @@
+﻿@model UI.Modules.Modal.Models.ModalConfig
+@{
+    var contentClass = Model.CenterText ? "w-body-text-center" : string.Empty;
+}
+
+<div class="ui basic modal @Model.ElementClass">
+    @if (!string.IsNullOrEmpty(Model.HeaderIconClass))
+    {
+        <div class="ui icon header">
+            <i class="@Model.HeaderIconClass icon"></i>
+            @Model.Title
+        </div>
+    }
+    else
+    {
+        <div class="ui icon header">
+            @Model.Title
+        </div>
+    }
+
+    <div class="content @contentClass">
+        <p>@Model.Message</p>
+    </div>
+
+    @if (Model.Buttons.Any())
+    {
+        <div class="actions">
+            @foreach (var button in Model.Buttons)
+            {
+                <div class="ui basic button @button.CssClass">
+                    <i class="@button.IconClass icon"></i>
+                    @button.Text
+                </div>
+            }
+        </div>
+    }
+</div>
+
+

@@ -1,13 +1,14 @@
-﻿@using UI.Helpers;
-@using Core.Helpers;
-@using PagedList.Mvc
+﻿@using Core.Helpers;
 @model UI.Builders.Auth.Views.AuthIndexView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Moje stáže";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
-
 }
+
+@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authInternships")
+
+@Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat stáž", "Opravdu chcete smazat vybranou stáž?")
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
@@ -47,12 +48,9 @@
                             {
                                 <tr>
                                     <td class="collapsing w-body-text-center w-mobile-left">
-                                        <a href="@Url.Action("EditInternship", "Auth", new { id = internship.ID })">
-                                            <i title="Upravit" class="edit icon black"></i>
-                                        </a>
-                                        <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })" target="_blank">
-                                            <i title="Zobrazit" class="unhide icon black"></i>
-                                        </a>
+                                        @Helpers.ActionHelper.RenderEditButton("EditInternship", "Auth", new { id = internship.ID })
+                                        @Helpers.ActionHelper.RenderDeleteButton(internship.ID, "_DeleteInternshipButton")
+                                        @Helpers.ActionHelper.RenderViewButton("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })
                                     </td>
                                     <td>
                                         <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })">

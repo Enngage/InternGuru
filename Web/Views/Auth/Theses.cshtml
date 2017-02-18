@@ -1,13 +1,14 @@
-﻿@using UI.Helpers;
-@using Core.Helpers;
-@using PagedList.Mvc
+﻿@using Core.Helpers;
 @model UI.Builders.Auth.Views.AuthIndexView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Moje závěrečné práce";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
-
 }
+
+@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authTheses")
+
+@Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat práci", "Opravdu chcete smazat vybranou závěrečnou práci?")
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
@@ -45,12 +46,9 @@
                     {
                         <tr>
                             <td class="collapsing w-body-text-center w-mobile-left">
-                                <a href="@Url.Action("EditThesis", new {id = thesis.ID})">
-                                    <i title="Upravit" class="edit icon black"></i>
-                                </a>
-                                <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codeName = thesis.CodeName})" target="_blank">
-                                    <i title="Zobrazit" class="unhide icon black"></i>
-                                </a>
+                                @Helpers.ActionHelper.RenderEditButton("EditThesis", "Auth", new { id = thesis.ID })
+                                @Helpers.ActionHelper.RenderDeleteButton(thesis.ID, "_DeleteThesisButton")
+                                @Helpers.ActionHelper.RenderViewButton("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName })
                             </td>
                             <td>
                                 <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codeName = thesis.CodeName})">

@@ -17,6 +17,7 @@ using Core.Helpers.Internship;
 using Entity.Base;
 using Service.Extensions;
 using Service.Services.Activities.Enums;
+using UI.Exceptions;
 
 namespace UI.Builders.Internship
 {
@@ -104,6 +105,27 @@ namespace UI.Builders.Internship
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Deletes given internship
+        /// </summary>
+        /// <param name="internshipID">Internship ID</param>
+        /// <returns></returns>
+        public async Task DeleteInternshipAsync(int internshipID)
+        {
+            try
+            {
+                await Services.InternshipService.DeleteAsync(internshipID);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UiException(UiExceptionEnum.DeleteFailure, ex);
+            }
+        }
 
         /// <summary>
         /// Logs activity for viewing internship

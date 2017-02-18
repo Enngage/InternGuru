@@ -17,6 +17,8 @@ namespace UI.RazorExtensions
         public ScriptHelper ScriptHelper { get; }
         public MessageHelper MessageHelper { get; }
         public InputHelper InputHelper { get; }
+        public ModalHelper ModalHelper { get; }
+        public ActionHelper ActionHelper { get; }
 
         public UIHelpers(WebViewPage webViewPage)
         {
@@ -31,6 +33,8 @@ namespace UI.RazorExtensions
             ScriptHelper = KernelProvider.Get<ScriptHelper>(webParameter);
             MessageHelper = KernelProvider.Get<MessageHelper>(webParameter);
             InputHelper = KernelProvider.Get<InputHelper>(webParameter);
+            ModalHelper = KernelProvider.Get<ModalHelper>(webParameter);
+            ActionHelper = KernelProvider.Get<ActionHelper>(webParameter);
         }
     }
 }

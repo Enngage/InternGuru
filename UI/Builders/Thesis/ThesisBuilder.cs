@@ -13,6 +13,7 @@ using UI.Builders.Services;
 using UI.Builders.Thesis.Views;
 using UI.Builders.Thesis.Models;
 using UI.Builders.Shared.Models;
+using UI.Exceptions;
 
 namespace UI.Builders.Thesis
 {
@@ -80,6 +81,31 @@ namespace UI.Builders.Thesis
                 ThesisCategories = await GetThesisCategoriesAsync()
             };
 
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Deletes given thesis
+        /// </summary>
+        /// <param name="thesisID">Thesis ID</param>
+        /// <returns></returns>
+        public async Task DeleteThesisAsync(int thesisID)
+        {
+            try
+            {
+                await Services.ThesisService.DeleteAsync(thesisID);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UiException(UiExceptionEnum.DeleteFailure, ex);
+            }
         }
 
         #endregion

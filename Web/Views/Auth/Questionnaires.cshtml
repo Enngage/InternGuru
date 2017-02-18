@@ -4,30 +4,11 @@
 @{
     Model.Metadata.BasicMetadata.Title = "Dotazníky";
     Layout = "~/Views/Auth/AuthMaster.cshtml";
-
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authQuestionnaires")
 
-<div class="ui basic modal _DeleteModal">
-    <div class="ui icon header">
-        <i class="remove icon"></i>
-            Smazat dotazník
-    </div>
-    <div class="content w-body-text-center">
-        <p>Opravdu chcete smazat vybraný dotazník včetně všech odpovědí?</p>
-    </div>
-    <div class="actions">
-        <div class="ui red basic cancel inverted button">
-            <i class="remove icon"></i>
-            Ne
-        </div>
-        <div class="ui green ok inverted button">
-            <i class="checkmark icon"></i>
-            Ano
-        </div>
-    </div>
-</div>
+@Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat dotazník", "Opravdu chcete smazat vybraný dotazník včetně všech odpovědí?")
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
@@ -67,12 +48,8 @@
                             {
                                 <tr>
                                     <td class="collapsing w-body-text-center w-mobile-left">
-                                        <a href="@Url.Action("EditQuestionnaire", "Auth", new { id = questionnaire.ID })">
-                                            <i title="Upravit" class="edit icon black"></i>
-                                        </a>
-                                        <a href="#" class="_DeleteQuestionnaireButton" data-id="@questionnaire.ID">
-                                            <i title="Smazat" class="remove icon black"></i>
-                                        </a>
+                                        @Helpers.ActionHelper.RenderEditButton("EditQuestionnaire", "Auth", new { id = questionnaire.ID })
+                                        @Helpers.ActionHelper.RenderDeleteButton(questionnaire.ID, "_DeleteQuestionnaireButton")
                                     </td>
                                     <td>
                                         @questionnaire.QuestionnaireName

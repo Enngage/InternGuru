@@ -211,6 +211,7 @@
     <Compile Include="Builders\Email\EmailBuilder.cs" />
     <Compile Include="Builders\Email\Models\EmailPreviewModel.cs" />
     <Compile Include="Builders\Email\Views\EmailPreviewView.cs" />
+    <Compile Include="Builders\Internship\Data\InternshipDeleteInternshipData.cs" />
     <Compile Include="Builders\Master\Enums\OpenGraphType.cs" />
     <Compile Include="Builders\Master\Models\MasterAppleMetadata.cs" />
     <Compile Include="Builders\Master\Models\MasterBasicMetadata.cs" />
@@ -221,6 +222,11 @@
     <Compile Include="Builders\Questionnaire\Data\QuestionnaireDeleteQuery.cs" />
     <Compile Include="Builders\Questionnaire\JsonObjects\QuestionnaireQuestionJson.cs" />
     <Compile Include="Builders\Questionnaire\Models\QuestionnaireModel.cs" />
+    <Compile Include="Builders\Thesis\Data\ThesisDeleteThesisData.cs" />
+    <Compile Include="Helpers\ActionHelper.cs" />
+    <Compile Include="Helpers\ModalHelper.cs" />
+    <Compile Include="Modules\Modal\Models\ModalButton.cs" />
+    <Compile Include="Modules\Modal\Models\ModalConfig.cs" />
     <Compile Include="Modules\Questionnaire\Forms\QuestionnaireCreateEditForm.cs" />
     <Compile Include="Builders\Questionnaire\QuestionnaireBuilder.cs" />
     <Compile Include="Builders\Shared\Enums\UIHeaderButtonTypeEnum.cs" />
