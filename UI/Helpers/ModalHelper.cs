@@ -26,16 +26,16 @@ namespace UI.Helpers
                 {
                     new ModalButton()
                     {
+                        CssClass = "red cancel inverted",
+                        Text = "Ne",
+                        IconClass = "remove"
+                    },
+                    new ModalButton()
+                    {
                         CssClass = "green ok inverted",
                         Text = "Ano",
                         IconClass = "checkmark"
                     },
-                    new ModalButton()
-                    {
-                        CssClass = "red cancel inverted",
-                        Text = "Ne",
-                        IconClass = "remove"
-                    }
                 }
             });
         }

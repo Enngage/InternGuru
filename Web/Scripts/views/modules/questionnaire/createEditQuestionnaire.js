@@ -1,5 +1,5 @@
 ﻿require(['modules/coreModule', 'jquery', 'sortable', 'semantic'], function (CoreModule, $, Sortable) {
-    $(function() {
+    $(function () {
         var coreModule = new CoreModule();
 
         // init sortable questions
@@ -16,31 +16,33 @@
             $(this).closest("._QuestionWrapper").remove();
         });
 
-        // handle add question clicks
-        $("#_AddQuestion").click(function() {
-            $('#_QuestionnaireModal')
-                .modal({
-                    closable: true,
-                    onDeny: function() {
-                        return true;
-                    },
-                    onApprove: function () {
-                        // get currently active question data
-                        var questionText = $("#_QuestionText").val();
-                        var questionType = $("#_TypeDropdown").val();
+        // handle edit question clicks
+        $("body").on("click", "._QuestionEdit", function () {
+            // init the edit question's data
+            var questionWrapper = $(this).closest("._QuestionWrapper");
 
-                        var result = addQuestion(questionText, questionType, false);
-                        if (result) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    },
-                    onShow: function() {
-                        setDefaultState();
-                    }
-                })
-                .modal('show');
+            var questionText = questionWrapper.find("._QuestionText").val();
+            var questionType = questionWrapper.find("._QuestionType").val();
+            var questionGuid = questionWrapper.find("._FieldGuid").val();
+
+            var question = [];
+            question.QuestionText = questionText;
+            question.QuestionType = questionType;
+            question.Guid = questionGuid;
+
+            // get all input values
+            questionWrapper.find("._InputField").each(function (i) {
+                var target = $(this).data("target");
+                var value = $(this).val();
+                question[target] = value;
+            });
+
+            openQuestionModal(question, questionWrapper);
+        });
+
+        // handle add question clicks
+        $("#_AddQuestion").click(function () {
+            openQuestionModal(null, null);
         });
 
         // set initial type question
@@ -50,11 +52,68 @@
         initQuestionnaire();
 
         // load question types on change
-        $("#_TypeDropdown").change(function() {
+        $("#_TypeDropdown").change(function () {
             var typeId = $(this).val();
 
-            changeQuestionType(typeId);
+            changeQuestionType(typeId, false);
         });
+
+        function openQuestionModal(question, editQuestionElem) {
+            $('#_QuestionnaireModal')
+                .modal({
+                    closable: true,
+                    onDeny: function () {
+                        return true;
+                    },
+                    onApprove: function () {
+
+                        if (!question) {
+                            question = [];
+                        }
+
+                        question.QuestionText = $("#_QuestionText").val();
+                        question.QuestionType = $("#_TypeDropdown").val();
+
+                        var result = false;
+
+                        if (!question) {
+                            // add question
+                            alert(question.QuestionText);
+                            result = addEditQuestion(question, null, false);
+                        } else {
+                            // edit question
+                            result = addEditQuestion(question, editQuestionElem, false);
+                        }
+
+                        if (result) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    },
+                    onShow: function () {
+                        if (!question) {
+                            setDefaultState();
+                            setModalAddQuestionContext();
+                        } else {
+                            setModalEditQuestionContext();
+                            $("#_QuestionText").val(question.QuestionText);
+                            changeQuestionType(question.QuestionType, question);
+                        }
+                    }
+                })
+                .modal('show');
+        }
+
+        function setModalEditQuestionContext() {
+            $("#_ModalHeaderLabel").text("Upravit otázku");
+            $("#_ModalSaveLabel").text("Upravit");
+        }
+
+        function setModalAddQuestionContext() {
+            $("#_ModalHeaderLabel").text("Vložit otázku");
+            $("#_ModalSaveLabel").text("Vložit");
+        }
 
         // initialize with questions from the initial state
         function initQuestionnaire() {
@@ -69,24 +128,24 @@
 
             $.each(initialStateJson, function (i, question) {
                 // add all questions to 
-                addQuestion(question.QuestionText, question.QuestionType, question.Data);
+                addEditQuestion(question, null, true);
             });
         }
 
         // sets default state of modal window with question selection
         function setDefaultState() {
-            changeQuestionType("RadioButton");
+            changeQuestionType("RadioButton", false);
 
             // clear question
             $("#_QuestionText").val("");
-
-            // set default dropdown set
-            $("#_TypeDropdown").dropdown("set selected", "RadioButton");
         }
 
         // changes question type in the modal window
-        function changeQuestionType(typeId) {
-            var insertTemplate = loadInsertQuestionTemplate(typeId);
+        function changeQuestionType(typeId, question) {
+            // set dropdown first
+            $("#_TypeDropdown").dropdown("set selected", typeId);
+
+            var insertTemplate = loadInsertQuestionTemplate(typeId, question);
 
             if (insertTemplate == null) {
                 console.log("Invalid question type '" + typeId + "'");
@@ -102,29 +161,31 @@
             initTypes();
         }
 
-        function addQuestion(questionText, questionType, questionData) {
-            if (!questionText) {
+        function addEditQuestion(question, editedQuestionElem, isInitialLoad) {
+            if (!question) {
+                alert("Nevalidní otázka");
+            }
+
+            if (!question.QuestionText) {
                 alert("Zadejte text otázky");
                 return false;
             }
 
-            if (!questionType) {
+            if (!question.QuestionType) {
                 alert("Vyberte typ otázky");
                 return false;
             }
 
-            var questionGuid = coreModule.guid();
-            var question = {};
+            if (!editedQuestionElem) {
+                // set guid for new questions
+                question.Guid = coreModule.guid();
+            }
 
-            question.guid = questionGuid;
-            question.questionText = questionText;
-            question.questionType = questionType;
-
-            // process question data using active question
-            if (!questionData) {
+            // process data of active question
+            if (!isInitialLoad) {
 
                 // get question's text data (in input[text] )
-                $("#_QuestionInsertTemplatePlaceholder ._TextData").each(function(i) {
+                $("#_QuestionInsertTemplatePlaceholder ._TextData").each(function (i) {
                     var dataName = $(this).data("name");
                     var value = $(this).val();
 
@@ -132,25 +193,32 @@
                 });
 
                 // get question's data in radio buttons
-                $("#_QuestionInsertTemplatePlaceholder ._RadioButtonData").each(function(i) {
+                $("#_QuestionInsertTemplatePlaceholder ._RadioButtonData").each(function (i) {
                     var dataName = $(this).data("name");
                     var isChecked = $(this).parent().checkbox("is checked");
 
                     question[dataName] = isChecked;
                 });
             }
-            // process question using passed in data
+                // process question data from the initial state (on page load)
             else {
-                $.each(questionData, function(i, data) {
+                $.each(question.Data, function (i, data) {
                     // set question data
                     question[data.Name] = data.Value;
                 });
+
             }
 
             var questionHtml = getDesignerTemplate(question);
 
-            // append question to 
-            $("#_Questionnaire").append(questionHtml);
+            // append question if is new question
+            if (!editedQuestionElem) {
+                $("#_Questionnaire").append(questionHtml);
+            } else {
+                // edit question
+                console.log(editedQuestionElem);
+                editedQuestionElem.replaceWith(questionHtml);
+            }
 
             return true;
         }
@@ -160,15 +228,15 @@
             $('._RadioButtons').checkbox();
         }
 
-        function getDesignerTemplate(questionData) {
+        function getDesignerTemplate(question) {
             // get base template
             var baseTemplate = $("#_QuestionPreviewBaseTemplate");
 
             // set question's text
-            baseTemplate.find("._QuestionText").text(questionData.questionText);
+            baseTemplate.find("._QuestionText").text(question.QuestionText);
 
             // get page type's template
-            var designerTemplate = $(loadDesignerTemplate(questionData.questionType));
+            var designerTemplate = $(loadDesignerTemplate(question.QuestionType));
 
             var correctAnswerElem = baseTemplate.find("._QuestionCorrectAnswer");
 
@@ -178,7 +246,7 @@
                 var dataName = $(this).data("name");
 
                 // get value
-                var value = questionData[dataName];
+                var value = question[dataName];
 
                 // hide field if empty
                 var hideField = $(this).data("hideempty") === 1;
@@ -200,10 +268,10 @@
                 var dataName = $(this).data("name");
 
                 // check radio button
-                var isChecked = questionData[dataName] === "true";
+                var isChecked = question[dataName] === "true" || question[dataName] === true;
 
                 // set questionGuid as the name of the radio inputs = radio sets are separate
-                $(this).attr("name", questionData.guid);
+                $(this).attr("name", question.Guid);
 
                 if (isChecked) {
                     $(this).parent().addClass("checked");
@@ -218,7 +286,7 @@
                     }
 
                     // set question's correct answer
-                    correctAnswerElem.val(questionData[sourceValue]);
+                    correctAnswerElem.val(question[sourceValue]);
                 }
             });
 
@@ -227,32 +295,31 @@
                 var target = $(this).data("target");
 
                 // get value of target and set field
-                $(this).val(questionData[target]);
+                $(this).val(question[target]);
 
                 // set unique field name identifying the field
                 var fieldPrefix = "Data";
-                var uniqueFieldName = fieldPrefix + "_" + questionData.guid + "_" + target;
+                var uniqueFieldName = fieldPrefix + "_" + question.Guid + "_" + target;
                 $(this).attr("name", uniqueFieldName);
 
             });
 
-
             // set field guid
-            baseTemplate.find("._FieldGuid").val(questionData.guid);
+            baseTemplate.find("._FieldGuid").val(question.Guid);
 
             // set generic question type
             var questionTypeElem = baseTemplate.find("._QuestionType");
 
-            var questionTypeName = "QuestionType_" + questionData.guid;
+            var questionTypeName = "QuestionType_" + question.Guid;
             questionTypeElem.attr("name", questionTypeName);
-            questionTypeElem.val(questionData.questionType);
+            questionTypeElem.val(question.QuestionType);
 
             // set generic question text
             var questionTextElem = baseTemplate.find("._QuestionText");
 
-            var questionTextName = "QuestionText_" + questionData.guid;
+            var questionTextName = "QuestionText_" + question.Guid;
             questionTextElem.attr("name", questionTextName);
-            questionTextElem.val(questionData.questionText);
+            questionTextElem.val(question.QuestionText);
 
             // insert preview template into base template
             baseTemplate.find("._QuestionTypeTemplate").html(designerTemplate.html());
@@ -284,18 +351,45 @@
             }
         }
 
-        function loadInsertQuestionTemplate(typeId) {
+        function loadInsertQuestionTemplate(typeId, question) {
             // get insert template of question type
             var templateClass = "_InsertTemplate";
-            var template = $("#_" + typeId + " ." + templateClass).html();
+            var templateHtml = $("#_" + typeId + " ." + templateClass).html();
 
-            if (typeof template === "undefined" || template == null)
-            {
+            if (typeof templateHtml === "undefined" || templateHtml == null) {
                 return null;
             }
-            else
-            {
-                return template;
+            else {
+                // set input values if present
+                if (question) {
+                    var template = $(templateHtml);
+
+                    // set text data
+                    template.find("._TextData").each(function (i) {
+                        var dataName = $(this).data("name");
+                        $(this).attr("value", question[dataName]);
+                    });
+
+                    // set radio data
+                    template.find("._RadioButtonData").each(function (i) {
+                        var dataName = $(this).data("name");
+                        var value = question[dataName];
+
+                        if (value === 'true' || value === true) {
+                            // check checkbox
+                            $(this).parent().addClass("checked");
+                            $(this).attr("checked", "");
+                            console.log(dataName + " | " + value);
+                        }
+
+                        $(this).val(question[dataName]);
+                    });
+
+                    return template.html();
+
+                } else {
+                    return templateHtml;
+                }
             }
         }
     });

@@ -699,3 +699,6 @@
   float: right;
   color: black; }
 
+#w-body-wrapper .w-questionnaire-edit {
+  cursor: pointer; }
+

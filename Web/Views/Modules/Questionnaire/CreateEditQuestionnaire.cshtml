@@ -11,7 +11,7 @@
 <input type="hidden" id="_QuestionnaireInitialState" value="@Model.InitialStateJson" />
 
 <div class="ui modal large" id="_QuestionnaireModal">
-    <div class="header">Vložit otázku</div>
+    <div class="header" id="_ModalHeaderLabel"></div>
     <div class="content">
         <div class="ui form">
             <div class="field required">
@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="actions">
-        <div class="ui positive button">Přidat</div>
+        <div class="ui positive button" id="_ModalSaveLabel">Přidat</div>
         <div class="ui negative button">Zrušit</div>
     </div>
 </div>
@@ -87,14 +87,14 @@
     *@
     <div id="_QuestionPreviewBaseTemplate">
         <div class="ui segment padded w-questionnaire-question-wrapper _QuestionWrapper">
-            <div class="ui top inverted teal attached label"><i class="move icon"></i> <span class="w-questionnaire-delete _QuestionDeleteButton"><i class="remove negative icon"></i></span></div>
+            <div class="ui top inverted teal attached label"><i class="move icon"></i> <span class="_QuestionEdit w-questionnaire-edit">Upravit</span><span class="w-questionnaire-delete _QuestionDeleteButton"><i class="remove negative icon"></i></span></div>
             <input type="hidden" class="_QuestionText"/>
             <input type="hidden" class="_QuestionCorrectAnswer"/>
             <input type="hidden" class="_QuestionType"/>
             <input type="hidden" class="_FieldGuid" name="@fieldGuidName"/>
             <div class="content w-margin-top-20">
                 <div class="header _QuestionText"></div>
-                <div class="_QuestionTypeTemplate"></div>
+                <div class="_QuestionTypeTemplate  w-font-size-small"></div>
             </div>
         </div>
     </div>
@@ -106,7 +106,7 @@
                 <div class="ui form">
                     <div class="field">
                         <label>Správná odpověď (nepovinné)</label>
-                        <input type="text" class="_TextData" data-name="correct_answer" placeholder="Nechejte prázdné pokud otázka nemá definovanou odpověď">
+                        <input type="text" class="_TextData" data-name="correctanswer" placeholder="Nechejte prázdné pokud otázka nemá definovanou odpověď">
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                 <div class="ui form">
                     <div class="field">
                         <label>Správná odpověď: </label>
-                        <span type="text" class="_TextData" data-name="correct_answer" data-hideempty="1"></span>
+                        <span class="_TextData w-font-light" data-name="correctanswer" data-hideempty="1"></span>
                         <input type="hidden" class="_InputField" data-target="correctanswer" />
                     </div>
                 </div>
