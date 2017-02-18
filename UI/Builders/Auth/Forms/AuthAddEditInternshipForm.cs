@@ -67,6 +67,12 @@ namespace UI.Builders.Auth.Forms
         [Required(ErrorMessage = "Zadejte požadovaný status studenta")]
         public int StudentStatusOptionID { get; set; }
 
+        public string HideAmount { get; set; }
+        public bool GetHideAmount()
+        {
+            return InputHelper.GetCheckboxValueStatic(HideAmount, false);
+        }
+
         public IEnumerable<AuthCountryModel> Countries { get; set; }
         public IEnumerable<AuthCurrencyModel> Currencies { get; set; }
         public IEnumerable<AuthInternshipAmountType> AmountTypes { get; set; }

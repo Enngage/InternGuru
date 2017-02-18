@@ -3,46 +3,66 @@
     $(function () {
         // initialization
         $('._ThesisTypeDropdown, ._ThesisCategoryDropdown, ._CurrencyDropdown').dropdown();
-        InitializeCkEditor();
-        SetInitialState();
+        initializeCkEditor();
+        setInitialState();
 
-        $('#_IsActiveCheckbox').checkbox();
+        $('#_IsActiveCheckbox, #_HideAmountCheckbox').checkbox();
 
         // checkbox events
         $('#_IsPaidCheckbox').checkbox({
             onChecked: function () {
                 // show field
-                ShowAmountField();
+                showAmountField();
             },
             onUnchecked: function () {
                 // hide field
-                HideAmountField();
+                hideAmountField();
             }
         });
 
-        function InitializeCkEditor() {
+        // checkbox events
+        $('#_HideAmountCheckbox').checkbox({
+            onChecked: function () {
+                // hide field
+                hideAmountField();
+           
+            },
+            onUnchecked: function () {
+                // show field
+                showAmountField();
+            }
+        });
+
+
+        function initializeCkEditor() {
             CKEDITOR.replace('_ThesisDescription', {
                 customConfig: '/scripts/addons/ckeditor/simpleEditorConfig.js'
             });
         }
 
-        function ShowAmountField() {
+        function showAmountField() {
             var amountFieldID = "_ThesisAmountFieldWrapper";
             $("#" + amountFieldID).removeClass("w-body-hide");
         }
 
-        function HideAmountField() {
+        function hideAmountField() {
             var amountFieldID = "_ThesisAmountFieldWrapper";
             $("#" + amountFieldID).addClass("w-body-hide");
         }
 
-        function SetInitialState() {
+        function setInitialState() {
             var paidChecked = $('#_IsPaidCheckbox').checkbox("is checked");
+            var hideAmountChecked = $('#_HideAmountCheckbox').checkbox("is checked");
+
             if (paidChecked) {
-                ShowAmountField();
+                if (hideAmountChecked) {
+                    hideAmountField();
+                } else {
+                    showAmountField();
+                }
             }
             else {
-                HideAmountField();
+                hideAmountField();
             }
         }
 

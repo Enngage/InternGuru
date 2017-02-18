@@ -3,9 +3,9 @@
     $(function () {
         // initialization
         $('._DropdownSearch, ._CurrencyDropdown, ._DurationDropdown, ._StateDropdown, ._CategorySearchDropdown, ._LanguagesDropdown, ._MinEducationTypeDropdown, ._StudentStatusOptionDropdown').dropdown();
-        InitializeDatePicker();
-        SetInitialState();
-        InitializeCkEditor();
+        initializeDatePicker();
+        setInitialState();
+        initializeCkEditor();
 
         $('#_IsActiveCheckbox').checkbox();
 
@@ -13,11 +13,11 @@
         $('#_IsPaidCheckbox').checkbox({
             onChecked: function () {
                 // show field
-                ShowAmountField();
+                showAmountField();
             },
             onUnchecked: function () {
                 // hide field
-                HideAmountField();
+                hideAmountField();
             }
         });
 
@@ -25,15 +25,28 @@
         $('#_HasFlexibleHours').checkbox({
             onChecked: function () {
                 // hide field
-                HideWorkingHoursField();
+                hideWorkingHoursField();
             },
             onUnchecked: function () {
                 // show field
-                ShowWorkingHoursField();
+                showWorkingHoursField();
             }
         });
 
-        function InitializeCkEditor() {
+        // checkbox events
+        $('#_HideAmountCheckbox').checkbox({
+            onChecked: function () {
+                // hide field
+                hideAmountField();
+
+            },
+            onUnchecked: function () {
+                // show field
+                showAmountField();
+            }
+        });
+
+        function initializeCkEditor() {
             CKEDITOR.replace('_Description', {
                 customConfig: '/scripts/addons/ckeditor/simpleEditorConfig.js'
             });
@@ -43,45 +56,51 @@
             });
         }
 
-        function ShowWorkingHoursField() {
+        function showWorkingHoursField() {
             var fieldID = "_WorkingHoursField";
             $("#" + fieldID).removeClass("w-body-hide");
         }
 
-        function HideWorkingHoursField() {
+        function hideWorkingHoursField() {
             var fieldID = "_WorkingHoursField";
             $("#" + fieldID).addClass("w-body-hide");
         }
 
-        function ShowAmountField() {
+        function showAmountField() {
             var amountFieldID = "_InternshipAmountField";
             $("#" + amountFieldID).removeClass("w-body-hide");
         }
 
-        function HideAmountField() {
+        function hideAmountField() {
             var amountFieldID = "_InternshipAmountField";
             $("#" + amountFieldID).addClass("w-body-hide");
         }
 
-        function InitializeDatePicker() {
+        function initializeDatePicker() {
             $('._Datepicker').datepicker();
         }
 
-        function SetInitialState() {
+        function setInitialState() {
             var paidChecked = $('#_IsPaidCheckbox').checkbox("is checked");
+            var hideAmountChecked = $('#_HideAmountCheckbox').checkbox("is checked");
+
             if (paidChecked) {
-                ShowAmountField();
+                if (hideAmountChecked) {
+                    hideAmountField();
+                } else {
+                    showAmountField();
+                }
             }
             else {
-                HideAmountField();
+                hideAmountField();
             }
 
             var hasFlefibleHours = $('#_HasFlexibleHours').checkbox("is checked");
             if (hasFlefibleHours) {
-                HideWorkingHoursField();
+                hideWorkingHoursField();
             }
             else {
-                ShowWorkingHoursField();
+                showWorkingHoursField();
             }
         }
 

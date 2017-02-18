@@ -80,6 +80,14 @@
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
+    <Compile Include="Migrations\201702181445386_HideAmountForThesis.cs" />
+    <Compile Include="Migrations\201702181445386_HideAmountForThesis.Designer.cs">
+      <DependentUpon>201702181445386_HideAmountForThesis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702181505084_InternshipHideAmount.cs" />
+    <Compile Include="Migrations\201702181505084_InternshipHideAmount.Designer.cs">
+      <DependentUpon>201702181505084_InternshipHideAmount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Activities\ActivityService.cs" />
@@ -162,6 +170,14 @@
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702181445386_HideAmountForThesis.resx">
+      <DependentUpon>201702181445386_HideAmountForThesis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702181505084_InternshipHideAmount.resx">
+      <DependentUpon>201702181505084_InternshipHideAmount.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

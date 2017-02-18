@@ -1,5 +1,4 @@
 ﻿@model UI.Builders.Auth.Forms.AuthAddEditInternshipForm
-
 @{
     var formAction = Model.IsExistingInternship ? "EditInternship" : "NewInternship";
     var submitButtonText = Model.ID == 0 ? "Vložit nabídku" : "Uložit";
@@ -37,7 +36,6 @@
     }
 
 }
-
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/addEditInternship")
 @Helpers.ScriptHelper.RequireCss("/scripts/addons/datepicker-master/dist/datepicker.min")
 
@@ -52,18 +50,14 @@
 
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-
             @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
-            
+
             @if (Model.IsNewlyCreatedInternship)
             {
                 @Helpers.MessageHelper.RenderSuccessMessage("Stáž byla úspěšně vytvořena")
             }
-
-        <form id="_InternshipForm" class="ui form">
-
+            <form id="_InternshipForm" class="ui form">
                 <div class="ui segment blue secondary inverted">
-
                     <div class="field">
                         @Helpers.MessageHelper.RenderInfoMessage("Aktivní stáže budou po 2 měsících automaticky skryty. Stáž je možné poté znova aktivovat.")
                         @if (Model.GetIsActive())
@@ -83,17 +77,14 @@
                     </div>
                 </div>
 
-
                 <div class="field required">
                     <label>Název pozice</label>
                     <input name="Title" placeholder="" type="text" value="@Model.Title">
                 </div>
-
                 <div class="field required">
                     <label>Popis pozice</label>
                     <textarea id="_Description" name="Description">@Model.Description</textarea>
                 </div>
-
                 <div class="field required">
                     <label>Kategorie</label>
                     <div class="ui fluid search selection dropdown _CategorySearchDropdown">
@@ -115,12 +106,10 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="field required">
                     <label>Město</label>
                     <input name="City" placeholder="" type="text" value="@Model.City">
                 </div>
-
                 <div class="field required">
                     <label>Stát</label>
                     <div class="ui fluid search selection dropdown _StateDropdown">
@@ -139,11 +128,9 @@
                                     <div class="item" data-value="@country.ID">@Html.Raw(Helpers.CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
                                 }
                             }
-
                         </div>
                     </div>
                 </div>
-
                 <div class="field">
                     <label>Pracovní doba</label>
                     @if (Model.GetHasFlexibleHours())
@@ -161,16 +148,14 @@
                         </div>
                     }
                 </div>
-
                 <div id="_WorkingHoursField" class="field">
                     <label>Pracovní doba (slovy)</label>
                     <input name="WorkingHours" placeholder="Např. denně 08:00 - 15:00" type="text" value="@Model.WorkingHours">
                 </div>
-
                 <div class="field">
                     <label>Odměna</label>
                     @if (Model.GetIsPaid())
-                {
+                    {
                         <div id="_IsPaidCheckbox" class="ui checked checkbox">
                             <input name="IsPaid" class="hidden" checked="" type="checkbox" tabindex="0">
                             <label>Stáž je placená</label>
@@ -185,6 +170,22 @@
                     }
                 </div>
 
+                <div class="field">
+                    @if (Model.GetHideAmount())
+                {
+                        <div id="_HideAmountCheckbox" class="ui checked checkbox">
+                            <input name="HideAmount" class="hidden" checked="" type="checkbox" tabindex="0">
+                            <label>Nezveřejňovat konkrétní částku</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="_HideAmountCheckbox" class="ui checkbox">
+                            <input name="HideAmount" class="hidden" type="checkbox" tabindex="0">
+                            <label>Nezveřejňovat konkrétní částku</label>
+                        </div>
+                    }
+                </div>
                 <div id="_InternshipAmountField" class="field w-margin-top-10 w-body-hide">
                     <div class="ui right labeled input">
                         <input name="Amount" placeholder="" type="text" value="@Model.Amount">
@@ -226,13 +227,11 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="field required">
                     <label>Nástup od</label>
                     <input name="StartDate" class="_Datepicker" type="text" data-toggle="startdate" value="@startDate">
                     <div class="_Datepicker" data-toggle="startdate"></div>
                 </div>
-
                 <div class="field required">
                     <label>Minimální délka stáže</label>
                     <div class="ui right labeled input">
@@ -257,7 +256,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="field required">
                     <label>Maximální délka stáže</label>
                     <div class="ui right labeled input">
@@ -282,14 +280,11 @@
                         </div>
                     </div>
                 </div>
-
                 <h4 class="ui dividing header">
                     Požadavky
                 </h4>
-
                 <div class="field">
                     <label>Jazyk</label>
-
                     <div class="ui multiple selection dropdown _LanguagesDropdown">
                         <!-- This will receive comma separated value !-->
                         <input name="Languages" value="@selectedLanguagesVal" type="hidden">
@@ -303,10 +298,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="field">
                     <label>Status studenta</label>
-
                     <div class="ui selection dropdown _StudentStatusOptionDropdown">
                         <input name="StudentStatusOptionID" value="@studentStatusOptionVal" type="hidden">
                         <i class="dropdown icon"></i>
@@ -320,10 +313,8 @@
                     </div>
                 </div>
 
-
                 <div class="field">
                     <label>Minimální vzdělání</label>
-
                     <div class="ui selection dropdown _MinEducationTypeDropdown">
                         <input name="MinEducationTypeID" value="@educationTypeVal" type="hidden">
                         <i class="dropdown icon"></i>
@@ -336,13 +327,11 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="field">
                     <label>Jiné</label>
                     <textarea id="_Requirements" name="Requirements">@Model.Requirements</textarea>
                 </div>
-
-                <button class="ui button submit primary" type="submit">
+                <button class="ui button primary" type="submit">
                     @submitButtonText
                 </button>
             </form>

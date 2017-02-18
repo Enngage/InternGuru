@@ -480,6 +480,7 @@ namespace UI.Builders.Auth
                     InternshipCategoryID = m.InternshipCategoryID,
                     Description = m.Description,
                     IsPaid = m.IsPaid ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
+                    HideAmount = m.HideAmount ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
                     IsActive = m.IsActive ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
                     ThesisName = m.ThesisName,
                     ThesisTypeID = m.ThesisTypeID,
@@ -597,6 +598,7 @@ namespace UI.Builders.Auth
                     ID = m.ID,
                     InternshipCategoryID = m.InternshipCategoryID,
                     IsPaid = m.IsPaid ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
+                    HideAmount = m.HideAmount ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
                     MaxDurationTypeID = m.MaxDurationTypeID,
                     MinDurationTypeID = m.MinDurationTypeID,
                     StartDate = m.StartDate,
@@ -842,6 +844,7 @@ namespace UI.Builders.Auth
                     IsPaid = form.GetIsPaid(),
                     ThesisTypeID = form.ThesisTypeID,
                     ThesisName = form.ThesisName,
+                    HideAmount = form.GetHideAmount()
                 };
 
                 await Services.ThesisService.InsertAsync(thesis);
@@ -892,6 +895,7 @@ namespace UI.Builders.Auth
                     IsPaid = form.GetIsPaid(),
                     ThesisTypeID = form.ThesisTypeID,
                     ThesisName = form.ThesisName,
+                    HideAmount = form.GetHideAmount()
                 };
 
                 await Services.ThesisService.UpdateAsync(thesis);
@@ -1303,6 +1307,7 @@ namespace UI.Builders.Auth
                     Languages = form.Languages,
                     MinEducationTypeID = form.MinEducationTypeID,
                     StudentStatusOptionID = form.StudentStatusOptionID,
+                    HideAmount = form.GetHideAmount()
                 };
 
                 await Services.InternshipService.InsertAsync(internship);
@@ -1379,7 +1384,8 @@ namespace UI.Builders.Auth
                     Requirements = form.Requirements,
                     Languages = form.Languages,
                     MinEducationTypeID = form.MinEducationTypeID,
-                    StudentStatusOptionID = form.StudentStatusOptionID
+                    StudentStatusOptionID = form.StudentStatusOptionID,
+                    HideAmount = form.GetHideAmount()
                 };
 
                 await Services.InternshipService.UpdateAsync(internship);

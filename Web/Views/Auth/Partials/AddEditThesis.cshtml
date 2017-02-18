@@ -124,6 +124,23 @@
                     </div>
                 }
             </div>
+            
+            <div class="field">
+                @if (Model.GetHideAmount())
+                {
+                    <div id="_HideAmountCheckbox" class="ui checked checkbox">
+                        <input name="HideAmount" class="hidden" checked="" type="checkbox" tabindex="0">
+                        <label>Nezveřejňovat konkrétní částku</label>
+                    </div>
+                }
+                else
+                {
+                    <div id="_HideAmountCheckbox" class="ui checkbox">
+                        <input name="HideAmount" class="hidden" type="checkbox" tabindex="0">
+                        <label>Nezveřejňovat konkrétní částku</label>
+                    </div>
+                }
+            </div>
 
             <div id="_ThesisAmountFieldWrapper" class="field w-margin-top-10 w-body-hide">
                 <div class="ui right labeled input">

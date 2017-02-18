@@ -22,6 +22,7 @@ namespace UI.Builders.Auth.Forms
         [Required(ErrorMessage = "Zvolte kategorii")]
         public int InternshipCategoryID { get; set; }
         public string IsPaid { get; set; }
+        public string HideAmount { get; set; }
         public string IsActive { get; set; }
         [Required(ErrorMessage = "Zvolte typ práce")]
         public int ThesisTypeID { get; set; }
@@ -46,6 +47,11 @@ namespace UI.Builders.Auth.Forms
         public bool GetIsPaid()
         {
             return InputHelper.GetCheckboxValueStatic(IsPaid, false);
+        }
+
+        public bool GetHideAmount()
+        {
+            return InputHelper.GetCheckboxValueStatic(HideAmount, false);
         }
 
         /// <summary>

@@ -36,7 +36,10 @@ namespace Entity
         public bool IsPaid { get; set; }
         [Required]
         public int ThesisTypeID { get; set; }
+        [Required]
         public bool IsActive { get; set; }
+        [Required]
+        public bool HideAmount { get; set; }
         public DateTime? ActiveSince { get; set; }
 
         #region Virtual
