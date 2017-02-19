@@ -1,5 +1,4 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
-@using Core.Helpers;
 @{
     Model.Metadata.BasicMetadata.Title = $"{Model.Company.CompanyName} | Závěrečné práce";
     Model.Metadata.BasicMetadata.Description = $"{Model.Company.LongDescription}";
@@ -21,7 +20,7 @@
                             @thesis.Name <span class="w-font-size-small w-font-light">
                                 @if (thesis.IsPaid)
                                 {
-                                    <span>(@CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyDisplaySignOnLeft))</span>
+                                    <span>(@Helpers.TextHelper.GetInternshipAmount(thesis.HideAmount, thesis.Amount, thesis.CurrencyName, thesis.CurrencyDisplaySignOnLeft))</span>
                                 }
                             </span>
                         </a>

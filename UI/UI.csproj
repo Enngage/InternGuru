@@ -224,6 +224,7 @@
     <Compile Include="Builders\Questionnaire\Models\QuestionnaireModel.cs" />
     <Compile Include="Builders\Thesis\Data\ThesisDeleteThesisData.cs" />
     <Compile Include="Helpers\ActionHelper.cs" />
+    <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\ModalHelper.cs" />
     <Compile Include="Modules\Modal\Models\ModalButton.cs" />
     <Compile Include="Modules\Modal\Models\ModalConfig.cs" />

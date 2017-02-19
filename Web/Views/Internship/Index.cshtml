@@ -79,7 +79,7 @@
                                 @if (Model.Internship.IsPaid)
                                 {
                                     @Helpers.MessageHelper.RenderIcon("money green")
-                                    <span>@(CurrencyHelper.DisplayCurrencyValue(Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
+                                    <span>@(Helpers.TextHelper.GetInternshipAmount(Model.Internship.HideAmount, Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
                                 }
                                 else
                                 {
@@ -169,7 +169,7 @@
                             <td>
                                 @if (Model.Internship.IsPaid)
                                 {
-                                    <span>@(CurrencyHelper.DisplayCurrencyValue(Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
+                                    <span>@(Helpers.TextHelper.GetInternshipAmount(Model.Internship.HideAmount, Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
                                 }
                                 else
                                 {

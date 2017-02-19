@@ -48,7 +48,10 @@
                             <td class="collapsing w-body-text-center w-mobile-left">
                                 @Helpers.ActionHelper.RenderEditButton("EditThesis", "Auth", new { id = thesis.ID })
                                 @Helpers.ActionHelper.RenderDeleteButton(thesis.ID, "_DeleteThesisButton")
-                                @Helpers.ActionHelper.RenderViewButton("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName })
+                                @if (thesis.IsActive)
+                                {
+                                    @Helpers.ActionHelper.RenderViewButton("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName })
+                                }
                             </td>
                             <td>
                                 <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codeName = thesis.CodeName})">

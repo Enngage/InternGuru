@@ -50,7 +50,10 @@
                                     <td class="collapsing w-body-text-center w-mobile-left">
                                         @Helpers.ActionHelper.RenderEditButton("EditInternship", "Auth", new { id = internship.ID })
                                         @Helpers.ActionHelper.RenderDeleteButton(internship.ID, "_DeleteInternshipButton")
-                                        @Helpers.ActionHelper.RenderViewButton("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })
+                                        @if (internship.IsActive)
+                                        {
+                                            @Helpers.ActionHelper.RenderViewButton("Index", "Internship", new {id = internship.ID, codeName = internship.CodeName})
+                                        }
                                     </td>
                                     <td>
                                         <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })">

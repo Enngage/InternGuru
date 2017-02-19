@@ -152,7 +152,7 @@
                                 <td class="w-tablet-show w-mobile-show">
                                     @if (internship.Amount > 0)
                                     {
-                                        <span>@(CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft)) / @internship.AmountTypeName</span>
+                                        <span>@(Helpers.TextHelper.GetInternshipAmount(internship.HideAmount, internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft)) / @internship.AmountTypeName</span>
                                     }
                                     else
                                     {

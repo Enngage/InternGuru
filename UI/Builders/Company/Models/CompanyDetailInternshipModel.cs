@@ -7,6 +7,7 @@ namespace UI.Builders.Company.Models
         public string CodeName { get; set; }
         public string Title { get; set; }
         public bool IsPaid { get; set; }
+        public bool HideAmount { get; set; }
         public string AmountTypeName { get; set; }
         public double Amount { get; set; }
         public string CurrencyName { get; set; }

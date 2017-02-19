@@ -1,5 +1,4 @@
 ﻿@model UI.Builders.Thesis.Views.ThesisDetailView
-@using Core.Helpers;
 @using UI.Builders.Shared.Enums
 @using UI.Modules.GoogleMaps.Views
 
@@ -14,15 +13,6 @@
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/thesis/detail")
 
-@*<div class="ui container w-margin-top-14">
-    <div class="ui grid">
-        <div class="sixteen wide column w-padding-bottom-0">
-            <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.Company.CompanyCodeName })">
-                <img alt="@Model.Thesis.Company.CompanyName banner" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.Thesis.Company.CompanyGuid)" class="ui image fluid w-internship-detail-banner" />
-            </a>
-        </div>
-    </div>
-</div>*@
 
 <div id="_ThesisMenuWrapper" class="w-internship-fixed-wrapper">
     <div class="ui vertical segment w-internship-menu-wrapper">
@@ -76,7 +66,7 @@
                             <div class="content">
                                 @if (Model.Thesis.IsPaid)
                                 {
-                                    <i class="money green icon"></i><span>Odměna @(CurrencyHelper.DisplayCurrencyValue(Model.Thesis.Amount, Model.Thesis.CurrencyName, Model.Thesis.CurrencyShowSignOnLeft))</span>
+                                    <i class="money green icon"></i><span>Odměna @(Helpers.TextHelper.GetThesisAmount(Model.Thesis.HideAmount, Model.Thesis.Amount, Model.Thesis.CurrencyName, Model.Thesis.CurrencyShowSignOnLeft))</span>
                                 }
                                 else
                                 {

@@ -16,6 +16,7 @@ namespace UI.Builders.Thesis.Models
         public bool CurrencyShowSignOnLeft { get; set; }
         public DateTime Created { get; set; }
         public bool IsPaid { get; set; }
+        public bool HideAmount { get; set; }
         public int ThesisTypeID { get; set; }
         public string ThesisTypeName { get; set; }
         public string ThesisTypeCodeName { get; set; }

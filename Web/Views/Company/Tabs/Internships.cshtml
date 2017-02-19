@@ -1,5 +1,4 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
-@using Core.Helpers;
 @{
     Model.Metadata.BasicMetadata.Title = $"{Model.Company.CompanyName} | Stáže";
     Model.Metadata.BasicMetadata.Description = $"{Model.Company.LongDescription}";
@@ -22,7 +21,7 @@
                         @internship.Title <span class="w-font-size-small w-font-light">
                             @if (internship.IsPaid)
                             {
-                                <span>(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
+                                <span>(@Helpers.TextHelper.GetInternshipAmount(internship.HideAmount, internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
                             }
                         </span>
                     </a>

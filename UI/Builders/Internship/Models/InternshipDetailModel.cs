@@ -19,6 +19,7 @@ namespace UI.Builders.Internship.Models
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public bool IsPaid { get; set; }
+        public bool HideAmount { get; set; }
         public double Amount { get; set; }
         public string CurrencyName { get; set; }
         public bool CurrencyShowSignOnLeft { get; set; }

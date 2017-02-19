@@ -98,6 +98,7 @@ namespace UI.Builders.Company
                             Amount = s.Amount,
                             AmountTypeName = s.AmountType.AmountTypeName,
                             IsPaid = s.IsPaid,
+                            HideAmount = s.HideAmount,
                             CurrencyName = s.Currency.CurrencyName,
                             CurrencyCode = s.Currency.CodeName,
                             CodeName = s.CodeName,
@@ -112,6 +113,7 @@ namespace UI.Builders.Company
                             CurrencyName = s.Currency.CurrencyName,
                             ID = s.ID,
                             IsPaid = s.IsPaid,
+                            HideAmount = s.HideAmount,
                             Name = s.ThesisName,
                             CurrencyCodeName = s.Currency.CodeName,
                             CurrencyDisplaySignOnLeft = s.Currency.ShowSignOnLeft

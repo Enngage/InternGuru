@@ -121,7 +121,7 @@
                                 <td class="collapsing w-body-text-center w-mobile-left">
                                     @if (thesis.Amount > 0)
                                     {
-                                        <span>@(CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
+                                        <span>@(Helpers.TextHelper.GetThesisAmount(thesis.HideAmount, thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
                                     }
                                     else
                                     {

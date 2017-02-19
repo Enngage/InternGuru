@@ -20,6 +20,7 @@ namespace UI.Builders.Internship.Models
         public string CountryCode { get; set; }
         public DateTime Created { get; set; }
         public bool IsPaid { get; set; }
+        public bool HideAmount { get; set; }
         public double Amount { get; set; }
         public string CurrencyCode { get; set; }
         public string CurrencyName { get; set; }
