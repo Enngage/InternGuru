@@ -72,6 +72,7 @@ namespace Entity
         public int MinEducationTypeID { get; set; }
         public int StudentStatusOptionID { get; set; }
         public DateTime? ActiveSince { get; set; }
+        public int? QuestionnaireID { get; set; }
 
         #region Virtual
 
@@ -97,6 +98,8 @@ namespace Entity
         public EducationType EducationType { get; set; }
         [ForeignKey("StudentStatusOptionID")]
         public StudentStatusOption StudentStatusOption { get; set; }
+        [ForeignKey("QuestionnaireID")]
+        public Questionnaire Questionnaire { get; set; }
 
         #endregion
 

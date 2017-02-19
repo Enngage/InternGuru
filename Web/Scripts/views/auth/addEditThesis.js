@@ -2,7 +2,7 @@
     // DOM ready
     $(function () {
         // initialization
-        $('._ThesisTypeDropdown, ._ThesisCategoryDropdown, ._CurrencyDropdown').dropdown();
+        $('._ThesisTypeDropdown, ._ThesisCategoryDropdown, ._CurrencyDropdown, ._QuestionnaireDropdown').dropdown();
         initializeCkEditor();
         setInitialState();
 

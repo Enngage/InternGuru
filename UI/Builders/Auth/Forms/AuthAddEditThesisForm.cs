@@ -29,7 +29,9 @@ namespace UI.Builders.Auth.Forms
         [ValidInteger(ErrorMessage = "Odměna musí být celé číslo")]
         public int? Amount { get; set; }
         public int CurrencyID { get; set; }
+        public int? QuestionnaireID { get; set; }
 
+        public IEnumerable<AuthQuestionnaireModel> Questionnaires { get; set; }
         public IEnumerable<AuthThesisTypeModel> ThesisTypes { get; set; }
         public IEnumerable<AuthCurrencyModel> Currencies { get; set; }
         public IEnumerable<AuthInternshipCategoryModel> Categories { get; set; }

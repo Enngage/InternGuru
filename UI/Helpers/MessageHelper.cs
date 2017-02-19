@@ -218,5 +218,23 @@ namespace UI.Helpers
         {
             return RenderCustomErrorMessage(message, null);
         }
+
+
+        /// <summary>
+        /// Renders tip message
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <returns>HTML for info message</returns>
+        public IHtmlString RenderTipMessage(string message)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("<div class=\"w-font-size-small\">");
+            sb.AppendLine("<i class=\"star icon\"></i>");
+            sb.AppendLine(message);
+            sb.AppendLine("</div>");
+
+            return WebViewPage.Html.Raw(sb.ToString());
+        }
+
     }
 }

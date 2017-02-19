@@ -166,6 +166,7 @@
     <Compile Include="Builders\Auth\Enum\AuthMenuActionEnum.cs" />
     <Compile Include="Builders\Auth\Enum\AuthTabEnum.cs" />
     <Compile Include="Builders\Auth\Forms\AuthCompanyGalleryUploadForm.cs" />
+    <Compile Include="Builders\Auth\Models\AuthQuestionnaireModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthQuestionnaireListingModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipEducationTypeModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipStudentStatusOptionModel.cs" />

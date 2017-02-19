@@ -2278,6 +2278,7 @@
     <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\internship\detail.js" />
     <Content Include="Scripts\views\modules\questionnaire\createEditQuestionnaire.js" />
+    <Content Include="Scripts\views\modules\questionnaire\submitQuestionnaire.js" />
     <Content Include="Scripts\views\modules\uiHeader.js" />
     <Content Include="Scripts\views\shared\menuSearch.js" />
     <Content Include="Scripts\views\system\emailLog.js" />
@@ -2550,6 +2551,7 @@
     <Content Include="Stylesheets\partials\_questionnaire.scss" />
     <Content Include="Views\Auth\Questionnaires.cshtml" />
     <Content Include="Views\Modules\Modal\Modal.cshtml" />
+    <Content Include="Views\Modules\Questionnaire\QuestionTemplates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

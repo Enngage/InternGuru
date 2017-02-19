@@ -2,7 +2,7 @@
     // DOM ready
     $(function () {
         // initialization
-        $('._DropdownSearch, ._CurrencyDropdown, ._DurationDropdown, ._StateDropdown, ._CategorySearchDropdown, ._LanguagesDropdown, ._MinEducationTypeDropdown, ._StudentStatusOptionDropdown').dropdown();
+        $('._DropdownSearch, ._CurrencyDropdown, ._DurationDropdown, ._StateDropdown, ._CategorySearchDropdown, ._LanguagesDropdown, ._MinEducationTypeDropdown, ._StudentStatusOptionDropdown, ._QuestionnaireDropdown').dropdown();
         initializeDatePicker();
         setInitialState();
         initializeCkEditor();

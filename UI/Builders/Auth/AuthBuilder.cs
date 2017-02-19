@@ -484,6 +484,7 @@ namespace UI.Builders.Auth
                     IsActive = m.IsActive ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
                     ThesisName = m.ThesisName,
                     ThesisTypeID = m.ThesisTypeID,
+                    QuestionnaireID = m.QuestionnaireID
                 });
 
             var thesis = await thesisQuery.FirstOrDefaultAsync();
@@ -498,6 +499,7 @@ namespace UI.Builders.Auth
             thesis.Currencies = await FormGetCurrenciesAsync();
             thesis.Categories = await FormGetInternshipCategoriesAsync();
             thesis.ThesisTypes = await FormGetThesisTypesAsync();
+            thesis.Questionnaires = await FormGetQuestionnairesAsync();
 
             return new AuthEditThesisView()
             {
@@ -520,6 +522,7 @@ namespace UI.Builders.Auth
                 Currencies = await FormGetCurrenciesAsync(),
                 ThesisTypes = await FormGetThesisTypesAsync(),
                 Categories = await FormGetInternshipCategoriesAsync(),
+                Questionnaires = await FormGetQuestionnairesAsync(),
                 IsActive = Helpers.InputHelper.ValueOfEnabledCheckboxStatic, // thesis is active by default
             };
 
@@ -543,6 +546,7 @@ namespace UI.Builders.Auth
             form.Categories = await FormGetInternshipCategoriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
             form.ThesisTypes = await FormGetThesisTypesAsync();
+            form.Questionnaires = await FormGetQuestionnairesAsync();
 
             return new AuthEditThesisView()
             {
@@ -563,6 +567,7 @@ namespace UI.Builders.Auth
             form.Categories = await FormGetInternshipCategoriesAsync();
             form.Currencies = await FormGetCurrenciesAsync();
             form.ThesisTypes = await FormGetThesisTypesAsync();
+            form.Questionnaires = await FormGetQuestionnairesAsync();
 
             return new AuthNewThesisView()
             {
@@ -617,7 +622,8 @@ namespace UI.Builders.Auth
                     MaxDurationTypeCodeName = m.MaxDurationType.CodeName,
                     Languages = m.Languages,
                     MinEducationTypeID = m.MinEducationTypeID,
-                    StudentStatusOptionID = m.StudentStatusOptionID
+                    StudentStatusOptionID = m.StudentStatusOptionID,
+                    QuestionnaireID = m.QuestionnaireID
                 });
 
             var internship = await internshipQuery.FirstOrDefaultAsync();
@@ -635,6 +641,7 @@ namespace UI.Builders.Auth
             internship.AmountTypes = await FormGetInternshipAmountTypesAsync();
             internship.DurationTypes = await FormGetInternshipDurationsAsync();
             internship.Countries = await FormGetCountriesAsync();
+            internship.Questionnaires = await FormGetQuestionnairesAsync();
             internship.Currencies = await FormGetCurrenciesAsync();
             internship.AllLanguages = await FormGetLanguagesAsync();
             internship.StudentStatusOptions = await FormGetAllStudentStatusOptionsAsync();
@@ -696,7 +703,8 @@ namespace UI.Builders.Auth
                 IsActive = Helpers.InputHelper.ValueOfEnabledCheckboxStatic, // IsActive is enabled by default
                 AllLanguages = await FormGetLanguagesAsync(),
                 StudentStatusOptions = await FormGetAllStudentStatusOptionsAsync(),
-                EducationTypes = await FormGetEducationTypesAsync()
+                EducationTypes = await FormGetEducationTypesAsync(),
+                Questionnaires = await FormGetQuestionnairesAsync(),
             };
 
             return new AuthNewInternshipView()
@@ -724,6 +732,7 @@ namespace UI.Builders.Auth
             form.AllLanguages = await FormGetLanguagesAsync();
             form.EducationTypes = await FormGetEducationTypesAsync();
             form.StudentStatusOptions = await FormGetAllStudentStatusOptionsAsync();
+            form.Questionnaires = await FormGetQuestionnairesAsync();
 
             return new AuthEditInternshipView()
             {
@@ -749,6 +758,7 @@ namespace UI.Builders.Auth
             form.AllLanguages = await FormGetLanguagesAsync();
             form.StudentStatusOptions = await FormGetAllStudentStatusOptionsAsync();
             form.EducationTypes = await FormGetEducationTypesAsync();
+            form.Questionnaires = await FormGetQuestionnairesAsync();
 
             return new AuthNewInternshipView()
             {
@@ -1307,7 +1317,8 @@ namespace UI.Builders.Auth
                     Languages = form.Languages,
                     MinEducationTypeID = form.MinEducationTypeID,
                     StudentStatusOptionID = form.StudentStatusOptionID,
-                    HideAmount = form.GetHideAmount()
+                    HideAmount = form.GetHideAmount(),
+                    QuestionnaireID = form.QuestionnaireID
                 };
 
                 await Services.InternshipService.InsertAsync(internship);
@@ -1385,7 +1396,8 @@ namespace UI.Builders.Auth
                     Languages = form.Languages,
                     MinEducationTypeID = form.MinEducationTypeID,
                     StudentStatusOptionID = form.StudentStatusOptionID,
-                    HideAmount = form.GetHideAmount()
+                    HideAmount = form.GetHideAmount(),
+                    QuestionnaireID = form.QuestionnaireID,
                 };
 
                 await Services.InternshipService.UpdateAsync(internship);
@@ -1649,6 +1661,17 @@ namespace UI.Builders.Auth
                 CountryCode = m.CountryCode,
                 CountryName = m.CountryName,
                 Icon = m.Icon
+            });
+        }
+
+        private async Task<IEnumerable<AuthQuestionnaireModel>> FormGetQuestionnairesAsync()
+        {
+            var countries = await Services.QuestionnaireService.GetAllCachedAsync();
+
+            return countries.Select(m => new AuthQuestionnaireModel()
+            {
+                ID = m.ID,
+                QuestionnaireName = m.QuestionnaireName,
             });
         }
 

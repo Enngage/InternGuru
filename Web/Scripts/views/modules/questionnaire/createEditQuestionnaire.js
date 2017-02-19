@@ -177,8 +177,10 @@
             }
 
             if (!editedQuestionElem) {
-                // set guid for new questions
-                question.Guid = coreModule.guid();
+                // set guid for new questions only
+                if (!question.Guid) {
+                    question.Guid = coreModule.guid();
+                }
             }
 
             // process data of active question

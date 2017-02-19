@@ -21,6 +21,16 @@ namespace Service.Services.Questionnaires
         string CorrectAnswer { get; set; }
 
         /// <summary>
+        /// Answer
+        /// </summary>
+        string Answer { get; set; }
+
+        /// <summary>
+        /// Guid of the question
+        /// </summary>
+        string Guid { get; set; }
+
+        /// <summary>
         /// Data of question
         /// </summary>
         IList<IQuestionData> Data { get; set; }

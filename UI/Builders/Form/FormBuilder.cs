@@ -13,6 +13,7 @@ using UI.Base;
 using UI.Builders.Form.Forms;
 using UI.Builders.Form.Models;
 using UI.Builders.Form.Views;
+using UI.Builders.Questionnaire;
 using UI.Builders.Services;
 using UI.Builders.Shared.Models;
 using UI.Exceptions;
@@ -22,9 +23,18 @@ namespace UI.Builders.Form
     public class FormBuilder : BaseBuilder
     {
 
+        #region Builders
+
+        private readonly QuestionnaireBuilder _questionnaireBuilder;
+
+        #endregion
+
         #region Constructor
 
-        public FormBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader) { }
+        public FormBuilder(ISystemContext systemContext, IServicesLoader servicesLoader, QuestionnaireBuilder questionnaireBuilder) : base(systemContext, servicesLoader)
+        {
+            _questionnaireBuilder = questionnaireBuilder;
+        }
 
         #endregion
 
@@ -44,6 +54,20 @@ namespace UI.Builders.Form
             {
                 return null;
             }
+
+            // load questionnaire if available
+            if (internship.QuestionnaireID != null)
+            {
+                if (form == null)
+                {
+                    defaultForm.QuestionsJson = await GetQuestionnaireJsonAsync(internship.QuestionnaireID ?? 0);
+                }
+                else
+                {
+                    defaultForm.QuestionsJson = await GetQuestionnaireJsonAsync(internship.QuestionnaireID ?? 0);
+                }
+            }
+
 
             return new FormInternshipView()
             {
@@ -288,9 +312,42 @@ namespace UI.Builders.Form
                     InternshipID = m.ID,
                     InternshipTitle = m.Title,
                     CompanyCodeName = m.Company.CodeName,
+                    QuestionnaireID = m.QuestionnaireID
                 });
 
             return await Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);
+        }
+
+        /// <summary>
+        /// Gets Json with questions for given questionnaire
+        /// </summary>
+        /// <param name="questionnaireID"></param>
+        /// <returns></returns>
+        private async Task<string> GetQuestionnaireJsonAsync(int questionnaireID)
+        {
+            var cacheSetup = Services.CacheService.GetSetup<string>(GetSource());
+            cacheSetup.ObjectID = questionnaireID;
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdate<Entity.Questionnaire>(questionnaireID),
+                EntityKeys.KeyDelete<Entity.Questionnaire>(questionnaireID),
+            };
+
+            var questionnaireQuery = Services.QuestionnaireService.GetSingle(questionnaireID)
+                .Select(m => m.QuestionnaireXml);
+
+            var questionnaireXml = await Services.CacheService.GetOrSetAsync(async () => await questionnaireQuery.FirstOrDefaultAsync(), cacheSetup);
+
+            if (questionnaireXml == null)
+            {
+                // questionnaire was not found
+                return null;
+            }
+
+            var questions = Services.QuestionnaireService.GetQuestionsFromXml(questionnaireXml);
+
+            // get json
+            return _questionnaireBuilder.GetInitialStateJson(questions.ToList());
         }
 
         /// <summary>

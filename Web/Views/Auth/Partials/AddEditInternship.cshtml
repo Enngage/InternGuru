@@ -77,6 +77,29 @@
                     </div>
                 </div>
 
+                <div class="field">
+                    <label>Připojený dotazník</label>
+                    @Helpers.MessageHelper.RenderTipMessage($"Dotazníky se zobrazí zájemcům při odpovídání na nabídku. Dotazníky lze využít pro získání bližších informací o zájemcích nebo i pro otestování jejich znalostí. <a href=\"{Url.Action("NewQuestionnaire", "Auth")}\">Vytvořit dotazník</a>")
+                    <div class="ui fluid search selection dropdown _QuestionnaireDropdown">
+                        <input type="hidden" name="QuestionnaireID" value="@Model.QuestionnaireID">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Dotazník</div>
+                        <div class="menu">
+                            @foreach (var questionnaire in Model.Questionnaires)
+                            {
+                                if (questionnaire.ID.Equals(Model?.QuestionnaireID))
+                                {
+                                    <div class="item active" data-value="@questionnaire.ID">@questionnaire.QuestionnaireName</div>
+                                }
+                                else
+                                {
+                                    <div class="item" data-value="@questionnaire.ID">@questionnaire.QuestionnaireName</div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
                 <div class="field required">
                     <label>Název pozice</label>
                     <input name="Title" placeholder="" type="text" value="@Model.Title">

@@ -41,6 +41,7 @@ namespace Entity
         [Required]
         public bool HideAmount { get; set; }
         public DateTime? ActiveSince { get; set; }
+        public int? QuestionnaireID { get; set; }
 
         #region Virtual
 
@@ -56,6 +57,8 @@ namespace Entity
         public Company Company { get; set; }
         [ForeignKey("ThesisTypeID")]
         public ThesisType ThesisType { get; set; }
+        [ForeignKey("QuestionnaireID")]
+        public Questionnaire Questionnaire { get; set; }
 
         #endregion
 

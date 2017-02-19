@@ -11,6 +11,7 @@ namespace UI.Builders.Form.Models
         public string CompanyCodeName { get; set; }
         public int InternshipID { get; set; }
         public string InternshipTitle { get; set; }
+        public int? QuestionnaireID { get; set; }
 
     }
 }

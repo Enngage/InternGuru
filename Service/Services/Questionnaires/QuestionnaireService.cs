@@ -13,6 +13,7 @@ namespace Service.Services.Questionnaires
         private const string QuestionXmlRootElement = "Questions";
         private const string QuestionXmlElement = "Question";
         private const string QuestionTextXmlElement = "Text";
+        private const string QuestionGuidElement = "Guid";
         private const string QuestionTypeXmlElement = "Type";
         private const string QuestionDataXmlElement = "Data";
 
@@ -110,6 +111,7 @@ namespace Service.Services.Questionnaires
                 {
                     QuestionText = questionElement[QuestionTextXmlElement]?.InnerText,
                     QuestionType = questionElement[QuestionTypeXmlElement]?.InnerText,
+                    Guid = questionElement[QuestionGuidElement]?.InnerText,
                 };
 
                 var dataNodes = questionElement[QuestionDataXmlElement]?.ChildNodes;
@@ -152,6 +154,9 @@ namespace Service.Services.Questionnaires
 
                 // set type
                 questionElement.AppendChild(doc.CreateElement(QuestionTypeXmlElement)).InnerText = question.QuestionType;
+
+                // set guid
+                questionElement.AppendChild(doc.CreateElement(QuestionGuidElement)).InnerText = question.Guid;
 
                 // set text of question
                 questionElement.AppendChild(doc.CreateElement(QuestionTextXmlElement)).InnerText = question.QuestionText;
