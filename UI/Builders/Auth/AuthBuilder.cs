@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Web;
 using Core.Config;
@@ -69,6 +70,38 @@ namespace UI.Builders.Auth
         #endregion
 
         #region Questionnaire
+
+        public async Task<AuthQuestionnaireSubmissionsView> BuildQuestionnaireSubmissionsViewAsync(int questionnaireID, int? page)
+        {
+            var authMaster = await GetAuthMasterModelAsync();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+            return new AuthQuestionnaireSubmissionsView()
+            {
+                AuthMaster = authMaster,
+                SubmissionsPaged = await GetQuestionnaireSubmissionsAsync(questionnaireID, page)
+            };
+        }
+
+        public async Task<AuthSubmissionView> BuildQuestionnaireSubmissionViewAsync(int questionnaireID, int submissionID)
+        {
+            var authMaster = await GetAuthMasterModelAsync();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+            return new AuthSubmissionView()
+            {
+                AuthMaster = authMaster,
+                Submission = await GetQuestionnaireSubmissionAsync(questionnaireID, submissionID)
+            };
+        }
 
         public async Task<AuthIndexView> BuildQuestionnairesViewAsync(int? page)
         {
@@ -854,7 +887,8 @@ namespace UI.Builders.Auth
                     IsPaid = form.GetIsPaid(),
                     ThesisTypeID = form.ThesisTypeID,
                     ThesisName = form.ThesisName,
-                    HideAmount = form.GetHideAmount()
+                    HideAmount = form.GetHideAmount(),
+                    QuestionnaireID = form.QuestionnaireID
                 };
 
                 await Services.ThesisService.InsertAsync(thesis);
@@ -905,7 +939,8 @@ namespace UI.Builders.Auth
                     IsPaid = form.GetIsPaid(),
                     ThesisTypeID = form.ThesisTypeID,
                     ThesisName = form.ThesisName,
-                    HideAmount = form.GetHideAmount()
+                    HideAmount = form.GetHideAmount(),
+                    QuestionnaireID = form.QuestionnaireID
                 };
 
                 await Services.ThesisService.UpdateAsync(thesis);
@@ -1881,6 +1916,95 @@ namespace UI.Builders.Auth
             }
 
             return conversationList;
+        }
+
+        private async Task<bool> UserHasAccessToQuestionnaireAsync(int questionnaireID)
+        {
+            return (await FormGetQuestionnairesAsync()).First(m => m.ID == questionnaireID) != null;
+        }
+
+        /// <summary>
+        /// Gets form submissions of given questionnaire
+        /// </summary>
+        /// <returns>Collection of form submissions</returns>
+        private async Task<IPagedList<AuthQuestionnaireSubmissionModel>> GetQuestionnaireSubmissionsAsync(int questionnaireID, int? page)
+        {
+            if (!await UserHasAccessToQuestionnaireAsync(questionnaireID))
+            {
+                return null;
+            }
+
+            var pageSize = 10;
+            var pageNumber = (page ?? 1);
+
+            var submissionsQuery = Services.QuestionnaireSubmissionService.GetAll()
+                     .Where(m => m.QuestionnaireID == questionnaireID)
+                     .Select(m => new AuthQuestionnaireSubmissionModel()
+                     {
+                         ID = m.ID,
+                         Created = m.Created,
+                         CreatedByApplicationUserName = m.CreatedByApplicationUser.UserName,
+                         CreatedByApplicationUserId = m.CreatedByApplicationUserId,
+                         CreatedByFirstName = m.CreatedByApplicationUser.FirstName,
+                         CreatedByLastName = m.CreatedByApplicationUser.LastName,
+                         CreatedByNickname = m.CreatedByApplicationUser.Nickname,
+                         QuestionnaireID = m.QuestionnaireID,
+                         QuestionnaireName = m.Questionnaire.QuestionnaireName
+                     })
+                     .OrderByDescending(m => m.ID);
+
+            var cacheSetup = Services.CacheService.GetSetup<AuthQuestionnaireSubmissionModel>(GetSource());
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyCreateAny<Entity.QuestionnaireSubmission>(),
+                EntityKeys.KeyDeleteAny<Entity.QuestionnaireSubmission>()
+            };
+
+            cacheSetup.ObjectID = questionnaireID;
+            cacheSetup.PageNumber = pageNumber;
+            cacheSetup.PageSize = pageSize;
+
+            return await Services.CacheService.GetOrSet(async () => await submissionsQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+        }
+
+        private async Task<AuthQuestionnaireSubmissionModel> GetQuestionnaireSubmissionAsync(int questionnaireID, int submissionID)
+        {
+            if (!await UserHasAccessToQuestionnaireAsync(questionnaireID))
+            {
+                return null;
+            }
+
+            var submissionQuery = Services.QuestionnaireSubmissionService.GetSingle(submissionID)
+                .Where(m => m.QuestionnaireID == questionnaireID)
+                .Select(m => new AuthQuestionnaireSubmissionModel()
+                {
+                    ID = m.ID,
+                    Created = m.Created,
+                    CreatedByApplicationUserName = m.CreatedByApplicationUser.UserName,
+                    CreatedByApplicationUserId = m.CreatedByApplicationUserId,
+                    CreatedByFirstName = m.CreatedByApplicationUser.FirstName,
+                    CreatedByLastName = m.CreatedByApplicationUser.LastName,
+                    CreatedByNickname = m.CreatedByApplicationUser.Nickname,
+                    QuestionnaireName = m.Questionnaire.QuestionnaireName,
+                    QuestionnaireID = m.QuestionnaireID,
+                    SubmissionXml = m.SubmissionXml
+                });
+
+            var cacheSetup = Services.CacheService.GetSetup<AuthQuestionnaireSubmissionModel>(GetSource());
+            cacheSetup.Dependencies = new List<string>();
+
+            cacheSetup.ObjectID = submissionID;
+
+            var submission = await Services.CacheService.GetOrSet(async () => await submissionQuery.FirstOrDefaultAsync(), cacheSetup);
+
+            if (submission == null)
+            {
+                return null;
+            }
+
+            submission.Questions = Services.QuestionnaireSubmissionService.GetSubmitsFromXml(submission.SubmissionXml);
+
+            return submission;
         }
 
         /// <summary>

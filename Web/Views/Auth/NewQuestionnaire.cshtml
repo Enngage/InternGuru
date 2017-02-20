@@ -9,5 +9,19 @@
     Nový dotazník
 </h1>
 
-@Html.Partial("~/Views/Modules/Questionnaire/CreateEditQuestionnaire.cshtml", Model.QuestionnaireForm)
+@if (Model.Master.CurrentCompany.IsAvailable)
+{
+   @Html.Partial("~/Views/Modules/Questionnaire/CreateEditQuestionnaire.cshtml", Model.QuestionnaireForm)
+}
+else
+{
+    @Helpers.MessageHelper.RenderWarningMessage("Dotazníky lze vytvořit pouze po zaregistrování firmy")
+
+    <a href="@Url.Action("RegisterCompany")">
+        <div class="ui large button primary">
+            Registrovat firmu
+        </div>
+    </a>
+}
+
 

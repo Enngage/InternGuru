@@ -31,6 +31,7 @@ namespace Service.Context
         IDbSet<Email> Emails { get; }
         IDbSet<Questionnaire> Questionnaires { get; }
         IDbSet<EducationType> EducationTypes { get; }
+        IDbSet<QuestionnaireSubmission> QuestionnaireSubmissions { get; }
 
         #endregion
 

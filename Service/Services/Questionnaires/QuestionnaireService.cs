@@ -16,6 +16,7 @@ namespace Service.Services.Questionnaires
         private const string QuestionGuidElement = "Guid";
         private const string QuestionTypeXmlElement = "Type";
         private const string QuestionDataXmlElement = "Data";
+        private const string QuestionCorrectAnswerXmlElement = "CorrectAnswer";
 
         public QuestionnaireService(IServiceDependencies serviceDependencies) : base(serviceDependencies)
         {
@@ -112,6 +113,7 @@ namespace Service.Services.Questionnaires
                     QuestionText = questionElement[QuestionTextXmlElement]?.InnerText,
                     QuestionType = questionElement[QuestionTypeXmlElement]?.InnerText,
                     Guid = questionElement[QuestionGuidElement]?.InnerText,
+                    CorrectAnswer = questionElement[QuestionCorrectAnswerXmlElement]?.InnerText,
                 };
 
                 var dataNodes = questionElement[QuestionDataXmlElement]?.ChildNodes;
@@ -160,6 +162,9 @@ namespace Service.Services.Questionnaires
 
                 // set text of question
                 questionElement.AppendChild(doc.CreateElement(QuestionTextXmlElement)).InnerText = question.QuestionText;
+
+                // set correct answer 
+                questionElement.AppendChild(doc.CreateElement(QuestionCorrectAnswerXmlElement)).InnerText = question.CorrectAnswer;
 
                 // set data main element
                 var dataElem = questionElement.AppendChild(doc.CreateElement(QuestionDataXmlElement));

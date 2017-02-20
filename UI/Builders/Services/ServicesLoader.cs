@@ -43,6 +43,7 @@ namespace UI.Builders.Services
         public IEmailService EmailService { get; }
         public IQuestionnaireService QuestionnaireService { get; }
         public IEducationTypeService EducationTypeService { get; }
+        public IQuestionnaireSubmissionService QuestionnaireSubmissionService { get; }
 
         public ServicesLoader(
                 ICacheService cacheService,
@@ -69,7 +70,8 @@ namespace UI.Builders.Services
                 IActivityService activityService,
                 IEmailService emailService,
                 IQuestionnaireService questionareService,
-                EducationTypeTypeService educationTypeService
+                EducationTypeTypeService educationTypeService,
+                IQuestionnaireSubmissionService questionnaireSubmissionService
         )
         {
             CacheService = cacheService;
@@ -97,6 +99,7 @@ namespace UI.Builders.Services
             EmailService = emailService;
             QuestionnaireService = questionareService;
             EducationTypeService = educationTypeService;
+            QuestionnaireSubmissionService = questionnaireSubmissionService;
         }
     }
 }

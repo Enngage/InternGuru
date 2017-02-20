@@ -29,6 +29,7 @@ namespace Service.Context
         public IDbSet<Email> Emails { get; set; }
         public IDbSet<Questionnaire> Questionnaires { get; set; }
         public IDbSet<EducationType> EducationTypes { get; set; }
+        public IDbSet<QuestionnaireSubmission> QuestionnaireSubmissions { get; set; }
 
         #endregion
 
@@ -163,6 +164,24 @@ namespace Service.Context
                 .HasForeignKey(p => p.UpdatedByApplicationUserId)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<QuestionnaireSubmission>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+
+            modelBuilder.Entity<QuestionnaireSubmission>()
+                .HasRequired(p => p.UpdatedByApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedByApplicationUserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<QuestionnaireSubmission>()
+               .HasRequired(p => p.Questionnaire)
+               .WithMany()
+               .HasForeignKey(p => p.QuestionnaireID)
+               .WillCascadeOnDelete(false);
             // end cascade delete
         }
     }

@@ -68,6 +68,10 @@
                                     <div class="ui small label">@Model.AuthMaster.Theses.Count()</div>
                                     Závěrečné práce
                                 </a>
+                                <a class="item @questionnaireClass" href="@Url.Action("Questionnaires", "Auth")">
+                                    <div class="ui small label">@Model.AuthMaster.Questionnaires.Count()</div>
+                                    Dotazníky
+                                </a>
                             </div>
                         </div>
                         <div class="item">
@@ -88,10 +92,7 @@
                                 else
                                 {
                                     <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany", "Auth")">Registrovat firmu</a>
-                                }
-                                <a class="item @questionnaireClass" href="@Url.Action("Questionnaires", "Auth")">
-                                    Dotazníky
-                                </a>
+                                }                             
                             </div>
                         </div>
                         <div class="item">
@@ -184,6 +185,10 @@
                                     <div class="ui small label">@Model.AuthMaster.Theses.Count()</div>
                                     Závěrečné práce
                                 </a>
+                                <a class="item @questionnaireClass" href="@Url.Action("Questionnaires", "Auth")">
+                                    <div class="ui small label">@Model.AuthMaster.Questionnaires.Count()</div>
+                                    Dotazníky
+                                </a>
                             </div>
                         </div>
                         <div class="item">
@@ -248,163 +253,3 @@
         }
     </div>
 </div>
-
-
-@*@foreach (var enabledTab in Model.Tabs.GetOrderedActiveTabs())
-    {
-        if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.Profile)
-        {
-            <div class="ui segment padded w-body-text-center">
-                <h3>
-                    @if (string.IsNullOrEmpty(Model.Master.CurrentUser.FirstName))
-                    {
-                        <span>Profil</span>
-                    }
-                    else
-                    {
-                        <span>@Model.Master.CurrentUser.FirstName</span>
-                    }
-                </h3>
-                <a href="@Url.Action("Index", "Auth")">
-                    <img alt="avatar" class="ui tiny image w-image-center" data-src="@ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" src="@ImageHelper.GetTransparentImage()">
-                </a>
-
-                <div class="w-font-size-small w-margin-top-10">
-
-                    <p>
-                        <a href="@Url.Action("EditProfile", "Auth")">Upravit</a>
-                    </p>
-                    <p>
-                        <a href="@Url.Action("Avatar", "Auth")">Avatar</a>
-                    </p>
-                </div>
-            </div>
-        }
-        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.Company)
-        {
-            <div class="ui segment padded w-body-text-center">
-                <h3>
-                    Firma
-                </h3>
-                <a href="@Url.Action("EditCompany", "Auth")">
-                    <img alt="company" class="ui tiny image w-image-center" data-src="@ImageHelper.GetCompanyLogo(Model.Master.CurrentCompany.CompanyGuid)" src="@ImageHelper.GetTransparentImage()">
-                </a>
-
-                <div class="w-font-size-small w-margin-top-10">
-
-                    <p>
-                        <a href="@Url.Action("EditCompany", "Auth")">Upravit</a>
-                    </p>
-                    <p>
-                        <a href="@Url.Action("CompanyGallery", "Auth")">Galerie</a>
-                    </p>
-                </div>
-            </div>
-        }
-        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.Buttons)
-        {
-            <div>
-                <a class="ui button fluid" href="@Url.Action("NewInternship", "Auth")">
-                    Inzerovat novou stáž
-                </a>
-
-                <a class="ui button fluid w-margin-top-10" href="@Url.Action("NewThesis", "Auth")">
-                    Zadat závěrečnou práci
-                </a>
-
-                @if (!Model.Master.CurrentCompany.IsAvailable)
-                {
-                    <a class="ui button fluid w-margin-top-10" href="@Url.Action("RegisterCompany", "Auth")">
-                        Přidat firmu
-                    </a>
-                }
-            </div>
-        }
-        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.MyInternships)
-        {
-            if (Model.AuthMaster.Internships.Any())
-            {
-                <div>
-                    <table class="ui very basic table">
-                        <tbody>
-                        @foreach (var internship in Model.AuthMaster.Internships.Take(10).OrderByDescending(m => m.Created))
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("EditInternship", new {id = internship.ID})">
-                                        @internship.Title
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        }
-        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.MyTheses)
-        {
-            if (Model.AuthMaster.Internships.Any())
-            {
-                <div>
-                    <table class="ui very basic table">
-                        <tbody>
-                        @foreach (var thesis in Model.AuthMaster.Theses.Take(10).OrderByDescending(m => m.Created))
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("EditThesis", new {id = thesis.ID})">
-                                        @thesis.ThesisName
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        }
-        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.RecentConversations)
-        {
-
-            if (Model.AuthMaster.Conversations.Any())
-            {
-                <div>
-                    <table class="ui very basic table">
-                        <tbody>
-                        @foreach (var conversation in Model.AuthMaster.Conversations.Take(10).OrderByDescending(m => m.Created))
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("Conversation", new {id = conversation.ConversationID})">
-                                        @conversation.WithApplicationUserName
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        }
-        else if (enabledTab.Tab == Helpers.Builders.Auth.Enum.AuthTabEnum.Admin)
-        {
-            <div class="ui segment padded w-body-text-center">
-                <h3>
-                    Admin
-                </h3>
-                <div class="w-font-size-small w-margin-top-10">
-                    <p>
-                        <a href="@Url.Action("EventLog", "System")">
-                            Event log
-                            @if (Model.Master.StatusBox.NewEventLogCount > 0)
-                            {
-                                <span>| <span class="w-font-negative">@Model.Master.StatusBox.NewEventLogCount</span></span>
-                            }
-                        </a>
-                    </p>
-                </div>
-            </div>
-        }
-    }*@
-

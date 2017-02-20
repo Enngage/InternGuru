@@ -171,9 +171,12 @@
     <Compile Include="Builders\Auth\Models\AuthInternshipEducationTypeModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipStudentStatusOptionModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthInternshipLanguageModel.cs" />
+    <Compile Include="Builders\Auth\Models\AuthQuestionnaireSubmissionModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthTab.cs" />
     <Compile Include="Builders\Auth\Models\AuthTabs.cs" />
     <Compile Include="Builders\Auth\Models\AuthMasterModel.cs" />
+    <Compile Include="Builders\Auth\Views\AuthSubmissionView.cs" />
+    <Compile Include="Builders\Auth\Views\AuthQuestionnaireSubmissionsView.cs" />
     <Compile Include="Builders\Auth\Views\AuthNewQuestionnaireView.cs" />
     <Compile Include="Builders\Auth\Views\AuthEditQuestionnaireView.cs" />
     <Compile Include="Builders\Auth\Views\AuthCompanyGalleryView.cs" />

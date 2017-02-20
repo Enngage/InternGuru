@@ -1,0 +1,54 @@
+﻿@using Core.Helpers;
+@model UI.Builders.Auth.Views.AuthQuestionnaireSubmissionsView
+
+@{
+    Model.Metadata.BasicMetadata.Title = "Přijaté dotazníky";
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
+}
+
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+        <div class="ui segment">
+            
+                @if (!Model.SubmissionsPaged.Any())
+                {
+                    @Helpers.MessageHelper.RenderInfoMessage("Dotazník dosud nebyl vyplněn")
+                }
+                else
+                {
+                    <table class="ui very basic table">
+                        <thead>
+                            <tr>
+                                <th class="collapsing">
+                                    Akce
+                                </th>
+                                <th>
+                                    Autor
+                                </th>
+                                <th class="collapsing">
+                                    Datum vyplnění
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var submission in Model.SubmissionsPaged)
+                            {
+                                <tr>
+                                    <td class="collapsing w-body-text-center w-mobile-left">
+                                        @Helpers.ActionHelper.RenderViewButton("ViewSubmission", "Auth", new { id = submission.QuestionnaireID, submissionid = submission.ID }, false)
+                                    </td>
+                                    <td>
+                                        @Helpers.UserHelper.GetDisplayName(submission.CreatedByFirstName, submission.CreatedByLastName, submission.CreatedByNickname, submission.CreatedByApplicationUserName)
+                                    </td>
+                                    <td class="w-mobile-left w-tablet-hide w-font-size-small">
+                                        <i title="Vytvořeno" class="calendar icon"></i>
+                                        @DateHelper.FormatDate(submission.Created)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+        </div>
+    </div>
+</div>

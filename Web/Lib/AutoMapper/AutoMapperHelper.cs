@@ -35,6 +35,7 @@ namespace Web.Lib.AutoMapper
                 cfg.CreateMap<ThesisType, ThesisType>();
                 cfg.CreateMap<Questionnaire, Questionnaire>();
                 cfg.CreateMap<EducationType, EducationType>();
+                cfg.CreateMap<QuestionnaireSubmission, QuestionnaireSubmission>();
             });
 
             return new Mapper(config);

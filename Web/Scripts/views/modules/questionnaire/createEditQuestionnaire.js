@@ -240,8 +240,6 @@
             // get page type's template
             var designerTemplate = $(loadDesignerTemplate(question.QuestionType));
 
-            var correctAnswerElem = baseTemplate.find("._QuestionCorrectAnswer");
-
             // set input text data fields
             designerTemplate.find("._TextData").each(function (i) {
                 // get data name
@@ -261,7 +259,7 @@
                 $(this).text(value);
 
                 // set correct answer
-                correctAnswerElem.val(value);
+                question.CorrectAnswer = value;
             });
 
             // set radio data fields
@@ -281,14 +279,13 @@
 
                     // get value of the correct answer
                     var sourceValue = $(this).data("valuesource");
-
                     if (!sourceValue) {
                         console.log("Cannot set correct answer for Radio button: '" + dataName + "'");
                         return;
                     }
 
                     // set question's correct answer
-                    correctAnswerElem.val(question[sourceValue]);
+                    question.CorrectAnswer = question[sourceValue];
                 }
             });
 
@@ -322,6 +319,14 @@
             var questionTextName = "QuestionText_" + question.Guid;
             questionTextElem.attr("name", questionTextName);
             questionTextElem.val(question.QuestionText);
+
+            // set question correct answer
+            var questionCorrectAnswerElem = baseTemplate.find("._QuestionCorrectAnswer");
+
+            var questionAnswerName = "QuestionCorrectAnswer_" + question.Guid;
+            questionCorrectAnswerElem.attr("name", questionAnswerName);
+            questionCorrectAnswerElem.val(question.CorrectAnswer);
+            console.log(question.CorrectAnswer + " CORRECT");
 
             // insert preview template into base template
             baseTemplate.find("._QuestionTypeTemplate").html(designerTemplate.html());

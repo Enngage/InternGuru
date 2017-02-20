@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Entity;
 using Service.Events;
+using Service.Exceptions;
 using Service.Models;
 
 namespace Service.Services.Messages
@@ -34,21 +35,13 @@ namespace Service.Services.Messages
             return await SaveChangesAsync();
         }
 
-        public override ValidationResult ValidateObject(SaveEventType eventType, Message newObj, Message oldObj = null)
+        public override void ValidateObject(SaveEventType eventType, Message newObj, Message oldObj = null)
         {
             // do not let users send messages to themselves
             if (newObj.SenderApplicationUserId.Equals(newObj.RecipientApplicationUserId, StringComparison.OrdinalIgnoreCase))
             {
-                return new ValidationResult()
-                {
-                    ErrorMessage = "Recipient has to be different then sender",
-                    IsValid = false
-                };
+               throw new InvalidRecipientException("Recipient cannot be the same as sender");
             }
-            return new ValidationResult()
-            {
-                IsValid = true
-            };
         }
 
         public override IDbSet<Message> GetEntitySet()

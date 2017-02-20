@@ -76,21 +76,14 @@
     <Compile Include="Exceptions\CodeNameNotUniqueException.cs" />
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />
+    <Compile Include="Exceptions\InvalidRecipientException.cs" />
     <Compile Include="Exceptions\SaveException.cs" />
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\201702181445386_HideAmountForThesis.cs" />
-    <Compile Include="Migrations\201702181445386_HideAmountForThesis.Designer.cs">
-      <DependentUpon>201702181445386_HideAmountForThesis.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702181505084_InternshipHideAmount.cs" />
-    <Compile Include="Migrations\201702181505084_InternshipHideAmount.Designer.cs">
-      <DependentUpon>201702181505084_InternshipHideAmount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702191116542_QuestionnaireInThesisAndInternship.cs" />
-    <Compile Include="Migrations\201702191116542_QuestionnaireInThesisAndInternship.Designer.cs">
-      <DependentUpon>201702191116542_QuestionnaireInThesisAndInternship.cs</DependentUpon>
+    <Compile Include="Migrations\201702201040434_QuestionnaireForm.cs" />
+    <Compile Include="Migrations\201702201040434_QuestionnaireForm.Designer.cs">
+      <DependentUpon>201702201040434_QuestionnaireForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,13 +132,18 @@
     <Compile Include="Services\Messages\MessageService.cs" />
     <Compile Include="Services\Questionnaires\IQuestion.cs" />
     <Compile Include="Services\Questionnaires\IQuestionData.cs" />
+    <Compile Include="Services\Questionnaires\IQuestionnaireSubmissionService.cs" />
     <Compile Include="Services\Questionnaires\IQuestionnaireService.cs" />
+    <Compile Include="Services\Questionnaires\IQuestionSubmit.cs" />
     <Compile Include="Services\Questionnaires\IQuestionType.cs" />
     <Compile Include="Services\Questionnaires\Question.cs" />
+    <Compile Include="Services\Questionnaires\QuestionAnswerResultEnum.cs" />
+    <Compile Include="Services\Questionnaires\QuestionnaireSubmissionService.cs" />
     <Compile Include="Services\Questionnaires\QuestionnaireService.cs" />
     <Compile Include="Services\Questionnaires\QuestionData.cs" />
     <Compile Include="Models\ServiceDependencies.cs" />
     <Compile Include="Extensions\QueryableExtensions.cs" />
+    <Compile Include="Services\Questionnaires\QuestionSubmit.cs" />
     <Compile Include="Services\Thesis\Enums\ThesisTypeEnum.cs" />
     <Compile Include="Services\Thesis\IThesisTypeService.cs" />
     <Compile Include="Services\Thesis\ThesisTypeService.cs" />
@@ -176,14 +174,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702181445386_HideAmountForThesis.resx">
-      <DependentUpon>201702181445386_HideAmountForThesis.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702181505084_InternshipHideAmount.resx">
-      <DependentUpon>201702181505084_InternshipHideAmount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702191116542_QuestionnaireInThesisAndInternship.resx">
-      <DependentUpon>201702191116542_QuestionnaireInThesisAndInternship.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702201040434_QuestionnaireForm.resx">
+      <DependentUpon>201702201040434_QuestionnaireForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

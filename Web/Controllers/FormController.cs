@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Service.Context;
+﻿using Service.Context;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Service.Services.Questionnaires;
 using UI.Base;
 using UI.Builders.Form;
 using UI.Builders.Form.Forms;
 using UI.Builders.Master;
+using UI.Builders.Questionnaire;
 using UI.Events;
 using UI.Exceptions;
 
@@ -18,10 +15,12 @@ namespace Web.Controllers
     public class FormController : BaseController
     {
         readonly FormBuilder _formBuilder;
+        private readonly QuestionnaireBuilder _questionnaireBuilder;
 
-        public FormController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, FormBuilder formBuilder) : base(appContext, serviceEvents, masterBuilder)
+        public FormController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, FormBuilder formBuilder, QuestionnaireBuilder questionnaireBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
             _formBuilder = formBuilder;
+            _questionnaireBuilder = questionnaireBuilder;
         }
 
         #region Actions
@@ -79,27 +78,45 @@ namespace Web.Controllers
                 return View(model);
             }
 
-            try
+            using (var transaction = AppContext.BeginTransaction())
             {
-                // get questionnaire data
-                GetQuestionnaireQuestionsFromRequest(form.FieldGuids);
+                try
+                {
+                    var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID);
 
-                await _formBuilder.SaveInternshipForm(form);
+                    if (model == null)
+                    {
+                        return HttpNotFound();
+                    }
 
-                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID);
+                    if (model.Internship.QuestionnaireID == null)
+                    {
+                        return HttpNotFound();
+                    }
 
-                // set form status
-                model.InternshipForm.FormResult.IsSuccess = true;
+                    // get submitted questions
+                    await _questionnaireBuilder.SubmitQuestionnaireFormAsync((int) model.Internship.QuestionnaireID, form.FieldGuids, Request);
 
-                return View(model);
-            }
-            catch (UiException ex)
-            {
-                ModelStateWrapper.AddError(ex.Message);
+                    await _formBuilder.SaveInternshipForm(form);
 
-                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
+                    // set form status
+                    model.InternshipForm.FormResult.IsSuccess = true;
 
-                return View(model);
+                    // commit transaction
+                    transaction.Commit();
+
+                    return View(model);
+                }
+                catch (UiException ex)
+                {
+                    transaction.Rollback();
+
+                    ModelStateWrapper.AddError(ex.Message);
+
+                    var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
+
+                    return View(model);
+                }
             }
         }
 
@@ -116,24 +133,35 @@ namespace Web.Controllers
                 return View(model);
             }
 
-            try
+            using (var transaction = AppContext.BeginTransaction())
             {
-                await _formBuilder.SaveThesisForm(form);
+                try
+                {
+                    var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
 
-                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID);
+                    // get submitted questions
+                    await _questionnaireBuilder.SubmitQuestionnaireFormAsync((int)model.Thesis.QuestionnaireID, form.FieldGuids, Request);
 
-                // set form status
-                model.ThesisForm.FormResult.IsSuccess = true;
+                    await _formBuilder.SaveThesisForm(form);
 
-                return View(model);
-            }
-            catch (UiException ex)
-            {
-                ModelStateWrapper.AddError(ex.Message);
+                    // set form status
+                    model.ThesisForm.FormResult.IsSuccess = true;
 
-                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
+                    // commit transaction
+                    transaction.Commit();
 
-                return View(model);
+                    return View(model);
+                }
+                catch (UiException ex)
+                {
+                    transaction.Rollback();
+
+                    ModelStateWrapper.AddError(ex.Message);
+
+                    var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
+
+                    return View(model);
+                }
             }
         }
 
@@ -141,55 +169,7 @@ namespace Web.Controllers
 
         #region Helper methods
 
-        private IList<IQuestion> GetQuestionnaireQuestionsFromRequest(IList<string> fieldGuids)
-        {
-            // use specific form field names generated by JS
-            var questionDataPrefix = "Data_";
-            var fieldDataSeparator = '_';
 
-            var questions = new List<IQuestion>();
-
-            if (fieldGuids == null)
-            {
-                return new List<IQuestion>();
-            }
-
-            foreach (var questionGuid in fieldGuids)
-            {
-                // get question specific data from submitted form data
-                var dataPrefix = questionDataPrefix + questionGuid;
-
-                var questionData = new List<IQuestionData>();
-
-                // get questions data
-                foreach (var key in Request.Form.AllKeys.Where(m => m.StartsWith(dataPrefix, StringComparison.OrdinalIgnoreCase)))
-                {
-                    if (string.IsNullOrEmpty(key))
-                    {
-                        continue;
-                    }
-
-                    var keyValues = key.Split(fieldDataSeparator);
-
-                    if (keyValues.Length != 3)
-                    {
-                        // invalid number of params
-                        continue;
-                    }
-
-                    var dataName = keyValues[2];
-                    var value = Request.Form[key];
-                }
-
-                // add question
-                questions.Add(new Question()
-                {
-                    Data = questionData,
-                });
-            }
-
-            return questions;
-        }
 
         #endregion
     }

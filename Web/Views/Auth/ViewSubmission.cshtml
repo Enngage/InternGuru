@@ -1,0 +1,42 @@
+﻿@using Service.Services.Questionnaires
+@model UI.Builders.Auth.Views.AuthSubmissionView
+@{
+    var displayUserName = Helpers.UserHelper.GetDisplayName(Model.Submission.CreatedByFirstName, Model.Submission.CreatedByLastName, Model.Submission.CreatedByNickname, Model.Submission.CreatedByApplicationUserName);
+    Model.Metadata.BasicMetadata.Title = "Dotazník | " + displayUserName;
+    Layout = "~/Views/Auth/AuthMaster.cshtml";
+}
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+        <div class="ui segment">
+            <h1>
+                @Model.Submission.QuestionnaireName
+            </h1>
+            <h3>@displayUserName</h3>
+        </div>
+
+        @foreach (var question in Model.Submission.Questions)
+            {
+
+            <div class="ui segment">
+                <div class="ui form">
+                    <div class="field">
+                        <label>@question.QuestionText</label>
+                    </div>
+                    <div class="field">
+                        <label>Odpověď:</label>
+                        <p>
+                            @question.Answer
+                        </p>
+                    </div>
+                    @if (question.Result != QuestionAnswerResultEnum.NotATestQuestion)
+                    {
+                        <div class="field">
+                            <label>Správná odpověď:</label>
+                            <p>@question.CorrectAnswer</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

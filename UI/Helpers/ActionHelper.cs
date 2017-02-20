@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using UI.Base;
@@ -31,8 +32,14 @@ namespace UI.Helpers
 
         public IHtmlString RenderViewButton(string actionName, string controllerName, object routeValues)
         {
+            return RenderViewButton(actionName, controllerName, routeValues, true);
+        }
+
+        public IHtmlString RenderViewButton(string actionName, string controllerName, object routeValues, bool openInNewWindow)
+        {
             var sb = new StringBuilder();
-            sb.AppendLine($"<a href=\"{WebViewPage.Url.Action(actionName, controllerName, routeValues)}\" target=\"_blank\">");
+            var target = openInNewWindow ? "target=\"_blank\"" : string.Empty;
+            sb.AppendLine($"<a href=\"{WebViewPage.Url.Action(actionName, controllerName, routeValues)}\" {target}>");
             sb.AppendLine("<i title=\"Zobrazit\" class=\"unhide icon black\"></i>");
             sb.AppendLine("</a>");
 

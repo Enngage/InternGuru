@@ -14,5 +14,6 @@ namespace UI.Builders.Form.Models
         public string ThesisCodeName { get; set; }
         public string ThesisTypeName { get; set; }
         public string ThesisTypeNameConverted { get; set; }
+        public int? QuestionnaireID { get; set; }
     }
 }

@@ -144,6 +144,7 @@ namespace Web.Lib.Ninject
             kernel.Bind<IEmailService>().To<EmailService>().InRequestScope();
             kernel.Bind<IEventsLoader>().To<EventsLoader>().InRequestScope();
             kernel.Bind<IQuestionnaireService>().To<QuestionnaireService>().InRequestScope();
+            kernel.Bind<IQuestionnaireSubmissionService>().To<QuestionnaireSubmissionService>().InRequestScope();
 
             return kernel;
         }

@@ -50,9 +50,12 @@
                                     <td class="collapsing w-body-text-center w-mobile-left">
                                         @Helpers.ActionHelper.RenderEditButton("EditQuestionnaire", "Auth", new { id = questionnaire.ID })
                                         @Helpers.ActionHelper.RenderDeleteButton(questionnaire.ID, "_DeleteQuestionnaireButton")
+                                        @Helpers.ActionHelper.RenderViewButton("QuestionnaireSubmissions", "Auth", new { id = questionnaire.ID }, false)
                                     </td>
                                     <td>
-                                        @questionnaire.QuestionnaireName
+                                        <a href="@Url.Action("EditQuestionnaire", "Auth", new {id = questionnaire.ID})">
+                                            @questionnaire.QuestionnaireName
+                                        </a>
                                     </td>
                                     <td class="center aligned">
                                         @questionnaire.Questions.Count

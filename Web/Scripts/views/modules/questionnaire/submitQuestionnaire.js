@@ -43,13 +43,14 @@
             // set input names of all submit fields
             submitTemplate.find("._SubmitData").each(function (i) {
                 var dataName = $(this).data("name");
-                var fieldPrefix = "Data";
+                var fieldPrefix = "SubmitData";
                 var uniqueFieldName = fieldPrefix + "_" + question.Guid + "_" + dataName;
 
                 // set value
                 var target = $(this).data("target");
                 if (target) {
-                    $(this).attr("value", target);
+                    var dataValue = getDataValue(question.Data, target).Value;
+                    $(this).attr("value", dataValue);
                 }
 
                 $(this).attr("name", uniqueFieldName);

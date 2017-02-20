@@ -5,8 +5,12 @@
     Model.Metadata.BasicMetadata.Description = $"Zájem o závěrečnou práci {Model.Thesis.ThesisName} u firmy {Model.Thesis.CompanyName}";
     Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, null, Helpers.ImageHelper.GetCompanyBanner(Model.Thesis.CompanyGuid));
     Layout = "~/Views/Shared/Body/Dark.cshtml";
-
 }
+
+@Helpers.ScriptHelper.RequireScript("/scripts/views/modules/questionnaire/submitQuestionnaire")
+@Html.Partial("~/Views/Modules/Questionnaire/QuestionTemplates.cshtml");
+
+<input type="hidden" id="_QuestionnaireInitialState" value="@Model.ThesisForm.QuestionsJson" />
 
 <div class="w-padding-bottom-30">
 
@@ -36,8 +40,17 @@
                                 <div class="field">
                                     <textarea name="Message" @Model.ThesisForm.Message></textarea>
                                 </div>
+                                
+                                @if (Model.ThesisForm.HasAttachedQuestionnaire)
+                                {
+                                    <h4 class="ui dividing header">
+                                        Dotazník
+                                    </h4>
 
-                                <button class="ui button submit primary" type="submit">
+                                    <div id="_QuestionnaireFormWrapper" class="w-margin-bottom-14"></div>
+                                }
+
+                                <button class="ui button primary" type="submit">
                                     Odeslat
                                 </button>
                             </div>

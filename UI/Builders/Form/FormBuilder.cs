@@ -91,7 +91,20 @@ namespace UI.Builders.Form
             {
                 return null;
             }
-           
+
+            // load questionnaire if available
+            if (thesis.QuestionnaireID != null)
+            {
+                if (form == null)
+                {
+                    defaultForm.QuestionsJson = await GetQuestionnaireJsonAsync(thesis.QuestionnaireID ?? 0);
+                }
+                else
+                {
+                    defaultForm.QuestionsJson = await GetQuestionnaireJsonAsync(thesis.QuestionnaireID ?? 0);
+                }
+            }
+
             return new FormThesisView()
             {
                 Thesis = thesis,
@@ -140,13 +153,19 @@ namespace UI.Builders.Form
                     IsRead = false,
                 };
 
-                var messageResult =  await Services.MessageService.InsertAsync(message);
+                var messageResult = await Services.MessageService.InsertAsync(message);
 
                 // log activity if we got this far
-                var activityCurrentUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
-                await this.Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitThesis, thesis.CompanyID, activityCurrentUserId, thesis.ID);
+                var activityCurrentUserId = CurrentUser.IsAuthenticated ? CurrentUser.Id : null;
+                await Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitThesis, thesis.CompanyID, activityCurrentUserId, thesis.ID);
 
                 return messageResult.ObjectID;
+            }
+            catch (InvalidRecipientException ex)
+            {
+                Services.LogService.LogException(ex);
+
+                throw new UiException("Nelze odeslat zprávu sám sobě", ex);
             }
             catch (ValidationException ex)
             {
@@ -205,11 +224,17 @@ namespace UI.Builders.Form
                 var messageResult = await Services.MessageService.InsertAsync(message);
 
                 // log activity if we got this far
-                var activityCurrentUserId = this.CurrentUser.IsAuthenticated ? this.CurrentUser.Id : null;
-                await this.Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitInternship, internship.CompanyID, activityCurrentUserId, internship.InternshipID);
+                var activityCurrentUserId = CurrentUser.IsAuthenticated ? CurrentUser.Id : null;
+                await Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitInternship, internship.CompanyID, activityCurrentUserId, internship.InternshipID);
 
                 // return message id
                 return messageResult.ObjectID;
+            }
+            catch (InvalidRecipientException ex)
+            {
+                Services.LogService.LogException(ex);
+
+                throw new UiException("Nelze odeslat zprávu sám sobě", ex);
             }
             catch (ValidationException ex)
             {
@@ -252,6 +277,7 @@ namespace UI.Builders.Form
                 .OnlyActive()
                 .Select(m => new FormThesisModel()
                 {
+                    QuestionnaireID = m.QuestionnaireID,
                     CompanyID = m.Company.ID,
                     ThesisCodeName = m.ThesisType.CodeName,
                     CompanyName = m.Company.CompanyName,

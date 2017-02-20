@@ -171,13 +171,7 @@ namespace Service.Services
             }
 
             // validate object
-            var validationResult = ValidateObject(SaveEventType.Update, obj, existingObjectClone);
-
-            if (!validationResult.IsValid)
-            {
-                // custom validation failed
-                throw new ValidationException(validationResult.ErrorMessage);
-            }
+            ValidateObject(SaveEventType.Update, obj, existingObjectClone);
 
             // set additional field's data
             ExtendObject(SaveEventType.Update, obj, existingObjectClone);
@@ -213,13 +207,7 @@ namespace Service.Services
             HandleEntityVariationFields(SaveEventType.Insert, obj, null);
 
             // validate object
-            var validationResult = ValidateObject(SaveEventType.Insert, obj);
-
-            if (!validationResult.IsValid)
-            {
-                // custom validation failed
-                throw new ValidationException(validationResult.ErrorMessage);
-            }
+            ValidateObject(SaveEventType.Insert, obj);
 
             // set additional field's data
             ExtendObject(SaveEventType.Insert, obj);
@@ -379,13 +367,7 @@ namespace Service.Services
             }
 
             // validate object
-            var validationResult = ValidateObject(SaveEventType.Update, obj, existingObjectClone);
-
-            if (!validationResult.IsValid)
-            {
-                // custom validation failed
-                throw new ValidationException(validationResult.ErrorMessage);
-            }
+           ValidateObject(SaveEventType.Update, obj, existingObjectClone);
 
             // set additional field's data
             ExtendObject(SaveEventType.Update, obj, existingObjectClone);
@@ -421,13 +403,7 @@ namespace Service.Services
             HandleEntityVariationFields(SaveEventType.Insert, obj, null);
 
             // validate object
-            var validationResult = ValidateObject(SaveEventType.Insert, obj);
-
-            if (!validationResult.IsValid)
-            {
-                // custom validation failed
-                throw new ValidationException(validationResult.ErrorMessage);
-            }
+            ValidateObject(SaveEventType.Insert, obj);
 
             // set additional field's data
             ExtendObject(SaveEventType.Insert, obj);
@@ -530,20 +506,14 @@ namespace Service.Services
 
         /// <summary>
         /// Validates object
-        /// Override for custom validation logic
+        /// Throw exception if object is not valid
         /// </summary>
         /// <param name="eventType">Event type</param>
         /// <param name="newObj">New object (object with new data)</param>
         /// <param name="oldObj">Old object (the one currently saved in db). Available only for update event types</param>
-        /// <returns>Validation result</returns>
-        public virtual ValidationResult ValidateObject(SaveEventType eventType, TEntity newObj, TEntity oldObj = null)
+        public virtual void ValidateObject(SaveEventType eventType, TEntity newObj, TEntity oldObj = null)
         {
-            // validation is successful by default
-            return new ValidationResult()
-            {
-                ErrorMessage = null,
-                IsValid = true
-            };
+           // no extra validation required by default
         }
 
         /// <summary>

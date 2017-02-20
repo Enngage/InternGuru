@@ -48,6 +48,7 @@ namespace UI.Builders.Services
         IEmailService EmailService { get; }
         IQuestionnaireService QuestionnaireService { get; }
         IEducationTypeService EducationTypeService { get; }
+        IQuestionnaireSubmissionService QuestionnaireSubmissionService { get; }
 
         #endregion
     }
