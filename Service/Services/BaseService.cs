@@ -269,7 +269,7 @@ namespace Service.Services
             OnDeleteAfter(obj);
 
             return result;
-    }
+        }
 
         /// <summary>
         /// Saves all changes made in this context to the underlying database
@@ -367,7 +367,7 @@ namespace Service.Services
             }
 
             // validate object
-           ValidateObject(SaveEventType.Update, obj, existingObjectClone);
+            ValidateObject(SaveEventType.Update, obj, existingObjectClone);
 
             // set additional field's data
             ExtendObject(SaveEventType.Update, obj, existingObjectClone);
@@ -513,7 +513,7 @@ namespace Service.Services
         /// <param name="oldObj">Old object (the one currently saved in db). Available only for update event types</param>
         public virtual void ValidateObject(SaveEventType eventType, TEntity newObj, TEntity oldObj = null)
         {
-           // no extra validation required by default
+            // no extra validation required by default
         }
 
         /// <summary>
@@ -526,7 +526,7 @@ namespace Service.Services
         /// <returns>New obj with updated data</returns>
         public virtual void ExtendObject(SaveEventType eventType, TEntity newObj, TEntity oldObj = null)
         {
-           // do not change anything by default
+            // do not change anything by default
         }
 
         #endregion
@@ -912,28 +912,36 @@ namespace Service.Services
             var entityWithUserStamp = newEntity as IEntityWithUserStamp;
             if (entityWithUserStamp != null)
             {
-                if (!ServiceDependencies.User.IsAuthenticated)
+                // check optional user stamp
+                var entityWithOptionalUserStamp = newEntity as IEntityWithOptionalUserStamp;
+                var userStampIsRequired = entityWithOptionalUserStamp != null;
+
+                // required user stamp
+                if (!ServiceDependencies.User.IsAuthenticated && userStampIsRequired)
                 {
                     throw new AuthorizationException($"Authorization required for action '{type}'");
                 }
 
-                if (type == SaveEventType.Insert)
+                if (ServiceDependencies.User.IsAuthenticated)
                 {
-                    entityWithUserStamp.CreatedByApplicationUserId = ServiceDependencies.User.UserId;
-                    entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
-                }
-                else if (type == SaveEventType.Update)
-                {
-                    // set updated value
-                    entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
-
-                    var oldEntityWithUserStamp = oldEntity as IEntityWithUserStamp;
-                    if (oldEntityWithUserStamp == null)
+                    if (type == SaveEventType.Insert)
                     {
-                        throw new NotSupportedException($"Cannot set user stamp for '{nameof(oldEntity)}' entity");
+                        entityWithUserStamp.CreatedByApplicationUserId = ServiceDependencies.User.UserId;
+                        entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
                     }
-                    // keep the created value
-                    entityWithUserStamp.CreatedByApplicationUserId = oldEntityWithUserStamp.CreatedByApplicationUserId;
+                    else if (type == SaveEventType.Update)
+                    {
+                        // set updated value
+                        entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
+
+                        var oldEntityWithUserStamp = oldEntity as IEntityWithUserStamp;
+                        if (oldEntityWithUserStamp == null)
+                        {
+                            throw new NotSupportedException($"Cannot set user stamp for '{nameof(oldEntity)}' entity");
+                        }
+                        // keep the created value
+                        entityWithUserStamp.CreatedByApplicationUserId = oldEntityWithUserStamp.CreatedByApplicationUserId;
+                    }
                 }
             }
 

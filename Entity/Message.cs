@@ -14,19 +14,25 @@ namespace Entity
         [Required]
         public string CodeName { get; set; }
         public int RecipientCompanyID { get; set; }
+        [Required]
         public string SenderApplicationUserId { get; set; }
+        [Required]
         public string RecipientApplicationUserId { get; set; }
         [Required]
         public DateTime Created { get; set; }
         [Required]
         public DateTime Updated { get; set; }
+        [Required]
         public string MessageText { get; set; }
+        [Required]
         public bool IsRead { get; set; }
         [MaxLength(200)]
         public string Subject { get; set; }
+        public int? QuestionnaireSubmissionID { get; set; }
 
         #region Virtual properties
-
+        [ForeignKey("QuestionnaireSubmissionID")]
+        public QuestionnaireSubmission QuestionnaireSubmission { get; set; }
         [ForeignKey("RecipientCompanyID")]
         public Company Company { get; set; }
         [ForeignKey("SenderApplicationUserId")]

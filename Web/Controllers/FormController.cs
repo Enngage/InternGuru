@@ -15,12 +15,10 @@ namespace Web.Controllers
     public class FormController : BaseController
     {
         readonly FormBuilder _formBuilder;
-        private readonly QuestionnaireBuilder _questionnaireBuilder;
 
-        public FormController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, FormBuilder formBuilder, QuestionnaireBuilder questionnaireBuilder) : base(appContext, serviceEvents, masterBuilder)
+        public FormController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, FormBuilder formBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
             _formBuilder = formBuilder;
-            _questionnaireBuilder = questionnaireBuilder;
         }
 
         #region Actions
@@ -33,7 +31,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await _formBuilder.BuildInternshipViewAsync((int) id);
+            var model = await _formBuilder.BuildInternshipViewAsync((int)id);
 
             if (model == null)
             {
@@ -51,7 +49,7 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
-            var model = await _formBuilder.BuildThesisViewAsync((int) id);
+            var model = await _formBuilder.BuildThesisViewAsync((int)id);
 
             if (model == null)
             {
@@ -78,45 +76,24 @@ namespace Web.Controllers
                 return View(model);
             }
 
-            using (var transaction = AppContext.BeginTransaction())
+            try
             {
-                try
-                {
-                    var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID);
+                await _formBuilder.SaveInternshipForm(form, Request);
 
-                    if (model == null)
-                    {
-                        return HttpNotFound();
-                    }
+                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID);
 
-                    if (model.Internship.QuestionnaireID == null)
-                    {
-                        return HttpNotFound();
-                    }
+                // set form status
+                model.InternshipForm.FormResult.IsSuccess = true;
 
-                    // get submitted questions
-                    await _questionnaireBuilder.SubmitQuestionnaireFormAsync((int) model.Internship.QuestionnaireID, form.FieldGuids, Request);
+                return View(model);
+            }
+            catch (UiException ex)
+            {
+                ModelStateWrapper.AddError(ex.Message);
 
-                    await _formBuilder.SaveInternshipForm(form);
+                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
 
-                    // set form status
-                    model.InternshipForm.FormResult.IsSuccess = true;
-
-                    // commit transaction
-                    transaction.Commit();
-
-                    return View(model);
-                }
-                catch (UiException ex)
-                {
-                    transaction.Rollback();
-
-                    ModelStateWrapper.AddError(ex.Message);
-
-                    var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
-
-                    return View(model);
-                }
+                return View(model);
             }
         }
 
@@ -133,35 +110,24 @@ namespace Web.Controllers
                 return View(model);
             }
 
-            using (var transaction = AppContext.BeginTransaction())
+            try
             {
-                try
-                {
-                    var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
+                await _formBuilder.SaveThesisForm(form, Request);
 
-                    // get submitted questions
-                    await _questionnaireBuilder.SubmitQuestionnaireFormAsync((int)model.Thesis.QuestionnaireID, form.FieldGuids, Request);
+                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
 
-                    await _formBuilder.SaveThesisForm(form);
+                // set form status
+                model.ThesisForm.FormResult.IsSuccess = true;
 
-                    // set form status
-                    model.ThesisForm.FormResult.IsSuccess = true;
+                return View(model);
+            }
+            catch (UiException ex)
+            {
+                ModelStateWrapper.AddError(ex.Message);
 
-                    // commit transaction
-                    transaction.Commit();
+                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
 
-                    return View(model);
-                }
-                catch (UiException ex)
-                {
-                    transaction.Rollback();
-
-                    ModelStateWrapper.AddError(ex.Message);
-
-                    var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
-
-                    return View(model);
-                }
+                return View(model);
             }
         }
 

@@ -80,6 +80,11 @@ namespace UI.Builders.Auth
                 return null;
             }
 
+            if (!await UserHasAccessToQuestionnaireAsync(questionnaireID))
+            {
+                return null;
+            }
+
             return new AuthQuestionnaireSubmissionsView()
             {
                 AuthMaster = authMaster,
@@ -92,6 +97,11 @@ namespace UI.Builders.Auth
             var authMaster = await GetAuthMasterModelAsync();
 
             if (authMaster == null)
+            {
+                return null;
+            }
+
+            if (!await UserHasAccessToQuestionnaireAsync(questionnaireID))
             {
                 return null;
             }
@@ -1701,13 +1711,26 @@ namespace UI.Builders.Auth
 
         private async Task<IEnumerable<AuthQuestionnaireModel>> FormGetQuestionnairesAsync()
         {
-            var countries = await Services.QuestionnaireService.GetAllCachedAsync();
+            var questionnairesQuery = Services.QuestionnaireService.GetAll()
+                     .ForUser(CurrentUser.Id)
+                     .Select(m => new AuthQuestionnaireModel()
+                     {
+                         ID = m.ID,
+                         QuestionnaireName = m.QuestionnaireName
+                     })
+                     .OrderByDescending(m => m.ID);
 
-            return countries.Select(m => new AuthQuestionnaireModel()
+
+            var cacheSetup = Services.CacheService.GetSetup<AuthQuestionnaireModel>(GetSource());
+            cacheSetup.Dependencies = new List<string>()
             {
-                ID = m.ID,
-                QuestionnaireName = m.QuestionnaireName,
-            });
+                EntityKeys.KeyUpdateAny<Entity.Internship>(),
+                EntityKeys.KeyDeleteAny<Entity.Internship>(),
+                EntityKeys.KeyCreateAny<Entity.Internship>(),
+            };
+            cacheSetup.ObjectStringID = CurrentUser.Id;
+
+            return await Services.CacheService.GetOrSet(async () => await questionnairesQuery.ToListAsync(), cacheSetup);
         }
 
         private async Task<IEnumerable<AuthCompanySize>> FormGetCompanySizesAsync()
@@ -1920,7 +1943,7 @@ namespace UI.Builders.Auth
 
         private async Task<bool> UserHasAccessToQuestionnaireAsync(int questionnaireID)
         {
-            return (await FormGetQuestionnairesAsync()).First(m => m.ID == questionnaireID) != null;
+            return (await FormGetQuestionnairesAsync()).FirstOrDefault(m => m.ID == questionnaireID) != null;
         }
 
         /// <summary>
@@ -1928,12 +1951,7 @@ namespace UI.Builders.Auth
         /// </summary>
         /// <returns>Collection of form submissions</returns>
         private async Task<IPagedList<AuthQuestionnaireSubmissionModel>> GetQuestionnaireSubmissionsAsync(int questionnaireID, int? page)
-        {
-            if (!await UserHasAccessToQuestionnaireAsync(questionnaireID))
-            {
-                return null;
-            }
-
+        {      
             var pageSize = 10;
             var pageNumber = (page ?? 1);
 
@@ -1969,10 +1987,7 @@ namespace UI.Builders.Auth
 
         private async Task<AuthQuestionnaireSubmissionModel> GetQuestionnaireSubmissionAsync(int questionnaireID, int submissionID)
         {
-            if (!await UserHasAccessToQuestionnaireAsync(questionnaireID))
-            {
-                return null;
-            }
+        
 
             var submissionQuery = Services.QuestionnaireSubmissionService.GetSingle(submissionID)
                 .Where(m => m.QuestionnaireID == questionnaireID)

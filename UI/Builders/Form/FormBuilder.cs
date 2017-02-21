@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Entity;
 using Entity.Base;
 using Service.Exceptions;
@@ -117,140 +118,180 @@ namespace UI.Builders.Form
 
         #region Public methods
 
-        public async Task<int> SaveThesisForm(FormThesisForm form)
+        public async Task<int> SaveThesisForm(FormThesisForm form, HttpRequestBase request)
         {
-            try
+
+            using (var transaction = AppContext.BeginTransaction())
             {
-                if (!CurrentUser.IsAuthenticated)
+                try
                 {
-                    // only authenticated users can send message
-                    throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
+                    if (!CurrentUser.IsAuthenticated)
+                    {
+                        // only authenticated users can send message
+                        throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
+                    }
+
+                    // get thesis
+                    var thesis = await GetThesisModelAsync(form.ThesisID);
+
+                    if (thesis == null)
+                    {
+                        throw new ValidationException($"Závěrečná práce s ID {form.ThesisID} nebyla nalezena");
+                    }
+
+                    // get recipient (company's representative)
+                    var companyUserID = await GetIDOfCompanyUserAsync(thesis.CompanyID);
+
+                    if (string.IsNullOrEmpty(companyUserID))
+                    {
+                        throw new ValidationException($"Záveřečná práce u firmy {thesis.CompanyName} nemá přiřazeného správce");
+                    }
+
+                    int? questionnaireSubmissionID = null;
+                    if (thesis.QuestionnaireID != null)
+                    {
+                        var submissionResult = await _questionnaireBuilder.SubmitQuestionnaireFormAsync((int)thesis.QuestionnaireID, form.FieldGuids, request);
+                        questionnaireSubmissionID = submissionResult.ObjectID;
+                    }
+
+                    var message = new Message()
+                    {
+                        SenderApplicationUserId = CurrentUser.Id,
+                        RecipientCompanyID = thesis.CompanyID,
+                        RecipientApplicationUserId = companyUserID,
+                        MessageText = form.Message,
+                        Subject = thesis.ThesisName,
+                        IsRead = false,
+                        QuestionnaireSubmissionID = questionnaireSubmissionID
+                    };
+
+                    var messageResult = await Services.MessageService.InsertAsync(message);
+
+                    // log activity if we got this far
+                    var activityCurrentUserId = CurrentUser.IsAuthenticated ? CurrentUser.Id : null;
+
+                    await Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitThesis, thesis.CompanyID, activityCurrentUserId, thesis.ID);
+
+                    transaction.Commit();
+
+                    return messageResult.ObjectID;
                 }
-
-                // get thesis
-                var thesis = await GetThesisModelAsync(form.ThesisID);
-
-                if (thesis == null)
+                catch (InvalidRecipientException ex)
                 {
-                    throw new ValidationException($"Závěrečná práce s ID {form.ThesisID} nebyla nalezena");
+                    transaction.Rollback();
+
+                    Services.LogService.LogException(ex);
+
+                    throw new UiException("Nelze odeslat zprávu sám sobě", ex);
                 }
-
-                // get recipient (company's representative)
-                var companyUserID = await GetIDOfCompanyUserAsync(thesis.CompanyID);
-
-                if (string.IsNullOrEmpty(companyUserID))
+                catch (ValidationException ex)
                 {
-                    throw new ValidationException($"Záveřečná práce u firmy {thesis.CompanyName} nemá přiřazeného správce");
+                    transaction.Rollback();
+
+                    // log error
+                    Services.LogService.LogException(ex);
+
+                    // re-throw
+                    throw new UiException(ex.Message, ex);
                 }
-
-                var message = new Message()
+                catch (Exception ex)
                 {
-                    SenderApplicationUserId = CurrentUser.Id,
-                    RecipientCompanyID = thesis.CompanyID,
-                    RecipientApplicationUserId = companyUserID,
-                    MessageText = form.Message,
-                    Subject = thesis.ThesisName,
-                    IsRead = false,
-                };
+                    transaction.Rollback();
 
-                var messageResult = await Services.MessageService.InsertAsync(message);
+                    // log error
+                    Services.LogService.LogException(ex);
 
-                // log activity if we got this far
-                var activityCurrentUserId = CurrentUser.IsAuthenticated ? CurrentUser.Id : null;
-                await Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitThesis, thesis.CompanyID, activityCurrentUserId, thesis.ID);
-
-                return messageResult.ObjectID;
-            }
-            catch (InvalidRecipientException ex)
-            {
-                Services.LogService.LogException(ex);
-
-                throw new UiException("Nelze odeslat zprávu sám sobě", ex);
-            }
-            catch (ValidationException ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
-
-                // re-throw
-                throw new UiException(ex.Message, ex);
-            }
-            catch (Exception ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
-
-                // re-throw
-                throw new UiException(UiExceptionEnum.SaveFailure, ex);
+                    // re-throw
+                    throw new UiException(UiExceptionEnum.SaveFailure, ex);
+                }
             }
         }
 
-        public async Task<int> SaveInternshipForm(FormInternshipForm form)
+        public async Task<int> SaveInternshipForm(FormInternshipForm form, HttpRequestBase request)
         {
-            try
+            using (var transaction = AppContext.BeginTransaction())
             {
-                if (!CurrentUser.IsAuthenticated)
+                try
                 {
-                    // only authenticated users can send message
-                    throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
+                    if (!CurrentUser.IsAuthenticated)
+                    {
+                        // only authenticated users can send message
+                        throw new ValidationException("Pro odeslání zprávy se prosím přihlašte");
+                    }
+
+                    // get internship
+                    var internship = await GetInternshipModelAsync(form.InternshipID);
+
+                    if (internship == null)
+                    {
+                        throw new ValidationException($"Stáž s ID {form.InternshipID} nebyla nalezena");
+                    }
+
+                    // get recipient (company's representative)
+                    var companyUserID = await GetIDOfCompanyUserAsync(internship.CompanyID);
+
+                    if (string.IsNullOrEmpty(companyUserID))
+                    {
+                        throw new ValidationException($"Stáž u firmy {internship.CompanyName} nemá přiřazeného správce");
+                    }
+
+                    int? questionnaireSubmissionID = null;
+                    if (internship.QuestionnaireID != null)
+                    {
+                        var submissionResult = await _questionnaireBuilder.SubmitQuestionnaireFormAsync((int) internship.QuestionnaireID, form.FieldGuids, request);
+                        questionnaireSubmissionID = submissionResult.ObjectID;
+                    }
+
+                    var message = new Message()
+                    {
+                        SenderApplicationUserId = CurrentUser.Id,
+                        RecipientCompanyID = internship.CompanyID,
+                        RecipientApplicationUserId = companyUserID,
+                        MessageText = form.Message,
+                        Subject = internship.InternshipTitle,
+                        IsRead = false,
+                        QuestionnaireSubmissionID = questionnaireSubmissionID
+                    };
+
+                    var messageResult = await Services.MessageService.InsertAsync(message);
+
+                    // log activity if we got this far
+                    var activityCurrentUserId = CurrentUser.IsAuthenticated ? CurrentUser.Id : null;
+                    await Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitInternship, internship.CompanyID, activityCurrentUserId, internship.InternshipID);
+
+                    transaction.Commit();
+
+                    // return message id
+                    return messageResult.ObjectID;
                 }
-
-                // get internship
-                var internship = await GetInternshipModelAsync(form.InternshipID);
-
-                if (internship == null)
+                catch (InvalidRecipientException ex)
                 {
-                    throw new ValidationException($"Stáž s ID {form.InternshipID} nebyla nalezena");
+                    transaction.Rollback();
+
+                    Services.LogService.LogException(ex);
+
+                    throw new UiException("Nelze odeslat zprávu sám sobě", ex);
                 }
-
-                // get recipient (company's representative)
-                var companyUserID = await GetIDOfCompanyUserAsync(internship.CompanyID);
-
-                if (string.IsNullOrEmpty(companyUserID))
+                catch (ValidationException ex)
                 {
-                    throw new ValidationException($"Stáž u firmy {internship.CompanyName} nemá přiřazeného správce");
+                    transaction.Rollback();
+
+                    // log error
+                    Services.LogService.LogException(ex);
+
+                    // re-throw
+                    throw new UiException(ex.Message, ex);
                 }
-
-                var message = new Message()
+                catch (Exception ex)
                 {
-                    SenderApplicationUserId = CurrentUser.Id,
-                    RecipientCompanyID = internship.CompanyID,
-                    RecipientApplicationUserId = companyUserID,
-                    MessageText = form.Message,
-                    Subject = internship.InternshipTitle,
-                    IsRead = false,
-                };
+                    transaction.Rollback();
 
-                var messageResult = await Services.MessageService.InsertAsync(message);
+                    // log error
+                    Services.LogService.LogException(ex);
 
-                // log activity if we got this far
-                var activityCurrentUserId = CurrentUser.IsAuthenticated ? CurrentUser.Id : null;
-                await Services.ActivityService.LogActivity(ActivityTypeEnum.FormSubmitInternship, internship.CompanyID, activityCurrentUserId, internship.InternshipID);
-
-                // return message id
-                return messageResult.ObjectID;
-            }
-            catch (InvalidRecipientException ex)
-            {
-                Services.LogService.LogException(ex);
-
-                throw new UiException("Nelze odeslat zprávu sám sobě", ex);
-            }
-            catch (ValidationException ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
-
-                // re-throw
-                throw new UiException(ex.Message, ex);
-            }
-            catch (Exception ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
-
-                // re-throw
-                throw new UiException(UiExceptionEnum.SaveFailure, ex);
+                    // re-throw
+                    throw new UiException(UiExceptionEnum.SaveFailure, ex);
+                }
             }
         }
 

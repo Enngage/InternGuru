@@ -7,7 +7,7 @@ using Entity.Base;
 
 namespace Entity
 {
-    public class Email : IEntity, IEntityWithTimeStamp, IEntityWithGuid, IEntityWithUserStamp
+    public class Email : IEntity, IEntityWithTimeStamp, IEntityWithGuid, IEntityWithOptionalUserStamp
     {
         public int ID { get; set; }
         [Index]

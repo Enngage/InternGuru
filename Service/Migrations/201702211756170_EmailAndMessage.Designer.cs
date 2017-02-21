@@ -7,13 +7,13 @@ namespace Service.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class QuestionnaireForm : IMigrationMetadata
+    public sealed partial class EmailAndMessage : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(QuestionnaireForm));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(EmailAndMessage));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702201040434_QuestionnaireForm"; }
+            get { return "201702211756170_EmailAndMessage"; }
         }
         
         string IMigrationMetadata.Source

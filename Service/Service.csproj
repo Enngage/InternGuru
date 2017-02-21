@@ -81,9 +81,9 @@
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\201702201040434_QuestionnaireForm.cs" />
-    <Compile Include="Migrations\201702201040434_QuestionnaireForm.Designer.cs">
-      <DependentUpon>201702201040434_QuestionnaireForm.cs</DependentUpon>
+    <Compile Include="Migrations\201702211756170_EmailAndMessage.cs" />
+    <Compile Include="Migrations\201702211756170_EmailAndMessage.Designer.cs">
+      <DependentUpon>201702211756170_EmailAndMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -174,8 +174,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702201040434_QuestionnaireForm.resx">
-      <DependentUpon>201702201040434_QuestionnaireForm.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702211756170_EmailAndMessage.resx">
+      <DependentUpon>201702211756170_EmailAndMessage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

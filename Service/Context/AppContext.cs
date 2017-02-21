@@ -177,11 +177,24 @@ namespace Service.Context
                 .HasForeignKey(p => p.UpdatedByApplicationUserId)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Message>()
+              .HasRequired(p => p.SenderApplicationUser)
+              .WithMany()
+              .HasForeignKey(p => p.SenderApplicationUserId)
+              .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Message>()
+              .HasRequired(p => p.RecipientApplicationUser)
+              .WithMany()
+              .HasForeignKey(p => p.RecipientApplicationUserId)
+              .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<QuestionnaireSubmission>()
-               .HasRequired(p => p.Questionnaire)
-               .WithMany()
-               .HasForeignKey(p => p.QuestionnaireID)
-               .WillCascadeOnDelete(false);
+            .HasRequired(p => p.Questionnaire)
+            .WithMany()
+            .HasForeignKey(p => p.QuestionnaireID)
+            .WillCascadeOnDelete(false);
+
             // end cascade delete
         }
     }
