@@ -1,9 +1,13 @@
-﻿using AutoMapper;
-using Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
+using Core.Helpers;
+using Entity.Base;
 
 namespace Web.Lib.AutoMapper
 {
-    public class AutoMapperHelper
+    public static class AutoMapperHelper
     {
         public static IMapper GetMapper()
         {
@@ -14,31 +18,18 @@ namespace Web.Lib.AutoMapper
                 // create maps here
 
                 // Map all entities to themselves to enable deep cloning
-                cfg.CreateMap<ApplicationUser, ApplicationUser>();
-                cfg.CreateMap<Company, Company>();
-                cfg.CreateMap<CompanySize, CompanySize>();
-                cfg.CreateMap<CompanyCategory, CompanyCategory>();
-                cfg.CreateMap<Country, Country>();
-                cfg.CreateMap<Currency, Currency>();
-                cfg.CreateMap<Email, Email>();
-                cfg.CreateMap<HomeOfficeOption, HomeOfficeOption>();
-                cfg.CreateMap<Internship, Internship>();
-                cfg.CreateMap<Internship, Internship>();
-                cfg.CreateMap<InternshipAmountType, InternshipAmountType>();
-                cfg.CreateMap<InternshipCategory, InternshipCategory>();
-                cfg.CreateMap<InternshipDurationType, InternshipDurationType>();
-                cfg.CreateMap<Language, Language>();
-                cfg.CreateMap<Log, Log>();
-                cfg.CreateMap<Message, Message>();
-                cfg.CreateMap<StudentStatusOption, StudentStatusOption>();
-                cfg.CreateMap<Thesis, Thesis>();
-                cfg.CreateMap<ThesisType, ThesisType>();
-                cfg.CreateMap<Questionnaire, Questionnaire>();
-                cfg.CreateMap<EducationType, EducationType>();
-                cfg.CreateMap<QuestionnaireSubmission, QuestionnaireSubmission>();
+                // If Entity is not mapped, it will error our because it would not be possible to
+                // create a deep copy of it 
+                foreach (var entityType in TypeHelper.GetClassesImplementingInterface(typeof(IEntity)))
+                {
+                    // map to itself, otherwise deep copy will not be created by automapper
+                    cfg.CreateMap(entityType, entityType);
+                }
             });
 
             return new Mapper(config);
         }
+
+
     }
 }

@@ -69,6 +69,7 @@
     <Compile Include="Helpers\Privilege\PrivilegeHelper.cs" />
     <Compile Include="Helpers\Privilege\PrivilegeLevel.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Loc\ConstructorParameter.cs" />
     <Compile Include="Loc\KernelProvider.cs" />
     <Compile Include="Loc\KernelType.cs" />
