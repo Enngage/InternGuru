@@ -2,7 +2,7 @@
 
 @{
     Model.Metadata.BasicMetadata.Title = Model.CompanyForm.ID == 0 ? "Registrovat firmu" : "Upravit firmu";
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @Html.Partial("Partials/AddEditCompany", Model.CompanyForm)

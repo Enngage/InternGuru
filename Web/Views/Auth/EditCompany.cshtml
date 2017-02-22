@@ -2,7 +2,7 @@
 
 @{
     Model.Metadata.BasicMetadata.Title = $"Editovat | {(Model.CompanyForm.IsExistingCompany ? Model.CompanyForm.CompanyName : string.Empty)}";
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @Html.Partial("Partials/AddEditCompany", Model.CompanyForm)

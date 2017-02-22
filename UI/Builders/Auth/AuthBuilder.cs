@@ -30,6 +30,13 @@ namespace UI.Builders.Auth
     public class AuthBuilder : BaseBuilder
     {
 
+        #region Setup
+
+        private const string CandidateMasterView = "~/views/auth/CandidateTypeMaster.cshtml";
+        private const string CompanyMasterview = "~/views/auth/CompanyTypeMaster.cshtml";
+
+        #endregion
+
         #region Builder
 
         private readonly QuestionnaireBuilder _questionnaireBuilder;
@@ -62,7 +69,9 @@ namespace UI.Builders.Auth
                 Internships = await GetInternshipsAsync(),
                 Conversations = await GetConversationsAsync(10),
                 Theses = await GetThesesListingsAsync(),
-                Questionnaires = await GetQuestionnairesListingsAsync()
+                Questionnaires = await GetQuestionnairesListingsAsync(),
+                ShowUserTypeSelectionView = !CurrentUser.IsCandidate && !CurrentUser.IsCompany,
+                AuthMasterLayout = CurrentUser.IsCompany ? CompanyMasterview : CandidateMasterView
             };
         }
 
@@ -860,7 +869,7 @@ namespace UI.Builders.Auth
                     LastName = CurrentUser.LastName,
                     UserID = CurrentUser.Id,
                     UserName = CurrentUser.UserName,
-                    Nickname = CurrentUser.Nickname
+                    Nickname = CurrentUser.Nickname,
                 },
                 MessageForm = messageForm ?? defaultMessageForm
             };
@@ -871,6 +880,54 @@ namespace UI.Builders.Auth
         #region Methods
 
         /// <summary>
+        /// Sets type of current user
+        /// </summary>
+        /// <param name="isCandidate">Indicates if user should be set as candidate</param>
+        ///  <param name="isCompany">Indicates if user should be set as company</param>
+        /// <returns></returns>
+        public async Task SetUserTypeAsync(bool isCompany, bool isCandidate)
+        {
+            try
+            {
+                if (!CurrentUser.IsAuthenticated)
+                {
+                    // only authenticated users can send messages
+                    throw new ValidationException("Pro vytvoření stáže se musíš přihlásit");
+                }
+
+                var applicationUser = await Services.IdentityService.GetAsync(CurrentUser.Id);
+
+                if (applicationUser == null)
+                {
+                    throw new ValidationException($"Uživatel s ID { CurrentUser.Id} nebyl nalezen");
+                }
+
+
+                applicationUser.IsCandidate = isCandidate;
+                applicationUser.IsCompany = isCompany;
+
+                await Services.IdentityService.UpdateAsync(applicationUser);
+
+            }
+            catch (ValidationException ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UiException(ex.Message, ex);
+            }
+            catch (Exception ex)
+            {
+                // log error
+                Services.LogService.LogException(ex);
+
+                // re-throw
+                throw new UiException(UiExceptionEnum.SaveFailure, ex);
+            }
+        }
+
+        /// <summary>
         /// Creates thesis
         /// </summary>
         /// <param name="form">form</param>
@@ -879,10 +936,16 @@ namespace UI.Builders.Auth
         {
             try
             {
+                if (!CurrentUser.IsAuthenticated)
+                {
+                    // only authenticated users can send messages
+                    throw new ValidationException("Pro vytvoření stáže se musíš přihlásit");
+                }
+
                 // verify company
                 if (!CurrentCompany.IsAvailable)
                 {
-                    throw new ValidationException($"Pro přidání práce musíte prvně vytvořit firmu");
+                    throw new ValidationException($"Pro přidání práce musíš mít vytvořenou firmu");
                 }
 
                 var thesis = new Entity.Thesis
@@ -930,10 +993,16 @@ namespace UI.Builders.Auth
         {
             try
             {
+                if (!CurrentUser.IsAuthenticated)
+                {
+                    // only authenticated users can send messages
+                    throw new ValidationException("Pro vytvoření stáže se musíš přihlásit");
+                }
+
                 // verify company
                 if (!CurrentCompany.IsAvailable)
                 {
-                    throw new ValidationException($"Pro přidání práce musíte prvně vytvořit firmu");
+                    throw new ValidationException($"Pro přidání práce musíš mít vytvořenou firmu");
                 }
 
                 var thesis = new Entity.Thesis
@@ -980,7 +1049,7 @@ namespace UI.Builders.Auth
                 if (!CurrentUser.IsAuthenticated)
                 {
                     // only authenticated users can send messages
-                    throw new ValidationException("Pro odeslání zprávy se přihlašte");
+                    throw new ValidationException("Pro odeslání zprávy se musíš prřihlásit");
                 }
 
                 var message = new Message()
@@ -1024,7 +1093,7 @@ namespace UI.Builders.Auth
             {
                 if (!CurrentUser.IsAuthenticated)
                 {
-                    throw new ValidationException("Uživatel není přihlášen");
+                    throw new ValidationException("Pro změnu údajů se musíš přihlásit");
                 }
 
                 var applicationUser = await Services.IdentityService.GetAsync(CurrentUser.Id);
@@ -1082,7 +1151,7 @@ namespace UI.Builders.Auth
                     // verify country
                     if (! await IsValidCountry(form.CountryID))
                     {
-                        throw new ValidationException("Vyplňte stát");
+                        throw new ValidationException("Vyplň stát");
                     }
 
                     var company = new Entity.Company

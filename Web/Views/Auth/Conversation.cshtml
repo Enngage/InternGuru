@@ -1,11 +1,9 @@
-﻿@using UI.Helpers;
-@using PagedList.Mvc
-@using Core.Helpers;
+﻿@using Core.Helpers;
 @model UI.Builders.Auth.Views.AuthConversationView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Konverzace | " + Model.ConversationUser.DisplayName;
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
     // tabs
     Model.Tabs.RecentConversations.Set(true, 4);
 }

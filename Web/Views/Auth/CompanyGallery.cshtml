@@ -1,9 +1,8 @@
-﻿@using UI.Helpers;
-@model UI.Builders.Auth.Views.CompanyGalleryView
+﻿@model UI.Builders.Auth.Views.CompanyGalleryView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Galerie";
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authCompanyGallery")

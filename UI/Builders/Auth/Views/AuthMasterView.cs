@@ -7,5 +7,6 @@ namespace UI.Builders.Auth.Views
     {
         public AuthMasterModel AuthMaster { get; set; }
         public AuthTabs Tabs { get; set; } = new AuthTabs();
+
     }
 }

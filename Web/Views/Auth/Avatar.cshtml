@@ -1,9 +1,8 @@
-﻿@using UI.Helpers;
-@model UI.Builders.Auth.Views.AuthAvatarView
+﻿@model UI.Builders.Auth.Views.AuthAvatarView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Avatar";
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @using (Html.BeginForm("Avatar", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))

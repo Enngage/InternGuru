@@ -89,6 +89,10 @@
     <Compile Include="Migrations\201702221854504_RemoveCompanyIDFromMessage.Designer.cs">
       <DependentUpon>201702221854504_RemoveCompanyIDFromMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702221923031_UserTypeFields.cs" />
+    <Compile Include="Migrations\201702221923031_UserTypeFields.Designer.cs">
+      <DependentUpon>201702221923031_UserTypeFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Activities\ActivityService.cs" />
@@ -183,6 +187,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702221854504_RemoveCompanyIDFromMessage.resx">
       <DependentUpon>201702221854504_RemoveCompanyIDFromMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702221923031_UserTypeFields.resx">
+      <DependentUpon>201702221923031_UserTypeFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

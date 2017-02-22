@@ -2525,7 +2525,6 @@
     <Content Include="Views\Theses\Index.cshtml" />
     <Content Include="Stylesheets\partials\_header.scss" />
     <Content Include="Views\Modules\Header\Header.cshtml" />
-    <Content Include="Views\Auth\AuthMaster.cshtml" />
     <Content Include="Views\Auth\Index.cshtml" />
     <Content Include="Views\System\EventLog.cshtml" />
     <Content Include="Views\Auth\CompanyGallery.cshtml" />
@@ -2554,6 +2553,10 @@
     <Content Include="Views\Modules\Questionnaire\QuestionTemplates.cshtml" />
     <Content Include="Views\Auth\QuestionnaireSubmissions.cshtml" />
     <Content Include="Views\Auth\ViewSubmission.cshtml" />
+    <Content Include="Views\Auth\UserTypeSelection.cshtml" />
+    <Content Include="Views\Auth\CompanyTypeMaster.cshtml" />
+    <Content Include="Views\Auth\CandidateTypeMaster.cshtml" />
+    <Content Include="Views\System\SystemMaster.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

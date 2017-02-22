@@ -63,5 +63,16 @@ namespace UI.Builders.Shared.Models
         /// Roles of current user
         /// </summary>
         public IEnumerable<string> Roles { get; set; }
+
+
+        /// <summary>
+        /// Indicates if current user is of Company type
+        /// </summary>
+        public bool IsCompany { get; set; }
+
+        /// <summary>
+        /// Indicates if current user is of Candidate type
+        /// </summary>
+        public bool IsCandidate { get; set; }
     }
 }

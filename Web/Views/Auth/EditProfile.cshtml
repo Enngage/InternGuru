@@ -1,9 +1,8 @@
-﻿@using UI.Helpers
-@model UI.Builders.Auth.Views.AuthEditProfileView
+﻿@model UI.Builders.Auth.Views.AuthEditProfileView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Upravit profil";
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @using (Html.BeginForm("EditProfile", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))

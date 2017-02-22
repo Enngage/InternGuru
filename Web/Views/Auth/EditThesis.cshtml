@@ -2,7 +2,7 @@
 
 @{
     Model.Metadata.BasicMetadata.Title = Model.ThesisForm.ID == 0 ? "Nová závěrečná práce" : "Upravit | " + Model.ThesisForm.ThesisName;
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
     // tabs
     Model.Tabs.MyTheses.Set(true, 2);
 }

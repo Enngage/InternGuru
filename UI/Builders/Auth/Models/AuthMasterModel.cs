@@ -3,7 +3,7 @@
 namespace UI.Builders.Auth.Models
 {
     public class AuthMasterModel
-    {        
+    {
         public IEnumerable<AuthInternshipListingModel> Internships { get; set; }
         public IEnumerable<AuthThesisListingModel> Theses { get; set; }
         public IEnumerable<AuthConversationModel> Conversations { get; set; }
@@ -15,6 +15,18 @@ namespace UI.Builders.Auth.Models
         /// Should be set when user is updated
         /// </summary>
         public bool? EmailVisibleForPeople { get; set; } = null; // set when user is updated
+
+        /// <summary>
+        /// Indicates whether to show user type selection or not
+        /// </summary>
+        public bool ShowUserTypeSelectionView { get; set; }
+
+
+        /// <summary>
+        /// Master layout used by the page 
+        /// Layout is different for candidate and company users
+        /// </summary>
+        public string AuthMasterLayout { get; set; }
 
     }
 }

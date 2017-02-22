@@ -3,7 +3,7 @@
 @{
     var displayUserName = Helpers.UserHelper.GetDisplayName(Model.Submission.CreatedByFirstName, Model.Submission.CreatedByLastName, Model.Submission.CreatedByNickname, Model.Submission.CreatedByApplicationUserName);
     Model.Metadata.BasicMetadata.Title = "Dotazník | " + displayUserName;
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
 }
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">

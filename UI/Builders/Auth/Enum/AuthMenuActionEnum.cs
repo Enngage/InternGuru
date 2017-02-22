@@ -20,8 +20,6 @@ namespace UI.Builders.Auth.Enum
         EditProfile,
         Avatar,
         Conversation,
-        EventLog,
-        EmailLog,
         Questionnaires,
         EditQuestionnaire,
         NewQuestionnaire

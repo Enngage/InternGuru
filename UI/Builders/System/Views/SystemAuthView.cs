@@ -1,11 +1,11 @@
-﻿using UI.Builders.Auth.Views;
+﻿
+using UI.Builders.Master.Views;
+using UI.Builders.System.Models;
 
 namespace UI.Builders.System.Views
 {
-    /// <summary>
-    /// Class used as intermediate between auth and system
-    /// </summary>
-    public class SystemAuthView : AuthMasterView
+    public class SystemMasterView : MasterView
     {
+        public SystemMasterModel SystemMaster { get; set; }
     }
 }

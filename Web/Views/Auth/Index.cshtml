@@ -1,12 +1,9 @@
-﻿@using UI.Helpers;
-@using Core.Helpers;
-@using PagedList.Mvc
+﻿@using Core.Helpers;
 @model UI.Builders.Auth.Views.AuthIndexView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Zprávy";
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
-
+    Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authIndex")

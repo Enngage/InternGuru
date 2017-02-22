@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Core.Helpers;
@@ -21,6 +22,10 @@ namespace Entity
         public string LastName { get; set; }
         [MaxLength(30)]
         public string Nickname { get; set; }
+        [Required]
+        public bool IsCompany{ get; set; }
+        [Required]
+        public bool IsCandidate{ get; set; }
 
         #endregion
 
@@ -33,13 +38,13 @@ namespace Entity
         public string CodeName {
             get
             {
+                // application user does not have a code name
                 return null;
             }
             // ReSharper disable once ValueParameterNotUsed
             set
             {
                 // do nothing
-                return;
             }}
 
         #endregion

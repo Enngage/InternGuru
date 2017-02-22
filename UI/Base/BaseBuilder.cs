@@ -234,7 +234,9 @@ namespace UI.Base
                     FirstName = m.FirstName,
                     LastName = m.LastName,
                     Email = m.Email,
-                    Nickname = m.Nickname
+                    Nickname = m.Nickname,
+                    IsCandidate = m.IsCandidate,
+                    IsCompany = m.IsCompany
                 })
                 .FirstOrDefault();
             

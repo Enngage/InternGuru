@@ -1,12 +1,10 @@
 ﻿@model UI.Builders.System.Views.SystemEventLogView
 @using Core.Helpers;
-@using PagedList.Mvc;
-@using UI.Helpers
 
 @{
     Model.Metadata.BasicMetadata.Title = $"Event log";
     Model.Metadata.BasicMetadata.Description = $"Event log";
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = "~/Views/System/SystemMaster.cshtml";
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/system/eventLog")

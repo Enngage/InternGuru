@@ -5,8 +5,6 @@ using Core.Config;
 using PagedList;
 using PagedList.EntityFramework;
 using UI.Base;
-using UI.Builders.Auth;
-using UI.Builders.Auth.Models;
 using UI.Builders.Services;
 using UI.Builders.Shared.Models;
 using UI.Builders.System.Models;
@@ -23,17 +21,10 @@ namespace UI.Builders.System
 
         #endregion
 
-        #region Auth builder
-
-        private readonly AuthBuilder _authBuilder;
-
-        #endregion
-
         #region Constructor
 
-        public SystemBuilder(ISystemContext systemContext, IServicesLoader servicesLoader, AuthBuilder authBuilder) : base(systemContext, servicesLoader)
+        public SystemBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader)
         {
-            _authBuilder = authBuilder;
         }
 
         #endregion
@@ -46,7 +37,7 @@ namespace UI.Builders.System
 
             return new SystemEventLogView()
             {
-                AuthMaster = await GetAuthMaster(),
+                SystemMaster = GetMasterModel(),
                 Events = await GetEvents(page, pageSize)
             };
         }
@@ -58,7 +49,7 @@ namespace UI.Builders.System
 
             return new SystemEmailLogView()
             {
-                AuthMaster = await GetAuthMaster(),
+                SystemMaster = GetMasterModel(),
                 Emails = await GetEmails(page, pageSize, showOnlyUnsentEmails)
             };
         }
@@ -72,9 +63,9 @@ namespace UI.Builders.System
 
         #region Helper methods
 
-        private async Task<AuthMasterModel> GetAuthMaster()
+        private SystemMasterModel GetMasterModel()
         {
-            return await _authBuilder.GetAuthMasterModelAsync();
+            return new SystemMasterModel();
         }
 
         private async Task<IPagedList<SystemEventModel>> GetEvents(int? page, int pageSize)

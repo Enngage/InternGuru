@@ -2,7 +2,7 @@
 
 @{
     Model.Metadata.BasicMetadata.Title = "Editovat | " +(Model.InternshipExists ? Model.InternshipForm.Title : "");
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
     // tabs
     Model.Tabs.MyInternships.Set(true, 2);
 }

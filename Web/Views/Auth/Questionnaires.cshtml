@@ -3,7 +3,7 @@
 
 @{
     Model.Metadata.BasicMetadata.Title = "Dotazníky";
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authQuestionnaires")

@@ -2,7 +2,7 @@
 
 @{
     Model.Metadata.BasicMetadata.Title = Model.InternshipForm.ID == 0 ? "Nová stáž" : "Upravit stáž | " + Model.InternshipForm.Title;
-    Layout = "~/Views/Auth/AuthMaster.cshtml";
+    Layout = Model.AuthMaster.AuthMasterLayout;
     // tabs
     Model.Tabs.MyInternships.Set(true, 4);
 }

@@ -9,6 +9,7 @@ using Service.Services.Questionnaires;
 using UI.Base;
 using UI.Builders.Auth;
 using UI.Builders.Auth.Forms;
+using UI.Builders.Auth.Views;
 using UI.Builders.Master;
 using UI.Builders.Questionnaire;
 using UI.Enums;
@@ -52,6 +53,11 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
             return View(model);
         }
 
@@ -64,6 +70,11 @@ namespace Web.Controllers
             if (model == null)
             {
                 return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
             }
 
             return View(model);
@@ -80,6 +91,11 @@ namespace Web.Controllers
                 return HttpNotFound();
             }
 
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
             return View(model);
         }
 
@@ -91,6 +107,11 @@ namespace Web.Controllers
             if (model == null)
             {
                 return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
             }
 
             var actionResult = EnumHelper.ParseEnum(result, ActionResultEnum.Unknown);
@@ -108,6 +129,16 @@ namespace Web.Controllers
         {
             var model = await _authBuilder.BuildIndexViewAsync(page);
 
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
             return View(model);
         }
 
@@ -116,6 +147,16 @@ namespace Web.Controllers
         {
             var model = await _authBuilder.BuildThesesVieAsync(page);
 
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
             return View(model);
         }
 
@@ -123,6 +164,16 @@ namespace Web.Controllers
         public async Task<ActionResult> Internships(int? page)
         {
             var model = await _authBuilder.BuildInternshipsViewAsync(page);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
 
             return View(model);
         }
@@ -133,6 +184,16 @@ namespace Web.Controllers
         {
             var model = await _authBuilder.BuildQuestionnairesViewAsync(page);
 
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
             return View(model);
         }
 
@@ -140,6 +201,16 @@ namespace Web.Controllers
         public async Task<ActionResult> RegisterCompany()
         {
             var model = await _authBuilder.BuildRegisterCompanyViewAsync();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
 
             return View(model);
         }
@@ -151,8 +222,12 @@ namespace Web.Controllers
 
             if (model == null)
             {
-                // company does not exist
                 return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
             }
 
             // get result
@@ -171,6 +246,16 @@ namespace Web.Controllers
         {
             var model = await _authBuilder.BuildNewInternshipViewAsync();
 
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
             return View(model);
         }
 
@@ -184,10 +269,14 @@ namespace Web.Controllers
 
             var model = await _authBuilder.BuildEditInternshipViewAsync((int) id);
 
-            // internship was not found
             if (model == null)
             {
                 return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
             }
 
             // get result
@@ -206,6 +295,16 @@ namespace Web.Controllers
         {
             var model = await _authBuilder.BuildNewThesisViewAsync();
 
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
             return View(model);
         }
 
@@ -219,10 +318,14 @@ namespace Web.Controllers
 
             var model = await _authBuilder.BuildEditThesisViewAsync((int) id);
 
-            // thesis was not found
             if (model == null)
             {
                 return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
             }
 
             // get result
@@ -241,6 +344,16 @@ namespace Web.Controllers
         {
             var model = await _authBuilder.BuildEditProfileViewAsync();
 
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
             return View(model);
         }
 
@@ -249,6 +362,16 @@ namespace Web.Controllers
         {
             var model = await _authBuilder.BuildAvatarViewAsync();
 
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
             return View(model);
         }
 
@@ -256,6 +379,16 @@ namespace Web.Controllers
         public async Task<ActionResult> CompanyGallery()
         {
             var model = await _authBuilder.BuildCompanyGalleryViewAsync();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
 
             return View(model);
         }
@@ -273,6 +406,11 @@ namespace Web.Controllers
             if (model == null)
             {
                 return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
             }
 
             return View(model);
@@ -654,7 +792,34 @@ namespace Web.Controllers
 
         #endregion
 
+        #region User type selection GET methods
+
+        [HttpGet]
+        [Route("Uzivatel/Typ/Uchazec")]
+        public async Task<ActionResult> SetCandidateType()
+        {
+            await _authBuilder.SetUserTypeAsync(false, true);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Route("Uzivatel/Typ/Firma")]
+        public async Task<ActionResult> SetCompanyType()
+        {
+            await _authBuilder.SetUserTypeAsync(true, false);
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
         #region Helper methods
+
+        private ActionResult ShowUserTypeSelection(AuthMasterView view)
+        {
+            return View("~/views/auth/UserTypeSelection.cshtml", view);
+        }
 
         private IList<IQuestion> GetQuestionnaireQuestionsFromRequest(IList<string> fieldGuids)
         {

@@ -1,0 +1,34 @@
+﻿@model UI.Builders.Auth.Views.AuthMasterView
+@{
+    Model.Metadata.BasicMetadata.Title = "Typ účtu";
+    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+}
+
+<div class="ui centered grid">
+    <div class="sixteen wide column">
+        <h1>
+            Zvol typ účtu
+        </h1>
+    </div>
+    <div class="ui sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment padded w-auth-user-type-selection">
+            <a href="@Url.Action("SetCandidateType", "Auth")">
+                <h2 class="ui center aligned icon header">
+                    <i class="user icon"></i>
+                    Uchazeč
+                </h2>
+            </a>
+        </div>
+    </div>
+    <div class="ui sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment padded w-auth-user-type-selection">
+            <a href="@Url.Action("SetCompanyType", "Auth")">
+                <h2 class="ui center aligned icon header">
+                    <i class="sitemap icon"></i>
+                    Firma
+                </h2>
+            </a>
+        </div>
+    </div>
+</div>
+
