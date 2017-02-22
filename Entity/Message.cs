@@ -13,7 +13,6 @@ namespace Entity
         [MaxLength(100)]
         [Required]
         public string CodeName { get; set; }
-        public int RecipientCompanyID { get; set; }
         [Required]
         public string SenderApplicationUserId { get; set; }
         [Required]
@@ -33,8 +32,6 @@ namespace Entity
         #region Virtual properties
         [ForeignKey("QuestionnaireSubmissionID")]
         public QuestionnaireSubmission QuestionnaireSubmission { get; set; }
-        [ForeignKey("RecipientCompanyID")]
-        public Company Company { get; set; }
         [ForeignKey("SenderApplicationUserId")]
         public ApplicationUser SenderApplicationUser { get; set; }
         [ForeignKey("RecipientApplicationUserId")]

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Web;
 using Core.Config;
@@ -987,7 +986,6 @@ namespace UI.Builders.Auth
                 var message = new Message()
                 {
                     SenderApplicationUserId = CurrentUser.Id,
-                    RecipientCompanyID = form.CompanyID,
                     RecipientApplicationUserId = form.RecipientApplicationUserId,
                     MessageText = form.Message,
                     Subject = null, // no subject needed
@@ -1770,8 +1768,6 @@ namespace UI.Builders.Auth
                    SenderApplicationUserName = m.SenderApplicationUser.UserName,
                    RecipientApplicationUserId = m.RecipientApplicationUserId,
                    RecipientApplicationUserName = m.RecipientApplicationUser.UserName,
-                   CompanyID = m.RecipientCompanyID,
-                   CompanyName = m.Company.CompanyName,
                    MessageText = m.MessageText,
                    CurrentUserId = CurrentUser.Id,
                    IsRead = m.IsRead,
@@ -1858,8 +1854,6 @@ namespace UI.Builders.Auth
                    SenderApplicationUserName = m.SenderApplicationUser.UserName,
                    RecipientApplicationUserId = m.RecipientApplicationUserId,
                    RecipientApplicationUserName = m.RecipientApplicationUser.UserName,
-                   CompanyID = m.RecipientCompanyID,
-                   CompanyName = m.Company.CompanyName,
                    MessageText = m.MessageText,
                    CurrentUserId = CurrentUser.Id,
                    IsRead = m.IsRead,
@@ -1974,8 +1968,8 @@ namespace UI.Builders.Auth
             var cacheSetup = Services.CacheService.GetSetup<AuthQuestionnaireSubmissionModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
-                EntityKeys.KeyCreateAny<Entity.QuestionnaireSubmission>(),
-                EntityKeys.KeyDeleteAny<Entity.QuestionnaireSubmission>()
+                EntityKeys.KeyCreateAny<QuestionnaireSubmission>(),
+                EntityKeys.KeyDeleteAny<QuestionnaireSubmission>()
             };
 
             cacheSetup.ObjectID = questionnaireID;

@@ -157,7 +157,6 @@ namespace UI.Builders.Form
                     var message = new Message()
                     {
                         SenderApplicationUserId = CurrentUser.Id,
-                        RecipientCompanyID = thesis.CompanyID,
                         RecipientApplicationUserId = companyUserID,
                         MessageText = form.Message,
                         Subject = thesis.ThesisName,
@@ -245,7 +244,6 @@ namespace UI.Builders.Form
                     var message = new Message()
                     {
                         SenderApplicationUserId = CurrentUser.Id,
-                        RecipientCompanyID = internship.CompanyID,
                         RecipientApplicationUserId = companyUserID,
                         MessageText = form.Message,
                         Subject = internship.InternshipTitle,

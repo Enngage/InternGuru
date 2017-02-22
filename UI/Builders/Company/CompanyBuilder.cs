@@ -184,7 +184,6 @@ namespace UI.Builders.Company
                 var message = new Message()
                 {
                     SenderApplicationUserId = CurrentUser.Id,
-                    RecipientCompanyID = form.CompanyID,
                     RecipientApplicationUserId = companyUserID,
                     MessageText = form.Message,
                     Subject = null, // no subject needed

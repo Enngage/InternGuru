@@ -19,37 +19,17 @@ namespace UI.Builders.Auth.Models
         public string SenderLastName { get; set; }
         public string SenderNickname { get; set; }
         public int CompanyID { get; set; }
-        public string CompanyName { get; set; }
         public string CurrentUserId { get; set; }
         public bool IsRead { get; set; }
-        public bool CompanyIsRecipient
-        {
-            get
-            {
-                return CompanyID != 0;
-            }
-        }
 
         /// <summary>
         /// Represents either recipient ID or sender ID
         /// </summary>
-        public string ConversationID
-        {
-            get
-            {
-                return WrittenByCurrentUser ? RecipientApplicationUserId : SenderApllicationUserId;
-            }
-        }
+        public string ConversationID => WrittenByCurrentUser ? RecipientApplicationUserId : SenderApllicationUserId;
 
         /// <summary>
         /// Indicates if the message was sent by current user (outgoing message) or incoming
         /// </summary>
-        public bool WrittenByCurrentUser
-        {
-            get
-            {
-                return CurrentUserId == SenderApllicationUserId;
-            }
-        }
+        public bool WrittenByCurrentUser => CurrentUserId == SenderApllicationUserId;
     }
 }
