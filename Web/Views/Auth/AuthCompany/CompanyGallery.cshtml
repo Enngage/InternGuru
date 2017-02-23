@@ -16,7 +16,7 @@
 
 @Helpers.MessageHelper.RenderInfoMessage($"Pouze soubory typu <em>{string.Join(", ", Core.Config.FileConfig.AllowedImageExtensions)} </em> do velikosti <em>{Core.Helpers.ConvertHelper.FormatBytes(Core.Config.AppConfig.MaximumFileSize)}</em> budou uloženy")
 
-@using (Html.BeginForm("CompanyGallery", "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "dropzone", id = "_GalleryDropzoneForm" }))
+@using (Html.BeginForm("CompanyGallery", "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data", @class = "dropzone", id = "_GalleryDropzoneForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -25,7 +25,6 @@
     <div class="fallback">
         <input name="file" type="file" multiple />
     </div>
-
 }
 
 https://fineuploader.com/demos.html

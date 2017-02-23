@@ -9,7 +9,7 @@
 
 @if (Model.Master.CurrentCompany.IsAvailable)
 {
-    @Html.Partial("Partials/AddEditThesis", Model.ThesisForm)
+    @Html.Partial("~/Views/Auth/AuthCompany/Partials/AddEditThesis.cshtml", Model.ThesisForm)
 }
 else
 {
@@ -17,7 +17,7 @@ else
         Vložit závěrečnou práci lze jen po zaregistrování firmy
     </div>
 
-    <a href="@Url.Action("RegisterCompany")">
+    <a href="@Url.Action("RegisterCompany", "AuthCompany")">
         <div class="ui large button primary">
             Registrovat firmu
         </div>

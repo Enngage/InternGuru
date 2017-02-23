@@ -9,13 +9,13 @@
 
 @if (Model.CanCreateInternship)
 {
-    @Html.Partial("Partials/AddEditInternship", Model.InternshipForm)
+    @Html.Partial("~/Views/Auth/AuthCompany/Partials/AddEditInternship.cshtml", Model.InternshipForm)
 }
 else
 {
     @Helpers.MessageHelper.RenderWarningMessage("Vložit stáž lze jen pro zaregistrování firmy")
 
-    <a href="@Url.Action("RegisterCompany")">
+    <a href="@Url.Action("RegisterCompany", "AuthCompany")">
         <div class="ui large button primary">
             Registrovat firmu
         </div>

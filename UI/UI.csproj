@@ -163,8 +163,19 @@
     <Compile Include="Builders\Account\Views\LoginViewModel.cs" />
     <Compile Include="Builders\Account\Views\RegisterViewModel.cs" />
     <Compile Include="Builders\Auth\AuthBuilder.cs" />
+    <Compile Include="Builders\Auth\AuthMessageBuilder.cs" />
+    <Compile Include="Builders\Auth\AuthQuestionnaireBuilder.cs" />
+    <Compile Include="Builders\Auth\AuthProfileBuilder.cs" />
+    <Compile Include="Builders\Auth\AuthCompanyBuilder.cs" />
+    <Compile Include="Builders\Auth\AuthThesisBuilder.cs" />
+    <Compile Include="Builders\Auth\AuthInternshipBuilder.cs" />
+    <Compile Include="Builders\Auth\AuthMasterBuilder.cs" />
     <Compile Include="Builders\Auth\Enum\AuthMenuActionEnum.cs" />
     <Compile Include="Builders\Auth\Enum\AuthTabEnum.cs" />
+    <Compile Include="Builders\Auth\Models\AuthCandidateMasterModel.cs" />
+    <Compile Include="Builders\Auth\Models\AuthCompanyMasterModel.cs" />
+    <Compile Include="Builders\Auth\Views\AuthCandidateTypeIndexView.cs" />
+    <Compile Include="Builders\Shared\Enums\UserTypeEnum.cs" />
     <Compile Include="Builders\Auth\Forms\AuthCompanyGalleryUploadForm.cs" />
     <Compile Include="Builders\Auth\Models\AuthQuestionnaireModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthQuestionnaireListingModel.cs" />
@@ -174,7 +185,7 @@
     <Compile Include="Builders\Auth\Models\AuthQuestionnaireSubmissionModel.cs" />
     <Compile Include="Builders\Auth\Models\AuthTab.cs" />
     <Compile Include="Builders\Auth\Models\AuthTabs.cs" />
-    <Compile Include="Builders\Auth\Models\AuthMasterModel.cs" />
+    <Compile Include="Builders\Auth\Models\AuthMaster.cs" />
     <Compile Include="Builders\Auth\Views\AuthSubmissionView.cs" />
     <Compile Include="Builders\Auth\Views\AuthQuestionnaireSubmissionsView.cs" />
     <Compile Include="Builders\Auth\Views\AuthNewQuestionnaireView.cs" />
@@ -208,7 +219,7 @@
     <Compile Include="Builders\Auth\Views\AuthEditProfileView.cs" />
     <Compile Include="Builders\Auth\Views\AuthConversationView.cs" />
     <Compile Include="Builders\Auth\Views\AuthNewInternshipView.cs" />
-    <Compile Include="Builders\Auth\Views\AuthIndexView.cs" />
+    <Compile Include="Builders\Auth\Views\AuthCompanyTypeIndexView.cs" />
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
     <Compile Include="Builders\Company\Enum\CompanyDetailMenuEnum.cs" />

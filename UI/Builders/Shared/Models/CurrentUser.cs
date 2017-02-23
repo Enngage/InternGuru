@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Helpers.Privilege;
+using UI.Builders.Shared.Enums;
 using UI.Helpers;
 
 namespace UI.Builders.Shared.Models
@@ -74,5 +75,32 @@ namespace UI.Builders.Shared.Models
         /// Indicates if current user is of Candidate type
         /// </summary>
         public bool IsCandidate { get; set; }
+
+        /// <summary>
+        /// User type
+        /// </summary>
+        public UserTypeEnum UserType
+        {
+            get
+            {
+                if (IsCandidate && !IsCompany)
+                {
+                    return UserTypeEnum.Candidate;
+                }
+                if (IsCompany && !IsCandidate)
+                {
+                    return UserTypeEnum.Company;
+                }
+                if (IsCompany && IsCandidate)
+                {
+                    return UserTypeEnum.CompanyAndCandidate;
+                }
+                if (!IsCandidate && !IsCompany)
+                {
+                    return UserTypeEnum.None;
+                }
+                return UserTypeEnum.Unknown;
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@using Core.Helpers;
-@model UI.Builders.Auth.Views.AuthIndexView
+@model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Moje stáže";
@@ -14,13 +14,13 @@
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
             
-            <a href="@Url.Action("NewInternship", "Auth")">
+            <a href="@Url.Action("NewInternship", "AuthCompany")">
                 <div class="ui button primary">Vytvořit stáž</div>
             </a>
 
             @if (Model.Master.CurrentCompany.IsAvailable)
             {
-                if (!Model.AuthMaster.Internships.Any())
+                if (!Model.AuthMaster.CompanyMaster.Internships.Any())
                 {
                     @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vystaveny žádné nabídky stáže")
                 }
@@ -44,11 +44,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var internship in Model.AuthMaster.Internships)
+                            @foreach (var internship in Model.AuthMaster.CompanyMaster.Internships)
                             {
                                 <tr>
                                     <td class="collapsing w-body-text-center w-mobile-left">
-                                        @Helpers.ActionHelper.RenderEditButton("EditInternship", "Auth", new { id = internship.ID })
+                                        @Helpers.ActionHelper.RenderEditButton("EditInternship", "AuthCompany", new { id = internship.ID })
                                         @Helpers.ActionHelper.RenderDeleteButton(internship.ID, "_DeleteInternshipButton")
                                         @if (internship.IsActive)
                                         {
@@ -56,7 +56,7 @@
                                         }
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("EditInternship", "Auth", new { id = internship.ID })">
+                                        <a href="@Url.Action("EditInternship", "AuthCompany", new { id = internship.ID })">
                                             @internship.Title
                                         </a>
                                     </td>

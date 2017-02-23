@@ -1,5 +1,5 @@
 ﻿@using Core.Helpers;
-@model UI.Builders.Auth.Views.AuthIndexView
+@model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Dotazníky";
@@ -14,13 +14,13 @@
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
             
-            <a href="@Url.Action("NewQuestionnaire", "Auth")">
+            <a href="@Url.Action("NewQuestionnaire", "AuthCompany")">
                 <div class="ui button primary">Vytvořit dotazník</div>
             </a>
 
             @if (Model.Master.CurrentCompany.IsAvailable)
             {
-                if (!Model.AuthMaster.Questionnaires.Any())
+                if (!Model.AuthMaster.CompanyMaster.Questionnaires.Any())
                 {
                     @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vytvořeny žádné dotazníky")
                 }
@@ -44,16 +44,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var questionnaire in Model.AuthMaster.Questionnaires)
+                            @foreach (var questionnaire in Model.AuthMaster.CompanyMaster.Questionnaires)
                             {
                                 <tr>
                                     <td class="collapsing w-body-text-center w-mobile-left">
-                                        @Helpers.ActionHelper.RenderEditButton("EditQuestionnaire", "Auth", new { id = questionnaire.ID })
+                                        @Helpers.ActionHelper.RenderEditButton("EditQuestionnaire", "AuthCompany", new { id = questionnaire.ID })
                                         @Helpers.ActionHelper.RenderDeleteButton(questionnaire.ID, "_DeleteQuestionnaireButton")
-                                        @Helpers.ActionHelper.RenderViewButton("QuestionnaireSubmissions", "Auth", new { id = questionnaire.ID }, false)
+                                        @Helpers.ActionHelper.RenderViewButton("QuestionnaireSubmissions", "AuthCompany", new { id = questionnaire.ID }, false)
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("EditQuestionnaire", "Auth", new {id = questionnaire.ID})">
+                                        <a href="@Url.Action("EditQuestionnaire", "AuthCompany", new {id = questionnaire.ID})">
                                             @questionnaire.QuestionnaireName
                                         </a>
                                     </td>

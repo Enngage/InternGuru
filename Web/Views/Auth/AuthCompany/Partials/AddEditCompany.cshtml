@@ -11,7 +11,7 @@
     @(Model.IsExistingCompany ? Model.CompanyName : "Registrovat firmu")
 </h1>
 
-@using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", id = "_RegisterCompanyForm", @class = "ui form" }))
+@using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data", id = "_RegisterCompanyForm", @class = "ui form" }))
 {
     @Html.AntiForgeryToken()
     <input type="hidden" name="ID" value="@Model.ID" />

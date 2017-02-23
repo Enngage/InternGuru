@@ -1,26 +1,26 @@
-Ôªø@using Core.Helpers;
-@model UI.Builders.Auth.Views.AuthIndexView
+@using Core.Helpers;
+@model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
 
 @{
-    Model.Metadata.BasicMetadata.Title = "Moje z√°vƒõreƒçn√© pr√°ce";
+    Model.Metadata.BasicMetadata.Title = "Moje z·vÏreËnÈ pr·ce";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authTheses")
 
-@Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat pr√°ci", "Opravdu chcete smazat vybranou z√°vƒõreƒçnou pr√°ci?")
+@Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat pr·ci", "Opravdu chcete smazat vybranou z·vÏreËnou pr·ci?")
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
             
-            <a href="@Url.Action("NewThesis", "Auth")">
-                <div class="ui button primary">Nov√° nab√≠dka</div>
+            <a href="@Url.Action("NewThesis", "AuthCompany")">
+                <div class="ui button primary">Nov· nabÌdka</div>
             </a>
 
-            @if (!Model.AuthMaster.Theses.Any())
+            @if (!Model.AuthMaster.CompanyMaster.Theses.Any())
             {
-                @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vystaveny ≈æ√°dn√© pr√°ce")
+                @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vystaveny û·dnÈ pr·ce")
             }
             else
             {
@@ -31,22 +31,22 @@
                             Akce
                         </th>
                         <th>
-                            N√°zev pr√°ce
+                            N·zev pr·ce
                         </th>
                         <th>
-                            Vytvo≈ôeno
+                            Vytvo¯eno
                         </th>
                         <th>
-                            Aktivn√≠
+                            AktivnÌ
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var thesis in Model.AuthMaster.Theses)
+                    @foreach (var thesis in Model.AuthMaster.CompanyMaster.Theses)
                     {
                         <tr>
                             <td class="collapsing w-body-text-center w-mobile-left">
-                                @Helpers.ActionHelper.RenderEditButton("EditThesis", "Auth", new { id = thesis.ID })
+                                @Helpers.ActionHelper.RenderEditButton("EditThesis", "AuthCompany", new { id = thesis.ID })
                                 @Helpers.ActionHelper.RenderDeleteButton(thesis.ID, "_DeleteThesisButton")
                                 @if (thesis.IsActive)
                                 {
@@ -54,7 +54,7 @@
                                 }
                             </td>
                             <td>
-                                <a href="@Url.Action("EditThesis", "Auth", new {id = thesis.ID })">
+                                <a href="@Url.Action("EditThesis", "AuthCompany", new {id = thesis.ID })">
                                     @thesis.ThesisName
                                 </a>
                             </td>
@@ -65,11 +65,11 @@
                             <td class="collapsing w-body-text-right w-mobile-left">
                                 @if (thesis.IsActive)
                                 {
-                                    <i title="Aktivn√≠" class="checkmark green icon"></i>
+                                    <i title="AktivnÌ" class="checkmark green icon"></i>
                                 }
                                 else
                                 {
-                                    <i title="Neaktivn√≠" class="remove red icon"></i>
+                                    <i title="NeaktivnÌ" class="remove red icon"></i>
                                 }
                             </td>
                         </tr>

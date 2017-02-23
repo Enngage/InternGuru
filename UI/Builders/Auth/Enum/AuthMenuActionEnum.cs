@@ -22,6 +22,8 @@ namespace UI.Builders.Auth.Enum
         Conversation,
         Questionnaires,
         EditQuestionnaire,
-        NewQuestionnaire
+        NewQuestionnaire,
+        CompanyTypeIndex,
+        CandidateTypeIndex
     }
 }

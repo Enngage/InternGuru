@@ -43,7 +43,7 @@
     @(Model.IsExistingInternship ? Model.Title : "Nová stáž")
 </h1>
 
-@using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))
+@using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))
 {
     @Html.AntiForgeryToken()
     <input type="hidden" name="ID" value="@Model.ID" />

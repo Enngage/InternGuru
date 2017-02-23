@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Helpers.Privilege;
+using UI.Builders.Shared.Enums;
 
 namespace UI.Builders.Shared.Models
 {
@@ -77,5 +78,10 @@ namespace UI.Builders.Shared.Models
         /// Indicates if current user is of Candidate type
         /// </summary>
         bool IsCandidate { get; }
+
+        /// <summary>
+        /// User type
+        /// </summary>
+        UserTypeEnum UserType { get; }
     }
 }

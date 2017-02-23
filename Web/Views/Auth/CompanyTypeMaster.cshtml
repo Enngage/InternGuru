@@ -18,7 +18,7 @@
     // get active menu item
     var activeMenuItem = Core.Helpers.EnumHelper.ParseEnum(Helpers.UrlHelper.CurrentAction, AuthMenuActionEnum.None);
 
-    var messagesClass = activeMenuItem == AuthMenuActionEnum.Index || activeMenuItem == AuthMenuActionEnum.Conversation ? "active" : string.Empty;
+    var messagesClass = activeMenuItem == AuthMenuActionEnum.CompanyTypeIndex || activeMenuItem == AuthMenuActionEnum.Conversation ? "active" : string.Empty;
     var internshipsClass = activeMenuItem == AuthMenuActionEnum.Internships || activeMenuItem == AuthMenuActionEnum.EditInternship ? "active" : string.Empty;
     var thesesClass = activeMenuItem == AuthMenuActionEnum.Theses || activeMenuItem == AuthMenuActionEnum.EditThesis ? "active" : string.Empty;
     var newInternshipClass = activeMenuItem == AuthMenuActionEnum.NewInternship ? "active" : string.Empty;
@@ -34,6 +34,7 @@
 <h1>Company type TODO</h1>
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authIndex")
+
 <div class="ui grid w-auth-header-fix">
     <div class="six wide tablet only four wide computer only column">
         @foreach (var enabledTab in Model.Tabs.GetOrderedActiveTabs())
@@ -45,7 +46,7 @@
                         <div class="item">
                             <div class="header">Hlavní menu</div>
                             <div class="menu">
-                                <a class="item @messagesClass" href="@Url.Action("Index", "Auth")">
+                                <a class="item @messagesClass" href="@Url.Action("CompanyTypeIndex", "Auth")">
                                     @if (Model.Master.StatusBox.NewMessagesCount > 0)
                                     {
                                         <div class="ui small red label">@Model.Master.StatusBox.NewMessagesCount</div>
@@ -56,16 +57,16 @@
                                     }
                                     Zprávy
                                 </a>
-                                <a class="item @internshipsClass" href="@Url.Action("Internships", "Auth")">
-                                    <div class="ui small label">@Model.AuthMaster.Internships.Count()</div>
+                                <a class="item @internshipsClass" href="@Url.Action("Internships", "AuthCompany")">
+                                    <div class="ui small label">@Model.AuthMaster.CompanyMaster.Internships.Count()</div>
                                     Stáže
                                 </a>
-                                <a class="item @thesesClass" href="@Url.Action("Theses", "Auth")">
-                                    <div class="ui small label">@Model.AuthMaster.Theses.Count()</div>
+                                <a class="item @thesesClass" href="@Url.Action("Theses", "AuthCompany")">
+                                    <div class="ui small label">@Model.AuthMaster.CompanyMaster.Theses.Count()</div>
                                     Závěrečné práce
                                 </a>
-                                <a class="item @questionnaireClass" href="@Url.Action("Questionnaires", "Auth")">
-                                    <div class="ui small label">@Model.AuthMaster.Questionnaires.Count()</div>
+                                <a class="item @questionnaireClass" href="@Url.Action("Questionnaires", "AuthCompany")">
+                                    <div class="ui small label">@Model.AuthMaster.CompanyMaster.Questionnaires.Count()</div>
                                     Dotazníky
                                 </a>
                             </div>
@@ -73,8 +74,8 @@
                         <div class="item">
                             <div class="header">Inzerce</div>
                             <div class="menu">
-                                <a class="item @newInternshipClass" href="@Url.Action("NewInternship", "Auth")">Nová stáž</a>
-                                <a class="item @newThesisClass" href="@Url.Action("NewThesis", "Auth")">Nová závěrečná práce</a>
+                                <a class="item @newInternshipClass" href="@Url.Action("NewInternship", "AuthCompany")">Nová stáž</a>
+                                <a class="item @newThesisClass" href="@Url.Action("NewThesis", "AuthCompany")">Nová závěrečná práce</a>
                             </div>
                         </div>
                         <div class="item">
@@ -82,12 +83,12 @@
                             <div class="menu">
                                 @if (Model.Master.CurrentCompany.IsAvailable)
                                 {
-                                    <a class="item @editCompanyClass" href="@Url.Action("EditCompany", "Auth")">Upravit</a>
-                                    <a class="item @companyGalleryClass" href="@Url.Action("CompanyGallery", "Auth")">Galerie</a>
+                                    <a class="item @editCompanyClass" href="@Url.Action("EditCompany", "AuthCompany")">Upravit</a>
+                                    <a class="item @companyGalleryClass" href="@Url.Action("CompanyGallery", "AuthCompany")">Galerie</a>
                                 }
                                 else
                                 {
-                                    <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany", "Auth")">Registrovat firmu</a>
+                                    <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany", "AuthCompany")">Registrovat firmu</a>
                                 }
                             </div>
                         </div>
@@ -160,7 +161,7 @@
                         <div class="item">
                             <div class="header">Hlavní menu</div>
                             <div class="menu">
-                                <a class="item @messagesClass" href="@Url.Action("Index", "Auth")">
+                                <a class="item @messagesClass" href="@Url.Action("CompanyTypeIndex", "Auth")">
                                     @if (Model.Master.StatusBox.NewMessagesCount > 0)
                                     {
                                         <div class="ui small red label">@Model.Master.StatusBox.NewMessagesCount</div>
@@ -171,16 +172,16 @@
                                     }
                                     Zprávy
                                 </a>
-                                <a class="item @internshipsClass" href="@Url.Action("Internships", "Auth")">
-                                    <div class="ui small label">@Model.AuthMaster.Internships.Count()</div>
+                                <a class="item @internshipsClass" href="@Url.Action("Internships", "AuthCompany")">
+                                    <div class="ui small label">@Model.AuthMaster.CompanyMaster.Internships.Count()</div>
                                     Stáže
                                 </a>
-                                <a class="item @thesesClass" href="@Url.Action("Theses", "Auth")">
-                                    <div class="ui small label">@Model.AuthMaster.Theses.Count()</div>
+                                <a class="item @thesesClass" href="@Url.Action("Theses", "AuthCompany")">
+                                    <div class="ui small label">@Model.AuthMaster.CompanyMaster.Theses.Count()</div>
                                     Závěrečné práce
                                 </a>
-                                <a class="item @questionnaireClass" href="@Url.Action("Questionnaires", "Auth")">
-                                    <div class="ui small label">@Model.AuthMaster.Questionnaires.Count()</div>
+                                <a class="item @questionnaireClass" href="@Url.Action("Questionnaires", "AuthCompany")">
+                                    <div class="ui small label">@Model.AuthMaster.CompanyMaster.Questionnaires.Count()</div>
                                     Dotazníky
                                 </a>
                             </div>
@@ -188,8 +189,8 @@
                         <div class="item">
                             <div class="header">Inzerce</div>
                             <div class="menu">
-                                <a class="item @newInternshipClass" href="@Url.Action("NewInternship", "Auth")">Nová stáž</a>
-                                <a class="item @newThesisClass" href="@Url.Action("NewThesis", "Auth")">Nová závěrečná práce</a>
+                                <a class="item @newInternshipClass" href="@Url.Action("NewInternship", "AuthCompany")">Nová stáž</a>
+                                <a class="item @newThesisClass" href="@Url.Action("NewThesis", "AuthCompany")">Nová závěrečná práce</a>
                             </div>
                         </div>
                         <div class="item">
@@ -197,12 +198,12 @@
                             <div class="menu">
                                 @if (Model.Master.CurrentCompany.IsAvailable)
                                 {
-                                    <a class="item @editCompanyClass" href="@Url.Action("EditCompany", "Auth")">Upravit</a>
-                                    <a class="item @companyGalleryClass" href="@Url.Action("CompanyGallery", "Auth")">Galerie</a>
+                                    <a class="item @editCompanyClass" href="@Url.Action("EditCompany", "AuthCompany")">Upravit</a>
+                                    <a class="item @companyGalleryClass" href="@Url.Action("CompanyGallery", "AuthCompany")">Galerie</a>
                                 }
                                 else
                                 {
-                                    <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany", "Auth")">Registrovat firmu</a>
+                                    <a class="item @registerCompanyClass" href="@Url.Action("RegisterCompany", "AuthCompany")">Registrovat firmu</a>
                                 }
                             </div>
                         </div>

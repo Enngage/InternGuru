@@ -1,5 +1,5 @@
 ﻿@using Core.Helpers;
-@model UI.Builders.Auth.Views.AuthIndexView
+@model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Zprávy";
@@ -11,14 +11,14 @@
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
-            @if (!Model.AuthMaster.Conversations.Any())
+            @if (!Model.AuthMaster.CompanyMaster.Conversations.Any())
             {
                 @Helpers.MessageHelper.RenderInfoMessage("Nejsou zde žádné zprávy")
             }
             else
             {
                 <div class="ui items divided">
-                    @foreach (var conversation in Model.AuthMaster.Conversations)
+                    @foreach (var conversation in Model.AuthMaster.CompanyMaster.Conversations)
                     {
                         <div class="item w-auth-conversation-div w-override-padding-all _ConversationItem" data-link="@Url.Action("Conversation", new { id = conversation.ConversationID })">
                             <a class="ui tiny image w-mobile-margin-0 w-mobile-hide" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">

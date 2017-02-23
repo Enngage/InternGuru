@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace UI.Builders.Auth.Models
 {
-    public class AuthMasterModel
+    public class AuthMaster
     {
-        public IEnumerable<AuthInternshipListingModel> Internships { get; set; }
-        public IEnumerable<AuthThesisListingModel> Theses { get; set; }
-        public IEnumerable<AuthConversationModel> Conversations { get; set; }
-        public IEnumerable<AuthQuestionnaireListingModel> Questionnaires { get; set; }
+        public AuthCompanyMasterModel CompanyMaster { get; set; }
+        public AuthCandidateMasterModel CandidateMaster { get; set; }
 
         /// <summary>
         /// Indicates if current user e-mail is visible to others
@@ -21,12 +18,10 @@ namespace UI.Builders.Auth.Models
         /// </summary>
         public bool ShowUserTypeSelectionView { get; set; }
 
-
         /// <summary>
         /// Master layout used by the page 
         /// Layout is different for candidate and company users
         /// </summary>
         public string AuthMasterLayout { get; set; }
-
     }
 }

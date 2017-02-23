@@ -1,0 +1,276 @@
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
+using Service.Context;
+using UI.Base;
+using UI.Builders.Auth;
+using UI.Builders.Auth.Forms;
+using UI.Builders.Auth.Views;
+using UI.Builders.Master;
+using UI.Events;
+using UI.Exceptions;
+
+namespace Web.Controllers.Auth
+{
+    [Authorize]
+    public class AuthController : BaseController
+    {
+
+        #region Setup
+
+        private const string GeneralActionPrefix = "uzivatel";
+
+        protected const string CompanyActionPrefix = "c";
+        protected const string CompanyViewsFolder = "~/Views/Auth/AuthCompany/";
+
+        protected const string CandidateActionPrefix = "u";
+        protected const string CandidateViewsFolder = "~/Views/Auth/AuthCandidate/";
+
+        #endregion
+
+        #region Builder
+
+        protected readonly AuthBuilder AuthBuilder;
+
+        #endregion
+
+        #region Constructor
+
+        public AuthController(IAppContext appContext, IServiceEvents serviceEvents, MasterBuilder masterBuilder, AuthBuilder authBuilder) : base(appContext, serviceEvents, masterBuilder)
+        {
+            AuthBuilder = authBuilder;
+        }
+
+        #endregion
+
+        #region Actions
+
+        [Route(CompanyActionPrefix)]
+        public async Task<ActionResult> CompanyTypeIndex(int? page)
+        {
+            var model = await AuthBuilder.AuthMasterBuilder.BuildCompanyTypeIndexViewAsync(page);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
+            return View($"{CompanyViewsFolder}Index.cshtml", model);
+        }
+
+        [Route(CandidateActionPrefix)]
+        public async Task<ActionResult> CandidateTypeIndex(int? page)
+        {
+            var model = await AuthBuilder.AuthMasterBuilder.BuildCandidateTypeIndexViewAsync(page);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
+            return View($"{CandidateViewsFolder}Index.cshtml", model);
+        }
+
+        [Route(GeneralActionPrefix + "/UpravitProfil")]
+        public async Task<ActionResult> EditProfile()
+        {
+            var model = await AuthBuilder.AuthProfileBuilder.BuildEditProfileViewAsync();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
+            return View(model);
+        }
+
+        [Route(GeneralActionPrefix + "/Avatar")]
+        public async Task<ActionResult> Avatar()
+        {
+            var model = await AuthBuilder.AuthProfileBuilder.BuildAvatarViewAsync();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
+            return View(model);
+        }
+
+        [Route(GeneralActionPrefix + "/Konverzace/{id}/{page:int?}")]
+        public async Task<ActionResult> Conversation(string id, int? page)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return HttpNotFound();
+            }
+
+            var model = await AuthBuilder.AuthMessageBuilder.BuildConversationViewAsync(id, page);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region POST methods
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route(GeneralActionPrefix + "/Konverzace/{id}/{page:int?}")]
+        public async Task<ActionResult> Conversation(AuthMessageForm form)
+        {
+            // validate form
+            if (!ModelStateWrapper.IsValid)
+            {
+                return View(await AuthBuilder.AuthMessageBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form));
+            }
+
+            try
+            {
+                await AuthBuilder.AuthMessageBuilder.CreateMessage(form);
+
+                var model = await AuthBuilder.AuthMessageBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form);
+
+                // set form status
+                model.MessageForm.FormResult.IsSuccess = true;
+
+                // clear the form
+                model.MessageForm.Message = string.Empty;
+
+                return View(model);
+            }
+            catch (UiException ex)
+            {
+                ModelStateWrapper.AddError(ex.Message);
+
+                return View(await AuthBuilder.AuthMessageBuilder.BuildConversationViewAsync(form.RecipientApplicationUserId, null, form));
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route(GeneralActionPrefix + "/Avatar")]
+        public async Task<ActionResult> Avatar(AuthAvatarUploadForm form)
+        {
+            // validate form
+            if (!ModelStateWrapper.IsValid)
+            {
+                return View(await AuthBuilder.AuthProfileBuilder.BuildAvatarViewAsync());
+            }
+
+            try
+            {
+                AuthBuilder.AuthProfileBuilder.UploadAvatar(form);
+
+                var model = await AuthBuilder.AuthProfileBuilder.BuildAvatarViewAsync();
+
+                model.AvatarForm.FormResult.IsSuccess = true;
+
+                return View(model);
+            }
+            catch (UiException ex)
+            {
+                ModelStateWrapper.AddError(ex.Message);
+
+                return View(await AuthBuilder.AuthProfileBuilder.BuildAvatarViewAsync());
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route(GeneralActionPrefix + "/UpravitProfil")]
+        public async Task<ActionResult> EditProfile(AuthEditProfileForm form)
+        {
+            // validate form
+            if (!ModelStateWrapper.IsValid)
+            {
+                return View(await AuthBuilder.AuthProfileBuilder.BuildEditProfileViewAsync(form));
+            }
+
+            try
+            {
+                // edit profile
+                await AuthBuilder.AuthProfileBuilder.EditProfile(form);
+
+                var model = await AuthBuilder.AuthProfileBuilder.BuildEditProfileViewAsync(form);
+
+                // set form status
+                model.ProfileForm.FormResult.IsSuccess = true;
+
+                // set flag indicating whether user's e-mail is still visible to others or not
+                model.AuthMaster.EmailVisibleForPeople = string.IsNullOrEmpty(model.ProfileForm.FirstName) && string.IsNullOrEmpty(model.ProfileForm.Nickname);
+
+                return View(model);
+            }
+            catch (UiException ex)
+            {
+                ModelStateWrapper.AddError(ex.Message);
+
+                return View(await AuthBuilder.AuthProfileBuilder.BuildEditProfileViewAsync(form));
+            }
+        }
+
+        #endregion
+
+        #region User type selection GET methods
+
+        [HttpGet]
+        [Route(GeneralActionPrefix + "/Typ/Uchazec")]
+        public async Task<ActionResult> SetCandidateType()
+        {
+            await AuthBuilder.AuthProfileBuilder.SetUserTypeAsync(false, true);
+
+            return RedirectToAction("CandidateTypeIndex");
+        }
+
+        [HttpGet]
+        [Route(GeneralActionPrefix + "/Typ/Firma")]
+        public async Task<ActionResult> SetCompanyType()
+        {
+            await AuthBuilder.AuthProfileBuilder.SetUserTypeAsync(true, false);
+
+            return RedirectToAction("CompanyTypeIndex");
+        }
+
+        #endregion
+
+        #region Helper methods
+
+        protected ActionResult ShowUserTypeSelection(AuthMasterView view)
+        {
+            return View("~/views/auth/UserTypeSelection.cshtml", view);
+        }
+
+        #endregion
+
+    }
+}

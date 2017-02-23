@@ -35,7 +35,7 @@
                             {
                                 <tr>
                                     <td class="collapsing w-body-text-center w-mobile-left">
-                                        @Helpers.ActionHelper.RenderViewButton("ViewSubmission", "Auth", new { id = submission.QuestionnaireID, submissionid = submission.ID }, false)
+                                        @Helpers.ActionHelper.RenderViewButton("ViewSubmission", "AuthCompany", new { id = submission.QuestionnaireID, submissionid = submission.ID }, false)
                                     </td>
                                     <td>
                                         @Helpers.UserHelper.GetDisplayName(submission.CreatedByFirstName, submission.CreatedByLastName, submission.CreatedByNickname, submission.CreatedByApplicationUserName)

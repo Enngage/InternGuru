@@ -15,7 +15,7 @@
     @(Model.IsExistingThesis ? Model.ThesisName : "Nová nabídka závěrečné práce")
 </h1>
 
-@using (Html.BeginForm(formAction, "Auth", FormMethod.Post, new { enctype = "multipart/form-data", id = "_ThesisForm", @class = "ui form" }))
+@using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data", id = "_ThesisForm", @class = "ui form" }))
 {
     @Html.AntiForgeryToken()
     <input type="hidden" name="ID" value="@Model.ID" />
