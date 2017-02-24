@@ -320,7 +320,7 @@ namespace Service.Services
                 var saveException = new SaveException(GetSaveExceptionText(type), ex);
 
                 // log event
-                logService?.LogException(saveException);
+                logService?.LogException(saveException, ServiceDependencies.RequestContext.CurrentUrl, ServiceDependencies.User.UserName);
 
                 // re-throw
                 throw;
@@ -516,7 +516,7 @@ namespace Service.Services
                 var saveException = new SaveException(GetSaveExceptionText(type), ex);
 
                 // log event
-                logService?.LogException(saveException);
+                logService?.LogException(saveException, ServiceDependencies.RequestContext.CurrentUrl, ServiceDependencies.User.UserName);
 
                 // re-throw
                 throw;

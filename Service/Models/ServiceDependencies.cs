@@ -12,18 +12,21 @@ namespace Service.Models
         public ICacheService CacheService { get; }
         public IEmailProvider EmailProvider { get; }
         public IUser User { get; }
+        public IRequestContext RequestContext { get; }
 
         public ServiceDependencies(
             IAppContext appContext,
             ICacheService cacheService,
             IEmailProvider emailProvider,
-            IUser user
+            IUser user,
+            IRequestContext requestContext
         )
         {
             AppContext = appContext;
             CacheService = cacheService;
             EmailProvider = emailProvider;
             User = user;
+            RequestContext = requestContext;
         }
     }
 }

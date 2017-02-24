@@ -107,11 +107,14 @@ namespace Web.Lib.Ninject
             kernel.Bind<IUIHelpers>().To<UIHelpers>().InRequestScope();
 
             // Service dependencies - request scope
+            kernel.Bind<IRequestContext>().To<RequestContext>().When(ctx => HttpContext.Current != null).InRequestScope().WithConstructorArgument("currentUrl",
+                context => (HttpContext.Current.Request.RawUrl));
             kernel.Bind<IUser>().To<AuthenticatedUser>().When(ctx => HttpContext.Current.User.Identity.IsAuthenticated).InRequestScope().WithConstructorArgument("identity",
                 context => (HttpContext.Current.User.Identity)).WithConstructorArgument("userId",
                 context => (HttpContext.Current.User.Identity.GetUserId()));
             kernel.Bind<IUser>().To<GuestUser>().When(ctx => !HttpContext.Current.User.Identity.IsAuthenticated).InRequestScope();
             kernel.Bind<IServiceDependencies>().To<ServiceDependencies>().InRequestScope();
+
 
             // Services - they need to be in RequestScope, otherwise they may throw infinite recursion exceptions when a service is used inside another service
             kernel.Bind<ILogService>().To<LogService>().InRequestScope();

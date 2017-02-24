@@ -82,6 +82,8 @@
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\IRequestContext.cs" />
+    <Compile Include="Models\RequestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Activities\ActivityService.cs" />
     <Compile Include="Services\Activities\Enums\ActivityTypeEnum.cs" />
