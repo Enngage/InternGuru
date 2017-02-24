@@ -13,5 +13,6 @@ namespace UI.Builders.Auth.Models
         public string QuestionnaireXml { get; set; }
         public string CreatedByApplicationUserId { get; set; }
         public int CompanyID { get; set; }
+        public int SubmissionsCount { get; set; }
     }
 }

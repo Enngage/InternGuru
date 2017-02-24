@@ -96,6 +96,21 @@ namespace Service.Services
         /// <param name="key"></param>
         void TouchKey(string key);
 
+        /// <summary>
+        /// Service context 
+        /// </summary>
+        /// <example>
+        /// using (context = new ServiceContext(){
+        ///     CheckPermissions = false;
+        /// })
+        /// {
+        ///     {serviceClass}.ServiceContext = context;
+        ///     code executed with given context
+        /// }
+        ///     
+        /// </example>
+        IServiceContext ServiceContext { set; }
+
         #endregion
 
         #region Events

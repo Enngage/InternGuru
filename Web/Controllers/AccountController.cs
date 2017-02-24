@@ -500,7 +500,7 @@ namespace Web.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("Index", "Auth");
+            return RedirectToAction("UserTypeSelection", "Auth");
         }
 
 

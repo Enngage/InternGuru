@@ -31,6 +31,11 @@ namespace Service.Services
         /// </summary>
         private IDbSet<TEntity> _entityDbSet;
 
+        /// <summary>
+        /// Service context
+        /// </summary>
+        private IServiceContext _serviceContext;
+
         #endregion
 
         #region Properties
@@ -106,6 +111,24 @@ namespace Service.Services
         public void Dispose()
         {
             AppContext?.Dispose();
+        }
+
+        #endregion
+
+        #region Service context
+
+        public IServiceContext ServiceContext
+        {
+            private get
+            {
+                if (_serviceContext == null)
+                {
+                    // get default context
+                    _serviceContext = new ServiceContext();
+                }
+                return _serviceContext;
+            }
+            set { _serviceContext = value; }
         }
 
         #endregion
@@ -762,6 +785,12 @@ namespace Service.Services
         /// <returns>True if entity can be updated, false otherwise</returns>
         public virtual bool CanUpdate(TEntity obj)
         {
+            // return true immediately if context allows it
+            if (!ServiceContext.CheckPermissions)
+            {
+                return true;
+            }
+
             if (!ServiceDependencies.User.IsAuthenticated)
             {
                 // not logged users cannot update entities by default
@@ -778,7 +807,7 @@ namespace Service.Services
 
             if (string.IsNullOrEmpty(entityAccess.CreatedByApplicationUserId) || string.IsNullOrEmpty(entityAccess.UpdatedByApplicationUserId))
             {
-                throw new NotSupportedException($"Cannot check security because '{nameof(IEntityWithRestrictedAccess)}' properties are empty");
+                throw new NotSupportedException($"Cannot check security because properties of '{nameof(IEntityWithRestrictedAccess)}' class are empty");
             }
 
             // return true if current user created the entity
@@ -819,7 +848,7 @@ namespace Service.Services
             var entityWithUniqueCodeName = newEntity as IEntityWithUniqueCodeName;
             if (entityWithUniqueCodeName != null)
             {
-                var result = await EntityDbSet.Select(m => new { ID = m.ID, CodeName = m.CodeName }).FirstOrDefaultAsync(m => m.Equals(newEntity.CodeName) && m.ID != newEntity.ID);
+                var result = await EntityDbSet.Select(m => new { m.ID, m.CodeName }).FirstOrDefaultAsync(m => m.Equals(newEntity.CodeName) && m.ID != newEntity.ID);
 
                 if (result != null)
                 {
@@ -849,7 +878,7 @@ namespace Service.Services
             var entityWithUniqueCodeName = newEntity as IEntityWithUniqueCodeName;
             if (entityWithUniqueCodeName != null)
             {
-                var result = EntityDbSet.Select(m => new { ID = m.ID, CodeName = m.CodeName }).FirstOrDefault(m => m.Equals(newEntity.CodeName) && m.ID != newEntity.ID);
+                var result = EntityDbSet.Select(m => new { m.ID, m.CodeName }).FirstOrDefault(m => m.Equals(newEntity.CodeName) && m.ID != newEntity.ID);
 
                 if (result != null)
                 {
@@ -919,7 +948,7 @@ namespace Service.Services
                 // required user stamp
                 if (!ServiceDependencies.User.IsAuthenticated && userStampIsRequired)
                 {
-                    throw new AuthorizationException($"Authorization required for action '{type}'");
+                    throw new AuthorizationException($"Authentication required for action '{type}'");
                 }
 
                 if (ServiceDependencies.User.IsAuthenticated)

@@ -65,8 +65,8 @@ namespace Entity
         public ApplicationUser UpdatedByApplicationUser { get; set; }
         [ForeignKey("CompanyCategoryID")]
         public CompanyCategory CompanyCategory { get; set; }
+        [ForeignKey("CompanyID")] // foreign key from "Internship" entity
         public ICollection<Internship> Internships { get; set; }
-        public ICollection<Message> Messages { get; set; }
         [ForeignKey("CompanyID")] // foreign key from "Thesis" entity
         public ICollection<Thesis> Theses { get; set; }
 

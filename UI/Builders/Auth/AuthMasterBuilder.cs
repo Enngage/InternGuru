@@ -77,13 +77,13 @@ namespace UI.Builders.Auth
                 return null;
             }
 
-                return new AuthCompanyMasterModel()
-                {
-                    Internships = await GetInternshipsAsync(),
-                    Conversations = await GetConversationsAsync(10),
-                    Theses = await GetThesesListingsAsync(),
-                    Questionnaires = await GetQuestionnairesListingsAsync(),
-                };
+            return new AuthCompanyMasterModel()
+            {
+                Internships = await GetInternshipsAsync(),
+                Conversations = await GetConversationsAsync(10),
+                Theses = await GetThesesListingsAsync(),
+                Questionnaires = await GetQuestionnairesListingsAsync(),
+            };
         }
 
         #endregion
@@ -299,7 +299,8 @@ namespace UI.Builders.Auth
                     QuestionnaireName = m.QuestionnaireName,
                     QuestionnaireXml = m.QuestionnaireXml,
                     CompanyID = m.CompanyID,
-                    CreatedByApplicationUserId = m.CreatedByApplicationUserId
+                    CreatedByApplicationUserId = m.CreatedByApplicationUserId,
+                    SubmissionsCount = m.Submissions.Count()
                 });
 
             questionnairesQuery = questionnairesQuery.OrderByDescending(m => m.Updated);
@@ -501,9 +502,11 @@ namespace UI.Builders.Auth
             var cacheSetup = Services.CacheService.GetSetup<AuthQuestionnaireModel>(GetSource());
             cacheSetup.Dependencies = new List<string>()
             {
-                EntityKeys.KeyUpdateAny<Entity.Internship>(),
-                EntityKeys.KeyDeleteAny<Entity.Internship>(),
-                EntityKeys.KeyCreateAny<Entity.Internship>(),
+                EntityKeys.KeyUpdateAny<Entity.Questionnaire>(),
+                EntityKeys.KeyDeleteAny<Entity.Questionnaire>(),
+                EntityKeys.KeyCreateAny<Entity.Questionnaire>(),
+                  EntityKeys.KeyCreateAny<Entity.QuestionnaireSubmission>(),
+                   EntityKeys.KeyDeleteAny<Entity.QuestionnaireSubmission>(),
             };
             cacheSetup.ObjectStringID = CurrentUser.Id;
 

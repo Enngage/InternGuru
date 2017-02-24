@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Helpers;
@@ -32,6 +34,8 @@ namespace Entity
 
         #region Virtual properties
 
+        [ForeignKey("QuestionnaireID")] // foreign key from "QuestionnaireSubmission" entity
+        public ICollection<QuestionnaireSubmission> Submissions { get; set; }
 
         [ForeignKey("CompanyID")]
         public Company Company { get; set; }

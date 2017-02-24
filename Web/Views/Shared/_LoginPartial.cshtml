@@ -29,6 +29,19 @@
             }
         </a>
     }
+    else
+    {
+        <a class="item w-menu-right-item" href="@Url.Action("UserTypeSelection", "Auth")">
+            <img alt="" class="ui avatar image" src="@Helpers.ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)">
+            &nbsp;<span>@Model.Master.CurrentUser.UserDisplayName</span>
+            @if (Model.Master.StatusBox.NewMessagesCount > 0)
+            {
+                <span class="ui red label">
+                    @Model.Master.StatusBox.NewMessagesCount
+                </span>
+            }
+        </a>
+    }
 }
 else
 {

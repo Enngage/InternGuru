@@ -81,18 +81,6 @@
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Migrations\201702211756170_EmailAndMessage.cs" />
-    <Compile Include="Migrations\201702211756170_EmailAndMessage.Designer.cs">
-      <DependentUpon>201702211756170_EmailAndMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702221854504_RemoveCompanyIDFromMessage.cs" />
-    <Compile Include="Migrations\201702221854504_RemoveCompanyIDFromMessage.Designer.cs">
-      <DependentUpon>201702221854504_RemoveCompanyIDFromMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702221923031_UserTypeFields.cs" />
-    <Compile Include="Migrations\201702221923031_UserTypeFields.Designer.cs">
-      <DependentUpon>201702221923031_UserTypeFields.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Activities\ActivityService.cs" />
@@ -129,6 +117,7 @@
     <Compile Include="Services\Internships\InternshipCategoryService.cs" />
     <Compile Include="Services\Internships\InternshipService.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\IServiceContext.cs" />
     <Compile Include="Services\IServiceDependencies.cs" />
     <Compile Include="Services\IValidationResult.cs" />
     <Compile Include="Services\Languages\LanguageService.cs" />
@@ -152,6 +141,7 @@
     <Compile Include="Models\ServiceDependencies.cs" />
     <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="Services\Questionnaires\QuestionSubmit.cs" />
+    <Compile Include="Services\ServiceContext.cs" />
     <Compile Include="Services\Thesis\Enums\ThesisTypeEnum.cs" />
     <Compile Include="Services\Thesis\IThesisTypeService.cs" />
     <Compile Include="Services\Thesis\ThesisTypeService.cs" />
@@ -180,17 +170,6 @@
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702211756170_EmailAndMessage.resx">
-      <DependentUpon>201702211756170_EmailAndMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702221854504_RemoveCompanyIDFromMessage.resx">
-      <DependentUpon>201702221854504_RemoveCompanyIDFromMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702221923031_UserTypeFields.resx">
-      <DependentUpon>201702221923031_UserTypeFields.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

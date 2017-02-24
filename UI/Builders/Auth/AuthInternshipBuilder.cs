@@ -280,7 +280,7 @@ namespace UI.Builders.Auth
                     QuestionnaireID = form.QuestionnaireID,
                 };
 
-                await Services.InternshipService.UpdateAsync(internship);
+                 await Services.InternshipService.UpdateAsync(internship);
             }
             catch (ValidationException ex)
             {

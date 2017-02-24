@@ -44,6 +44,19 @@ namespace Web.Controllers.Auth
 
         #region Actions
 
+        [Route(GeneralActionPrefix + "/TypUctu")]
+        public async Task<ActionResult> UserTypeSelection(int? page)
+        {
+            var model = await AuthBuilder.AuthMasterBuilder.BuildCompanyTypeIndexViewAsync(page);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+           
+            return ShowUserTypeSelection(model);
+        }
+
         [Route(CompanyActionPrefix)]
         public async Task<ActionResult> CompanyTypeIndex(int? page)
         {

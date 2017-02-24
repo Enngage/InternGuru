@@ -38,6 +38,9 @@
                                 <th class="center aligned">
                                     Počet otázek
                                 </th>
+                                <th class="center aligned">
+                                   Záznamy
+                                </th>
                                 <th>
                                     Upraveno
                                 </th>
@@ -50,7 +53,6 @@
                                     <td class="collapsing w-body-text-center w-mobile-left">
                                         @Helpers.ActionHelper.RenderEditButton("EditQuestionnaire", "AuthCompany", new { id = questionnaire.ID })
                                         @Helpers.ActionHelper.RenderDeleteButton(questionnaire.ID, "_DeleteQuestionnaireButton")
-                                        @Helpers.ActionHelper.RenderViewButton("QuestionnaireSubmissions", "AuthCompany", new { id = questionnaire.ID }, false)
                                     </td>
                                     <td>
                                         <a href="@Url.Action("EditQuestionnaire", "AuthCompany", new {id = questionnaire.ID})">
@@ -59,6 +61,11 @@
                                     </td>
                                     <td class="center aligned">
                                         @questionnaire.Questions.Count
+                                    </td>
+                                    <td class="center aligned">
+                                        <a href="@Url.Action("QuestionnaireSubmissions", "AuthCompany", new { id = questionnaire.ID })">
+                                            Zobrazit (@questionnaire.SubmissionsCount)
+                                        </a>
                                     </td>
                                     <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
                                         <i title="Vytvořeno" class="calendar icon"></i>
