@@ -1,5 +1,4 @@
 ﻿
-using Core.Config;
 
 namespace UI.Builders.Master.Models
 {

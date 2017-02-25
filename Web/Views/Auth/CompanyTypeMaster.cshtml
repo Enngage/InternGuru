@@ -1,10 +1,15 @@
 ﻿@using UI.Builders.Auth.Enum
+@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
 @using UI.Modules.InfoMessage.Enums
 @using UI.Modules.InfoMessage.Views
 @model UI.Builders.Auth.Views.AuthMasterView
 
 @{
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+    Model.Layout.Type = LayoutTypeEnum.DarkContainer;
+    Layout = Model.Layout.Path;
+
+    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, "Firma", "/content/images/contact-us-hero.jpg");
 
     // main menu is always enabled
     Model.Tabs.MainMenu.Display = true;
@@ -30,6 +35,106 @@
     var avatarClass = activeMenuItem == AuthMenuActionEnum.Avatar ? "active" : string.Empty;
     var questionnaireClass = activeMenuItem == AuthMenuActionEnum.Questionnaires || activeMenuItem == AuthMenuActionEnum.EditQuestionnaire ? "active" : string.Empty;
 }
+
+<div class="ui centered grid">
+    <div class="sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment  w-link-segment">
+            <a href="@Url.Action("Internships", "AuthCompany")">
+                <h2 class="ui center aligned icon header">
+                    <i class="sitemap icon"></i>
+                    Stáže
+                </h2>
+            </a>
+        </div>
+    </div>
+    <div class="sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment  w-link-segment">
+            <a href="@Url.Action("Theses", "AuthCompany")">
+                <h2 class="ui center aligned icon header">
+                    <i class="university icon"></i>
+                    Závěrečné práce
+                </h2>
+            </a>
+        </div>
+    </div>
+    <div class="sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment  w-link-segment">
+            <a href="@Url.Action("Questionnaires", "AuthCompany")">
+                <h2 class="ui center aligned icon header">
+                    <i class="idea icon"></i>
+                    Dotazníky
+                </h2>
+            </a>
+        </div>
+    </div>
+    <div class="sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment  w-link-segment">
+            @if (Model.Master.CurrentCompany.IsAvailable)
+            {
+                <a href="@Url.Action("EditCompany", "AuthCompany")">
+                    <h2 class="ui center aligned icon header">
+                        <i class="building icon"></i>
+                        Firma
+                    </h2>
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("RegisterCompany", "AuthCompany")">
+                    <h2 class="ui center aligned icon header">
+                        <i class="building icon"></i>
+                        Firma
+                    </h2>
+                </a>
+            }
+        </div>
+    </div>
+    <div class="sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment w-link-segment">
+            <a href="@Url.Action("CompanyTypeIndex", "AuthCompany")">
+                <h2 class="ui center aligned icon header">
+                    <i class="pencil icon"></i>
+                    Zprávy
+                </h2>
+            </a>
+        </div>
+    </div>
+    <div class="sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment  w-link-segment">
+            <a href="@Url.Action("TODO", "AuthCompany")">
+                <h2 class="ui center aligned icon header">
+                    <i class="settings icon"></i>
+                    Nastavení
+                </h2>
+            </a>
+        </div>
+    </div>
+    <div class="sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment  w-link-segment">
+            <a href="@Url.Action("CompanyGallery", "AuthCompany")">
+                <h2 class="ui center aligned icon header">
+                    <i class="image icon"></i>
+                    Firemní galerie
+                </h2>
+            </a>
+        </div>
+    </div>
+    <div class="sixteen wide mobile eight wide tablet four wide computer column">
+        <div class="ui segment  w-link-segment">
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "_MainLogoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('_MainLogoutForm').submit()">
+                    <h2 class="ui center aligned icon header">
+                        <i class="sign out icon"></i>
+                        Odhlásit
+                    </h2>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
 
 <h1>Company type TODO</h1>
 
@@ -97,14 +202,7 @@
                             <div class="menu">
                                 <a class="item @editProfileClass" href="@Url.Action("EditProfile", "Auth")">Základní údaje</a>
                                 <a class="item @avatarClass" href="@Url.Action("Avatar", "Auth")">Avatar</a>
-                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "_MainLogoutForm" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <a class="item" href="javascript:document.getElementById('_MainLogoutForm').submit()">
-                                        <i class="sign out icon"></i>
-                                        Odhlásit
-                                    </a>
-                                }
+                            
                             </div>
                         </div>
                     </div>

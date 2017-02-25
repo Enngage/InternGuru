@@ -2559,6 +2559,8 @@
     <Content Include="Views\Auth\CompanyTypeMaster.cshtml" />
     <Content Include="Views\Auth\CandidateTypeMaster.cshtml" />
     <Content Include="Views\System\SystemMaster.cshtml" />
+    <Content Include="Views\Shared\Body\BodyWrapper.cshtml" />
+    <Content Include="Stylesheets\partials\_link.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

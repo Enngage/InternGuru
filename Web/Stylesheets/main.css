@@ -505,12 +505,6 @@
     float: right;
     margin-right: 0; }
 
-#w-body-wrapper .w-auth-user-type-selection:hover {
-  opacity: 0.8;
-  background-color: #FF5733; }
-  #w-body-wrapper .w-auth-user-type-selection:hover h2 {
-    color: #FFFFFF; }
-
 #w-body-wrapper .w-auth-menu .item.active {
   border-bottom: solid 3px #FF5733; }
 
@@ -665,7 +659,7 @@
       font-size: 45px;
       font-weight: bold;
       line-height: 50px;
-      margin: 0 0 10px;
+      padding: 0 0 10px;
       text-shadow: 0 0 3px #7a7a7a; }
 
 #w-body-wrapper .w-price-column {
@@ -707,4 +701,18 @@
 
 #w-body-wrapper .w-questionnaire-edit {
   cursor: pointer; }
+
+#w-body-wrapper .w-link-segment {
+  cursor: pointer;
+  padding: 0; }
+
+#w-body-wrapper .w-link-segment a {
+  padding: 21px;
+  display: block; }
+
+#w-body-wrapper .w-link-segment:hover {
+  opacity: 0.8;
+  background-color: #FF5733; }
+  #w-body-wrapper .w-link-segment:hover h2 {
+    color: #FFFFFF; }
 

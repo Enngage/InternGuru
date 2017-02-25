@@ -2,15 +2,6 @@
 
 #w-body-wrapper {
 
-    .w-auth-user-type-selection:hover{
-        opacity: 0.8;
-        background-color: $secondary-color;
-
-        h2{
-            color: $secondary-color-text;
-        }
-    }
-
     .w-auth-menu {
         .item.active {
             border-bottom: solid 3px $secondary-color;

@@ -1,0 +1,38 @@
+﻿@using UI.Builders.Master.Enums
+@model UI.Builders.Master.Views.MasterView
+
+@{
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@if (Model.Layout.Type == LayoutTypeEnum.Dark)
+{
+    <div class="w-body-dark">
+        @RenderBody()
+    </div>
+}
+else if (Model.Layout.Type == LayoutTypeEnum.DarkContainer)
+{
+    <div class="w-body-dark w-body-padded">
+        <div class="ui container">
+            @RenderBody()
+        </div>
+    </div>
+}
+else if (Model.Layout.Type == LayoutTypeEnum.Light)
+{
+    <div>
+        @RenderBody()
+    </div>
+}
+else if (Model.Layout.Type == LayoutTypeEnum.LightContainer)
+{
+    <div class="w-body-padded">
+        <div class="ui container">
+            @RenderBody()
+        </div>
+    </div>
+}
+
+
+
