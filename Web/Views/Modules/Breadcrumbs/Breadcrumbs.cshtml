@@ -1,0 +1,42 @@
+﻿@model UI.Modules.Breadcrumbs.Views.BreadcrumbsView
+
+@if (Model.Breadcrumbs.Any())
+{
+    <div class="ui breadcrumb">
+        @for (int i = 0; i < Model.Breadcrumbs.Count; i++)
+        {
+            var item = Model.Breadcrumbs[i];
+
+            if (i == Model.Breadcrumbs.Count - 1)
+            {
+                if (item.HasUrl)
+                {
+                    <a href="@item.Url" class="active section">@item.Title</a>
+                }
+                else
+                {
+                    <div class="active section">@item.Title</div>
+                }
+            }
+            else
+            {
+                if (item.HasUrl)
+                {
+                    <a href="@item.Url" class="section">@item.Title</a>
+                    <div class="divider"> @Model.Divider </div>
+                }
+                else
+                {
+                    <div  class="section">@item.Title</div>
+                    <div class="divider"> @Model.Divider </div>
+                }
+
+            }
+        }
+    </div>
+}
+
+
+
+
+

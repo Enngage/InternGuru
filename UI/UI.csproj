@@ -242,8 +242,11 @@
     <Compile Include="Builders\System\Models\SystemMasterModel.cs" />
     <Compile Include="Builders\Thesis\Data\ThesisDeleteThesisData.cs" />
     <Compile Include="Helpers\ActionHelper.cs" />
+    <Compile Include="Helpers\BreadcrumbsHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\ModalHelper.cs" />
+    <Compile Include="Modules\Breadcrumbs\Models\BreadcrumbItem.cs" />
+    <Compile Include="Modules\Breadcrumbs\Views\BreadcrumbsView.cs" />
     <Compile Include="Modules\Modal\Models\ModalButton.cs" />
     <Compile Include="Modules\Modal\Models\ModalConfig.cs" />
     <Compile Include="Modules\Questionnaire\Forms\QuestionnaireCreateEditForm.cs" />
@@ -260,8 +263,8 @@
     <Compile Include="Modules\CompanyGallery\CompanyGalleryBuilder.cs" />
     <Compile Include="Modules\CompanyGallery\Models\CompanyGalleryDeleteFileQuery.cs" />
     <Compile Include="Builders\Company\Models\CompanyThesisModel.cs" />
-    <Compile Include="Builders\Gallery\Views\GalleryView.cs" />
-    <Compile Include="Builders\Gallery\Models\GalleryImage.cs" />
+    <Compile Include="Modules\CompanyGallery\Views\GalleryView.cs" />
+    <Compile Include="Modules\CompanyGallery\Models\GalleryImage.cs" />
     <Compile Include="Builders\Home\Forms\HomeContactUsForm.cs" />
     <Compile Include="Builders\Home\HomeBuilder.cs" />
     <Compile Include="Builders\Home\Views\HomeContactUsView.cs" />

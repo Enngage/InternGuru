@@ -1,6 +1,6 @@
 ﻿
 
-namespace UI.Builders.Gallery.Models
+namespace UI.Modules.CompanyGallery.Models
 {
     public class GalleryImage
     {

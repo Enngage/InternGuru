@@ -29,6 +29,11 @@ namespace UI.Builders.Auth
 
         #region Actions
 
+        public async Task<AuthCompanyTypeIndexView> BuildConversationsViewAsync(int? page)
+        {
+            return await BuildCompanyTypeIndexViewAsync(page);
+        }
+
         public async Task<AuthConversationView> BuildConversationViewAsync(string otherUserId, int? page, AuthMessageForm messageForm = null)
         {
 

@@ -84,13 +84,6 @@ namespace Service.Services
         #region General
 
         /// <summary>
-        /// Used for refreshing context may bring better performance when bulk inserting etc. 
-        /// USE WITH CAUTION because the old context is lost
-        /// </summary>
-        /// <param name="appContext"></param>
-        void RefreshAppContext(IAppContext appContext);
-
-        /// <summary>
         /// Touches given key in order to release it from memory
         /// </summary>
         /// <param name="key"></param>

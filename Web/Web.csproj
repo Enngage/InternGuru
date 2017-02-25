@@ -2561,6 +2561,8 @@
     <Content Include="Views\System\SystemMaster.cshtml" />
     <Content Include="Views\Shared\Body\BodyWrapper.cshtml" />
     <Content Include="Stylesheets\partials\_link.scss" />
+    <Content Include="Views\Auth\Conversations.cshtml" />
+    <Content Include="Views\Modules\Breadcrumbs\Breadcrumbs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

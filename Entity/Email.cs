@@ -29,16 +29,13 @@ namespace Entity
         public DateTime Updated { get; set; }
         public DateTime? Sent { get; set; }
         public string Result { get; set; }
-        [Required]
         public string CreatedByApplicationUserId { get; set; }
-        [Required]
         public string UpdatedByApplicationUserId { get; set; }
 
         #region IEntity members
 
         [ForeignKey("CreatedByApplicationUserId")]
         public ApplicationUser CreatedByApplicationUser { get; set; }
-
         [ForeignKey("UpdatedByApplicationUserId")]
         public ApplicationUser UpdatedByApplicationUser { get; set; }
 

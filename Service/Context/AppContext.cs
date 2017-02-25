@@ -76,6 +76,19 @@ namespace Service.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            // nullable foreign key for one-to-many relationships
+            // see http://www.entityframeworktutorial.net/code-first/configure-one-to-many-relationship-in-code-first.aspx
+            //one-to-many 
+            modelBuilder.Entity<Email>()
+                .HasOptional<ApplicationUser>(s => s.CreatedByApplicationUser)
+                .WithMany(s => s.CreatedEmails)
+                .HasForeignKey(s => s.CreatedByApplicationUserId);
+
+            modelBuilder.Entity<Email>()
+                       .HasOptional<ApplicationUser>(s => s.UpdatedByApplicationUser)
+                       .WithMany(s => s.UpdatedEmails)
+                       .HasForeignKey(s => s.UpdatedByApplicationUserId);
+
             // disable cascade on following entities:
             // see https://social.msdn.microsoft.com/Forums/en-US/58a4e272-ee28-4245-ba95-ca7edc818e7a/sql-exception-foreign-key-may-cause-multiple-cascade-path-specify-on-delete-no-action?forum=adodotnetentityframework
             modelBuilder.Entity<Internship>()
@@ -139,13 +152,13 @@ namespace Service.Context
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Email>()
-                .HasRequired(p => p.UpdatedByApplicationUser)
+                .HasOptional(p => p.UpdatedByApplicationUser) // optional
                 .WithMany()
                 .HasForeignKey(p => p.UpdatedByApplicationUserId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Email>()
-                .HasRequired(p => p.UpdatedByApplicationUser)
+                .HasOptional(p => p.UpdatedByApplicationUser) // optional
                 .WithMany()
                 .HasForeignKey(p => p.UpdatedByApplicationUserId)
                 .WillCascadeOnDelete(false);

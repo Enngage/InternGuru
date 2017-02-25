@@ -24,7 +24,6 @@ namespace UI.Builders.Auth
 
         #endregion
 
-
         #region Internship
 
         public async Task<AuthCompanyTypeIndexView> BuildInternshipsViewAsync(int? page)

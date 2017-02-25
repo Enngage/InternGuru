@@ -1,26 +1,38 @@
-@using Core.Helpers;
+Ôªø@using Core.Helpers;
+@using UI.Modules.Breadcrumbs.Models
 @model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
 
 @{
-    Model.Metadata.BasicMetadata.Title = "Moje z·vÏreËnÈ pr·ce";
+    Model.Metadata.BasicMetadata.Title = "Moje z√°vƒõreƒçn√© pr√°ce";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authTheses")
 
-@Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat pr·ci", "Opravdu chcete smazat vybranou z·vÏreËnou pr·ci?")
+@Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat pr√°ci", "Opravdu chcete smazat vybranou z√°vƒõreƒçnou pr√°ci?")
+
+<div class="ui grid">
+    <div class="sixteen wide mobile eight wide computer eight wide tablet column">
+        @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
+        {
+            new BreadcrumbItem("Menu", Url.Action("CompanyTypeIndex", "Auth")),
+            new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
+        })
+    </div>
+    <div class="sixteen wide mobile eight wide computer eight wide tablet column right aligned">
+        <a href="@Url.Action("NewThesis", "AuthCompany")">
+            <div class="ui button primary">Nov√° z√°vƒõreƒçn√° pr√°ce</div>
+        </a>
+    </div>
+</div>
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
-            
-            <a href="@Url.Action("NewThesis", "AuthCompany")">
-                <div class="ui button primary">Nov· nabÌdka</div>
-            </a>
 
             @if (!Model.AuthMaster.CompanyMaster.Theses.Any())
             {
-                @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vystaveny û·dnÈ pr·ce")
+                @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vystaveny ≈æ√°dn√© pr√°ce")
             }
             else
             {
@@ -31,13 +43,13 @@
                             Akce
                         </th>
                         <th>
-                            N·zev pr·ce
+                            N√°zev pr√°ce
                         </th>
                         <th>
-                            Vytvo¯eno
+                            Vytvo≈ôeno
                         </th>
                         <th>
-                            AktivnÌ
+                            Aktivn√≠
                         </th>
                     </tr>
                     </thead>
@@ -65,11 +77,11 @@
                             <td class="collapsing w-body-text-right w-mobile-left">
                                 @if (thesis.IsActive)
                                 {
-                                    <i title="AktivnÌ" class="checkmark green icon"></i>
+                                    <i title="Aktivn√≠" class="checkmark green icon"></i>
                                 }
                                 else
                                 {
-                                    <i title="NeaktivnÌ" class="remove red icon"></i>
+                                    <i title="Neaktivn√≠" class="remove red icon"></i>
                                 }
                             </td>
                         </tr>

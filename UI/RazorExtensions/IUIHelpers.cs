@@ -19,5 +19,6 @@ namespace UI.RazorExtensions
         ModalHelper ModalHelper { get; }
         ActionHelper ActionHelper { get; }
         TextHelper TextHelper { get; }
+        BreadcrumbsHelper BreadcrumbsHelper { get; }
     }
 }

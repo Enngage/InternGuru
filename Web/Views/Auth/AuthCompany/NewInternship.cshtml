@@ -1,4 +1,5 @@
-﻿@model UI.Builders.Auth.Views.AuthNewInternshipView
+﻿@using UI.Modules.Breadcrumbs.Models
+@model UI.Builders.Auth.Views.AuthNewInternshipView
 
 @{
     Model.Metadata.BasicMetadata.Title = Model.InternshipForm.ID == 0 ? "Nová stáž" : "Upravit stáž | " + Model.InternshipForm.Title;
@@ -6,6 +7,17 @@
     // tabs
     Model.Tabs.MyInternships.Set(true, 4);
 }
+
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
+        @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
+        {
+            new BreadcrumbItem("Menu", Url.Action("CompanyTypeIndex", "Auth")),
+            new BreadcrumbItem("Stáže", Url.Action("Internships", "AuthCompany")),
+            new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
+        })
+    </div>
+</div>
 
 @if (Model.CanCreateInternship)
 {

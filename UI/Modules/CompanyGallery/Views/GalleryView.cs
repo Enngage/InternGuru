@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using UI.Builders.Gallery.Models;
+using UI.Modules.CompanyGallery.Models;
 
-namespace UI.Builders.Gallery.Views
+namespace UI.Modules.CompanyGallery.Views
 {
     public class GalleryView
     {

@@ -1,66 +1,7 @@
-﻿@using Core.Helpers;
-@model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
+﻿@model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
 
 @{
-    Model.Metadata.BasicMetadata.Title = "Zprávy";
+    Model.Metadata.BasicMetadata.Title = "Firma";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
-@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authIndex")
-
-<div class="ui grid">
-    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-        <div class="ui segment">
-            @if (!Model.AuthMaster.CompanyMaster.Conversations.Any())
-            {
-                @Helpers.MessageHelper.RenderInfoMessage("Nejsou zde žádné zprávy")
-            }
-            else
-            {
-                <div class="ui items divided">
-                    @foreach (var conversation in Model.AuthMaster.CompanyMaster.Conversations)
-                    {
-                        <div class="item w-auth-conversation-div w-override-padding-all _ConversationItem" data-link="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                            <a class="ui tiny image w-mobile-margin-0 w-mobile-hide" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                                <img alt="" class="ui image tiny" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetUserAvatar(conversation.WithApplicationUserId)">
-                            </a>
-                            <div class="content w-mobile-padding-0">
-                                <a class="header" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                                    @conversation.WithApplicationDisplayName
-                                </a>
-                                <div class="meta w-font-size-small">
-                                    <i class="calendar icon"></i>@DateHelper.FormatTime(conversation.MessageCreated) |
-                                    @if (conversation.IsRead)
-                                    {
-                                        <i title="Přečteno" class="checkmark green icon"></i><span>přečteno</span>
-                                    }
-                                    else
-                                    {
-                                        if (!conversation.WrittenByCurrentUser)
-                                        {
-                                            <i title="Nová zpráva" class="talk red icon"></i><span class="w-font-negative">nová zpráva</span>
-                                        }
-                                        else
-                                        {
-                                            <i title="Nepřečteno" class="remove red icon"></i><span>nepřečteno</span>
-                                        }
-                                    }
-                                    @(!string.IsNullOrEmpty(conversation.Subject) ? " | " + conversation.Subject : null)
-                                </div>
-                                <div class="description">
-                                    <a class="w-auth-conversation-text-link" href="@Url.Action("Conversation", new { id = conversation.ConversationID })">
-                                        @StringHelper.ShortenText(conversation.MessageText, 200)
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-
-                <div class="w-margin-top-10">
-                    @Helpers.PagerHelper.GetPager(Model.ConversationsPaged)
-                </div>
-            }
-        </div>
-    </div>
-</div>

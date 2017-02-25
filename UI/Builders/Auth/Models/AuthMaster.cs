@@ -23,5 +23,10 @@ namespace UI.Builders.Auth.Models
         /// Layout is different for candidate and company users
         /// </summary>
         public string AuthMasterLayout { get; set; }
+
+        /// <summary>
+        /// Master action used for either company or user account
+        /// </summary>
+        public string AuthMasterAction { get; set; }
     }
 }

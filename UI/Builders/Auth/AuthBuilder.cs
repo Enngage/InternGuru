@@ -11,7 +11,7 @@
         public AuthThesisBuilder AuthThesisBuilder { get; }
 
         public AuthBuilder(
-                     AuthMasterBuilder authMasterBuilder,
+            AuthMasterBuilder authMasterBuilder,
             AuthCompanyBuilder authCompanyBuilder,
             AuthInternshipBuilder authInternshipBuilder,
             AuthMessageBuilder authMessageBuilder,

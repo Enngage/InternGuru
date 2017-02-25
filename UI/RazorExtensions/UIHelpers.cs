@@ -20,6 +20,7 @@ namespace UI.RazorExtensions
         public ModalHelper ModalHelper { get; }
         public ActionHelper ActionHelper { get; }
         public TextHelper TextHelper { get; }
+        public BreadcrumbsHelper BreadcrumbsHelper { get; }
 
         public UIHelpers(WebViewPage webViewPage)
         {
@@ -37,6 +38,7 @@ namespace UI.RazorExtensions
             ModalHelper = KernelProvider.Get<ModalHelper>(webParameter);
             ActionHelper = KernelProvider.Get<ActionHelper>(webParameter);
             TextHelper = KernelProvider.Get<TextHelper>(webParameter);
+            BreadcrumbsHelper = KernelProvider.Get<BreadcrumbsHelper>(webParameter);
         }
     }
 }

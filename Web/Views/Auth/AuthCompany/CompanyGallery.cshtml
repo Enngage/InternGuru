@@ -1,18 +1,25 @@
-﻿@model UI.Builders.Auth.Views.CompanyGalleryView
+﻿@using UI.Modules.Breadcrumbs.Models
+@model UI.Builders.Auth.Views.CompanyGalleryView
 
 @{
-    Model.Metadata.BasicMetadata.Title = "Galerie";
+    Model.Metadata.BasicMetadata.Title = "Firemní galerie";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authCompanyGallery")
 @Helpers.ScriptHelper.RequireCss("/scripts/addons/dropzone/dropzone")
 
-<div class="w-body-hide" id="_CompanyGalleryGuid" data-guid="@Model.Master.CurrentCompany.CompanyGuid"></div>
 
-<h1>
-    Galerie
-</h1>
+<div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
+    @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
+        {
+            new BreadcrumbItem("Menu", Url.Action("CompanyTypeIndex", "Auth")),
+            new BreadcrumbItem("Firma", Url.Action("EditCompany", "AuthCompany")),
+            new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
+        })
+</div>
+
+<div class="w-body-hide" id="_CompanyGalleryGuid" data-guid="@Model.Master.CurrentCompany.CompanyGuid"></div>
 
 @Helpers.MessageHelper.RenderInfoMessage($"Pouze soubory typu <em>{string.Join(", ", Core.Config.FileConfig.AllowedImageExtensions)} </em> do velikosti <em>{Core.Helpers.ConvertHelper.FormatBytes(Core.Config.AppConfig.MaximumFileSize)}</em> budou uloženy")
 

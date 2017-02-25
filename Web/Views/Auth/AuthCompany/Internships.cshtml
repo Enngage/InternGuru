@@ -1,23 +1,32 @@
 ﻿@using Core.Helpers;
+@using UI.Modules.Breadcrumbs.Models
 @model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
-
 @{
-    Model.Metadata.BasicMetadata.Title = "Moje stáže";
+    Model.Metadata.BasicMetadata.Title = "Stáže";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
-
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authInternships")
-
 @Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat stáž", "Opravdu chcete smazat vybranou stáž?")
+
+<div class="ui grid">
+    <div class="sixteen wide mobile eight wide computer eight wide tablet column">
+        @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
+        {
+            new BreadcrumbItem("Menu", Url.Action("CompanyTypeIndex", "Auth")),
+            new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
+        })
+    </div>
+    <div class="sixteen wide mobile eight wide computer eight wide tablet column right aligned">
+        <a href="@Url.Action("NewInternship", "AuthCompany")">
+            <div class="ui button primary w-mobile-block">Vytvořit stáž</div>
+        </a>
+    </div>
+</div>
+
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
-            
-            <a href="@Url.Action("NewInternship", "AuthCompany")">
-                <div class="ui button primary">Vytvořit stáž</div>
-            </a>
-
             @if (Model.Master.CurrentCompany.IsAvailable)
             {
                 if (!Model.AuthMaster.CompanyMaster.Internships.Any())
@@ -52,11 +61,11 @@
                                         @Helpers.ActionHelper.RenderDeleteButton(internship.ID, "_DeleteInternshipButton")
                                         @if (internship.IsActive)
                                         {
-                                            @Helpers.ActionHelper.RenderViewButton("Index", "Internship", new {id = internship.ID, codeName = internship.CodeName})
+                                            @Helpers.ActionHelper.RenderViewButton("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName })
                                         }
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("EditInternship", "AuthCompany", new { id = internship.ID })">
+                                        <a href="@Url.Action("EditInternship", "AuthCompany", new {id = internship.ID})">
                                             @internship.Title
                                         </a>
                                     </td>
@@ -82,7 +91,7 @@
             }
             else
             {
-                @Helpers.MessageHelper.RenderInfoMessage("Pro přidání inzerátu musíte vytvořit firmu")
+                @Helpers.MessageHelper.RenderInfoMessage($"Pro přidání stáže musíš prvně <a href=\"{Url.Action("RegisterCompany", "AuthCompany")}\">zaregistrovat</a> firmu")
             }
         </div>
     </div>

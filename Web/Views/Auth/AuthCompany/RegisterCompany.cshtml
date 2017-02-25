@@ -1,9 +1,22 @@
-﻿@model UI.Builders.Auth.Views.AuthRegisterCompanyView
+﻿@using UI.Modules.Breadcrumbs.Models
+@model UI.Builders.Auth.Views.AuthRegisterCompanyView
 
 @{
-    Model.Metadata.BasicMetadata.Title = Model.CompanyForm.ID == 0 ? "Registrovat firmu" : "Upravit firmu";
+    Model.Metadata.BasicMetadata.Title = "Registrace firmy";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
+
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
+        @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
+        {
+            new BreadcrumbItem("Menu", Url.Action("CompanyTypeIndex", "Auth")),
+            new BreadcrumbItem("Firma"),
+            new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
+        })
+    </div>
+</div>
+
 
 @Html.Partial("~/Views/Auth/AuthCompany/Partials/AddEditCompany.cshtml", Model.CompanyForm)
 

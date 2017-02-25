@@ -314,13 +314,7 @@ namespace Service.Services
             }
             catch (Exception ex)
             {
-                // get log service
-                var logService = KernelProvider.Get<ILogService>();
-
-                var saveException = new SaveException(GetSaveExceptionText(type), ex);
-
-                // log event
-                logService?.LogException(saveException, ServiceDependencies.RequestContext.CurrentUrl, ServiceDependencies.User.UserName);
+                LogServiceException(ex, type);
 
                 // re-throw
                 throw;
@@ -510,17 +504,26 @@ namespace Service.Services
             }
             catch (Exception ex)
             {
-                // get log service
-                var logService = KernelProvider.Get<ILogService>();
-
-                var saveException = new SaveException(GetSaveExceptionText(type), ex);
-
-                // log event
-                logService?.LogException(saveException, ServiceDependencies.RequestContext.CurrentUrl, ServiceDependencies.User.UserName);
+                LogServiceException(ex, type);
 
                 // re-throw
                 throw;
             }
+        }
+
+        #endregion
+
+        #region Exception logging
+
+        private void LogServiceException(Exception ex, SaveEventType type)
+        {
+            // get log service
+            var logService = KernelProvider.Get<ILogService>();
+
+            var saveException = new SaveException(GetSaveExceptionText(type), ex);
+
+            // log event
+            logService?.LogException(saveException, ServiceDependencies.RequestContext.CurrentUrl, ServiceDependencies.User.UserName);
         }
 
         #endregion
@@ -938,39 +941,61 @@ namespace Service.Services
                 }
             }
 
-            var entityWithUserStamp = newEntity as IEntityWithUserStamp;
-            if (entityWithUserStamp != null)
+            var entityWithOptionalUserStamp = newEntity as IEntityWithOptionalUserStamp;
+            if (entityWithOptionalUserStamp != null)
             {
-                // check optional user stamp
-                var entityWithOptionalUserStamp = newEntity as IEntityWithOptionalUserStamp;
-                var userStampIsRequired = entityWithOptionalUserStamp != null;
-
                 // required user stamp
-                if (!ServiceDependencies.User.IsAuthenticated && userStampIsRequired)
-                {
-                    throw new AuthorizationException($"Authentication required for action '{type}'");
-                }
-
                 if (ServiceDependencies.User.IsAuthenticated)
                 {
+
+
                     if (type == SaveEventType.Insert)
                     {
-                        entityWithUserStamp.CreatedByApplicationUserId = ServiceDependencies.User.UserId;
-                        entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
+                        entityWithOptionalUserStamp.CreatedByApplicationUserId = ServiceDependencies.User.UserId;
+                        entityWithOptionalUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
                     }
                     else if (type == SaveEventType.Update)
                     {
                         // set updated value
-                        entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
+                        entityWithOptionalUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
 
-                        var oldEntityWithUserStamp = oldEntity as IEntityWithUserStamp;
-                        if (oldEntityWithUserStamp == null)
+                        var oldEntityWithOptionalUserStamp = oldEntity as IEntityWithOptionalUserStamp;
+                        if (oldEntityWithOptionalUserStamp == null)
                         {
                             throw new NotSupportedException($"Cannot set user stamp for '{nameof(oldEntity)}' entity");
                         }
                         // keep the created value
-                        entityWithUserStamp.CreatedByApplicationUserId = oldEntityWithUserStamp.CreatedByApplicationUserId;
+                        entityWithOptionalUserStamp.CreatedByApplicationUserId = oldEntityWithOptionalUserStamp.CreatedByApplicationUserId;
                     }
+                }
+            }
+
+            var entityWithUserStamp = newEntity as IEntityWithUserStamp;
+            if (entityWithUserStamp != null)
+            {
+                // required user stamp
+                if (!ServiceDependencies.User.IsAuthenticated)
+                {
+                    throw new AuthorizationException($"Authentication required for action '{type}'");
+                }
+
+                if (type == SaveEventType.Insert)
+                {
+                    entityWithUserStamp.CreatedByApplicationUserId = ServiceDependencies.User.UserId;
+                    entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
+                }
+                else if (type == SaveEventType.Update)
+                {
+                    // set updated value
+                    entityWithUserStamp.UpdatedByApplicationUserId = ServiceDependencies.User.UserId;
+
+                    var oldEntityWithUserStamp = oldEntity as IEntityWithUserStamp;
+                    if (oldEntityWithUserStamp == null)
+                    {
+                        throw new NotSupportedException($"Cannot set user stamp for '{nameof(oldEntity)}' entity");
+                    }
+                    // keep the created value
+                    entityWithUserStamp.CreatedByApplicationUserId = oldEntityWithUserStamp.CreatedByApplicationUserId;
                 }
             }
 

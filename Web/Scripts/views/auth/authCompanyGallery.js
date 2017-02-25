@@ -1,4 +1,4 @@
-﻿require(['jquery', 'dropzone', 'modules/companyGalleryModule'], function ($, DropZone, CompanyGalleryModule) {
+﻿require(['jquery', 'dropzone', 'modules/companyGalleryModule', 'semantic'], function ($, DropZone, CompanyGalleryModule) {
     // DOM ready
     $(function () {
         var companyGalleryModule = new CompanyGalleryModule();

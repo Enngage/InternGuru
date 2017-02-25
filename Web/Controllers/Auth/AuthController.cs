@@ -152,6 +152,24 @@ namespace Web.Controllers.Auth
             return View(model);
         }
 
+        [Route(GeneralActionPrefix + "/zpravy/{page:int?}")]
+        public async Task<ActionResult> Conversations(int? page)
+        {
+            var model = await AuthBuilder.AuthMessageBuilder.BuildConversationsViewAsync(page);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
+            return View(model);
+        }
+
         #endregion
 
         #region POST methods

@@ -1,8 +1,8 @@
 ﻿@model UI.Builders.Internship.Views.InternshipDetailView
 @using Core.Helpers;
-@using UI.Builders.Gallery.Views;
-@using UI.Builders.Gallery.Models;
 @using UI.Builders.Shared.Enums
+@using UI.Modules.CompanyGallery.Models
+@using UI.Modules.CompanyGallery.Views
 @using UI.Modules.GoogleMaps.Views
 @{
     Model.Metadata.BasicMetadata.Title = $"{Model.Internship.Title} | Stáž";
@@ -121,7 +121,14 @@
                     <div class="w-margin-top-30">
                         @Html.Raw(Model.Internship.Description)
                     </div>
-
+                    
+                    <div class="w-margin-top-30 w-margin-bottom-14 w-body-text-center">
+                        <a class="w-mobile-block" href="@Url.Action("Internship", "Form", new {id = Model.Internship.ID, codeName = Model.Internship.CodeName})">
+                            <div class="ui button secondary">
+                                Odpovědět
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -131,10 +138,6 @@
     <div class="ui segment w-margin-top-30">
         <div class="ui grid">
             <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-                <h2>
-                    Základní informace
-                </h2>
-
                 <table class="ui three column very basic table w-body-text-center w-margin-top-30">
                     <thead>
                         <tr class="center aligned">
@@ -198,10 +201,6 @@
     <div class="ui segment w-margin-top-30">
         <div class="ui grid">
             <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-                <h2>
-                    Požadavky
-                </h2>
-
                 <table class="ui three column very basic table w-body-text-center">
                     <thead>
                         <tr class="center aligned">

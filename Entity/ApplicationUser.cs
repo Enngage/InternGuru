@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
@@ -26,26 +28,6 @@ namespace Entity
         public bool IsCompany{ get; set; }
         [Required]
         public bool IsCandidate{ get; set; }
-
-        #endregion
-
-        #region Not mapped properties
-
-        [NotMapped]
-        public int ID => 0;
-
-        [NotMapped]
-        public string CodeName {
-            get
-            {
-                // application user does not have a code name
-                return null;
-            }
-            // ReSharper disable once ValueParameterNotUsed
-            set
-            {
-                // do nothing
-            }}
 
         #endregion
 
@@ -91,6 +73,29 @@ namespace Entity
         #endregion
 
         #region Virtual properties
+
+        [ForeignKey("CreatedByApplicationUserId")]
+        public ICollection<Email> CreatedEmails { get; set; }
+        [ForeignKey("UpdatedByApplicationUserId")]
+        public ICollection<Email> UpdatedEmails { get; set; }
+
+        [NotMapped]
+        public int ID => 0;
+
+        [NotMapped]
+        public string CodeName
+        {
+            get
+            {
+                // application user does not have a code name
+                return null;
+            }
+            // ReSharper disable once ValueParameterNotUsed
+            set
+            {
+                // do nothing
+            }
+        }
 
         [NotMapped]
         public virtual string FullName => $"{FirstName} {LastName}";

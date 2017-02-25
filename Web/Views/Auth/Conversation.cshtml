@@ -1,4 +1,5 @@
 ﻿@using Core.Helpers;
+@using UI.Modules.Breadcrumbs.Models
 @model UI.Builders.Auth.Views.AuthConversationView
 
 @{
@@ -7,6 +8,17 @@
     // tabs
     Model.Tabs.RecentConversations.Set(true, 4);
 }
+
+
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
+        @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
+        {
+            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
+            new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
+        })
+    </div>
+</div>
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">

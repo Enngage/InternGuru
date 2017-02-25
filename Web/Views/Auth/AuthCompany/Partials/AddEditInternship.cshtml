@@ -39,10 +39,6 @@
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/addEditInternship")
 @Helpers.ScriptHelper.RequireCss("/scripts/addons/datepicker-master/dist/datepicker.min")
 
-<h1>
-    @(Model.IsExistingInternship ? Model.Title : "Nová stáž")
-</h1>
-
 @using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))
 {
     @Html.AntiForgeryToken()
@@ -79,7 +75,7 @@
 
                 <div class="field">
                     <label>Připojený dotazník</label>
-                    @Helpers.MessageHelper.RenderTipMessage($"Dotazníky se zobrazí zájemcům při odpovídání na nabídku. Dotazníky lze využít pro získání bližších informací o zájemcích nebo i pro otestování jejich znalostí. <a href=\"{Url.Action("NewQuestionnaire", "Auth")}\">Vytvořit dotazník</a>")
+                    @Helpers.MessageHelper.RenderTipMessage($"Dotazníky se zobrazí zájemcům při odpovídání na nabídku. Dotazníky lze využít pro získání bližších informací o zájemcích nebo i pro otestování jejich znalostí. <a href=\"{Url.Action("NewQuestionnaire", "AuthCompany")}\">Vytvořit dotazník</a>")
                     <div class="ui fluid search selection dropdown _QuestionnaireDropdown">
                         <input type="hidden" name="QuestionnaireID" value="@Model.QuestionnaireID">
                         <i class="dropdown icon"></i>
