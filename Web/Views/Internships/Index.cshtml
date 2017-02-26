@@ -170,9 +170,12 @@
                         </tbody>
                     </table>
 
-                    <div class="w-margin-top-10">
-                        @Helpers.PagerHelper.GetPager(Model.Internships, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new { page, search = searchVal, city = cityVal, paidonly = paidOnly ? Helpers.InputHelper.ValueOfEnabledCheckbox : string.Empty }))
-                    </div>
+                    if (Model.Internships.PageCount > 1)
+                    {
+                        <div class="w-margin-top-10">
+                            @Helpers.PagerHelper.GetPager(Model.Internships, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new {page, search = searchVal, city = cityVal, paidonly = paidOnly ? Helpers.InputHelper.ValueOfEnabledCheckbox : string.Empty}))
+                        </div>
+                    }
                 }
             </div>
         </div>

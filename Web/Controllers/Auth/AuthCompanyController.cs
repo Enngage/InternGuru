@@ -115,10 +115,10 @@ namespace Web.Controllers.Auth
             return View($"{CompanyViewsFolder}{nameof(EditQuestionnaire)}.cshtml", model);
         }
 
-        [Route(CompanyActionPrefix + "/ZaverecnePrace/{page:int?}")]
-        public async Task<ActionResult> Theses(int? page)
+        [Route(CompanyActionPrefix + "/ZaverecnePrace")]
+        public async Task<ActionResult> Theses()
         {
-            var model = await AuthBuilder.AuthThesisBuilder.BuildThesesVieAsync(page);
+            var model = await AuthBuilder.AuthThesisBuilder.BuildThesesVieAsync();
 
             if (model == null)
             {
@@ -133,10 +133,10 @@ namespace Web.Controllers.Auth
             return View($"{CompanyViewsFolder}{nameof(Theses)}.cshtml", model);
         }
 
-        [Route(CompanyActionPrefix + "/Staze/{page:int?}")]
-        public async Task<ActionResult> Internships(int? page)
+        [Route(CompanyActionPrefix + "/Staze")]
+        public async Task<ActionResult> Internships()
         {
-            var model = await AuthBuilder.AuthInternshipBuilder.BuildInternshipsViewAsync(page);
+            var model = await AuthBuilder.AuthInternshipBuilder.BuildInternshipsViewAsync();
 
             if (model == null)
             {
@@ -152,10 +152,10 @@ namespace Web.Controllers.Auth
         }
 
 
-        [Route(CompanyActionPrefix + "/Dotazniky/{page:int?}")]
-        public async Task<ActionResult> Questionnaires(int? page)
+        [Route(CompanyActionPrefix + "/Dotazniky")]
+        public async Task<ActionResult> Questionnaires()
         {
-            var model = await AuthBuilder.AuthQuestionnaireBuilder.BuildQuestionnairesViewAsync(page);
+            var model = await AuthBuilder.AuthQuestionnaireBuilder.BuildQuestionnairesViewAsync();
 
             if (model == null)
             {
@@ -615,8 +615,6 @@ namespace Web.Controllers.Auth
         }
 
         #endregion
-
-        
 
     }
 }

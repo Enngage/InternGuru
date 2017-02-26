@@ -103,13 +103,17 @@
                         <h2 class="ui center aligned icon header">
                             <i class="pencil icon"></i>
                             Zprávy
+                            @if (Model.Master.StatusBox.NewMessagesCount > 0)
+                            {
+                                <span class="w-font-negative"> @Model.Master.StatusBox.NewMessagesCount </span>
+                            }
                         </h2>
                     </a>
                 </div>
             </div>
             <div class="sixteen wide mobile eight wide tablet four wide computer column">
                 <div class="ui segment  w-link-segment">
-                    <a href="@Url.Action("TODO", "AuthCompany")">
+                    <a href="@Url.Action("UserSettings", "Auth")">
                         <h2 class="ui center aligned icon header">
                             <i class="settings icon"></i>
                             Nastavení
@@ -141,6 +145,24 @@
                     }
                 </div>
             </div>
+
+            @if (Model.Tabs.Admin.Display)
+            {
+                <div class="sixteen wide mobile eight wide tablet four wide computer column">
+                    <div class="ui segment  w-link-segment">
+                        <a href="@Url.Action("Admin", "Auth")">
+                            <h2 class="ui center aligned icon header">
+                                <i class="spy icon"></i>
+                                Admin
+                                @if (Model.Master.StatusBox.NewEventLogCount > 0)
+                                {
+                                    <span class="w-font-negative"> @Model.Master.StatusBox.NewEventLogCount </span>
+                                }
+                            </h2>
+                        </a>
+                    </div>
+                </div>
+            }
         </div>
 
         @RenderBody()

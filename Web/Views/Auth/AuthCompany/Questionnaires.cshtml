@@ -1,21 +1,17 @@
 ﻿@using Core.Helpers;
 @using UI.Modules.Breadcrumbs.Models
 @model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
-
 @{
     Model.Metadata.BasicMetadata.Title = "Dotazníky";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
-
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authQuestionnaires")
-
 @Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat dotazník", "Opravdu chcete smazat vybraný dotazník včetně všech odpovědí?")
-
 <div class="ui grid">
     <div class="sixteen wide mobile eight wide computer eight wide tablet column">
         @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
         {
-            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterLayout, "Auth")),
+            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
             new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
         })
     </div>
@@ -25,73 +21,64 @@
         </a>
     </div>
 </div>
-
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
-
-            @if (Model.Master.CurrentCompany.IsAvailable)
+            @if (!Model.AuthMaster.CompanyMaster.Questionnaires.Any())
             {
-                if (!Model.AuthMaster.CompanyMaster.Questionnaires.Any())
-                {
-                    @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vytvořeny žádné dotazníky")
-                }
-                else
-                {
-                    <table class="ui very basic table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Akce
-                                </th>
-                                <th>
-                                    Název dotazníku
-                                </th>
-                                <th class="center aligned">
-                                    Počet otázek
-                                </th>
-                                <th class="center aligned">
-                                   Záznamy
-                                </th>
-                                <th>
-                                    Upraveno
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var questionnaire in Model.AuthMaster.CompanyMaster.Questionnaires)
-                            {
-                                <tr>
-                                    <td class="collapsing w-body-text-center w-mobile-left">
-                                        @Helpers.ActionHelper.RenderEditButton("EditQuestionnaire", "AuthCompany", new { id = questionnaire.ID })
-                                        @Helpers.ActionHelper.RenderDeleteButton(questionnaire.ID, "_DeleteQuestionnaireButton")
-                                    </td>
-                                    <td>
-                                        <a href="@Url.Action("EditQuestionnaire", "AuthCompany", new {id = questionnaire.ID})">
-                                            @questionnaire.QuestionnaireName
-                                        </a>
-                                    </td>
-                                    <td class="center aligned">
-                                        @questionnaire.Questions.Count
-                                    </td>
-                                    <td class="center aligned">
-                                        <a href="@Url.Action("QuestionnaireSubmissions", "AuthCompany", new { id = questionnaire.ID })">
-                                            Zobrazit (@questionnaire.SubmissionsCount)
-                                        </a>
-                                    </td>
-                                    <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
-                                        <i title="Vytvořeno" class="calendar icon"></i>
-                                        @DateHelper.FormatDate(questionnaire.Updated)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
+                @Helpers.MessageHelper.RenderInfoMessage("Dosud nebyly vytvořeny žádné dotazníky")
             }
             else
             {
-                @Helpers.MessageHelper.RenderInfoMessage("Pro přidání dotazníku musíte vytvořit firmu")
+                <table class="ui very basic table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Akce
+                            </th>
+                            <th>
+                                Název dotazníku
+                            </th>
+                            <th class="center aligned">
+                                Počet otázek
+                            </th>
+                            <th class="center aligned">
+                                Záznamy
+                            </th>
+                            <th>
+                                Upraveno
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var questionnaire in Model.AuthMaster.CompanyMaster.Questionnaires)
+                        {
+                            <tr>
+                                <td class="collapsing w-body-text-center w-mobile-left">
+                                    @Helpers.ActionHelper.RenderEditButton("EditQuestionnaire", "AuthCompany", new { id = questionnaire.ID })
+                                    @Helpers.ActionHelper.RenderDeleteButton(questionnaire.ID, "_DeleteQuestionnaireButton")
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("EditQuestionnaire", "AuthCompany", new {id = questionnaire.ID})">
+                                        @questionnaire.QuestionnaireName
+                                    </a>
+                                </td>
+                                <td class="center aligned">
+                                    @questionnaire.Questions.Count
+                                </td>
+                                <td class="center aligned">
+                                    <a href="@Url.Action("QuestionnaireSubmissions", "AuthCompany", new { id = questionnaire.ID })">
+                                        Zobrazit (@questionnaire.SubmissionsCount)
+                                    </a>
+                                </td>
+                                <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
+                                    <i title="Vytvořeno" class="calendar icon"></i>
+                                    @DateHelper.FormatDate(questionnaire.Updated)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
         </div>
     </div>

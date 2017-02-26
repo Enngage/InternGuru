@@ -1,16 +1,14 @@
 ﻿@using UI.Modules.Breadcrumbs.Models
 @model UI.Builders.Auth.Views.AuthEditQuestionnaireView
-
 @{
     Model.Metadata.BasicMetadata.Title = Model.QuestionnaireForm.QuestionnaireName;
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
-
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
         @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
         {
-            new BreadcrumbItem("Menu", Url.Action("CompanyTypeIndex", "Auth")),
+            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
             new BreadcrumbItem("Dotazníky", Url.Action("Questionnaires", "AuthCompany")),
             new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
         })
@@ -19,12 +17,18 @@
 
 @if (Model.Master.CurrentCompany.IsAvailable)
 {
-    @Html.Partial("~/Views/Modules/Questionnaire/CreateEditQuestionnaire.cshtml", Model.QuestionnaireForm)
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <div class="ui segment">
+                @Html.Partial("~/Views/Modules/Questionnaire/CreateEditQuestionnaire.cshtml", Model.QuestionnaireForm)
+            </div>
+        </div>
+    </div>
 }
 else
 {
     <div class="ui info message">
-         Dotazník je dostupný pouze po zaregistrování firmy
+        Dotazník je dostupný pouze po zaregistrování firmy
     </div>
 
     <a href="@Url.Action("RegisterCompany", "AuthCompany")">
@@ -33,4 +37,3 @@ else
         </div>
     </a>
 }
-

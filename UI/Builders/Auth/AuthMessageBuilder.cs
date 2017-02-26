@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
@@ -29,9 +28,20 @@ namespace UI.Builders.Auth
 
         #region Actions
 
-        public async Task<AuthCompanyTypeIndexView> BuildConversationsViewAsync(int? page)
+        public async Task<AuthConversationsView> BuildConversationsViewAsync(int? page)
         {
-            return await BuildCompanyTypeIndexViewAsync(page);
+            var authMaster = await GetAuthMasterModelAsync();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+            return new AuthConversationsView()
+            {
+                AuthMaster = authMaster,
+                ConversationsPaged = await GetConversationsAsync(page)
+            };
         }
 
         public async Task<AuthConversationView> BuildConversationViewAsync(string otherUserId, int? page, AuthMessageForm messageForm = null)
@@ -134,33 +144,6 @@ namespace UI.Builders.Auth
         #endregion
 
         #region Helper methods
-
-        /// <summary>
-        /// Gets name of given user
-        /// </summary>
-        /// <param name="applicationUserId">ID of user</param>
-        /// <returns>Name of given user</returns>
-        private async Task<AuthMessageUserModel> GetMessageUserAsync(string applicationUserId)
-        {
-            var cacheSetup = Services.CacheService.GetSetup<AuthMessageUserModel>(GetSource());
-            cacheSetup.Dependencies = new List<string>()
-            {
-                EntityKeys.KeyUpdateAny<Message>(),
-            };
-            cacheSetup.ObjectStringID = applicationUserId;
-
-            var userQuery = Services.IdentityService.GetSingle(applicationUserId)
-                .Select(m => new AuthMessageUserModel()
-                {
-                    FirstName = m.FirstName,
-                    LastName = m.LastName,
-                    UserID = m.Id,
-                    UserName = m.UserName,
-                    Nickname = m.Nickname
-                });
-
-            return await Services.CacheService.GetOrSet(async () => await userQuery.FirstOrDefaultAsync(), cacheSetup);
-        }
 
         /// <summary>
         /// Gets conversations for current user

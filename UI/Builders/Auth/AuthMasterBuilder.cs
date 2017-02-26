@@ -84,7 +84,7 @@ namespace UI.Builders.Auth
             return new AuthCompanyMasterModel()
             {
                 Internships = await GetInternshipsAsync(),
-                Conversations = await GetConversationsAsync(10),
+                Conversations = await GetTopConversationsAsync(10),
                 Theses = await GetThesesListingsAsync(),
                 Questionnaires = await GetQuestionnairesListingsAsync(),
             };
@@ -94,7 +94,7 @@ namespace UI.Builders.Auth
 
         #region Actions
 
-        public async Task<AuthCompanyTypeIndexView> BuildCompanyTypeIndexViewAsync(int? page)
+        public async Task<AuthCompanyTypeIndexView> BuildCompanyTypeIndexViewAsync()
         {
             var authMaster = await GetAuthMasterModelAsync();
 
@@ -106,7 +106,6 @@ namespace UI.Builders.Auth
             return new AuthCompanyTypeIndexView()
             {
                 AuthMaster = authMaster,
-                ConversationsPaged = await GetConversationsAsync(page),
             };
         }
 
@@ -120,6 +119,36 @@ namespace UI.Builders.Auth
             }
 
             return new AuthCandidateTypeIndexView()
+            {
+                AuthMaster = authMaster,
+            };
+        }
+
+        public async Task<AuthUserSettingsView> BuildUserSettingsViewAsync()
+        {
+            var authMaster = await GetAuthMasterModelAsync();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+            return new AuthUserSettingsView()
+            {
+                AuthMaster = authMaster,
+            };
+        }
+
+        public async Task<AuthAdminView> BuildAdminViewAsync()
+        {
+            var authMaster = await GetAuthMasterModelAsync();
+
+            if (authMaster == null)
+            {
+                return null;
+            }
+
+            return new AuthAdminView()
             {
                 AuthMaster = authMaster,
             };
@@ -142,121 +171,7 @@ namespace UI.Builders.Auth
             // create avatars folder
             var avatarsFolderPath = SystemConfig.ServerRootPath + "\\" + ApplicationUser.GetAvatarFolderPath(applicationUserId);
             Directory.CreateDirectory(avatarsFolderPath);
-        }
-
-        /// <summary>
-        /// Gets messages of current user
-        /// </summary>
-        /// <param name="topN">Top N</param>
-        /// <returns>Collection of messages of current user</returns>
-        private async Task<IEnumerable<AuthConversationModel>> GetConversationsAsync(int topN)
-        {
-            return (await GetConversationsAsync(null)).Take(topN);
-        }
-
-        /// <summary>
-        /// Gets messages of current user
-        /// </summary>
-        /// <param name="page">Page number</param>
-        /// <returns>Collection of messages of current user</returns>
-        private async Task<IPagedList<AuthConversationModel>> GetConversationsAsync(int? page)
-        {
-            var pageSize = 10;
-            var pageNumber = (page ?? 1);
-
-            // get both incoming and outgoming messages as well as messages targeted for given company
-            var messagesQuery = Services.MessageService.GetAll()
-                .Where(m =>
-                    (m.RecipientApplicationUserId == CurrentUser.Id || m.SenderApplicationUserId == CurrentUser.Id))
-                .OrderByDescending(m => m.Created)
-                .Select(m => new AuthMessageModel()
-                {
-                    ID = m.ID,
-                    MessageCreated = m.Created,
-                    SenderApllicationUserId = m.SenderApplicationUserId,
-                    SenderApplicationUserName = m.SenderApplicationUser.UserName,
-                    RecipientApplicationUserId = m.RecipientApplicationUserId,
-                    RecipientApplicationUserName = m.RecipientApplicationUser.UserName,
-                    MessageText = m.MessageText,
-                    CurrentUserId = CurrentUser.Id,
-                    IsRead = m.IsRead,
-                    SenderFirstName = m.SenderApplicationUser.FirstName,
-                    SenderLastName = m.SenderApplicationUser.LastName,
-                    SenderNickname = m.SenderApplicationUser.Nickname,
-                    RecipientNickname = m.RecipientApplicationUser.Nickname,
-                    RecipientFirstName = m.RecipientApplicationUser.FirstName,
-                    RecipientLastName = m.RecipientApplicationUser.LastName,
-                    Subject = m.Subject,
-                });
-
-            var cacheSetupMessages = Services.CacheService.GetSetup<AuthMessageModel>(GetSource());
-            cacheSetupMessages.Dependencies = new List<string>()
-            {
-                EntityKeys.KeyUpdateAny<Message>(),
-                EntityKeys.KeyDeleteAny<Message>(),
-                EntityKeys.KeyCreateAny<Message>(),
-            };
-            cacheSetupMessages.ObjectStringID = CurrentUser.Id;
-
-            // get all messages for this user
-            var allMessages = await Services.CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetupMessages);
-
-            // get conversations from messages
-            var cacheSetupConversations = Services.CacheService.GetSetup<AuthConversationModel>(GetSource());
-            cacheSetupConversations.Dependencies = new List<string>()
-            {
-                EntityKeys.KeyUpdateAny<Message>(),
-                EntityKeys.KeyDeleteAny<Message>(),
-                EntityKeys.KeyCreateAny<Message>(),
-            };
-            cacheSetupConversations.ObjectStringID = CurrentUser.Id;
-
-            var conversations = Services.CacheService.GetOrSet(() => FilterConversationMessages(allMessages), cacheSetupConversations);
-
-            return conversations.ToPagedList(pageNumber, pageSize);
-        }
-
-        /// <summary>
-        /// Creates list of conversations based on given messages
-        /// </summary>
-        /// <param name="messages">Messages</param>
-        /// <returns>Conversation list</returns>
-        private IEnumerable<AuthConversationModel> FilterConversationMessages(IEnumerable<AuthMessageModel> messages)
-        {
-            var conversationList = new List<AuthConversationModel>();
-
-            foreach (var message in messages)
-            {
-                var existingConversationMessage = conversationList.Where(m => m.RecipientApplicationUserId == CurrentUser.Id || m.SenderApllicationUserId == CurrentUser.Id)
-                    .FirstOrDefault();
-
-                if (existingConversationMessage == null)
-                {
-                    // add message to conversations
-                    conversationList.Add(new AuthConversationModel()
-                    {
-                        CurrentUserId = CurrentUser.Id,
-                        ID = message.ID,
-                        RecipientFirstName = message.RecipientFirstName,
-                        RecipientLastName = message.RecipientLastName,
-                        RecipientNickname = message.RecipientNickname,
-                        SenderNickname = message.SenderNickname,
-                        SenderFirstName = message.SenderFirstName,
-                        SenderLastName = message.SenderLastName,
-                        IsRead = message.IsRead,
-                        MessageCreated = message.MessageCreated,
-                        MessageText = message.MessageText,
-                        RecipientApplicationUserId = message.RecipientApplicationUserId,
-                        RecipientApplicationUserName = message.RecipientApplicationUserName,
-                        SenderApllicationUserId = message.SenderApllicationUserId,
-                        SenderApplicationUserName = message.SenderApplicationUserName,
-                        Subject = message.Subject
-                    });
-                }
-            }
-
-            return conversationList;
-        }
+        }      
 
         /// <summary>
         /// Gets theses of current company/user
@@ -558,6 +473,151 @@ namespace UI.Builders.Auth
             return durationTypes
                 .Where(m => m.ID == durationID)
                 .SingleOrDefault();
+        }
+
+        #endregion
+
+        #region Conversation methods
+
+        /// <summary>
+        /// Gets messages of current user
+        /// </summary>
+        /// <param name="topN">Top N</param>
+        /// <returns>Collection of messages of current user</returns>
+        protected async Task<IEnumerable<AuthConversationModel>> GetTopConversationsAsync(int topN)
+        {
+            return (await GetConversationsAsync(null)).Take(topN);
+        }
+
+        /// <summary>
+        /// Gets messages of current user
+        /// </summary>
+        /// <param name="page">Page number</param>
+        /// <returns>Collection of messages of current user</returns>
+        protected async Task<IPagedList<AuthConversationModel>> GetConversationsAsync(int? page)
+        {
+            var pageSize = 10;
+            var pageNumber = (page ?? 1);
+
+            // get both incoming and outgoming messages as well as messages targeted for given company
+            var messagesQuery = Services.MessageService.GetAll()
+                .Where(m =>
+                    (m.RecipientApplicationUserId == CurrentUser.Id || m.SenderApplicationUserId == CurrentUser.Id))
+                .OrderByDescending(m => m.Created)
+                .Select(m => new AuthMessageModel()
+                {
+                    ID = m.ID,
+                    MessageCreated = m.Created,
+                    SenderApllicationUserId = m.SenderApplicationUserId,
+                    SenderApplicationUserName = m.SenderApplicationUser.UserName,
+                    RecipientApplicationUserId = m.RecipientApplicationUserId,
+                    RecipientApplicationUserName = m.RecipientApplicationUser.UserName,
+                    MessageText = m.MessageText,
+                    CurrentUserId = CurrentUser.Id,
+                    IsRead = m.IsRead,
+                    SenderFirstName = m.SenderApplicationUser.FirstName,
+                    SenderLastName = m.SenderApplicationUser.LastName,
+                    SenderNickname = m.SenderApplicationUser.Nickname,
+                    RecipientNickname = m.RecipientApplicationUser.Nickname,
+                    RecipientFirstName = m.RecipientApplicationUser.FirstName,
+                    RecipientLastName = m.RecipientApplicationUser.LastName,
+                    Subject = m.Subject,
+                });
+
+            var cacheSetupMessages = Services.CacheService.GetSetup<AuthMessageModel>(GetSource());
+            cacheSetupMessages.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdateAny<Message>(),
+                EntityKeys.KeyDeleteAny<Message>(),
+                EntityKeys.KeyCreateAny<Message>(),
+            };
+            cacheSetupMessages.ObjectStringID = CurrentUser.Id;
+
+            // get all messages for this user
+            var allMessages = await Services.CacheService.GetOrSet(async () => await messagesQuery.ToListAsync(), cacheSetupMessages);
+
+            // get conversations from messages
+            var cacheSetupConversations = Services.CacheService.GetSetup<AuthConversationModel>(GetSource());
+            cacheSetupConversations.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdateAny<Message>(),
+                EntityKeys.KeyDeleteAny<Message>(),
+                EntityKeys.KeyCreateAny<Message>(),
+            };
+            cacheSetupConversations.ObjectStringID = CurrentUser.Id;
+
+            var conversations = Services.CacheService.GetOrSet(() => FilterConversationMessages(allMessages), cacheSetupConversations);
+
+            return conversations.ToPagedList(pageNumber, pageSize);
+        }
+
+        /// <summary>
+        /// Creates list of conversations based on given messages
+        /// </summary>
+        /// <param name="messages">Messages</param>
+        /// <returns>Conversation list</returns>
+        protected IEnumerable<AuthConversationModel> FilterConversationMessages(IEnumerable<AuthMessageModel> messages)
+        {
+            var conversationList = new List<AuthConversationModel>();
+
+            foreach (var message in messages)
+            {
+                var existingConversationMessage = conversationList.Where(m => m.RecipientApplicationUserId == CurrentUser.Id || m.SenderApllicationUserId == CurrentUser.Id)
+                    .FirstOrDefault();
+
+                if (existingConversationMessage == null)
+                {
+                    // add message to conversations
+                    conversationList.Add(new AuthConversationModel()
+                    {
+                        CurrentUserId = CurrentUser.Id,
+                        ID = message.ID,
+                        RecipientFirstName = message.RecipientFirstName,
+                        RecipientLastName = message.RecipientLastName,
+                        RecipientNickname = message.RecipientNickname,
+                        SenderNickname = message.SenderNickname,
+                        SenderFirstName = message.SenderFirstName,
+                        SenderLastName = message.SenderLastName,
+                        IsRead = message.IsRead,
+                        MessageCreated = message.MessageCreated,
+                        MessageText = message.MessageText,
+                        RecipientApplicationUserId = message.RecipientApplicationUserId,
+                        RecipientApplicationUserName = message.RecipientApplicationUserName,
+                        SenderApllicationUserId = message.SenderApllicationUserId,
+                        SenderApplicationUserName = message.SenderApplicationUserName,
+                        Subject = message.Subject
+                    });
+                }
+            }
+
+            return conversationList;
+        }
+
+        /// <summary>
+        /// Gets name of given user
+        /// </summary>
+        /// <param name="applicationUserId">ID of user</param>
+        /// <returns>Name of given user</returns>
+        protected async Task<AuthMessageUserModel> GetMessageUserAsync(string applicationUserId)
+        {
+            var cacheSetup = Services.CacheService.GetSetup<AuthMessageUserModel>(GetSource());
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyUpdateAny<Message>(),
+            };
+            cacheSetup.ObjectStringID = applicationUserId;
+
+            var userQuery = Services.IdentityService.GetSingle(applicationUserId)
+                .Select(m => new AuthMessageUserModel()
+                {
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    UserID = m.Id,
+                    UserName = m.UserName,
+                    Nickname = m.Nickname
+                });
+
+            return await Services.CacheService.GetOrSet(async () => await userQuery.FirstOrDefaultAsync(), cacheSetup);
         }
 
         #endregion

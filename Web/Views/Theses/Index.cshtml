@@ -136,9 +136,12 @@
                         </tbody>
                     </table>
 
-                    <div class="w-margin-top-10">
-                       @Helpers.PagerHelper.GetPager(Model.Theses, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new { page, search = searchVal }))
-                    </div>
+                    if (Model.Theses.PageCount > 1)
+                    {
+                        <div class="w-margin-top-10">
+                            @Helpers.PagerHelper.GetPager(Model.Theses, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new {page, search = searchVal}))
+                        </div>
+                    }
                 }
             </div>
         </div>

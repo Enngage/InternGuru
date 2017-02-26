@@ -39,23 +39,24 @@
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/addEditInternship")
 @Helpers.ScriptHelper.RequireCss("/scripts/addons/datepicker-master/dist/datepicker.min")
 
-@using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data", @class = "ui form" }))
-{
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="ID" value="@Model.ID" />
+<div class="ui segment">
+    <div class="ui form">
+        @using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="ID" value="@Model.ID" />
 
-    <div class="ui grid">
-        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+
             @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
 
-            @if (Model.IsNewlyCreatedInternship)
+            if (Model.IsNewlyCreatedInternship)
             {
                 @Helpers.MessageHelper.RenderSuccessMessage("Stáž byla úspěšně vytvořena")
             }
             <form id="_InternshipForm" class="ui form">
                 <div class="ui segment blue secondary inverted">
                     <div class="field">
-                        @Helpers.MessageHelper.RenderInfoMessage("Aktivní stáže budou po 2 měsících automaticky skryty. Stáž je možné poté znova aktivovat.")
+                        @*@Helpers.MessageHelper.RenderInfoMessage("Aktivní stáže budou po 2 měsících automaticky skryty. Stáž je možné poté znova aktivovat.")*@
                         @if (Model.GetIsActive())
                         {
                             <div id="_IsActiveCheckbox" class="ui checked checkbox">
@@ -137,9 +138,9 @@
                         <div class="default text">Stát</div>
                         <div class="menu">
                             @foreach (var country in Model.Countries)
-                            {
-                                if (country.ID.Equals(Model.CountryID))
-                                {
+                {
+                    if (country.ID.Equals(Model.CountryID))
+                    {
                                     <div class="item active" data-value="@country.ID">@Html.Raw(Helpers.CountryHelper.GetCountryIcon(country.Icon)) @country.CountryName</div>
                                 }
                                 else
@@ -153,7 +154,7 @@
                 <div class="field">
                     <label>Pracovní doba</label>
                     @if (Model.GetHasFlexibleHours())
-                {
+                    {
                         <div id="_HasFlexibleHours" class="ui checked checkbox">
                             <input name="HasFlexibleHours" class="hidden" checked="" type="checkbox" tabindex="0">
                             <label>Flexibilní pracovní doba</label>
@@ -191,7 +192,7 @@
 
                 <div class="field">
                     @if (Model.GetHideAmount())
-                {
+                    {
                         <div id="_HideAmountCheckbox" class="ui checked checkbox">
                             <input name="HideAmount" class="hidden" checked="" type="checkbox" tabindex="0">
                             <label>Nezveřejňovat konkrétní částku</label>
@@ -354,6 +355,6 @@
                     @submitButtonText
                 </button>
             </form>
-        </div>
+        }
     </div>
-}
+</div>

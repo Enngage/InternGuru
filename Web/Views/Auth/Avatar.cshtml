@@ -1,36 +1,45 @@
-﻿@model UI.Builders.Auth.Views.AuthAvatarView
-
+﻿@using UI.Modules.Breadcrumbs.Models
+@model UI.Builders.Auth.Views.AuthAvatarView
 @{
     Model.Metadata.BasicMetadata.Title = "Avatar";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
-@using (Html.BeginForm("Avatar", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
+        @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
+        {
+            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
+            new BreadcrumbItem("Nastavení", Url.Action("UserSettings", "Auth")),
+            new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
+        })
+    </div>
+</div>
 
-    @Helpers.MessageHelper.RenderInfoMessage($"Avatar bude automaticky zmenšen na {Core.Config.FileConfig.AvatarSideSize}x{Core.Config.FileConfig.AvatarSideSize} px")
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+        <div class="ui segment">
+            @using (Html.BeginForm("Avatar", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
 
-    <div class="ui grid">
-        <div class="sixteen wide mobile sixteen wide tablet six wide computer column">
+                @Helpers.MessageHelper.RenderInfoMessage($"Avatar bude automaticky zmenšen na {Core.Config.FileConfig.AvatarSideSize}x{Core.Config.FileConfig.AvatarSideSize} px")
 
-            @Helpers.MessageHelper.RenderFormValidationResult(Model.AvatarForm.FormResult.IsSuccess)
+                @Helpers.MessageHelper.RenderFormValidationResult(Model.AvatarForm.FormResult.IsSuccess)
 
-
-            <div>
-                <img alt="" class="ui image tiny" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" />
-            </div>
-
-            <div class="ui form w-margin-top-10">
-                <div class="field required">
-                    <input type="file" name="Avatar">
+                <div>
+                    <img alt="" class="ui image tiny" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" />
+                </div>
+                <div class="ui form w-margin-top-10">
+                    <div class="field required">
+                        <input type="file" name="Avatar">
+                    </div>
+                    <button class="ui button primary" type="submit">
+                        Nahrát
+                    </button>
                 </div>
 
-                <button class="ui button primary" type="submit">
-                    Nahrát
-                </button>
-            </div>
-
+            }
         </div>
     </div>
-}
+</div>

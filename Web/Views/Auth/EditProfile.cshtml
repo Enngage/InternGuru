@@ -1,49 +1,54 @@
-﻿@model UI.Builders.Auth.Views.AuthEditProfileView
-
+﻿@using UI.Modules.Breadcrumbs.Models
+@model UI.Builders.Auth.Views.AuthEditProfileView
 @{
     Model.Metadata.BasicMetadata.Title = "Upravit profil";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
 
-@using (Html.BeginForm("EditProfile", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
+        @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
+        {
+            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
+            new BreadcrumbItem("Nastavení", Url.Action("UserSettings", "Auth")),
+            new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
+        })
+    </div>
+</div>
 
-    <div class="ui grid">
-        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-            <h1>
-                @Model.Metadata.BasicMetadata.Title
-            </h1>
-            
-            <div class="ui form">
+<div class="ui grid">
+    <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+        <div class="ui segment">
+            @using (Html.BeginForm("EditProfile", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
 
-                @Helpers.MessageHelper.RenderFormValidationResult(Model.ProfileForm.FormResult.IsSuccess)
-                
-                <div class="disabled field">
-                    <label>E-mail</label>
-                    <input placeholder="Read Only" disabled="" tabindex="-1" type="text" value="@Model.Master.CurrentUser.Email">
+                <div class="ui form">
+                    @Helpers.MessageHelper.RenderFormValidationResult(Model.ProfileForm.FormResult.IsSuccess)
+
+                    <div class="disabled field">
+                        <label>E-mail</label>
+                        <input placeholder="Read Only" disabled="" tabindex="-1" type="text" value="@Model.Master.CurrentUser.Email">
+                    </div>
+
+                    <div class="field">
+                        <label>Přezdívka</label>
+                        <input name="Nickname" placeholder="" type="text" value="@Model.ProfileForm.Nickname">
+                    </div>
+
+                    <div class="field">
+                        <label>Jméno</label>
+                        <input name="FirstName" placeholder="" type="text" value="@Model.ProfileForm.FirstName">
+                    </div>
+                    <div class="field">
+                        <label>Příjmení</label>
+                        <input name="LastName" placeholder="" type="text" value="@Model.ProfileForm.LastName">
+                    </div>
+                    <button class="ui button primary" type="submit">
+                        Uložit
+                    </button>
                 </div>
-                
-                <div class="field">
-                    <label>Přezdívka</label>
-                    <input name="Nickname" placeholder="" type="text" value="@Model.ProfileForm.Nickname">
-                </div>
-                
-                <div class="field">
-                    <label>Jméno</label>
-                    <input name="FirstName" placeholder="" type="text" value="@Model.ProfileForm.FirstName">
-                </div>
-
-                <div class="field">
-                    <label>Příjmení</label>
-                    <input name="LastName" placeholder="" type="text" value="@Model.ProfileForm.LastName">
-                </div>
-
-                <button class="ui button primary" type="submit">
-                    Uložit
-                </button>
-            </div>
-
+            }
         </div>
     </div>
-}
+</div>

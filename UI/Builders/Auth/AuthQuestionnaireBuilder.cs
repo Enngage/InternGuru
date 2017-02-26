@@ -86,9 +86,9 @@ namespace UI.Builders.Auth
             };
         }
 
-        public async Task<AuthCompanyTypeIndexView> BuildQuestionnairesViewAsync(int? page)
+        public async Task<AuthCompanyTypeIndexView> BuildQuestionnairesViewAsync()
         {
-            return await BuildCompanyTypeIndexViewAsync(page);
+            return await BuildCompanyTypeIndexViewAsync();
         }
 
         public async Task<AuthNewQuestionnaireView> BuildQuestionnaireNewViewAsync(QuestionnaireCreateEditForm form = null)

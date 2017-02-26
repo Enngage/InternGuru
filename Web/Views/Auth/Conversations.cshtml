@@ -1,14 +1,11 @@
 ﻿@using Core.Helpers;
 @using UI.Modules.Breadcrumbs.Models
-@model UI.Builders.Auth.Views.AuthCompanyTypeIndexView
-
+@model UI.Builders.Auth.Views.AuthConversationsView
 @{
     Model.Metadata.BasicMetadata.Title = "Zprávy";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
-
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authIndex")
-
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
@@ -19,7 +16,6 @@
         })
     </div>
 </div>
-
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
@@ -69,9 +65,12 @@
                     }
                 </div>
 
-                <div class="w-margin-top-10">
-                    @Helpers.PagerHelper.GetPager(Model.ConversationsPaged)
-                </div>
+                if (Model.ConversationsPaged.PageCount > 1)
+                {
+                    <div class="w-margin-top-10">
+                        @Helpers.PagerHelper.GetPager(Model.ConversationsPaged)
+                    </div>
+                }
             }
         </div>
     </div>

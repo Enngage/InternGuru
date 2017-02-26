@@ -1,0 +1,50 @@
+﻿@model UI.Builders.Auth.Views.AuthUserSettingsView
+@{
+    Model.Metadata.BasicMetadata.Title = "Nastavení";
+    Layout = Model.AuthMaster.AuthMasterLayout;
+}
+
+<div class="ui container w-padding-bottom-30">
+    <div class="ui centered grid w-padding-top-30">
+        <div class="sixteen wide mobile eight wide tablet four wide computer column">
+            <div class="ui segment  w-link-segment">
+                <a href="@Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")">
+                    <h2 class="ui center aligned icon header">
+                        <i class="angle left icon"></i>
+                        Hlavní menu
+                    </h2>
+                </a>
+            </div>
+        </div>
+        <div class="sixteen wide mobile eight wide tablet four wide computer column">
+            <div class="ui segment  w-link-segment">
+                <a href="@Url.Action("Avatar", "Auth")">
+                    <h2 class="ui center aligned icon header">
+                        <i class="photo icon"></i>
+                         Avatar
+                    </h2>
+                </a>
+            </div>
+        </div>
+        <div class="sixteen wide mobile eight wide tablet four wide computer column">
+            <div class="ui segment  w-link-segment">
+                <a href="@Url.Action("EditProfile", "Auth")">
+                    <h2 class="ui center aligned icon header">
+                        <i class="user icon"></i>
+                        Základní údaje
+                    </h2>
+                </a>
+            </div>
+        </div>
+        <div class="sixteen wide mobile eight wide tablet four wide computer column">
+            <div class="ui segment  w-link-segment">
+                <a href="@Url.Action("UserTypeSelection", "Auth")">
+                    <h2 class="ui center aligned icon header">
+                        <i class="exchange icon"></i>
+                        Typ účtu
+                    </h2>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

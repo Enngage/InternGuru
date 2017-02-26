@@ -2564,6 +2564,8 @@
     <Content Include="Views\Auth\Conversations.cshtml" />
     <Content Include="Views\Modules\Breadcrumbs\Breadcrumbs.cshtml" />
     <Content Include="Views\Home\Questionnaire.cshtml" />
+    <Content Include="Views\Auth\UserSettings.cshtml" />
+    <Content Include="Views\Auth\Admin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

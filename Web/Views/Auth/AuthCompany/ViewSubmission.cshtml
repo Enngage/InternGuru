@@ -11,7 +11,7 @@
     <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
         @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
         {
-            new BreadcrumbItem("Menu", Url.Action("CompanyTypeIndex", "Auth")),
+            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
             new BreadcrumbItem("Dotazníky", Url.Action("Questionnaires", "AuthCompany")),
             new BreadcrumbItem("Vyplněné dotazníky", Url.Action("QuestionnaireSubmissions", "AuthCompany")),
             new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)

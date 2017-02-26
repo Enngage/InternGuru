@@ -24,9 +24,9 @@ namespace UI.Builders.Auth
 
         #region Actions
 
-        public async Task<AuthCompanyTypeIndexView> BuildThesesVieAsync(int? page)
+        public async Task<AuthCompanyTypeIndexView> BuildThesesVieAsync()
         {
-            return await BuildCompanyTypeIndexViewAsync(page);
+            return await BuildCompanyTypeIndexViewAsync();
         }
 
         public async Task<AuthEditThesisView> BuildEditThesisViewAsync(int thesisID)

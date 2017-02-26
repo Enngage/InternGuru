@@ -12,11 +12,19 @@
             </div>
             @if (controller.Equals("internships", StringComparison.OrdinalIgnoreCase))
             {
-                <a href="@Url.Action("Index", "Internships")" class="item active">Nabídka stáží</a>
+                <a href="@Url.Action("Index", "Internships")" class="item active">Stáže</a>
             }
             else
             {
-                <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
+                <a href="@Url.Action("Index", "Internships")" class="item">Stáže</a>
+            }
+            @if (controller.Equals("theses", StringComparison.OrdinalIgnoreCase))
+            {
+                <a href="@Url.Action("Index", "Theses")" class="item active">Závěrečné práce</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "Theses")" class="item">Závěrečné práce</a>
             }
             @if (controller.Equals("companies", StringComparison.OrdinalIgnoreCase))
             {
@@ -26,22 +34,7 @@
             {
                 <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
             }
-            @*@if (controller.Equals("meetups", StringComparison.OrdinalIgnoreCase))
-            {
-                <a href="@Url.Action("Index", "Meetups")" class="item active">Meetups</a>
-            }
-            else
-            {
-                <a href="@Url.Action("Index", "meetups")" class="item">Meetups</a>
-            }*@
-            @if (controller.Equals("theses", StringComparison.OrdinalIgnoreCase))
-            {
-                <a href="@Url.Action("Index", "Theses")" class="item active">Závěrečné práce</a>
-            }
-            else
-            {
-                <a href="@Url.Action("Index", "Theses")" class="item">Závěrečné práce</a>
-            }
+  
             <div class="right menu">
                 @Html.Partial("_LoginPartial")
             </div>

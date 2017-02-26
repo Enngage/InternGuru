@@ -44,10 +44,46 @@ namespace Web.Controllers.Auth
 
         #region Actions
 
-        [Route(GeneralActionPrefix + "/TypUctu")]
-        public async Task<ActionResult> UserTypeSelection(int? page)
+        [Route(GeneralActionPrefix + "/Admin")]
+        public async Task<ActionResult> Admin()
         {
-            var model = await AuthBuilder.AuthMasterBuilder.BuildCompanyTypeIndexViewAsync(page);
+            var model = await AuthBuilder.AuthMasterBuilder.BuildAdminViewAsync();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
+            return View(model);
+        }
+
+        [Route(GeneralActionPrefix + "/Nastaveni")]
+        public async Task<ActionResult> UserSettings()
+        {
+            var model = await AuthBuilder.AuthMasterBuilder.BuildUserSettingsViewAsync();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
+            return View(model);
+        }
+
+        [Route(GeneralActionPrefix + "/TypUctu")]
+        public async Task<ActionResult> UserTypeSelection()
+        {
+            var model = await AuthBuilder.AuthMasterBuilder.BuildCompanyTypeIndexViewAsync();
 
             if (model == null)
             {
@@ -58,9 +94,9 @@ namespace Web.Controllers.Auth
         }
 
         [Route(CompanyActionPrefix)]
-        public async Task<ActionResult> CompanyTypeIndex(int? page)
+        public async Task<ActionResult> CompanyTypeIndex()
         {
-            var model = await AuthBuilder.AuthMasterBuilder.BuildCompanyTypeIndexViewAsync(page);
+            var model = await AuthBuilder.AuthMasterBuilder.BuildCompanyTypeIndexViewAsync();
 
             if (model == null)
             {

@@ -26,9 +26,9 @@ namespace UI.Builders.Auth
 
         #region Internship
 
-        public async Task<AuthCompanyTypeIndexView> BuildInternshipsViewAsync(int? page)
+        public async Task<AuthCompanyTypeIndexView> BuildInternshipsViewAsync()
         {
-            return await BuildCompanyTypeIndexViewAsync(page);
+            return await BuildCompanyTypeIndexViewAsync();
         }
 
         public async Task<AuthEditInternshipView> BuildEditInternshipViewAsync(int internshipID)

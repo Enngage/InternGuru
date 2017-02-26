@@ -1,0 +1,44 @@
+﻿@model UI.Builders.Auth.Views.AuthAdminView
+@{
+    Model.Metadata.BasicMetadata.Title = "Admin";
+    Layout = Model.AuthMaster.AuthMasterLayout;
+}
+
+<div class="ui container w-padding-bottom-30">
+    <div class="ui grid w-padding-top-30">
+        <div class="sixteen wide mobile eight wide tablet four wide computer column">
+            <div class="ui segment  w-link-segment">
+                <a href="@Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")">
+                    <h2 class="ui center aligned icon header">
+                        <i class="angle left icon"></i>
+                        Hlavní menu
+                    </h2>
+                </a>
+            </div>
+        </div>
+        <div class="sixteen wide mobile eight wide tablet four wide computer column">
+            <div class="ui segment  w-link-segment">
+                <a href="@Url.Action("EventLog", "System")">
+                    <h2 class="ui center aligned icon header">
+                        <i class="bug icon"></i>
+                        Event log
+                        @if (Model.Master.StatusBox.NewEventLogCount > 0)
+                        {
+                            <span class="w-font-negative"> @Model.Master.StatusBox.NewEventLogCount </span>
+                        }
+                    </h2>
+                </a>
+            </div>
+        </div>
+        <div class="sixteen wide mobile eight wide tablet four wide computer column">
+            <div class="ui segment  w-link-segment">
+                <a href="@Url.Action("EmailLog", "System")">
+                    <h2 class="ui center aligned icon header">
+                        <i class="mail icon"></i>
+                        E-mail
+                    </h2>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

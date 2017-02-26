@@ -688,7 +688,8 @@
     font-size: 14px; }
 
 #w-body-wrapper .w-questionnaire-question-wrapper {
-  cursor: move; }
+  cursor: move;
+  background: #fdfdfd; }
 
 #w-body-wrapper .w-questionnaire-ghost-class {
   opacity: .5;

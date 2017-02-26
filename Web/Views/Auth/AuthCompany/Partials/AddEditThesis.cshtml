@@ -1,6 +1,5 @@
 ﻿@model UI.Builders.Auth.Forms.AuthAddEditThesisForm
-
-@{   
+@{
     var formAction = Model.IsExistingThesis ? "EditThesis" : "NewThesis";
     var submitButtonText = Model.IsExistingThesis ? "Uložit" : "Přidat";
 
@@ -8,20 +7,18 @@
 
     var currencyVal = Model.CurrencyID == 0 ? defaultCurrency?.ID : Model.CurrencyID;
 }
-
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/addEditThesis")
+<div class="ui segment">
+    <div class="ui form">
+        @using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data", id = "_ThesisForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="ID" value="@Model.ID" />
 
-@using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data", id = "_ThesisForm", @class = "ui form" }))
-{
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="ID" value="@Model.ID" />
-
-    <div class="ui grid">
-        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
 
             @Helpers.MessageHelper.RenderFormValidationResult(Model.FormResult.IsSuccess)
-            
-            @if (Model.IsNewlyCreatedThesis)
+
+            if (Model.IsNewlyCreatedThesis)
             {
                 @Helpers.MessageHelper.RenderSuccessMessage("Závěrečná práce byla úspěšně vytvořena")
             }
@@ -44,7 +41,7 @@
                     }
                 </div>
             </div>
-            
+
             <div class="field">
                 <label>Připojený dotazník</label>
                 @Helpers.MessageHelper.RenderTipMessage($"Dotazníky se zobrazí zájemcům při odpovídání na nabídku. Dotazníky lze využít pro získání bližších informací o zájemcích nebo i pro otestování jejich znalostí. <a href=\"{Url.Action("NewQuestionnaire", "AuthCompany")}\">Vytvořit dotazník</a>")
@@ -72,7 +69,6 @@
                 <label>Název práce</label>
                 <input name="ThesisName" placeholder="" type="text" value="@(Model.ThesisName)">
             </div>
-
             <div class="field required">
                 <label>Typ práce</label>
                 <div class="ui fluid search selection dropdown _ThesisTypeDropdown">
@@ -91,14 +87,11 @@
                                 <div class="item" data-value="@thesisType.ID">@thesisType.Name</div>
                             }
                         }
-
                     </div>
                 </div>
             </div>
-
             <div class="field required">
                 <label>Kategorie</label>
-
                 <div class="ui fluid search selection dropdown _ThesisCategoryDropdown">
                     <input type="hidden" name="InternshipCategoryID" value="@Model.InternshipCategoryID">
                     <i class="dropdown icon"></i>
@@ -115,82 +108,74 @@
                                 <div class="item" data-value="@category.InternshipCategoryID">@category.InternshipCategoryName</div>
                             }
                         }
-
                     </div>
                 </div>
             </div>
+                    <div class="field">
+                        <label>Popis práce</label>
+                        <textarea id="_ThesisDescription" name="Description">@(Model.Description)</textarea>
+                    </div>
+                    <div class="field">
+                        <label>Odměna</label>
+                        @if (Model.GetIsPaid())
+                {
+                            <div id="_IsPaidCheckbox" class="ui checked checkbox">
+                                <input name="IsPaid" class="hidden" checked="" type="checkbox" tabindex="0">
+                                <label>Odměna za obhájení práce</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="_IsPaidCheckbox" class="ui checkbox">
+                                <input name="IsPaid" class="hidden" type="checkbox" tabindex="0">
+                                <label>Odměna za obhájení práce</label>
+                            </div>
+                        }
+                    </div>
 
-            <div class="field">
-                <label>Popis práce</label>
-                <textarea id="_ThesisDescription" name="Description">@(Model.Description)</textarea>
-            </div>
-
-            <div class="field">
-                <label>Odměna</label>
-                @if (Model.GetIsPaid())
+                    <div class="field">
+                        @if (Model.GetHideAmount())
                 {
-                    <div id="_IsPaidCheckbox" class="ui checked checkbox">
-                        <input name="IsPaid" class="hidden" checked="" type="checkbox" tabindex="0">
-                        <label>Odměna za obhájení práce</label>
+                            <div id="_HideAmountCheckbox" class="ui checked checkbox">
+                                <input name="HideAmount" class="hidden" checked="" type="checkbox" tabindex="0">
+                                <label>Nezveřejňovat konkrétní částku</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="_HideAmountCheckbox" class="ui checkbox">
+                                <input name="HideAmount" class="hidden" type="checkbox" tabindex="0">
+                                <label>Nezveřejňovat konkrétní částku</label>
+                            </div>
+                        }
                     </div>
-                }
-                else
-                {
-                    <div id="_IsPaidCheckbox" class="ui checkbox">
-                        <input name="IsPaid" class="hidden" type="checkbox" tabindex="0">
-                        <label>Odměna za obhájení práce</label>
-                    </div>
-                }
-            </div>
-            
-            <div class="field">
-                @if (Model.GetHideAmount())
-                {
-                    <div id="_HideAmountCheckbox" class="ui checked checkbox">
-                        <input name="HideAmount" class="hidden" checked="" type="checkbox" tabindex="0">
-                        <label>Nezveřejňovat konkrétní částku</label>
-                    </div>
-                }
-                else
-                {
-                    <div id="_HideAmountCheckbox" class="ui checkbox">
-                        <input name="HideAmount" class="hidden" type="checkbox" tabindex="0">
-                        <label>Nezveřejňovat konkrétní částku</label>
-                    </div>
-                }
-            </div>
-
-            <div id="_ThesisAmountFieldWrapper" class="field w-margin-top-10 w-body-hide">
-                <div class="ui right labeled input">
-                    <input name="Amount" placeholder="" type="text" value="@Model.Amount">
-                    <div class="ui dropdown label _CurrencyDropdown">
-                        <input name="CurrencyID" type="hidden" value="@currencyVal">
-                        <div class="item text" data-value="@defaultCurrency">@defaultCurrency</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            @foreach (var currency in Model.Currencies)
-                            {
-                                if (currency.ID.Equals(Model.CurrencyID))
-                                {
-                                    <div class="item active" data-value="@currency.ID">@currency.CodeName</div>
-                                }
-                                else
-                                {
-                                    <div class="item" data-value="@currency.ID">@currency.CodeName</div>
-                                }
-                            }
+                    <div id="_ThesisAmountFieldWrapper" class="field w-margin-top-10 w-body-hide">
+                        <div class="ui right labeled input">
+                            <input name="Amount" placeholder="" type="text" value="@Model.Amount">
+                            <div class="ui dropdown label _CurrencyDropdown">
+                                <input name="CurrencyID" type="hidden" value="@currencyVal">
+                                <div class="item text" data-value="@defaultCurrency">@defaultCurrency</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    @foreach (var currency in Model.Currencies)
+                                    {
+                                        if (currency.ID.Equals(Model.CurrencyID))
+                                        {
+                                            <div class="item active" data-value="@currency.ID">@currency.CodeName</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="item" data-value="@currency.ID">@currency.CodeName</div>
+                                        }
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <button class="ui button submit primary" type="submit">
-                @submitButtonText
-            </button>
-
-            <div class="ui error message"></div>
-        </div>
+                    <button class="ui button primary" type="submit">
+                        @submitButtonText
+                    </button>
+                    <div class="ui error message"></div>
+        }
     </div>
-}
-
-
+</div>
