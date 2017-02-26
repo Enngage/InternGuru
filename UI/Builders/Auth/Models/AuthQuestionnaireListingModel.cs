@@ -14,5 +14,6 @@ namespace UI.Builders.Auth.Models
         public string CreatedByApplicationUserId { get; set; }
         public int CompanyID { get; set; }
         public int SubmissionsCount { get; set; }
+        public DateTime Created { get; set; }
     }
 }

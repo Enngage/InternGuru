@@ -1,15 +1,12 @@
 ﻿@using Core.Helpers;
 @using UI.Modules.Breadcrumbs.Models
 @model UI.Builders.Auth.Views.AuthConversationView
-
 @{
     Model.Metadata.BasicMetadata.Title = "Konverzace | " + Model.ConversationUser.DisplayName;
     Layout = Model.AuthMaster.AuthMasterLayout;
     // tabs
     Model.Tabs.RecentConversations.Set(true, 4);
 }
-
-
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
         @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
@@ -20,76 +17,112 @@
         })
     </div>
 </div>
-
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-        @using (Html.BeginForm("Conversation", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-
-            @Html.Hidden("RecipientApplicationUserId", Model.ConversationUser.UserID)
-            @Html.Hidden("CompanyID", Model.LastMessage?.CompanyID ?? 0)
-
-            <h2 class="ui header w-margin-top-0">
-                <img alt="" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.ConversationUser.UserID)" src="@Helpers.ImageHelper.GetTransparentImage()" class="ui image tiny">
-                @($"{Model.ConversationUser.DisplayName}")
-            </h2>
-
-            @Helpers.MessageHelper.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess, "Odesláno")
-
-            <div class="ui reply form">
-                <div class="field">
-                    <textarea name="Message">@Model.MessageForm.Message</textarea>
-                </div>
-
-                <button class="ui blue labeled icon button">
-                    <i class="icon edit"></i> Odeslat
-                </button>
-            </div>
-        }
-
-        <div class="ui divided items">
-            @foreach (var message in Model.Messages)
+        <div class="ui segment">
+            @using (Html.BeginForm("Conversation", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                var segmentClass = message.WrittenByCurrentUser ? "" : "w-segment-dark basic";
-                <div class="ui segment padded @segmentClass">
-                    <div class="item">
+                @Html.AntiForgeryToken()
+
+                @Html.Hidden("RecipientApplicationUserId", Model.ConversationUser.UserID)
+                @Html.Hidden("CompanyID", Model.LastMessage?.CompanyID ?? 0)
+
+                <h2 class="ui header w-margin-top-0">
+                    <img alt="" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.ConversationUser.UserID)" src="@Helpers.ImageHelper.GetTransparentImage()" class="ui image tiny">
+                    @($"{Model.ConversationUser.DisplayName}")
+                </h2>
+
+                @Helpers.MessageHelper.RenderFormValidationResult(Model.MessageForm.FormResult.IsSuccess, "Odesláno")
+
+                <div class="ui reply form">
+                    <div class="field">
+                        <textarea name="Message">@Model.MessageForm.Message</textarea>
+                    </div>
+                    <button class="ui blue labeled icon button">
+                        <i class="icon edit"></i> Odeslat
+                    </button>
+                </div>
+            }
+            <div class="ui comments">
+                @foreach (var message in Model.Messages)
+                {
+                    var segmentClass = message.WrittenByCurrentUser ? "" : "w-segment-dark basic";
+                    var writtenByName = string.Empty;
+                    if (message.WrittenByCurrentUser)
+                    {
+                        writtenByName = "Já";
+                    }
+                    else
+                    {
+                        writtenByName = Model.ConversationUser.DisplayName;
+                    }
+
+                    <div class="comment w-margin-top-14">
+                        <a class="avatar">
+                            <img class="ui image" alt="" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetUserAvatar(message.SenderApllicationUserId)">
+                        </a>
                         <div class="content">
-                            <div class="extra w-body-text-right w-font-size-small">
-                                @if (!string.IsNullOrEmpty(message.Subject))
-                                {
-                                    <span>
-                                        @message.Subject |&nbsp;
-                                    </span>
-                                }
-                                <i class="calendar icon"></i>@DateHelper.FormatTime(message.MessageCreated)
-                                @if (message.SenderApllicationUserId.Equals(message.CurrentUserId, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    <span>|</span>
-                                    if (message.IsRead)
+                            <a class="author">@writtenByName</a>
+                            <div class="metadata">
+                                <div class="date">
+                                    @DateHelper.FormatDateAndTime(message.MessageCreated)
+                                    @if (message.IsRead)
                                     {
-                                        <i title="Přečteno" class="checkmark green icon"></i>
+                                     <i title="Přečteno" class="checkmark green icon"></i>
                                     }
                                     else
                                     {
-                                        <i title="Nepřečteno" class="remove red icon"></i>
+                                     <i title="Nepřečteno" class="remove red icon"></i>
                                     }
-                                }
                             </div>
-                            <div class="description">
-                                <p>
-                                    @Html.Raw(Helpers.HtmlHelper.AddLineBreaks(message.MessageText))
-                                </p>
-                            </div>
+                        </div>
+                        <div class="text">
+                            <p>@Html.Raw(Helpers.HtmlHelper.AddLineBreaks(message.MessageText))</p>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
 
-        <div class="w-margin-top-10">
-            @Helpers.PagerHelper.GetPager(Model.Messages)
-        </div>
+                    @*<div class="ui segment padded @segmentClass">
+                            <div class="item">
+                                <div class="content">
+                                    <div class="extra w-body-text-left">
+                                        @writtenByName
+                                    </div>
+                                    <div class="extra w-body-text-right w-font-size-small">
+                                        @if (!string.IsNullOrEmpty(message.Subject))
+                                        {
+                                            <span>
+                                                @message.Subject |&nbsp;
+                                            </span>
+                                        }
+                                        <i class="calendar icon"></i>@DateHelper.FormatTime(message.MessageCreated)
+                                        @if (message.SenderApllicationUserId.Equals(message.CurrentUserId, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <span>|</span>
+                                            if (message.IsRead)
+                                            {
+                                                <i title="Přečteno" class="checkmark green icon"></i>
+                                            }
+                                            else
+                                            {
+                                                <i title="Nepřečteno" class="remove red icon"></i>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="description">
+                                        <p>
+                                            @Html.Raw(Helpers.HtmlHelper.AddLineBreaks(message.MessageText))
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                }
+            </div>
 
+            <div class="w-margin-top-10">
+                @Helpers.PagerHelper.GetPager(Model.Messages)
+            </div>
+        </div>
     </div>
 </div>

@@ -214,6 +214,7 @@ namespace UI.Builders.Auth
                 .Select(m => new AuthQuestionnaireListingModel()
                 {
                     ID = m.ID,
+                    Created =  m.Created,
                     Updated = m.Updated,
                     QuestionnaireName = m.QuestionnaireName,
                     QuestionnaireXml = m.QuestionnaireXml,

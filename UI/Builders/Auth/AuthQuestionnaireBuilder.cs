@@ -79,10 +79,20 @@ namespace UI.Builders.Auth
                 return null;
             }
 
+            var questionnaire = authMaster.CompanyMaster.Questionnaires.FirstOrDefault(m => m.ID == questionnaireID);
+
+            if (questionnaire == null)
+            {
+                return null;
+            }
+
             return new AuthSubmissionView()
             {
                 AuthMaster = authMaster,
-                Submission = await GetQuestionnaireSubmissionAsync(questionnaireID, submissionID)
+                Submission = await GetQuestionnaireSubmissionAsync(questionnaireID, submissionID),
+                QuestionnaireID = questionnaireID,
+                QuestionnaireName = questionnaire.QuestionnaireName,
+                QuestionnaireCreated = questionnaire.Created
             };
         }
 

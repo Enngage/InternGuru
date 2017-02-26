@@ -23,5 +23,15 @@ namespace Core.Helpers
         {
             return DateTime.Now.AddDays(-1) > date ? FormatDate(date) : date.ToString("H:m");
         }
+
+        /// <summary>
+        /// Gets formated date and time value
+        /// </summary>
+        /// <param name="date">Date to format</param>
+        /// <returns>Formatted time</returns>
+        public static string FormatDateAndTime(DateTime date)
+        {
+            return date.ToString("d/M/yyyy H:m");
+        }
     }
 }

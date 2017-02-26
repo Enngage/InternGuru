@@ -1,4 +1,5 @@
-﻿@using Service.Services.Questionnaires
+﻿@using Core.Helpers
+@using Service.Services.Questionnaires
 @using UI.Modules.Breadcrumbs.Models
 @model UI.Builders.Auth.Views.AuthSubmissionView
 @{
@@ -13,7 +14,8 @@
         {
             new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
             new BreadcrumbItem("Dotazníky", Url.Action("Questionnaires", "AuthCompany")),
-            new BreadcrumbItem("Vyplněné dotazníky", Url.Action("QuestionnaireSubmissions", "AuthCompany")),
+            new BreadcrumbItem(Model.QuestionnaireName, Url.Action("EditQuestionnaire", "AuthCompany", new { id = Model.QuestionnaireID} )),
+            new BreadcrumbItem("Data", Url.Action("QuestionnaireSubmissions", "AuthCompany", new { id = Model.QuestionnaireID} )),
             new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
         })
     </div>
@@ -22,35 +24,83 @@
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
-            <h1>
-                @Model.Submission.QuestionnaireName
-            </h1>
-            <h3>@displayUserName</h3>
-        </div>
-
-        @foreach (var question in Model.Submission.Questions)
-        {
-
-            <div class="ui segment">
-                <div class="ui form">
-                    <div class="field">
-                        <label>@question.QuestionText</label>
-                    </div>
-                    <div class="field">
-                        <label>Odpověď:</label>
-                        <p>
-                            @question.Answer
-                        </p>
-                    </div>
-                    @if (question.Result != QuestionAnswerResultEnum.NotATestQuestion)
+            <table class="ui very basic table">
+                <tbody>
+                    <tr>
+                        <td>Dotazník:</td>
+                        <td><strong>@Model.QuestionnaireName</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Vyplnil:</td>
+                        <td><strong>@displayUserName</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="collapsing">Datum vyplnění:</td>
+                        <td><strong>@DateHelper.FormatDateAndTime(Model.Submission.Created)</strong></td>
+                    </tr>
+                    @if (Model.QuestionsWithCorrectAnswerCount > 0)
                     {
-                        <div class="field">
-                            <label>Správná odpověď:</label>
-                            <p>@question.CorrectAnswer</p>
-                        </div>
+                        <tr>
+                            <td colspan="2">
+                                <a class="ui green  label">@Model.CorrectlyAnsweredQuestionsCount správných odpovědí</a>
+                                /
+                                <a class="ui red label">@Model.WronglyAnsweredQuestionsCount špatných odpovědí</a>
+                            </td>
+                        </tr>
                     }
+                </tbody>
+            </table>
+
+
+            @for (int i = 0; i < Model.Submission.Questions.Count; i++)
+            {
+                var question = Model.Submission.Questions[i];
+
+                <div class="ui segment">
+                    <div class="ui top attached label teal">@(i + 1).</div>
+                    <table class="ui very basic table">
+                        <tbody>
+                            <tr>
+                                <td>Otázka:</td>
+                                <td><strong>@question.QuestionText</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="collapsing">Odpověď:</td>
+                                <td><strong>@question.Answer</strong></td>
+                            </tr>
+                            @if (question.Result != QuestionAnswerResultEnum.NotATestQuestion)
+                            {
+                                <tr>
+                                    <td>
+                                        Výsledek:
+                                    </td>
+                                    <td>
+                                        @if (question.Result == QuestionAnswerResultEnum.Correct)
+                                        {
+                                            <a class="ui green label">Správně</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="ui red label">Špatně</a>
+                                        }
+                                    </td>
+                                </tr>
+                                if (question.Result == QuestionAnswerResultEnum.Wrong)
+                                {
+                                    <tr>
+                                        <td>
+                                            Správná odpověď:
+                                        </td>
+                                        <td>
+                                            <strong>@question.CorrectAnswer</strong>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>

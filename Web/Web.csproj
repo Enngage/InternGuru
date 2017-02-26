@@ -245,6 +245,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\Base\caution.png" />
+    <Content Include="Content\Images\company-hero.jpg" />
     <Content Include="Content\Images\contact-us-hero.jpg" />
     <Content Include="Content\Images\Default\defaultAvatar.png" />
     <Content Include="Content\Images\Default\defaultCompanyBanner.png" />
@@ -254,7 +255,6 @@
     <Content Include="Content\Images\teaser.jpg" />
     <Content Include="Content\Images\teaser_cropped.jpg" />
     <Content Include="Content\Images\Base\transparent.png" />
-    <Content Include="Content\PagedList.css" />
     <Content Include="EmailTemplates\EmailTemplatesOverview.txt" />
     <Content Include="EmailTemplates\Files\logo-2.jpg" />
     <Content Include="EmailTemplates\Files\video-1.jpg" />
