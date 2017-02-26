@@ -80,7 +80,7 @@ namespace Entity
         }
         public string GetCodeName()
         {
-            return StringHelper.GetCodeName(CompanyName);
+            return StringHelper.GetCodeName(CompanyName, 100);
         }
 
         #endregion

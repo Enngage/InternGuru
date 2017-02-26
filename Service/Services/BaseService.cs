@@ -504,7 +504,7 @@ namespace Service.Services
             }
             catch (Exception ex)
             {
-                LogServiceException(ex, type);
+                await LogServiceExceptionAsync(ex, type);
 
                 // re-throw
                 throw;
@@ -523,7 +523,20 @@ namespace Service.Services
             var saveException = new SaveException(GetSaveExceptionText(type), ex);
 
             // log event
-            logService?.LogException(saveException, ServiceDependencies.RequestContext.CurrentUrl, ServiceDependencies.User.UserName);
+            logService.LogException(saveException, ServiceDependencies.RequestContext.CurrentUrl, ServiceDependencies.User.UserName);
+        }
+
+        private async Task LogServiceExceptionAsync(Exception ex, SaveEventType type)
+        {
+            // make sure to use logger app context to avoid infinite recursion exception if exception occured on DB level
+
+            // get log service
+            var logService = KernelProvider.Get<ILogService>();
+
+            var saveException = new SaveException(GetSaveExceptionText(type), ex);
+
+            // log event
+            await logService.LogExceptionAsync(saveException, ServiceDependencies.RequestContext.CurrentUrl, ServiceDependencies.User.UserName);
         }
 
         #endregion
@@ -847,6 +860,12 @@ namespace Service.Services
             // set entity code name
             newEntity.CodeName = newEntity.GetCodeName();
 
+            // fix empty code name
+            if (string.IsNullOrEmpty(newEntity.CodeName))
+            {
+                throw new InvalidCodeNameException($"Code name cannot be null");
+            }
+
             // check unique code name
             var entityWithUniqueCodeName = newEntity as IEntityWithUniqueCodeName;
             if (entityWithUniqueCodeName != null)
@@ -876,6 +895,12 @@ namespace Service.Services
 
             // set entity code name
             newEntity.CodeName = newEntity.GetCodeName();
+
+            // fix empty code name
+            if (string.IsNullOrEmpty(newEntity.CodeName))
+            {
+                throw new InvalidCodeNameException($"Code name cannot be null");
+            }
 
             // check unique code name
             var entityWithUniqueCodeName = newEntity as IEntityWithUniqueCodeName;

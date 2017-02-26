@@ -10,7 +10,7 @@ namespace Entity
     {
         public int ID { get; set; }
         [Required]
-        [MaxLength(250)]
+        [MaxLength(100)]
         [Index]
         public string CodeName { get; set; }
         [Required]
@@ -71,7 +71,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return StringHelper.GetCodeName(ThesisName);
+            return StringHelper.GetCodeName(ThesisName, 100);
         }
 
         #endregion

@@ -2563,6 +2563,7 @@
     <Content Include="Stylesheets\partials\_link.scss" />
     <Content Include="Views\Auth\Conversations.cshtml" />
     <Content Include="Views\Modules\Breadcrumbs\Breadcrumbs.cshtml" />
+    <Content Include="Views\Home\Questionnaire.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

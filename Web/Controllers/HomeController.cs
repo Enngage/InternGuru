@@ -72,6 +72,12 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Route("Dotaznik")]
+        public ActionResult Questionnaire()
+        {
+            return View();
+        }
+
         #endregion
 
         #region POST methods

@@ -32,7 +32,8 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return StringHelper.GetCodeName(ExceptionMessage);
+            // max length of CodeName field is 100 chars
+            return StringHelper.GetCodeName(ExceptionMessage, 100);
         }
 
         #endregion

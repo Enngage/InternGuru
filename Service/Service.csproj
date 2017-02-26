@@ -73,6 +73,7 @@
     <Compile Include="Events\InsertEventArgs.cs" />
     <Compile Include="Events\SaveEventType.cs" />
     <Compile Include="Events\UpdateEventArgs.cs" />
+    <Compile Include="Exceptions\InvalidCodeNameException.cs" />
     <Compile Include="Exceptions\CodeNameNotUniqueException.cs" />
     <Compile Include="Exceptions\FileNotProvidedException.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />
@@ -81,6 +82,10 @@
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
+    <Compile Include="Migrations\201702261104375_FixCodeNames.cs" />
+    <Compile Include="Migrations\201702261104375_FixCodeNames.Designer.cs">
+      <DependentUpon>201702261104375_FixCodeNames.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\IRequestContext.cs" />
     <Compile Include="Models\RequestContext.cs" />
@@ -172,6 +177,11 @@
       <Project>{138e8737-017f-493b-91d3-ad65f5f7ece6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702261104375_FixCodeNames.resx">
+      <DependentUpon>201702261104375_FixCodeNames.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

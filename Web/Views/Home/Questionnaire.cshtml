@@ -1,0 +1,262 @@
+﻿
+
+@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+
+<html lang="cs" itemscope itemtype="http://schema.org/WebPage">
+<head>
+    @Helpers.ScriptHelper.RequireCss("/Semantic/dist/semantic.min", 100)
+    @Helpers.ScriptHelper.RequireCss("/Stylesheets/main.min", 100)
+    @Helpers.ScriptHelper.EmitRequiredCss()
+</head>
+<body id="w-body-wrapper">
+
+    <script>
+        require(['jquery', 'semantic'], function ($) {
+            // DOM ready
+            $(function () {
+
+            });
+        });
+    </script>
+
+
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="fourteen wide column">
+                <h1>Obecný dotazník</h1>
+
+                <div class="ui form">
+                    <div class="field required">
+                        <label>Nabízí Vaše firma stáže?</label>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" checked="checked" type="radio">
+                            <label>Ano</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Ne</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Pokud ne - z jakého důvodu nenabízíte stáže?</label>
+                        <input name="first-name" type="text">
+                    </div>
+
+                    <div class="field">
+                        <label>Pokud ano - jak často inzerujete stáže?</label>
+                    </div>
+
+                    <div class="field ">
+                        <div class="ui radio checkbox">
+                            <input name="example2" checked="checked" type="radio">
+                            <label>Vícekrát do měsíce</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" checked="checked" type="radio">
+                            <label>Jednou měsíčně</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Jednou čtvrtročně</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Jednou za půl roku</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Jednou ročně</label>
+                        </div>
+                    </div>
+
+                    <div class="field required">
+                        <label>Mohou studenti psát závěrečné práce ve Vaší firmě?</label>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Ano</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Ne</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Pokud ne - z jakého důvodu?</label>
+                        <input name="first-name" type="text">
+                    </div>
+
+                    <div class="field">
+                        <label>Pokud ne - měli byste zájem?</label>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Ano</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Ne</label>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="fourteen wide column">
+                <div class="ui form">
+                    <h1>Dotazník k webu</h1>
+
+                    <div class="field required">
+                        <label>Využili byste web k inzerci stáží / závěrečných prací?</label>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Ano</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Spíše ano</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Ne</label>
+                        </div>
+                    </div>
+
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Spíše ne</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Nevím</label>
+                        </div>
+                    </div>
+                    
+                    <div class="field">
+                        <label>Pokud byste web nevyužili - z jakého důvodu?</label>
+                        <input name="first-name" type="text">
+                    </div>
+                    
+                    <div class="field required">
+                        <label>Co by Vás přimělo web využít k inzerci stáží / závěrečných prací?</label>
+                        <input name="first-name" type="text">
+                    </div>
+                    
+                    <div class="field required">
+                        <label>Jakou funkcionalitu/službu byste na webu uvítali?</label>
+                        <input name="first-name" type="text">
+                    </div>
+                    
+                    <div class="field required">
+                        <label>Jak hodnotíte přehlednost webu?</label>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Velmi dobře</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Dobře</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Neutrálně</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Špatně</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Velmi špatně</label>
+                        </div>
+                    </div>
+                    
+
+                    <div class="field required">
+                        <label>Byli byste ochotni za tuto službu zaplatit, pokud by Vám pomohla najít vhodné zájemce?</label>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Ano</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Spíše ano</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Ne</label>
+                        </div>
+                    </div>
+                    
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input name="example2" type="radio">
+                            <label>Spíše ne</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

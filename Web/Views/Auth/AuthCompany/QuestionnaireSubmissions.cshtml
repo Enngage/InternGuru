@@ -39,8 +39,8 @@
                                 <th>
                                     Autor
                                 </th>
-                                <th class="collapsing">
-                                    Datum vyplnění
+                                <th>
+                                    Vyplněno
                                 </th>
                             </tr>
                         </thead>
@@ -49,12 +49,12 @@
                             {
                                 <tr>
                                     <td class="collapsing w-body-text-center w-mobile-left">
-                                        @Helpers.ActionHelper.RenderViewButton("ViewSubmission", "AuthCompany", new { id = submission.QuestionnaireID, submissionid = submission.ID }, false)
+                                        <a href="@Url.Action("ViewSubmission", "AuthCompany", new {id = submission.QuestionnaireID, submissionid = submission.ID})">Zobrazit odpovědi</a>
                                     </td>
                                     <td>
                                         @Helpers.UserHelper.GetDisplayName(submission.CreatedByFirstName, submission.CreatedByLastName, submission.CreatedByNickname, submission.CreatedByApplicationUserName)
                                     </td>
-                                    <td class="w-mobile-left w-tablet-hide w-font-size-small">
+                                    <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
                                         <i title="Vytvořeno" class="calendar icon"></i>
                                         @DateHelper.FormatDate(submission.Created)
                                     </td>

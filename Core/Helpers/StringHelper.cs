@@ -107,8 +107,9 @@ namespace Core.Helpers
         /// Gets code name from given string by replacing all non alpha-numeric characters with dash (including white spaces)
         /// </summary>
         /// <param name="text">Text to transfer</param>
+        /// <param name="charCount">Characters to take, if set to negative number (e.g. -1) all characters will be returned</param>
         /// <returns>Code name from given text</returns>
-        public static string GetCodeName(string text)
+        public static string GetCodeName(string text, int charCount)
         {
             if (string.IsNullOrEmpty(text)) return null;
 
@@ -148,7 +149,17 @@ namespace Core.Helpers
                 }
             }
 
-            return codeName;
+            return charCount < 0 ? codeName : ShortenText(codeName, charCount, false);
+        }
+
+        /// <summary>
+        /// Gets code name from given string by replacing all non alpha-numeric characters with dash (including white spaces)
+        /// </summary>
+        /// <param name="text">Text to transfer</param>
+        /// <returns>Code name from given text</returns>
+        public static string GetCodeName(string text)
+        {
+            return GetCodeName(text, -1);
         }
 
         /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +13,7 @@ namespace Entity
         public int ID { get; set; }
         [Index]
         [Required]
-        [MaxLength(50)]
+        [MaxLength(250)]
         public string CodeName { get; set; }
         [Required]
         public string CreatedByApplicationUserId { get; set; }
@@ -57,7 +56,7 @@ namespace Entity
 
         public string GetCodeName()
         {
-            return StringHelper.GetCodeName(QuestionnaireName);
+            return StringHelper.GetCodeName(QuestionnaireName, 250);
         }
 
         #endregion
