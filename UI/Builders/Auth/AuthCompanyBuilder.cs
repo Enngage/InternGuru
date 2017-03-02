@@ -3,7 +3,6 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using Core.Config;
 using Core.Helpers;
 using Service.Exceptions;
@@ -483,45 +482,6 @@ namespace UI.Builders.Auth
                 }
             }
         }
-
-        public void UploadCompanyGalleryFiles(HttpRequestBase request)
-        {
-            try
-            {
-                if (!CurrentCompany.IsAvailable)
-                {
-                    throw new ValidationException("Firma není dostupná");
-                }
-
-                for (var i = 0; i < request.Files.Count; i++)
-                {
-                    var file = request.Files[i];
-
-                    var galleryPath = Entity.Company.GetCompanyGalleryFolderPath(CurrentCompany.CompanyGuid);
-                    var fileNameToSave = Entity.Company.GetCompanyGalleryFileName(Guid.NewGuid()); // generate new guid for new images
-
-                    // save file
-                    Services.FileProvider.SaveImage(file, galleryPath, fileNameToSave);
-                }
-            }
-            catch (ValidationException ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
-
-                // re-throw
-                throw new UiException(ex.Message, ex);
-            }
-            catch (Exception ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
-
-                // re-throw
-                throw new UiException(UiExceptionEnum.SaveFailure, ex);
-            }
-        }
-
 
         #endregion
 

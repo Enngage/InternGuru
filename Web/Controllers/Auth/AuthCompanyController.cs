@@ -587,32 +587,6 @@ namespace Web.Controllers.Auth
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route(CompanyActionPrefix + "/FiremniGalerie")]
-        public async Task<ActionResult> CompanyGallery(AuthCompanyGalleryUploadForm form)
-        {
-            var model = await AuthBuilder.AuthCompanyBuilder.BuildCompanyGalleryViewAsync();
-
-            if (model == null)
-            {
-                return HttpNotFound();
-            }
-
-            try
-            {
-                // upload files
-                AuthBuilder.AuthCompanyBuilder.UploadCompanyGalleryFiles(Request);
-
-                return View($"{CompanyViewsFolder}{nameof(CompanyGallery)}.cshtml", model);
-            }
-            catch (UiException ex)
-            {
-                ModelStateWrapper.AddError(ex.Message);
-
-                return View($"{CompanyViewsFolder}{nameof(CompanyGallery)}.cshtml", model);
-            }
-        }
 
         #endregion
 

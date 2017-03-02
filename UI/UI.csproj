@@ -178,6 +178,10 @@
     <Compile Include="Builders\Auth\Views\AuthAdminView.cs" />
     <Compile Include="Builders\Auth\Views\AuthUserSettingsView.cs" />
     <Compile Include="Builders\Auth\Views\AuthConversationsView.cs" />
+    <Compile Include="Builders\FineUpload\Binders\FineUploadBinder.cs" />
+    <Compile Include="Builders\FineUpload\FineUploadBuilder.cs" />
+    <Compile Include="Builders\FineUpload\Models\FineUploadModel.cs" />
+    <Compile Include="Builders\FineUpload\Models\FineUploaderResult.cs" />
     <Compile Include="Builders\Master\Enums\LayoutTypeEnum.cs" />
     <Compile Include="Builders\Master\Models\Layout.cs" />
     <Compile Include="Builders\Shared\Enums\UserTypeEnum.cs" />

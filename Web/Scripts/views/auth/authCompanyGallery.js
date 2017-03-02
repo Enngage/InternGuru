@@ -1,8 +1,19 @@
-﻿require(['jquery', 'dropzone', 'modules/companyGalleryModule', 'semantic'], function ($, DropZone, CompanyGalleryModule) {
+﻿require(['jquery', 'modules/companyGalleryModule', 'modules/fineUploaderModule', 'semantic'], function ($, CompanyGalleryModule, FineUploaderModule) {
     // DOM ready
     $(function () {
         var companyGalleryModule = new CompanyGalleryModule();
-        var companyGuid = $('#_CompanyGalleryGuid').data("guid");
+        var fineUploaderModule = new FineUploaderModule();
+
+        var configElem = $("#_CompanyGalleryConfig");
+
+        var companyGuid = configElem.data("guid");
+        var endPointUrl = configElem.data("endpointurl");
+        var maxFileSizeBytes = configElem.data("masfilesizebytes");
+        var allowedExtensions = configElem.data("allowedextensions").split(",");
+        var itemLimit = 10;
+
+        // init drop uploader
+        fineUploaderModule.InitUploader("fine-uploader-validation", "qq-template-validation", endPointUrl, maxFileSizeBytes, allowedExtensions, itemLimit);
 
         // initialize semantic ui cards
         $('._CompanyGalleryCards .image').dimmer({

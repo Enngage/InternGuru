@@ -12,6 +12,7 @@ var require = {
         "datepicker": { "deps": ['jquery'] }, // datepicker needs to be loaded after jQuery
         "unitegallery": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery
         "unitegallery_theme": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery
+        "fineuploader": { "deps": ['jquery'] }, // finei uploader needs to be loaded after jQuery
     },
     paths: {
         "jquery": "addons/jquery-3.1.1.min",
@@ -20,10 +21,10 @@ var require = {
         "promise": "addons/es6-promise.min", // https://github.com/jakearchibald/es6-promise#readme
         "semantic": "../Semantic/dist/semantic.min", // https://github.com/jakearchibald/es6-promise#readme
         "datepicker": "addons/datepicker-master/dist/datepicker.min", // https://github.com/fengyuanchen/datepicker
-        "dropzone": "addons/dropzone/dropzone-amd-module", // http://www.dropzonejs.com/#installation
         "unitegallery": "addons/unitegallery-master/dist/js/unitegallery.min", // http://unitegallery.net/index.php?page=tiles-columns
         "unitegallery_theme": "addons/unitegallery-master/dist/themes/tiles/ug-theme-tiles", // http://unitegallery.net/index.php?page=tiles-columns
         "sortable": "addons/sortable", // https://github.com/RubaXa/Sortable
+        "fineuploader": "addons/fineuploader/jquery.fine-uploader.min", // https://fineuploader.com/demos.html
     },
     packages: [{
         name: "codemirror",
@@ -34,5 +35,5 @@ var require = {
 
 // --------------- Version needs to be changed manually along with VersionInfo.cs ------------- //
 function GetVersion() {
-    return "1.0";
+    return "0.95";
 }

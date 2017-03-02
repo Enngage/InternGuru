@@ -219,6 +219,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Auth\AuthCandidateController.cs" />
     <Compile Include="Controllers\Auth\AuthCompanyController.cs" />
+    <Compile Include="Controllers\FineUploadController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\System\SystemController.cs" />
     <Compile Include="Controllers\Auth\AuthController.cs" />
@@ -245,6 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\Base\caution.png" />
+    <Content Include="Content\Images\Base\loader.gif" />
     <Content Include="Content\Images\company-hero.jpg" />
     <Content Include="Content\Images\contact-us-hero.jpg" />
     <Content Include="Content\Images\Default\defaultAvatar.png" />
@@ -1266,9 +1268,33 @@
     <Content Include="Scripts\addons\datepicker-master\test\options\inline.js" />
     <Content Include="Scripts\addons\datepicker-master\test\options\startDate.js" />
     <Content Include="Scripts\addons\datepicker-master\test\options\startView.js" />
-    <Content Include="Scripts\addons\dropzone\dropzone-amd-module.js" />
-    <Content Include="Scripts\addons\dropzone\dropzone.css" />
     <Content Include="Scripts\addons\es6-promise.min.js" />
+    <Content Include="Scripts\addons\fineuploader\continue.gif" />
+    <Content Include="Scripts\addons\fineuploader\dnd.js" />
+    <Content Include="Scripts\addons\fineuploader\dnd.min.js" />
+    <Content Include="Scripts\addons\fineuploader\edit.gif" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader-gallery.css" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader-gallery.min.css" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader-new.css" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader-new.min.css" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.core.js" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.core.min.js" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.css" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.js" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.min.css" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.min.js" />
+    <Content Include="Scripts\addons\fineuploader\jquery.fine-uploader.js" />
+    <Content Include="Scripts\addons\fineuploader\jquery.fine-uploader.min.js" />
+    <Content Include="Scripts\addons\fineuploader\loading.gif" />
+    <Content Include="Scripts\addons\fineuploader\pause.gif" />
+    <Content Include="Scripts\addons\fineuploader\placeholders\not_available-generic.png" />
+    <Content Include="Scripts\addons\fineuploader\placeholders\waiting-generic.png" />
+    <Content Include="Scripts\addons\fineuploader\processing.gif" />
+    <Content Include="Scripts\addons\fineuploader\retry.gif" />
+    <Content Include="Scripts\addons\fineuploader\templates\default.html" />
+    <Content Include="Scripts\addons\fineuploader\templates\gallery.html" />
+    <Content Include="Scripts\addons\fineuploader\templates\simple-thumbnails.html" />
+    <Content Include="Scripts\addons\fineuploader\trash.gif" />
     <Content Include="Scripts\addons\highcharts.js" />
     <Content Include="Scripts\addons\highcharts\api\css\font-awesome.min.css" />
     <Content Include="Scripts\addons\highcharts\api\css\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -2251,6 +2277,7 @@
     <Content Include="Scripts\addons\unitegallery-master\source\unitegallery\themes\video\skin-right-title-only.css" />
     <Content Include="Scripts\addons\unitegallery-master\source\unitegallery\themes\video\ug-theme-video.js" />
     <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\modules\fineUploaderModule.js" />
     <Content Include="Scripts\modules\companyGalleryModule.js" />
     <Content Include="Scripts\modules\thesisModule.js" />
     <Content Include="Scripts\modules\questionnaireModule.js" />
@@ -2566,6 +2593,18 @@
     <Content Include="Views\Home\Questionnaire.cshtml" />
     <Content Include="Views\Auth\UserSettings.cshtml" />
     <Content Include="Views\Auth\Admin.cshtml" />
+    <Content Include="Scripts\addons\fineuploader\dnd.js.map" />
+    <Content Include="Scripts\addons\fineuploader\dnd.min.js.map" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader-gallery.min.css.map" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader-new.min.css.map" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.core.js.map" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.core.min.js.map" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.js.map" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.min.css.map" />
+    <Content Include="Scripts\addons\fineuploader\fine-uploader.min.js.map" />
+    <Content Include="Scripts\addons\fineuploader\jquery.fine-uploader.js.map" />
+    <Content Include="Scripts\addons\fineuploader\jquery.fine-uploader.min.js.map" />
+    <Content Include="Scripts\addons\fineuploader\LICENSE" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
