@@ -18,16 +18,28 @@
 }
 
 #w-body-wrapper {
+    /* Sticky footer start */
+    /* https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ */
+    display: flex;
+    min-height: calc(100vh - 50px);
+    flex-direction: column;
+
+    .w-body-sticky-footer-main-content {
+        flex: 1;
+    }
+
+    /* sticky footer end*/
     margin-top: 0px; /* Has to be set to at least 1px otherwise the fixed class will be applied after page load.. Currently set to 0 so that menu is fixed from pageload*/
     letter-spacing: 0.5px;
     line-height: 24px;
-    /* Change margin top on tablet and computer so that content is visible */
+
+    /* Change paddings top on tablet and computer so that whole content is visible */
     @media (min-width: 991px) {
-        margin-top: 48px; /* Height of the top menu on computer screen */
+        padding-top: 48px; /* Height of the top menu on computer screen */
     }
 
     @media (max-width: 991px) and (min-width: 768px) {
-        margin-top: 48px; /* Height of the top menu on tablet screen */
+        padding-top: 48px; /* Height of the top menu on tablet screen */
     }
 
     .w-body-padded {

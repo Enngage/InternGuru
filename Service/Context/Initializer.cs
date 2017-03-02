@@ -764,7 +764,7 @@ namespace Service.Context
                     AmountType = context.InternshipAmountTypes.RandomItem(),
                     City = GetLoremIpsumName(),
                     Country = context.Countries.RandomItem(),
-                    Currency = context.Currencies.RandomItem(),
+                    Currency = GetCurrency(context.Currencies.ToList()),
                     Amount = amount,
                     Description = GetLoremIpsumtText(),
                     HasFlexibleHours = GetRandomBool(),
@@ -806,7 +806,7 @@ namespace Service.Context
                     CreatedByApplicationUser = company.CreatedByApplicationUser,
                     UpdatedByApplicationUser = company.CreatedByApplicationUser,
                     Company = company,
-                    Currency = context.Currencies.RandomItem(),
+                    Currency = GetCurrency(context.Currencies.ToList()),
                     Description = GetLoremIpsumtText(),
                     InternshipCategory = context.InternshipCategories.RandomItem(),
                     IsActive = true,
@@ -823,6 +823,16 @@ namespace Service.Context
                 context.Theses.Add(thesis);
             }
         }
+
+        #region Helper methods
+
+        private Currency GetCurrency(IList<Currency> currencies)
+        {
+            var czkCurrency = currencies.FirstOrDefault(m => m.CodeName == "CZK");
+            return czkCurrency ?? currencies.First();
+        }
+
+        #endregion
 
         #region Random methods
 

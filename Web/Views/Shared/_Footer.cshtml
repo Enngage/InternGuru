@@ -1,6 +1,5 @@
 ﻿@using Core.Config;
 @using Core.Project;
-
 <div class="ui inverted vertical segment w-footer">
     <div class="ui center aligned container">
         <div class="ui stackable inverted grid w-margin-top-10">
@@ -29,14 +28,12 @@
                 </p>
             </div>
         </div>
-
         <div class="ui inverted section divider w-margin-none w-margin-top-30"></div>
-
         <div class="ui horizontal inverted small divided link list">
             <a class="item" href="@Url.Action("About", "Home")">O nás</a>
             <a class="item" href="@Url.Action("Contact", "Home")">Kontakt</a>
             <div class="item">
-                 @($"© {DateTime.Now.Year} { AppConfig.SiteName}")
+                @($"© {DateTime.Now.Year} { AppConfig.SiteName}")
             </div>
             <div class="item">
                 <span class="w-font-size-small"><span>v</span>@VersionInfo.Version.ToString()</span>
@@ -44,6 +41,4 @@
         </div>
     </div>
 </div>
-
-
 

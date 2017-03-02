@@ -14,15 +14,11 @@
         })
     </div>
 </div>
-
 @if (Model.Master.CurrentCompany.IsAvailable)
 {
-    <div class="ui grid">
-        <div class="sixteen wide column">
-            <div class="ui segment">
-                @Html.Partial("~/Views/Modules/Questionnaire/CreateEditQuestionnaire.cshtml", Model.QuestionnaireForm)
-            </div>
-        </div>
+
+    <div class="ui segment">
+        @Html.Partial("~/Views/Modules/Questionnaire/CreateEditQuestionnaire.cshtml", Model.QuestionnaireForm)
     </div>
 }
 else

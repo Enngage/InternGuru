@@ -231,6 +231,8 @@ namespace UI.Builders.Auth
                 EntityKeys.KeyUpdateAny<Entity.Questionnaire>(),
                 EntityKeys.KeyDeleteAny<Entity.Questionnaire>(),
                 EntityKeys.KeyCreateAny<Entity.Questionnaire>(),
+                EntityKeys.KeyCreateAny<Entity.QuestionnaireSubmission>(),
+                EntityKeys.KeyDeleteAny<Entity.QuestionnaireSubmission>(),
             };
             cacheSetup.ObjectStringID = CurrentUser.Id;
 

@@ -18,18 +18,24 @@
     @Helpers.ScriptHelper.RequireCss("/Stylesheets/main.min", 100)
     @Helpers.ScriptHelper.EmitRequiredCss()
 </head>
-<body id="w-body-wrapper">
+<body id="w-body-wrapper" class="w-body-sticky-footer-main-body">
+
     @* Navigation *@
-    @Html.Partial("_TopMenu")
-
-    @* Header *@
-    @Html.Partial("~/Views/Modules/Header/Header.cshtml")
-
-    @* Main body *@
-    @RenderBody()
-
-    @* Footer *@
-    @Html.Partial("_Footer")
+    <header>
+        @Html.Partial("_TopMenu")
+    </header>
+    
+    <main class="w-body-sticky-footer-main-content w-body-dark">
+        @* UI teaser ehader *@
+        @Html.Partial("~/Views/Modules/Header/Header.cshtml")
+        @* Main body *@
+        @RenderBody()
+    </main>
+    
+    <footer>
+        @* Footer *@
+        @Html.Partial("_Footer")
+    </footer>
 
     @* Facebook *@
     @Html.Partial("Social/_FacebookAPI")

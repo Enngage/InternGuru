@@ -2,7 +2,6 @@
     var controller = Helpers.UrlHelper.CurrentController ?? string.Empty;
     var action = Helpers.UrlHelper.CurrentAction ?? string.Empty;
 }
-
 <div class="w-computer-show">
     <div class="ui fixed borderless main menu w-menu-main">
         <div class="ui container">
@@ -34,14 +33,13 @@
             {
                 <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
             }
-  
+
             <div class="right menu">
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
 </div>
-
 <div class="w-tablet-show">
     <div class="ui fixed borderless main menu w-menu-main">
         <div class="ui container">
@@ -52,14 +50,12 @@
             <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
             <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
             <a href="@Url.Action("Index", "Theses")" class="item">Závěrečné práce</a>
-
             <div class="right menu">
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
 </div>
-
 <div class="w-mobile-show w-menu-mobile-wrapper _MobileMenu">
     <div class="ui borderless menu navbar page grid fluid w-menu-mobile-header">
         <a href="@Url.Action("Index", "Home")" class="brand item">
