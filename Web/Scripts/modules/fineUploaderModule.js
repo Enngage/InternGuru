@@ -4,8 +4,8 @@
     }
 
     var fineUploader = new FineUploader();
-    
-    FineUploaderModule.prototype.InitUploader = function (uploaderElemId, templateId, endPointUrl, maxFileSize, allowedExtensions, itemLimit) {
+
+    FineUploaderModule.prototype.InitUploader = function (uploaderElemId, templateId, endPointUrl, maxFileSize, allowedExtensions, itemLimit, refreshImagesElementClass) {
         // prepare extensions => remove "." and trim them
         allowedExtensions.forEach(function (extension, i) {
             var fixedExtension = extension.replace(".", "");
@@ -29,6 +29,25 @@
                 allowedExtensions: allowedExtensions, // array
                 itemLimit: itemLimit,
                 sizeLimit: maxFileSize // bytes
+            },
+            callbacks: {
+                onSubmit: function () {
+                   
+                },
+                onAllComplete: function (id) {
+                    if (refreshImagesElementClass) {
+                        var date = new Date();
+                        // refresh all images in certain wrapper
+                        $("." + refreshImagesElementClass + " img").each(function () {
+                            var src = this.src;
+                            $(this).attr("src", src + "?" + date.getTime());
+                        });
+                    }
+                    // reset uploader if only 1 item was allowed
+                    if (itemLimit === 1) {
+                        $("#" + uploaderElemId).fineUploader('reset');
+                    }
+                }
             }
         });
     }

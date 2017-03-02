@@ -245,35 +245,6 @@ namespace Web.Controllers.Auth
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route(GeneralActionPrefix + "/Avatar")]
-        public async Task<ActionResult> Avatar(AuthAvatarUploadForm form)
-        {
-            // validate form
-            if (!ModelStateWrapper.IsValid)
-            {
-                return View(await AuthBuilder.AuthProfileBuilder.BuildAvatarViewAsync());
-            }
-
-            try
-            {
-                AuthBuilder.AuthProfileBuilder.UploadAvatar(form);
-
-                var model = await AuthBuilder.AuthProfileBuilder.BuildAvatarViewAsync();
-
-                model.AvatarForm.FormResult.IsSuccess = true;
-
-                return View(model);
-            }
-            catch (UiException ex)
-            {
-                ModelStateWrapper.AddError(ex.Message);
-
-                return View(await AuthBuilder.AuthProfileBuilder.BuildAvatarViewAsync());
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         [Route(GeneralActionPrefix + "/UpravitProfil")]
         public async Task<ActionResult> EditProfile(AuthEditProfileForm form)
         {

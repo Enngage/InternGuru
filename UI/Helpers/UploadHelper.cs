@@ -16,12 +16,10 @@ namespace UI.Helpers
         /// </summary>
         private const string FineUploaderViewPath = "~/views/modules/fineuploader/fineuploader.cshtml";
 
-        public IHtmlString RenderFineUploader(string elementID, string uploadFileActionUrl, IList<string> allowedExtensions, int limitFilesCount, int maxFileSizeBytes)
+        public IHtmlString RenderFineUploader(string elementID, string uploadFileActionUrl, IList<string> allowedExtensions, int limitFilesCount, int maxFileSizeBytes, string refreshImagesElementClass = null)
         {
             // ReSharper disable once Mvc.PartialViewNotResolved
-            return this.WebViewPage.Html.Partial(FineUploaderViewPath, new FineUploaderConfig(elementID, uploadFileActionUrl, allowedExtensions, limitFilesCount, maxFileSizeBytes)
-            {
-            });
+            return WebViewPage.Html.Partial(FineUploaderViewPath, new FineUploaderConfig(elementID, uploadFileActionUrl, allowedExtensions, limitFilesCount, maxFileSizeBytes, refreshImagesElementClass));
         }
     }
 }

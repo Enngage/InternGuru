@@ -219,7 +219,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Auth\AuthCandidateController.cs" />
     <Compile Include="Controllers\Auth\AuthCompanyController.cs" />
-    <Compile Include="Controllers\FineUploadController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\System\SystemController.cs" />
     <Compile Include="Controllers\Auth\AuthController.cs" />

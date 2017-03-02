@@ -1,10 +1,10 @@
-﻿@using UI.Modules.Breadcrumbs.Models
+﻿@using Core.Config
+@using UI.Modules.Breadcrumbs.Models
 @model UI.Builders.Auth.Views.AuthAvatarView
 @{
     Model.Metadata.BasicMetadata.Title = "Avatar";
     Layout = Model.AuthMaster.AuthMasterLayout;
 }
-
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
         @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
@@ -15,31 +15,17 @@
         })
     </div>
 </div>
-
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
-            @using (Html.BeginForm("Avatar", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
+            @Helpers.MessageHelper.RenderInfoMessage($"Avatar bude automaticky zmenšen na {Core.Config.FileConfig.AvatarSideSize}x{Core.Config.FileConfig.AvatarSideSize} px")
+            
+            @Helpers.UploadHelper.RenderFineUploader("_AvatarUploader", Url.Action("Avatar", "Upload"), FileConfig.AllowedImageExtensions.ToList(), 1, AppConfig.MaximumFileSize, "_RefreshAvatarSection")
 
-                @Helpers.MessageHelper.RenderInfoMessage($"Avatar bude automaticky zmenšen na {Core.Config.FileConfig.AvatarSideSize}x{Core.Config.FileConfig.AvatarSideSize} px")
-
-                @Helpers.MessageHelper.RenderFormValidationResult(Model.AvatarForm.FormResult.IsSuccess)
-
-                <div>
-                    <img alt="" class="ui image tiny" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)" />
-                </div>
-                <div class="ui form w-margin-top-10">
-                    <div class="field required">
-                        <input type="file" name="Avatar">
-                    </div>
-                    <button class="ui button primary" type="submit">
-                        Nahrát
-                    </button>
-                </div>
-
-            }
+            <div class="w-margin-top-20 _RefreshAvatarSection">
+                <h3>Aktivní avatar</h3>
+                <img alt="" class="ui image tiny" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)"/>
+            </div>
         </div>
     </div>
 </div>

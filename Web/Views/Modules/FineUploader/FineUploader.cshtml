@@ -18,7 +18,8 @@
                     var maxFileSizeBytes = "@Model.MaxFileSizeBytes";
                     var allowedExtensions = "@string.Join(",", Model.AllowedExtensions)";
                     var allowedExtensionsArray = allowedExtensions.split(",");
-                    var itemLimit = 10;
+                    var itemLimit = @Model.LimitFilesCount;
+                    var refreshImagesElementClass = "@Model.RefreshImagesElementClass";
 
                     // init drop uploader
                     fineUploaderModule.InitUploader(uploaderId,
@@ -26,7 +27,9 @@
                         endPointUrl,
                         maxFileSizeBytes,
                         allowedExtensionsArray,
-                        itemLimit);
+                        itemLimit,
+                        refreshImagesElementClass
+                        );
                 });
             });
     </script>

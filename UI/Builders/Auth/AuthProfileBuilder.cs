@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
-using Core.Config;
-using Entity;
 using Service.Exceptions;
 using UI.Builders.Auth.Forms;
 using UI.Builders.Auth.Views;
 using UI.Builders.Services;
 using UI.Builders.Shared.Models;
 using UI.Exceptions;
-using UI.UIServices;
 
 namespace UI.Builders.Auth
 {
@@ -136,53 +133,7 @@ namespace UI.Builders.Auth
                 // re-throw
                 throw new UiException(UiExceptionEnum.SaveFailure, ex);
             }
-        }
-
-        /// <summary>
-        /// Uploads avatar for current user
-        /// </summary>
-        /// <param name="form">Avatar form</param>
-        public void UploadAvatar(AuthAvatarUploadForm form)
-        {
-            try
-            {
-                if (form?.Avatar == null)
-                {
-                    throw new ValidationException("Nelze nahrát prázdný soubor");
-                }
-
-                if (!CurrentUser.IsAuthenticated)
-                {
-                    throw new ValidationException(UiExceptionEnum.NotAuthenticated.ToString());
-                }
-
-                Services.FileProvider.SaveImage(form.Avatar, ApplicationUser.GetAvatarFolderPath(CurrentUser.Id), ApplicationUser.GetAvatarFileName(), FileConfig.AvatarSideSize, FileConfig.AvatarSideSize);
-            }
-            catch (FileUploadException ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
-
-                // re-throw
-                throw new UiException(ex.Message, ex);
-            }
-            catch (ValidationException ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
-
-                // re-throw
-                throw new UiException(ex.Message, ex);
-            }
-            catch (Exception ex)
-            {
-                // log error
-                Services.LogService.LogException(ex);
-
-                // re-throw
-                throw new UiException(UiExceptionEnum.SaveFailure, ex);
-            }
-        }
+        }      
 
         /// <summary>
         /// Sets type of current user

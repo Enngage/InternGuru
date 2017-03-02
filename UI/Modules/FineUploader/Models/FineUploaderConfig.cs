@@ -10,14 +10,16 @@ namespace UI.Modules.FineUploader.Models
         public int LimitFilesCount { get; }
         public int MaxFileSizeBytes { get; }
         public string UploadFileActionUrl { get; }
+        public string RefreshImagesElementClass { get; }
 
-        public FineUploaderConfig(string elementID, string uploadFileActionUrl, IList<string> allowedExtensions, int limitFilesCount, int maxFileSizeBytes)
+        public FineUploaderConfig(string elementID, string uploadFileActionUrl, IList<string> allowedExtensions, int limitFilesCount, int maxFileSizeBytes, string refreshImagesElementClass)
         {
             ElementID = elementID;
             AllowedExtensions = allowedExtensions;
             LimitFilesCount = limitFilesCount;
             MaxFileSizeBytes = maxFileSizeBytes;
             UploadFileActionUrl = uploadFileActionUrl;
+            RefreshImagesElementClass = refreshImagesElementClass;
         }
     }
 }

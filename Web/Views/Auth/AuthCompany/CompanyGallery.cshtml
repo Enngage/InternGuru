@@ -1,6 +1,5 @@
 ﻿@using Core.Config
 @using UI.Modules.Breadcrumbs.Models
-@using UI.Modules.FineUploader.Models
 @model UI.Builders.Auth.Views.CompanyGalleryView
 @{
     Model.Metadata.BasicMetadata.Title = "Firemní galerie";
@@ -26,8 +25,8 @@
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
             @Helpers.MessageHelper.RenderInfoMessage($"Pouze soubory typu <em>{string.Join(", ", Core.Config.FileConfig.AllowedImageExtensions)} </em> do velikosti <em>{Core.Helpers.ConvertHelper.FormatBytes(Core.Config.AppConfig.MaximumFileSize)}</em> budou uloženy")
-            
-            @Helpers.UploadHelper.RenderFineUploader("_CompanyGalleryUploader", Url.Action("CompanyGallery", "FineUpload"), FileConfig.AllowedImageExtensions.ToList(), 10, AppConfig.MaximumFileSize)
+
+            @Helpers.UploadHelper.RenderFineUploader("_CompanyGalleryUploader", Url.Action("CompanyGallery", "Upload"), FileConfig.AllowedImageExtensions.ToList(), 10, AppConfig.MaximumFileSize)
 
             <div class="ui three column grid _CompanyGalleryCards w-margin-top-14">
                 @foreach (var image in Helpers.ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGuid))
