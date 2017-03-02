@@ -20,5 +20,6 @@ namespace UI.RazorExtensions
         ActionHelper ActionHelper { get; }
         TextHelper TextHelper { get; }
         BreadcrumbsHelper BreadcrumbsHelper { get; }
+        UploadHelper UploadHelper { get; }
     }
 }

@@ -250,10 +250,12 @@
     <Compile Include="Builders\Thesis\Data\ThesisDeleteThesisData.cs" />
     <Compile Include="Helpers\ActionHelper.cs" />
     <Compile Include="Helpers\BreadcrumbsHelper.cs" />
+    <Compile Include="Helpers\UploadHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\ModalHelper.cs" />
     <Compile Include="Modules\Breadcrumbs\Models\BreadcrumbItem.cs" />
     <Compile Include="Modules\Breadcrumbs\Views\BreadcrumbsView.cs" />
+    <Compile Include="Modules\FineUploader\Models\FineUploaderConfig.cs" />
     <Compile Include="Modules\Modal\Models\ModalButton.cs" />
     <Compile Include="Modules\Modal\Models\ModalConfig.cs" />
     <Compile Include="Modules\Questionnaire\Forms\QuestionnaireCreateEditForm.cs" />

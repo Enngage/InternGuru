@@ -2605,6 +2605,7 @@
     <Content Include="Scripts\addons\fineuploader\jquery.fine-uploader.js.map" />
     <Content Include="Scripts\addons\fineuploader\jquery.fine-uploader.min.js.map" />
     <Content Include="Scripts\addons\fineuploader\LICENSE" />
+    <Content Include="Views\Modules\FineUploader\FineUploader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -61,8 +61,29 @@ namespace UI.Helpers
             return WebViewPage.Html.Raw(sb.ToString());
         }
 
+
         /// <summary>
-        /// Registers script on home page
+        /// Registers script on master page
+        /// </summary>
+        /// <example>HtmlHelper.RequireScript("scripts/channel/file")</example>
+        /// <param name="script">Text of the script (including 'script' tags)</param>
+        /// <param name="priority">Priority</param>
+        /// <returns>Script on the home page</returns>
+        public string RequireScriptContent(string script, int priority = 1)
+        {
+            var requiredScripts = HttpContext.Current.Items["RequiredScripts"] as List<ResourceInclude>;
+            if (requiredScripts == null) HttpContext.Current.Items["RequiredScripts"] = requiredScripts = new List<ResourceInclude>();
+
+            requiredScripts.Add(new ResourceInclude()
+            {
+                Content  = script,
+                Priority = priority,
+            });
+            return null;
+        }
+
+        /// <summary>
+        /// Registers script on master page
         /// </summary>
         /// <example>HtmlHelper.RequireScript("scripts/channel/file")</example>
         /// <param name="path">Path to JS file without ".js"</param>
@@ -115,11 +136,25 @@ namespace UI.Helpers
             {
                 if (item.UseAsync)
                 {
-                    sb.AppendFormat("<script async defer {0} src=\"{1}\"></script>\n", item.HtmlAttributes, item.Path);
+                    if (item.RenderJustContent)
+                    {
+                        sb.Append(item.Content);
+                    }
+                    else
+                    {
+                        sb.AppendFormat("<script async defer {0} src=\"{1}\"></script>\n", item.HtmlAttributes, item.Path);
+                    }
                 }
                 else
                 {
-                    sb.AppendFormat("<script {0} src=\"{1}\" type=\"text/javascript\"></script>\n", item.HtmlAttributes, item.Path);
+                    if (item.RenderJustContent)
+                    {
+                        sb.Append(item.Content);
+                    }
+                    else
+                    {
+                        sb.AppendFormat("<script {0} src=\"{1}\" type=\"text/javascript\"></script>\n", item.HtmlAttributes, item.Path);
+                    }
                 }
             }
             return WebViewPage.Html.Raw(sb.ToString());
@@ -130,10 +165,12 @@ namespace UI.Helpers
         /// </summary>
         public class ResourceInclude
         {
+            public string Content { get; set; }
             public string Path { get; set; }
             public int Priority { get; set; }
             public string HtmlAttributes { get; set; }
             public bool UseAsync { get; set; }
+            public bool RenderJustContent => !string.IsNullOrEmpty(Content);
         }
     }
 }

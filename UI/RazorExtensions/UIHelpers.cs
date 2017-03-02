@@ -21,6 +21,7 @@ namespace UI.RazorExtensions
         public ActionHelper ActionHelper { get; }
         public TextHelper TextHelper { get; }
         public BreadcrumbsHelper BreadcrumbsHelper { get; }
+        public UploadHelper UploadHelper { get; }
 
         public UIHelpers(WebViewPage webViewPage)
         {
@@ -39,6 +40,7 @@ namespace UI.RazorExtensions
             ActionHelper = KernelProvider.Get<ActionHelper>(webParameter);
             TextHelper = KernelProvider.Get<TextHelper>(webParameter);
             BreadcrumbsHelper = KernelProvider.Get<BreadcrumbsHelper>(webParameter);
+            UploadHelper = KernelProvider.Get<UploadHelper>(webParameter);
         }
     }
 }
