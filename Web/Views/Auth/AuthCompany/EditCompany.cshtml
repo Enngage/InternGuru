@@ -22,8 +22,6 @@
 }
 else
 {
-    <div class="ui info message">
-        Nelze upravit firmu před jejím zaregistrováním
-    </div>
+    @Helpers.MessageHelper.RenderWarningMessage("Nelze upravit firmu před jejím zaregistrováním")
 }
 

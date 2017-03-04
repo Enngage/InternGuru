@@ -21,6 +21,8 @@
     </div>
 </div>
 
+@if (Model.Master.CurrentCompany.IsAvailable)
+{
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui segment">
@@ -30,7 +32,7 @@
 
             <div class="ui three column grid _CompanyGalleryCards w-margin-top-14">
                 @foreach (var image in Helpers.ImageHelper.GetCompanyGalleryImages(Model.Master.CurrentCompany.CompanyGuid))
-                    {
+                {
                     <div class="column">
                         <div class="ui fluid card">
                             <div class="blurring dimmable image">
@@ -50,3 +52,14 @@
         </div>
     </div>
 </div>
+}
+else
+{
+    @Helpers.MessageHelper.RenderWarningMessage("Nahrát galerii lze pouze po zaregistrování firmy")
+
+    <a href="@Url.Action("RegisterCompany", "AuthCompany")">
+        <div class="ui large button primary">
+            Registrovat firmu
+        </div>
+    </a>
+}

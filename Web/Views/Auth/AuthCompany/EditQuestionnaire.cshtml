@@ -23,9 +23,7 @@
 }
 else
 {
-    <div class="ui info message">
-        Dotazník je dostupný pouze po zaregistrování firmy
-    </div>
+    @Helpers.MessageHelper.RenderWarningMessage("Dotazník je dostupný pouze po zaregistrování firmy")
 
     <a href="@Url.Action("RegisterCompany", "AuthCompany")">
         <div class="ui large button primary">

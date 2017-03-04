@@ -25,9 +25,7 @@
 }
 else
 {
-    <div class="ui info message">
-        Vložit závěrečnou práci lze jen po zaregistrování firmy
-    </div>
+    @Helpers.MessageHelper.RenderWarningMessage("Vložit závěrečnou práci lze jen po zaregistrování firmy")
 
     <a href="@Url.Action("RegisterCompany", "AuthCompany")">
         <div class="ui large button primary">
