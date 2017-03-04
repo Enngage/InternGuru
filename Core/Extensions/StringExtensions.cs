@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Core.Extensions
 {
@@ -22,6 +23,12 @@ namespace Core.Extensions
         public static string ToAlphaNumeric(this string src, params char[] allowedCharacters)
         {
             return new string(Array.FindAll(src.ToCharArray(), c => char.IsLetterOrDigit(c) || allowedCharacters.Contains(c)));
+        }
+
+        public static bool IsAlphaNumeric(this string src)
+        {
+            Regex rg = new Regex(@"^[a-zA-Z0-9\s,]*$");
+            return rg.IsMatch(src);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Web.Controllers
         #region Actions
 
       
-        [Route("Staze/{category:alpha?}/{page:int?}", Order = 1)]
+        [Route("Staze/{category:alpha:int?}/{page:int?}", Order = 1)]
         [Route("Staze/{page:int}", Order = 2)]
         [Route("Staze", Order = 3)]
    
