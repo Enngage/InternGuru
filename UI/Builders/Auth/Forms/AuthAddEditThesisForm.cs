@@ -16,6 +16,9 @@ namespace UI.Builders.Auth.Forms
         [Required(ErrorMessage = "Vyplňte název práce")]
         [MaxLength(250, ErrorMessage = "Název práce může mít maximálně 250 znaků")]
         public string ThesisName { get; set; }
+        [MaxLength(200, ErrorMessage = "Krátký popis může mít maximálně 200 znaků")]
+        [Required(ErrorMessage = "Vyplň krátký popis stáže (max. 200 znaků)")]
+        public string ShortDescription { get; set; }
         [Required(ErrorMessage = "Vyplňte popis práce")]
         [AllowHtml]
         public string Description { get; set; }

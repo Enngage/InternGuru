@@ -101,6 +101,11 @@
                     <label>Název pozice</label>
                     <input name="Title" placeholder="" type="text" value="@Model.Title">
                 </div>
+
+                <div class="field required">
+                    <label>Krátky popis pozice (max. 200 znaků)</label>
+                    <textarea name="ShortDescription">@Model.ShortDescription</textarea>
+                </div>
                 <div class="field required">
                     <label>Popis pozice</label>
                     <textarea id="_Description" name="Description">@Model.Description</textarea>

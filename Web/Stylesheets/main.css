@@ -725,3 +725,6 @@
   #w-body-wrapper .w-link-segment:hover h2 {
     color: #FFFFFF; }
 
+#w-body-wrapper .w-item-primary-type .item .meta {
+  font-size: 12px; }
+

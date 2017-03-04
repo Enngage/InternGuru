@@ -20,6 +20,10 @@ namespace UI.Builders.Auth.Forms
         [AllowHtml]
         public string Requirements { get; set; }
 
+        [MaxLength(200, ErrorMessage = "Krátký popis může mít maximálně 200 znaků")]
+        [Required(ErrorMessage = "Vyplň krátký popis stáže (max. 200 znaků)")]
+        public string ShortDescription { get; set; }
+
         [AllowHtml]
         [Required(ErrorMessage = "Vyplňte popis stáže")]
         public string Description { get; set; }

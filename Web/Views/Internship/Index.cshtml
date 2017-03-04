@@ -51,7 +51,7 @@
             <div class="ui segment">
 
                 @if (Model.Internship.ActivityStats.InternshipSubmissionsCount > 0)
-            {
+                {
                     <div class="ui red label left ribbon">@StringHelper.GetPluralWord(Model.Internship.ActivityStats.InternshipSubmissionsCount, "-", "1 zájemce", "{count} zájemci", "již {count} zájemců")</div>
                 }
 

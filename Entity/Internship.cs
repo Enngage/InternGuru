@@ -36,6 +36,9 @@ namespace Entity
         public string Title { get; set; }
         public string Requirements { get; set; }
         [Required]
+        [MaxLength(200)]
+        public string ShortDescription { get; set; }
+        [Required]
         public string Description { get; set; }
         [Required]
         [MaxLength(100)]

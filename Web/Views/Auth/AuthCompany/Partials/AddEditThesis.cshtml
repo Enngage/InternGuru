@@ -111,44 +111,48 @@
                     </div>
                 </div>
             </div>
-                    <div class="field">
-                        <label>Popis práce</label>
-                        <textarea id="_ThesisDescription" name="Description">@(Model.Description)</textarea>
-                    </div>
-                    <div class="field">
-                        <label>Odměna</label>
-                        @if (Model.GetIsPaid())
+            <div class="field required">
+                <label>Krátky popis pozice (max. 200 znaků)</label>
+                <textarea name="ShortDescription">@Model.ShortDescription</textarea>
+            </div>
+            <div class="field">
+                <label>Popis práce</label>
+                <textarea id="_ThesisDescription" name="Description">@(Model.Description)</textarea>
+            </div>
+            <div class="field">
+                <label>Odměna</label>
+                @if (Model.GetIsPaid())
                 {
-                            <div id="_IsPaidCheckbox" class="ui checked checkbox">
-                                <input name="IsPaid" class="hidden" checked="" type="checkbox" tabindex="0">
-                                <label>Odměna za obhájení práce</label>
-                            </div>
-                        }
-                        else
-                        {
-                            <div id="_IsPaidCheckbox" class="ui checkbox">
-                                <input name="IsPaid" class="hidden" type="checkbox" tabindex="0">
-                                <label>Odměna za obhájení práce</label>
-                            </div>
-                        }
+                    <div id="_IsPaidCheckbox" class="ui checked checkbox">
+                        <input name="IsPaid" class="hidden" checked="" type="checkbox" tabindex="0">
+                        <label>Odměna za obhájení práce</label>
                     </div>
+                }
+                else
+                {
+                    <div id="_IsPaidCheckbox" class="ui checkbox">
+                        <input name="IsPaid" class="hidden" type="checkbox" tabindex="0">
+                        <label>Odměna za obhájení práce</label>
+                    </div>
+                }
+            </div>
 
-                    <div class="field">
-                        @if (Model.GetHideAmount())
+            <div class="field">
+                @if (Model.GetHideAmount())
                 {
-                            <div id="_HideAmountCheckbox" class="ui checked checkbox">
-                                <input name="HideAmount" class="hidden" checked="" type="checkbox" tabindex="0">
-                                <label>Nezveřejňovat konkrétní částku</label>
-                            </div>
-                        }
-                        else
-                        {
-                            <div id="_HideAmountCheckbox" class="ui checkbox">
-                                <input name="HideAmount" class="hidden" type="checkbox" tabindex="0">
-                                <label>Nezveřejňovat konkrétní částku</label>
-                            </div>
-                        }
+                    <div id="_HideAmountCheckbox" class="ui checked checkbox">
+                        <input name="HideAmount" class="hidden" checked="" type="checkbox" tabindex="0">
+                        <label>Nezveřejňovat konkrétní částku</label>
                     </div>
+                }
+                else
+                {
+                    <div id="_HideAmountCheckbox" class="ui checkbox">
+                        <input name="HideAmount" class="hidden" type="checkbox" tabindex="0">
+                        <label>Nezveřejňovat konkrétní částku</label>
+                    </div>
+                }
+            </div>
                     <div id="_ThesisAmountFieldWrapper" class="field w-margin-top-10 w-body-hide">
                         <div class="ui right labeled input">
                             <input name="Amount" placeholder="" type="text" value="@Model.Amount">

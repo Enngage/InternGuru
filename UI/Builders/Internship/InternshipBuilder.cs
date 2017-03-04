@@ -213,6 +213,7 @@ namespace UI.Builders.Internship
                     CompanyID = m.CompanyID,
                     CompanyGuid = m.Company.Guid,
                     CompanyName = m.Company.CompanyName,
+                    CompanyCodeName = m.Company.CodeName,
                     CountryCode = m.Country.CodeName,
                     CurrencyCode = m.Currency.CodeName,
                     CountryName = m.Country.CountryName,
@@ -233,21 +234,35 @@ namespace UI.Builders.Internship
                     Title = m.Title,
                     Description = m.Description,
                     Requirements = m.Requirements,
+                    ShortDescription = m.ShortDescription,
                     MaxDurationTypeCodeName = m.MaxDurationType.CodeName,
-                    MinDurationTypeCodeName = m.MinDurationType.CodeName
+                    MinDurationTypeCodeName = m.MinDurationType.CodeName,
+                    Languages = m.Languages
                 });
 
             var internships = await Services.CacheService.GetOrSetAsync(async () => await internshipsQuery.ToListAsync(), cacheSetup);
 
-            // initialize duration types and values
+            // initialize additional values
             foreach (var internship in internships)
             {
+                // duration types
                 internship.MinDurationType = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MinDurationTypeCodeName);
                 internship.MaxDurationType = EnumHelper.ParseEnum<InternshipDurationTypeEnum>(internship.MaxDurationTypeCodeName);
 
                 internship.MinDurationDefaultValue = InternshipHelper.GetInternshipDurationDefaultValue(internship.MinDurationType, internship.MinDurationDays, internship.MinDurationWeeks, internship.MinDurationMonths);
                 internship.MaxDurationDefaultValue = InternshipHelper.GetInternshipDurationDefaultValue(internship.MaxDurationType, internship.MaxDurationDays, internship.MaxDurationWeeks, internship.MaxDurationMonths);
+
+                // languages
+                internship.RequiredLanguages = (await Services.LanguageService.GetLanguagesFromCommaSeparatedStringAsync(internship.Languages))
+                    .Select(m => new InternshipLanguageModel()
+                    {
+                        CodeName = m.CodeName,
+                        IconClass = m.IconClass,
+                        LanguageName = m.LanguageName
+                    });
             }
+
+
 
             return internships;
         }

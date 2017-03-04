@@ -1,5 +1,6 @@
 ﻿using Core.Helpers.Internship;
 using System;
+using System.Collections.Generic;
 
 namespace UI.Builders.Internship.Models
 {
@@ -8,12 +9,15 @@ namespace UI.Builders.Internship.Models
         public int ID { get; set; }
         public string CodeName { get; set; }
         public string Description { get; set; }
+        public string Languages { get; set; }
+        public string ShortDescription { get; set; }
         public string Requirements { get; set; }
         public int InternshipCategoryID { get; set; }
         public string InternshipCategoryName { get; set; }
         public int CompanyID { get; set; }
         public Guid CompanyGuid { get; set; }
         public string CompanyName { get; set; }
+        public string CompanyCodeName { get; set; }
         public string Title { get; set; }
         public string City { get; set; }
         public string CountryName { get; set; }
@@ -40,5 +44,10 @@ namespace UI.Builders.Internship.Models
         public InternshipDurationTypeEnum MaxDurationType { get; set; }
         public int MinDurationDefaultValue { get; set; }
         public int MaxDurationDefaultValue { get; set; }
+
+        /// <summary>
+        /// Languages that are required for the internship
+        /// </summary>
+        public IEnumerable<InternshipLanguageModel> RequiredLanguages { get; set; }
     }
 }

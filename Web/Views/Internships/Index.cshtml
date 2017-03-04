@@ -1,5 +1,5 @@
 ﻿@model UI.Builders.Internship.Views.InternshipBrowseView
-@using Core.Helpers;
+@using Core.Helpers
 @using UI.Builders.Shared.Enums
 @{
     Model.Metadata.BasicMetadata.Title = "Nabídka stáží";
@@ -16,9 +16,7 @@
 
     var totalInternshipCount = Model.InternshipCategories.Sum(m => m.InternshipCount);
 }
-
 @Helpers.ScriptHelper.RequireScript("/scripts/views/internship/browseInternships")
-
 @using (Html.BeginForm("Search", "Internships", FormMethod.Get, null))
 {
     <div class="ui grid">
@@ -67,7 +65,6 @@
                 </div>
             </div>
         </div>
-
         <div class="seven wide tablet only four wide computer only column">
             <div class="ui padded segment">
                 <div class="ui secondary vertical pointing menu w-internship-category-menu ">
@@ -85,10 +82,9 @@
                             <span class="w-body-float-right">@totalInternshipCount</span>
                         </a>
                     }
-
                     @foreach (var category in Model.InternshipCategories)
                     {
-                        var routeObj = paidOnly ? new {category = category.CodeName, paidonly = Helpers.InputHelper.ValueOfEnabledCheckbox} : new {category = category.CodeName, paidonly = string.Empty};
+                        var routeObj = paidOnly ? new { category = category.CodeName, paidonly = Helpers.InputHelper.ValueOfEnabledCheckbox } : new { category = category.CodeName, paidonly = string.Empty };
 
                         if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
                         {
@@ -111,78 +107,127 @@
         </div>
         <div class="sixteen wide mobile nine wide tablet twelve wide computer column">
             <div class="ui padded segment">
-
                 @if (!Model.Internships.Any())
                 {
                     @Helpers.MessageHelper.RenderWarningMessage("Žádné stáže nebyly nalezeny")
                 }
                 else
                 {
-                    <table class="ui very basic tablet stackable table w-table-listing _InternshipsListingTable">
-                        <thead class="w-tablet-hide w-mobile-hide">
-                        <tr>
-                            <th colspan="2">
-                                Pozice
-                            </th>
-                      
-                            <th class="collapsing center aligned w-tablet-show w-mobile-show">
-                                Odměna
-                            </th>
-                            <th class="collapsing center aligned">
-                                Délka stáže
-                            </th>
-                            <th class="right aligned">
-                                Město
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <div class="ui divided items w-item-primary-type">
                         @foreach (var internship in Model.Internships)
                         {
-                            <tr data-link="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
-                                <td class="collapsing">
-                                    <img class="ui mini image" alt="@internship.Title" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(internship.CompanyGuid)"/>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
-                                        @internship.Title
-                                    </a>
-                                </td>
-                              
-                                <td class="w-tablet-show w-mobile-show">
-                                    @if (internship.Amount > 0)
-                                    {
-                                        <span>@(Helpers.TextHelper.GetInternshipAmount(internship.HideAmount, internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft)) / @internship.AmountTypeName</span>
-                                    }
-                                    else
-                                    {
-                                        <span>-</span>
-                                    }
-                                </td>
-                                <td class="collapsing center aligned w-mobile-left">
-                                    @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
-                                </td>
-                                <td class="collapsing right aligned w-mobile-left">
-                                   @internship.City &nbsp;@Helpers.CountryHelper.GetCountryIcon(internship.CountryCode)
-                                </td>
-                            </tr>
+                            <div class="item">
+                                <a class="ui tiny image" href="@Url.Action("Index", "Company", new { codeName = internship.CompanyCodeName })">
+                                    <img alt="@internship.CompanyName logo" src="@Helpers.ImageHelper.GetCompanyLogo(internship.CompanyGuid)">
+                                </a>
+                                <div class="content">
+                                    <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})" class="header">@internship.Title</a>
+                                    <div class="meta">
+                                        <span>
+                                            Nástup od:
+                                            <strong>@DateHelper.FormatDate(internship.StartDate)</strong>
+                                        </span>
+                                        <span class="w-tablet-hide w-mobile-hide">|</span>
+                                        <span class="w-tablet-block w-mobile-block">
+                                            Délka trvání:
+                                            <strong>
+                                                @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
+                                            </strong>
+                                        </span>
+                                        <span class="w-tablet-hide w-mobile-hide">|</span>
+                                        <span class="w-tablet-block w-mobile-block">
+                                            Místo:
+                                            <strong>
+                                                @internship.City @Helpers.CountryHelper.GetCountryIcon(internship.CountryCode)
+                                            </strong>
+                                        </span>
+                                    </div>
+                                    <div class="description">
+                                        <p>
+                                           @internship.ShortDescription
+                                        </p>
+                                    </div>
+                                    <div class="extra">
+                                        @if (internship.IsPaid)
+                                        {
+                                            <div class="ui label"><i class="money icon"></i>@(Helpers.TextHelper.GetInternshipAmount(internship.HideAmount, internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft)) / @internship.AmountTypeName</div>
+                                        }
+                                        @if (internship.RequiredLanguages.Any())
+                                        {
+                                            <div class="ui label">
+                                                <i class="globe icon"></i>@string.Join(",", internship.RequiredLanguages)
+                                            </div>
+                                        }
+                                        <a class="ui right floated primary button" href="@Url.Action("Index", "Company", new { codeName = internship.CompanyCodeName })">
+                                            Detail
+                                            <i class="right chevron icon"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         }
-                        </tbody>
-                    </table>
+                    </div>
+                    @*<table class="ui very basic tablet stackable table w-table-listing _InternshipsListingTable">
+                            <thead class="w-tablet-hide w-mobile-hide">
+                            <tr>
+                                <th colspan="2">
+                                    Pozice
+                                </th>
 
-                    if (Model.Internships.PageCount > 1)
-                    {
-                        <div class="w-margin-top-10">
-                            @Helpers.PagerHelper.GetPager(Model.Internships, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new {page, search = searchVal, city = cityVal, paidonly = paidOnly ? Helpers.InputHelper.ValueOfEnabledCheckbox : string.Empty}))
-                        </div>
+                                <th class="collapsing center aligned w-tablet-show w-mobile-show">
+                                    Odměna
+                                </th>
+                                <th class="collapsing center aligned">
+                                    Délka stáže
+                                </th>
+                                <th class="right aligned">
+                                    Město
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var internship in Model.Internships)
+                            {
+                                <tr data-link="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
+                                    <td class="collapsing">
+                                        <img class="ui mini image" alt="@internship.Title" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(internship.CompanyGuid)"/>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
+                                            @internship.Title
+                                        </a>
+                                    </td>
+
+                                    <td class="w-tablet-show w-mobile-show">
+                                        @if (internship.Amount > 0)
+                                        {
+                                            <span>@(Helpers.TextHelper.GetInternshipAmount(internship.HideAmount, internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft)) / @internship.AmountTypeName</span>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </td>
+                                    <td class="collapsing center aligned w-mobile-left">
+                                        @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
+                                    </td>
+                                    <td class="collapsing right aligned w-mobile-left">
+                                       @internship.City &nbsp;@Helpers.CountryHelper.GetCountryIcon(internship.CountryCode)
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>*@
+                if (Model.Internships.PageCount > 1)
+                {
+                    <div class="w-margin-top-10">
+                        @Helpers.PagerHelper.GetPager(Model.Internships, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new { page, search = searchVal, city = cityVal, paidonly = paidOnly ? Helpers.InputHelper.ValueOfEnabledCheckbox : string.Empty }))
+                    </div>
                     }
                 }
             </div>
         </div>
     </div>
 }
-
-
-
 
 

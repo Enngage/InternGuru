@@ -409,6 +409,11 @@ namespace Service.Context
                     AmountTypeName = "Týden",
                     CodeName = "Week",
                 },
+                  new InternshipAmountType()
+                {
+                    AmountTypeName = "Hodina",
+                    CodeName = "Hour",
+                },
             };
 
             // save data
@@ -419,7 +424,6 @@ namespace Service.Context
             {
                 context.InternshipAmountTypes.Add(amountType);
             }
-
 
             var currencies = new List<Currency>()
             {
@@ -727,7 +731,7 @@ namespace Service.Context
                     Address = GetLoremIpsumName(),
                     Lat = GetRandomLattitude(),
                     Lng = GetRandomLongtitude(),
-                    LongDescription = GetLoremIpsumtText(),
+                    LongDescription = GetLoremIpsumText(),
                     PublicEmail = $"{GetLoremIpsumName(true)}@email.com",
                     YearFounded = GetRandomYear(),
                     CodeName = StringHelper.GetCodeName(companyName),
@@ -766,7 +770,7 @@ namespace Service.Context
                     Country = context.Countries.RandomItem(),
                     Currency = GetCurrency(context.Currencies.ToList()),
                     Amount = amount,
-                    Description = GetLoremIpsumtText(),
+                    Description = GetLoremIpsumText(),
                     HasFlexibleHours = GetRandomBool(),
                     WorkingHours = GetRandomWorkingHours(),
                     EducationType = context.EducationTypes.RandomItem(),
@@ -783,7 +787,8 @@ namespace Service.Context
                     MinDurationInDays = GetDurationInDays(minDuration.DurationTypeEnum, minDurationValue),
                     MinDurationInWeeks = GetDurationInWeeks(minDuration.DurationTypeEnum, minDurationValue),
                     MinDurationInMonths = GetDurationInMonths(minDuration.DurationTypeEnum, minDurationValue),
-                    Requirements = GetLoremIpsumtText(),
+                    ShortDescription = GetLoremIpsumText(200),
+                    Requirements = GetLoremIpsumText(),
                     Title = GetLoremIpsumName(),
                     StudentStatusOption = context.StudentStatusOptions.RandomItem(),
                     StartDate = GetRandomDate(),
@@ -807,7 +812,8 @@ namespace Service.Context
                     UpdatedByApplicationUser = company.CreatedByApplicationUser,
                     Company = company,
                     Currency = GetCurrency(context.Currencies.ToList()),
-                    Description = GetLoremIpsumtText(),
+                    Description = GetLoremIpsumText(),
+                    ShortDescription = GetLoremIpsumText(200),
                     InternshipCategory = context.InternshipCategories.RandomItem(),
                     IsActive = true,
                     ActiveSince = DateTime.Now,
@@ -908,12 +914,21 @@ namespace Service.Context
             return oneWordOnly ? string.Join(" ", lipsumGenerator.GenerateWords(1)) :string.Join(" ", lipsumGenerator.GenerateWords(random.Next(1, 3)));
         }
 
-        private string GetLoremIpsumtText()
+        private string GetLoremIpsumText()
         {
             var lipsumGenerator = new LipsumGenerator();
             var random = new Random();
 
             return string.Join(" ", lipsumGenerator.GenerateParagraphs(random.Next(1, 9)));
+        }
+
+
+        private string GetLoremIpsumText(int charactersCount)
+        {
+            var lipsumGenerator = new LipsumGenerator();
+            var random = new Random();
+
+            return string.Join(" ", lipsumGenerator.GenerateCharacters(charactersCount));
         }
 
         #endregion
