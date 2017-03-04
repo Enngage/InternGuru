@@ -20,16 +20,6 @@ namespace UI.Builders.Auth
     public class AuthMasterBuilder : BaseBuilder
     {
 
-        #region Setup
-
-        private const string CandidateMasterView = "~/views/auth/CandidateTypeMaster.cshtml";
-        private const string CompanyMasterview = "~/views/auth/CompanyTypeMaster.cshtml";
-
-        private const string CandidateIndexAction = "CandidateTypeIndex";
-        private const string CompanyIndexAction = "CompanyTypeIndex";
-
-        #endregion
-
         #region Constructor
 
         public AuthMasterBuilder(ISystemContext systemContext, IServicesLoader servicesLoader) : base(systemContext, servicesLoader)
@@ -53,8 +43,6 @@ namespace UI.Builders.Auth
             var authMaster = new AuthMaster()
             {
                 ShowUserTypeSelectionView = !CurrentUser.IsCandidate && !CurrentUser.IsCompany,
-                AuthMasterLayout = CurrentUser.IsCompany ? CompanyMasterview : CandidateMasterView,
-                AuthMasterAction = CurrentUser.IsCompany ? CompanyIndexAction : CandidateIndexAction
             };
 
             if (CurrentUser.UserType == UserTypeEnum.Company)

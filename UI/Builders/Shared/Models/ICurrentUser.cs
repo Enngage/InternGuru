@@ -10,6 +10,17 @@ namespace UI.Builders.Shared.Models
     public interface ICurrentUser
     {
         /// <summary>
+        /// Master layout used by the page 
+        /// Layout is different for candidate and company users
+        /// </summary>
+        string AuthMasterLayout { get;}
+
+        /// <summary>
+        /// Master action used for either company or user account
+        /// </summary>
+        string AuthMasterAction { get; }
+
+        /// <summary>
         /// Authentication type
         /// </summary>
         string AuthenticationType { get; }

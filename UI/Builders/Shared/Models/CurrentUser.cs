@@ -7,6 +7,27 @@ namespace UI.Builders.Shared.Models
 {
     public class CurrentUser : ICurrentUser
     {
+        #region Setup
+
+        private const string CandidateMasterView = "~/views/auth/CandidateTypeMaster.cshtml";
+        private const string CompanyMasterview = "~/views/auth/CompanyTypeMaster.cshtml";
+
+        private const string CandidateIndexAction = "CandidateTypeIndex";
+        private const string CompanyIndexAction = "CompanyTypeIndex";
+
+        #endregion
+
+        /// <summary>
+        /// Master layout used by the page 
+        /// Layout is different for candidate and company users
+        /// </summary>
+        public string AuthMasterLayout => IsCompany ? CompanyMasterview : CandidateMasterView;
+
+        /// <summary>
+        /// Master action used for either company or user account
+        /// </summary>
+        public string AuthMasterAction => IsCompany? CompanyIndexAction : CandidateIndexAction;
+
         /// <summary>
         /// Authentication type
         /// </summary>

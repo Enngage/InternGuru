@@ -21,15 +21,6 @@ namespace UI.Builders.Auth.Models
         /// </summary>
         public bool ShowUserTypeSelectionView { get; set; }
 
-        /// <summary>
-        /// Master layout used by the page 
-        /// Layout is different for candidate and company users
-        /// </summary>
-        public string AuthMasterLayout { get; set; }
 
-        /// <summary>
-        /// Master action used for either company or user account
-        /// </summary>
-        public string AuthMasterAction { get; set; }
     }
 }

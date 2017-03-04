@@ -2,13 +2,13 @@
 @model UI.Builders.Auth.Views.AuthNewQuestionnaireView
 @{
     Model.Metadata.BasicMetadata.Title = "Nový dotazník";
-    Layout = Model.AuthMaster.AuthMasterLayout;
+    Layout = Model.Master.CurrentUser.AuthMasterLayout;
 }
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
         @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
         {
-            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
+            new BreadcrumbItem("Menu", Url.Action(Model.Master.CurrentUser.AuthMasterAction, "Auth")),
             new BreadcrumbItem("Dotazníky", Url.Action("Questionnaires", "AuthCompany")),
             new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
         })

@@ -4,7 +4,7 @@
 
 @{
     Model.Metadata.BasicMetadata.Title = "Moje závěrečné práce";
-    Layout = Model.AuthMaster.AuthMasterLayout;
+    Layout = Model.Master.CurrentUser.AuthMasterLayout;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authTheses")
@@ -15,7 +15,7 @@
     <div class="sixteen wide mobile eight wide computer eight wide tablet column">
         @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
         {
-            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
+            new BreadcrumbItem("Menu", Url.Action(Model.Master.CurrentUser.AuthMasterAction, "Auth")),
             new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
         })
     </div>

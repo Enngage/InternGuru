@@ -3,14 +3,14 @@
 
 @{
     Model.Metadata.BasicMetadata.Title = "Registrace firmy";
-    Layout = Model.AuthMaster.AuthMasterLayout;
+    Layout = Model.Master.CurrentUser.AuthMasterLayout;
 }
 
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
         @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()
         {
-            new BreadcrumbItem("Menu", Url.Action(Model.AuthMaster.AuthMasterAction, "Auth")),
+            new BreadcrumbItem("Menu", Url.Action(Model.Master.CurrentUser.AuthMasterAction, "Auth")),
             new BreadcrumbItem("Firma"),
             new BreadcrumbItem(Model.Metadata.BasicMetadata.Title)
         })
