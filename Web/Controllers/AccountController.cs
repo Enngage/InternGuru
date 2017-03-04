@@ -87,7 +87,7 @@ namespace Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAuthPage(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -328,7 +328,7 @@ namespace Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAuthPage(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -352,7 +352,7 @@ namespace Web.Controllers
                                 // Send confirmation e-mail
                                 await SendRegistrationEmail(user.Id);
 
-                                return RedirectToLocal(returnUrl);
+                                return RedirectToAuthPage(returnUrl);
                             }
                         }
                         AddErrors(resultUser);
@@ -406,7 +406,7 @@ namespace Web.Controllers
                         // send confirmation e-mail
                         await SendRegistrationEmail(user.Id);
 
-                        return RedirectToLocal(returnUrl);
+                        return RedirectToAuthPage(returnUrl);
                     }
                 }
                  
@@ -493,14 +493,14 @@ namespace Web.Controllers
             }
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
+        private ActionResult RedirectToAuthPage(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("UserTypeSelection", "Auth");
+            return RedirectToAction("AuthRedirect", "Auth");
         }
 
 

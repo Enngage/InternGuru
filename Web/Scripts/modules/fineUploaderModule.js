@@ -1,12 +1,14 @@
-﻿define(['modules/coreModule', 'jquery', 'promise', 'fineuploader'], function (Coremodule, $, ExtendedPromise, FineUploader) {
+﻿define(['modules/coreModule', 'jquery', 'promise', 'fineuploader', 'modules/userModule'], function (Coremodule, $, ExtendedPromise, FineUploader, UserModule) {
 
     function FineUploaderModule() {
     }
 
     var fineUploader = new FineUploader();
+    var userModule = new UserModule();
 
     FineUploaderModule.prototype.InitUploader = function (uploaderElemId, templateId, endPointUrl, maxFileSize, allowedExtensions, itemLimit, refreshImagesElementClass) {
         // prepare extensions => remove "." and trim them
+        var totalItemLimit = itemLimit;
         allowedExtensions.forEach(function (extension, i) {
             var fixedExtension = extension.replace(".", "");
             fixedExtension = fixedExtension.trim();
@@ -21,7 +23,7 @@
             },
             thumbnails: {
                 placeholders: {
-                    waitingPath: '/scripts/addons/fineuploader/placeholders/waiting-generic.png',
+                    //waitingPath: '/scripts/addons/fineuploader/placeholders/waiting-generic.png',
                     notAvailablePath: '/scripts/addons/fineuploader/placeholders/not_available-generic.png'
                 }
             },
@@ -32,21 +34,28 @@
             },
             callbacks: {
                 onSubmit: function () {
-                   
                 },
                 onAllComplete: function (id) {
                     if (refreshImagesElementClass) {
-                        var date = new Date();
-                        // refresh all images in certain wrapper
-                        $("." + refreshImagesElementClass + " img").each(function () {
-                            var src = this.src;
-                            $(this).attr("src", src + "?" + date.getTime());
-                        });
+                        // update avatar images of current user
+                        if (refreshImagesElementClass === "_AvatarOfCurrentUser") {
+                            var date = new Date();
+
+                            // get path of user's avatar
+                            userModule.getAvatarOfCurrentUser().then(function (userAvatar) {
+                                // refresh avatars
+                                $("." + refreshImagesElementClass + " img").each(function () {
+                                    $(this).attr("src", userAvatar + "?" + date.getTime());
+                                });
+                            }, function (error) {
+                                alert("Nastala chyba");
+                                console.error("Failed!", error);
+                            });
+                        }
                     }
-                    // reset uploader if only 1 item was allowed
-                    if (itemLimit === 1) {
-                        $("#" + uploaderElemId).fineUploader('reset');
-                    }
+                    // increase max item limit
+                    totalItemLimit += itemLimit;
+                    $("#" + uploaderElemId).fineUploader('setItemLimit', totalItemLimit);
                 }
             }
         });

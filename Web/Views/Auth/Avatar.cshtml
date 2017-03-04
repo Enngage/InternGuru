@@ -20,9 +20,9 @@
         <div class="ui segment">
             @Helpers.MessageHelper.RenderInfoMessage($"Avatar bude automaticky zmenšen na {Core.Config.FileConfig.AvatarSideSize}x{Core.Config.FileConfig.AvatarSideSize} px")
             
-            @Helpers.UploadHelper.RenderFineUploader("_AvatarUploader", Url.Action("Avatar", "Upload"), FileConfig.AllowedImageExtensions.ToList(), 1, AppConfig.MaximumFileSize, "_RefreshAvatarSection")
+            @Helpers.UploadHelper.RenderFineUploader("_AvatarUploader", Url.Action("Avatar", "Upload"), FileConfig.AllowedImageExtensions.ToList(), 1, AppConfig.MaximumFileSize, "_AvatarOfCurrentUser")
 
-            <div class="w-margin-top-20 _RefreshAvatarSection">
+            <div class="w-margin-top-20 _AvatarOfCurrentUser">
                 <h3>Aktivní avatar</h3>
                 <img alt="" class="ui image tiny" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetUserAvatar(Model.Master.CurrentUser.Id)"/>
             </div>

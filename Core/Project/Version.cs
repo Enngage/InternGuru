@@ -9,12 +9,12 @@ namespace Core.Project
         /// <summary>
         /// Release date
         /// </summary>
-        public static DateTime VersionRelase => new DateTime(2017, 15, 1);
+        public static DateTime VersionRelase => new DateTime(2017, 4, 3);
 
         /// <summary>
         /// Version
         /// </summary>
-        public static Version Version => new Version(0, 93);
+        public static Version Version => new Version(0, 96);
 
         #endregion
     }

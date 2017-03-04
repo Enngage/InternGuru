@@ -44,6 +44,26 @@ namespace Web.Controllers.Auth
 
         #region Actions
 
+        [Route(GeneralActionPrefix + "/AuthRedirect")]
+        public async Task<ActionResult> AuthRedirect()
+        {
+            var model = await AuthBuilder.AuthMasterBuilder.BuildCompanyTypeIndexViewAsync();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            // redirect user to user type selection if he hasn't set up his account
+            if (model.AuthMaster.ShowUserTypeSelectionView)
+            {
+                return ShowUserTypeSelection(model);
+            }
+
+            // redirect to proper auth action otherwise
+            return RedirectToAction(this.AuthBuilder.AuthCompanyBuilder.CurrentUser.AuthMasterAction, "Auth");
+        }
+
         [Route(GeneralActionPrefix + "/Admin")]
         public async Task<ActionResult> Admin()
         {
