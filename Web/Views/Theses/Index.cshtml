@@ -118,7 +118,7 @@
                                         {
                                             <div class="ui label"><i class="money icon"></i>@(Helpers.TextHelper.GetThesisAmount(thesis.HideAmount, thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</div>
                                         }
-                                        <a class="ui right floated primary button" href="@Url.Action("Index", "Thesis", new {codeName = thesis.CodeName})">
+                                        <a class="ui right floated primary button" href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName})">
                                             Detail
                                             <i class="right chevron icon"></i>
                                         </a>

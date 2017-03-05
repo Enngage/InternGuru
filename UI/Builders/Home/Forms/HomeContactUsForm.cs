@@ -8,8 +8,8 @@ namespace UI.Builders.Home.Forms
         [Required(ErrorMessage = "Nelze odeslat prázdnou zprávu")]
         public string Message { get; set; }
 
-        [Required(ErrorMessage = "Zadejte e-mail, na který se Vám můžeme ozvat zpátky")]
-        [EmailAddress(ErrorMessage = "Zadejte validní e-mailovou adresu")]
+        [Required(ErrorMessage = "Zadej e-mail, na který se Ti můžeme ozvat zpátky")]
+        [EmailAddress(ErrorMessage = "Zadej validní e-mailovou adresu")]
         public string Email { get; set; }
     }
 }

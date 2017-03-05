@@ -13,21 +13,21 @@ namespace UI.Builders.Auth.Forms
     {
         public int ID { get; set; }
 
-        [Required(ErrorMessage = "Vyplňte název práce")]
+        [Required(ErrorMessage = "Název práce nemůže být prázdný")]
         [MaxLength(250, ErrorMessage = "Název práce může mít maximálně 250 znaků")]
         public string ThesisName { get; set; }
         [MaxLength(200, ErrorMessage = "Krátký popis může mít maximálně 200 znaků")]
         [Required(ErrorMessage = "Vyplň krátký popis stáže (max. 200 znaků)")]
         public string ShortDescription { get; set; }
-        [Required(ErrorMessage = "Vyplňte popis práce")]
+        [Required(ErrorMessage = "Chybí popis práce")]
         [AllowHtml]
         public string Description { get; set; }
-        [Required(ErrorMessage = "Zvolte kategorii")]
+        [Required(ErrorMessage = "Kategorie není vyplněna")]
         public int InternshipCategoryID { get; set; }
         public string IsPaid { get; set; }
         public string HideAmount { get; set; }
         public string IsActive { get; set; }
-        [Required(ErrorMessage = "Zvolte typ práce")]
+        [Required(ErrorMessage = "Typ práce není vyplněn")]
         public int ThesisTypeID { get; set; }
         [ValidInteger(ErrorMessage = "Odměna musí být celé číslo")]
         public int? Amount { get; set; }

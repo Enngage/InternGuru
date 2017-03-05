@@ -17,7 +17,7 @@ namespace UI.Builders.Auth.Forms
         [Required(ErrorMessage = "Název firmy nemůže být prázdný")]
         public string CompanyName { get; set; }
 
-        [Required(ErrorMessage = "Zadejte kategorii")]
+        [Required(ErrorMessage = "Kategorie musí být vyplněna")]
         public int CompanyCategoryID { get; set; }
 
         [Required(ErrorMessage = "Rok založení nemůže být prázdný")]
@@ -46,7 +46,7 @@ namespace UI.Builders.Auth.Forms
 
         public float Lng { get; set; }
 
-        [Required(ErrorMessage = "Web nemůže být prázdný")]
+        [Required(ErrorMessage = "URL webu není vyplněna")]
         public string Web { get; set; }
 
         public string Twitter { get; set; }
@@ -55,7 +55,7 @@ namespace UI.Builders.Auth.Forms
 
         public string Facebook { get; set; }
 
-        [Required(ErrorMessage = "Zvolte velikost firmy")]
+        [Required(ErrorMessage = "Velikost firmy není vyplněna")]
         public int CompanySizeID { get; set; }
         public string CompanySizeName { get; set; }
 

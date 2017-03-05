@@ -3,7 +3,7 @@
 @using UI.Builders.Internship.Enums
 @using UI.Builders.Shared.Enums
 @{
-    Model.Metadata.BasicMetadata.Title = "Nabídka stáží";
+    Model.Metadata.BasicMetadata.Title = "Stáže";
     Model.Metadata.BasicMetadata.Description = "Najdi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
     Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Inherit, UIHeaderColorEnum.Green, Model.Metadata.BasicMetadata.Title);
 
@@ -214,7 +214,7 @@
                                                 <i class="globe icon"></i>@(string.Join(", ", internship.RequiredLanguages.Select(m => m.LanguageName)))
                                             </div>
                                         }
-                                        <a class="ui right floated primary button" href="@Url.Action("Index", "Internship", new {codeName = internship.CodeName})">
+                                        <a class="ui right floated primary button" href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName})">
                                             Detail
                                             <i class="right chevron icon"></i>
                                         </a>

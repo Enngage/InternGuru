@@ -14,7 +14,7 @@ namespace UI.Builders.Auth.Forms
     {
         public int ID { get; set; }
 
-        [Required(ErrorMessage = "Vyplňte název pozice")]
+        [Required(ErrorMessage = "Název pozice není vyplněn")]
         [MaxLength(60, ErrorMessage = "Maximální délka názvu stáže je 60 znaků")]
         public string Title { get; set; }
         [AllowHtml]
@@ -25,13 +25,13 @@ namespace UI.Builders.Auth.Forms
         public string ShortDescription { get; set; }
 
         [AllowHtml]
-        [Required(ErrorMessage = "Vyplňte popis stáže")]
+        [Required(ErrorMessage = "Popis stáže není vyplněn")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Zadejte město výkonu stáže")]
+        [Required(ErrorMessage = "Město není vyplněno")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "Zadejte stát výkonu stáže")]
+        [Required(ErrorMessage = "Stát není vyplněn")]
         public int CountryID { get; set; }
 
         public string IsActive { get; set; }
@@ -43,20 +43,20 @@ namespace UI.Builders.Auth.Forms
         public int CurrencyID { get; set; }
         public int AmountTypeID { get; set; }
 
-        [Required(ErrorMessage = "Zadejte datum možného nástupu do stáže")]
+        [Required(ErrorMessage = "Chybí datum možného nástupu do stáže")]
         public DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "Zvolte minimální délku trvání stáže")]
+        [Required(ErrorMessage = "Chybí minimální délka trvání stáže")]
         public int MinDuration { get; set; }
 
         public int MinDurationTypeID { get; set; }
 
-        [Required(ErrorMessage = "Zvolte maximální délku trvání stáže")]
+        [Required(ErrorMessage = "Chybí maximální délka trvání stáže")]
         public int MaxDuration { get; set; }
 
         public int MaxDurationTypeID { get; set; }
 
-        [Required(ErrorMessage = "Zvolte kategorii stáže")]
+        [Required(ErrorMessage = "Kategorie není vyplněna")]
         public int InternshipCategoryID { get; set; }
 
         public string HasFlexibleHours { get; set; }
@@ -65,10 +65,10 @@ namespace UI.Builders.Auth.Forms
         public string MaxDurationTypeCodeName { get; set; }
         public string Languages { get; set; }
 
-        [Required(ErrorMessage = "Zadejte požadované minimální vzdělání")]
+        [Required(ErrorMessage = "Chybí minimální požadované vzdělání")]
         public int MinEducationTypeID { get; set; }
 
-        [Required(ErrorMessage = "Zadejte požadovaný status studenta")]
+        [Required(ErrorMessage = "Status studenta není vyplněn")]
         public int StudentStatusOptionID { get; set; }
         public int? QuestionnaireID { get; set; }
         public string HideAmount { get; set; }
