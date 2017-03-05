@@ -26,6 +26,8 @@
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/internship/browseInternships")
+
+
 @using (Html.BeginForm("Search", "Internships", FormMethod.Get, null))
 {
     <input type="hidden" name="category" value="@currentCategory" />
