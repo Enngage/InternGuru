@@ -1,25 +1,24 @@
 ﻿@import "_base";
 
-#w-body-wrapper{
+#w-body-wrapper {
 
-    .pagination{
+    .pagination {
         list-style-type: none;
         padding: 0;
     }
 
-    .pagination > li{
+    .pagination > li {
         display: inline;
         cursor: pointer;
-        
     }
 
-    .pagination > li > a {
+    .pagination > li > a, .w-pagination-simple-pager .PagedList-skipToPrevious a:hover,  .w-pagination-simple-pager .PagedList-skipToNext a:hover {
         border-color: $color-pagination-primary;
         color: $color-pagination-primary-text;
         padding: 6px 12px;
     }
 
-    .pagination > li > a:hover {
+    .pagination > li > a:hover, .w-pagination-simple-pager .PagedList-skipToPrevious a,  .w-pagination-simple-pager .PagedList-skipToNext a{
         background-color: $color-pagination-secondary;
         border-color: $color-pagination-secondary;
         color: $color-pagination-secondary-text;
@@ -52,12 +51,15 @@
         border: 1px solid $color-pagination-secondary;
     }
 
-    .pagination .PagedList-ellipses{
+    .pagination .PagedList-ellipses {
     }
 
-    .pagination .PagedList-skipToNext{
+    .w-pagination-simple-pager .PagedList-skipToNext {
+        /* Align in simple pager */
+        float: right;
     }
 
-    .pagination .PagedList-skipToPrevious{
+    .w-pagination-simple-pager .PagedList-skipToPrevious {
+        float: left;
     }
 }

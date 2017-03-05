@@ -68,61 +68,23 @@
                                     @DateHelper.FormatDateAndTime(message.MessageCreated)
                                     @if (message.IsRead)
                                     {
-                                     <i title="Přečteno" class="checkmark green icon"></i>
+                                        <i title="Přečteno" class="checkmark green icon"></i>
                                     }
                                     else
                                     {
-                                     <i title="Nepřečteno" class="remove red icon"></i>
+                                        <i title="Nepřečteno" class="remove red icon"></i>
                                     }
-                            </div>
-                        </div>
-                        <div class="text">
-                            <p>@Html.Raw(Helpers.HtmlHelper.AddLineBreaks(message.MessageText))</p>
-                        </div>
-                    </div>
-                </div>
-
-                    @*<div class="ui segment padded @segmentClass">
-                            <div class="item">
-                                <div class="content">
-                                    <div class="extra w-body-text-left">
-                                        @writtenByName
-                                    </div>
-                                    <div class="extra w-body-text-right w-font-size-small">
-                                        @if (!string.IsNullOrEmpty(message.Subject))
-                                        {
-                                            <span>
-                                                @message.Subject |&nbsp;
-                                            </span>
-                                        }
-                                        <i class="calendar icon"></i>@DateHelper.FormatTime(message.MessageCreated)
-                                        @if (message.SenderApllicationUserId.Equals(message.CurrentUserId, StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            <span>|</span>
-                                            if (message.IsRead)
-                                            {
-                                                <i title="Přečteno" class="checkmark green icon"></i>
-                                            }
-                                            else
-                                            {
-                                                <i title="Nepřečteno" class="remove red icon"></i>
-                                            }
-                                        }
-                                    </div>
-                                    <div class="description">
-                                        <p>
-                                            @Html.Raw(Helpers.HtmlHelper.AddLineBreaks(message.MessageText))
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
-                        </div>*@
+                            <div class="text">
+                                <p>@Html.Raw(Helpers.HtmlHelper.AddLineBreaks(message.MessageText))</p>
+                            </div>
+                        </div>
+                    </div>
                 }
             </div>
 
-            <div class="w-margin-top-10">
-                @Helpers.PagerHelper.GetPager(Model.Messages)
-            </div>
+            @Helpers.PagerHelper.GetPager(Model.Messages)
         </div>
     </div>
 </div>

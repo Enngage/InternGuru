@@ -34,7 +34,7 @@ namespace Web.Controllers.Auth
 
         #region Actions
 
-        [Route(CompanyActionPrefix + "/Dotaznik/{id:int}/{page:int?}")]
+        [Route(CompanyActionPrefix + "/Dotaznik/{id:int}")]
         public async Task<ActionResult> QuestionnaireSubmissions(int id, int? page)
         {
             var model = await AuthBuilder.AuthQuestionnaireBuilder.BuildQuestionnaireSubmissionsViewAsync(id, page);

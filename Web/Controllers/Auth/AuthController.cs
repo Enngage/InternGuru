@@ -185,7 +185,7 @@ namespace Web.Controllers.Auth
             return View(model);
         }
 
-        [Route(GeneralActionPrefix + "/Konverzace/{id}/{page:int?}")]
+        [Route(GeneralActionPrefix + "/Konverzace/{id}")]
         public async Task<ActionResult> Conversation(string id, int? page)
         {
             if (string.IsNullOrEmpty(id))
@@ -208,7 +208,7 @@ namespace Web.Controllers.Auth
             return View(model);
         }
 
-        [Route(GeneralActionPrefix + "/zpravy/{page:int?}")]
+        [Route(GeneralActionPrefix + "/zpravy")]
         public async Task<ActionResult> Conversations(int? page)
         {
             var model = await AuthBuilder.AuthMessageBuilder.BuildConversationsViewAsync(page);
@@ -232,7 +232,7 @@ namespace Web.Controllers.Auth
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route(GeneralActionPrefix + "/Konverzace/{id}/{page:int?}")]
+        [Route(GeneralActionPrefix + "/Konverzace/{id}")]
         public async Task<ActionResult> Conversation(AuthMessageForm form)
         {
             // validate form

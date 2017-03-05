@@ -88,5 +88,10 @@ namespace UI.Builders.Master.Models
         /// Site name
         /// </summary>
         public string SiteName { get; } = AppConfig.SiteName;
+
+        /// <summary>
+        /// Indicates if share button will be shown
+        /// </summary>
+        public bool ShowShareButton { get; set; }
     }
 }

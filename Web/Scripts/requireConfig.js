@@ -10,8 +10,8 @@ var require = {
         "highcharts": { "deps": ['jquery'] }, // highcharts needs to be loaded after jQuery
         "semantic": { "deps": ['jquery'] }, // semantic needs to be loaded after jQuery
         "datepicker": { "deps": ['jquery'] }, // datepicker needs to be loaded after jQuery
-        "unitegallery": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery
-        "unitegallery_theme": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery
+        "unitegallery": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery 
+        "unitegallery_theme": { "deps": ['jquery', 'unitegallery'] }, // unitegallery needs to be loaded after jQuery AND unitegallery 
         "fineuploader": { "deps": ['jquery'] }, // finei uploader needs to be loaded after jQuery
     },
     paths: {

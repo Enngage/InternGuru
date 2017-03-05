@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Security.Policy;
 using System.Web.Mvc;
+using System.Web.Routing;
 using UI.Base;
+using UI.Extensions;
 
 namespace UI.Helpers
 {
@@ -135,6 +138,16 @@ namespace UI.Helpers
         public string GetLinkedInUrl(string userName)
         {
             return $"https://www.linkedin.com/company/{userName}";
+        }
+
+        /// <summary>
+        /// Gets route values that preserves all existing query strings in URL
+        /// </summary>
+        /// <param name="additionalRouteValues">Additional values</param>
+        /// <returns></returns>
+        public RouteValueDictionary GetCurrentQueryStringRouteValues(object additionalRouteValues)
+        {
+            return WebViewPage.Request.QueryString.ToRouteValues(additionalRouteValues);
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿@using UI.Helpers;
-@using Core.Helpers;
-@using UI.Builders.Shared.Enums
-@using Core.Config;
+﻿@using Core.Helpers;
 @model UI.Builders.Internship.Views.InternshipNotFoundView
 
 @{
@@ -62,7 +59,7 @@
                                         <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
                                             @internship.Title
                                         </a>
-                                        <span class="w-font-size-small w-font-light">(@CurrencyHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
+                                        <span class="w-font-size-small w-font-light">(@Helpers.TextHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
                                     </td>
                                     <td>
                                         @Html.Raw(Helpers.CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City

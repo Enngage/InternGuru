@@ -17,6 +17,7 @@ using Core.Helpers.Internship;
 using Entity.Base;
 using Service.Extensions;
 using Service.Services.Activities.Enums;
+using UI.Builders.Internship.Enums;
 using UI.Exceptions;
 
 namespace UI.Builders.Internship
@@ -40,7 +41,7 @@ namespace UI.Builders.Internship
             };
         }
 
-        public async Task<InternshipBrowseView> BuildBrowseViewAsync(int? page, string category, string search, string city, bool paidOnly)
+        public async Task<InternshipBrowseView> BuildBrowseViewAsync(int? page, string category, string search, string city, InternshipPaidFilterEnum paid, InternshipLengthFilterEnum length, InternshipOrderFilterEnum order)
         {
             var pageSize = 30;
             var pageNumber = (page ?? 1);
@@ -49,11 +50,40 @@ namespace UI.Builders.Internship
             // get internships and store them in cache (for filtering)
             var internships = await GetAllInternshipsAsync();
 
-            // paid only filter
-            if (paidOnly)
+            // paid filter
+            if (paid != InternshipPaidFilterEnum.Any)
             {
-                internships = internships.Where(m => m.IsPaid);
+                if (paid == InternshipPaidFilterEnum.Paid)
+                {
+                    internships = internships.Where(m => m.IsPaid);
+                }
+                else if (paid == InternshipPaidFilterEnum.NotPaid)
+                {
+                    internships = internships.Where(m => !m.IsPaid);
+                }
             }
+
+            // length filter
+            if (length != InternshipLengthFilterEnum.Any)
+            {
+                if (length == InternshipLengthFilterEnum.UpToAMonth)
+                {
+                    internships = internships.Where(m => m.MinDurationMonths < 1 || m.MaxDurationMonths < 1);
+                }
+                else if (length == InternshipLengthFilterEnum.OneToTwoMonths)
+                {
+                    internships = internships.Where(m => (m.MinDurationMonths >= 1 && m.MinDurationMonths < 3) || (m.MaxDurationMonths >= 1 && m.MaxDurationMonths < 3));
+                }
+                else if (length == InternshipLengthFilterEnum.ThreeToSixMonths)
+                {
+                    internships = internships.Where(m => (m.MinDurationMonths >= 3 && m.MinDurationMonths < 6) || (m.MaxDurationMonths >= 3 && m.MaxDurationMonths < 6));
+                }
+                else if (length == InternshipLengthFilterEnum.MoreThenSixMonths)
+                {
+                    internships = internships.Where(m => m.MinDurationMonths >= 6 || m.MaxDurationMonths >= 6);
+                }
+            }
+
 
             // filter by category
             if (!string.IsNullOrEmpty(category))
@@ -78,6 +108,32 @@ namespace UI.Builders.Internship
                 {
                     internships = internships.Where(m => m.City.Contains(city, StringComparison.OrdinalIgnoreCase));
                 }
+            }
+
+            // order filters
+            if (order == InternshipOrderFilterEnum.Newest)
+            {
+                internships = internships.OrderByDescending(m => m.ActiveSince);
+            }
+            else if (order == InternshipOrderFilterEnum.Oldest)
+            {
+                internships = internships.OrderBy(m => m.ActiveSince);
+            }
+            else if (order == InternshipOrderFilterEnum.Longest)
+            {
+                internships = internships.OrderByDescending(m => m.MaxDurationDays);
+            }
+            else if (order == InternshipOrderFilterEnum.Shortest)
+            {
+                internships = internships.OrderBy(m => m.MinDurationDays);
+            }
+            else if (order == InternshipOrderFilterEnum.ClosestStart)
+            {
+                internships = internships.OrderBy(m => Math.Abs((m.StartDate - DateTime.Now).Ticks));
+            }
+            else if (order == InternshipOrderFilterEnum.OutermostStart)
+            {
+                internships = internships.OrderByDescending(m => Math.Abs((m.StartDate - DateTime.Now).Ticks));
             }
 
             return new InternshipBrowseView()
@@ -237,7 +293,8 @@ namespace UI.Builders.Internship
                     ShortDescription = m.ShortDescription,
                     MaxDurationTypeCodeName = m.MaxDurationType.CodeName,
                     MinDurationTypeCodeName = m.MinDurationType.CodeName,
-                    Languages = m.Languages
+                    Languages = m.Languages,
+                    ActiveSince = m.ActiveSince ?? DateTime.MinValue
                 });
 
             var internships = await Services.CacheService.GetOrSetAsync(async () => await internshipsQuery.ToListAsync(), cacheSetup);

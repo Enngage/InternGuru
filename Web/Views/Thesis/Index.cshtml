@@ -1,4 +1,5 @@
 ﻿@model UI.Builders.Thesis.Views.ThesisDetailView
+@using Core.Helpers
 @using UI.Builders.Shared.Enums
 @using UI.Modules.GoogleMaps.Views
 
@@ -41,29 +42,80 @@
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
             <div class="ui segment">
+
                 <div class="w-body-text-center">
-                    <div class="ui horizontal list">
-                        <div class="item">
-                            <div class="content">
-                                <i class="home icon"></i>
-                                <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.Company.CompanyCodeName })">
-                                    @Model.Thesis.Company.CompanyName
-                                </a>
+                    <div class="ui button teal large w-override-no-button">
+                        @Model.Thesis.ThesisTypeNameConverted
+                    </div>
+                </div>
+
+                @*<div class="w-body-text-center">
+                        <div class="ui horizontal list">
+                            <div class="item">
+                                <div class="content">
+                                    <i class="home icon"></i>
+                                    <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.Company.CompanyCodeName })">
+                                        @Model.Thesis.Company.CompanyName
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    @Helpers.CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode)
+                                    @Model.Thesis.Company.CountryName
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    <i class="marker icon"></i>@Model.Thesis.Company.City
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    @if (Model.Thesis.IsPaid)
+                                    {
+                                        <i class="money green icon"></i><span>Odměna @(Helpers.TextHelper.GetThesisAmount(Model.Thesis.HideAmount, Model.Thesis.Amount, Model.Thesis.CurrencyName, Model.Thesis.CurrencyShowSignOnLeft))</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="money red icon"></i><span>Bez odměny</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    <i title="Nástup od" class="university icon"></i>@Model.Thesis.ThesisTypeNameConverted
+                                </div>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode)
-                                @Model.Thesis.Company.CountryName
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                <i class="marker icon"></i>@Model.Thesis.Company.City
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
+                    </div>*@
+
+                <div class="w-margin-top-30">
+
+                    <div class="w-margin-top-30">
+                        @Html.Raw(Model.Thesis.Description)
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+            <div class="ui segment">
+                <table class="ui three column very basic table w-body-text-center">
+                    <thead>
+                        <tr class="center aligned">
+                            <th>Zadáno</th>
+                            <th>Odměna</th>
+                            <th>Typ práce</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="center aligned">
+                            <td>
+                                @DateHelper.FormatDate(Model.Thesis.Created)
+                            </td>
+                            <td>
                                 @if (Model.Thesis.IsPaid)
                                 {
                                     <i class="money green icon"></i><span>Odměna @(Helpers.TextHelper.GetThesisAmount(Model.Thesis.HideAmount, Model.Thesis.Amount, Model.Thesis.CurrencyName, Model.Thesis.CurrencyShowSignOnLeft))</span>
@@ -72,27 +124,15 @@
                                 {
                                     <i class="money red icon"></i><span>Bez odměny</span>
                                 }
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                <i title="Nástup od" class="university icon"></i>@Model.Thesis.ThesisTypeNameConverted
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-margin-top-30">
-
-                    <div class="w-margin-top-30">
-                        @Html.Raw(Model.Thesis.Description)
-                    </div>
-     
-                </div>
+                            </td>
+                            <td>
+                                @Model.Thesis.ThesisTypeNameConverted
+                            </td>
+                        </tr>
+                </table>
             </div>
-
         </div>
-    </div> 
+    </div>
 </div>
 
 <div class="w-color-background-light">

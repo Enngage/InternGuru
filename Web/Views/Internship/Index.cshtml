@@ -10,6 +10,7 @@
     Model.Metadata.Social.GoogleMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid);
     Model.Metadata.Social.OpenGraphMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid);
     Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, null, Helpers.ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid));
+    Model.Metadata.Social.OpenGraphMetadata.ShowShareButton = true;
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 
     // get gallery images
@@ -20,7 +21,6 @@
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/internship/detail")
-
 
 <div id="_InternshipMenuWrapper" class="w-internship-fixed-wrapper">
     <div class="ui vertical segment w-internship-menu-wrapper">
@@ -55,60 +55,60 @@
                     <div class="ui red label left ribbon">@StringHelper.GetPluralWord(Model.Internship.ActivityStats.InternshipSubmissionsCount, "-", "1 zájemce", "{count} zájemci", "již {count} zájemců")</div>
                 }
 
-                <div class="w-body-text-center">
-                    <div class="ui horizontal list">
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.MessageHelper.RenderIcon("home") <a href="@Url.Action("Index", "Company", new {codeName = Model.Internship.Company.CompanyCodeName})">
-                                    @Model.Internship.Company.CompanyName
-                                </a>
+                @*<div class="w-body-text-center">
+                        <div class="ui horizontal list">
+                            <div class="item">
+                                <div class="content">
+                                    @Helpers.MessageHelper.RenderIcon("home") <a href="@Url.Action("Index", "Company", new {codeName = Model.Internship.Company.CompanyCodeName})">
+                                        @Model.Internship.Company.CompanyName
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    @Helpers.CountryHelper.GetCountryIcon(Model.Internship.CountryCode) @Model.Internship.CountryName
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    @Helpers.MessageHelper.RenderIcon("marker") @Model.Internship.City
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    @if (Model.Internship.IsPaid)
+                                    {
+                                        @Helpers.MessageHelper.RenderIcon("money green")
+                                        <span>@(Helpers.TextHelper.GetInternshipAmount(Model.Internship.HideAmount, Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
+                                    }
+                                    else
+                                    {
+                                        @Helpers.MessageHelper.RenderIcon("money red")
+                                        <span>Neplaceno</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    @Helpers.MessageHelper.RenderIcon("calendar") Nástup od @DateHelper.FormatDate(Model.Internship.StartDate)
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="content">
+                                    @if (Model.Internship.HasFlexibleHours)
+                                    {
+                                        @Helpers.MessageHelper.RenderIcon("wait")
+                                        <span>Flexibilní pracovní doba</span>
+                                    }
+                                    else
+                                    {
+                                        @Helpers.MessageHelper.RenderIcon("wait")
+                                        <span>@Model.Internship.WorkingHours</span>
+                                    }
+                                </div>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.CountryHelper.GetCountryIcon(Model.Internship.CountryCode) @Model.Internship.CountryName
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.MessageHelper.RenderIcon("marker") @Model.Internship.City
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                @if (Model.Internship.IsPaid)
-                                {
-                                    @Helpers.MessageHelper.RenderIcon("money green")
-                                    <span>@(Helpers.TextHelper.GetInternshipAmount(Model.Internship.HideAmount, Model.Internship.Amount, Model.Internship.CurrencyName, Model.Internship.CurrencyShowSignOnLeft)) / @Model.Internship.AmountTypeName</span>
-                                }
-                                else
-                                {
-                                    @Helpers.MessageHelper.RenderIcon("money red")
-                                    <span>Neplaceno</span>
-                                }
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                @Helpers.MessageHelper.RenderIcon("calendar") Nástup od @DateHelper.FormatDate(Model.Internship.StartDate)
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="content">
-                                @if (Model.Internship.HasFlexibleHours)
-                                {
-                                    @Helpers.MessageHelper.RenderIcon("wait")
-                                    <span>Flexibilní pracovní doba</span>
-                                }
-                                else
-                                {
-                                    @Helpers.MessageHelper.RenderIcon("wait")
-                                    <span>@Model.Internship.WorkingHours</span>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </div>*@
 
                 <div class="w-margin-top-30">
 
@@ -121,7 +121,7 @@
                     <div class="w-margin-top-30">
                         @Html.Raw(Model.Internship.Description)
                     </div>
-                    
+
                     <div class="w-margin-top-30 w-margin-bottom-14 w-body-text-center">
                         <a class="w-mobile-block" href="@Url.Action("Internship", "Form", new {id = Model.Internship.ID, codeName = Model.Internship.CodeName})">
                             <div class="ui button secondary">
@@ -133,11 +133,9 @@
             </div>
 
         </div>
-    </div>
 
-    <div class="ui segment w-margin-top-30">
-        <div class="ui grid">
-            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+            <div class="ui segment">
                 <table class="ui three column very basic table w-body-text-center w-margin-top-30">
                     <thead>
                         <tr class="center aligned">
@@ -149,7 +147,7 @@
                     <tbody>
                         <tr class="center aligned">
                             <td>
-                                <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.Company.CompanyCodeName })">
+                                <a href="@Url.Action("Index", "Company", new {codeName = Model.Internship.Company.CompanyCodeName})">
                                     @Model.Internship.Company.CompanyName
                                 </a>
                             </td>
@@ -194,61 +192,58 @@
                         </tr>
                 </table>
 
-            </div>
-        </div>
-    </div>
-
-    <div class="ui segment w-margin-top-30">
-        <div class="ui grid">
-            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-                <table class="ui three column very basic table w-body-text-center">
-                    <thead>
-                        <tr class="center aligned">
-                            <th>Jazyk</th>
-                            <th>Pouze pro studenty</th>
-                            <th>Min. vzdělání</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="center aligned">
-                            <td>
-                                @{
-                                    var languageCount = 0;
-                                }
-                                @foreach (var requiredLanguage in Model.Internship.RequiredLanguages)
-                                {
-                                    @Helpers.CountryHelper.GetCountryIcon(requiredLanguage.IconClass)
-                                    @requiredLanguage.LanguageName
-                                    if (languageCount != Model.Internship.RequiredLanguages.Count() - 1)
-                                    {
-                                        <br />
+                <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                    <table class="ui three column very basic table w-body-text-center">
+                        <thead>
+                            <tr class="center aligned">
+                                <th>Jazyk</th>
+                                <th>Pouze pro studenty</th>
+                                <th>Min. vzdělání</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="center aligned">
+                                <td>
+                                    @{
+                                        var languageCount = 0;
                                     }
-                                    languageCount++;
-                                }
-                            </td>
-                            <td>@Model.Internship.StudentStatusOption.StudentStatusName</td>
-                            <td>@Model.Internship.MinEducation.Name</td>
-                        </tr>
-                </table>
+                                    @foreach (var requiredLanguage in Model.Internship.RequiredLanguages)
+                                    {
+                                        @Helpers.CountryHelper.GetCountryIcon(requiredLanguage.IconClass)
+                                        @requiredLanguage.LanguageName
+                                        if (languageCount != Model.Internship.RequiredLanguages.Count() - 1)
+                                        {
+                                            <br />
+                                        }
+                                        languageCount++;
+                                    }
+                                </td>
+                                <td>@Model.Internship.StudentStatusOption.StudentStatusName</td>
+                                <td>@Model.Internship.MinEducation.Name</td>
+                            </tr>
+                    </table>
 
-                <p>
-                    @Html.Raw(Model.Internship.Requirements)
-                </p>
-
+                    <p>
+                        @Html.Raw(Model.Internship.Requirements)
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
 
-    @if (galleryImages.Any())
-    {
-        <div class="ui segment w-margin-top-30">
-            @Html.Partial("~/Views/Modules/Gallery/Base.cshtml", new GalleryView()
-       {
-           GalleryID = "_CompanyGallery",
-           Images = galleryImages
-       })
-        </div>
-    }
+
+        @if (galleryImages.Any())
+        {
+            <div class="sixteen wide column">
+                <div class="ui segment w-margin-top-30">
+                    @Html.Partial("~/Views/Modules/Gallery/Base.cshtml", new GalleryView()
+               {
+                   GalleryID = "_CompanyGallery",
+                   Images = galleryImages
+               })
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 <div class="w-color-background-light">

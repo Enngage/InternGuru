@@ -44,6 +44,7 @@ namespace UI.Builders.Internship.Models
         public InternshipDurationTypeEnum MaxDurationType { get; set; }
         public int MinDurationDefaultValue { get; set; }
         public int MaxDurationDefaultValue { get; set; }
+        public DateTime ActiveSince { get; set; }
 
         /// <summary>
         /// Languages that are required for the internship

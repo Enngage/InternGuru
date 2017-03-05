@@ -20,9 +20,8 @@ namespace Web.Controllers
         #region Actions
 
 
-        [Route("ZaverecnePrace/{category:alpha?}/{page:int?}", Order = 1)]
-        [Route("ZaverecnePrace/{page:int}", Order = 2)]
-        [Route("ZaverecnePrace", Order = 3)]
+        [Route("ZaverecnePrace/{category?}", Order = 1)]
+        [Route("ZaverecnePrace", Order = 2)]
         public async Task<ActionResult> Index(int? page, string category, string search)
         {
             var model = await _thesisBuilder.BuildBrowseViewAsync(search, page, category);

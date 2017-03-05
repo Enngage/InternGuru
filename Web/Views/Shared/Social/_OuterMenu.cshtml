@@ -1,0 +1,37 @@
+﻿@model UI.Builders.Master.Views.MasterView
+
+@if (Model.Metadata.Social.OpenGraphMetadata.ShowShareButton)
+{
+
+    <div class="w-menu-sticky-left w-tablet-hide w-mobile-hide">
+        <div class="ui vertical icon menu">
+            <a class="item w-menu-sticky-left-facebook _FacebookShareButton" href="#" data-shareurl="@Helpers.UrlHelper.CurrentUrl">
+                <i class="facebook f icon"></i>
+            </a>
+        </div>
+    </div>
+
+    @helper Script()
+    {
+        <script type="text/javascript">
+            require(['jquery'],
+                function ($) {
+                    $(function () {
+                        // left fixed menu
+                        $("._FacebookShareButton").click(function () {
+                            var shareUrl = $(this).data("shareurl");
+
+                            FB.ui({
+                                method: 'share',
+                                display: 'popup',
+                                href: shareUrl
+                            },
+                                function (response) { });
+                        });
+                    });
+                });
+        </script>
+    }
+
+    @Helpers.ScriptHelper.RequireScriptContent(Script().ToString())
+}

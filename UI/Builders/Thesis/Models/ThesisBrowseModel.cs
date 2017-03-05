@@ -20,6 +20,7 @@ namespace UI.Builders.Thesis.Models
         public string ThesisTypeName { get; set; }
         public string ThesisTypeCodeName { get; set; }
         public string ThesisTypeNameConverted { get; set; }
+        public string ShortDescription { get; set; }
         public ThesisDetailCompanyModel Company { get; set; }
     }
 }

@@ -65,12 +65,7 @@
                     }
                 </div>
 
-                if (Model.ConversationsPaged.PageCount > 1)
-                {
-                    <div class="w-margin-top-10">
-                        @Helpers.PagerHelper.GetPager(Model.ConversationsPaged)
-                    </div>
-                }
+                @Helpers.PagerHelper.GetPager(Model.ConversationsPaged)
             }
         </div>
     </div>

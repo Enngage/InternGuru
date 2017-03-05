@@ -1,8 +1,10 @@
 ﻿using Service.Context;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Core.Helpers;
 using UI.Base;
 using UI.Builders.Internship;
+using UI.Builders.Internship.Enums;
 using UI.Builders.Master;
 using UI.Events;
 using UI.Helpers;
@@ -21,13 +23,12 @@ namespace Web.Controllers
         #region Actions
 
       
-        [Route("Staze/{category:alpha:int?}/{page:int?}", Order = 1)]
-        [Route("Staze/{page:int}", Order = 2)]
-        [Route("Staze", Order = 3)]
+        [Route("Staze/{category?}", Order = 1)]
+        [Route("Staze", Order = 2)]
    
-        public async Task<ActionResult> Index(int? page, string category, string search, string city, string paidonly)
+        public async Task<ActionResult> Index(int? page, string category, string search, string city, string paid, string length, string order)
         {
-            var model = await _internshipBuilder.BuildBrowseViewAsync(page, category, search, city, InputHelper.GetCheckboxValueStatic(paidonly, false));
+            var model = await _internshipBuilder.BuildBrowseViewAsync(page, category, search, city, EnumHelper.ParseEnum<InternshipPaidFilterEnum>(paid, InternshipPaidFilterEnum.Any), EnumHelper.ParseEnum<InternshipLengthFilterEnum>(length, InternshipLengthFilterEnum.Any), EnumHelper.ParseEnum<InternshipOrderFilterEnum>(order, InternshipOrderFilterEnum.Newest));
 
             if (model == null)
             {
@@ -38,9 +39,9 @@ namespace Web.Controllers
         }
 
         [Route("Staze/Hledat", Order = 1)]
-        public async Task<ActionResult> Search(int? page, string category, string search, string city, string paidonly)
+        public async Task<ActionResult> Search(int? page, string category, string search, string city, string paid, string length, string order)
         {
-            var model = await _internshipBuilder.BuildBrowseViewAsync(page, category, search, city, InputHelper.GetCheckboxValueStatic(paidonly, false));
+            var model = await _internshipBuilder.BuildBrowseViewAsync(page, category, search, city, EnumHelper.ParseEnum<InternshipPaidFilterEnum>(paid, InternshipPaidFilterEnum.Any), EnumHelper.ParseEnum<InternshipLengthFilterEnum>(length, InternshipLengthFilterEnum.Any), EnumHelper.ParseEnum<InternshipOrderFilterEnum>(order, InternshipOrderFilterEnum.Newest));
 
             if (model == null)
             {

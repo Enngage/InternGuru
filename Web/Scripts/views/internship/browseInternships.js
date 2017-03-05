@@ -1,12 +1,20 @@
 ﻿require(['jquery', 'modules/internshipModule', 'modules/tableModule', 'modules/searchModule', 'semantic'], function ($, InternshipModule, TableModule, SearchModule) {
     // DOM ready
     $(function () {
-        var internshipModule = new InternshipModule();
         var tableModule = new TableModule();
         var searchModule = new SearchModule();
 
+        // show filter on click
+        $('._ShowFilterButton').click(function (e) {
+            e.preventDefault();
+
+            var filterWrapperId = "_FilterWrapper";
+            $("#" + filterWrapperId).toggleClass("w-body-hide");
+            $(this).toggleClass("blue");
+        });
+
         // initialize dropdown
-        $('._BrowseDropdown').dropdown();
+        $('._BrowseDropdown, ._LengthDropdown, ._PaidDropdown').dropdown();
 
         // initialize table
         tableModule.initializeListingTable("_InternshipsListingTable");

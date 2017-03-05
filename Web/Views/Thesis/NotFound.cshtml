@@ -1,8 +1,4 @@
-﻿@using UI.Helpers;
-@using Core.Helpers;
-@using UI.Builders.Shared.Enums
-@using Core.Config;
-@model UI.Builders.Thesis.Views.ThesisNotFoundView
+﻿@model UI.Builders.Thesis.Views.ThesisNotFoundView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Práce nenalezena";
@@ -62,7 +58,7 @@
                                         </a>
                                         @if (thesis.IsPaid)
                                         {
-                                            <span class="w-font-size-small w-font-light">(odměna @CurrencyHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
+                                            <span class="w-font-size-small w-font-light">(odměna @Helpers.TextHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
                                         }
                                     </td>
                                     <td class="collapsing w-body-text-right w-mobile-left">

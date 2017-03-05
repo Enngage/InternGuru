@@ -2610,6 +2610,8 @@
     <Content Include="Scripts\addons\fineuploader\LICENSE" />
     <Content Include="Views\Modules\FineUploader\FineUploader.cshtml" />
     <Content Include="Stylesheets\partials\_item.scss" />
+    <Content Include="Views\Modules\PagedList\PagedList.cshtml" />
+    <Content Include="Views\Shared\Social\_OuterMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

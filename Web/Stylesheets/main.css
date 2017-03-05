@@ -107,7 +107,7 @@
 
 #w-body-wrapper .w-menu-sticky-left {
   position: fixed;
-  top: 130px;
+  top: 390px;
   margin: 0; }
   #w-body-wrapper .w-menu-sticky-left .item {
     border-radius: 0;
@@ -177,6 +177,8 @@
     width: 400px; }
   #w-body-wrapper .w-body-dark {
     background-color: #e8ebeb; }
+  #w-body-wrapper .w-body-light {
+    background-color: #fff; }
   #w-body-wrapper .w-body-text-left {
     text-align: left; }
   #w-body-wrapper .w-body-text-right {
@@ -373,12 +375,12 @@
   display: inline;
   cursor: pointer; }
 
-#w-body-wrapper .pagination > li > a {
+#w-body-wrapper .pagination > li > a, #w-body-wrapper .w-pagination-simple-pager .PagedList-skipToPrevious a:hover, #w-body-wrapper .w-pagination-simple-pager .PagedList-skipToNext a:hover {
   border-color: #FF5733;
   color: #000000;
   padding: 6px 12px; }
 
-#w-body-wrapper .pagination > li > a:hover {
+#w-body-wrapper .pagination > li > a:hover, #w-body-wrapper .w-pagination-simple-pager .PagedList-skipToPrevious a, #w-body-wrapper .w-pagination-simple-pager .PagedList-skipToNext a {
   background-color: #2874a6;
   border-color: #2874a6;
   color: #FFFFFF; }
@@ -404,6 +406,13 @@
   background-color: #000000;
   color: #FF5733;
   border: 1px solid #2874a6; }
+
+#w-body-wrapper .w-pagination-simple-pager .PagedList-skipToNext {
+  /* Align in simple pager */
+  float: right; }
+
+#w-body-wrapper .w-pagination-simple-pager .PagedList-skipToPrevious {
+  float: left; }
 
 #w-body-wrapper .w-footer {
   background-color: #232d32; }

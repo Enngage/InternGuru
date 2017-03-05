@@ -1,0 +1,52 @@
+﻿@using PagedList.Mvc
+@model UI.Modules.PagedList.Models.PagedListModel
+    
+@if (Model.PagedList.PageCount > 0)
+{
+    var pagerClass = Model.AddMargin ? "w-margin-top-14" : null;
+
+    var standardPager = Html.PagedListPager(Model.PagedList,
+               page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, Helpers.UrlHelper.GetCurrentQueryStringRouteValues(new { page })),
+               new PagedListRenderOptions()
+               {
+                   Display = PagedListDisplayMode.IfNeeded,
+                   MaximumPageNumbersToDisplay = Model.StandardPagesCount,
+                   DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+                   DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+                   DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+                   DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+                   DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                   DisplayPageCountAndCurrentLocation = false,
+               });
+
+    var simplePager = Html.PagedListPager(Model.PagedList,
+           page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, Helpers.UrlHelper.GetCurrentQueryStringRouteValues(new { page })),
+        new PagedListRenderOptions()
+        {
+            MaximumPageNumbersToDisplay = Model.SimplePagesCount,
+            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+            DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+            Display = PagedListDisplayMode.IfNeeded,
+            DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+            DisplayPageCountAndCurrentLocation = false,
+            LinkToNextPageFormat = "Další",
+            LinkToPreviousPageFormat = "Předchozí"
+        });
+
+    <div class="@pagerClass">
+        <div class="w-computer-show">
+            @standardPager
+        </div>
+        <div class="w-tablet-show w-pagination-simple-pager">
+            @simplePager
+            <div class="w-body-clear"></div>
+        </div>
+        <div class="w-mobile-show w-pagination-simple-pager">
+            @simplePager
+            <div class="w-body-clear"></div>
+        </div>
+    </div>
+}
+

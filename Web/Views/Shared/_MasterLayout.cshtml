@@ -20,18 +20,21 @@
 </head>
 <body id="w-body-wrapper" class="w-body-sticky-footer-main-body">
 
+    @* Outer content *@
+    @Html.Partial("Social/_OuterMenu")
+
     @* Navigation *@
     <header>
         @Html.Partial("_TopMenu")
     </header>
-    
+
     <main class="w-body-sticky-footer-main-content w-body-dark">
         @* UI teaser ehader *@
         @Html.Partial("~/Views/Modules/Header/Header.cshtml")
         @* Main body *@
         @RenderBody()
     </main>
-    
+
     <footer>
         @* Footer *@
         @Html.Partial("_Footer")

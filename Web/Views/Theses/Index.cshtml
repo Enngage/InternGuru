@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="seven wide tablet only four wide computer only column">
+        <div class="four wide computer only column">
             <div class="ui padded segment">
                 <div class="ui secondary vertical pointing menu w-internship-category-menu ">
                     @if (string.IsNullOrEmpty(currentCategory))
@@ -77,7 +77,7 @@
                 </div>
             </div>
         </div>
-        <div class="sixteen wide mobile nine wide tablet twelve wide computer column">
+        <div class="sixteen wide mobile sixteen wide tablet twelve wide computer column">
             <div class="ui padded segment">
 
                 @if (!Model.Theses.Any())
@@ -86,62 +86,49 @@
                 }
                 else
                 {
-                    <table class="ui very basic tablet stackable table w-table-listing _ThesesListingTable">
-                        <thead class="w-tablet-hide w-mobile-hide">
-                        <tr>
-                            <th colspan="2">
-                                Název práce (odměna)
-                            </th>
-                            <th class="collapsing w-body-text-center">
-                                Typ práce
-                            </th>
-                            <th class="collapsing w-body-text-center">
-                                Odměna
-                            </th>
-                            <th class="collapsing">
-                                Přidáno   
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <div class="ui divided items w-item-primary-type">
                         @foreach (var thesis in Model.Theses)
                         {
-                            <tr data-link="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
-                                <td class="collapsing">
-                                    <img class="ui mini image" alt="@thesis.ThesisName" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)"/>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
-                                        @thesis.ThesisName
-                                    </a>
-                                </td>
-                                <td class="collapsing w-body-text-center w-mobile-left">
-                                    @thesis.ThesisTypeNameConverted
-                                </td>
-                                <td class="collapsing w-body-text-center w-mobile-left">
-                                    @if (thesis.Amount > 0)
-                                    {
-                                        <span>@(Helpers.TextHelper.GetThesisAmount(thesis.HideAmount, thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
-                                    }
-                                    else
-                                    {
-                                        <span>-</span>
-                                    }
-                                </td>
-                                <td class="collapsing w-body-text-right w-mobile-left">
-                                    @DateHelper.FormatDate(thesis.Created)
-                                </td>
-                            </tr>
+                            <div class="item">
+                                <a class="ui tiny image" href="@Url.Action("Index", "Company", new {codeName = thesis.Company.CompanyCodeName})">
+                                    <img alt="@thesis.Company.CompanyName logo" src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)">
+                                </a>
+                                <div class="content">
+                                    <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})" class="header">@thesis.ThesisName</a>
+                                    <div class="meta">
+                                        <span>
+                                            Zadáno:
+                                            <strong>@DateHelper.FormatDate(thesis.Created)</strong>
+                                        </span>
+                                        <span class="w-tablet-hide w-mobile-hide">|</span>
+                                        <span class="w-tablet-block w-mobile-block">
+                                            Typ práce:
+                                            <strong>
+                                                @thesis.ThesisTypeNameConverted
+                                            </strong>
+                                        </span>
+                                    </div>
+                                    <div class="description">
+                                        <p>
+                                            @thesis.ShortDescription
+                                        </p>
+                                    </div>
+                                    <div class="extra">
+                                        @if (thesis.IsPaid)
+                                        {
+                                            <div class="ui label"><i class="money icon"></i>@(Helpers.TextHelper.GetThesisAmount(thesis.HideAmount, thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</div>
+                                        }
+                                        <a class="ui right floated primary button" href="@Url.Action("Index", "Thesis", new {codeName = thesis.CodeName})">
+                                            Detail
+                                            <i class="right chevron icon"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         }
-                        </tbody>
-                    </table>
+                    </div>
 
-                    if (Model.Theses.PageCount > 1)
-                    {
-                        <div class="w-margin-top-10">
-                            @Helpers.PagerHelper.GetPager(Model.Theses, page => Url.Action(Helpers.UrlHelper.CurrentAction, Helpers.UrlHelper.CurrentController, new {page, search = searchVal}))
-                        </div>
-                    }
+                    @Helpers.PagerHelper.GetPager(Model.Theses);
                 }
             </div>
         </div>

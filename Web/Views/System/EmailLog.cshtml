@@ -8,16 +8,13 @@
     var onlyUnsentParam = Helpers.UrlHelper.GetQueryString("onlyUnsent", string.Empty);
     var onlyUnsentValue = onlyUnsentParam.Equals("true", StringComparison.OrdinalIgnoreCase);
 }
-
 @Helpers.ScriptHelper.RequireScript("/scripts/views/system/emailLog")
-
 <div class="ui grid">
     <div class="sixteen wide column">
         <div class="ui segment">
             <h1>
                 @Model.Metadata.BasicMetadata.Title
             </h1>
-
             @if (!onlyUnsentValue)
             {
                 <a href="@Url.Action("EmailLog", "System", new { onlyUnsent = true})">
@@ -30,7 +27,6 @@
                     <div class="ui button secondary">Zobrazit všechny</div>
                 </a>
             }
-
             @foreach (var email in Model.Emails)
             {
                 <div class="ui modal" id="_Modal_@email.ID">
@@ -187,10 +183,7 @@
                     </tr>
                 }
             </table>
-
-            <div class="w-margin-top-10">
-                @Helpers.PagerHelper.GetPager(Model.Emails)
-            </div>
+            @Helpers.PagerHelper.GetPager(Model.Emails)
         </div>
     </div>
 </div>
