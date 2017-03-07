@@ -1,13 +1,10 @@
-/*******************************
-         Site Settings
-*******************************/
-
 
 /*-------------------
         Font
 --------------------*/
 
-@fontFamily			: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+@fontName          : 'Open Sans';
+@fontSmoothing     : antialiased;
 
 /*-------------------
     Brand Colors
@@ -31,4 +28,3 @@
 --------------------*/
 
 @textColor           : #353535;
-

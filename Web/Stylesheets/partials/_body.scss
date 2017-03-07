@@ -1,5 +1,13 @@
 ﻿@import "_base";
 
+/* Import open sans formats
+    Font has to be configured as default 'Open Sans' in semantic variables
+    'https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i%7CMaterial+Icons';
+*/
+
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i%7CMaterial+Icons';
+
+
 /* needs to be outside of #override because it is used in modal*/
 .w-body-dont-break {
     /* These are technically the same, but use both */

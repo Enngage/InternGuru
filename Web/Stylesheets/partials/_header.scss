@@ -73,7 +73,6 @@
         color: #FFFFFF;
 
         h1 {
-            font-family: 'Open Sans', 'Helvetica', 'Arial';
             font-weight: 300;
             font-size: $font-size-header-title;
         }
@@ -125,8 +124,8 @@
         /* IMPORTANT */
         /*background-image: url("/content/images//teaser.jpg");*/ /* Url of backround image needs to be configured in UIHeader*/
         h1 {
+            font-weight: 300;
             font-size: $font-size-header-title;
-            font-weight: bold;
             line-height: 50px;
             padding: 0 0 10px;
             text-shadow: 0 0 3px #7a7a7a;

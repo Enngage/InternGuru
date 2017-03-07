@@ -1,19 +1,10 @@
 /*******************************
         Global Overrides
 *******************************/
-
 .ui.button{
 	font-weight: normal!important;
 }
 
-
-
-
 .validation-summary-errors ul{
 	padding-left: 10px;
 }
-
-
-
-
-

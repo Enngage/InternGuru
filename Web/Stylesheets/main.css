@@ -123,6 +123,10 @@
   #w-body-wrapper .w-menu-sticky-left .w-menu-sticky-left-facebook:hover {
     background-color: #334c81; }
 
+/* Import open sans formats
+    Font has to be configured as default 'Open Sans' in semantic variables
+    'https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i%7CMaterial+Icons';
+*/
 /* needs to be outside of #override because it is used in modal*/
 .w-body-dont-break {
   /* These are technically the same, but use both */
@@ -566,11 +570,6 @@
 #w-body-wrapper .w-table-listing td a {
   font-size: 14px; }
 
-/* Import open sans formats*/
-#w-body-wrapper {
-  font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
-  text-rendering: optimizelegibility; }
-
 #w-body-wrapper .w-color-background-white {
   background: #ffffff; }
 
@@ -648,7 +647,6 @@
     display: block;
     color: #FFFFFF; }
     #w-body-wrapper .w-header-colored h1 {
-      font-family: 'Open Sans', 'Helvetica', 'Arial';
       font-weight: 300;
       font-size: 41px; }
   #w-body-wrapper .w-header-colored.primary {
@@ -680,8 +678,8 @@
     /*background-image: url("/content/images//teaser.jpg");*/
     /* Url of backround image needs to be configured in UIHeader*/ }
     #w-body-wrapper .w-header-background-image h1 {
+      font-weight: 300;
       font-size: 41px;
-      font-weight: bold;
       line-height: 50px;
       padding: 0 0 10px;
       text-shadow: 0 0 3px #7a7a7a; }
