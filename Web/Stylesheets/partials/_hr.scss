@@ -1,0 +1,11 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-hr-primary {
+        background-image: -webkit-linear-gradient(left, transparent, #DBDBDB, transparent);
+        background-image: linear-gradient(to right, transparent, #DBDBDB, transparent);
+        border: 0;
+        height: 1px;
+        margin: 22px 0;
+    }
+}

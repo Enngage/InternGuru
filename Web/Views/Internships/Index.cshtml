@@ -1,13 +1,15 @@
 ﻿@model UI.Builders.Internship.Views.InternshipBrowseView
 @using Core.Helpers
 @using UI.Builders.Internship.Enums
+@using UI.Builders.Master.Enums
 @using UI.Builders.Shared.Enums
 @{
     Model.Metadata.BasicMetadata.Title = "Stáže";
     Model.Metadata.BasicMetadata.Description = "Najdi si stáž z uvedené nabídky a pracuj pro svou oblíbenou IT nebo technologickou firmu. Nauč se nové technologie nebo se zdokonal v tom, co znáš a poznej jak to chodí v praxi.";
-    Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Inherit, UIHeaderColorEnum.Green, Model.Metadata.BasicMetadata.Title);
+    Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Inherit, UIHeaderColorEnum.Primary, Model.Metadata.BasicMetadata.Title, "Najdi stáž právě pro Tebe.");
+    Model.Layout.Type = LayoutTypeEnum.LightContainer;
 
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+    Layout = Model.Layout.Path;
 
     var currentCategory = Helpers.UrlHelper.GetRouteParam("category", null) ?? Helpers.UrlHelper.GetQueryString("category") ?? string.Empty;
 
@@ -21,8 +23,6 @@
     var filterInitClass = showFilter ? string.Empty : "w-body-hide";
 
     var totalInternshipCount = Model.InternshipCategories.Sum(m => m.InternshipCount);
-
-    var filterRoute = new { category = currentCategory, paid = paidVal, search = searchVal, city = cityVal, length = lengthVal, order = orderVal };
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/internship/browseInternships")
@@ -33,24 +33,24 @@
     <input type="hidden" name="category" value="@currentCategory" />
     <div class="ui grid">
         
-        <div class="sixteen wide mobile sixteen wide tablet thirteen wide computer column">
-            <div class="ui labels">
-                @foreach (var option in Model.OrderFilters)
-                {
-                    var routeObj = new { category = currentCategory, paid = paidVal, search = searchVal, city = cityVal, length = lengthVal, order = option.Filter.ToString().ToLower() };
+    <div class="sixteen wide mobile sixteen wide tablet thirteen wide computer column">
+        @foreach (var option in Model.OrderFilters)
+        {
+            var routeObj = new { category = currentCategory, paid = paidVal, search = searchVal, city = cityVal, length = lengthVal, order = option.Filter.ToString().ToLower() };
 
-                    if (orderVal.Equals(option.Filter.ToString(), StringComparison.OrdinalIgnoreCase) || (string.IsNullOrEmpty(orderVal) && option.Filter.ToString().Equals(InternshipOrderFilterEnum.Newest.ToString())))
-                    {
-                        <a class="ui label blue" href="@Url.Action("Index", "Internships", routeObj)">@option.DisplayName</a>
-                    }
-                    else
-                    {
-                        <a class="ui label" href="@Url.Action("Index", "Internships", routeObj)">@option.DisplayName</a>
-                    }
-                }
-            </div>
-        </div>
-        <div class="sixteen wide mobile sixteen wide tablet three wide computer column w-body-text-right">
+            if (orderVal.Equals(option.Filter.ToString(), StringComparison.OrdinalIgnoreCase) || (string.IsNullOrEmpty(orderVal) && option.Filter.ToString().Equals(InternshipOrderFilterEnum.Newest.ToString())))
+            {
+                <a class="ui button primary" href="@Url.Action("Index", "Internships", routeObj)">@option.DisplayName</a>
+            }
+            else
+            {
+                <a class="ui button w-button-no-background" href="@Url.Action("Index", "Internships", routeObj)">@option.DisplayName</a>
+            }
+        }
+        <hr class="w-hr-primary" />
+    </div>
+
+        @*<div class="sixteen wide mobile sixteen wide tablet three wide computer column w-body-text-right">
             @if (showFilter)
             {
                 <a class="ui label blue _ShowFilterButton" href="#">Zobrazit filtr</a>
@@ -59,9 +59,9 @@
             {
                 <a class="ui label _ShowFilterButton" href="#">Zobrazit filtr</a>
             }
-        </div>
+        </div>*@
 
-        <div id="_FilterWrapper" class="sixteen wide column @filterInitClass">
+        @*<div id="_FilterWrapper" class="sixteen wide column @filterInitClass">
             <div class="ui segment padded">
                 <div class="ui grid">
                     <div class="sixteen wide mobile eight wide tablet eight wide computer column">
@@ -121,11 +121,50 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
+        
+    @*<div class="four wide computer only column">
+            <div class="ui link list">
+                @if (string.IsNullOrEmpty(currentCategory))
+                {
+                    <a href="@Url.Action("Index", new {category = "", page = "", paid = ""})" class="active item">
+                        Všechny nabídky
+                        <span class="w-body-float-right">@totalInternshipCount</span>
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", new {category = "", page = ""})" class="item">
+                        Všechny nabídky
+                        <span class="w-body-float-right">@totalInternshipCount</span>
+                    </a>
+                }
+                @foreach (var category in Model.InternshipCategories)
+                {
+                    var routeObj = new { category = category.CodeName, paid = paidVal, search = searchVal, city = cityVal, length = lengthVal, order = orderVal };
 
-        <div class="four wide computer only column">
+                    if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
+                    {
+
+                        <a href="@Url.Action("Index", routeObj)" class="active item">
+                            @category.CategoryName
+                            <span class="w-font-bold w-body-float-right">@category.InternshipCount</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", routeObj)" class="item">
+                            @category.CategoryName
+                            <span class="w-body-float-right">@category.InternshipCount</span>
+                        </a>
+                    }
+                }
+            </div>
+    </div>*@
+
+                @*<div class="four wide computer only column">
             <div class="ui padded segment">
-                <div class="ui secondary vertical pointing menu w-internship-category-menu ">
+                   <div class="ui secondary vertical pointing menu w-internship-category-menu ">
                     @if (string.IsNullOrEmpty(currentCategory))
                     {
                         <a href="@Url.Action("Index", new {category = "", page = "", paid = ""})" class="active item">
@@ -162,8 +201,8 @@
                     }
                 </div>
             </div>
-        </div>
-        <div class="sixteen wide mobile sixteen wide tablet twelve wide computer column">
+        </div>*@
+        @*<div class="sixteen wide mobile sixteen wide tablet twelve wide computer column">
             <div class="ui padded segment">
                 @if (!Model.Internships.Any())
                 {
@@ -216,7 +255,7 @@
                                                 <i class="globe icon"></i>@(string.Join(", ", internship.RequiredLanguages.Select(m => m.LanguageName)))
                                             </div>
                                         }
-                                        <a class="ui right floated primary button" href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName})">
+                                        <a class="ui right floated primary button" href="@Url.Action("Index", "Internship", new {id = internship.ID, codeName = internship.CodeName})">
                                             Detail
                                             <i class="right chevron icon"></i>
                                         </a>
@@ -229,7 +268,7 @@
                     @Helpers.PagerHelper.GetPager(Model.Internships)
                 }
             </div>
-        </div>
+        </div>*@
     </div>
 }
 
