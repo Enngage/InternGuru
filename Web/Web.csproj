@@ -2614,6 +2614,7 @@
     <Content Include="Views\Shared\Social\_OuterMenu.cshtml" />
     <Content Include="Stylesheets\partials\_hr.scss" />
     <Content Include="Stylesheets\partials\_button.scss" />
+    <Content Include="NodeJS\semantic.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

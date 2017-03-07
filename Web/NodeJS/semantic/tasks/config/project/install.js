@@ -310,7 +310,7 @@ module.exports = {
       {
         type    : 'input',
         name    : 'semanticRoot',
-        message : 'Where should we put Semantic Helpers inside your project?',
+        message : 'Where should we put Semantic UI inside your project?',
         default : 'semantic/'
       }
     ],
@@ -335,7 +335,7 @@ module.exports = {
       {
         type: 'list',
         name: 'install',
-        message: 'Set-up Semantic Helpers',
+        message: 'Set-up Semantic UI',
         when: when.allowOverwrite,
         choices: [
           {
@@ -457,7 +457,7 @@ module.exports = {
       {
         type: 'input',
         name: 'dist',
-        message: 'Where should we output Semantic Helpers?',
+        message: 'Where should we output Semantic UI?',
         default: defaults.paths.output.packaged,
         filter: filter.removeTrailingSlash,
         when: when.express

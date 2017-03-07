@@ -179,7 +179,7 @@ module.exports = function(callback) {
           .pipe(flatten())
           .pipe(jsonEditor(function(bower) {
             bower.name = packageName;
-            bower.description = capitalizedComponent + ' - Semantic Helpers';
+            bower.description = capitalizedComponent + ' - Semantic UI';
             if(isJavascript) {
               if(isCSS) {
                 bower.main = [
@@ -223,7 +223,7 @@ module.exports = function(callback) {
             if(version) {
               npm.version = version;
             }
-            npm.title       = 'Semantic Helpers - ' + capitalizedComponent;
+            npm.title       = 'Semantic UI - ' + capitalizedComponent;
             npm.description = 'Single component release of ' + component;
             npm.repository  = {
               type : 'git',

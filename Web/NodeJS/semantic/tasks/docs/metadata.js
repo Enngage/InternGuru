@@ -72,12 +72,12 @@ function parser(file, callback) {
       active    = false,
       yaml      = [],
       categories = [
-        'Helpers Element',
-        'Helpers Global',
-        'Helpers Collection',
-        'Helpers View',
-        'Helpers Module',
-        'Helpers Behavior'
+        'UI Element',
+        'UI Global',
+        'UI Collection',
+        'UI View',
+        'UI Module',
+        'UI Behavior'
       ],
       index,
       meta,

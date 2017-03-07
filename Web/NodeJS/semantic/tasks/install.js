@@ -34,7 +34,7 @@ var
   rename         = require('gulp-rename'),
   replace        = require('gulp-replace'),
   requireDotFile = require('require-dot-file'),
-  wrench         = require('wrench'),
+  wrench         = require('wrench-sui'),
 
   // install config
   install        = require('./config/project/install'),
@@ -106,7 +106,7 @@ if(currentConfig && manager.name === 'NPM') {
 
     // perform update if new version
     if(currentConfig.version !== release.version) {
-      console.log('Updating Semantic Helpers from ' + currentConfig.version + ' to ' + release.version);
+      console.log('Updating Semantic UI from ' + currentConfig.version + ' to ' + release.version);
 
       console.info('Updating ui definitions...');
       wrench.copyDirSyncRecursive(source.definitions, updatePaths.definition, settings.wrench.overwrite);
@@ -151,7 +151,7 @@ if(currentConfig && manager.name === 'NPM') {
       return;
     }
     else {
-      console.log('Current version of Semantic Helpers already installed');
+      console.log('Current version of Semantic UI already installed');
       return;
     }
 
@@ -194,8 +194,10 @@ gulp.task('run setup', function() {
   // If auto-install is switched on, we skip the configuration section and simply reuse the configuration from semantic.json
   if(install.shouldAutoInstall()) {
     answers = {
-      overwrite : 'yes',
-      install   : 'auto',
+      overwrite    : 'yes',
+      install      : 'auto',
+      useRoot      : true,
+      semanticRoot : currentConfig.base
     };
   }
   else {
@@ -248,7 +250,7 @@ gulp.task('create install files', function(callback) {
   ---------------*/
 
   // Check if PM install
-  if(answers.useRoot || answers.customRoot) {
+  if(manager && (answers.useRoot || answers.customRoot)) {
 
     // Set root to custom root path if set
     if(answers.customRoot) {
@@ -296,10 +298,10 @@ gulp.task('create install files', function(callback) {
 
     console.log('Installing to \x1b[92m' + answers.semanticRoot + '\x1b[0m');
 
-    console.info('Copying Helpers definitions');
+    console.info('Copying UI definitions');
     wrench.copyDirSyncRecursive(source.definitions, installPaths.definition, settings.wrench.overwrite);
 
-    console.info('Copying Helpers themes');
+    console.info('Copying UI themes');
     wrench.copyDirSyncRecursive(source.themes, installPaths.theme, settings.wrench.merge);
     wrench.copyDirSyncRecursive(source.defaultTheme, installPaths.defaultTheme, settings.wrench.overwrite);
 
@@ -385,7 +387,7 @@ gulp.task('create install files', function(callback) {
     ;
 
     // adjust variables in theme.less
-    if( fs.existsSync(files.config) ) {
+    if( fs.existsSync(installPaths.config) ) {
       console.info('Extending config file (semantic.json)', installPaths.config);
       return gulp.src(installPaths.config)
         .pipe(plumber())
@@ -417,7 +419,7 @@ gulp.task('create install files', function(callback) {
 gulp.task('clean up install', function() {
 
   // Completion Message
-  if(installFolder) {
+  if(installFolder && !install.shouldAutoInstall()) {
     console.log('\n Setup Complete! \n Installing Peer Dependencies. \x1b[0;31mPlease refrain from ctrl + c\x1b[0m... \n After completion navigate to \x1b[92m' + answers.semanticRoot + '\x1b[0m and run "\x1b[92mgulp build\x1b[0m" to build');
     process.exit(0);
   }

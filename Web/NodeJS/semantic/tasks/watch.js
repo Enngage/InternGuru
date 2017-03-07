@@ -15,7 +15,7 @@ var
   clone        = require('gulp-clone'),
   gulpif       = require('gulp-if'),
   less         = require('gulp-less'),
-  minifyCSS    = require('gulp-minify-css'),
+  minifyCSS    = require('gulp-clean-css'),
   plumber      = require('gulp-plumber'),
   print        = require('gulp-print'),
   rename       = require('gulp-rename'),
@@ -112,7 +112,7 @@ module.exports = function(callback) {
       isDefinition    = (file.path.indexOf(source.definitions) !== -1);
 
       if(isConfig) {
-        console.info('Rebuilding all Helpers');
+        console.info('Rebuilding all UI');
         // impossible to tell which file was updated in theme.config, rebuild all
         gulp.start('build-css');
         return;
@@ -179,7 +179,7 @@ module.exports = function(callback) {
         ;
       }
       else {
-        console.log('Cannot find Helpers definition at path', lessPath);
+        console.log('Cannot find UI definition at path', lessPath);
       }
     })
   ;

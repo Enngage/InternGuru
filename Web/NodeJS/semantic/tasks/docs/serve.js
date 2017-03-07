@@ -15,7 +15,7 @@ var
   gulpif       = require('gulp-if'),
   header       = require('gulp-header'),
   less         = require('gulp-less'),
-  minifyCSS    = require('gulp-minify-css'),
+  minifyCSS    = require('gulp-clean-css'),
   plumber      = require('gulp-plumber'),
   print        = require('gulp-print'),
   rename       = require('gulp-rename'),
@@ -203,7 +203,7 @@ module.exports = function () {
 
       }
       else {
-        console.log('Cannot find Helpers definition at path', lessPath);
+        console.log('Cannot find UI definition at path', lessPath);
       }
     })
   ;

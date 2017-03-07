@@ -89,7 +89,7 @@ module.exports = function(callback) {
       commitOptions   = { args: commitArgs, cwd: outputDirectory },
       releaseOptions  = { tag_name: version, owner: release.org, repo: repoName },
 
-      fileModeOptions = { args : 'config Service.fileMode false', cwd: outputDirectory },
+      fileModeOptions = { args : 'config core.fileMode false', cwd: outputDirectory },
       usernameOptions = { args : 'config user.name "' + oAuth.name + '"', cwd: outputDirectory },
       emailOptions    = { args : 'config user.email "' + oAuth.email + '"', cwd: outputDirectory },
       versionOptions =  { args : 'rev-parse --verify HEAD', cwd: outputDirectory },
@@ -156,7 +156,7 @@ module.exports = function(callback) {
       if(version) {
         releaseOptions.target_commitish = version;
       }
-      github.releases.createRelease(releaseOptions, function() {
+      github.repos.createRelease(releaseOptions, function() {
         nextRepo();
       });
     }
