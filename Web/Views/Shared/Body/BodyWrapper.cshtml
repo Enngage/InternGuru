@@ -21,13 +21,13 @@ else if (Model.Layout.Type == LayoutTypeEnum.DarkContainer)
 }
 else if (Model.Layout.Type == LayoutTypeEnum.Light)
 {
-    <div>
+    <div class="w-body-light">
         @RenderBody()
     </div>
 }
 else if (Model.Layout.Type == LayoutTypeEnum.LightContainer)
 {
-    <div class="w-body-padded">
+    <div class="w-body-light w-body-padded">
         <div class="ui container">
             @RenderBody()
         </div>

@@ -2612,6 +2612,8 @@
     <Content Include="Stylesheets\partials\_item.scss" />
     <Content Include="Views\Modules\PagedList\PagedList.cshtml" />
     <Content Include="Views\Shared\Social\_OuterMenu.cshtml" />
+    <Content Include="Stylesheets\partials\_hr.scss" />
+    <Content Include="Stylesheets\partials\_button.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

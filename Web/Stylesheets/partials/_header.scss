@@ -5,7 +5,8 @@
     .w-header .w-header-subtext {
         font-size: $font-size-large;
         display: block;
-        font-weight: normal;
+        font-weight: 300;
+        opacity: 0.8;
     }
 
     .w-header .w-header-button {
@@ -72,8 +73,18 @@
         color: #FFFFFF;
 
         h1 {
-            font-size: $font-size-huge;
+            font-family: 'Open Sans', 'Helvetica', 'Arial';
+            font-weight: 300;
+            font-size: $font-size-header-title;
         }
+    }
+
+    .w-header-colored.primary {
+        background-color: $primary-color;
+    }
+
+      .w-header-colored.secondary {
+        background-color: $secondary-color;
     }
 
     .w-header-colored.blue {
@@ -114,8 +125,7 @@
         /* IMPORTANT */
         /*background-image: url("/content/images//teaser.jpg");*/ /* Url of backround image needs to be configured in UIHeader*/
         h1 {
-            font-family: "Rozha One",serif;
-            font-size: 45px;
+            font-size: $font-size-header-title;
             font-weight: bold;
             line-height: 50px;
             padding: 0 0 10px;
