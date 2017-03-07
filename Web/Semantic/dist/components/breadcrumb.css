@@ -1,5 +1,5 @@
 /*!
- * # Semantic UI 2.2.2 - Breadcrumb
+ * # Semantic UI 2.2.9 - Breadcrumb
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -44,10 +44,10 @@
 
 /* Link */
 .ui.breadcrumb a {
-  color: #2185d0;
+  color: #4183C4;
 }
 .ui.breadcrumb a:hover {
-  color: #0874c5;
+  color: #1e70bf;
 }
 
 /* Icon Divider */
@@ -110,6 +110,12 @@
 .ui.massive.breadcrumb {
   font-size: 1.71428571rem;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

@@ -1,5 +1,5 @@
 /*!
- * # Semantic UI 2.2.2 - Segment
+ * # Semantic UI 2.2.9 - Segment
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -215,6 +215,13 @@
   padding: 3em;
 }
 
+/* Padded vertical */
+.ui.padded.segment.vertical.segment,
+.ui[class*="very padded"].vertical.segment {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 /*-------------------
        Compact
 --------------------*/
@@ -405,7 +412,7 @@
 .ui.loading.segment {
   position: relative;
   cursor: default;
-  point-events: none;
+  pointer-events: none;
   text-shadow: none !important;
   color: transparent !important;
   -webkit-transition: all 0s linear;
@@ -658,7 +665,7 @@
 
 /* Nested */
 .ui.inverted.segment .segment {
-  color: #353535;
+  color: rgba(0, 0, 0, 0.87);
 }
 .ui.inverted.segment .inverted.segment {
   color: rgba(255, 255, 255, 0.9);
@@ -777,6 +784,12 @@
 .ui.massive.segment {
   font-size: 1.71428571rem;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

@@ -87,7 +87,7 @@
   background: none;
   padding: 0.92857143em 1.14285714em;
   text-transform: none;
-  color: #353535;
+  color: rgba(0, 0, 0, 0.87);
   font-weight: normal;
   -webkit-transition: background 0.1s ease, box-shadow 0.1s ease, color 0.1s ease;
   transition: background 0.1s ease, box-shadow 0.1s ease, color 0.1s ease;
@@ -204,17 +204,6 @@
 }
 
 /*--------------
-     Popup
----------------*/
-
-.ui.menu .ui.popup {
-  display: none;
-}
-.ui.menu .ui.visible.popup {
-  display: block;
-}
-
-/*--------------
     Dropdowns
 ---------------*/
 
@@ -247,7 +236,7 @@
   font-size: 1em !important;
   padding: 0.78571429em 1.14285714em !important;
   background: transparent !important;
-  color: #353535 !important;
+  color: rgba(0, 0, 0, 0.87) !important;
   text-transform: none !important;
   font-weight: normal !important;
   box-shadow: none !important;
@@ -302,12 +291,17 @@
   margin-left: 1em;
 }
 .ui.vertical.menu .dropdown.item .menu {
-  top: 0% !important;
   left: 100%;
   min-width: 0;
   margin: 0em 0em 0em 0em;
   box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.08);
   border-radius: 0em 0.28571429rem 0.28571429rem 0.28571429rem;
+}
+.ui.vertical.menu .dropdown.item.upward .menu {
+  bottom: 0;
+}
+.ui.vertical.menu .dropdown.item:not(.upward) .menu {
+  top: 0;
 }
 .ui.vertical.menu .active.dropdown.item {
   border-top-right-radius: 0em;
@@ -624,7 +618,7 @@ Floated Menu / Item
   border-right: 1px solid transparent;
   border-top: 2px solid transparent;
   padding: 0.92857143em 1.42857143em;
-  color: #353535;
+  color: rgba(0, 0, 0, 0.87);
 }
 .ui.tabular.menu .item:before {
   display: none;
@@ -795,6 +789,7 @@ Floated Menu / Item
 /* Item */
 .ui.secondary.menu .item {
   -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
       align-self: center;
   box-shadow: none;
   border: none;
@@ -944,7 +939,7 @@ Floated Menu / Item
 .ui.secondary.pointing.menu .link.item:hover,
 .ui.secondary.pointing.menu a.item:hover {
   background-color: transparent;
-  color: #353535;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 /* Pressed */
@@ -1038,6 +1033,7 @@ Floated Menu / Item
   border-radius: 0px;
   box-shadow: none;
   -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
       align-self: center;
   margin: 0em 0em;
   padding: 0.35714286em 0.5em;
@@ -1992,6 +1988,12 @@ Floated Menu / Item
 .ui.massive.vertical.menu {
   width: 25rem;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

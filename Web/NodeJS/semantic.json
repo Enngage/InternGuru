@@ -8,12 +8,12 @@
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "../Semantic/dist/",
-      "uncompressed": "../Semantic/dist/components/",
-      "compressed": "../Semantic/dist/components/",
-      "themes": "../Semanti/cdist/themes/"
+      "packaged": "../../Semantic/dist/",
+      "uncompressed": "../../Semantic/dist/components/",
+      "compressed": "../../Semantic/dist/components/",
+      "themes": "../../Semantic/dist/themes/"
     },
-    "clean": "../Semantic/dist/"
+    "clean": "../../Semantic/dist/"
   },
   "permission": false,
   "autoInstall": false,

@@ -1,5 +1,5 @@
 /*!
- * # Semantic UI 2.2.2 - Popup
+ * # Semantic UI 2.2.9 - Popup
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -88,7 +88,9 @@ $.fn.popup = function(parameters) {
           if(!module.exists() && settings.preserve) {
             module.create();
           }
-          module.observeChanges();
+          if(settings.observeChanges) {
+            module.observeChanges();
+          }
           module.instantiate();
         },
 
@@ -1397,7 +1399,7 @@ $.fn.popup.settings = {
     invalidPosition : 'The position you specified is not a valid position',
     cannotPlace     : 'Popup does not fit within the boundaries of the viewport',
     method          : 'The method you called is not defined.',
-    noTransition    : 'This module requires ui transitions <https://github.com/Semantic-Org/Helpers-Transition>',
+    noTransition    : 'This module requires ui transitions <https://github.com/Semantic-Org/UI-Transition>',
     notFound        : 'The target or popup you specified does not exist on the page'
   },
 
