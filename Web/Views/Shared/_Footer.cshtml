@@ -1,31 +1,34 @@
 ﻿@using Core.Config;
 @using Core.Project;
+
 <div class="ui inverted vertical segment w-footer">
-    <div class="ui center aligned container">
+    <div class="ui left aligned container">
         <div class="ui stackable inverted grid w-margin-top-10">
             <div class="four wide column">
-                <h4 class="ui inverted header">Pro firmy</h4>
-                <div class="ui inverted link list">
+                <h4 class="w-footer-header">Pro firmy</h4>
+                <div class="ui list w-footer-list">
                     <a href="@Url.Action("Info", "Home")" class="item">Jak to funguje?</a>
                     <a href="@Url.Action("RegisterCompany", "AuthCompany")" class="item">Registrovat firmu</a>
                     <a href="@Url.Action("Pricing", "Home")" class="item">Ceník</a>
                 </div>
             </div>
             <div class="four wide column">
-                <h4 class="ui inverted header">Pro zájemce</h4>
-                <div class="ui inverted link list">
+                <h4 class="w-footer-header">Pro zájemce</h4>
+                <div class="ui list w-footer-list">
                     <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
                     <a href="@Url.Action("Index", "Theses")" class="item">Nabídka závěrečných prací</a>
                     <a href="@Url.Action("Index", "Companies")" class="item">Najdi si firmu</a>
                 </div>
             </div>
             <div class="eight wide column">
-                <h4 class="ui inverted header">Podpořte nás</h4>
-                <p class="w-font-size-footer-social-icons">
-                    <a href="@AppConfig.FacebookAppUrl" target="_blank">
-                        <i class="facebook square icon"></i>Facebook
-                    </a>
-                </p>
+                <h4 class="w-footer-header">Podpoř nás</h4>
+                <ul class="w-social-ul">
+                    <li class="facebook">
+                        <a href="@AppConfig.FacebookAppUrl" target="_blank">
+                            <i class="facebook f icon"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="ui inverted section divider w-margin-none w-margin-top-30"></div>

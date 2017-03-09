@@ -1,6 +1,7 @@
 ﻿@using UI.Builders.Auth.Enum
 @using UI.Builders.Master.Enums
 @using UI.Builders.Shared.Enums
+@using UI.Modules.Header
 @using UI.Modules.InfoMessage.Enums
 @using UI.Modules.InfoMessage.Views
 @model UI.Builders.Auth.Views.AuthMasterView
@@ -8,7 +9,13 @@
     Model.Layout.Type = LayoutTypeEnum.Dark;
     Layout = Model.Layout.Path;
 
-    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, Model.Metadata.BasicMetadata.Title, "/content/images/contact-us-hero.jpg");
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        Type = UiHeaderTypeEnum.BackgroundImage,
+        ImagePath = "/content/images/contact-us-hero.jpg",
+        Size = UIHeaderSizeEnum.Medium
+    };
 
     // main menu is always enabled
     Model.Tabs.MainMenu.Display = true;

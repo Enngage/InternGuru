@@ -15,33 +15,23 @@ namespace UI.Builders.Internship.Views
         {
             new InternshipOrderFilterModel()
             {
-                DisplayName = "Nejnovější",
+                DisplayName = "Od nejnovějších",
                 Filter = InternshipOrderFilterEnum.Newest
             },
             new InternshipOrderFilterModel()
             {
-                DisplayName = "Nejstarší",
+                DisplayName = "Od nejstarších",
                 Filter = InternshipOrderFilterEnum.Oldest
             },
             new InternshipOrderFilterModel()
             {
-                DisplayName = "Nejdelší",
+                DisplayName = "Od nejdelších",
                 Filter = InternshipOrderFilterEnum.Longest
             },
             new InternshipOrderFilterModel()
             {
-                DisplayName = "Nejkratší",
+                DisplayName = "Od nejkratších",
                 Filter = InternshipOrderFilterEnum.Shortest
-            },
-            new InternshipOrderFilterModel()
-            {
-                DisplayName = "Nejbližší nástup",
-                Filter = InternshipOrderFilterEnum.ClosestStart
-            },
-            new InternshipOrderFilterModel()
-            {
-                DisplayName = "Nejvzdálenější nástup",
-                Filter = InternshipOrderFilterEnum.OutermostStart
             },
         };
 

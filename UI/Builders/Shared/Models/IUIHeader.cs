@@ -13,97 +13,48 @@ namespace UI.Builders.Shared.Models
         /// <summary>
         /// Type of the header
         /// </summary>
-        UiHeaderTypeEnum Type { get; }
+        UiHeaderTypeEnum Type { get; set; }
 
         /// <summary>
         /// Size of the header
         /// </summary>
-        UIHeaderSizeEnum Size { get; }
+        UIHeaderSizeEnum Size { get; set; }
 
         /// <summary>
         /// Color of the header (if applicable)
         /// Name of the enum represents class name of the color in _header.css
         /// </summary>
-        UIHeaderColorEnum Color { get; }
+        UIHeaderColorEnum Color { get; set; }
 
         /// <summary>
         /// Text alignment
         /// </summary>
-        UIHeaderTextAlignmentEnum TextAlignment { get; }
+        UIHeaderTextAlignmentEnum TextAlignment { get; set; }
 
         /// <summary>
         /// Title of the header
         /// </summary>
-        string Title { get; }
+        string Title { get; set; }
 
         /// <summary>
         /// Text of the header (if applicable)
         /// </summary>
-        string Text { get; }
+        string SubText { get; set; }
 
         /// <summary>
         /// Path to image when Headers with Type = BackGroundImage
         /// Example: /content/images//teaser.jpg
         /// </summary>
-        string ImagePath { get; }
+        string ImagePath { get; set; }
 
         /// <summary>
         /// Buttons
         /// </summary>
-        IList<UIHeaderButton> Buttons { get; }
+        IList<UIHeaderButton> Buttons { get; set; }
 
         /// <summary>
         /// If true, a button with scroll functionality will be included
         /// </summary>
-        bool UseScrollButton { get; set; }
-
-        /// <summary>
-        /// Sets text-alignment
-        /// </summary>
-        /// <param name="textAlignment">Text alignment</param>
-        void SetTextAlignment(UIHeaderTextAlignmentEnum textAlignment);
-
-        /// <summary>
-        /// Adds button to header
-        /// </summary>
-        /// <param name="text">Button text</param>
-        /// <param name="url">Url of button</param>
-        /// <param name="type">Type of button</param>
-        void AddButton(string text, string url, UIHeaderButtonTypeEnum type);
-
-        /// <summary>
-        /// Sets header using background image
-        /// </summary>
-        /// <param name="size">Size of the header</param>
-        /// <param name="title">Title</param>
-        /// <param name="imagePath">Example: /content/images//teaser.jpg</param>
-        void UseBackgroundImage(UIHeaderSizeEnum size, string title, string imagePath);
-
-        /// <summary>
-        /// Sets header using background image
-        /// </summary>
-        /// <param name="size">Size of the header</param>
-        /// <param name="title">Title</param>
-        /// <param name="imagePath">Example: /content/images//teaser.jpg</param>
-        /// <param name="text">Text</param>
-        void UseBackgroundImage(UIHeaderSizeEnum size, string title, string imagePath, string text);
-
-        /// <summary>
-        /// Sets header using colored background
-        /// </summary>
-        /// <param name="size">Size of the header</param>
-        /// <param name="color">Color of header</param>
-        /// <param name="title">Title</param>
-        void UseColoredHeader(UIHeaderSizeEnum size, UIHeaderColorEnum color, string title);
-
-
-        /// <summary>
-        /// Sets header
-        /// </summary>
-        /// <param name="size">Size of the header</param>
-        /// <param name="color">Color of header</param>
-        /// <param name="title">Title</param>
-        /// <param name="text">Text</param>
-        void UseColoredHeader(UIHeaderSizeEnum size, UIHeaderColorEnum color, string title, string text);
+        bool ShowScrollButton { get; set; }
     }
 }

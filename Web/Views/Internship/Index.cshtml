@@ -4,12 +4,21 @@
 @using UI.Modules.CompanyGallery.Models
 @using UI.Modules.CompanyGallery.Views
 @using UI.Modules.GoogleMaps.Views
+@using UI.Modules.Header
 @{
     Model.Metadata.BasicMetadata.Title = $"{Model.Internship.Title} | Stáž";
     Model.Metadata.BasicMetadata.Description = Model.Internship.Description;
     Model.Metadata.Social.GoogleMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid);
     Model.Metadata.Social.OpenGraphMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid);
-    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, null, Helpers.ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid));
+
+    Model.Header = new UiHeader()
+    {
+        Title = null,
+        Type = UiHeaderTypeEnum.BackgroundImage,
+        ImagePath = Helpers.ImageHelper.GetCompanyBanner(Model.Internship.Company.CompanyGuid),
+        Size = UIHeaderSizeEnum.Medium
+    };
+
     Model.Metadata.Social.OpenGraphMetadata.ShowShareButton = true;
     Layout = "~/Views/Shared/Body/Dark.cshtml";
 

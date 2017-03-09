@@ -43,7 +43,7 @@ namespace UI.Builders.Internship
 
         public async Task<InternshipBrowseView> BuildBrowseViewAsync(int? page, string category, string search, string city, InternshipPaidFilterEnum paid, InternshipLengthFilterEnum length, InternshipOrderFilterEnum order)
         {
-            var pageSize = 30;
+            var pageSize = 10;
             var pageNumber = (page ?? 1);
             var isSearchQuery = !string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(city);
 

@@ -18,11 +18,11 @@
     }
 
     .w-header-buttons{
-        margin-top: 70px;
+        margin-top: 33px;
 
         .w-header-button{
             display: inline;
-            margin: 0 10px;
+            margin: 0 10px 0 0;
         }
     }
 
@@ -72,7 +72,7 @@
         display: block;
         color: #FFFFFF;
 
-        h1 {
+        .w-header-title {
             font-weight: 300;
             font-size: $font-size-header-title;
         }
@@ -80,10 +80,12 @@
 
     .w-header-colored.primary {
         background-color: $primary-color;
+        color: $primary-color-text;
     }
 
       .w-header-colored.secondary {
         background-color: $secondary-color;
+        color: $secondary-color-text;
     }
 
     .w-header-colored.blue {
@@ -98,8 +100,14 @@
         background-color: #852fc4;
     }
 
-    .w-header-colored.darkblack {
+    .w-header-colored.medium {
+        background-color: #e1e1e1;
+        color: #192023;
+    }
+
+    .w-header-colored.dark {
         background-color: #192023;
+        color: #ffffff;
     }
     /* BACKGROUND IMAGE HEADER */
     .w-header-size.large.w-header-background-image {
@@ -123,7 +131,7 @@
         color: #FFF;
         /* IMPORTANT */
         /*background-image: url("/content/images//teaser.jpg");*/ /* Url of backround image needs to be configured in UIHeader*/
-        h1 {
+        .w-header-title {
             font-weight: 300;
             font-size: $font-size-header-title;
             line-height: 50px;

@@ -1,37 +1,45 @@
 ﻿@using UI.Builders.Shared.Enums
-@using UI.Modules.Header
 
-@model UI.Builders.Master.Views.MasterView
+@model UI.Modules.Header.UiHeader
 
 @{
-    var header = Model?.Master?.UiHeader ?? new UiHeader();
     var baseHeaderClassName = "w-header";
-    var headerSizeClass = $"w-header-size {header.Size.ToString().ToLower()}";
-    var headerAlignmentClass = $"w-header-alignment {header.TextAlignment.ToString().ToLower()}";
+    var headerSizeClass = $"w-header-size {Model.Size.ToString().ToLower()}";
+    var headerAlignmentClass = $"w-header-alignment {Model.TextAlignment.ToString().ToLower()}";
 }
 
 @{
-    switch (header.Type)
+    switch (Model.Type)
     {
         case UiHeaderTypeEnum.Colored:
             {
-                var headerClassName = $"w-header-colored {header.Color.ToString().ToLower()} {headerSizeClass} {headerAlignmentClass} {baseHeaderClassName}";
-                <div id="_UIHeaderWrapper">
+                var headerClassName = $"w-header-colored {Model.Color.ToString().ToLower()} {headerSizeClass} {headerAlignmentClass} {baseHeaderClassName}";
+                <div>
                     <div class="@headerClassName">
                         <div class="ui container">
-                            <h1>
-                                @(header.Title)
-                            </h1>
-                            @if (!string.IsNullOrEmpty(header.Text))
+                            @if (Model.IsMainHeader)
+                            {
+                                <h1 class="w-header-title">
+                                    @(Model.Title)
+                                </h1>
+                            }
+                            else
+                            {
+                                <div class="w-header-title">
+                                    @(Model.Title)
+                                </div>
+                            }
+                          
+                            @if (!string.IsNullOrEmpty(Model.SubText))
                             {
                                 <span class="w-header-subtext">
-                                    @header.Text
+                                    @Model.SubText
                                 </span>
                             }
-                            @if (header.Buttons.Any())
+                            @if (Model.Buttons.Any())
                             {
                                 <div class="w-header-buttons">
-                                    @foreach (var button in header.Buttons)
+                                    @foreach (var button in Model.Buttons)
                                     {
                                         <div class="w-header-button">
                                             <a href="@button.ButtonUrl">
@@ -51,21 +59,21 @@
         case UiHeaderTypeEnum.BackgroundImage:
             {
                 <div id="_UIHeaderWrapper">
-                    <div class="w-header-background-image @(headerSizeClass) @(headerAlignmentClass) @(baseHeaderClassName)" style="background-image: url(@header.ImagePath)">
+                    <div class="w-header-background-image @(headerSizeClass) @(headerAlignmentClass) @(baseHeaderClassName)" style="background-image: url(@Model.ImagePath)">
                         <div class="ui container">
-                            @if (!string.IsNullOrEmpty(header.Title))
+                            @if (!string.IsNullOrEmpty(Model.Title))
                             {
                                 <h1>
-                                    @header.Title
+                                    @Model.Title
                                 </h1>
                             }
-                            @if (!string.IsNullOrEmpty(header.Text))
+                            @if (!string.IsNullOrEmpty(Model.SubText))
                             {
                                 <span class="w-header-subtext">
-                                    @header.Text
+                                    @Model.SubText
                                 </span>
                             }
-                            @if (header.UseScrollButton)
+                            @if (Model.ShowScrollButton)
                             {
                                 //Include script only when scroll button is used
                                 @Helpers.ScriptHelper.RequireScript("/scripts/views/modules/uiHeader")

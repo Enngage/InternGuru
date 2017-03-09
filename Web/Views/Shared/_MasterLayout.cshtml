@@ -30,7 +30,7 @@
 
     <main class="w-body-sticky-footer-main-content w-body-light">
         @* UI teaser ehader *@
-        @Html.Partial("~/Views/Modules/Header/Header.cshtml")
+        @Helpers.HeaderHelper.RenderHeader(Model.Header)
         @* Main body *@
         @RenderBody()
     </main>

@@ -1,10 +1,19 @@
 ﻿@model UI.Builders.Thesis.Views.ThesisBrowseView
 @using Core.Helpers;
 @using UI.Builders.Shared.Enums
+@using UI.Modules.Header
 @{
     Model.Metadata.BasicMetadata.Title = "Závěrečné práce";
     Model.Metadata.BasicMetadata.Description = "Najdi si závěrečnou práci (diplomová práce nebo bakalářská práce) z uvedené nabídky, získej odměnu za svou práci, nauč se něčemu nového a hlavně pracuj na něčem, co dává smysl.";
-    Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Inherit, UIHeaderColorEnum.Violet, Model.Metadata.BasicMetadata.Title);
+
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        Type = UiHeaderTypeEnum.Colored,
+        Color = UIHeaderColorEnum.Violet,
+        Size = UIHeaderSizeEnum.Inherit
+    };
+
     Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
 
     var currentCategory = Helpers.UrlHelper.GetRouteParam("category", string.Empty) ?? string.Empty;

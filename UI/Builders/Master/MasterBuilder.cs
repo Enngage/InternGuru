@@ -27,7 +27,6 @@ namespace UI.Builders.Master
                 CurrentUser = CurrentUser,
                 CurrentCompany = CurrentCompany,
                 StatusBox = StatusBox,
-                UiHeader = UiHeader
             };
         }
 

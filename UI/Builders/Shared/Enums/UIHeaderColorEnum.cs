@@ -9,6 +9,7 @@ namespace UI.Builders.Shared.Enums
         Blue,
         Violet,
         Green,
-        DarkBlack,
+        Dark,
+        Medium
     }
 }

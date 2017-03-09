@@ -293,9 +293,6 @@
 #w-body-wrapper .w-font-size-huge {
   font-size: 30px; }
 
-#w-body-wrapper .w-font-size-footer-social-icons {
-  font-size: inherit; }
-
 #w-body-wrapper .w-font-positive {
   color: #108f00; }
 
@@ -419,7 +416,19 @@
   float: left; }
 
 #w-body-wrapper .w-footer {
-  background-color: #232d32; }
+  font-size: 0.9em;
+  background-color: #000000;
+  color: #777; }
+  #w-body-wrapper .w-footer .w-footer-header {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 300; }
+  #w-body-wrapper .w-footer .w-footer-list .item {
+    margin-top: 5px;
+    color: #777; }
+  #w-body-wrapper .w-footer .w-footer-list .item:hover {
+    text-decoration: underline;
+    color: #9d9d9d; }
 
 #w-body-wrapper .w-segment-light {
   background-color: #ffffff; }
@@ -615,10 +624,10 @@
     margin-top: 30px;
     cursor: pointer; }
   #w-body-wrapper .w-header-buttons {
-    margin-top: 70px; }
+    margin-top: 33px; }
     #w-body-wrapper .w-header-buttons .w-header-button {
       display: inline;
-      margin: 0 10px; }
+      margin: 0 10px 0 0; }
   #w-body-wrapper .w-header-alignment.left {
     text-align: left; }
   #w-body-wrapper .w-header-alignment.center {
@@ -646,21 +655,27 @@
     padding: 50px 0;
     display: block;
     color: #FFFFFF; }
-    #w-body-wrapper .w-header-colored h1 {
+    #w-body-wrapper .w-header-colored .w-header-title {
       font-weight: 300;
       font-size: 41px; }
   #w-body-wrapper .w-header-colored.primary {
-    background-color: #2185d0; }
+    background-color: #2185d0;
+    color: #FFFFFF; }
   #w-body-wrapper .w-header-colored.secondary {
-    background-color: #FF5733; }
+    background-color: #FF5733;
+    color: #FFFFFF; }
   #w-body-wrapper .w-header-colored.blue {
     background-color: #4a6df7; }
   #w-body-wrapper .w-header-colored.green {
     background-color: #18a836; }
   #w-body-wrapper .w-header-colored.violet {
     background-color: #852fc4; }
-  #w-body-wrapper .w-header-colored.darkblack {
-    background-color: #192023; }
+  #w-body-wrapper .w-header-colored.medium {
+    background-color: #e1e1e1;
+    color: #192023; }
+  #w-body-wrapper .w-header-colored.dark {
+    background-color: #192023;
+    color: #ffffff; }
   #w-body-wrapper .w-header-size.large.w-header-background-image {
     padding-top: 160px; }
   #w-body-wrapper .w-header-size.medium.w-header-background-image {
@@ -677,7 +692,7 @@
     /* IMPORTANT */
     /*background-image: url("/content/images//teaser.jpg");*/
     /* Url of backround image needs to be configured in UIHeader*/ }
-    #w-body-wrapper .w-header-background-image h1 {
+    #w-body-wrapper .w-header-background-image .w-header-title {
       font-weight: 300;
       font-size: 41px;
       line-height: 50px;
@@ -751,4 +766,32 @@
   border: 0;
   height: 1px;
   margin: 22px 0; }
+
+#w-body-wrapper .w-social-ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+  #w-body-wrapper .w-social-ul li {
+    margin: 0;
+    display: inline-block;
+    text-align: center; }
+  #w-body-wrapper .w-social-ul li:hover {
+    color: #FFF; }
+  #w-body-wrapper .w-social-ul a {
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    background: #FFF;
+    display: block;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #333;
+    text-decoration: none; }
+  #w-body-wrapper .w-social-ul .facebook:hover a {
+    background: #3b5a9a;
+    color: #FFF; }
+  #w-body-wrapper .w-social-ul .icon {
+    margin: 0px; }
 

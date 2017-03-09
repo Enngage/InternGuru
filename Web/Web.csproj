@@ -339,6 +339,7 @@
     <Content Include="NodeJS\semantic\tasks\rtl\watch.js" />
     <Content Include="NodeJS\semantic\tasks\version.js" />
     <Content Include="NodeJS\semantic\tasks\watch.js" />
+    <Content Include="Readme.txt" />
     <Content Include="Scripts\addons\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\addons\ckeditor\build-config.js" />
     <Content Include="Scripts\addons\ckeditor\ckeditor.js" />
@@ -2720,6 +2721,7 @@
     <Content Include="Semantic\dist\themes\material\assets\fonts\icons.eot" />
     <Content Include="Semantic\dist\themes\material\assets\fonts\icons.ttf" />
     <Content Include="Semantic\dist\themes\material\assets\fonts\icons.woff" />
+    <Content Include="Stylesheets\partials\_social.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

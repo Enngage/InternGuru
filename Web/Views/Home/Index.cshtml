@@ -1,10 +1,18 @@
 ﻿@using UI.Builders.Shared.Enums
+@using UI.Modules.Header
 @model UI.Builders.Master.Views.MasterView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Stáže v IT a technologických firmách";
     Model.Metadata.BasicMetadata.Description = "Stáže v IT a technologických firmých. Přihlaš se a získat potřebnou praxi a zkušenosti";
-    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, "Stáže", "/content/images/teaser.jpg","v IT a technologických firmách");
+    Model.Header = new UiHeader()
+    {
+        Title = "Stáže",
+        SubText = "v IT a technologických firmách",
+        Type = UiHeaderTypeEnum.BackgroundImage,
+        ImagePath = "/content/images/teaser.jpg",
+        Size = UIHeaderSizeEnum.Medium
+    };
     Layout = "~/Views/Shared/Body/Light.cshtml";
 }
 

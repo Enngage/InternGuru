@@ -257,6 +257,7 @@
     <Compile Include="Extensions\NameValueExtensions.cs" />
     <Compile Include="Helpers\ActionHelper.cs" />
     <Compile Include="Helpers\BreadcrumbsHelper.cs" />
+    <Compile Include="Helpers\HeaderHelper.cs" />
     <Compile Include="Helpers\UploadHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\ModalHelper.cs" />

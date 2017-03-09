@@ -1,0 +1,42 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-social-ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            margin: 0;
+            display: inline-block;
+            text-align: center;
+        }
+
+        li:hover{
+            color: #FFF;
+        }
+
+        a {
+            -webkit-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+            background: #FFF;
+            display: block;
+            height: 30px;
+            width: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .facebook:hover a{
+            background: #3b5a9a;
+            color: #FFF;
+        }
+
+        .icon{
+            margin: 0px;
+        }
+    }
+}

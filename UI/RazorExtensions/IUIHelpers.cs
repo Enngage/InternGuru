@@ -21,5 +21,6 @@ namespace UI.RazorExtensions
         TextHelper TextHelper { get; }
         BreadcrumbsHelper BreadcrumbsHelper { get; }
         UploadHelper UploadHelper { get; }
+        HeaderHelper HeaderHelper { get; }
     }
 }

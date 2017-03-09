@@ -1,7 +1,25 @@
 ﻿@import "_base";
 
 #w-body-wrapper {
-    .w-footer{
+    .w-footer {
+        font-size: 0.9em;
         background-color: $footer-background-color;
+        color: $footer-text-color;
+
+        .w-footer-header {
+            color: $footer-header-color;
+            font-size: $font-size-footer-header;
+            font-weight: 300;
+        }
+
+        .w-footer-list .item {
+            margin-top: 5px;
+            color: $footer-text-color;
+        }
+
+        .w-footer-list .item:hover {
+            text-decoration: underline;
+            color: lighten( $footer-text-color, 15% ) 
+        }
     }
 }
