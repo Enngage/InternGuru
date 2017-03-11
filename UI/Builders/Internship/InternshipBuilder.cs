@@ -437,7 +437,8 @@ namespace UI.Builders.Internship
                     {
                         StudentStatusName = m.StudentStatusOption.StatusName,
                         IconClass = m.StudentStatusOption.IconClass
-                    }
+                    },
+                    ActiveSince = m.ActiveSince ?? DateTime.MinValue
                 });
 
 

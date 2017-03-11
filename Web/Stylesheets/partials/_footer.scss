@@ -1,6 +1,7 @@
 ﻿@import "_base";
 
 #w-body-wrapper {
+
     .w-footer {
         font-size: 0.9em;
         background-color: $footer-background-color;
@@ -19,7 +20,28 @@
 
         .w-footer-list .item:hover {
             text-decoration: underline;
-            color: lighten( $footer-text-color, 15% ) 
+            color: lighten( $footer-text-color, 15% )
+        }
+
+        .w-footer-list-horizontal {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                margin: 0 10px 0 0;
+                display: inline;
+                color: $footer-text-color;
+            }
+
+            li a {
+                color: $footer-text-color;
+            }
+
+            li a:hover {
+                text-decoration: underline;
+                color: lighten( $footer-text-color, 15% )
+            }
         }
     }
 }

@@ -45,6 +45,7 @@ namespace UI.Builders.Internship.Models
         public string Languages { get; set; }
         public int MinEducationTypeID { get; set; }
         public int StudentStatusOptionID { get; set; }
+        public DateTime ActiveSince { get; set; }
 
         // activity stats
         public InternshipActivityStats ActivityStats { get; set; }

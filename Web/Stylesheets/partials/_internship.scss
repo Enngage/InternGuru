@@ -1,50 +1,7 @@
 ﻿@import "_base";
 
 #w-body-wrapper {
-    .w-internship-category-menu {
-
-        .item.active {
-            border-right: solid 3px $secondary-color;
-        }
-    }
-
-    .w-internship-fixed-wrapper {
-        transition: all 0.5s ease;
-        width: 100%;
-        top: 48px !important; /* override the Top set by semantic-ui*/
-        @media (max-width: 767px) {
-            /* Fix top in mobile devices because the main top nav is missing*/
-            top: 0 !important; /* override the Top set by semantic-ui*/
-        }
-    }
-
-    .w-internship-fixed-wrapper.fixed .segment {
-        box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
-    }
-
-    .w-internship-detail-banner {
-        height: 247px;
-    }
-
-    .w-internship-menu-wrapper {
-        background-color: #ffffff;
-
-        h1 {
-            float: left;
-            margin-top: 8px;
-            margin-bottom: 0;
-        }
-
-        .w-internship-icon {
-            float: left;
-            margin-right: 10px;
-            margin-left: 0;
-            margin-top: 8px;
-        }
-
-        .w-internship-menu-right{
-            float: right;
-            margin-right: 0;
-        }
+    .w-internship-menu {
+        padding: 0;
     }
 }

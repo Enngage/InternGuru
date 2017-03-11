@@ -2306,7 +2306,6 @@
     <Content Include="Scripts\views\gallery\base.js" />
     <Content Include="Scripts\views\home\about.js" />
     <Content Include="Scripts\views\infoMessage\base.js" />
-    <Content Include="Scripts\views\internship\notFound.js" />
     <Content Include="Scripts\views\internship\browseInternships.js" />
     <Content Include="Scripts\views\internship\detail.js" />
     <Content Include="Scripts\views\modules\questionnaire\createEditQuestionnaire.js" />
@@ -2317,7 +2316,6 @@
     <Content Include="Scripts\views\system\eventLog.js" />
     <Content Include="Scripts\views\thesis\browseTheses.js" />
     <Content Include="Scripts\views\thesis\detail.js" />
-    <Content Include="Scripts\views\thesis\notFound.js" />
     <Content Include="Semantic\dist\components\accordion.css" />
     <Content Include="Semantic\dist\components\accordion.js" />
     <Content Include="Semantic\dist\components\accordion.min.css" />
@@ -2536,10 +2534,6 @@
     <Content Include="Views\Auth\AuthCompany\Partials\AddEditInternship.cshtml" />
     <Content Include="Stylesheets\partials\_generic.scss" />
     <Content Include="Stylesheets\partials\_color.scss" />
-    <Content Include="Views\Company\Tabs\About.cshtml" />
-    <Content Include="Views\Company\Tabs\Internships.cshtml" />
-    <Content Include="Views\Company\Tabs\Contact.cshtml" />
-    <Content Include="Views\Company\Tabs\Theses.cshtml" />
     <Content Include="Views\Form\Internship.cshtml" />
     <Content Include="Views\Internship\Index.cshtml" />
     <Content Include="Views\Auth\AuthCompany\Partials\AddEditThesis.cshtml" />
@@ -2606,7 +2600,7 @@
     <Content Include="Views\Modules\PagedList\PagedList.cshtml" />
     <Content Include="Views\Shared\Social\_OuterMenu.cshtml" />
     <Content Include="Stylesheets\partials\_hr.scss" />
-    <Content Include="Stylesheets\partials\_button.scss" />
+    <Content Include="Stylesheets\partials\_list.scss" />
     <Content Include="NodeJS\semantic.json" />
     <Content Include="NodeJS\semantic\src\themes\enngage\assets\fonts\icons.eot" />
     <Content Include="NodeJS\semantic\src\themes\enngage\assets\fonts\icons.ttf" />
@@ -2722,6 +2716,9 @@
     <Content Include="Semantic\dist\themes\material\assets\fonts\icons.ttf" />
     <Content Include="Semantic\dist\themes\material\assets\fonts\icons.woff" />
     <Content Include="Stylesheets\partials\_social.scss" />
+    <Content Include="Stylesheets\partials\_section.scss" />
+    <Content Include="Stylesheets\partials\_icon.scss" />
+    <Content Include="Stylesheets\partials\_feature.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

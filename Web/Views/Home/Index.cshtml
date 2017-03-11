@@ -1,4 +1,5 @@
-﻿@using UI.Builders.Shared.Enums
+﻿@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
 @using UI.Modules.Header
 @model UI.Builders.Master.Views.MasterView
 
@@ -11,9 +12,11 @@
         SubText = "v IT a technologických firmách",
         Type = UiHeaderTypeEnum.BackgroundImage,
         ImagePath = "/content/images/teaser.jpg",
-        Size = UIHeaderSizeEnum.Medium
+        Size = UIHeaderSizeEnum.Normal
     };
-    Layout = "~/Views/Shared/Body/Light.cshtml";
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 }
 
 

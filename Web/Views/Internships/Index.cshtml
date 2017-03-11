@@ -13,7 +13,7 @@
         Type = UiHeaderTypeEnum.Colored,
         Size = UIHeaderSizeEnum.Inherit,
         Title = Model.Metadata.BasicMetadata.Title,
-        SubText = "Najdi stáž právě pro Tebe.",
+        SubText = "Získej cennou praxi a třeba i práci.",
         Color = UIHeaderColorEnum.Primary
     };
 
@@ -28,8 +28,6 @@
     var paidVal = Helpers.UrlHelper.GetQueryString("paid", string.Empty);
     var lengthVal = Helpers.UrlHelper.GetQueryString("length", string.Empty);
     var orderVal = Helpers.UrlHelper.GetQueryString("order", string.Empty);
-
-    bool showFilter = !string.IsNullOrEmpty(cityVal) || !string.IsNullOrEmpty(paidVal) || !string.IsNullOrEmpty(lengthVal) || !string.IsNullOrEmpty(searchVal);
 
     var totalInternshipCount = Model.InternshipCategories.Sum(m => m.InternshipCount);
 }
@@ -79,6 +77,9 @@
                         </div>
                     }
                 </div>
+                
+                @Helpers.PagerHelper.GetPager(Model.Internships)
+
             </div>
             <div class="sixteen wide mobile sixteen wide tablet five wide computer column">
                 <div class="ui secondary very padded segment">
@@ -168,226 +169,6 @@
                     </div>
                 </div>
             </div>
-
-            @*<div class="sixteen wide mobile sixteen wide tablet three wide computer column w-body-text-right">
-                    @if (showFilter)
-                    {
-                        <a class="ui label blue _ShowFilterButton" href="#">Zobrazit filtr</a>
-                    }
-                    else
-                    {
-                        <a class="ui label _ShowFilterButton" href="#">Zobrazit filtr</a>
-                    }
-                </div>*@
-
-            @*<div id="_FilterWrapper" class="sixteen wide column @filterInitClass">
-                    <div class="ui segment padded">
-                        <div class="ui grid">
-                            <div class="sixteen wide mobile eight wide tablet eight wide computer column">
-                                <div class="ui search _InternshipTitleAutocomplete">
-                                    <div class="ui fluid icon input">
-                                        <input class="prompt" name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
-                                        <i class="search icon"></i>
-                                    </div>
-                                    <div class="results"></div>
-                                </div>
-                            </div>
-                            <div class="sixteen wide mobile eight wide tablet eight wide computer column">
-                                <div class="ui search _CitiesAutocomplete">
-                                    <div class="ui fluid icon input">
-                                        <input class="prompt" name="city" placeholder="Město" type="text" value="@cityVal" autocomplete="off">
-                                        <i class="world icon"></i>
-                                    </div>
-                                    <div class="results"></div>
-                                </div>
-                            </div>
-                            <div class="sixteen wide mobile eight wide tablet eight wide computer column">
-                                <select name="length" class="ui fluid dropdown _LengthDropdown">
-                                    <option value="">Délka stáže</option>
-                                    @foreach (var option in Model.LengthFilters)
-                                    {
-                                        if (option.Filter.ToString().Equals(lengthVal, StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            <option selected value="@option.Filter.ToString().ToLower()">@option.DisplayName</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@option.Filter.ToString().ToLower()">@option.DisplayName</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="sixteen wide mobile eight wide tablet eight wide computer column">
-                                <select name="paid" class="ui fluid dropdown _PaidDropdown">
-                                    <option value="">Placené stáže</option>
-                                    @foreach (var option in Model.PaidFilters)
-                                    {
-                                        if (option.Filter.ToString().Equals(paidVal, StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            <option selected value="@option.Filter.ToString().ToLower()">@option.DisplayName</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@option.Filter.ToString().ToLower()">@option.DisplayName</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="sixteen wide mobile eight wide tablet three wide computer column">
-                                <button class="ui button primary fluid" type="submit">
-                                    Hledat
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
-
-            @*<div class="four wide computer only column">
-                        <div class="ui link list">
-                            @if (string.IsNullOrEmpty(currentCategory))
-                            {
-                                <a href="@Url.Action("Index", new {category = "", page = "", paid = ""})" class="active item">
-                                    Všechny nabídky
-                                    <span class="w-body-float-right">@totalInternshipCount</span>
-                                </a>
-                            }
-                            else
-                            {
-                                <a href="@Url.Action("Index", new {category = "", page = ""})" class="item">
-                                    Všechny nabídky
-                                    <span class="w-body-float-right">@totalInternshipCount</span>
-                                </a>
-                            }
-                            @foreach (var category in Model.InternshipCategories)
-                            {
-                                var routeObj = new { category = category.CodeName, paid = paidVal, search = searchVal, city = cityVal, length = lengthVal, order = orderVal };
-
-                                if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
-                                {
-
-                                    <a href="@Url.Action("Index", routeObj)" class="active item">
-                                        @category.CategoryName
-                                        <span class="w-font-bold w-body-float-right">@category.InternshipCount</span>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a href="@Url.Action("Index", routeObj)" class="item">
-                                        @category.CategoryName
-                                        <span class="w-body-float-right">@category.InternshipCount</span>
-                                    </a>
-                                }
-                            }
-                        </div>
-                </div>*@
-
-            @*<div class="four wide computer only column">
-                    <div class="ui padded segment">
-                           <div class="ui secondary vertical pointing menu w-internship-category-menu ">
-                            @if (string.IsNullOrEmpty(currentCategory))
-                            {
-                                <a href="@Url.Action("Index", new {category = "", page = "", paid = ""})" class="active item">
-                                    Všechny nabídky
-                                    <span class="w-body-float-right">@totalInternshipCount</span>
-                                </a>
-                            }
-                            else
-                            {
-                                <a href="@Url.Action("Index", new {category = "", page = ""})" class="item">
-                                    Všechny nabídky
-                                    <span class="w-body-float-right">@totalInternshipCount</span>
-                                </a>
-                            }
-                            @foreach (var category in Model.InternshipCategories)
-                            {
-                                var routeObj = new {category = category.CodeName, paid = paidVal, search = searchVal, city = cityVal, length = lengthVal, order = orderVal};
-
-                                if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
-                                {
-
-                                    <a href="@Url.Action("Index", routeObj)" class="active item">
-                                        @category.CategoryName
-                                        <span class="w-font-bold w-body-float-right">@category.InternshipCount</span>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a href="@Url.Action("Index", routeObj)" class="item">
-                                        @category.CategoryName
-                                        <span class="w-body-float-right">@category.InternshipCount</span>
-                                    </a>
-                                }
-                            }
-                        </div>
-                    </div>
-                </div>*@
-            @*<div class="sixteen wide mobile sixteen wide tablet twelve wide computer column">
-                    <div class="ui padded segment">
-                        @if (!Model.Internships.Any())
-                        {
-                            @Helpers.MessageHelper.RenderWarningMessage("Žádné stáže nebyly nalezeny")
-                        }
-                        else
-                        {
-                            <div class="ui divided items w-item-primary-type">
-                                @foreach (var internship in Model.Internships)
-                                {
-                                    <div class="item">
-                                        <a class="ui tiny image" href="@Url.Action("Index", "Company", new {codeName = internship.CompanyCodeName})">
-                                            <img alt="@internship.CompanyName logo" src="@Helpers.ImageHelper.GetCompanyLogo(internship.CompanyGuid)">
-                                        </a>
-                                        <div class="content">
-                                            <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})" class="header">@internship.Title</a>
-                                            <div class="meta">
-                                                <span>
-                                                    Nástup od:
-                                                    <strong>@DateHelper.FormatDate(internship.StartDate)</strong>
-                                                </span>
-                                                <span class="w-tablet-hide w-mobile-hide">|</span>
-                                                <span class="w-tablet-block w-mobile-block">
-                                                    Délka trvání:
-                                                    <strong>
-                                                        @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
-                                                    </strong>
-                                                </span>
-                                                <span class="w-tablet-hide w-mobile-hide">|</span>
-                                                <span class="w-tablet-block w-mobile-block">
-                                                    Místo:
-                                                    <strong>
-                                                        @internship.City @Helpers.CountryHelper.GetCountryIcon(internship.CountryCode)
-                                                    </strong>
-                                                </span>
-                                            </div>
-                                            <div class="description">
-                                                <p>
-                                                    @internship.ShortDescription
-                                                </p>
-                                            </div>
-                                            <div class="extra">
-                                                @if (internship.IsPaid)
-                                                {
-                                                    <div class="ui label"><i class="money icon"></i>@(Helpers.TextHelper.GetInternshipAmount(internship.HideAmount, internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft)) / @internship.AmountTypeName</div>
-                                                }
-                                                @if (internship.RequiredLanguages.Any())
-                                                {
-                                                    <div class="ui label">
-                                                        <i class="globe icon"></i>@(string.Join(", ", internship.RequiredLanguages.Select(m => m.LanguageName)))
-                                                    </div>
-                                                }
-                                                <a class="ui right floated primary button" href="@Url.Action("Index", "Internship", new {id = internship.ID, codeName = internship.CodeName})">
-                                                    Detail
-                                                    <i class="right chevron icon"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-
-                            @Helpers.PagerHelper.GetPager(Model.Internships)
-                        }
-                    </div>
-                </div>*@
         </div>
     }
 </div>

@@ -1,11 +1,7 @@
-﻿require(['jquery','modules/tableModule', 'modules/searchModule', 'semantic'], function ($, TableModule, SearchModule) {
+﻿require(['jquery', 'modules/searchModule', 'semantic'], function ($, SearchModule) {
     // DOM ready
     $(function () {
-        var tableModule = new TableModule();
         var searchModule = new SearchModule();
-
-        // initialize table
-        tableModule.initializeListingTable("_ThesesListingTable");
 
         // initialize autocomplete search for cities
         $('._ThesesNameAutocomplete')

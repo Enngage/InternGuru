@@ -6,15 +6,15 @@
 @using UI.Modules.InfoMessage.Views
 @model UI.Builders.Auth.Views.AuthMasterView
 @{
-    Model.Layout.Type = LayoutTypeEnum.Dark;
+    Model.Layout.Type = LayoutTypeEnum.Light;
     Layout = Model.Layout.Path;
 
     Model.Header = new UiHeader()
     {
         Title = Model.Metadata.BasicMetadata.Title,
-        Type = UiHeaderTypeEnum.BackgroundImage,
-        ImagePath = "/content/images/contact-us-hero.jpg",
-        Size = UIHeaderSizeEnum.Medium
+        Type = UiHeaderTypeEnum.Colored,
+        Color = UIHeaderColorEnum.Dark,
+        Size = UIHeaderSizeEnum.Inherit
     };
 
     // main menu is always enabled

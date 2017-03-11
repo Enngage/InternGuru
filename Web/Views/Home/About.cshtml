@@ -1,16 +1,28 @@
-﻿@using UI.Builders.Shared.Enums
+﻿@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
+@using UI.Modules.Header
 @model UI.Builders.Master.Views.MasterView
 
 @{
     Model.Metadata.BasicMetadata.Title = "O nás";
-    Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Large, UIHeaderColorEnum.Dark, "We want to help every creator in the world achieve sustainable income.", "some text");
-    Model.Master.UiHeader.SetTextAlignment(UIHeaderTextAlignmentEnum.Center);
-    Model.Master.UiHeader.AddButton("Registrovat firmu", Url.Action("RegisterCompany", "Auth"), UIHeaderButtonTypeEnum.Secondary);
-    Model.Master.UiHeader.AddButton("Procházet stáže", Url.Action("Index", "Internships"), UIHeaderButtonTypeEnum.Primary);
-    Layout = "~/Views/Shared/Body/Light.cshtml";
+
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        SubText = "Spojujeme firmy a talenty",
+        Type = UiHeaderTypeEnum.Colored,
+        Size = UIHeaderSizeEnum.Normal,
+        ShowScrollButton = true,
+        TextAlignment = UIHeaderTextAlignmentEnum.Center
+    };
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/home/about")
+
+
 
 @*<div class="w-color-background-darkblack">
     <div class="ui container">

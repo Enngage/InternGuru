@@ -1,12 +1,22 @@
-﻿@model UI.Builders.Master.Views.MasterView
+﻿@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
+@using UI.Modules.Header
+@model UI.Builders.Master.Views.MasterView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Jak to funguje";
-    Layout = "~/Views/Shared/Body/Light.cshtml";
+
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        SubText = "Jednodušší už to být nemůže",
+        Type = UiHeaderTypeEnum.Colored,
+        Size = UIHeaderSizeEnum.Normal,
+        ShowScrollButton = true,
+        TextAlignment = UIHeaderTextAlignmentEnum.Center
+    };
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 }
 
-<h1>
-    @Model.Metadata.BasicMetadata.Title
-</h1>
-
-TEST: @Helpers.UrlHelper.CurrentAction

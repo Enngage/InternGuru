@@ -1,149 +1,275 @@
 ﻿@model UI.Builders.Company.Views.CompanyDetailView
-@using UI.Builders.Company.Enum
+@using UI.Builders.Master.Enums
 @using UI.Builders.Shared.Enums
-@using UI.Modules.GoogleMaps.Views
+@using UI.Builders.Shared.Models
+@using UI.Modules.CompanyGallery.Models
+@using UI.Modules.CompanyGallery.Views
+@using UI.Modules.Header
 @{
     Model.Metadata.Social.GoogleMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid);
     Model.Metadata.Social.OpenGraphMetadata.Image = Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid);
-    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, null, Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid));
 
-    Layout = "~/Views/Shared/Body/Dark.cshtml";
+    Model.Header = new UiHeader()
+    {
+        Type = UiHeaderTypeEnum.BackgroundImage,
+        ImagePath = Helpers.ImageHelper.GetCompanyBanner(Model.Company.CompanyGuid),
+        Size = UIHeaderSizeEnum.Normal
+    };
 
-    var aboutTabClass = Model.ActiveTab == CompanyDetailMenuEnum.About ? "active" : null;
-    var internshipTabClass = Model.ActiveTab == CompanyDetailMenuEnum.Internships ? "active" : null;
-    var contactTabClass = Model.ActiveTab == CompanyDetailMenuEnum.Contact ? "active" : null;
-    var thesisTabClass = Model.ActiveTab == CompanyDetailMenuEnum.Theses ? "active" : null;
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
+
+    // get gallery images
+    var galleryImages = Helpers.ImageHelper.GetCompanyGalleryImages(Model.Company.CompanyGuid).Select(m => new GalleryImage()
+    {
+        Url = m.Value
+    }).ToList();
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/company/detail")
 
+<div id="_SectionAnchor" data-anchor="@Model.Anchor"></div>
 
 <div id="_CompanyMenuWrapper" class="w-company-fixed-wrapper">
     <div class="ui vertical segment w-company-menu-wrapper">
         <div class="ui container">
-
             <img alt="Logo" class="ui mini image w-company-icon" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Company.CompanyGuid)">
 
             <h1>
                 @Model.Company.CompanyName
             </h1>
 
-            <div id="_CompanyRightMenu" class="ui secondary pointing menu w-company-menu">
-                <a class="item @aboutTabClass" href="@Url.Action("Index", "Company", new {codeName = Model.Company.CodeName})">
-                    O nás
-                </a>
-                <a class="item @internshipTabClass" href="@Url.Action("Internships", "Company", new {codeName = Model.Company.CodeName})">
-                    Stáže
-                    <span class="w-font-light">&nbsp;(@Model.Company.Internships.Count())</span>
-                </a>
-                <a class="item @thesisTabClass" href="@Url.Action("Theses", "Company", new {codeName = Model.Company.CodeName})">
-                    Závěrečné práce
-                    <span class="w-font-light">&nbsp;(@Model.Company.Theses.Count())</span>
-                </a>
-                <a class="item @contactTabClass" href="@Url.Action("Contact", "Company", new {codeName = Model.Company.CodeName})">
-                    Kontakt
-                </a>
+            <div class="ui right floated horizontal list w-company-menu ">
+                <div class="item">
+                    <div class="middle aligned content">
+                        <a data-anchor="_AboutUsSection" href="">
+                            O nás
+                        </a>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="middle aligned content">
+                        <a data-anchor="_InternshipSection" href="">
+                            Stáže
+                            <span class="w-company-extra">[@Model.Company.Internships.Count()]</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="middle aligned content">
+                        <a data-anchor="_ThesisSection" href="">
+                            Závěrečné práce
+                            <span class="w-company-extra">[@Model.Company.Theses.Count()]</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="middle aligned content">
+                        <a data-anchor="_ContactSection" href="">
+                            Kontakt
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="w-body-clear"></div>
         </div>
     </div>
 </div>
 
-
-<div class="ui container w-margin-top-20 w-padding-bottom-30">
-    <div class="ui grid">
-        <div class="sixteen wide mobile six wide tablet five wide computer column">
-            @Html.Partial("~/Views/Modules/GoogleMaps/GoogleMap.cshtml",
-            new GoogleMapView()
-            {
-                Zoom = 15,
-                Lat = Model.Company.Lat,
-                Lng = Model.Company.Lng,
-                MarkerTitle = Model.Company.CompanyName
-            })
-
-            <div class="ui segment w-font-light">
-                <div class="ui list w-font-size-small">
-                    <div class="item">
-                        <div class="content">
-                            @Helpers.CountryHelper.GetCountryIcon(Model.Company.CountryCode)
-                            @{
-                                <strong>@Model.Company.CountryName</strong>
-                            }
-                        </div>
-                    </div>
-                    <div class="item">
-                        <i class="marker icon"></i>
-                        <div class="content">
-                            @Model.Company.City, @Model.Company.Address
-                        </div>
-                    </div>
-                    <div class="item">
-                        @if (!string.IsNullOrEmpty(Model.Company.Web))
-                        {
-                            <i class="laptop icon"></i>
-                            <div class="content">
-                                <a href="@Model.Company.Web">
-                                    @Model.Company.Web
-                                </a>
-                            </div>
-                        }
-                    </div>
-                    <div class="item w-margin-top-10">
-                        <i class="idea icon"></i>
-                        <div class="content">
-                            Založeno v roce @Model.Company.YearFounded
-                        </div>
-                    </div>
-                    <div class="item">
-                        <i class="users icon"></i>
-                        <div class="content">
-                            <span>@Model.Company.CompanySizeName zaměstnanců</span>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <i class="tag icon"></i>
-                        <div class="content">
-                            <span>@Model.Company.CompanyCategoryName</span>
-                        </div>
-                    </div>
+<div id="_AboutUsSection" class="w-section-light">
+    <div class="ui container ">
+        <hr class="w-hr-primary w-hr-margin-top-0" />
+        <div class="ui centered grid">
+            <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
+                <div class="w-section w-section-center">
+                    <h2>
+                        O nás
+                    </h2>
+                    <p>
+                        @Html.Raw(Model.Company.LongDescription)
+                    </p>
                 </div>
-                
-                @if (!string.IsNullOrEmpty(Model.Company.Facebook) || !string.IsNullOrEmpty(Model.Company.Twitter) || !string.IsNullOrEmpty(Model.Company.LinkedIn))
-                {
-                    <hr />
-                }
-
-                <div class="w-company-social-icons">
-                    @if (!string.IsNullOrEmpty(Model.Company.Facebook))
-                    {
-                        <a href="@Helpers.UrlHelper.GetFacebookUrl(Model.Company.Facebook)">
-                            <i class="facebook icon w-color-facebook"></i>
-                        </a>
-                    }
-                    @if (!string.IsNullOrEmpty(Model.Company.Twitter))
-                    {
-                        <a href="@Helpers.UrlHelper.GetTwitterUrl(Model.Company.Twitter)">
-                            <i class="twitter icon w-color-facebook"></i>
-                        </a>
-                    }
-                    @if (!string.IsNullOrEmpty(Model.Company.LinkedIn))
-                    {
-                        <a href="@Helpers.UrlHelper.GetLinkedInUrl(Model.Company.LinkedIn)">
-                            <i class="linkedin icon w-color-linkedin"></i>
-                        </a>
-                    }
-                </div>
-
             </div>
-        </div>
-
-        <div class="sixteen wide mobile ten wide tablet eleven wide computer column">
-           
-            <div>
-                @RenderBody()
-            </div>
-
         </div>
     </div>
 </div>
+
+<div id="_InternshipSection" class="w-section-medium">
+    <div class="ui container">
+        <div class="ui centered grid">
+            <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
+
+                <div class="w-section w-section-center">
+                    <h2>
+                        Stáže
+                    </h2>
+                    @if (Model.Company.Internships.Any())
+                    {
+                        <div class="ui aligned items w-body-text-center">
+                            @foreach (var internship in Model.Company.Internships)
+                            {
+                                <div class="item">
+                                    <div class="middle aligned content">
+                                        <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName})">@internship.Title</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="w-body-text-center">Firma nemá vypsané stáže</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="_ThesisSection" class="w-section-light">
+    <div class="ui container">
+        <div class="ui centered grid">
+            <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
+
+                <div class="w-section w-section-center">
+                    <h2>
+                        Závěrečné práce
+                    </h2>
+                    @if (Model.Company.Theses.Any())
+                    {
+                        <div class="ui aligned items w-body-text-center">
+                            @foreach (var thesis in Model.Company.Theses)
+                            {
+                                <div class="item">
+                                    <div class="middle aligned content">
+                                        <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName})">@thesis.Name</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="w-body-text-center">Firma nemá vypsané závěrečné práce</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-section-medium">
+    <div class="ui container">
+        <div class="w-section">
+            <div class="ui centered grid">
+                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
+                    <div class="ui header w-feature-primary">
+                        <i class="world icon icon"></i>
+                        <div class="content">
+                            @Model.Company.CountryName, @Model.Company.City
+                        </div>
+                    </div>
+                </div>
+                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
+                    <div class="ui center aligned header w-feature-primary">
+                        <i class="users icon icon"></i>
+                        <div class="content">
+                            @Model.Company.CompanySizeName zaměstnanců
+                        </div>
+                    </div>
+                </div>
+                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
+                    <div class="ui header w-feature-primary">
+                        <i class="tag icon icon"></i>
+                        <div class="content">
+                            @Model.Company.CompanyCategoryName
+                        </div>
+                    </div>
+                </div>
+                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
+                    <div class="ui header w-feature-primary">
+                        <i class="idea icon icon"></i>
+                        <div class="content">
+                            @Model.Company.YearFounded
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (galleryImages.Any())
+{
+    <div class="w-section-light w-margin-bottom-50">
+        <div class="ui container">
+            <div class="ui centered grid">
+                <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
+                    @Html.Partial("~/Views/Modules/Gallery/Base.cshtml", new GalleryView()
+               {
+                   GalleryID = "_CompanyGallery",
+                   Images = galleryImages
+               })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="_ContactSection" class="w-section-medium">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="sixteen wide mobile sixteen wide tablet eight wide computer column">
+                <div class="w-section">
+                    <h2>
+                        Napiš nám
+                    </h2>
+                    @using (Html.BeginForm("Contact", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+
+                        @Html.AntiForgeryToken()
+
+                        @Helpers.MessageHelper.RenderFormValidationResult(Model.ContactUsForm.FormResult.IsSuccess, "Zpráva byla odeslána")
+
+                        @Html.Hidden("CompanyCodeName", Model.ContactUsForm.CompanyCodeName)
+                        @Html.Hidden("CompanyID", Model.ContactUsForm.CompanyID)
+
+                        <div class="ui reply form">
+                            <div class="field">
+                                <textarea name="Message" @Model.ContactUsForm.Message></textarea>
+                            </div>
+
+                            <button class="ui button primary" type="submit">
+                                Odeslat
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="sixteen wide mobile sixteen wide tablet eight wide computer column">
+                <div class="w-section">
+                    @Helpers.GoogleMapHelper.GetMap(Model.Company.Lat, Model.Company.Lng, Model.Company.CompanyName)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Helpers.HeaderHelper.RenderHeader(new UiHeader()
+{
+    Color = UIHeaderColorEnum.Dark,
+    Type = UiHeaderTypeEnum.Colored,
+    Title = "Registruj se",
+    SubText = "A buď první, kdo uvidí stáže této firmy",
+    Buttons = new List<UIHeaderButton>()
+    {
+        new UIHeaderButton()
+        {
+            Text = "Registrace",
+            Type = UIHeaderButtonTypeEnum.Primary,
+            ButtonUrl = @Url.Action("Register", "Account")
+        }
+    }
+})
+

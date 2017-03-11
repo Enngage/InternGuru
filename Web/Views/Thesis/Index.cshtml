@@ -1,7 +1,10 @@
 ﻿@model UI.Builders.Thesis.Views.ThesisDetailView
 @using Core.Helpers
+@using UI.Builders.Master.Enums
 @using UI.Builders.Shared.Enums
-@using UI.Modules.GoogleMaps.Views
+@using UI.Builders.Shared.Models
+@using UI.Modules.CompanyGallery.Models
+@using UI.Modules.CompanyGallery.Views
 @using UI.Modules.Header
 
 @{
@@ -15,206 +18,149 @@
         Title = null,
         Type = UiHeaderTypeEnum.BackgroundImage,
         ImagePath = Helpers.ImageHelper.GetCompanyBanner(Model.Thesis.Company.CompanyGuid),
-        Size = UIHeaderSizeEnum.Medium
+        Size = UIHeaderSizeEnum.Normal
     };
 
-    Layout = "~/Views/Shared/Body/Dark.cshtml";
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
+
+    // get gallery images
+    var galleryImages = Helpers.ImageHelper.GetCompanyGalleryImages(Model.Thesis.Company.CompanyGuid).Select(m => new GalleryImage()
+    {
+        Url = m.Value
+    }).ToList();
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/thesis/detail")
 
-
-<div id="_ThesisMenuWrapper" class="w-internship-fixed-wrapper">
-    <div class="ui vertical segment w-internship-menu-wrapper">
+<div id="_ThesisMenuWrapper" class="w-company-fixed-wrapper">
+    <div class="ui vertical segment w-company-menu-wrapper">
         <div class="ui container">
-            <img alt="Company logo" class="ui mini image w-internship-icon" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Thesis.Company.CompanyGuid)">
+
+            <img alt="Logo" class="ui mini image w-company-icon" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Thesis.Company.CompanyGuid)">
 
             <h1>
                 @Model.Thesis.ThesisName
             </h1>
 
-            <div class="w-internship-menu-right">
-                <a href="@Url.Action("Thesis", "Form", new {id = Model.Thesis.ID, codeName = Model.Thesis.CodeName})">
-                    <div class="ui button secondary">
-                        Odpovědět
+            <div class="ui right floated horizontal list w-internship-menu ">
+                <div class="item">
+                    <div class="middle aligned content">
+                        <a href="@Url.Action("Thesis", "Form", new {id = Model.Thesis.ID, codeName = Model.Thesis.CodeName})">
+                            <div class="ui button primary">Odpovědět</div>
+                        </a>
                     </div>
-                </a>
+                </div>
             </div>
-
             <div class="w-body-clear"></div>
         </div>
     </div>
 </div>
 
 
-<div class="ui container w-margin-top-20 w-padding-bottom-30">
+<div class="ui container padding-bottom-30">
+    <hr class="w-hr-primary w-hr-margin-top-0" />
     <div class="ui grid">
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
             <div class="ui segment">
-
-                <div class="w-body-text-center">
-                    <div class="ui button teal large w-override-no-button">
-                        @Model.Thesis.ThesisTypeNameConverted
-                    </div>
-                </div>
-
-                @*<div class="w-body-text-center">
-                        <div class="ui horizontal list">
-                            <div class="item">
-                                <div class="content">
-                                    <i class="home icon"></i>
-                                    <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.Company.CompanyCodeName })">
-                                        @Model.Thesis.Company.CompanyName
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content">
-                                    @Helpers.CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode)
-                                    @Model.Thesis.Company.CountryName
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content">
-                                    <i class="marker icon"></i>@Model.Thesis.Company.City
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content">
-                                    @if (Model.Thesis.IsPaid)
-                                    {
-                                        <i class="money green icon"></i><span>Odměna @(Helpers.TextHelper.GetThesisAmount(Model.Thesis.HideAmount, Model.Thesis.Amount, Model.Thesis.CurrencyName, Model.Thesis.CurrencyShowSignOnLeft))</span>
-                                    }
-                                    else
-                                    {
-                                        <i class="money red icon"></i><span>Bez odměny</span>
-                                    }
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="content">
-                                    <i title="Nástup od" class="university icon"></i>@Model.Thesis.ThesisTypeNameConverted
-                                </div>
-                            </div>
+                <div>
+                    <div class="ui header w-feature-primary">
+                        <i class="university icon icon w-color-primary"></i>
+                        <div class="content">
+                            @Model.Thesis.ThesisTypeNameConverted
                         </div>
-                    </div>*@
-
-                <div class="w-margin-top-30">
+                    </div>
 
                     <div class="w-margin-top-30">
                         @Html.Raw(Model.Thesis.Description)
                     </div>
-
                 </div>
-            </div>
-        </div>
-
-        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-            <div class="ui segment">
-                <table class="ui three column very basic table w-body-text-center">
-                    <thead>
-                        <tr class="center aligned">
-                            <th>Zadáno</th>
-                            <th>Odměna</th>
-                            <th>Typ práce</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="center aligned">
-                            <td>
-                                @DateHelper.FormatDate(Model.Thesis.Created)
-                            </td>
-                            <td>
-                                @if (Model.Thesis.IsPaid)
-                                {
-                                    <i class="money green icon"></i><span>Odměna @(Helpers.TextHelper.GetThesisAmount(Model.Thesis.HideAmount, Model.Thesis.Amount, Model.Thesis.CurrencyName, Model.Thesis.CurrencyShowSignOnLeft))</span>
-                                }
-                                else
-                                {
-                                    <i class="money red icon"></i><span>Bez odměny</span>
-                                }
-                            </td>
-                            <td>
-                                @Model.Thesis.ThesisTypeNameConverted
-                            </td>
-                        </tr>
-                </table>
             </div>
         </div>
     </div>
 </div>
 
-<div class="w-color-background-light">
+<div class="w-section-medium">
     <div class="ui container">
-        <div class="ui grid w-margin-top-30">
-            <div class="eight wide mobile eight wide tablet four wide computer column">
-                <div class="ui segment vertical very padded">
-                    <div class="ui list">
-                        <div class="item">
-                            <div class="header">Společnost</div>
-                        </div>
-                        <div class="item">
-                            <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.Company.CompanyCodeName})">@Model.Thesis.Company.CompanyName</a>
-                        </div>
-                        <div class="item">
-                            @Model.Thesis.Company.Address
-                        </div>
-                        <div class="item">
-                            @Model.Thesis.Company.City
-                        </div>
-                        <div class="item">
-                            @Helpers.CountryHelper.GetCountryIcon(Model.Thesis.Company.CountryCode) @Model.Thesis.Company.CountryName
+        <div class="w-section">
+            <div class="ui centered grid">
+                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
+                    <div class="ui header w-feature-primary">
+                        <i class="home icon icon"></i>
+                        <div class="content">
+                            <a href="@Url.Action("Index", "Company", new {codeName = Model.Thesis.Company.CompanyCodeName})">
+                                @Model.Thesis.Company.CompanyName
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="eight wide mobile eight wide tablet four wide computer column">
-                <div class="ui segment vertical very padded">
-                    <div class="ui list">
-                        <div class="item">
-                            <div class="header">Sociální sítě</div>
-                        </div>
-                        @if (!string.IsNullOrEmpty(Model.Thesis.Company.Web))
-                        {
-                            <div class="item">
-                                <a target="_blank" href="@(Model.Thesis.Company.Web)">@(Model.Thesis.Company.Web)</a>
-                            </div>
-                        }
-                        <div class="item">
-                            @if (!string.IsNullOrEmpty(Model.Thesis.Company.Facebook))
+                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
+                    <div class="ui center aligned header w-feature-primary">
+                        <i class="dollar icon icon"></i>
+                        <div class="content">
+                            @if (Model.Thesis.IsPaid)
                             {
-                                <a target="_blank" href="@Helpers.UrlHelper.GetFacebookUrl(Model.Thesis.Company.Facebook)">
-                                    <i class="facebook w-color-facebook icon large"></i>
-                                </a>
+                                @(Helpers.TextHelper.GetThesisAmount(Model.Thesis.HideAmount, Model.Thesis.Amount, Model.Thesis.CurrencyName, Model.Thesis.CurrencyShowSignOnLeft))
                             }
-                            @if (!string.IsNullOrEmpty(Model.Thesis.Company.Twitter))
+                            else
                             {
-                                <a target="_blank" href="@Helpers.UrlHelper.GetTwitterUrl(Model.Thesis.Company.Twitter)">
-                                    <i class="twitter w-color-twitter icon large"></i>
-                                </a>
-                            }
-                            @if (!string.IsNullOrEmpty(Model.Thesis.Company.LinkedIn))
-                            {
-                                <a target="_blank" href="@Helpers.UrlHelper.GetLinkedInUrl(Model.Thesis.Company.LinkedIn)">
-                                    <i class="linkedin w-color-linkedin icon large"></i>
-                                </a>
+                                <span>Bez odměny</span>
                             }
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="sixteen wide mobile sixteen wide tablet eight wide computer column w-margin-bottom-14">
-                @Html.Partial("~/Views/Modules/GoogleMaps/GoogleMap.cshtml",
-                        new GoogleMapView()
-                        {
-                            Zoom = 15,
-                            Lat = Model.Thesis.Company.Lat,
-                            Lng = Model.Thesis.Company.Lng,
-                            MarkerTitle = Model.Thesis.Company.CompanyName
-                        })
+                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
+                    <div class="ui header w-feature-primary">
+                        <i class="calendar icon icon"></i>
+                        <div class="content">
+                            Zadáno @DateHelper.FormatDate(Model.Thesis.ActiveSince)
+                        </div>
+                    </div>
+                </div>
+                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
+                    <div class="ui header w-feature-primary">
+                        <i class="tag icon icon"></i>
+                        <div class="content">
+                            @Model.Thesis.InternshipCategoryName
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+@Helpers.HeaderHelper.RenderHeader(new UiHeader()
+{
+    Color = UIHeaderColorEnum.Dark,
+    Type = UiHeaderTypeEnum.Colored,
+    Title = "Zaujala Tě tato práce?",
+    Buttons = new List<UIHeaderButton>()
+            {
+                new UIHeaderButton()
+                {
+                    Text = "Odpovědět na stáž",
+                    Type = UIHeaderButtonTypeEnum.Primary,
+                    ButtonUrl = Url.Action("Thesis", "Form", new {id = Model.Thesis.ID, codeName = Model.Thesis.CodeName})
+                }
+            }
+})
+
+
+@if (galleryImages.Any())
+{
+    <div class="w-section-light">
+        <div class="ui container">
+            <div class="w-section">
+                @Html.Partial("~/Views/Modules/Gallery/Base.cshtml", new GalleryView()
+           {
+               GalleryID = "_CompanyGallery",
+               Images = galleryImages
+           })
+            </div>
+        </div>
+    </div>
+}
+
 
 

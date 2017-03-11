@@ -3,16 +3,19 @@
 #w-body-wrapper {
 
     .w-price-column {
-        font-weight: 600;
+        font-weight: 300;
 
         .w-price-header-segment {
             background: #f9f9f9;
             color: $color-base;
+            padding: 25px;
+            font-weight: 400;
         }
 
         .w-price-body-segment {
             background: #fdfdfd;
             color: $color-base;
+            padding: 25px;
         }
 
         .w-price-header-segment.highlighted {

@@ -35,8 +35,8 @@ namespace Web.Api
                 {
 
                     company.Url = Url.Link("CompanyIndex", new { controller = "Company", codeName = company.CodeName, action = "Index" });
-                    company.UrlToInternships = Url.Link("CompanyInternships", new { controller = "Company", codeName = company.CodeName, action = "Internships"});
-                    company.UrlToTheses = Url.Link("CompanyTheses", new { controller = "Company", codeName = company.CodeName, action = "Theses"});
+                    company.UrlToInternships = Url.Link("CompanyIndex", new { controller = "Company", codeName = company.CodeName, action = "Index", s = "_InternshipSection"});
+                    company.UrlToTheses = Url.Link("CompanyIndex", new { controller = "Company", codeName = company.CodeName, action = "Index", s = "_ThesisSection"});
                     company.LogoImageUrl = ImageHelper.GetCompanyLogoStatic(company.CompanyGuid);
                     company.BannerImageUrl = ImageHelper.GetCompanyBannerStatic(company.CompanyGuid);
                     company.PluralInternshipsCountWord = StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáže");

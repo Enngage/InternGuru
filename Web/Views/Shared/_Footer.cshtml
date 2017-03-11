@@ -17,7 +17,7 @@
                 <div class="ui list w-footer-list">
                     <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
                     <a href="@Url.Action("Index", "Theses")" class="item">Nabídka závěrečných prací</a>
-                    <a href="@Url.Action("Index", "Companies")" class="item">Najdi si firmu</a>
+                    <a href="@Url.Action("Index", "Companies")" class="item">Procházet firmy</a>
                 </div>
             </div>
             <div class="eight wide column">
@@ -31,17 +31,21 @@
                 </ul>
             </div>
         </div>
-        <div class="ui inverted section divider w-margin-none w-margin-top-30"></div>
-        <div class="ui horizontal inverted small divided link list">
-            <a class="item" href="@Url.Action("About", "Home")">O nás</a>
-            <a class="item" href="@Url.Action("Contact", "Home")">Kontakt</a>
-            <div class="item">
-                @($"© {DateTime.Now.Year} { AppConfig.SiteName}")
-            </div>
-            <div class="item">
+        <div class="ui inverted section divider w-margin-none w-margin-top-10"></div>
+        <ul class="w-footer-list-horizontal">
+            <li>
+                <a href="@Url.Action("About", "Home")">O nás</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Contact", "Home")">Kontakt</a>
+            </li>
+            <li>
                 <span class="w-font-size-small"><span>v</span>@VersionInfo.Version.ToString()</span>
-            </div>
-        </div>
+            </li>
+            <li>
+                @($"© {DateTime.Now.Year} { AppConfig.SiteName}")
+            </li>
+        </ul>
     </div>
 </div>
 

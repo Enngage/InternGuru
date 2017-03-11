@@ -39,7 +39,7 @@
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/addEditInternship")
 @Helpers.ScriptHelper.RequireCss("/scripts/addons/datepicker-master/dist/datepicker.min")
 
-<div class="ui segment">
+<div class="ui vertical segment">
     <div class="ui form">
         @using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {

@@ -23,6 +23,7 @@ namespace UI.RazorExtensions
         public BreadcrumbsHelper BreadcrumbsHelper { get; }
         public UploadHelper UploadHelper { get; }
         public HeaderHelper HeaderHelper { get; }
+        public GoogleMapHelper GoogleMapHelper { get; }
 
         public UIHelpers(WebViewPage webViewPage)
         {
@@ -43,6 +44,7 @@ namespace UI.RazorExtensions
             BreadcrumbsHelper = KernelProvider.Get<BreadcrumbsHelper>(webParameter);
             UploadHelper = KernelProvider.Get<UploadHelper>(webParameter);
             HeaderHelper = KernelProvider.Get<HeaderHelper>(webParameter);
+            GoogleMapHelper = KernelProvider.Get<GoogleMapHelper>(webParameter);
         }
     }
 }

@@ -1,71 +1,83 @@
 ﻿@model UI.Builders.Form.Views.FormInternshipView
+@using UI.Builders.Master.Enums
 @using UI.Builders.Shared.Enums
+@using UI.Modules.Header
 @{
     Model.Metadata.BasicMetadata.Title = $"Zájem | {Model.Internship.InternshipTitle}";
     Model.Metadata.BasicMetadata.Description = $"Zájem o stáž{Model.Internship.InternshipTitle} u firmy {Model.Internship.InternshipTitle}";
-    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, null, Helpers.ImageHelper.GetCompanyBanner(Model.Internship.CompanyGuid));
-    Layout = "~/Views/Shared/Body/Dark.cshtml";
+
+    Model.Header = new UiHeader()
+    {
+        Title = null,
+        Type = UiHeaderTypeEnum.BackgroundImage,
+        ImagePath = Helpers.ImageHelper.GetCompanyBanner(Model.Internship.CompanyGuid),
+        Size = UIHeaderSizeEnum.Normal
+    };
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/modules/questionnaire/submitQuestionnaire")
-@Html.Partial("~/Views/Modules/Questionnaire/QuestionTemplates.cshtml");
+@Html.Partial("~/Views/Modules/Questionnaire/QuestionTemplates.cshtml")
 
 <input type="hidden" id="_QuestionnaireInitialState" value="@Model.InternshipForm.QuestionsJson" />
 
-<div class="w-padding-bottom-30">
-
+<div class="w-section-light">
     <div class="ui container">
-        <div class="ui grid">
-            <div class="sixteen wide column">
-                <h1>
-                    Zájem o stáž <span class="ui header w-color-secondary">@Model.Internship.InternshipTitle</span>
-                </h1>
-
-                @using (Html.BeginForm("Internship", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-
-                    @Html.AntiForgeryToken()
-
-                    @Helpers.MessageHelper.RenderFormValidationResult(Model.InternshipForm.FormResult.IsSuccess, "Zpráva byla odeslána")
-
-                    @Html.Hidden("InternshipID", Model.Internship.InternshipID)
-
-                    if (!Model.InternshipForm.FormResult.IsSuccess)
-                    {
-                        <p>
-                            U firmy <a href="@Url.Action("Index", "Company", new { codeName = Model.Internship.CompanyCodeName})">@Model.Internship.CompanyName</a>
-                        </p>
-
-                            <div class="ui reply form">
-                                <div class="field">
-                                    <textarea name="Message" @Model.InternshipForm.Message></textarea>
-                                </div>
-                                
-                                @if (Model.InternshipForm.HasAttachedQuestionnaire)
-                                {
-                                    <h4 class="ui dividing header">
-                                        Dotazník
-                                    </h4>
-
-                                    <div id="_QuestionnaireFormWrapper" class="w-margin-bottom-14"></div>
-                                }
-
-                                <button class="ui button primary" type="submit">
-                                    Odeslat
-                                </button>
-                            </div>
-                    }
-                    else
-                    {
-                        <div class="ui segment padded">
-                            <p>
-                                Historii zpráv lze nalézt v <a href="@Url.Action(Model.Master.CurrentUser.AuthMasterAction, "Auth")">profilu</a>
-                            </p>
-                        </div>
-                    }
-                }
-
-            </div>
+        <div class="w-section">
+            <h1>
+                Zájem o stáž <span class="ui header w-color-secondary">@Model.Internship.InternshipTitle</span>
+            </h1>
         </div>
     </div>
 </div>
+
+<div class="w-section-medium">
+    <div class="ui container">
+        <div class="w-section">
+            @using (Html.BeginForm("Internship", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                @Html.AntiForgeryToken()
+
+                @Helpers.MessageHelper.RenderFormValidationResult(Model.InternshipForm.FormResult.IsSuccess, "Zpráva byla odeslána")
+
+                @Html.Hidden("InternshipID", Model.Internship.InternshipID)
+
+                if (!Model.InternshipForm.FormResult.IsSuccess)
+                {
+                    <div class="ui reply form">
+                        <div class="field">
+                            <label>Zpráva pro firmu</label>
+                            <textarea name="Message" @Model.InternshipForm.Message></textarea>
+                        </div>
+
+                        @if (Model.InternshipForm.HasAttachedQuestionnaire)
+                        {
+                            <h2 class="ui dividing header">
+                                Dotazník
+                            </h2>
+
+                                    <div id="_QuestionnaireFormWrapper" class="w-margin-bottom-14"></div>
+                        }
+
+                        <button class="ui button primary" type="submit">
+                            Odeslat
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="ui vertical segment padded">
+                        <p>
+                            Historii zpráv najdeš ve svém <a href="@Url.Action(Model.Master.CurrentUser.AuthMasterAction, "Auth")">profilu</a>
+                        </p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+

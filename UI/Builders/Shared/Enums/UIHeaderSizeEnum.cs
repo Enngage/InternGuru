@@ -5,7 +5,7 @@ namespace UI.Builders.Shared.Enums
     {
         Inherit,
         Small, 
-        Medium, 
+        Normal, 
         Large
     }
 }

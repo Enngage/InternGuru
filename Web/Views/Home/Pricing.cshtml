@@ -1,12 +1,24 @@
-﻿@using UI.Builders.Shared.Enums
+﻿@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
+@using UI.Modules.Header
 @model UI.Builders.Master.Views.MasterView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Ceník";
-    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Large, "Ceník", "/content/images/contact-us-hero.jpg", "Mauris auctor, enim at dapibus blandit, sapien metus varius libero, sed cursus sem orci sit amet massa.");
-    Model.Master.UiHeader.ShowScrollButton = true;
-    Model.Master.UiHeader.SetTextAlignment(UIHeaderTextAlignmentEnum.Center);
-    Layout = "~/Views/Shared/Body/Light.cshtml";
+
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        SubText = "",
+        Type = UiHeaderTypeEnum.BackgroundImage,
+        ImagePath = "/content/images/contact-us-hero.jpg",
+        Size = UIHeaderSizeEnum.Normal,
+        ShowScrollButton = true,
+        TextAlignment = UIHeaderTextAlignmentEnum.Center
+    };
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 }
 
 <div class="ui container w-margin-top-50 w-margin-bottom-50">

@@ -1,23 +1,10 @@
-﻿require(['jquery', 'modules/internshipModule', 'modules/tableModule', 'modules/searchModule', 'semantic'], function ($, InternshipModule, TableModule, SearchModule) {
+﻿require(['jquery', 'modules/searchModule', 'semantic'], function ($, SearchModule) {
     // DOM ready
     $(function () {
-        var tableModule = new TableModule();
         var searchModule = new SearchModule();
 
-        // show filter on click
-        $('._ShowFilterButton').click(function (e) {
-            e.preventDefault();
-
-            var filterWrapperId = "_FilterWrapper";
-            $("#" + filterWrapperId).toggleClass("w-body-hide");
-            $(this).toggleClass("blue");
-        });
-
         // initialize dropdown
-        $('._BrowseDropdown, ._LengthDropdown, ._PaidDropdown').dropdown();
-
-        // initialize table
-        tableModule.initializeListingTable("_InternshipsListingTable");
+        $('._LengthDropdown,').dropdown();
 
         // initialize autocomplete search for cities
         $('._CitiesAutocomplete')

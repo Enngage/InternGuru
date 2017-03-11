@@ -18,8 +18,8 @@
                     using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "" }))
                     {
                         @Html.AntiForgeryToken()
-                        <button name="provider" class="ui google plus button" value="@p.AuthenticationType">
-                            <i class="google icon"></i>
+                        <button name="provider" class="ui google plus fluid button" value="@p.AuthenticationType">
+                            <i class="google g icon"></i>
                             Přihlásit přes Google
                         </button>
                     }
@@ -29,8 +29,8 @@
                     using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "" }))
                     {
                         @Html.AntiForgeryToken()
-                        <button name="provider" class="ui facebook button w-margin-top-10" value="@p.AuthenticationType">
-                            <i class="facebook icon"></i>
+                        <button name="provider" class="ui facebook button fluid w-margin-top-10" value="@p.AuthenticationType">
+                            <i class="facebook f icon"></i>
                             Přihlásit přes Facebook
                         </button>
                     }
@@ -39,7 +39,7 @@
                 {
                     using (Html.BeginForm("ExternalLogin", "Account", new {Model.ReturnUrl }, FormMethod.Post, new { @class = "" }))
                     {
-                        <button name="provider" class="ui big blue labeled icon button w-margin-top-10" value="@p.AuthenticationType">
+                        <button name="provider" class="ui big blue labeled icon fluid button w-margin-top-10" value="@p.AuthenticationType">
                             <i class="star  icon"></i>
                             @p.AuthenticationType
                         </button>

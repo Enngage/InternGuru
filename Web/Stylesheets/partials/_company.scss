@@ -1,29 +1,30 @@
 ﻿@import "_base";
 
 #w-body-wrapper {
-    .w-company-fixed-wrapper{
+    .w-company-fixed-wrapper {
         transition: all 0.5s ease;
         width: 100%;
-        top: 48px!important; /* override the Top set by semantic-ui*/
-
+        top: 48px !important; /* override the Top set by semantic-ui*/
         @media (max-width: 767px) {
             /* Fix top in mobile devices because the main top nav is missing*/
-            top:0!important; /* override the Top set by semantic-ui*/
+            top: 0 !important; /* override the Top set by semantic-ui*/
         }
     }
 
-    .w-company-fixed-wrapper.fixed .segment{
-         box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+    .w-company-fixed-wrapper.fixed .segment {
+        box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
     }
-
     /* company menu */
-   .w-company-menu-wrapper{
+    .w-company-menu-wrapper {
         background-color: #ffffff;
 
         h1 {
             float: left;
-            margin-top: 8px;
+            margin-top: 13px;
             margin-bottom: 0;
+            font-weight: 300;
+            line-height: inherit;
+            font-size: 25px;
         }
 
         .w-company-icon {
@@ -34,27 +35,32 @@
         }
 
         .w-company-menu {
-            float: right;
-            margin: 0;
+            padding-top: 13px;
 
-            .item.active {
-                border-bottom: solid 3px $secondary-color;
+            a {
+                font-size: $font-size-base;
+                color: $color-dark;
+            }
+
+            a:hover {
+                color: darken($color-dark, 30%);
+            }
+
+            .item {
+                border: none;
+            }
+
+            .active {
+                color: darken($color-dark, 30%);
+                text-decoration: underline;
+            }
+
+            .w-company-extra {
+                color: $primary-color;
             }
         }
     }
 
-    .w-company-item-link-fix {
-        margin-top: 6px;
-    }
-
-    .w-company-social-icons a {
-        color: $color-light !important;
-    }
-    /* Company detail banner*/
-    .w-company-detail-banner {
-        height: 247px;
-        width: 100%;
-    }
     /* company segment */
     .w-company-segment .column {
         margin-top: 30px;
@@ -74,6 +80,4 @@
     .w-company-segment .column .meta a {
         color: $primary-color;
     }
-
-
 }

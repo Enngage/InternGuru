@@ -1,12 +1,13 @@
 ﻿@model UI.Modules.GoogleMaps.Views.GoogleMapView
-@using UI.Helpers
 @{
     var apiKey = Core.Config.AppConfig.GoogleApiKey;
 }
 
 @Helpers.ScriptHelper.RequireScript($"//maps.googleapis.com/maps/api/js?key={apiKey}&amp;callback=initMap", 1, null, false, true, false)
 
-<script type="text/javascript">
+@helper MapScript()
+{
+    <script type="text/javascript">
     function initMap() {
         // get element where map will be inserted
         var mapDiv = document.getElementById('_GoogleMap');
@@ -18,6 +19,7 @@
         var map = new google.maps.Map(mapDiv, {
             center: latLng,
             zoom: @Model.Zoom,
+            scrollwheel: false
         });
 
         // prepare marker
@@ -29,7 +31,10 @@
         // add marker
         marker.setMap(map);
     }
-</script>
+    </script>
+}
+
+@Helpers.ScriptHelper.RequireScriptContent(MapScript().ToString())
 
 <div id="_GoogleMap" class="w-googlemaps-wrapper"></div>
 

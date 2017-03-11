@@ -1,75 +1,72 @@
-﻿@model UI.Builders.Thesis.Views.ThesisNotFoundView
+﻿@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
+@using UI.Builders.Shared.Models
+@using UI.Modules.Header
+@model UI.Builders.Thesis.Views.ThesisNotFoundView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Práce nenalezena";
     Model.Metadata.BasicMetadata.Description = "Požadováná nabídka na vypracování diplomové nebo bakalářské práce nebyla nalezena";
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        SubText = "Zkus se podívat na nabídku níže, třeba najdeš něco jiného!",
+        Type = UiHeaderTypeEnum.Colored,
+        Color = UIHeaderColorEnum.Primary,
+        Size = UIHeaderSizeEnum.Normal
+    };
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 }
 
-<div class="ui sixteen column grid">
-    <div class="centered row w-margin-top-30">
-        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column">
-
-            <h1>
-                Práce <span class="ui header red">nebyla</span> nalezena
-            </h1>
-
-        </div>
-    </div>
-    <div class="centered row">
-        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column w-body-text-left">
-            <div class="ui very padded segment">
-                <p>
-                    Nabídka bakalářské nebo diplomové práce, kterou hledáte neexistuje, expirovala nebo není aktivní.
-                </p>
-            </div>
-
+<div class="w-section-light">
+    <div class="ui container">
+        <div class="w-section">
+            <h2>
+                Mohlo by Tě zajímat
+            </h2>
             @if (Model.LatestTheses.Any())
             {
-                <h3>
-                    Mohlo by Vás zajímat
-                </h3>
-
-                <div class="ui segment">
-                    <table class="ui very basic table w-table-listing _ThesesListingTable">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Firma
-                                </th>
-                                <th>
-                                    Název práce (odměna)
-                                </th>
-                                <th>
-                                    Typ práce
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var thesis in Model.LatestTheses)
-                            {
-                                <tr data-link="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
-                                    <td class="collapsing">
-                                        <img class="ui mini image" alt="@thesis.ThesisName" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)" />
-                                    </td>
-                                    <td>
-                                        <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})">
-                                            @thesis.ThesisName
-                                        </a>
-                                        @if (thesis.IsPaid)
-                                        {
-                                            <span class="w-font-size-small w-font-light">(odměna @Helpers.TextHelper.DisplayCurrencyValue(thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</span>
-                                        }
-                                    </td>
-                                    <td class="collapsing w-body-text-right w-mobile-left">
-                                        @thesis.ThesisTypeNameConverted
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <div class="ui divided items">
+                    @foreach (var thesis in Model.LatestTheses)
+                    {
+                        <div class="item">
+                            <div class="ui tiny image">
+                                <a href="@Url.Action("Index", "Company", new { codeName = thesis.Company.CompanyCodeName})">
+                                    <img alt="" src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)">
+                                </a>
+                            </div>
+                            <div class="middle aligned content">
+                                <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName})">@thesis.ThesisName</a>
+                                <p class="w-font-size-small">
+                                    @thesis.ThesisTypeNameConverted
+                                </p>
+                            </div>
+                        </div>
+                    }
                 </div>
             }
         </div>
     </div>
 </div>
+
+<div class="w-margin-top-30">
+    @Helpers.HeaderHelper.RenderHeader(new UiHeader()
+{
+    Type = UiHeaderTypeEnum.Colored,
+    Color = UIHeaderColorEnum.Dark,
+    Title = "Stále jsi nic nenašel?",
+    Buttons = new List<UIHeaderButton>()
+        {
+            new UIHeaderButton()
+            {
+                Type = UIHeaderButtonTypeEnum.Primary,
+                Text = "Procházet všechny práce",
+                ButtonUrl = Url.Action("Index", "Theses")
+            }
+        }
+})
+</div>
+

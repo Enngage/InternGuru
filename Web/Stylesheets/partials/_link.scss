@@ -2,21 +2,27 @@
 
 #w-body-wrapper {
 
-    .w-link-segment{
+    .w-link-segment {
         cursor: pointer;
         padding: 0;
     }
 
-    .w-link-segment a{
+    .w-link-segment a {
         padding: 21px;
         display: block;
     }
 
-    .w-link-segment:hover{
+    .w-link-segment {
+        h2 {
+            font-weight: 300;
+        }
+    }
+
+    .w-link-segment:hover {
         opacity: 0.8;
         background-color: $secondary-color;
 
-        h2{
+        h2 {
             color: $secondary-color-text;
         }
     }

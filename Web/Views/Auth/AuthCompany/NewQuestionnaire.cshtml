@@ -16,7 +16,7 @@
 </div>
 @if (Model.Master.CurrentCompany.IsAvailable)
 {
-    <div class="ui segment">
+    <div class="ui vertical segment">
         @Html.Partial("~/Views/Modules/Questionnaire/CreateEditQuestionnaire.cshtml", Model.QuestionnaireForm)
     </div>
 }

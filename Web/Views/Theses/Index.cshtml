@@ -1,6 +1,7 @@
 ﻿@model UI.Builders.Thesis.Views.ThesisBrowseView
-@using Core.Helpers;
+@using UI.Builders.Master.Enums
 @using UI.Builders.Shared.Enums
+@using UI.Builders.Shared.Models
 @using UI.Modules.Header
 @{
     Model.Metadata.BasicMetadata.Title = "Závěrečné práce";
@@ -9,12 +10,14 @@
     Model.Header = new UiHeader()
     {
         Title = Model.Metadata.BasicMetadata.Title,
+        SubText = "Piš práci, která má smysl",
         Type = UiHeaderTypeEnum.Colored,
-        Color = UIHeaderColorEnum.Violet,
+        Color = UIHeaderColorEnum.Primary,
         Size = UIHeaderSizeEnum.Inherit
     };
 
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 
     var currentCategory = Helpers.UrlHelper.GetRouteParam("category", string.Empty) ?? string.Empty;
     var searchVal = Helpers.UrlHelper.GetQueryString("search", string.Empty) ?? string.Empty;
@@ -24,127 +27,117 @@
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/thesis/browseTheses")
 
-@using (Html.BeginForm("Search", "Theses", FormMethod.Get, null))
-{
-    <div class="ui grid">
-        <div class="sixteen wide column">
-            <div class="ui segment padded">
-                <div class="ui grid">
-                    <div class="sixteen wide mobile twelve wide tablet fourteen wide computer column">
-                        <div class="ui search _ThesesNameAutocomplete">
-                            <div class="ui fluid icon input">
-                                <input class="prompt" name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
-                                <i class="search icon"></i>
+<div class="ui container">
+
+    @using (Html.BeginForm("Search", "Theses", FormMethod.Get, null))
+    {
+        <input type="hidden" name="category" value="@currentCategory" />
+        <div class="ui grid">
+
+            <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
+                <div class="ui divided items">
+                    @foreach (var thesis in Model.Theses)
+                    {
+                        <div class="item">
+                            <div class="ui tiny image">
+                                <a href="@Url.Action("Index", "Company", new { codeName = thesis.Company.CompanyCodeName})">
+                                    <img alt="" src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)">
+                                </a>
                             </div>
-                            <div class="results"></div>
+                            <div class="middle aligned content">
+                                <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName})">@thesis.ThesisName</a>
+                                <p class="w-font-size-small">
+                                    @thesis.ThesisTypeNameConverted
+                                </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @Helpers.PagerHelper.GetPager(Model.Theses)
+
+            </div>
+            <div class="sixteen wide mobile sixteen wide tablet five wide computer column">
+                <div class="ui secondary very padded segment">
+                    <h3>Hledat</h3>
+
+                    <div class="ui form">
+                        <div class="field">
+                            <div class="ui search _ThesesNameAutocomplete">
+                                <div class="ui fluid icon input">
+                                    <input class="prompt" name="search" placeholder="Klíčové slovo ..." type="text" value="@searchVal" autocomplete="off">
+                                    <i class="search icon"></i>
+                                </div>
+                                <div class="results w-font-size-small"></div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <button type="submit" class="ui button primary">Hledat</button>
                         </div>
                     </div>
-                    <div class="sixteen wide mobile four wide tablet two wide computer column">
-                        <button class="ui button primary fluid" type="submit">
-                            Hledat
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="four wide computer only column">
-            <div class="ui padded segment">
-                <div class="ui secondary vertical pointing menu w-internship-category-menu ">
-                    @if (string.IsNullOrEmpty(currentCategory))
-                    {
-                        <a href="@Url.Action("Index", new { category = "" })" class="active item">
-                            Všechny nabídky
-                            <span class="w-body-float-right">@totalThesesCount</span>
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("Index", new { category = "" })" class="item">
-                            Všechny nabídky
-                            <span class="w-body-float-right">@totalThesesCount</span>
-                        </a>
-                    }
-
-                    @foreach (var category in Model.ThesisCategories)
-                    {
-                        if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
+                    <h3>Kategorie</h3>
+                    <div class="ui link list">
+                        @if (string.IsNullOrEmpty(currentCategory))
                         {
-                            <a href="@Url.Action("Index", new { category = category.CodeName })" class="active item">
-                                @category.CategoryName
-                                <span class="w-font-bold w-body-float-right">@category.ThesesCount</span>
+                            var routeObj = new { category = "", search = searchVal };
+                            <a href="@Url.Action("Index", routeObj)" class="active item">
+                                Všechny kategorie
+                                <span class="w-body-float-right">@totalThesesCount</span>
                             </a>
                         }
                         else
                         {
-                            <a href="@Url.Action("Index", new { category = category.CodeName })" class="item">
-                                @category.CategoryName
-                                <span class="w-body-float-right">@category.ThesesCount</span>
+                            var routeObj = new { category = "", search = searchVal };
+                            <a href="@Url.Action("Index", routeObj)" class="item">
+                                Všechny kategorie
+                                <span class="w-body-float-right">@totalThesesCount</span>
                             </a>
                         }
-                    }
+                        @foreach (var category in Model.ThesisCategories)
+                        {
+                            var routeObj = new { category = category.CodeName, search = searchVal };
+
+                            if (currentCategory.Equals(category.CodeName, StringComparison.OrdinalIgnoreCase))
+                            {
+                                <a href="@Url.Action("Index", routeObj)" class="active item">
+                                    @category.CategoryName
+                                    <span class="w-font-bold w-body-float-right">@category.ThesesCount</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Index", routeObj)" class="item">
+                                    @category.CategoryName
+                                    <span class="w-body-float-right">@category.ThesesCount</span>
+                                </a>
+                            }
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="sixteen wide mobile sixteen wide tablet twelve wide computer column">
-            <div class="ui padded segment">
+    }
+</div>
 
-                @if (!Model.Theses.Any())
-                {
-                    @Helpers.MessageHelper.RenderWarningMessage("Žádné závěrečné práce nebyly nalezeny")
-                }
-                else
-                {
-                    <div class="ui divided items w-item-primary-type">
-                        @foreach (var thesis in Model.Theses)
-                        {
-                            <div class="item">
-                                <a class="ui tiny image" href="@Url.Action("Index", "Company", new {codeName = thesis.Company.CompanyCodeName})">
-                                    <img alt="@thesis.Company.CompanyName logo" src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)">
-                                </a>
-                                <div class="content">
-                                    <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codename = thesis.CodeName})" class="header">@thesis.ThesisName</a>
-                                    <div class="meta">
-                                        <span>
-                                            Zadáno:
-                                            <strong>@DateHelper.FormatDate(thesis.Created)</strong>
-                                        </span>
-                                        <span class="w-tablet-hide w-mobile-hide">|</span>
-                                        <span class="w-tablet-block w-mobile-block">
-                                            Typ práce:
-                                            <strong>
-                                                @thesis.ThesisTypeNameConverted
-                                            </strong>
-                                        </span>
-                                    </div>
-                                    <div class="description">
-                                        <p>
-                                            @thesis.ShortDescription
-                                        </p>
-                                    </div>
-                                    <div class="extra">
-                                        @if (thesis.IsPaid)
-                                        {
-                                            <div class="ui label"><i class="money icon"></i>@(Helpers.TextHelper.GetThesisAmount(thesis.HideAmount, thesis.Amount, thesis.CurrencyName, thesis.CurrencyShowSignOnLeft))</div>
-                                        }
-                                        <a class="ui right floated primary button" href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName})">
-                                            Detail
-                                            <i class="right chevron icon"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-
-                    @Helpers.PagerHelper.GetPager(Model.Theses);
-                }
-            </div>
-        </div>
-    </div>
-}
-
-
-
+<div class="w-margin-top-30">
+    @Helpers.HeaderHelper.RenderHeader(new UiHeader()
+{
+    Type = UiHeaderTypeEnum.Colored,
+    Color = UIHeaderColorEnum.Medium,
+    Title = "Nenašel jsi práci?",
+    SubText = "Kontaktuj některou z firem, třeba pro Tebe něco mají",
+    Buttons = new List<UIHeaderButton>()
+        {
+            new UIHeaderButton()
+            {
+                Type = UIHeaderButtonTypeEnum.Primary,
+                Text = "Zaregistruj se zde",
+                ButtonUrl = Url.Action("Register", "Account")
+            }
+        }
+})
+</div>
 
 

@@ -22,5 +22,6 @@ namespace UI.RazorExtensions
         BreadcrumbsHelper BreadcrumbsHelper { get; }
         UploadHelper UploadHelper { get; }
         HeaderHelper HeaderHelper { get; }
+        GoogleMapHelper GoogleMapHelper { get; }
     }
 }

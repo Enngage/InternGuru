@@ -299,7 +299,8 @@ namespace UI.Builders.Thesis
                     ThesisName = m.ThesisName,
                     ThesisTypeID = m.ThesisTypeID,
                     ThesisTypeName = m.ThesisType.Name,
-                    ThesisTypeCodeName = m.ThesisType.CodeName
+                    ThesisTypeCodeName = m.ThesisType.CodeName,
+                    ActiveSince = m.ActiveSince ?? DateTime.MinValue
                 });
 
             var cacheSetup = Services.CacheService.GetSetup<ThesisDetailModel>(GetSource());

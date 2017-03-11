@@ -1,23 +1,32 @@
 ﻿@model UI.Builders.Company.Views.CompanyBrowseView
 @using Core.Helpers;
+@using UI.Builders.Master.Enums
 @using UI.Builders.Shared.Enums
+@using UI.Modules.Header
 @{
     Model.Metadata.BasicMetadata.Title = "Přehled firem";
     Model.Metadata.BasicMetadata.Description = "Přehled firem";
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
-    Model.Master.UiHeader.UseColoredHeader(UIHeaderSizeEnum.Inherit, UIHeaderColorEnum.Blue, Model.Metadata.BasicMetadata.Title);
+
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        Type = UiHeaderTypeEnum.Colored,
+        Color = UIHeaderColorEnum.Primary,
+        Size = UIHeaderSizeEnum.Inherit
+    };
+
+    Model.Layout.Type = LayoutTypeEnum.DarkContainer;
+    Layout = Model.Layout.Path;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/company/browse")
 
 <div class="ui centered grid">
     <div class="ui sixteen wide column">
-        <div class="ui padded segment">
             <div class="ui icon input fluid">
-                <input id="_SearchCompanies" placeholder="Hledej firmu ..." type="text">
+                <input id="_SearchCompanies" placeholder="Název firmy ..." type="text">
                 <i class="search icon"></i>
             </div>
-        </div>
     </div>
 </div>
 
@@ -40,10 +49,10 @@
                             <div class="meta">
                                 @Html.Raw(company.CountryIconHtml) @company.City
                                 |
-                                <a href="@Url.Action("Internships", "Company", new {codeName = company.CodeName})">
+                                <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, s = "_InternshipSection"})">
                                     @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáží")
                                 </a>
-                                | <a href="@Url.Action("Theses", "Company", new {codeName = company.CodeName})"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "závěrečná práce", "závěrečné práce", "závěrečných prací")</a>
+                                | <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, s = "_ThesisSection"})"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "{count} závěrečná práce", "{count} závěrečné práce", "{count} závěrečných prací")</a>
                             </div>
                         </div>
                     </div>

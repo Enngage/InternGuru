@@ -15,7 +15,7 @@ namespace UI.Modules.Header
         public IList<UIHeaderButton> Buttons { get; set; } = new List<UIHeaderButton>();
 
         public UiHeaderTypeEnum Type { get; set; } = UiHeaderTypeEnum.None;
-        public UIHeaderSizeEnum Size { get; set; } = UIHeaderSizeEnum.Medium;
+        public UIHeaderSizeEnum Size { get; set; } = UIHeaderSizeEnum.Normal;
         public UIHeaderColorEnum Color { get; set; } = UIHeaderColorEnum.None;
         public UIHeaderTextAlignmentEnum TextAlignment { get; set; } = UIHeaderTextAlignmentEnum.Left;
         public bool ShowScrollButton { get; set; } = false;

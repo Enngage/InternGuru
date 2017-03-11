@@ -1,72 +1,81 @@
-﻿@model UI.Builders.Account.Views.RegisterViewModel
+﻿@using UI.Builders.Master.Enums
+@model UI.Builders.Account.Views.RegisterViewModel
 @{
     Model.Metadata.BasicMetadata.Title = "Registrace";
     Model.Metadata.BasicMetadata.Description = "Zaregistruj se a získej přístup ke všem nabídkám stáží (internship)";
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 }
 
-<div class="ui segment basic">
-    @*Divider needs to be inside a segment*@
-    <div class="ui two column middle aligned relaxed fitted stackable grid">
-        <div class="column">
 
-            <h1>@Model.Metadata.BasicMetadata.Title</h1>
-
-            @using (Html.BeginForm("Register", "Account", FormMethod.Post, null))
-            {
-                @Html.AntiForgeryToken()
-
-                if (!ViewData.ModelState.IsValid)
-                {
-                    <div class="ui negative message w-body-text-left w-margin-top-30">
-                        <p>
-                            @Html.ValidationSummary(false)
-                        </p>
-                    </div>
-                }
-
-                <div class="ui form w-margin-top-30">
-                    @{
-                        var email = Model?.RegisterForm != null ? Model.RegisterForm.Email : "";
-                    }
-                    <div class="ten wide field">
-                        <div class="ui left icon input">
-                            <input name="Email" placeholder="E-mail" type="text" value="@email">
-                            <i class="mail outline icon"></i>
-                        </div>
-                    </div>
-                    <div class="ten wide field">
-                        <div class="ui left icon input">
-                            <input name="Password" type="password" placeholder="Heslo">
-                            <i class="lock icon"></i>
-                        </div>
-                    </div>
-                    <div class="ten wide field">
-                        <div class="ui left icon input">
-                            <input name="ConfirmPassword" type="password" placeholder="Potvrzení hesla">
-                            <i class="lock icon"></i>
-                        </div>
-                    </div>
-                    <input type="submit" class="ui button primary" value="Registrovat" />
-                </div>
-                        }
-
-            <div class="w-margin-top-30 w-font-size-small">
-                Už más účet? @Html.ActionLink("Přihlas se", "Login", "Account")
-                <div>
-                    @Html.ActionLink("Zapomenuté heslo", "ForgotPassword")
+<div class="w-section-medium">
+    <div class="ui container">
+        <div class="w-section w-section-center w-section-no-top-margin">
+            <div class="ui centered grid">
+                <div class="ui sixteen wide mobile sixteen wide tablet five wide computer column w-body-text-center">
+                    <h1>
+                        Přihlásit
+                    </h1>
+                    @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
                 </div>
             </div>
-
         </div>
-
-        <div class="ui vertical divider">
-            Nebo
-        </div>
-
-        <div class="center aligned column">
-            @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </div>
-
     </div>
 </div>
+
+<div class="w-section-light">
+    <div class="ui container">
+        <div class="w-section w-section-center">
+            <div class="ui centered grid">
+                <div class="ui sixteen wide mobile sixteen wide tablet five wide computer column w-body-text-center">
+
+                    <h2>
+                       Vytvořit nový účet
+                    </h2>
+
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, null))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Helpers.MessageHelper.RenderValidationSummary()
+
+                        <div class="ui form">
+                            @{
+                                var email = Model?.RegisterForm != null ? Model.RegisterForm.Email : "";
+                            }
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <input name="Email" placeholder="E-mail" type="text" value="@email">
+                                    <i class="mail outline icon"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <input name="Password" type="password" placeholder="Heslo">
+                                    <i class="lock icon"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <input name="ConfirmPassword" type="password" placeholder="Potvrzení hesla">
+                                    <i class="lock icon"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <input type="submit" class="ui button primary" value="Registrovat" />
+                            </div>
+                        </div>
+                                }
+                    <div class="w-margin-top-30 w-font-size-small">
+                        Už más účet? @Html.ActionLink("Přihlas se", "Login", "Account")
+                        <div>
+                            @Html.ActionLink("Zapomenuté heslo", "ForgotPassword")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

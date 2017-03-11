@@ -1,78 +1,74 @@
-﻿@using Core.Helpers;
+﻿@using Core.Helpers
+@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
+@using UI.Builders.Shared.Models
+@using UI.Modules.Header
 @model UI.Builders.Internship.Views.InternshipNotFoundView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Stáž nenalezena";
     Model.Metadata.BasicMetadata.Description = "Požadována stáž nebyla nalezena.";
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+
+
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        SubText = "Zkus se podívat na nabídku níže, třeba najdeš něco jiného!",
+        Type = UiHeaderTypeEnum.Colored,
+        Color = UIHeaderColorEnum.Primary,
+        Size = UIHeaderSizeEnum.Normal
+    };
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 }
 
-@Helpers.ScriptHelper.RequireScript("/scripts/views/internship/notFound")
-
-<div class="ui sixteen column grid">
-    <div class="centered row w-margin-top-30">
-        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column">
-
-            <h1>
-                Stáž <span class="ui header red">nebyla</span> nalezena
-            </h1>
-
-        </div>
-    </div>
-    <div class="centered row">
-        <div class="ten wide computer sixteen wide tablet sixteen wide mobile column w-body-text-left">
-            <div class="ui very padded segment">
-                <p>
-                    Stáž, kterou hledáte neexistuje, expirovala nebo není aktivní.
-                </p>
-            </div>
-
+<div class="w-section-light">
+    <div class="ui container">
+        <div class="w-section">
+            <h2>
+                Mohlo by Tě zajímat
+            </h2>
             @if (Model.LatestInternships.Any())
             {
-                <h3>
-                    Mohlo by Vás zajímat
-                </h3>
-
-                <div class="ui segment">
-                    <table class="ui very basic table w-table-listing _InternshipsListingTable">
-                        <thead>
-                            <tr>
-                                <th colspan="2">
-                                    Pozice
-                                </th>
-                                <th>
-                                    Místo
-                                </th>
-                                <th>
-                                    Délka stáže
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var internship in Model.LatestInternships)
-                            {
-                                <tr data-link="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
-                                    <td class="collapsing">
-                                        <img class="ui mini image" alt="@internship.Title" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(internship.CompanyGuid)" />
-                                    </td>
-                                    <td>
-                                        <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codename = internship.CodeName})">
-                                            @internship.Title
-                                        </a>
-                                        <span class="w-font-size-small w-font-light">(@Helpers.TextHelper.DisplayCurrencyValue(internship.Amount, internship.CurrencyName, internship.CurrencyShowSignOnLeft) / @internship.AmountTypeName)</span>
-                                    </td>
-                                    <td>
-                                        @Html.Raw(Helpers.CountryHelper.GetCountryIcon(internship.CountryCode)) @internship.City
-                                    </td>
-                                    <td class="collapsing w-body-text-right w-mobile-left">
-                                        @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <div class="ui divided items">
+                    @foreach (var internship in Model.LatestInternships)
+                    {
+                        <div class="item">
+                            <div class="ui tiny image">
+                                <a href="@Url.Action("Index", "Company", new { codeName = internship.CompanyCodeName})">
+                                    <img alt="" src="@Helpers.ImageHelper.GetCompanyLogo(internship.CompanyGuid)">
+                                </a>
+                            </div>
+                            <div class="middle aligned content">
+                                <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName})">@internship.Title</a>
+                                <p class="w-font-size-small">
+                                    @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue) | @internship.City
+                                </p>
+                            </div>
+                        </div>
+                    }
                 </div>
             }
         </div>
     </div>
 </div>
+
+<div class="w-margin-top-30">
+    @Helpers.HeaderHelper.RenderHeader(new UiHeader()
+{
+    Type = UiHeaderTypeEnum.Colored,
+    Color = UIHeaderColorEnum.Dark,
+    Title = "Stále jsi nic nenašel?",
+    Buttons = new List<UIHeaderButton>()
+        {
+            new UIHeaderButton()
+            {
+                Type = UIHeaderButtonTypeEnum.Primary,
+                Text = "Procházet všechny stáže",
+                ButtonUrl = Url.Action("Index", "Internships")
+            }
+        }
+})
+</div>
+

@@ -237,7 +237,6 @@
     <Compile Include="Builders\Auth\Views\AuthCompanyTypeIndexView.cs" />
     <Compile Include="Builders\Auth\Views\AuthEditCompanyView.cs" />
     <Compile Include="Builders\Auth\Views\AuthRegisterCompanyView.cs" />
-    <Compile Include="Builders\Company\Enum\CompanyDetailMenuEnum.cs" />
     <Compile Include="Builders\Email\EmailBuilder.cs" />
     <Compile Include="Builders\Email\Models\EmailPreviewModel.cs" />
     <Compile Include="Builders\Email\Views\EmailPreviewView.cs" />
@@ -256,6 +255,7 @@
     <Compile Include="Builders\Thesis\Data\ThesisDeleteThesisData.cs" />
     <Compile Include="Extensions\NameValueExtensions.cs" />
     <Compile Include="Helpers\ActionHelper.cs" />
+    <Compile Include="Helpers\GoogleMapHelper.cs" />
     <Compile Include="Helpers\BreadcrumbsHelper.cs" />
     <Compile Include="Helpers\HeaderHelper.cs" />
     <Compile Include="Helpers\UploadHelper.cs" />
@@ -421,6 +421,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Builders\Company\Enum\" />
     <Folder Include="Builders\Home\Models\" />
     <Folder Include="Builders\Questionnaire\Views\" />
     <Folder Include="Builders\Shared\Extensions\" />

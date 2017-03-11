@@ -8,7 +8,7 @@
     var currencyVal = Model.CurrencyID == 0 ? defaultCurrency?.ID : Model.CurrencyID;
 }
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/addEditThesis")
-<div class="ui segment">
+<div class="ui vertical segment">
     <div class="ui form">
         @using (Html.BeginForm(formAction, "AuthCompany", FormMethod.Post, new { enctype = "multipart/form-data", id = "_ThesisForm" }))
         {

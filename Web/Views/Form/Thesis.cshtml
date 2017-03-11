@@ -1,10 +1,21 @@
-﻿@using UI.Builders.Shared.Enums
+﻿@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
+@using UI.Modules.Header
 @model UI.Builders.Form.Views.FormThesisView
 @{
     Model.Metadata.BasicMetadata.Title = $"Zájem | {Model.Thesis.ThesisName}";
     Model.Metadata.BasicMetadata.Description = $"Zájem o závěrečnou práci {Model.Thesis.ThesisName} u firmy {Model.Thesis.CompanyName}";
-    Model.Master.UiHeader.UseBackgroundImage(UIHeaderSizeEnum.Medium, null, Helpers.ImageHelper.GetCompanyBanner(Model.Thesis.CompanyGuid));
-    Layout = "~/Views/Shared/Body/Dark.cshtml";
+
+    Model.Header = new UiHeader()
+    {
+        Title = null,
+        Type = UiHeaderTypeEnum.BackgroundImage,
+        ImagePath = Helpers.ImageHelper.GetCompanyBanner(Model.Thesis.CompanyGuid),
+        Size = UIHeaderSizeEnum.Normal
+    };
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/modules/questionnaire/submitQuestionnaire")
@@ -12,60 +23,61 @@
 
 <input type="hidden" id="_QuestionnaireInitialState" value="@Model.ThesisForm.QuestionsJson" />
 
-<div class="w-padding-bottom-30">
-
+<div class="w-section-light">
     <div class="ui container">
-        <div class="ui grid">
-            <div class="sixteen wide column">
-                <h1>
-                    Zájem o <span class="ui header w-color-secondary">@Model.Thesis.ThesisName</span> <span class="w-font-size-small">(@Model.Thesis.ThesisTypeNameConverted)</span>
-                </h1>
-
-                @using (Html.BeginForm("Thesis", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-
-                    @Html.AntiForgeryToken()
-
-                    @Helpers.MessageHelper.RenderFormValidationResult(Model.ThesisForm.FormResult.IsSuccess, "Zpráva byla odeslána")
-
-                    @Html.Hidden("ThesisID", Model.Thesis.ID)
-
-                    if (!Model.ThesisForm.FormResult.IsSuccess)
-                    {
-                        <p>
-                            U firmy <a href="@Url.Action("Index", "Company", new { codeName = Model.Thesis.CompanyCodeName})">@Model.Thesis.CompanyName</a>
-                        </p>
-
-                            <div class="ui reply form">
-                                <div class="field">
-                                    <textarea name="Message" @Model.ThesisForm.Message></textarea>
-                                </div>
-                                
-                                @if (Model.ThesisForm.HasAttachedQuestionnaire)
-                                {
-                                    <h4 class="ui dividing header">
-                                        Dotazník
-                                    </h4>
-
-                                    <div id="_QuestionnaireFormWrapper" class="w-margin-bottom-14"></div>
-                                }
-
-                                <button class="ui button primary" type="submit">
-                                    Odeslat
-                                </button>
-                            </div>
-                    }
-                    else
-                    {
-                        <div class="ui segment padded">
-                            <p>
-                                Historii zpráv lze nalézt v <a href="@Url.Action(Model.Master.CurrentUser.AuthMasterAction, "Auth")">profilu</a>
-                            </p>
-                        </div>
-                    }
-                }
-
-            </div>
+        <div class="w-section">
+            <h1>
+                Zájem o práci <span class="ui header w-color-secondary">@Model.Thesis.CompanyName</span>
+            </h1>
         </div>
     </div>
 </div>
+
+<div class="w-section-medium">
+    <div class="ui container">
+        <div class="w-section">
+            @using (Html.BeginForm("Thesis", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                @Html.AntiForgeryToken()
+
+                @Helpers.MessageHelper.RenderFormValidationResult(Model.ThesisForm.FormResult.IsSuccess, "Zpráva byla odeslána")
+
+                @Html.Hidden("ThesisID", Model.Thesis.ID)
+
+                if (!Model.ThesisForm.FormResult.IsSuccess)
+                {
+                    <div class="ui reply form">
+                        <div class="field">
+                            <label>Zpráva pro firmu</label>
+                            <textarea name="Message" @Model.ThesisForm.Message></textarea>
+                        </div>
+
+                        @if (Model.ThesisForm.HasAttachedQuestionnaire)
+                        {
+                            <h2 class="ui dividing header">
+                                Dotazník
+                            </h2>
+
+                            <div id="_QuestionnaireFormWrapper" class="w-margin-bottom-14"></div>
+                        }
+
+                        <button class="ui button primary" type="submit">
+                            Odeslat
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="ui vertical segment padded">
+                        <p>
+                            Historii zpráv najdeš ve svém <a href="@Url.Action(Model.Master.CurrentUser.AuthMasterAction, "Auth")">profilu</a>
+                        </p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+

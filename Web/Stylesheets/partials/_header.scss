@@ -47,7 +47,7 @@
         min-height: 150px; /* Height of the teaser image */
     }
 
-    .w-header-size.medium {
+    .w-header-size.normal {
         min-height: 250px; /* Height of the teaser image */
     }
 
@@ -101,20 +101,21 @@
     }
 
     .w-header-colored.medium {
-        background-color: #e1e1e1;
-        color: #192023;
+        background-color: $color-medium;
+        color: $color-medium-text;
     }
 
     .w-header-colored.dark {
-        background-color: #192023;
-        color: #ffffff;
+        background-color: $color-dark;
+        color: $color-dark-text;
     }
+
     /* BACKGROUND IMAGE HEADER */
     .w-header-size.large.w-header-background-image {
         padding-top: 160px;
     }
 
-    .w-header-size.medium.w-header-background-image {
+    .w-header-size.normal.w-header-background-image {
         padding-top: 85px;
     }
 

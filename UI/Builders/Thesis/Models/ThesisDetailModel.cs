@@ -22,5 +22,6 @@ namespace UI.Builders.Thesis.Models
         public string ThesisTypeCodeName { get; set; }
         public string ThesisTypeNameConverted { get; set; }
         public ThesisDetailCompanyModel Company { get; set; }
+        public DateTime ActiveSince { get; set; }
     }
 }

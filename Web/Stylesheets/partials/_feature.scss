@@ -1,0 +1,15 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+
+    .w-feature-primary {
+        
+        .icon {
+            color: $primary-color;
+        }
+
+        .content{
+            font-weight: 300;
+        }
+    }
+}
