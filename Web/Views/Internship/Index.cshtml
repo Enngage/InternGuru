@@ -23,7 +23,7 @@
     Model.Layout.Type = LayoutTypeEnum.Light;
     Layout = Model.Layout.Path;
 
-    // get gallery images
+    // get  gallery images
     var galleryImages = Helpers.ImageHelper.GetCompanyGalleryImages(Model.Internship.Company.CompanyGuid).Select(m => new GalleryImage()
     {
         Url = m.Value
