@@ -377,7 +377,8 @@ namespace UI.Builders.Form
                     InternshipID = m.ID,
                     InternshipTitle = m.Title,
                     CompanyCodeName = m.Company.CodeName,
-                    QuestionnaireID = m.QuestionnaireID
+                    QuestionnaireID = m.QuestionnaireID,
+                    InternshipCodeName = m.CodeName
                 });
 
             return await Services.CacheService.GetOrSetAsync(async () => await internshipQuery.FirstOrDefaultAsync(), cacheSetup);

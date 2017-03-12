@@ -50,7 +50,6 @@ namespace UI.Builders.Auth
                     CountryID = m.CountryID,
                     CurrencyID = m.CurrencyID,
                     Description = m.Description,
-                    ShortDescription = m.ShortDescription,
                     ID = m.ID,
                     InternshipCategoryID = m.InternshipCategoryID,
                     IsPaid = m.IsPaid ? Helpers.InputHelper.ValueOfEnabledCheckboxStatic : "",
@@ -278,7 +277,6 @@ namespace UI.Builders.Auth
                     StudentStatusOptionID = form.StudentStatusOptionID,
                     HideAmount = form.GetHideAmount(),
                     QuestionnaireID = form.QuestionnaireID,
-                    ShortDescription = form.ShortDescription
                 };
 
                  await Services.InternshipService.UpdateAsync(internship);
@@ -357,7 +355,6 @@ namespace UI.Builders.Auth
                     StudentStatusOptionID = form.StudentStatusOptionID,
                     HideAmount = form.GetHideAmount(),
                     QuestionnaireID = form.QuestionnaireID,
-                    ShortDescription = form.ShortDescription
                 };
 
                 await Services.InternshipService.InsertAsync(internship);

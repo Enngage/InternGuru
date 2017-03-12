@@ -54,7 +54,6 @@ namespace UI.Builders.Auth
                     ThesisName = m.ThesisName,
                     ThesisTypeID = m.ThesisTypeID,
                     QuestionnaireID = m.QuestionnaireID,
-                    ShortDescription = m.ShortDescription
                 });
 
             var thesis = await thesisQuery.FirstOrDefaultAsync();
@@ -186,7 +185,6 @@ namespace UI.Builders.Auth
                     ThesisName = form.ThesisName,
                     HideAmount = form.GetHideAmount(),
                     QuestionnaireID = form.QuestionnaireID,
-                    ShortDescription = form.ShortDescription
                 };
 
                 await Services.ThesisService.UpdateAsync(thesis);
@@ -244,7 +242,6 @@ namespace UI.Builders.Auth
                     ThesisName = form.ThesisName,
                     HideAmount = form.GetHideAmount(),
                     QuestionnaireID = form.QuestionnaireID,
-                    ShortDescription = form.ShortDescription
                 };
 
                 await Services.ThesisService.InsertAsync(thesis);

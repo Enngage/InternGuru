@@ -10,5 +10,6 @@ namespace Service.Services.Questionnaires
         Task<int> EditQuestionnaireAsync(int questionnaireID, string questionnaireName, IEnumerable<IQuestion> questions, string applicationUserId, int companyId);
         IEnumerable<IQuestion> GetQuestionsFromXml(string questionnaireXml);
         string GetQuestionnaireXml(IEnumerable<IQuestion> questions);
+        double GetSuccessRate(IList<IQuestionSubmit> submittedQuestions);
     }
 }

@@ -20,7 +20,7 @@
                         @Html.AntiForgeryToken()
                         <button name="provider" class="ui google plus fluid button" value="@p.AuthenticationType">
                             <i class="google g icon"></i>
-                            Přihlásit přes Google
+                            @Model.ButtonPrefixText přes Google
                         </button>
                     }
                 }
@@ -31,7 +31,7 @@
                         @Html.AntiForgeryToken()
                         <button name="provider" class="ui facebook button fluid w-margin-top-10" value="@p.AuthenticationType">
                             <i class="facebook f icon"></i>
-                            Přihlásit přes Facebook
+                            @Model.ButtonPrefixText přes Facebook
                         </button>
                     }
                 }
@@ -41,7 +41,7 @@
                     {
                         <button name="provider" class="ui big blue labeled icon fluid button w-margin-top-10" value="@p.AuthenticationType">
                             <i class="star  icon"></i>
-                            @p.AuthenticationType
+                            @Model.ButtonPrefixText @p.AuthenticationType
                         </button>
                     }
                 }

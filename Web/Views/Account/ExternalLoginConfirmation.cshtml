@@ -1,47 +1,57 @@
-﻿@model UI.Builders.Account.Views.ExternalLoginConfirmationViewModel
+﻿@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
+@using UI.Modules.Header
+@model UI.Builders.Account.Views.ExternalLoginConfirmationViewModel
 @{
-    Model.Metadata.BasicMetadata.Title = "Potvrzení e-mailu";
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
+    Model.Metadata.BasicMetadata.Title = "Dokončení registrace";
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
+
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        Type = UiHeaderTypeEnum.Colored,
+        Color = UIHeaderColorEnum.Medium,
+        Size = UIHeaderSizeEnum.Inherit
+    };
 }
 
-<div class="ui middle aligned center aligned sixteen column grid">
-    <div class="row">
-        <div class="five wide computer sixteen wide tablet sixteen wide mobile column">
-            <h1>@Model.Metadata.BasicMetadata.Title</h1>
+<div class="w-section-light">
+    <div class="ui container">
+        <div class="w-section w-section-center">
+            <div class="ui centered grid">
+                <div class="ui sixteen wide mobile sixteen wide tablet seven wide computer column w-body-text-center">
+                    @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post, null))
+                    {
+                        @Html.AntiForgeryToken()
 
-            @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new {ViewBag.ReturnUrl }, FormMethod.Post, null))
-            {
-                @Html.AntiForgeryToken()
+                        @Helpers.MessageHelper.RenderValidationSummary()
 
-                if (!ViewData.ModelState.IsValid)
-                {
-                    <div class="ui negative message w-body-text-left w-margin-top-30">
-                        <p>
-                            @Html.ValidationSummary(false)
-                        </p>
-                    </div>
-                }
-
-                <div class="w-margin-top-30">
-                    <p class="text-info">
-                        Autentizace přes <strong>@ViewBag.LoginProvider</strong> byla úspěšná. Pro dokončení prosím zadejte svůj e-mail.
-                    </p>
-                </div>
-
-                <div class="ui form w-margin-top-30">
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <input name="Email" placeholder="E-mail" type="text" value="">
-                            <i class="mail outline icon"></i>
+                        <div>
+                            <p>
+                                Autentizace přes <strong>@ViewBag.LoginProvider</strong> byla úspěšná. 
+                            </p>
+                            <p>
+                                Pro dokončení reigstrace zadej svůj e-mail.
+                            </p>
                         </div>
-                    </div>
-                    <input type="submit" class="ui submit button primary" value="Registrovat" />
+
+                        <div class="ui form">
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <input name="Email" placeholder="E-mail" type="text" value="">
+                                    <i class="mail outline icon"></i>
+                                </div>
+                            </div>
+                            <input type="submit" class="ui button primary" value="Dokončit registraci" />
+                        </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
     </div>
 </div>
-
 
 
 

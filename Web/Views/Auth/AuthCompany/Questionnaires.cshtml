@@ -6,7 +6,7 @@
     Layout = Model.Master.CurrentUser.AuthMasterLayout;
 }
 @Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authQuestionnaires")
-@Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat dotazník", "Opravdu chcete smazat vybraný dotazník včetně všech odpovědí?")
+@Helpers.ModalHelper.RenderDeleteModal("_DeleteModal", "Smazat dotazník", "Opravdu chceš smazat vybraný dotazník včetně všech odpovědí?")
 <div class="ui grid">
     <div class="sixteen wide mobile eight wide computer eight wide tablet column">
         @Helpers.BreadcrumbsHelper.GetBreadcrumbs(new List<BreadcrumbItem>()

@@ -22,5 +22,7 @@ namespace Service.Services.Questionnaires
                 return Answer.Equals(CorrectAnswer, StringComparison.OrdinalIgnoreCase) ? QuestionAnswerResultEnum.Correct : QuestionAnswerResultEnum.Wrong;
             }
         }
+
+        public bool IsTestQuestion => Result != QuestionAnswerResultEnum.NotATestQuestion;
     }
 }

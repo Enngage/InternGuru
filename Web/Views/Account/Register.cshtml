@@ -8,16 +8,15 @@
     Layout = Model.Layout.Path;
 }
 
-
 <div class="w-section-medium">
     <div class="ui container">
         <div class="w-section w-section-center w-section-no-top-margin">
             <div class="ui centered grid">
                 <div class="ui sixteen wide mobile sixteen wide tablet five wide computer column w-body-text-center">
                     <h1>
-                        Přihlásit
+                        Registrace
                     </h1>
-                    @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                    @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl, ButtonPrefixText = "Registrovat"})
                 </div>
             </div>
         </div>
@@ -68,7 +67,7 @@
                         </div>
                                 }
                     <div class="w-margin-top-30 w-font-size-small">
-                        Už más účet? @Html.ActionLink("Přihlas se", "Login", "Account")
+                        Už más účet? @Html.ActionLink("Přihlásit", "Login", "Account")
                         <div>
                             @Html.ActionLink("Zapomenuté heslo", "ForgotPassword")
                         </div>

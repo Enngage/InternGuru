@@ -8,5 +8,6 @@
         string Answer { get; set; }
         string CorrectAnswer { get; set; }
         QuestionAnswerResultEnum Result { get; }
+        bool IsTestQuestion { get; }
     }
 }

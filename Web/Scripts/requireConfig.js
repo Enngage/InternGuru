@@ -35,5 +35,5 @@ var require = {
 
 // --------------- Version needs to be changed manually along with VersionInfo.cs ------------- //
 function GetVersion() {
-    return "0.96";
+    return "0.97";
 }

@@ -1,11 +1,20 @@
-﻿@model UI.Builders.System.Views.SystemMasterView
+﻿@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
+@using UI.Modules.Header
+@model UI.Builders.System.Views.SystemMasterView
     
 @{
-    Layout = "~/Views/Shared/Body/DarkPadded.cshtml";
-}
+    Model.Metadata.BasicMetadata.Title += " - System";
+    Model.Layout.Type = LayoutTypeEnum.LightContainer;
+    Layout = Model.Layout.Path;
 
-<h1>
-    System master
-</h1>
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        Type = UiHeaderTypeEnum.Colored,
+        Color = UIHeaderColorEnum.Medium,
+        Size = UIHeaderSizeEnum.Inherit
+    };
+}
 
 @RenderBody()

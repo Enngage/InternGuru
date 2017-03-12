@@ -186,7 +186,8 @@ namespace UI.Builders.Auth
                     CreatedByLastName = m.CreatedByApplicationUser.LastName,
                     CreatedByNickname = m.CreatedByApplicationUser.Nickname,
                     QuestionnaireID = m.QuestionnaireID,
-                    QuestionnaireName = m.Questionnaire.QuestionnaireName
+                    QuestionnaireName = m.Questionnaire.QuestionnaireName,
+                    SubmissionXml = m.SubmissionXml
                 })
                 .OrderByDescending(m => m.ID);
 
@@ -201,7 +202,18 @@ namespace UI.Builders.Auth
             cacheSetup.PageNumber = pageNumber;
             cacheSetup.PageSize = pageSize;
 
-            return await Services.CacheService.GetOrSet(async () => await submissionsQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+            var submissions = await Services.CacheService.GetOrSet(async () => await submissionsQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+
+            // init success rate
+            foreach (var submission in submissions)
+            {
+                // first init questions
+                submission.Questions = Services.QuestionnaireSubmissionService.GetSubmitsFromXml(submission.SubmissionXml);
+
+                submission.SuccessRate = Services.QuestionnaireService.GetSuccessRate(submission.Questions);
+            }
+
+            return submissions;
         }
 
         private async Task<bool> UserHasAccessToQuestionnaireAsync(int questionnaireID)

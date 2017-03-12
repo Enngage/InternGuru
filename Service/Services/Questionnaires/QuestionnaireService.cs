@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using Entity;
@@ -179,5 +180,15 @@ namespace Service.Services.Questionnaires
             return doc.OuterXml;
         }
 
+        public double GetSuccessRate(IList<IQuestionSubmit> submittedQuestions)
+        {
+            // get only test questions
+            var testQuestions = submittedQuestions.Where(m => m.IsTestQuestion).ToList();
+
+            var testQuestionsCount = testQuestions.Count();
+            var correctlyAnsweredQuestionsCount = testQuestions.Count(m => m.Result == QuestionAnswerResultEnum.Correct);
+
+            return Math.Round((double)correctlyAnsweredQuestionsCount * 100 / testQuestionsCount, 1);
+        }
     }
 }

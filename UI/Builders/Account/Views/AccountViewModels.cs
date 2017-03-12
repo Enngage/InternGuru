@@ -10,6 +10,7 @@ namespace UI.Builders.Account.Views
     public class ExternalLoginListViewModel : MasterView
     {
         public string ReturnUrl { get; set; }
+        public string ButtonPrefixText { get; set; } = "Registrovat";
     }
 
     public class SendCodeViewModel : MasterView

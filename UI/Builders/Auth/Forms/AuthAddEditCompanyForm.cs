@@ -27,8 +27,8 @@ namespace UI.Builders.Auth.Forms
         [EmailAddress(ErrorMessage = "Nevalidní e-mailová adresa")]
         public string PublicEmail { get; set; }
 
-        [Required(ErrorMessage = "Dlouhý popis nemůže být prázdný")]
-        [AllowHtml]
+        [Required(ErrorMessage = "Popis firmy nemůže být prázdný")]
+        [MaxLength(500, ErrorMessage = "Maximální délka popisu firmy je 500 znaků.")]
         public string LongDescription { get; set; }
 
         [Required(ErrorMessage = "Adresa firmy nemůže být prázdná")]

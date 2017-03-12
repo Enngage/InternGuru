@@ -4,7 +4,7 @@
         var searchModule = new SearchModule();
 
         // initialize dropdown
-        $('._LengthDropdown,').dropdown();
+        $('._LengthDropdown').dropdown();
 
         // initialize autocomplete search for cities
         $('._CitiesAutocomplete')

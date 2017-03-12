@@ -2719,6 +2719,7 @@
     <Content Include="Stylesheets\partials\_section.scss" />
     <Content Include="Stylesheets\partials\_icon.scss" />
     <Content Include="Stylesheets\partials\_feature.scss" />
+    <Content Include="Stylesheets\partials\_button.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

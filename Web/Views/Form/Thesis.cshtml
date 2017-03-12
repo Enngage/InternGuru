@@ -29,6 +29,9 @@
             <h1>
                 Zájem o práci <span class="ui header w-color-secondary">@Model.Thesis.CompanyName</span>
             </h1>
+            <a href="@Url.Action("Index", "Thesis", new { id = Model.Thesis.ID, codeName = Model.Thesis.ThesisCodeName})" target="_blank">
+                <div class="ui button primary">Zpět na profil práce</div>
+            </a>
         </div>
     </div>
 </div>

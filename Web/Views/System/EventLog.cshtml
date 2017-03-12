@@ -4,21 +4,15 @@
 @{
     Model.Metadata.BasicMetadata.Title = $"Event log";
     Model.Metadata.BasicMetadata.Description = $"Event log";
+
     Layout = "~/Views/System/SystemMaster.cshtml";
 }
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/system/eventLog")
 
 <div class="ui grid">
-
     <div class="sixteen wide column">
-
-        <div class="ui segment">
-
-
-            <h1>
-                Event log
-            </h1>
+        <div class="ui vertical segment">
 
             @foreach (var log in Model.Events)
             {

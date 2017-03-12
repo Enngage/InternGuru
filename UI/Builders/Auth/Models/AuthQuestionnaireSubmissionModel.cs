@@ -17,5 +17,6 @@ namespace UI.Builders.Auth.Models
         public string CreatedByLastName { get; set; }
         public string SubmissionXml { get; set; }
         public DateTime Created { get; set; }
+        public double SuccessRate { get; set; }
     }
 }

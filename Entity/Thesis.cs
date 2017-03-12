@@ -16,8 +16,6 @@ namespace Entity
         [Required]
         [MaxLength(250)]
         public string ThesisName { get; set; }
-        [MaxLength(200)]
-        public string ShortDescription { get; set; }
         [Required]
         public string Description { get; set; }
         [Required]

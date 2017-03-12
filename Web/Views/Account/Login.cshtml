@@ -17,7 +17,7 @@
                     <h1>
                         Přihlásit
                     </h1>
-                    @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                    @Html.Partial("_ExternalLoginsListPartial", new UI.Builders.Account.Views.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl, ButtonPrefixText = "Přihlásit"})
                 </div>
             </div>
         </div>

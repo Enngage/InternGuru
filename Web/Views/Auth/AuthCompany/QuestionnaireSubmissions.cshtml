@@ -19,7 +19,6 @@
     </div>
 </div>
 
-
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui vertical segment">
@@ -40,6 +39,9 @@
                                     Autor
                                 </th>
                                 <th>
+                                    Výsledek
+                                </th>
+                                <th>
                                     Vyplněno
                                 </th>
                             </tr>
@@ -54,7 +56,17 @@
                                     <td>
                                         @Helpers.UserHelper.GetDisplayName(submission.CreatedByFirstName, submission.CreatedByLastName, submission.CreatedByNickname, submission.CreatedByApplicationUserName)
                                     </td>
-                                    <td class="collapsing w-mobile-left w-tablet-hide w-font-size-small">
+                                    <td>
+                                        @if (submission.SuccessRate <= 50)
+                                        {
+                                            <span class="w-font-negative">@submission.SuccessRate %</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="w-font-positive">@submission.SuccessRate %</span>
+                                        }
+                                    </td>
+                                    <td class="collapsing w-mobile-left w-font-size-small">
                                         <i title="Vytvořeno" class="calendar icon"></i>
                                         @DateHelper.FormatDateAndTime(submission.Created)
                                     </td>

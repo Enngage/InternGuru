@@ -13,14 +13,13 @@
         padding: 15px !important;
     }
 
-    .ui.search .message.empty .header{
-        display: none!important;
+    .ui.search .message.empty .header {
+        display: none !important;
     }
 
-    .ui.search input{
-        border-radius: 0.285714rem!important;
+    .ui.search input {
+        border-radius: 0.285714rem !important;
     }
-
     /* Segment start*/
     .ui.segment {
         border: none;
@@ -43,11 +42,13 @@
         }
     }
     /* Labeled dropdown end*/
-
     /* Semantic Cards*/
-    .w-override-card-on-dark-background{
+    .w-override-card-on-dark-background {
         box-shadow: none;
     }
-
     /* Semantic cards end*/
+
+    .validation-summary-errors {
+        text-align: left;
+    }
 }

@@ -290,7 +290,6 @@ namespace UI.Builders.Internship
                     Title = m.Title,
                     Description = m.Description,
                     Requirements = m.Requirements,
-                    ShortDescription = m.ShortDescription,
                     MaxDurationTypeCodeName = m.MaxDurationType.CodeName,
                     MinDurationTypeCodeName = m.MinDurationType.CodeName,
                     Languages = m.Languages,

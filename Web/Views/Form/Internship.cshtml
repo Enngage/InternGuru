@@ -29,6 +29,9 @@
             <h1>
                 Zájem o stáž <span class="ui header w-color-secondary">@Model.Internship.InternshipTitle</span>
             </h1>
+            <a href="@Url.Action("Index", "Internship", new { id = Model.Internship.InternshipID, codeName = Model.Internship.InternshipCodeName})" target="_blank">
+                <div class="ui button primary">Zpět na profil stáže</div>
+            </a>
         </div>
     </div>
 </div>
@@ -79,5 +82,4 @@
         </div>
     </div>
 </div>
-
 

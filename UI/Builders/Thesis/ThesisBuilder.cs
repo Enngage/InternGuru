@@ -146,7 +146,6 @@ namespace UI.Builders.Thesis
                     ThesisTypeCodeName = m.ThesisType.CodeName, 
                     ID = m.ID,
                     ThesisTypeName = m.ThesisType.Name,
-                    ShortDescription = m.ShortDescription,
                     ThesisName = m.ThesisName,
                     ThesisTypeID = m.ThesisTypeID,
                     Company = new ThesisDetailCompanyModel()

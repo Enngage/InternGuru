@@ -3,6 +3,7 @@
 @{
     Model.Metadata.BasicMetadata.Title = "E-mail log";
     Model.Metadata.BasicMetadata.Description = "E-mail log";
+
     Layout = "~/Views/System/SystemMaster.cshtml";
 
     var onlyUnsentParam = Helpers.UrlHelper.GetQueryString("onlyUnsent", string.Empty);
@@ -11,10 +12,8 @@
 @Helpers.ScriptHelper.RequireScript("/scripts/views/system/emailLog")
 <div class="ui grid">
     <div class="sixteen wide column">
-        <div class="ui segment">
-            <h1>
-                @Model.Metadata.BasicMetadata.Title
-            </h1>
+        <div class="ui vertical segment">
+            
             @if (!onlyUnsentValue)
             {
                 <a href="@Url.Action("EmailLog", "System", new { onlyUnsent = true})">
