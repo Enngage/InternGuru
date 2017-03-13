@@ -1,0 +1,35 @@
+﻿@using UI.Builders.Master.Enums
+@using UI.Builders.Shared.Enums
+@using UI.Builders.Shared.Models
+@using UI.Modules.Header
+@model UI.Builders.Master.Views.MasterView
+
+@{
+    Model.Metadata.BasicMetadata.Title = "404";
+    Model.Metadata.BasicMetadata.Description = "Stránka nebyla nalezena";
+
+    Model.Layout.Type = LayoutTypeEnum.Light;
+    Layout = Model.Layout.Path;
+
+    var errorMessage = "Stránka nebyla nalezena";
+
+    Model.Header = new UiHeader()
+    {
+        Title = Model.Metadata.BasicMetadata.Title,
+        SubText = errorMessage,
+        Type = UiHeaderTypeEnum.Colored,
+        Color = UIHeaderColorEnum.Dark,
+        Size = UIHeaderSizeEnum.Large,
+        TextAlignment = UIHeaderTextAlignmentEnum.Center,
+        Buttons = new List<UIHeaderButton>()
+        {
+            new UIHeaderButton()
+            {
+                Type = UIHeaderButtonTypeEnum.Primary,
+                Text = "Zpět na hlavní stránku",
+                ButtonUrl = Url.Action("Index", "Home")
+            }
+        }
+    };
+}
+

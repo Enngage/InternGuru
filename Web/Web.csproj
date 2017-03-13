@@ -220,6 +220,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Auth\AuthCandidateController.cs" />
     <Compile Include="Controllers\Auth\AuthCompanyController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\System\SystemController.cs" />
@@ -2720,13 +2721,14 @@
     <Content Include="Stylesheets\partials\_icon.scss" />
     <Content Include="Stylesheets\partials\_feature.scss" />
     <Content Include="Stylesheets\partials\_button.scss" />
+    <Content Include="Views\Auth\AuthCandidate\Index.cshtml" />
+    <Content Include="Views\Shared\404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Avatars\" />
     <Folder Include="Content\Company\" />
     <Folder Include="Content\User\" />
-    <Folder Include="Views\Auth\AuthCandidate\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

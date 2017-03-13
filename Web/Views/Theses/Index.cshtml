@@ -35,23 +35,40 @@
         <div class="ui grid">
 
             <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
-                <div class="ui divided items">
-                    @foreach (var thesis in Model.Theses)
-                    {
-                        <div class="item">
-                            <div class="ui tiny image">
-                                <a href="@Url.Action("Index", "Company", new { codeName = thesis.Company.CompanyCodeName})">
-                                    <img alt="" src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)">
-                                </a>
+                <div class="w-mobile-show">
+                    <div class="ui divided items">
+                        @foreach (var thesis in Model.Theses)
+                        {
+                            <div class="item">
+                                <div class="middle aligned content">
+                                    <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codeName = thesis.CodeName})">@thesis.ThesisName</a>
+                                    <p class="w-font-size-small">
+                                        @thesis.ThesisTypeNameConverted
+                                    </p>
+                                </div>
                             </div>
-                            <div class="middle aligned content">
-                                <a href="@Url.Action("Index", "Thesis", new { id = thesis.ID, codeName = thesis.CodeName})">@thesis.ThesisName</a>
-                                <p class="w-font-size-small">
-                                    @thesis.ThesisTypeNameConverted
-                                </p>
+                        }
+                    </div>
+                </div>
+                <div class="w-mobile-hide">
+                    <div class="ui divided items">
+                        @foreach (var thesis in Model.Theses)
+                        {
+                            <div class="item">
+                                <div class="ui tiny image">
+                                    <a href="@Url.Action("Index", "Company", new {codeName = thesis.Company.CompanyCodeName})">
+                                        <img alt="" src="@Helpers.ImageHelper.GetCompanyLogo(thesis.Company.CompanyGuid)">
+                                    </a>
+                                </div>
+                                <div class="middle aligned content">
+                                    <a href="@Url.Action("Index", "Thesis", new {id = thesis.ID, codeName = thesis.CodeName})">@thesis.ThesisName</a>
+                                    <p class="w-font-size-small">
+                                        @thesis.ThesisTypeNameConverted
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
 
                 @Helpers.PagerHelper.GetPager(Model.Theses)

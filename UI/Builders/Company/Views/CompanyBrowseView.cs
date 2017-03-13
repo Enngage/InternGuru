@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using PagedList;
 using UI.Builders.Company.Models;
 using UI.Builders.Master.Views;
 
@@ -6,6 +6,6 @@ namespace UI.Builders.Company.Views
 {
     public class CompanyBrowseView : MasterView
     {
-        public IEnumerable<CompanyBrowseModel> Companies { get; set; }
+        public IPagedList<CompanyBrowseModel> Companies { get; set; }
     }
 }

@@ -1,10 +1,9 @@
-﻿@using Microsoft.AspNet.Identity
-@model UI.Builders.Master.Views.MasterView
+﻿@model UI.Builders.Master.Views.MasterView
 
 @if (Model.Master.CurrentUser.IsAuthenticated)
 {
-    <a class="item" href="@Url.Action("index", "Auth")">
-        @Model.Master.CurrentUser.UserDisplayName
+    <a class="item" href="@Url.Action(Model.Master.CurrentUser.AuthMasterAction, "Auth")">
+        Můj profil
     </a>
 }
 else

@@ -23,58 +23,83 @@
 
 <div class="ui centered grid">
     <div class="ui sixteen wide column">
-            <div class="ui icon input fluid">
-                <input id="_SearchCompanies" placeholder="Název firmy ..." type="text">
-                <i class="search icon"></i>
-            </div>
+        <div class="ui icon input fluid">
+            <input id="_SearchCompanies" placeholder="Název firmy ..." type="text">
+            <i class="search icon"></i>
+        </div>
     </div>
 </div>
 
-<div id="_CompanySegment" class="ui centered padded grid w-company-segment">
-    @foreach (var company in Model.Companies)
-    {
-        <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer w-color-background-white column w-padding-none">
-            <div class="ui segment basic padded w-margin-none w-body-text-left">
-                <div class="ui items">
-                    <div class="item">
-                        <a class="ui image tiny" href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
-                            <img class="ui image w-image-tiny" alt="" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(company.CompanyGuid)" />
-                        </a>
-                        <div class="middle aligned content">
-                            <div class="header">
-                                <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
-                                    @company.CompanyName
-                                </a>
-                            </div>
-                            <div class="meta">
-                                @Html.Raw(company.CountryIconHtml) @company.City
-                                |
-                                <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, s = "_InternshipSection"})">
-                                    @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáží")
-                                </a>
-                                | <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, s = "_ThesisSection"})"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "{count} závěrečná práce", "{count} závěrečné práce", "{count} závěrečných prací")</a>
+<div class="w-mobile-show">
+    <div class="ui divided items w-padding-top-30">
+        @foreach (var company in Model.Companies)
+        {
+            <div class="item">
+                <div class="middle aligned content">
+                    <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
+                        @company.CompanyName
+                    </a>
+                    <div class="w-font-size-small">
+                        @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáží")
+                    </div>
+                    <div class="w-font-size-small">
+                        @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "{count} závěrečná práce", "{count} závěrečné práce", "{count} závěrečných prací")
+                    </div>
+                </div>
+            </div>
+        }
+
+        @Helpers.PagerHelper.GetPager(Model.Companies)
+    </div>
+</div>
+
+<div class="w-mobile-hide">
+    <div id="_CompanySegment" class="ui centered padded grid w-company-segment">
+        @foreach (var company in Model.Companies)
+        {
+            <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer w-color-background-white column w-padding-none">
+                <div class="ui segment basic padded w-margin-none w-body-text-left">
+                    <div class="ui items">
+                        <div class="item">
+                            <a class="ui image tiny" href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
+                                <img class="ui image w-image-tiny" alt="" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(company.CompanyGuid)" />
+                            </a>
+                            <div class="middle aligned content">
+                                <div class="header">
+                                    <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName})">
+                                        @company.CompanyName
+                                    </a>
+                                </div>
+                                <div class="meta">
+                                    @Html.Raw(company.CountryIconHtml) @company.City
+                                    |
+                                    <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, s = "_InternshipSection"})">
+                                        @StringHelper.GetPluralWord(company.InternshipCount, "žádné volné stáže", "{count} stáž", "{count} stáže", "{count} stáží")
+                                    </a>
+                                    | <a href="@Url.Action("Index", "Company", new {codeName = company.CodeName, s = "_ThesisSection"})"> @StringHelper.GetPluralWord(company.ThesesCount, "nenabízí závěrečné práce", "{count} závěrečná práce", "{count} závěrečné práce", "{count} závěrečných prací")</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
+                    <img class="ui image w-company-browse-banner" alt="@company.CompanyName logo" data-src="@Helpers.ImageHelper.GetCompanyBanner(company.CompanyGuid)" src="@Helpers.ImageHelper.GetTransparentImage()" />
+                </a>
             </div>
-            <a href="@Url.Action("Index", "Company", new { codeName = company.CodeName })">
-                <img class="ui image w-company-browse-banner" alt="@company.CompanyName logo" data-src="@Helpers.ImageHelper.GetCompanyBanner(company.CompanyGuid)" src="@Helpers.ImageHelper.GetTransparentImage()" />
-            </a>
-        </div>
-    }
-</div>
+        }
+    </div>
 
-<div id="_CompanyLoading" class="ui segment basic w-segment-no-background loading">
-    Nahrávám
-</div>
+    <div id="_CompanyLoading" class="ui segment basic w-segment-no-background loading">
+        Nahrávám
+    </div>
 
-<div id="_AllCompaniesLoaded" class="w-margin-top-20 w-body-text-center">
-    @Helpers.MessageHelper.RenderInfoMessage("Všechny firmy načteny")
-</div>
+    <div id="_AllCompaniesLoaded" class="w-margin-top-20 w-body-text-center">
+        @Helpers.MessageHelper.RenderInfoMessage("Všechny firmy načteny")
+    </div>
 
-<div id="_NoCompaniesFound" class="w-margin-top-20 w-body-text-center">
-    @Helpers.MessageHelper.RenderWarningMessage("Žádné firmy nebyly nalezeny")
+    <div id="_NoCompaniesFound" class="w-margin-top-20 w-body-text-center">
+        @Helpers.MessageHelper.RenderWarningMessage("Žádné firmy nebyly nalezeny")
+    </div>
 </div>
 
 

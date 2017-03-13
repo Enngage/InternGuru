@@ -216,7 +216,7 @@ namespace UI.Builders.Company
 
         #region Web API methods
 
-        public Task<IList<CompanyBrowseModel>> GetMoreCompaniesAsync(int pageNumber, string search)
+        public Task<IPagedList<CompanyBrowseModel>> GetMoreCompaniesAsync(int pageNumber, string search)
         {
             return GetCompaniesAsync(pageNumber, search);
         }
@@ -237,7 +237,7 @@ namespace UI.Builders.Company
                 .FirstOrDefaultAsync();
         }
  
-        private async Task<IList<CompanyBrowseModel>> GetCompaniesAsync(int pageNumber, string search)
+        private async Task<IPagedList<CompanyBrowseModel>> GetCompaniesAsync(int pageNumber, string search)
         {
             // get companies from db/cache
             var cacheSetup = Services.CacheService.GetSetup<CompanyBrowseModel>(GetSource());
@@ -272,12 +272,12 @@ namespace UI.Builders.Company
             {
                 var filteredCompanies = allCompanies.Where(m => m.CompanyName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToPagedList(pageNumber, _browseCompaniesPageSize);
 
-                return filteredCompanies.ToList();
+                return filteredCompanies;
             }
             // not search
             else
             {
-                return allCompanies.ToPagedList(pageNumber, _browseCompaniesPageSize).ToList();
+                return allCompanies.ToPagedList(pageNumber, _browseCompaniesPageSize);
             }
         }
 

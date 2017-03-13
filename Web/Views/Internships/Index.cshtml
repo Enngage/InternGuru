@@ -59,25 +59,42 @@
             </div>
 
             <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
-                <div class="ui divided items">
-                    @foreach (var internship in Model.Internships)
-                    {
-                        <div class="item">
-                            <div class="ui tiny image">
-                                <a href="@Url.Action("Index", "Company", new { codeName = internship.CompanyCodeName})">
-                                    <img alt="" src="@Helpers.ImageHelper.GetCompanyLogo(internship.CompanyGuid)">
-                                </a>
+                <div class="w-mobile-show">
+                    <div class="ui divided items">
+                        @foreach (var internship in Model.Internships)
+                        {
+                            <div class="item">
+                                <div class="middle aligned content">
+                                    <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codeName = internship.CodeName})">@internship.Title</a>
+                                    <p class="w-font-size-small">
+                                        @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue) | @internship.City
+                                    </p>
+                                </div>
                             </div>
-                            <div class="middle aligned content">
-                                <a href="@Url.Action("Index", "Internship", new { id = internship.ID, codeName = internship.CodeName})">@internship.Title</a>
-                                <p class="w-font-size-small">
-                                    @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue) | @internship.City
-                                </p>
-                            </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
-                
+                <div class="w-mobile-hide">
+                    <div class="ui divided items">
+                        @foreach (var internship in Model.Internships)
+                        {
+                            <div class="item">
+                                <div class="ui tiny image">
+                                    <a href="@Url.Action("Index", "Company", new {codeName = internship.CompanyCodeName})">
+                                        <img alt="" src="@Helpers.ImageHelper.GetCompanyLogo(internship.CompanyGuid)">
+                                    </a>
+                                </div>
+                                <div class="middle aligned content">
+                                    <a href="@Url.Action("Index", "Internship", new {id = internship.ID, codeName = internship.CodeName})">@internship.Title</a>
+                                    <p class="w-font-size-small">
+                                        @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue) | @internship.City
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
                 @Helpers.PagerHelper.GetPager(Model.Internships)
 
             </div>
@@ -175,12 +192,12 @@
 
 <div class="w-margin-top-30">
     @Helpers.HeaderHelper.RenderHeader(new UiHeader()
-    {
-        Type = UiHeaderTypeEnum.Colored,
-        Color = UIHeaderColorEnum.Medium,
-        Title = "Nenašel jsi stáž?",
-        SubText = "Zaregistruj se a nech si zasílat nové stáže přímo z tvého města!",
-        Buttons = new List<UIHeaderButton>()
+{
+    Type = UiHeaderTypeEnum.Colored,
+    Color = UIHeaderColorEnum.Medium,
+    Title = "Nenašel jsi stáž?",
+    SubText = "Zaregistruj se a nech si zasílat nové stáže přímo z tvého města!",
+    Buttons = new List<UIHeaderButton>()
         {
             new UIHeaderButton()
             {
@@ -189,6 +206,6 @@
                 ButtonUrl = Url.Action("Register", "Account")
             }
         }
-    })
+})
 </div>
 

@@ -17,9 +17,6 @@
         Size = UIHeaderSizeEnum.Inherit
     };
 
-    // main menu is always enabled
-    Model.Tabs.MainMenu.Display = true;
-
     // configure admin tab
     if (Model.Master.CurrentUser.Privilege == Core.Helpers.Privilege.PrivilegeLevel.Admin)
     {
@@ -40,7 +37,7 @@
     var infoMessage = new InfoMessageView()
     {
         MessageID = "emailnotice",
-        Message = $"Ostatní uživatelé vidí část Vašeho e-mailu: <strong>'{Model.Master.CurrentUser.UserDisplayName}'</strong>. Pro úplné skrytí můžete vyplnit <strong>Jméno</strong> nebo <strong>Přezdívku</strong> <a href=\"{Url.Action("EditProfile", "Auth")}\">zde</a>",
+        Message = $"Ostatní uživatelé vidí část Tvého e-mailu <strong>'{Model.Master.CurrentUser.UserDisplayName}'</strong>. Pro úplné skrytí nebo změnu můžeš vyplnit své <a href=\"{Url.Action("EditProfile", "Auth")}\">jméno</a>",
         IsClosable = true,
         MessageType = InfoMessageTypeEnum.Warning,
         ClosedForDaysCount = 1

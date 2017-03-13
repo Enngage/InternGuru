@@ -44,12 +44,11 @@
     <div class="ui fixed borderless main menu w-menu-main">
         <div class="ui container">
             <div class="header item">
-                @*<img alt="Logo" class="logo" src="@ImageHelper.GetImageUrl("content/images/general/logos/profile.png")">*@
                 <a href="@Url.Action("Index", "Home")">@Core.Config.AppConfig.SiteName</a>
             </div>
-            <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
-            <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
+            <a href="@Url.Action("Index", "Internships")" class="item">Stáže</a>
             <a href="@Url.Action("Index", "Theses")" class="item">Závěrečné práce</a>
+            <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
             <div class="right menu _RefreshAvatarSection">
                 @Html.Partial("_LoginPartial")
             </div>
@@ -70,9 +69,9 @@
         </div>
     </div>
     <div class="ui vertical menu fluid w-menu-mobile">
-        <a href="@Url.Action("Index", "Internships")" class="item">Nabídka stáží</a>
-        <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
+        <a href="@Url.Action("Index", "Internships")" class="item">Stáže</a>
         <a href="@Url.Action("Index", "Theses")" class="item">Závěrečné práce</a>
+        <a href="@Url.Action("Index", "Companies")" class="item">Firmy</a>
         @Html.Partial("_LoginPartialMobile")
     </div>
 </div>

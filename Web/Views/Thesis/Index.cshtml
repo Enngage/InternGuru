@@ -37,13 +37,13 @@
     <div class="ui vertical segment w-company-menu-wrapper">
         <div class="ui container">
 
-            <img alt="Logo" class="ui mini image w-company-icon" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Thesis.Company.CompanyGuid)">
+            <img alt="Logo" class="ui mini image w-company-icon w-mobile-hide" src="@Helpers.ImageHelper.GetTransparentImage()" data-src="@Helpers.ImageHelper.GetCompanyLogo(Model.Thesis.Company.CompanyGuid)">
 
             <h1>
                 @Model.Thesis.ThesisName
             </h1>
 
-            <div class="ui right floated horizontal list w-internship-menu ">
+            <div class="ui right floated horizontal list w-internship-menu w-mobile-hide w-tablet-hide">
                 <div class="item">
                     <div class="middle aligned content">
                         <a href="@Url.Action("Thesis", "Form", new {id = Model.Thesis.ID, codeName = Model.Thesis.CodeName})">
@@ -64,6 +64,14 @@
         <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
             <div class="ui segment">
                 <div>
+                    <div class="w-mobile-show w-tablet-show ui header w-feature-primary">
+                        <div class="content">
+                            <a class="w-margin-bottom-30" href="@Url.Action("Thesis", "Form", new {id = Model.Thesis.ID, codeName = Model.Thesis.CodeName})">
+                                <div class="ui button primary">Odpovědět</div>
+                            </a>
+                        </div>
+                    </div>
+
                     <div class="ui header w-feature-primary">
                         <i class="university icon icon w-color-primary"></i>
                         <div class="content">
