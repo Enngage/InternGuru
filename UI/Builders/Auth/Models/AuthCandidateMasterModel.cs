@@ -1,8 +1,9 @@
 ﻿
+using System.Collections.Generic;
+
 namespace UI.Builders.Auth.Models
 {
-    public class AuthCandidateMasterModel
+    public class AuthCandidateMasterModel : AuthMaster
     {
-
     }
 }

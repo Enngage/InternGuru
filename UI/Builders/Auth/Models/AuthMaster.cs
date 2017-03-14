@@ -1,5 +1,4 @@
-﻿
-using PagedList;
+﻿using PagedList;
 
 namespace UI.Builders.Auth.Models
 {

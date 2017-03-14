@@ -11,8 +11,9 @@
         Title = Model.Metadata.BasicMetadata.Title,
         SubText = "Spojujeme firmy a talenty",
         Type = UiHeaderTypeEnum.Colored,
-        Size = UIHeaderSizeEnum.Normal,
-        ShowScrollButton = true,
+        Color = UIHeaderColorEnum.Dark,
+        Size = UIHeaderSizeEnum.Large,
+        ShowScrollButton = false,
         TextAlignment = UIHeaderTextAlignmentEnum.Center
     };
 
@@ -22,6 +23,39 @@
 
 @Helpers.ScriptHelper.RequireScript("/scripts/views/home/about")
 
+<div class="w-section-medium">
+    <div class="ui container">
+        <div class="w-section">
+            <div class="ui grid">
+                <div class="ui sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                    <h2>
+                        Pro uchazeče
+                    </h2>
+                    <p>
+                        Naším cílem je poskytnout Ti transparentní přístup ke stážím, které Ti přinesou cenné zkušenosti a třeba i práci.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-section-dark">
+    <div class="ui container">
+        <div class="w-section">
+            <div class="ui grid">
+                <div class="ui sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                    <h2>
+                        Pro firmy
+                    </h2>
+                    <p>
+                        -----
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @*<div class="w-color-background-darkblack">

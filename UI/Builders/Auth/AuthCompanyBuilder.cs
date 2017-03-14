@@ -144,12 +144,10 @@ namespace UI.Builders.Auth
                     Lat = m.Lat,
                     Lng = m.Lng,
                     LinkedIn = m.LinkedIn,
-                    PublicEmail = m.PublicEmail,
                     LongDescription = m.LongDescription,
                     Twitter = m.Twitter,
                     Web = m.Web,
                     CompanyCategoryID = m.CompanyCategoryID,
-                    YearFounded = m.YearFounded
                 })
                 .FirstOrDefaultAsync();
 
@@ -200,12 +198,10 @@ namespace UI.Builders.Auth
                     Lat = m.Lat,
                     Lng = m.Lng,
                     LinkedIn = m.LinkedIn,
-                    PublicEmail = m.PublicEmail,
                     LongDescription = m.LongDescription,
                     Twitter = m.Twitter,
                     Web = m.Web,
                     CompanyCategoryID = m.CompanyCategoryID,
-                    YearFounded = m.YearFounded
                 })
                 .FirstOrDefaultAsync();
 
@@ -273,10 +269,8 @@ namespace UI.Builders.Auth
                         LinkedIn = form.LinkedIn,
                         Lng = form.Lng,
                         LongDescription = form.LongDescription,
-                        PublicEmail = form.PublicEmail,
                         Twitter = form.Twitter,
                         Web = form.Web,
-                        YearFounded = form.YearFounded,
                         CompanyCategoryID = form.CompanyCategoryID,
                     };
 
@@ -424,10 +418,8 @@ namespace UI.Builders.Auth
                         LinkedIn = form.LinkedIn,
                         Lng = form.Lng,
                         LongDescription = form.LongDescription,
-                        PublicEmail = form.PublicEmail,
                         Twitter = form.Twitter,
                         Web = form.Web,
-                        YearFounded = form.YearFounded,
                         CompanyCategoryID = form.CompanyCategoryID
                     };
 

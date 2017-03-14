@@ -9,8 +9,6 @@ namespace UI.Builders.Thesis.Models
         public string CompanyCodeName { get; set; }
         public int CompanyID { get; set; }
         public Guid CompanyGuid { get; set; }
-        public int YearFounded { get; set; }
-        public string PublicEmail { get; set; }
         public string LongDescription { get; set; }
         public string Address { get; set; }
         public string City { get; set; }

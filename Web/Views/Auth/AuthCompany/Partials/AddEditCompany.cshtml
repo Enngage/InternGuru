@@ -22,51 +22,30 @@
                 <label>Název společnosti</label>
                 <input name="CompanyName" placeholder="" type="text" value="@(Model.CompanyName)">
             </div>
-                <div class="field required">
-                    <label>E-mail (veřejný e-mail firmy)</label>
-                    <input name="PublicEmail" placeholder="" type="text" value="@(Model.PublicEmail)">
-                </div>
-                <div class="field required">
-                    <label>Kategorie firmy</label>
-                    <div class="ui fluid search selection dropdown _CompanyCategoryDropdown">
-                        <input type="hidden" name="CompanyCategoryID" value="@Model.CompanyCategoryID">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Vyberte kategorii</div>
-                        <div class="menu">
-                            @foreach (var category in Model.CompanyCategories)
-                            {
-                                if (category.CompanyCategoryID == Model.CompanyCategoryID)
-                                {
-                                    <div class="item" data-value="@category.CompanyCategoryID">@category.CompanyCategoryName</div>
-                                }
-                                else
-                                {
-                                    <div class="item" data-value="@category.CompanyCategoryID">@category.CompanyCategoryName</div>
-                                }
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <label>Krátky popis firmy</label>
-                    <textarea name="LongDescription">@(Model.LongDescription)</textarea>
-                </div>
-                <div class="field required">
-                    <label>Rok založení</label>
-                    <select name="YearFounded" class="ui dropdown _YearFoundedDropdown">
-                        <option value="">Rok</option>
-                        @for (var i = DateTime.Now.Year; i >= 1950; i--)
+            <div class="field required">
+                <label>Kategorie firmy</label>
+                <div class="ui fluid search selection dropdown _CompanyCategoryDropdown">
+                    <input type="hidden" name="CompanyCategoryID" value="@Model.CompanyCategoryID">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Vyberte kategorii</div>
+                    <div class="menu">
+                        @foreach (var category in Model.CompanyCategories)
                         {
-                            if (Model.YearFounded == i)
+                            if (category.CompanyCategoryID == Model.CompanyCategoryID)
                             {
-                                <option selected value="@i">@i</option>
+                                <div class="item" data-value="@category.CompanyCategoryID">@category.CompanyCategoryName</div>
                             }
                             else
                             {
-                                <option value="@i">@i</option>
+                                <div class="item" data-value="@category.CompanyCategoryID">@category.CompanyCategoryName</div>
                             }
                         }
-                    </select>
+                    </div>
+                </div>
+            </div>
+                <div class="field">
+                    <label>Krátky popis firmy</label>
+                    <textarea name="LongDescription">@(Model.LongDescription)</textarea>
                 </div>
                 <div class="field required">
                     <label>Počet zaměstanců</label>
@@ -129,7 +108,7 @@
                     Sociální sítě a web
                 </h4>
                 <div class="field required">
-                    <label>Web</label>
+                    <label>Web (včetně protokolu - např. http://mycompany.com)</label>
                     <input name="Web" placeholder="např. http://mycompany.com" type="text" value="@(Model.Web)">
                 </div>
                 <div class="field">
@@ -161,14 +140,7 @@
                 <div class="field">
                     <label>
                         Banner <span class="w-font-weight-base">
-                            @if (Core.Config.FileConfig.CompanyBannerWidth == 0 && Core.Config.FileConfig.CompanyBannerHeight == 0)
-                            {
-                                <span>Ideální šířka je 1080px a výška 250px (obrázek bude přizpůsoben bez změny rozměrů)</span>
-                            }
-                            else
-                            {
-                                <span>ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight)px)</span>
-                            }
+                            <span>ideální velikost @(Core.Config.FileConfig.CompanyBannerWidth)x@(Core.Config.FileConfig.CompanyBannerHeight)px)</span>
                         </span>
                     </label>
                     <img class="ui image w-company-detail-banner" data-src="@Helpers.ImageHelper.GetCompanyBanner(Model.CompanyGuid, true)" src="@Helpers.ImageHelper.GetTransparentImage()" alt="Banner" />

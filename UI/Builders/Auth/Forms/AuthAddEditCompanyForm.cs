@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using System.Web.Mvc;
-using UI.Attributes;
 using UI.Base;
 using UI.Builders.Auth.Models;
 
@@ -19,13 +17,6 @@ namespace UI.Builders.Auth.Forms
 
         [Required(ErrorMessage = "Kategorie musí být vyplněna")]
         public int CompanyCategoryID { get; set; }
-
-        [Required(ErrorMessage = "Rok založení nemůže být prázdný")]
-        public int YearFounded { get; set; }
-
-        [Required(ErrorMessage = "E-mail nemůže být prázdný")]
-        [EmailAddress(ErrorMessage = "Nevalidní e-mailová adresa")]
-        public string PublicEmail { get; set; }
 
         [Required(ErrorMessage = "Popis firmy nemůže být prázdný")]
         [MaxLength(500, ErrorMessage = "Maximální délka popisu firmy je 500 znaků.")]

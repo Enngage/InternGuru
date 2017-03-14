@@ -30,7 +30,7 @@ namespace UI.Builders.Auth
 
         #region Master models
 
-        public async Task<AuthMaster> GetAuthMasterModelAsync()
+        public async Task<AuthMaster> GetAuthMasterModelAsync(int conversationPage = 1)
         {
             if (!CurrentUser.IsAuthenticated)
             {
@@ -43,6 +43,7 @@ namespace UI.Builders.Auth
             var authMaster = new AuthMaster()
             {
                 ShowUserTypeSelectionView = !CurrentUser.IsCandidate && !CurrentUser.IsCompany,
+                ConversationsPaged = await GetConversationsAsync(conversationPage)
             };
 
             if (CurrentUser.UserType == UserTypeEnum.Company)
@@ -59,7 +60,14 @@ namespace UI.Builders.Auth
 
         protected AuthCandidateMasterModel GetCandidateMasterModel()
         {
-            return new AuthCandidateMasterModel();
+            if (!CurrentUser.IsAuthenticated)
+            {
+                return null;
+            }
+
+            return new AuthCandidateMasterModel()
+            {
+            };
         }
 
         protected async Task<AuthCompanyMasterModel> GetCompanyMasterModelAsync()
@@ -72,7 +80,6 @@ namespace UI.Builders.Auth
             return new AuthCompanyMasterModel()
             {
                 Internships = await GetInternshipsAsync(),
-                Conversations = await GetTopConversationsAsync(10),
                 Theses = await GetThesesListingsAsync(),
                 Questionnaires = await GetQuestionnairesListingsAsync(),
             };

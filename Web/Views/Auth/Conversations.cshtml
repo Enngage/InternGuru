@@ -19,14 +19,14 @@
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
         <div class="ui vertical segment">
-            @if (!Model.AuthMaster.CompanyMaster.Conversations.Any())
+            @if (!Model.AuthMaster.ConversationsPaged.Any())
             {
                 @Helpers.MessageHelper.RenderInfoMessage("Nemáš žádné zprávy")
             }
             else
             {
                 <div class="ui items divided">
-                    @foreach (var conversation in Model.AuthMaster.CompanyMaster.Conversations)
+                    @foreach (var conversation in Model.AuthMaster.ConversationsPaged)
                     {
                         <div class="item w-auth-conversation-div w-override-padding-all _ConversationItem" data-link="@Url.Action("Conversation", "Auth", new { id = conversation.ConversationID })">
                             <a class="ui tiny image w-mobile-margin-0 w-mobile-hide" href="@Url.Action("Conversation", "Auth", new { id = conversation.ConversationID })">
@@ -65,7 +65,7 @@
                     }
                 </div>
 
-                @Helpers.PagerHelper.GetPager(Model.ConversationsPaged)
+                @Helpers.PagerHelper.GetPager(Model.AuthMaster.ConversationsPaged)
             }
         </div>
     </div>

@@ -732,8 +732,6 @@ namespace Service.Context
                     Lat = GetRandomLattitude(),
                     Lng = GetRandomLongtitude(),
                     LongDescription = GetLoremIpsumText(),
-                    PublicEmail = $"{GetLoremIpsumName(true)}@email.com",
-                    YearFounded = GetRandomYear(),
                     CodeName = StringHelper.GetCodeName(companyName),
                     Created = DateTime.Now,
                     Updated = DateTime.Now,
@@ -884,12 +882,6 @@ namespace Service.Context
         {
             var random = new Random();
             return random.Next(1, 100000);
-        }
-
-        private int GetRandomYear()
-        {
-            var random = new Random();
-            return random.Next(1950, DateTime.Now.Year);
         }
 
         private float GetRandomLongtitude()

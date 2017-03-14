@@ -386,10 +386,8 @@ namespace UI.Builders.Internship
                         Facebook = m.Company.Facebook,
                         LinkedIn = m.Company.LinkedIn,
                         LongDescription = m.Company.LongDescription,
-                        PublicEmail = m.Company.PublicEmail,
                         Twitter = m.Company.Twitter,
                         Web = m.Company.Web,
-                        YearFounded = m.Company.YearFounded
                     },
                     Amount = m.Amount,
                     AmountTypeCodeName = m.AmountType.CodeName,

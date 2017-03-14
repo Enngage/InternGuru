@@ -30,7 +30,7 @@ namespace UI.Builders.Auth
 
         public async Task<AuthConversationsView> BuildConversationsViewAsync(int? page)
         {
-            var authMaster = await GetAuthMasterModelAsync();
+            var authMaster = await GetAuthMasterModelAsync(page ?? 1);
 
             if (authMaster == null)
             {
@@ -40,7 +40,6 @@ namespace UI.Builders.Auth
             return new AuthConversationsView()
             {
                 AuthMaster = authMaster,
-                ConversationsPaged = await GetConversationsAsync(page)
             };
         }
 

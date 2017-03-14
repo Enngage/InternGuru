@@ -22,8 +22,6 @@ namespace Entity
         public string CodeName { get; set; }
         [Required]
         public Guid Guid { get; set; }
-        public int YearFounded { get; set; }
-        public string PublicEmail { get; set; }
         public string LongDescription { get; set; }
         [MaxLength(100)]
         public string Address { get; set; }
