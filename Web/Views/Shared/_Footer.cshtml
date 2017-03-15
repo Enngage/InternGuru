@@ -1,9 +1,17 @@
 ﻿@using Core.Config;
 @using Core.Project;
 
-<div class="ui inverted vertical segment w-footer">
+<div class="w-footer">
     <div class="ui left aligned container">
-        <div class="ui stackable inverted grid w-margin-top-10">
+        <div class="ui stackable inverted grid">
+            <div class="four wide column">
+                <h4 class="w-footer-header">O nás</h4>
+                <div class="ui list w-footer-list">
+                    <a href="@Url.Action("Contact", "Home")" class="item">Kontakt</a>
+                    <a href="@Url.Action("About", "Home")" class="item">Proč</a>
+                    <div class="item w-footer-nolink">@($"© {DateTime.Now.Year} { AppConfig.SiteName}") <span class="w-font-size-small">| <span>v</span>@VersionInfo.Version.ToString()</span></div>
+                </div>
+            </div>
             <div class="four wide column">
                 <h4 class="w-footer-header">Pro firmy</h4>
                 <div class="ui list w-footer-list">
@@ -20,7 +28,7 @@
                     <a href="@Url.Action("Index", "Companies")" class="item">Procházet firmy</a>
                 </div>
             </div>
-            <div class="eight wide column">
+            <div class="four wide column">
                 <h4 class="w-footer-header">Podpoř nás</h4>
                 <ul class="w-social-ul">
                     <li class="facebook">
@@ -31,21 +39,6 @@
                 </ul>
             </div>
         </div>
-        <div class="ui inverted section divider w-margin-none w-margin-top-10"></div>
-        <ul class="w-footer-list-horizontal">
-            <li>
-                <a href="@Url.Action("About", "Home")">O nás</a>
-            </li>
-            <li>
-                <a href="@Url.Action("Contact", "Home")">Kontakt</a>
-            </li>
-            <li>
-                <span class="w-font-size-small"><span>v</span>@VersionInfo.Version.ToString()</span>
-            </li>
-            <li>
-                @($"© {DateTime.Now.Year} { AppConfig.SiteName}")
-            </li>
-        </ul>
     </div>
 </div>
 

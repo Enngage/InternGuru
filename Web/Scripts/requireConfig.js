@@ -13,6 +13,7 @@ var require = {
         "unitegallery": { "deps": ['jquery'] }, // unitegallery needs to be loaded after jQuery 
         "unitegallery_theme": { "deps": ['jquery', 'unitegallery'] }, // unitegallery needs to be loaded after jQuery AND unitegallery 
         "fineuploader": { "deps": ['jquery'] }, // finei uploader needs to be loaded after jQuery
+        "jquery_cookie": { "deps": ['jquery'] }, // finei uploader needs to be loaded after jQuery
     },
     paths: {
         "jquery": "addons/jquery-3.1.1.min",
@@ -25,6 +26,7 @@ var require = {
         "unitegallery_theme": "addons/unitegallery-master/dist/themes/tiles/ug-theme-tiles", // http://unitegallery.net/index.php?page=tiles-columns
         "sortable": "addons/sortable", // https://github.com/RubaXa/Sortable
         "fineuploader": "addons/fineuploader/jquery.fine-uploader.min", // https://fineuploader.com/demos.html
+        "jquery_cookie": "addons/jquery.cookie",
     },
     packages: [{
         name: "codemirror",

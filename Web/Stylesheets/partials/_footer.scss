@@ -6,6 +6,8 @@
         font-size: 0.9em;
         background-color: $footer-background-color;
         color: $footer-text-color;
+        padding-top: 45px;
+        padding-bottom: 45px;
 
         .w-footer-header {
             color: $footer-header-color;
@@ -21,6 +23,11 @@
         .w-footer-list .item:hover {
             text-decoration: underline;
             color: lighten( $footer-text-color, 15% )
+        }
+
+        .w-footer-list .item.w-footer-nolink:hover{
+            text-decoration: none;
+            color: $footer-text-color;
         }
 
         .w-footer-list-horizontal {

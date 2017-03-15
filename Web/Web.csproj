@@ -1842,8 +1842,8 @@
     <Content Include="Scripts\addons\datepicker-master\src\datepicker.scss" />
     <Content Include="Config\ConnectionStrings.config" />
     <Content Include="Config\AppConfig.config" />
-    <Content Include="Scripts\addons\jquery-2.1.4.min.js" />
     <Content Include="Scripts\addons\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\addons\jquery.cookie.js" />
     <Content Include="Scripts\addons\respond.min.js" />
     <Content Include="Scripts\addons\sortable.js" />
     <Content Include="Scripts\addons\unitegallery-master\dist\css\unite-gallery.css" />
@@ -2280,6 +2280,7 @@
     <Content Include="Scripts\addons\unitegallery-master\source\unitegallery\themes\video\skin-right-title-only.css" />
     <Content Include="Scripts\addons\unitegallery-master\source\unitegallery\themes\video\ug-theme-video.js" />
     <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\modules\nagModule.js" />
     <Content Include="Scripts\modules\userModule.js" />
     <Content Include="Scripts\modules\fineUploaderModule.js" />
     <Content Include="Scripts\modules\companyGalleryModule.js" />
@@ -2312,7 +2313,6 @@
     <Content Include="Scripts\views\modules\questionnaire\createEditQuestionnaire.js" />
     <Content Include="Scripts\views\modules\questionnaire\submitQuestionnaire.js" />
     <Content Include="Scripts\views\modules\uiHeader.js" />
-    <Content Include="Scripts\views\shared\menuSearch.js" />
     <Content Include="Scripts\views\system\emailLog.js" />
     <Content Include="Scripts\views\system\eventLog.js" />
     <Content Include="Scripts\views\thesis\browseTheses.js" />
@@ -2723,12 +2723,15 @@
     <Content Include="Stylesheets\partials\_button.scss" />
     <Content Include="Views\Auth\AuthCandidate\Index.cshtml" />
     <Content Include="Views\Shared\404.cshtml" />
+    <Content Include="Views\Shared\_CookieConsent.cshtml" />
+    <Content Include="Stylesheets\partials\_nag.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Avatars\" />
     <Folder Include="Content\Company\" />
     <Folder Include="Content\User\" />
+    <Folder Include="Scripts\views\shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

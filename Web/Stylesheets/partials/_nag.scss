@@ -1,0 +1,19 @@
+﻿@import "_base";
+
+#w-body-wrapper {
+    .w-nag-cookie {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        background: $color-body-light;
+        padding: 8px 12px;
+
+        @media (max-width: 767px) {
+            display: block;
+            position: inherit;
+            bottom: 0;
+            right: 0;
+        }
+    }
+}
