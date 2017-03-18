@@ -5,7 +5,6 @@ using UI.Base;
 using UI.Builders.Form;
 using UI.Builders.Form.Forms;
 using UI.Builders.Master;
-using UI.Builders.Questionnaire;
 using UI.Events;
 using UI.Exceptions;
 
@@ -71,7 +70,7 @@ namespace Web.Controllers
             // validate form
             if (!ModelStateWrapper.IsValid)
             {
-                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
+                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form, Request);
 
                 return View(model);
             }
@@ -91,7 +90,7 @@ namespace Web.Controllers
             {
                 ModelStateWrapper.AddError(ex.Message);
 
-                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form);
+                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form, Request);
 
                 return View(model);
             }
@@ -105,7 +104,7 @@ namespace Web.Controllers
             // validate form
             if (!ModelStateWrapper.IsValid)
             {
-                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
+                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form, Request);
 
                 return View(model);
             }
@@ -114,7 +113,7 @@ namespace Web.Controllers
             {
                 await _formBuilder.SaveThesisForm(form, Request);
 
-                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
+                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form, Request);
 
                 // set form status
                 model.ThesisForm.FormResult.IsSuccess = true;
@@ -125,7 +124,7 @@ namespace Web.Controllers
             {
                 ModelStateWrapper.AddError(ex.Message);
 
-                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form);
+                var model = await _formBuilder.BuildThesisViewAsync(form.ThesisID, form, Request);
 
                 return View(model);
             }

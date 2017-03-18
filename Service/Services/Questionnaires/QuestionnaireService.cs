@@ -13,6 +13,7 @@ namespace Service.Services.Questionnaires
     {
         private const string QuestionXmlRootElement = "Questions";
         private const string QuestionXmlElement = "Question";
+        private const string QuestionRequiredXmlElement = "Required";
         private const string QuestionTextXmlElement = "Text";
         private const string QuestionGuidElement = "Guid";
         private const string QuestionTypeXmlElement = "Type";
@@ -112,6 +113,7 @@ namespace Service.Services.Questionnaires
                 var newQuestion = new Question()
                 {
                     QuestionText = questionElement[QuestionTextXmlElement]?.InnerText,
+                    QuestionRequired = questionElement[QuestionRequiredXmlElement]?.InnerText?.Equals("true", StringComparison.OrdinalIgnoreCase) ?? false,
                     QuestionType = questionElement[QuestionTypeXmlElement]?.InnerText,
                     Guid = questionElement[QuestionGuidElement]?.InnerText,
                     CorrectAnswer = questionElement[QuestionCorrectAnswerXmlElement]?.InnerText,
@@ -157,6 +159,9 @@ namespace Service.Services.Questionnaires
 
                 // set type
                 questionElement.AppendChild(doc.CreateElement(QuestionTypeXmlElement)).InnerText = question.QuestionType;
+
+                // set required
+                questionElement.AppendChild(doc.CreateElement(QuestionRequiredXmlElement)).InnerText = question.QuestionRequired ? "true" : "false";
 
                 // set guid
                 questionElement.AppendChild(doc.CreateElement(QuestionGuidElement)).InnerText = question.Guid;

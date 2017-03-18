@@ -18,10 +18,17 @@
                 <input type="text" id="_QuestionText">
             </div>
             <div class="field required">
+                <div id="_RequiredQuestion" class="ui checkbox">
+                    <label>Otázka je povinná</label>
+                    <input type="checkbox">
+                </div>
+            </div>
+            <div class="field required">
                 <label>Typ</label>
                 <select id="_TypeDropdown" class="ui dropdown">
-                    <option selected="selected" value="RadioButton">Výběr z možností (radio buttons)</option>
+                    <option selected="selected" value="RadioButton">Radio buttons (testovací otázka)</option>
                     <option value="SimpleTextBox">Text box</option>
+                    <option value="RadioButtonWithoutAnswer">Radio buttons (bez správné odpovědi)</option>
                 </select>
             </div>
             <div>

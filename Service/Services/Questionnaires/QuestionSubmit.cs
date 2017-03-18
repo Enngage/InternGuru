@@ -19,6 +19,10 @@ namespace Service.Services.Questionnaires
                 {
                     return QuestionAnswerResultEnum.NotATestQuestion;
                 }
+                if (string.IsNullOrEmpty(Answer))
+                {
+                    return QuestionAnswerResultEnum.NotAnswered;
+                }
                 return Answer.Equals(CorrectAnswer, StringComparison.OrdinalIgnoreCase) ? QuestionAnswerResultEnum.Correct : QuestionAnswerResultEnum.Wrong;
             }
         }

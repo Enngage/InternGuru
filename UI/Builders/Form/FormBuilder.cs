@@ -9,6 +9,7 @@ using Entity.Base;
 using Service.Exceptions;
 using Service.Extensions;
 using Service.Services.Activities.Enums;
+using Service.Services.Questionnaires;
 using Service.Services.Thesis.Enums;
 using UI.Base;
 using UI.Builders.Form.Forms;
@@ -41,7 +42,7 @@ namespace UI.Builders.Form
 
         #region Actions
 
-        public async Task<FormInternshipView> BuildInternshipViewAsync(int internshipID, FormInternshipForm form = null)
+        public async Task<FormInternshipView> BuildInternshipViewAsync(int internshipID, FormInternshipForm form = null, HttpRequestBase request = null)
         {
             var defaultForm = new FormInternshipForm()
             {
@@ -61,11 +62,20 @@ namespace UI.Builders.Form
             {
                 if (form == null)
                 {
-                    defaultForm.QuestionsJson = await GetQuestionnaireJsonAsync(internship.QuestionnaireID ?? 0);
+                    var questions = await GetQuestionnaireQuestionsAsync(internship.QuestionnaireID ?? 0);
+                    defaultForm.QuestionsJson = _questionnaireBuilder.GetStateJson(questions);
                 }
                 else
                 {
-                    defaultForm.QuestionsJson = await GetQuestionnaireJsonAsync(internship.QuestionnaireID ?? 0);
+                    // get questions
+                    var questions = await GetQuestionnaireQuestionsAsync(internship.QuestionnaireID ?? 0);
+                    var submittedQuestions = await _questionnaireBuilder.GetSubmittedQuestionsFromRequestAsync(internship.QuestionnaireID ?? 0, form.FieldGuids, request);
+
+                    // assign submitted values to questions get JSON
+                    var assignedQuestions = _questionnaireBuilder.AssignSubmittedQuestions(questions, submittedQuestions);
+
+
+                    form.QuestionsJson = _questionnaireBuilder.GetStateJson(assignedQuestions);
                 }
             }
 
@@ -78,7 +88,7 @@ namespace UI.Builders.Form
 
         }
 
-        public async Task<FormThesisView> BuildThesisViewAsync(int thesisID, FormThesisForm form = null)
+        public async Task<FormThesisView> BuildThesisViewAsync(int thesisID, FormThesisForm form = null, HttpRequestBase request = null)
         {
             var defaultForm = new FormThesisForm()
             {
@@ -98,11 +108,20 @@ namespace UI.Builders.Form
             {
                 if (form == null)
                 {
-                    defaultForm.QuestionsJson = await GetQuestionnaireJsonAsync(thesis.QuestionnaireID ?? 0);
+                    var questions = await GetQuestionnaireQuestionsAsync(thesis.QuestionnaireID ?? 0);
+                    defaultForm.QuestionsJson = _questionnaireBuilder.GetStateJson(questions);
                 }
                 else
                 {
-                    defaultForm.QuestionsJson = await GetQuestionnaireJsonAsync(thesis.QuestionnaireID ?? 0);
+                    // get questions
+                    var questions = await GetQuestionnaireQuestionsAsync(thesis.QuestionnaireID ?? 0);
+                    var submittedQuestions = await _questionnaireBuilder.GetSubmittedQuestionsFromRequestAsync(thesis.QuestionnaireID ?? 0, form.FieldGuids, request);
+
+                    // assign submitted values to questions get JSON
+                    var assignedQuestions = _questionnaireBuilder.AssignSubmittedQuestions(questions, submittedQuestions);
+
+
+                    form.QuestionsJson = _questionnaireBuilder.GetStateJson(assignedQuestions);
                 }
             }
 
@@ -385,11 +404,11 @@ namespace UI.Builders.Form
         }
 
         /// <summary>
-        /// Gets Json with questions for given questionnaire
+        /// Gets questions for given questionnaire
         /// </summary>
         /// <param name="questionnaireID"></param>
         /// <returns></returns>
-        private async Task<string> GetQuestionnaireJsonAsync(int questionnaireID)
+        private async Task<IList<IQuestion>> GetQuestionnaireQuestionsAsync(int questionnaireID)
         {
             var cacheSetup = Services.CacheService.GetSetup<string>(GetSource());
             cacheSetup.ObjectID = questionnaireID;
@@ -413,7 +432,7 @@ namespace UI.Builders.Form
             var questions = Services.QuestionnaireService.GetQuestionsFromXml(questionnaireXml);
 
             // get json
-            return _questionnaireBuilder.GetInitialStateJson(questions.ToList());
+            return questions.ToList();
         }
 
         /// <summary>

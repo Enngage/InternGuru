@@ -6,6 +6,16 @@ namespace Service.Services.Questionnaires
     public interface IQuestion
     {
         /// <summary>
+        /// Indicates if question is required
+        /// </summary>
+        bool QuestionRequired { get; set; }
+
+        /// <summary>
+        /// Answer to question
+        /// </summary>
+        string Answer { get; set; }
+
+        /// <summary>
         /// Type of the question
         /// </summary>
         string QuestionType { get; set; }

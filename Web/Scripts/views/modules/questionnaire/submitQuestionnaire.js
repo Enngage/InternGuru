@@ -56,12 +56,43 @@
                 $(this).attr("name", uniqueFieldName);
             });
 
+            //hide fields
+            submitTemplate.find(".field").each(function (i) {
+                var hideIfEmpty = parseInt($(this).data("hideempty"));
+
+                if (hideIfEmpty === 1) {
+                    var target = $(this).data("target");
+                    var dataValue = getDataValue(question.Data, target).Value;
+
+                    if (!dataValue) {
+                        $(this).hide();
+                    }
+                }
+            });
+
             // set all data fields
             submitTemplate.find("._DataField").each(function (i) {
                 var dataName = $(this).data("name");
                 var dataValue = getDataValue(question.Data, dataName).Value;
                 $(this).text(dataValue);
                 $(this).val(dataValue);
+            });
+
+            // set input text fields
+            submitTemplate.find("._InputField").each(function (i) {
+                $(this).attr("value", question.Answer);
+            });
+
+            // set radio button fields
+            submitTemplate.find("._RadioButtonData").each(function (i) {
+                var target = $(this).data("target");
+                var questionText = getDataValue(question.Data, target).Value;
+                var isChecked = question.Answer === questionText;
+
+                if (isChecked) {
+                    $(this).parent().addClass("checked");
+                    $(this).attr("checked", "");
+                }
             });
 
             // inject submit template into base template

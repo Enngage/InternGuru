@@ -11,6 +11,9 @@
         // type dropdown
         $("#_TypeDropdown").dropdown();
 
+        // required checkbox
+        $('#_RequiredQuestion').checkbox();
+
         // handle remove question clicks
         $("body").on("click", "._QuestionDeleteButton", function () {
             $(this).closest("._QuestionWrapper").remove();
@@ -22,6 +25,7 @@
             var questionWrapper = $(this).closest("._QuestionWrapper");
 
             var questionText = questionWrapper.find("._QuestionText").val();
+            var questionRequired = questionWrapper.find("._QuestionRequired").val();
             var questionType = questionWrapper.find("._QuestionType").val();
             var questionGuid = questionWrapper.find("._FieldGuid").val();
 
@@ -29,6 +33,7 @@
             question.QuestionText = questionText;
             question.QuestionType = questionType;
             question.Guid = questionGuid;
+            question.QuestionRequired = questionRequired;
 
             // get all input values
             questionWrapper.find("._InputField").each(function (i) {
@@ -74,11 +79,16 @@
                         question.QuestionText = $("#_QuestionText").val();
                         question.QuestionType = $("#_TypeDropdown").val();
 
+                        if ($("#_RequiredQuestion").checkbox("is checked")) {
+                            question.QuestionRequired = true;
+                        } else {
+                            question.QuestionRequired = false;
+                        }
+
                         var result = false;
 
                         if (!question) {
                             // add question
-                            alert(question.QuestionText);
                             result = addEditQuestion(question, null, false);
                         } else {
                             // edit question
@@ -99,6 +109,13 @@
                             setModalEditQuestionContext();
                             $("#_QuestionText").val(question.QuestionText);
                             changeQuestionType(question.QuestionType, question);
+
+                            if (question.QuestionRequired === "true") {
+                                $("#_RequiredQuestion").addClass("checked");
+                                $("#_RequiredQuestion input").attr("checked", "");
+                            } else {
+                                $("#_RequiredQuestion").checkbox("uncheck");
+                            }
                         }
                     }
                 })
@@ -138,6 +155,9 @@
 
             // clear question
             $("#_QuestionText").val("");
+
+            // uncheck required question
+            $("#_RequiredQuestion").checkbox("uncheck");
         }
 
         // changes question type in the modal window
@@ -326,7 +346,13 @@
             var questionAnswerName = "QuestionCorrectAnswer_" + question.Guid;
             questionCorrectAnswerElem.attr("name", questionAnswerName);
             questionCorrectAnswerElem.val(question.CorrectAnswer);
-            console.log(question.CorrectAnswer + " CORRECT");
+
+            // set question required flag
+            var questionRequiredElem = baseTemplate.find("._QuestionRequired");
+
+            var questionRequiredName = "QuestionRequired_" + question.Guid;
+            questionRequiredElem.attr("name", questionRequiredName);
+            questionRequiredElem.val(question.QuestionRequired);
 
             // insert preview template into base template
             baseTemplate.find("._QuestionTypeTemplate").html(designerTemplate.html());

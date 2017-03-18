@@ -5,6 +5,7 @@ namespace Service.Services.Questionnaires
     {
         Correct,
         Wrong,
-        NotATestQuestion
+        NotATestQuestion,
+        NotAnswered
     }
 }

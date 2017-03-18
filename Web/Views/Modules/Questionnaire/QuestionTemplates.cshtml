@@ -17,6 +17,7 @@
         <div class="ui segment padded w-questionnaire-question-wrapper _QuestionWrapper">
             <div class="ui top inverted teal attached label"><i class="move icon"></i> <span class="_QuestionEdit w-questionnaire-edit">Upravit</span><span class="w-questionnaire-delete _QuestionDeleteButton"><i class="remove negative icon"></i></span></div>
             <input type="hidden" class="_QuestionText" />
+            <input type="hidden" class="_QuestionRequired" />
             <input type="hidden" class="_QuestionCorrectAnswer" />
             <input type="hidden" class="_QuestionType" />
             <input type="hidden" class="_FieldGuid" name="@fieldGuidName" />
@@ -43,7 +44,7 @@
         <div class="_QuestionType" id="_SimpleTextBox">
             <div class="@submitTemplateClass">
                 <div class="field">
-                    <input type="text" class="_SubmitData" data-name="answer" placeholder="Odpověď">
+                    <input type="text" class="_SubmitData _InputField" data-name="answer" placeholder="Odpověď">
                 </div>
             </div>
             <div class="@insertTemplateClass">
@@ -70,25 +71,25 @@
                 <div class="grouped fields">
                     <div class="field">
                         <div class="ui radio checkbox _RadioButtons">
-                            <input class="hidden _SubmitData" type="radio" data-name="answer" data-target="option1">
+                            <input class="hidden _SubmitData _RadioButtonData" type="radio" data-name="answer" data-target="option1">
                             <label class="_DataField" data-name="option1"></label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui radio checkbox _RadioButtons">
-                            <input class="hidden _SubmitData" type="radio" data-name="answer" data-target="option2">
+                            <input class="hidden _SubmitData _RadioButtonData" type="radio" data-name="answer" data-target="option2">
                             <label class="_DataField" data-name="option2"></label>
                         </div>
                     </div>
-                    <div class="field">
+                    <div data-hideempty="1" data-target="option3" class="field">
                         <div class="ui radio checkbox _RadioButtons">
-                            <input class="hidden _SubmitData" type="radio" data-name="answer" data-target="option3">
+                            <input class="hidden _SubmitData _RadioButtonData" type="radio" data-name="answer" data-target="option3">
                             <label class="_DataField" data-name="option3"></label>
                         </div>
                     </div>
-                    <div class="field">
+                    <div data-hideempty="1" data-target="option4" class="field">
                         <div class="ui radio checkbox _RadioButtons">
-                            <input class="hidden _SubmitData" type="radio" data-name="answer" data-target="option4">
+                            <input class="hidden _SubmitData _RadioButtonData" type="radio" data-name="answer" data-target="option4">
                             <label class="_DataField" data-name="option4"></label>
                         </div>
                     </div>
@@ -102,28 +103,28 @@
                                 <input name="ignore" checked="" tabindex="0" class="hidden _RadioButtonData" type="radio" data-name="option1istrue">
                                 <label>Správná odpověď</label>
                             </div>
-                            <input type="text" class="_TextData" data-name="option1">
+                            <input type="text" class="_TextData" data-name="option1" placeholder="Odpověď #1">
                         </div>
                         <div class="field">
                             <div class="ui radio checkbox _RadioButtons">
                                 <input name="ignore" class="hidden _RadioButtonData" type="radio" data-name="option2istrue">
                                 <label>Správná odpověď</label>
                             </div>
-                            <input type="text" class="_TextData" data-name="option2">
+                            <input type="text" class="_TextData" data-name="option2" placeholder="Odpověď #2">
                         </div>
                         <div class="field">
                             <div class="ui radio checkbox _RadioButtons">
                                 <input name="ignore" class="hidden _RadioButtonData" type="radio" data-name="option3istrue">
                                 <label>Správná odpověď</label>
                             </div>
-                            <input type="text" class="_TextData" data-name="option3">
+                            <input type="text" class="_TextData" data-name="option3" placeholder="Odpověď #3 - volitené">
                         </div>
                         <div class="field">
                             <div class="ui radio checkbox _RadioButtons">
                                 <input name="ignore" class="hidden _RadioButtonData" type="radio" data-name="option4istrue">
                                 <label>Správná odpověď</label>
                             </div>
-                            <input type="text" class="_TextData" data-name="option4">
+                            <input type="text" class="_TextData" data-name="option4" placeholder="Odpověď #4 - volitelné">
                         </div>
                     </div>
                 </div>
@@ -162,6 +163,77 @@
                                 <input type="hidden" class="_InputField" data-target="option4istrue" />
                                 <input type="hidden" class="_InputField" data-target="option4" />
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="_QuestionType" id="_RadioButtonWithoutAnswer">
+            <div class="@submitTemplateClass">
+                <div class="grouped fields">
+                    <div class="field">
+                        <div class="ui radio checkbox _RadioButtons">
+                            <input class="hidden _SubmitData _RadioButtonData" type="radio" data-name="answer" data-target="option1">
+                            <label class="_DataField" data-name="option1"></label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox _RadioButtons">
+                            <input class="hidden _SubmitData _RadioButtonData" type="radio" data-name="answer" data-target="option2">
+                            <label class="_DataField" data-name="option2"></label>
+                        </div>
+                    </div>
+                    <div data-hideempty="1" data-target="option3" class="field">
+                        <div class="ui radio checkbox _RadioButtons">
+                            <input class="hidden _SubmitData _RadioButtonData" type="radio" data-name="answer" data-target="option3">
+                            <label class="_DataField" data-name="option3"></label>
+                        </div>
+                    </div>
+                    <div data-hideempty="1" data-target="option4" class="field">
+                        <div class="ui radio checkbox _RadioButtons">
+                            <input class="hidden _SubmitData _RadioButtonData" type="radio" data-name="answer" data-target="option4">
+                            <label class="_DataField" data-name="option4"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="@insertTemplateClass">
+                <div class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <input type="text" class="_TextData" data-name="option1" placeholder="Odpověď #1">
+                        </div>
+                        <div class="field">
+                            <input type="text" class="_TextData" data-name="option2" placeholder="Odpověď #2">
+                        </div>
+                        <div class="field">
+                            <input type="text" class="_TextData" data-name="option3" placeholder="Odpověď #3 - volitené">
+                        </div>
+                        <div class="field">
+                            <input type="text" class="_TextData" data-name="option4" placeholder="Odpověď #4 - volitelné">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="@designerTemplateClass">
+                <div class="ui form">
+                    <div class="grouped fields">
+                        <div class="field">
+                            <label class="_TextData" data-name="option1" data-hideempty="1"></label>
+                            <input type="hidden" class="_InputField" data-target="option1" />
+                        </div>
+                        <div class="field">
+                            <label class="_TextData" data-name="option2" data-hideempty="1"></label>
+                            <input type="hidden" class="_InputField" data-target="option2" />
+                        </div>
+                        <div class="field">
+                            <label class="_TextData" data-name="option3" data-hideempty="1"></label>
+                            <input type="hidden" class="_InputField" data-target="option3" />
+                        </div>
+                        <div class="field">
+                            <label class="_TextData" data-name="option4" data-hideempty="1"></label>
+                            <input type="hidden" class="_InputField" data-target="option4" />
                         </div>
                     </div>
                 </div>
