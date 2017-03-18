@@ -94,5 +94,10 @@ namespace UI.Builders.Shared.Models
         /// User type
         /// </summary>
         UserTypeEnum UserType { get; }
+
+        /// <summary>
+        /// Subscribed cities
+        /// </summary>
+        string SubscribedCities { get; }
     }
 }

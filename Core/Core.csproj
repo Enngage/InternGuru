@@ -73,6 +73,7 @@
     <Compile Include="Loc\ConstructorParameter.cs" />
     <Compile Include="Loc\KernelProvider.cs" />
     <Compile Include="Loc\KernelType.cs" />
+    <Compile Include="Misc\Cities.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\GuestUser.cs" />
     <Compile Include="Models\IUser.cs" />

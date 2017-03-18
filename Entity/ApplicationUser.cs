@@ -28,6 +28,7 @@ namespace Entity
         public bool IsCompany{ get; set; }
         [Required]
         public bool IsCandidate{ get; set; }
+        public string SubscribedCities { get; set; }
 
         #endregion
 

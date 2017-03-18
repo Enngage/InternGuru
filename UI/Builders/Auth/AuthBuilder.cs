@@ -4,6 +4,7 @@
     {
         public AuthMasterBuilder AuthMasterBuilder { get; }
         public AuthCompanyBuilder AuthCompanyBuilder { get; }
+        public AuthSubscriptionBuilder AuthSubscriptionBuilder { get; }
         public AuthInternshipBuilder AuthInternshipBuilder { get; }
         public AuthMessageBuilder AuthMessageBuilder { get; }
         public AuthProfileBuilder AuthProfileBuilder { get; }
@@ -13,6 +14,7 @@
         public AuthBuilder(
             AuthMasterBuilder authMasterBuilder,
             AuthCompanyBuilder authCompanyBuilder,
+            AuthSubscriptionBuilder authuthSubscriptionBuilder,
             AuthInternshipBuilder authInternshipBuilder,
             AuthMessageBuilder authMessageBuilder,
             AuthProfileBuilder authProfileBuilder,
@@ -21,6 +23,7 @@
         {
             AuthMasterBuilder = authMasterBuilder;
             AuthCompanyBuilder = authCompanyBuilder;
+            AuthSubscriptionBuilder = authuthSubscriptionBuilder;
             AuthInternshipBuilder = authInternshipBuilder;
             AuthMessageBuilder = authMessageBuilder;
             AuthProfileBuilder = authProfileBuilder;

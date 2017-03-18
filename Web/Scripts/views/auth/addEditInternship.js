@@ -1,4 +1,4 @@
-﻿require(['jquery', 'datepicker', 'ckeditor', 'semantic' ], function ($, Datepicker) {
+﻿require(['jquery', 'datepicker', 'ckeditor', 'semantic'], function ($, Datepicker) {
     // DOM ready
     $(function () {
         // initialization

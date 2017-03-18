@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Config;
+using Core.Misc;
 using Entity;
 using Entity.Base;
 using PagedList;
 using Service.Extensions;
 using UI.Base;
+using UI.Builders.Auth.Forms;
 using UI.Builders.Auth.Models;
 using UI.Builders.Auth.Views;
 using UI.Builders.Services;
@@ -52,21 +55,28 @@ namespace UI.Builders.Auth
             }
             if (CurrentUser.UserType == UserTypeEnum.Candidate)
             {
-                authMaster.CandidateMaster = GetCandidateMasterModel();
+                authMaster.CandidateMaster = await GetCandidateMasterModel();
             }
 
             return authMaster;
         }
 
-        protected AuthCandidateMasterModel GetCandidateMasterModel()
+        protected async Task<AuthCandidateMasterModel> GetCandidateMasterModel()
         {
             if (!CurrentUser.IsAuthenticated)
             {
                 return null;
             }
 
+            var citiesSubscriptionForm = new AuthCitiesSubscriptionForm()
+            {
+                Cities = CurrentUser.SubscribedCities
+            };
+
             return new AuthCandidateMasterModel()
             {
+                AvailableCities = await GetAvailableCitiesAsync(),
+                CitiesSubscriptionForm = citiesSubscriptionForm
             };
         }
 
@@ -157,6 +167,30 @@ namespace UI.Builders.Auth
         #region Helper methods
 
         /// <summary>
+        /// Gets available cities separated by comma to be used in dropdown selector
+        /// </summary>
+        /// <returns></returns>
+        private async Task<List<string>> GetAvailableCitiesAsync()
+        {
+            // pre-fill with default cities
+            var cities = Cities.GetDefaultCities();
+
+            // load all cities from all available internships
+            var internships = await Services.InternshipService.GetAllCachedAsync();
+
+            foreach (var internship in internships)
+            {
+                if (!cities.Contains(internship.City.Trim(), StringComparer.OrdinalIgnoreCase))
+                {
+                    // add city
+                    cities.Add(internship.City.Trim());
+                }
+            }
+
+            return cities;
+        }
+
+        /// <summary>
         /// Note: This method is inneficiently called each time an account page is accessed
         /// </summary>
         /// <param name="applicationUserId"></param>
@@ -169,8 +203,8 @@ namespace UI.Builders.Auth
             // create avatars folder
             var avatarsFolderPath = SystemConfig.ServerRootPath + "\\" + ApplicationUser.GetAvatarFolderPath(applicationUserId);
             Directory.CreateDirectory(avatarsFolderPath);
-        }      
-
+        }   
+        
         /// <summary>
         /// Gets theses of current company/user
         /// </summary>

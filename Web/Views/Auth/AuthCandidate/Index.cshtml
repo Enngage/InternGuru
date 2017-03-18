@@ -1,7 +1,60 @@
-﻿@model UI.Builders.Auth.Views.AuthMasterView
+﻿@using UI.Enums
+@model UI.Builders.Auth.Views.AuthMasterView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Můj účet";
     Layout = Model.Master.CurrentUser.AuthMasterLayout;
 }
 
+@Helpers.ScriptHelper.RequireScript("/scripts/views/auth/authCandidateIndex")
+
+<div class="w-section-medium">
+    <div class="ui container">
+        <div class="w-section">
+            <div class="ui grid">
+                <div class="ui sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                    <h2>
+                        Nech si zasílat stáže z Tvého města
+                    </h2>
+
+                    <div class="ui form">
+                        @using (Html.BeginForm("Subscription", "AuthCandidate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Helpers.MessageHelper.RenderValidationSummary();
+
+                            var result = Helpers.UrlHelper.GetQueryString("result", null);
+                            if ((result ?? string.Empty).Equals(ActionResultEnum.Success.ToString(), StringComparison.OrdinalIgnoreCase))
+                            {
+                                @Helpers.MessageHelper.RenderSuccessMessage("Úspěšně jsi se přihlásil k odběru stáží dle Tvého výběru!")
+                            }
+                            else if ((result ?? string.Empty).Equals(ActionResultEnum.Failure.ToString(), StringComparison.OrdinalIgnoreCase))
+                            {
+                               @Helpers.MessageHelper.RenderCustomErrorMessage("Přihlášení k odběru bylo neúspěšné, prosím opakuj akci a nebo nás kontaktuj")
+                            }
+
+                            <div class="field">
+                                <div class="ui fluid search multiple selection dropdown _CitiesSubscriptionDropdown">
+                                    <!-- This will receive comma separated value !-->
+                                    <input name="Cities" value="@Model.AuthMaster.CandidateMaster.CitiesSubscriptionForm.Cities" type="hidden">
+                                    <i class="dropdown icon"></i>
+                                    <div class="default text">Město</div>
+                                    <div class="menu">
+                                        @foreach (var city in Model.AuthMaster.CandidateMaster.AvailableCities)
+                                        {
+                                            <div class="item" data-value="@city">@city</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <button type="submit" class="ui button primary">Potvrdit</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

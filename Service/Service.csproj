@@ -86,6 +86,10 @@
     <Compile Include="Migrations\201703141852489_RemoveCompanyFields.Designer.cs">
       <DependentUpon>201703141852489_RemoveCompanyFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703181758321_AddCitiesToUser.cs" />
+    <Compile Include="Migrations\201703181758321_AddCitiesToUser.Designer.cs">
+      <DependentUpon>201703181758321_AddCitiesToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\IRequestContext.cs" />
     <Compile Include="Models\RequestContext.cs" />
@@ -181,6 +185,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703141852489_RemoveCompanyFields.resx">
       <DependentUpon>201703141852489_RemoveCompanyFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703181758321_AddCitiesToUser.resx">
+      <DependentUpon>201703181758321_AddCitiesToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

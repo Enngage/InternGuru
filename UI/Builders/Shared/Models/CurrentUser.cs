@@ -123,5 +123,10 @@ namespace UI.Builders.Shared.Models
                 return UserTypeEnum.Unknown;
             }
         }
+
+        /// <summary>
+        /// Subscribed cities
+        /// </summary>
+        public string SubscribedCities { get; set; }
     }
 }

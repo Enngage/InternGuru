@@ -236,7 +236,8 @@ namespace UI.Base
                     Email = m.Email,
                     Nickname = m.Nickname,
                     IsCandidate = m.IsCandidate,
-                    IsCompany = m.IsCompany
+                    IsCompany = m.IsCompany,
+                    SubscribedCities = m.SubscribedCities
                 })
                 .FirstOrDefault();
             

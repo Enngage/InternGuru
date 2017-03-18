@@ -2294,6 +2294,7 @@
     <Content Include="Scripts\modules\companyModule.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\requireConfig.js" />
+    <Content Include="Scripts\views\auth\authCandidateIndex.js" />
     <Content Include="Scripts\views\auth\authTheses.js" />
     <Content Include="Scripts\views\auth\authInternships.js" />
     <Content Include="Scripts\views\auth\authQuestionnaires.js" />

@@ -88,7 +88,13 @@
                                         {
                                             <span class="w-font-positive">@message.AuthQuestionnaireSubmission.SuccessRate %</span>
                                         }
-                                        | <a target="_blank" href="@Url.Action("ViewSubmission", "AuthCompany", new { id = message.AuthQuestionnaireSubmission.QuestionnaireID, submissionId = message.AuthQuestionnaireSubmission.ID } )"> Zobrazit odpovědi</a>
+                                        @* Display link only for recipient company *@
+                                        @if (Model.Master.CurrentUser.IsCompany && Model.AuthMaster.CompanyMaster.Questionnaires.FirstOrDefault(m => m.ID == message.QuestionnaireSubmission.QuestionnaireID) != null)
+                                        {
+                                            <span>
+                                                | <a target="_blank" href="@Url.Action("ViewSubmission", "AuthCompany", new { id = message.AuthQuestionnaireSubmission.QuestionnaireID, submissionId = message.AuthQuestionnaireSubmission.ID })">Zobrazit odpovědi</a>
+                                            </span>
+                                        }
                                     </p>
                                 }
                             </div>

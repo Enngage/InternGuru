@@ -120,168 +120,53 @@ namespace Service.Context
             {
                 new InternshipCategory()
                 {
-                    CodeName = "Javascript",
-                    Name= "Javascript "
+                    CodeName = "Backend programátor",
+                    Name= "BackendProgrammer"
                 },
                 new InternshipCategory()
                 {
-                    CodeName = "PHP",
-                    Name= "PHP"
+                    CodeName = "Designer",
+                    Name= "Designer"
                 },
                 new InternshipCategory()
                 {
-                    CodeName = "HTML5",
-                    Name= "HTML"
+                    CodeName = "Front-end programátor",
+                    Name= "FrontendProgrammer"
                 },
                 new InternshipCategory()
-                {
-                    CodeName = "Java",
-                    Name= "Java"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "CSharp",
-                    Name= "C#"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "CPlusPlus",
-                    Name= "C++"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Analyst",
-                    Name= "Analytik"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "SolutionArchitect",
-                    Name= "Solution Architect"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "iOS",
-                    Name= "iOS"
-                },
-                 new InternshipCategory()
                 {
                     CodeName = "Manager",
                     Name= "Manager"
                 },
                 new InternshipCategory()
                 {
-                    CodeName = "Android",
-                    Name= "Android"
+                    CodeName = "Project manager",
+                    Name= "ProjectManager"
                 },
                 new InternshipCategory()
                 {
-                    CodeName = "ITAdmin",
-                    Name= "IT administrátor"
-                },
-               new InternshipCategory()
-                {
-                    CodeName = "Python",
-                    Name= "Python"
+                    CodeName = "Analytik",
+                    Name= "Analyst"
                 },
                 new InternshipCategory()
                 {
-                    CodeName = "Ruby",
-                    Name= "Ruby"
+                    CodeName = "Databázový specialista",
+                    Name= "DatabaseAnalyst"
                 },
                 new InternshipCategory()
                 {
-                    CodeName = "Graphic",
-                    Name= "Grafik"
+                    CodeName = "Technical writer",
+                    Name= "TechnicalWriter"
+                },
+                    new InternshipCategory()
+                {
+                    CodeName = "IT",
+                    Name= "IT"
                 },
                 new InternshipCategory()
                 {
-                    CodeName = "UX",
-                    Name= "UX"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "DOTNET",
-                    Name= ".NET"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "DB",
-                    Name= "Databázový specialista"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "HW",
-                    Name= "HW"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Linux",
-                    Name= "Linux"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Support",
-                    Name= "Support"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Sales",
-                    Name = "Obchodník"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Translater",
-                    Name= "Překladatel"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "HR",
-                    Name= "HR"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Finance",
-                    Name= "Finance"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Tester",
-                    Name= "Tester"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Administration",
-                    Name= "Administrace"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "ProductOwner",
-                    Name= "Product Owner"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Trainer",
-                    Name= "Trenér"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Perl",
-                    Name= "Perl"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "OSX",
-                    Name= "OS X"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Flash",
-                    Name= "Flash"
-                },
-                new InternshipCategory()
-                {
-                    CodeName = "Others",
-                    Name= "Jiné"
+                    CodeName = "Ostatní",
+                    Name= "Others"
                 },
             };
 
@@ -396,6 +281,11 @@ namespace Service.Context
             {
                 new InternshipAmountType()
                 {
+                    AmountTypeName = "Hodina",
+                    CodeName = "Hour",
+                },
+                new InternshipAmountType()
+                {
                     AmountTypeName = "Celkem",
                     CodeName = "Overall",
                 },
@@ -409,11 +299,7 @@ namespace Service.Context
                     AmountTypeName = "Týden",
                     CodeName = "Week",
                 },
-                  new InternshipAmountType()
-                {
-                    AmountTypeName = "Hodina",
-                    CodeName = "Hour",
-                },
+             
             };
 
             // save data
@@ -445,12 +331,12 @@ namespace Service.Context
                     CodeName = "EUR",
                     ShowSignOnLeft = false
                 },
-                new Currency()
-                {
-                    CurrencyName = "£",
-                    CodeName = "GBP",
-                    ShowSignOnLeft = false
-                },
+                //new Currency()
+                //{
+                //    CurrencyName = "£",
+                //    CodeName = "GBP",
+                //    ShowSignOnLeft = false
+                //},
             };
 
             // add to context
@@ -912,15 +798,6 @@ namespace Service.Context
             return string.Join(" ", lipsumGenerator.GenerateParagraphs(random.Next(1, 9)));
         }
 
-
-        private string GetLoremIpsumText(int charactersCount)
-        {
-            var lipsumGenerator = new LipsumGenerator();
-            var random = new Random();
-
-            return string.Join(" ", lipsumGenerator.GenerateCharacters(charactersCount));
-        }
-
         #endregion
 
         #region Duration helper - Copy from InternshipDurationService
@@ -947,7 +824,6 @@ namespace Service.Context
                 default:
                     throw new ArgumentException("Invalid duration type");
             }
-
         }
 
         /// <summary>
