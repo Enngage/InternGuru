@@ -9,11 +9,10 @@
     Model.Header = new UiHeader()
     {
         Title = Model.Metadata.BasicMetadata.Title,
-        SubText = "",
-        Type = UiHeaderTypeEnum.BackgroundImage,
-        ImagePath = "/content/images/contact-us-hero.jpg",
+        SubText = "Je to zcela zdarma!",
+        Type = UiHeaderTypeEnum.Colored,
+        Color = UIHeaderColorEnum.Dark,
         Size = UIHeaderSizeEnum.Normal,
-        ShowScrollButton = true,
         TextAlignment = UIHeaderTextAlignmentEnum.Center
     };
 
@@ -30,23 +29,22 @@
                         <div class="item">Zdarma</div>
                     </div>
                     <div class="ui list w-price-header-sublist">
-                        <div class="item">0 Kč</div>
+                        <div class="item">Co získáte?</div>
                     </div>
                 </div>
             </div>
             <div class="ui segment vertical very padded w-price-body-segment highlighted">
                 <div class="ui list w-price-list">
-                    <div class="item">Registrace firmy zdarma</div>
-                    <div class="item">Neomezeně stáží</div>
-                    <div class="item">Neomezeně závěrečných prací</div>
-                    <div class="item">Jednoduchá správa nabídek</div>
-                    <div class="item">E-mailové notifikace uchazečů</div>
-                    <div class="item">Nabídky okamžitě viditelné v přehledu</div>
+                    <div class="item">Možnost přidávat stáže</div>
+                    <div class="item">Možnost přidávat závěrečné práce</div>
                     <div class="item">Vytváření vlastních dotazníků pro uchazeče</div>
+                    <div class="item">E-mailové notifikace</div>
+                    <div class="item">Jednoduché administrační prostředí</div>
+                    <div class="item">Vše bez jakýchkoliv poplatků</div>
                 </div>
             </div>
         </div>
-        <div class="sixteen wide mobile twelve wide tablet six wide computer column w-price-column">
+        @*<div class="sixteen wide mobile twelve wide tablet six wide computer column w-price-column">
             <div class="ui segment vertical very padded w-price-header-segment w-price-bordered-segment">
                 <div>
                     <div class="ui list w-price-header-list">
@@ -61,6 +59,6 @@
                 <div class="ui list w-price-list">
                 </div>
             </div>
-        </div>
+        </div>*@
     </div>
 </div>

@@ -4,8 +4,6 @@
 @{
     Model.Metadata.BasicMetadata.Title = "Konverzace | " + Model.ConversationUser.DisplayName;
     Layout = Model.Master.CurrentUser.AuthMasterLayout;
-    // tabs
-    Model.Tabs.RecentConversations.Set(true, 4);
 }
 <div class="ui grid">
     <div class="sixteen wide mobile sixteen wide computer sixteen wide tablet column">
@@ -78,6 +76,21 @@
                             </div>
                             <div class="text">
                                 <p>@Html.Raw(Helpers.HtmlHelper.AddLineBreaks(message.MessageText))</p>
+                                @if (message.AuthQuestionnaireSubmission != null)
+                                {
+                                    <p class="w-font-size-small">
+                                        Dotazník @message.AuthQuestionnaireSubmission.QuestionnaireName vyplněn: 
+                                        @if (message.AuthQuestionnaireSubmission.SuccessRate <= 50)
+                                        {
+                                            <span class="w-font-negative">@message.AuthQuestionnaireSubmission.SuccessRate %</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="w-font-positive">@message.AuthQuestionnaireSubmission.SuccessRate %</span>
+                                        }
+                                        | <a target="_blank" href="@Url.Action("ViewSubmission", "AuthCompany", new { id = message.AuthQuestionnaireSubmission.QuestionnaireID, submissionId = message.AuthQuestionnaireSubmission.ID } )"> Zobrazit odpovědi</a>
+                                    </p>
+                                }
                             </div>
                         </div>
                     </div>

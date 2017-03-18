@@ -9,9 +9,9 @@
     Model.Header = new UiHeader()
     {
         Title = Model.Metadata.BasicMetadata.Title,
-        SubText = "Jednodušší už to být nemůže",
+        SubText = "Inzerce nemůže být snažší a navíc je zcela zdarma! Tak proč to nezkusit?",
         Type = UiHeaderTypeEnum.Colored,
-        Size = UIHeaderSizeEnum.Large,
+        Size = UIHeaderSizeEnum.Normal,
         Color = UIHeaderColorEnum.Dark,
         ShowScrollButton = false,
         TextAlignment = UIHeaderTextAlignmentEnum.Center
@@ -20,4 +20,80 @@
     Model.Layout.Type = LayoutTypeEnum.Light;
     Layout = Model.Layout.Path;
 }
+
+<div class="w-section-light">
+    <div class="ui container">
+        <div class="w-section">
+            <div class="ui grid">
+                <div class="ui sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                    <h2>
+                        Firmy / inzerenti
+                    </h2>
+                    <div class="ui three steps">
+                        <div class="step">
+                            <i class="user icon w-icon-primary"></i>
+                            <div class="content">
+                                <div class="title">Registruj se</div>
+                                <div class="description">Vytvoříš si firemní účet a zadáš několik základních údajů</div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <i class="edit icon w-icon-primary"></i>
+                            <div class="content">
+                                <div class="title">Vytvoř nabídky</div>
+                                <div class="description">Tvé nabídky budou zobrazeny hned potom, co je publikuješ </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <i class="users icon w-icon-primary"></i>
+                            <div class="content">
+                                <div class="title">Vyber správného zájemce</div>
+                                <div class="description">E-mailem Ti přijdou veškeré odpovědi na Tvé nabídky</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-section-medium">
+    <div class="ui container">
+        <div class="w-section">
+            <div class="ui grid">
+                <div class="ui sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                    <h2>
+                        Uchazeči
+                    </h2>
+                    <div class="ui three steps">
+                        <div class="step">
+                            <i class="user icon w-icon-primary"></i>
+                            <div class="content">
+                                <div class="title">Přihlas se</div>
+                                <div class="description">Přihlásit se můžes pomocí Facebooku/Google+ nebo si zaregistruj nový účet u nás</div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <i class="search icon w-icon-primary"></i>
+                            <div class="content">
+                                <div class="title">Vyhledej správnou nabídku</div>
+                                <div class="description">Najdi si tu správnou nabídku pro Tebe </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <i class="mail icon w-icon-primary"></i>
+                            <div class="content">
+                                <div class="title">Kontaktuj firmu</div>
+                                <div class="description">Tvoje nabídka bude doručena do správných rukou skrze náš formulář</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 

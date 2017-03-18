@@ -58,6 +58,7 @@
 
             //hide fields
             submitTemplate.find(".field").each(function (i) {
+                // empty questions
                 var hideIfEmpty = parseInt($(this).data("hideempty"));
 
                 if (hideIfEmpty === 1) {
@@ -92,6 +93,15 @@
                 if (isChecked) {
                     $(this).parent().addClass("checked");
                     $(this).attr("checked", "");
+                }
+            });  
+
+            // mark questions as required after base template has been loaded
+            baseTemplate.find(".segment").each(function (i) {
+                // required questions
+                var questionRequired = question.QuestionRequired;
+                if (questionRequired) {
+                    $(this).find("._QuestionText").append(' <span class="w-font-negative">*</span>');
                 }
             });
 

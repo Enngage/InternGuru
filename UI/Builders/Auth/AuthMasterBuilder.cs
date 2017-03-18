@@ -77,11 +77,14 @@ namespace UI.Builders.Auth
                 return null;
             }
 
+            var questionnaires = (await GetQuestionnairesListingsAsync()).ToList();
+
             return new AuthCompanyMasterModel()
             {
                 Internships = await GetInternshipsAsync(),
                 Theses = await GetThesesListingsAsync(),
-                Questionnaires = await GetQuestionnairesListingsAsync(),
+                Questionnaires = questionnaires,
+                QuestionnaireSubmissionsCount = await GetQuestionnaireSubmissionsAsync(questionnaires)
             };
         }
 
@@ -202,6 +205,30 @@ namespace UI.Builders.Auth
             return await Services.CacheService.GetOrSet(async () => await thesisQuery.ToListAsync(), cacheSetup);
         }
 
+        private async Task<int> GetQuestionnaireSubmissionsAsync(IList<AuthQuestionnaireListingModel> questionnaires)
+        {
+            int totalSubmissions = 0;
+
+            foreach (var questionnaire in questionnaires)
+            {
+                var submissionsQuery = Services.QuestionnaireSubmissionService.GetAll()
+                    .Where(m => m.QuestionnaireID == questionnaire.ID);
+
+                var cacheSetup = Services.CacheService.GetSetup<int>(GetSource());
+                cacheSetup.Dependencies = new List<string>()
+                {
+                    EntityKeys.KeyUpdate<Entity.Questionnaire>(questionnaire.ID),
+                    EntityKeys.KeyCreateAny<QuestionnaireSubmission>(),
+                    EntityKeys.KeyDeleteAny<QuestionnaireSubmission>(),
+                };
+                cacheSetup.ObjectStringID = CurrentUser.Id + "_" + questionnaire.ID;
+
+                totalSubmissions += await Services.CacheService.GetOrSetAsync(async () => await submissionsQuery.CountAsync(), cacheSetup);
+            }
+
+            return totalSubmissions;
+        }
+
         private async Task<IEnumerable<AuthQuestionnaireListingModel>> GetQuestionnairesListingsAsync()
         {
             var questionnairesQuery = Services.QuestionnaireService.GetAll()
@@ -226,8 +253,8 @@ namespace UI.Builders.Auth
                 EntityKeys.KeyUpdateAny<Entity.Questionnaire>(),
                 EntityKeys.KeyDeleteAny<Entity.Questionnaire>(),
                 EntityKeys.KeyCreateAny<Entity.Questionnaire>(),
-                EntityKeys.KeyCreateAny<Entity.QuestionnaireSubmission>(),
-                EntityKeys.KeyDeleteAny<Entity.QuestionnaireSubmission>(),
+                EntityKeys.KeyCreateAny<QuestionnaireSubmission>(),
+                EntityKeys.KeyDeleteAny<QuestionnaireSubmission>(),
             };
             cacheSetup.ObjectStringID = CurrentUser.Id;
 
@@ -422,8 +449,8 @@ namespace UI.Builders.Auth
                 EntityKeys.KeyUpdateAny<Entity.Questionnaire>(),
                 EntityKeys.KeyDeleteAny<Entity.Questionnaire>(),
                 EntityKeys.KeyCreateAny<Entity.Questionnaire>(),
-                  EntityKeys.KeyCreateAny<Entity.QuestionnaireSubmission>(),
-                   EntityKeys.KeyDeleteAny<Entity.QuestionnaireSubmission>(),
+                  EntityKeys.KeyCreateAny<QuestionnaireSubmission>(),
+                   EntityKeys.KeyDeleteAny<QuestionnaireSubmission>(),
             };
             cacheSetup.ObjectStringID = CurrentUser.Id;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Entity;
 
 namespace UI.Builders.Auth.Models
 {
@@ -21,6 +22,8 @@ namespace UI.Builders.Auth.Models
         public int CompanyID { get; set; }
         public string CurrentUserId { get; set; }
         public bool IsRead { get; set; }
+        public QuestionnaireSubmission QuestionnaireSubmission { get; set; }
+        public AuthQuestionnaireSubmissionModel AuthQuestionnaireSubmission { get; set; }
 
         /// <summary>
         /// Represents either recipient ID or sender ID

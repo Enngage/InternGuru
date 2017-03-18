@@ -101,19 +101,17 @@
             <div class="ui centered grid">
                 <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
                     <div class="ui header w-feature-primary">
-                        <i class="home icon icon"></i>
+                        <i class="globe icon icon"></i>
                         <div class="content">
-                            <a href="@Url.Action("Index", "Company", new {codeName = Model.Internship.Company.CompanyCodeName})">
-                                @Model.Internship.Company.CompanyName
-                            </a>
+                            @Model.Internship.CountryName
                         </div>
                     </div>
                 </div>
                 <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
                     <div class="ui center aligned header w-feature-primary">
-                        <i class="world icon icon"></i>
+                        <i class="map icon icon"></i>
                         <div class="content">
-                            @Model.Internship.CountryName, @Model.Internship.City
+                            @Model.Internship.City
                         </div>
                     </div>
                 </div>
@@ -162,6 +160,12 @@
                 Doplňující informace
             </h2>
             <div class="ui list">
+                <div class="item">
+                    <strong>Firma: </strong>
+                    <a href="@Url.Action("Index", "Company", new {codeName = Model.Internship.Company.CompanyCodeName})">
+                        @Model.Internship.Company.CompanyName
+                    </a>
+                </div>
                 <div class="item">
                     <strong>Požadované jazyky: </strong>
                     @{

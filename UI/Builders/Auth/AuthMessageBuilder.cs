@@ -179,6 +179,7 @@ namespace UI.Builders.Auth
                     RecipientFirstName = m.RecipientApplicationUser.FirstName,
                     RecipientLastName = m.RecipientApplicationUser.LastName,
                     Subject = m.Subject,
+                    QuestionnaireSubmission = m.QuestionnaireSubmission               
                 });
 
             var cacheSetup = Services.CacheService.GetSetup<AuthMessageModel>(GetSource());
@@ -192,7 +193,32 @@ namespace UI.Builders.Auth
             cacheSetup.PageNumber = pageNumber;
             cacheSetup.PageSize = pageSize;
 
-            return await Services.CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+            var messages = await Services.CacheService.GetOrSet(async () => await messagesQuery.ToPagedListAsync(pageNumber, pageSize), cacheSetup);
+
+            // init questionnaire reuslt
+            foreach (var message in messages)
+            {
+                if (message.QuestionnaireSubmission != null)
+                {
+                    var authQuestionnaireSubmission = new AuthQuestionnaireSubmissionModel()
+                    {
+                        ID = message.QuestionnaireSubmission.ID,
+                        Created = message.QuestionnaireSubmission.Created,
+                        CreatedByApplicationUserId = message.QuestionnaireSubmission.CreatedByApplicationUserId,
+                        QuestionnaireID = message.QuestionnaireSubmission.QuestionnaireID,
+                        SubmissionXml = message.QuestionnaireSubmission.SubmissionXml,
+                    };
+
+                    // first init questions
+                    authQuestionnaireSubmission.Questions = Services.QuestionnaireSubmissionService.GetSubmitsFromXml(authQuestionnaireSubmission.SubmissionXml);
+
+                    authQuestionnaireSubmission.SuccessRate = Services.QuestionnaireService.GetSuccessRate(authQuestionnaireSubmission.Questions);
+
+                    message.AuthQuestionnaireSubmission = authQuestionnaireSubmission;
+                }
+            }
+
+            return messages;
         }
 
         #endregion

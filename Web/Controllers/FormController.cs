@@ -79,7 +79,7 @@ namespace Web.Controllers
             {
                 await _formBuilder.SaveInternshipForm(form, Request);
 
-                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID);
+                var model = await _formBuilder.BuildInternshipViewAsync(form.InternshipID, form, Request);
 
                 // set form status
                 model.InternshipForm.FormResult.IsSuccess = true;

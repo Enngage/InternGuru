@@ -8,5 +8,7 @@ namespace UI.Builders.Auth.Models
         public IEnumerable<AuthThesisListingModel> Theses { get; set; }
         public IEnumerable<AuthQuestionnaireListingModel> Questionnaires { get; set; }
 
+        public int QuestionnaireSubmissionsCount { get; set; }
+
     }
 }

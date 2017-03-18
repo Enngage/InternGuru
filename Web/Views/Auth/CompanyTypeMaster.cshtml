@@ -74,7 +74,11 @@
                     <a href="@Url.Action("Questionnaires", "AuthCompany")">
                         <h2 class="ui center aligned icon header">
                             <i class="idea icon"></i>
-                            Dotazníky
+                            Dotazníky 
+                            @if (Model.AuthMaster.CompanyMaster.QuestionnaireSubmissionsCount > 0)
+                            {
+                                <span class="w-font-negative"> @Model.AuthMaster.CompanyMaster.QuestionnaireSubmissionsCount </span>
+                            }
                         </h2>
                     </a>
                 </div>

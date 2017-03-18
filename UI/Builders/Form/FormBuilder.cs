@@ -74,7 +74,6 @@ namespace UI.Builders.Form
                     // assign submitted values to questions get JSON
                     var assignedQuestions = _questionnaireBuilder.AssignSubmittedQuestions(questions, submittedQuestions);
 
-
                     form.QuestionsJson = _questionnaireBuilder.GetStateJson(assignedQuestions);
                 }
             }
@@ -119,7 +118,6 @@ namespace UI.Builders.Form
 
                     // assign submitted values to questions get JSON
                     var assignedQuestions = _questionnaireBuilder.AssignSubmittedQuestions(questions, submittedQuestions);
-
 
                     form.QuestionsJson = _questionnaireBuilder.GetStateJson(assignedQuestions);
                 }
@@ -169,6 +167,12 @@ namespace UI.Builders.Form
                     int? questionnaireSubmissionID = null;
                     if (thesis.QuestionnaireID != null)
                     {
+                        // validate required questions
+                        var questions = (await _questionnaireBuilder.GetQuestionnaireAsync((int) thesis.QuestionnaireID)).Questions?.ToList();
+                        var submittedQuestions = await _questionnaireBuilder.GetSubmittedQuestionsFromRequestAsync((int)thesis.QuestionnaireID, form.FieldGuids, request);
+
+                        CheckRequiredQuestions(questions, submittedQuestions);
+
                         var submissionResult = await _questionnaireBuilder.SubmitQuestionnaireFormAsync((int)thesis.QuestionnaireID, form.FieldGuids, request);
                         questionnaireSubmissionID = submissionResult.ObjectID;
                     }
@@ -256,6 +260,12 @@ namespace UI.Builders.Form
                     int? questionnaireSubmissionID = null;
                     if (internship.QuestionnaireID != null)
                     {
+                        // validate required questions
+                        var questions = (await _questionnaireBuilder.GetQuestionnaireAsync((int)internship.QuestionnaireID)).Questions?.ToList();
+                        var submittedQuestions = await _questionnaireBuilder.GetSubmittedQuestionsFromRequestAsync((int)internship.QuestionnaireID, form.FieldGuids, request);
+
+                        CheckRequiredQuestions(questions, submittedQuestions);
+
                         var submissionResult = await _questionnaireBuilder.SubmitQuestionnaireFormAsync((int) internship.QuestionnaireID, form.FieldGuids, request);
                         questionnaireSubmissionID = submissionResult.ObjectID;
                     }
@@ -315,6 +325,29 @@ namespace UI.Builders.Form
         #endregion
 
         #region Helper methods
+
+        /// <summary>
+        /// Throws exception if any of the questions are required, but were not filled
+        /// </summary>
+        /// <param name="questions"></param>
+        /// <param name="submittedQuestions"></param>
+        private void CheckRequiredQuestions(List<IQuestion> questions, IList<IQuestionSubmit> submittedQuestions)
+        {
+            foreach (var question in questions)
+            {
+                var submittedQuestion = submittedQuestions.Where(m => m.Guid.Equals(question.Guid, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+
+                if (submittedQuestion == null)
+                {
+                    throw new ValidationException("Neznámá otázka");
+                }
+
+                if (question.QuestionRequired && string.IsNullOrEmpty(submittedQuestion.Answer))
+                {
+                    throw new ValidationException("Vyplň prosím všechny povinné otázky");
+                }
+            }
+        }
 
         /// <summary>
         /// Gets thesis model from DB or Cache

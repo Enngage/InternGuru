@@ -167,7 +167,15 @@
                     <div class="ui header w-feature-primary">
                         <i class="world icon icon"></i>
                         <div class="content">
-                            @Model.Company.CountryName, @Model.Company.City
+                            @Model.Company.CountryName
+                        </div>
+                    </div>
+                </div>
+                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
+                    <div class="ui header w-feature-primary">
+                        <i class="map icon icon"></i>
+                        <div class="content">
+                            @Model.Company.City
                         </div>
                     </div>
                 </div>
@@ -184,14 +192,6 @@
                         <i class="tag icon icon"></i>
                         <div class="content">
                             @Model.Company.CompanyCategoryName
-                        </div>
-                    </div>
-                </div>
-                <div class="sixteen wide mobile sixteen wide tablet four wide computer column">
-                    <div class="ui header w-feature-primary">
-                        <i class="idea icon icon"></i>
-                        <div class="content">
-                            @Model.Company.YearFounded
                         </div>
                     </div>
                 </div>
