@@ -1840,8 +1840,6 @@
     <Content Include="Scripts\addons\datepicker-master\package.json" />
     <Content Include="Scripts\addons\datepicker-master\README.md" />
     <Content Include="Scripts\addons\datepicker-master\src\datepicker.scss" />
-    <Content Include="Config\ConnectionStrings.config" />
-    <Content Include="Config\AppConfig.config" />
     <Content Include="Scripts\addons\jquery-3.1.1.min.js" />
     <Content Include="Scripts\addons\jquery.cookie.js" />
     <Content Include="Scripts\addons\respond.min.js" />
@@ -2730,6 +2728,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Config\" />
     <Folder Include="Content\Avatars\" />
     <Folder Include="Content\Company\" />
     <Folder Include="Content\User\" />
