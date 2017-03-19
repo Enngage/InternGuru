@@ -654,7 +654,7 @@ namespace Service.Context
                     Country = context.Countries.RandomItem(),
                     Currency = GetCurrency(context.Currencies.ToList()),
                     Amount = amount,
-                    Description = GetLoremIpsumText(),
+                    Description = GetInternshipDescription(),
                     HasFlexibleHours = GetRandomBool(),
                     WorkingHours = GetRandomWorkingHours(),
                     EducationType = context.EducationTypes.RandomItem(),
@@ -872,6 +872,37 @@ namespace Service.Context
                 default:
                     throw new ArgumentException("Invalid duration type");
             }
+        }
+
+        private string GetInternshipDescription()
+        {
+            return @"
+<strong>Job Description</strong>
+
+Develop and lead a strong software team to create world class NPI capability through innovative development and support of operations systems and engineering tools. You will define and implement the development methodologies and technologies that will enable the team to consistently deliver high quality systems and tools on time and within budget. In addition, you will ensure the ongoing development of an outstanding team.Software Engineers conduct or participate in multidisciplinary software development and collaborate with other engineers in the team. Determines computer user needs, advises users on best practices and seeks use cases for defining accurate requirements even when the users are not sure of what they need. Responds to customer/client requests or events as they occur. Develops solutions to problems utilizing formal education, judgement and formal software process.
+
+<strong>Qualifications</strong>
+
+Minimum Qualifications:
+BS in Computer Science and equivalent with a minimum of 6+ years of relevant experience in software development and management on Microsoft development platform.
+
+Preferred Qualifications
+Strong software system architecture experience with proficient skills on Microsoft development platform - .NET, C#, SQL, ASP, C/C++, WPF, LINQ, IIS, AJAX, Office automation.
+Solid SW product life cycle management capabilities.
+Execution focus - proven track record of on-time & in-budget delivery of high quality SW and process based solutions.
+Ability to work through ambiguity and drive cross organization teams to achieve results.
+Experience in working with off-shore teams.
+Excellent organizational, communication verbal and written, mentoring, and conflict management skills
+
+You're able to make the complex simple and have demonstrated an ability to understand and explain issues from both a technical and a business functional point of view.You effortlessly switch between big picture thinking and nit-picking detail.You solve problems with the right mix of creativity and deep analysis.You're passionate about communication, group dynamics and coaching.You have an insatiable appetite for learning new things and improving existing ones. You cultivate that same appetite in your developers and teams.You work at speed and inspire with your can-do attitude. You pay attention to details and take great pride in your work.
+
+<strong>Inside this Business Group</strong>
+
+The Programmable Solutions Group (PSG) was formed from the acquisition of Altera. As part of Intel, PSG will create market-leading programmable logic devices that deliver a wider range of capabilities than customers experience today. Combining Altera's industry-leading FPGA technology and customer support with Intel's world-class semiconductor manufacturing capabilities will enable customers to create the next generation of electronic systems with unmatched performance and power efficiency. PSG takes pride in creating an energetic and dynamic work environment that is driven by ingenuity and innovation. We believe the growth and success of our group is directly linked to the growth and satisfaction of our employees. That is why PSG is committed to a work environment that is flexible and collaborative, and allows our employees to reach their full potential.
+
+
+Posting Statement. Intel prohibits discrimination based on race, color, religion, gender, national origin, age, disability, veteran status, marital status, pregnancy, gender expression or identity, sexual orientation or any other legally protected status.
+";
         }
 
         #endregion

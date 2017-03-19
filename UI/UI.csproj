@@ -184,6 +184,8 @@
     <Compile Include="Builders\FineUpload\FineUploadBuilder.cs" />
     <Compile Include="Builders\FineUpload\Models\FineUploadModel.cs" />
     <Compile Include="Builders\FineUpload\Models\FineUploaderResult.cs" />
+    <Compile Include="Builders\Home\Models\HomeInternshipListingModel.cs" />
+    <Compile Include="Builders\Home\Views\HomeIndexView.cs" />
     <Compile Include="Builders\Internship\Enums\InternshipLengthFilterEnum.cs" />
     <Compile Include="Builders\Internship\Enums\InternshipOrderFilterEnum.cs" />
     <Compile Include="Builders\Internship\Enums\InternshipPaidFilterEnum.cs" />
@@ -427,7 +429,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Builders\Company\Enum\" />
-    <Folder Include="Builders\Home\Models\" />
     <Folder Include="Builders\Questionnaire\Views\" />
     <Folder Include="Builders\Shared\Extensions\" />
   </ItemGroup>

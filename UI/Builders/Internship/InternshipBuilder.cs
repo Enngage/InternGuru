@@ -163,6 +163,39 @@ namespace UI.Builders.Internship
         #region Public methods
 
         /// <summary>
+        /// Gets internship categories
+        /// Gets only caregories that are not empty
+        /// Orderes categories by the number of internships in them
+        /// </summary>
+        /// <returns>Internship categories</returns>
+        public async Task<IEnumerable<InternshipCategoryModel>> GetInternshipCategoriesAsync()
+        {
+            var cacheSetup = Services.CacheService.GetSetup<InternshipCategoryModel>(GetSource());
+            cacheSetup.Dependencies = new List<string>()
+            {
+                EntityKeys.KeyCreateAny<Entity.Internship>(),
+                EntityKeys.KeyDeleteAny<Entity.Internship>(),
+                EntityKeys.KeyUpdateAny<Entity.Internship>(),
+                EntityKeys.KeyCreateAny<InternshipCategory>(),
+                EntityKeys.KeyDeleteAny<InternshipCategory>(),
+                EntityKeys.KeyUpdateAny<InternshipCategory>(),
+            };
+
+            var categoriesQuery = Services.InternshipCategoryService.GetAll()
+                .Select(m => new InternshipCategoryModel()
+                {
+                    CategoryID = m.ID,
+                    CategoryName = m.Name,
+                    CodeName = m.CodeName,
+                    InternshipCount = m.Internships.Where(s => s.IsActive).Count()
+                })
+                .Where(m => m.InternshipCount > 0)
+                .OrderByDescending(m => m.InternshipCount);
+
+            return await Services.CacheService.GetOrSetAsync(async () => await categoriesQuery.ToListAsync(), cacheSetup);
+        }
+
+        /// <summary>
         /// Deletes given internship
         /// </summary>
         /// <param name="internshipID">Internship ID</param>
@@ -207,39 +240,6 @@ namespace UI.Builders.Internship
         #endregion
 
         #region Helper methods
-
-        /// <summary>
-        /// Gets internship categories
-        /// Gets only caregories that are not empty
-        /// Orderes categories by the number of internships in them
-        /// </summary>
-        /// <returns>Internship categories</returns>
-        private async Task<IEnumerable<InternshipCategoryModel>> GetInternshipCategoriesAsync()
-        {
-            var cacheSetup = Services.CacheService.GetSetup<InternshipCategoryModel>(GetSource());
-            cacheSetup.Dependencies = new List<string>()
-            {
-                EntityKeys.KeyCreateAny<Entity.Internship>(),
-                EntityKeys.KeyDeleteAny<Entity.Internship>(),
-                EntityKeys.KeyUpdateAny<Entity.Internship>(),
-                EntityKeys.KeyCreateAny<InternshipCategory>(),
-                EntityKeys.KeyDeleteAny<InternshipCategory>(),
-                EntityKeys.KeyUpdateAny<InternshipCategory>(),
-            };
-
-            var categoriesQuery = Services.InternshipCategoryService.GetAll()
-                .Select(m => new InternshipCategoryModel()
-                {
-                    CategoryID = m.ID,
-                    CategoryName = m.Name,
-                    CodeName = m.CodeName,
-                    InternshipCount = m.Internships.Where(s => s.IsActive).Count()
-                })
-                .Where(m => m.InternshipCount > 0)
-                .OrderByDescending(m => m.InternshipCount);
-
-            return await Services.CacheService.GetOrSetAsync(async () => await categoriesQuery.ToListAsync(), cacheSetup);
-        }
 
         /// <summary>
         /// Gets all internships from DB or cache
@@ -317,8 +317,6 @@ namespace UI.Builders.Internship
                         LanguageName = m.LanguageName
                     });
             }
-
-
 
             return internships;
         }

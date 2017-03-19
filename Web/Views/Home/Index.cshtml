@@ -1,11 +1,13 @@
-﻿@using UI.Builders.Master.Enums
+﻿@using Core.Helpers
+@using UI.Builders.Master.Enums
 @using UI.Builders.Shared.Enums
+@using UI.Builders.Shared.Models
 @using UI.Modules.Header
-@model UI.Builders.Master.Views.MasterView
+@model UI.Builders.Home.Views.HomeIndexView
 
 @{
     Model.Metadata.BasicMetadata.Title = "Stáže v IT a technologických firmách";
-    Model.Metadata.BasicMetadata.Description = "Stáže v IT a technologických firmých. Přihlaš se a získat potřebnou praxi a zkušenosti";
+    Model.Metadata.BasicMetadata.Description = "Přehled stáží v IT a technologických firmých v České republice. Registruj se a najdi si stáž právě pro Tebe!";
     Model.Header = new UiHeader()
     {
         Title = "Stáže",
@@ -19,4 +21,195 @@
     Layout = Model.Layout.Path;
 }
 
+<div class="w-section-light">
+    <div class="ui container">
+        <div class="w-section w-section-center">
+            <div class="ui computer only grid">
+                <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                    <h2>
+                        Proč u nás inzerovat stáže?
+                    </h2>
+                    <div class="ui three column grid">
+                        <div class="column">
+                            <div class="ui segment w-feature-segment">
+                                <div class="w-feature-icon-wrapper">
+                                    <i class="clock icon"></i>
+                                </div>
+                                <div class="w-feature-text-wrapper">
+                                    Stáž můžeš mít on-line do 5 minut
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui segment w-feature-segment">
+                                <div class="w-feature-icon-wrapper">
+                                    <i class="checkmark icon"></i>
+                                </div>
+                                <div class="w-feature-text-wrapper">
+                                    Je to zcela zdarma
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui segment w-feature-segment">
+                                <div class="w-feature-icon-wrapper">
+                                    <i class="users icon"></i>
+                                </div>
+                                <div class="w-feature-text-wrapper">
+                                    Získáš super stážisty v IT
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui tablet only mobile only grid">
+                <div class="sixteen wide mobile sixteen wide tablet column">
+                    <h2>
+                        Proč u nás inzerovat stáže?
+                    </h2>
+
+                    <div class="ui one column grid">
+                        <div class="column">
+                            <div class="ui segment w-feature-segment">
+                                <div class="w-feature-icon-wrapper">
+                                    <i class="clock icon"></i>
+                                </div>
+                                <div class="w-feature-text-wrapper">
+                                    Stáž můžeš mít on-line do 5 minut
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui segment w-feature-segment">
+                                <div class="w-feature-icon-wrapper">
+                                    <i class="checkmark icon"></i>
+                                </div>
+                                <div class="w-feature-text-wrapper">
+                                    Je to zcela zdarma
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui segment w-feature-segment">
+                                <div class="w-feature-icon-wrapper">
+                                    <i class="users icon"></i>
+                                </div>
+                                <div class="w-feature-text-wrapper">
+                                    Získáš super stážisty v IT
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-section-light">
+    <div class="ui container">
+        <div class="w-section w-section-center">
+            <div class="ui centered grid">
+                <div class="sixteen wide column">
+                    <h2>
+                        Nejnovější stáže
+                    </h2>
+                </div>
+                <div class="sixteen wide mobile sixteen wide tablet eleven wide computer column">
+                    <div class="ui divided items">
+                        @foreach (var internship in Model.Internships)
+                        {
+                            <div class="item">
+                                <div class="middle aligned content">
+                                    <a href="@Url.Action("Index", "Internship", new {id = internship.InternshipID, codeName = internship.CodeName})">@internship.InternshipTitle</a>
+                                    @*<div class="ui right floated primary button">
+                                            Detail
+                                        </div>*@
+                                    <p class="w-font-size-small">
+                                        @InternshipHelper.GetInternshipDurationDisplayValue(internship.MinDurationType, internship.MinDurationDefaultValue, internship.MaxDurationType, internship.MaxDurationDefaultValue) | @internship.City
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="five wide computer column">
+                    <div class="ui secondary padded segment">
+                        <h3>
+                            Přehled stáží
+                        </h3>
+                        <div class="ui link list">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <a class="item" href="@Url.Action("Index", "Internships", new { category = category.CodeName })">
+                                    @category.CategoryName
+                                    <span class="w-body-float-right">@category.InternshipCount</span>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-section-light">
+    <div class="ui container">
+        <div class="w-section w-section-center">
+            <div class="ui centered grid">
+                <div class="sixteen wide mobile eight wide tablet six wide computer column">
+                    <a href="@Url.Action("Index", "Internship")">
+                        <div class="ui button fluid primary">Procházet všechny stáže</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-section-medium">
+    <div class="ui container">
+        <div class="w-section w-section-center">
+            <div class="ui centered grid">
+                <div class="ui sixteen wide mobile sixteen wide tablet eleven wide computer column">
+                    <h2>
+                        Pro uchazeče
+                    </h2>
+                    <p>
+                        Cílem je Ti najít vhodnout stáž a proto u nás mohou inzerovat pouze <strong>IT</strong> a <strong>technologické</strong> firmy.
+                        Můžeš se taky přihlásit k odběru stáží ze Tvého města a být tak první, kdo ji uvidí. Samozřejmě je to zcela <strong>zdarma!</strong>
+                    </p>
+                    <p>
+                        Mimo jiné také můžeš sledovat nabídku závěrečných prací a třeba napíšeš diplomovou nebo bakalářskou práci, která má smysl ve spolupráci s firmou.
+                    </p>
+                    <p>
+                        <a href="">
+                            Tak neváhej a zaregistruj se!
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Helpers.HeaderHelper.RenderHeader(new UiHeader()
+{
+    Type = UiHeaderTypeEnum.Colored,
+    Color = UIHeaderColorEnum.Dark,
+    Title = "Vytvoř si vlastní dotazníky",
+    SubText = "Najít vhodného zájemce můžeš i tím, že vytvoříš vlastní dotazník a zeptáš se na věci, které jsou pro tebe relevantní",
+    Buttons = new List<UIHeaderButton>()
+    {
+        new UIHeaderButton()
+        {
+            Type = UIHeaderButtonTypeEnum.Primary,
+            ButtonUrl = Url.Action("Register", "Account"),
+            Text = "Začni a zaregistruj firmu"
+        }
+    }
+})
 

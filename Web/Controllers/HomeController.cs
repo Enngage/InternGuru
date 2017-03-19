@@ -15,7 +15,6 @@ namespace Web.Controllers
         #region Builders
 
         private readonly HomeBuilder _homeBuilder;
-        private readonly MasterBuilder _masterBuilder;
 
         #endregion
 
@@ -25,7 +24,6 @@ namespace Web.Controllers
             HomeBuilder homeBuilder) : base(appContext, serviceEvents, masterBuilder)
         {
             _homeBuilder = homeBuilder;
-            _masterBuilder = masterBuilder;
         }
 
         #endregion
@@ -33,9 +31,9 @@ namespace Web.Controllers
         #region Actions
 
         [Route("")]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var model = _masterBuilder.GetMasterModel();
+            var model = await _homeBuilder.BuildIndexViewAsync();
 
             return View(model);
         }
@@ -43,25 +41,20 @@ namespace Web.Controllers
         [Route("Cenik")]
         public ActionResult Pricing()
         {
-            var model = _masterBuilder.GetMasterModel();
-
-            return View(model);
+            return View();
         }
 
         [Route("Onas")]
         public ActionResult About()
         {
-            var model = _masterBuilder.GetMasterModel();
-
-            return View(model);
+            return View();
         }
 
         [Route("Info")]
         public ActionResult Info()
         {
-            var model = _masterBuilder.GetMasterModel();
 
-            return View(model);
+            return View();
         }
 
         [Route("Kontakt")]

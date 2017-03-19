@@ -840,6 +840,20 @@ h2 {
 #w-body-wrapper .w-feature-primary .content {
   font-weight: 300; }
 
+#w-body-wrapper .w-feature-segment {
+  background-color: #fafafa;
+  padding: 30px 15px; }
+  #w-body-wrapper .w-feature-segment .w-feature-icon-wrapper {
+    width: 20%;
+    float: left;
+    display: inline-block;
+    color: #2185d0;
+    font-size: 41px; }
+  #w-body-wrapper .w-feature-segment .w-frature-text-wrapper {
+    width: 80%;
+    float: right;
+    display: inline-block; }
+
 #w-body-wrapper .w-button-no-background {
   background: none; }
 

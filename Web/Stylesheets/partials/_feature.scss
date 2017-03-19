@@ -3,13 +3,32 @@
 #w-body-wrapper {
 
     .w-feature-primary {
-        
+
         .icon {
             color: $primary-color;
         }
 
-        .content{
+        .content {
             font-weight: 300;
+        }
+    }
+
+    .w-feature-segment {
+        background-color: $color-medium;
+        padding: 30px 15px;
+
+        .w-feature-icon-wrapper {
+            width: 20%;
+            float: left;
+            display: inline-block;
+            color: $primary-color;
+            font-size: $font-size-header-title;
+        }
+
+        .w-frature-text-wrapper {
+            width: 80%;
+            float: right;
+            display: inline-block;
         }
     }
 }
