@@ -19,10 +19,10 @@ namespace Web.Controllers.Auth
 
         private const string GeneralActionPrefix = "uzivatel";
 
-        protected const string CompanyActionPrefix = "c";
+        protected const string CompanyActionPrefix = "ucet";
         protected const string CompanyViewsFolder = "~/Views/Auth/AuthCompany/";
 
-        protected const string CandidateActionPrefix = "u";
+        protected const string CandidateActionPrefix = "uchazec";
         protected const string CandidateViewsFolder = "~/Views/Auth/AuthCandidate/";
 
         #endregion

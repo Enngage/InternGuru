@@ -20,8 +20,8 @@ namespace Web
             // Translation source - https://github.com/Dresel/RouteLocalization/blob/master/Documentation/GettingStarted.md
             routes.MapMvcAttributeRoutes(Localization.LocalizationDirectRouteProvider);
 
-            var defaultCulture = RouteCultures.en;
-            var acceptedCultures = new HashSet<string>() { RouteCultures.en };
+            var defaultCulture = RouteCultures.cs;
+            var acceptedCultures = new HashSet<string>() { RouteCultures.cs };
 
             // Add translations
             // You can translate every specific route that contains default Controller and Action (which MapMvcAttributeRoutes does)

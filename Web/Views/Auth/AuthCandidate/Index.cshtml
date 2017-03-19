@@ -27,7 +27,7 @@
                             var result = Helpers.UrlHelper.GetQueryString("result", null);
                             if ((result ?? string.Empty).Equals(ActionResultEnum.Success.ToString(), StringComparison.OrdinalIgnoreCase))
                             {
-                                @Helpers.MessageHelper.RenderSuccessMessage("Úspěšně jsi se přihlásil k odběru stáží dle Tvého výběru!")
+                                @Helpers.MessageHelper.RenderSuccessMessage("Úspěšně jsi se přihlásil k odběru stáží!")
                             }
                             else if ((result ?? string.Empty).Equals(ActionResultEnum.Failure.ToString(), StringComparison.OrdinalIgnoreCase))
                             {
