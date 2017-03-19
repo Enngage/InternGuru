@@ -255,8 +255,10 @@
     <Compile Include="Builders\Questionnaire\Models\QuestionnaireModel.cs" />
     <Compile Include="Builders\System\Models\SystemMasterModel.cs" />
     <Compile Include="Builders\Thesis\Data\ThesisDeleteThesisData.cs" />
+    <Compile Include="Events\EventClasses\InternshipSubscriptionEvents.cs" />
     <Compile Include="Extensions\NameValueExtensions.cs" />
     <Compile Include="Helpers\ActionHelper.cs" />
+    <Compile Include="Helpers\SocialHelper.cs" />
     <Compile Include="Helpers\GoogleMapHelper.cs" />
     <Compile Include="Helpers\BreadcrumbsHelper.cs" />
     <Compile Include="Helpers\HeaderHelper.cs" />
@@ -265,6 +267,7 @@
     <Compile Include="Helpers\ModalHelper.cs" />
     <Compile Include="Modules\Breadcrumbs\Models\BreadcrumbItem.cs" />
     <Compile Include="Modules\Breadcrumbs\Views\BreadcrumbsView.cs" />
+    <Compile Include="Modules\Facebook\Models\FacebookShareModel.cs" />
     <Compile Include="Modules\FineUploader\Models\FineUploaderConfig.cs" />
     <Compile Include="Modules\Modal\Models\ModalButton.cs" />
     <Compile Include="Modules\Modal\Models\ModalConfig.cs" />

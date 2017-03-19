@@ -77,6 +77,7 @@ namespace UI.Events
             try
             {
                 EventsLoader.NotificationEvents.SendInternshipActiveNotification(e.Obj);
+                EventsLoader.InternshipSubscriptionEvents.ProcessNewInternshipBasedOnCitySubscriptions(e.Obj, null);
             }
             catch (Exception ex)
             {
@@ -89,6 +90,7 @@ namespace UI.Events
             try
             {
                 EventsLoader.NotificationEvents.SendInternshipActiveNotification(e.Obj, e.OriginalObj);
+                EventsLoader.InternshipSubscriptionEvents.ProcessNewInternshipBasedOnCitySubscriptions(e.Obj, e.OriginalObj);
             }
             catch (Exception ex)
             {

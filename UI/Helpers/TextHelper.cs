@@ -57,5 +57,17 @@ namespace UI.Helpers
         {
             return showSignOnLeft ? $"{currencyName}{StringHelper.FormatNumber(value)}" : $"{StringHelper.FormatNumber(value)}{currencyName}";
         }
+
+        /// <summary>
+        /// Displays value (e.g. $300 or 5000Kč)
+        /// </summary>
+        /// <param name="value">Amount</param>
+        /// <param name="currencyName">Currency name: Kč, $, €</param>
+        /// <param name="showSignOnLeft">Indicates if sign should be on the left or right side</param>
+        /// <returns>Formatter value</returns>
+        public static string DisplayCurrencyValueStatic(double value, string currencyName, bool showSignOnLeft)
+        {
+            return showSignOnLeft ? $"{currencyName}{StringHelper.FormatNumber(value)}" : $"{StringHelper.FormatNumber(value)}{currencyName}";
+        }
     }
 }

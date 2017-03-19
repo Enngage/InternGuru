@@ -1,0 +1,30 @@
+﻿@model UI.Modules.Facebook.Models.FacebookShareModel
+
+<div class="ui button fluid facebook _FacebookShareButton" data-url="@Model.ShareUrl">
+    <i class="facebook f icon"></i>@Model.ShareButtonText
+</div>
+
+@helper FacebookShareScript()
+{
+    <script type="text/javascript">
+        require(['jquery'],
+            function ($) {
+                $(function () {
+                    $("._FacebookShareButton").click(function () {
+                        var shareUrl = $(this).data("url");
+
+                        FB.ui({
+                            method: 'share',
+                            display: 'popup',
+                            href: shareUrl
+                        },
+                            function (response) { });
+                    });
+                });
+            });
+    </script>
+}
+
+@Helpers.ScriptHelper.RequireScriptContent(FacebookShareScript().ToString())
+
+

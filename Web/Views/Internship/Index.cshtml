@@ -41,7 +41,7 @@
             <h1>
                 @Model.Internship.Title
             </h1>
-            
+
             <div class="ui right floated horizontal list w-internship-menu w-mobile-hide w-tablet-hide">
                 <div class="item">
                     <div class="middle aligned content">
@@ -209,16 +209,26 @@
     </div>
 </div>
 
+<div class="w-section-light">
+    <div class="ui container">
+        <div class="ui centered grid">
+            <div class="sixteen wide mobile eight wide tablet four wide computer column">
+                @Helpers.SocialHelper.GetFacebookShareButton(Helpers.UrlHelper.CurrentUrl, "Sdílet na Facebook")
+            </div>
+        </div>
+    </div>
+</div>
+
 @if (galleryImages.Any())
-{
+            {
     <div class="w-section-light">
         <div class="ui container">
             <div class="w-section">
                 @Html.Partial("~/Views/Modules/Gallery/Base.cshtml", new GalleryView()
-       {
-           GalleryID = "_CompanyGallery",
-           Images = galleryImages
-       })
+           {
+               GalleryID = "_CompanyGallery",
+               Images = galleryImages
+           })
             </div>
         </div>
     </div>

@@ -24,6 +24,7 @@ namespace UI.RazorExtensions
         public UploadHelper UploadHelper { get; }
         public HeaderHelper HeaderHelper { get; }
         public GoogleMapHelper GoogleMapHelper { get; }
+        public SocialHelper SocialHelper { get; }
 
         public UIHelpers(WebViewPage webViewPage)
         {
@@ -45,6 +46,7 @@ namespace UI.RazorExtensions
             UploadHelper = KernelProvider.Get<UploadHelper>(webParameter);
             HeaderHelper = KernelProvider.Get<HeaderHelper>(webParameter);
             GoogleMapHelper = KernelProvider.Get<GoogleMapHelper>(webParameter);
+            SocialHelper = KernelProvider.Get<SocialHelper>(webParameter);
         }
     }
 }

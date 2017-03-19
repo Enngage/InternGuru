@@ -2581,7 +2581,7 @@
     <Content Include="Views\Shared\Body\BodyWrapper.cshtml" />
     <Content Include="Stylesheets\partials\_link.scss" />
     <Content Include="Views\Auth\Conversations.cshtml" />
-    <Content Include="Views\Modules\Breadcrumbs\Breadcrumbs.cshtml" />
+    <Content Include="Views\Modules\Facebook\FacebookShare.cshtml" />
     <Content Include="Views\Home\Questionnaire.cshtml" />
     <Content Include="Views\Auth\UserSettings.cshtml" />
     <Content Include="Views\Auth\Admin.cshtml" />
@@ -2726,6 +2726,7 @@
     <Content Include="Views\Shared\404.cshtml" />
     <Content Include="Views\Shared\_CookieConsent.cshtml" />
     <Content Include="Stylesheets\partials\_nag.scss" />
+    <Content Include="Views\Modules\Breadcrumbs\Breadcrumbs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

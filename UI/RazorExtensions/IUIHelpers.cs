@@ -23,5 +23,6 @@ namespace UI.RazorExtensions
         UploadHelper UploadHelper { get; }
         HeaderHelper HeaderHelper { get; }
         GoogleMapHelper GoogleMapHelper { get; }
+        SocialHelper SocialHelper { get; }
     }
 }

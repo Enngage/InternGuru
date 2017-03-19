@@ -154,6 +154,15 @@
             }
 })
 
+<div class="w-section-light w-margin-top-50">
+    <div class="ui container">
+        <div class="ui centered grid">
+            <div class="sixteen wide mobile eight wide tablet four wide computer column">
+                @Helpers.SocialHelper.GetFacebookShareButton(Helpers.UrlHelper.CurrentUrl, "Sdílet na Facebook")
+            </div>
+        </div>
+    </div>
+</div>
 
 @if (galleryImages.Any())
 {
